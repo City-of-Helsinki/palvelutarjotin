@@ -19,3 +19,7 @@ class ObjectDoesNotExistError(PalvelutarjotinGraphQLError):
 
 class QueryTooDeepError(PalvelutarjotinGraphQLError):
     """Query depth exceeded settings.PALVELUTARJOTIN_QUERY_MAX_DEPTH"""
+
+
+class MissingDefaultTranslationError(PalvelutarjotinGraphQLError):
+    """Missing default translation for translatable object"""

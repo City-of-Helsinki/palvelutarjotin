@@ -7,6 +7,7 @@ from palvelutarjotin.consts import (
     API_USAGE_ERROR,
     DATA_VALIDATION_ERROR,
     GENERAL_ERROR,
+    MISSING_DEFAULT_TRANSLATION_ERROR,
     OBJECT_DOES_NOT_EXIST_ERROR,
     PERMISSION_DENIED_ERROR,
     QUERY_TOO_DEEP_ERROR,
@@ -14,6 +15,7 @@ from palvelutarjotin.consts import (
 from palvelutarjotin.exceptions import (
     ApiUsageError,
     DataValidationError,
+    MissingDefaultTranslationError,
     ObjectDoesNotExistError,
     PalvelutarjotinGraphQLError,
     QueryTooDeepError,
@@ -30,7 +32,7 @@ error_codes_shared = {
 }
 
 error_codes_palvelutarjotin = {
-    # TODO: TBA
+    MissingDefaultTranslationError: MISSING_DEFAULT_TRANSLATION_ERROR,
 }
 
 sentry_ignored_errors = (
