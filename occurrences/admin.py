@@ -27,11 +27,3 @@ class EnrolmentAdmin(admin.ModelAdmin):
 @admin.register(VenueCustomData)
 class VenueCustomDataAdmin(TranslatableAdmin):
     list_display = ("place_id",)
-
-
-# class UserAdmin(DjangoUserAdmin):
-#     fieldsets = DjangoUserAdmin.fieldsets + (("UUID", {"fields": ("uuid",)}),)
-#     readonly_fields = ("uuid",)
-#
-#
-# admin.site.register(get_user_model(), UserAdmin)

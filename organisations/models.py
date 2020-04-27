@@ -36,12 +36,17 @@ class Organisation(models.Model):
 
 class Person(UUIDPrimaryKeyModel, TimestampedModel):
     user = models.OneToOneField(
-        get_user_model(), verbose_name=_("user"), on_delete=models.CASCADE
+        get_user_model(),
+        verbose_name=_("user"),
+        on_delete=models.CASCADE,
+        blank=True,
+        null=True,
     )
     name = models.CharField(max_length=255, verbose_name=_("name"))
     phone_number = models.CharField(
         verbose_name=_("phone number"), max_length=64, blank=True
     )
+    email_address = models.EmailField(max_length=255, verbose_name=_("email"))
 
     class Meta:
         verbose_name = _("person")

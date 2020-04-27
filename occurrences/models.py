@@ -22,12 +22,14 @@ class Occurrence(TimestampedModel):
         "organisations.Person",
         related_name="occurrences",
         verbose_name=_("contact persons"),
+        blank=True,
     )
     groups = models.ManyToManyField(
         "StudyGroup",
         through="Enrolment",
         related_name="occurrences",
         verbose_name=_("group"),
+        blank=True,
     )
 
     class Meta:
