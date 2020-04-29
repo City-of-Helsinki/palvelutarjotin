@@ -55,6 +55,7 @@ env = environ.Env(
     AZURE_ACCOUNT_KEY=(str, ""),
     AZURE_CONTAINER=(str, ""),
     ENABLE_GRAPHIQL=(bool, False),
+    LINKED_EVENTS_API_ROOT=(str, "https://api.hel.fi/linkedevents/v1/"),
 )
 
 if os.path.exists(env_file):
@@ -211,7 +212,7 @@ GRAPHENE = {
 GRAPHQL_JWT = {"JWT_AUTH_HEADER_PREFIX": "Bearer"}
 
 PALVELUTARJOTIN_QUERY_MAX_DEPTH = 12
-
+LINKED_EVENTS_API_ROOT = env.str("LINKED_EVENTS_API_ROOT")
 LOGGING = {
     "version": 1,
     "disable_existing_loggers": False,
