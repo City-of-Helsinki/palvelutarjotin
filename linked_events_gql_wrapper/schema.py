@@ -1,6 +1,6 @@
 from graphene import Boolean, Field, Float, ID, Int, List, NonNull, ObjectType, String
 from linked_events_gql_wrapper.rest_client import LinkedEventsApiClient
-from linked_events_gql_wrapper.utils import json2obj
+from linked_events_gql_wrapper.utils import format_response, json2obj
 
 from palvelutarjotin import settings
 
@@ -154,13 +154,16 @@ class KeywordListResponse(Response):
     data = NonNull(List(NonNull(Keyword)))
 
 
-def format_response(response):
-    # Some fields from api has @prefix that need to be converted
-    return response.content.decode("utf-8").replace("@", "internal_")
+class EventSearchListResponse(Response):
+    data = NonNull(List(NonNull(Event)))
+
+
+class PlaceSearchListResponse(Response):
+    data = NonNull(List(NonNull(Place)))
 
 
 class Query:
-    events = Field(EventListResponse)
+    events = Field(EventListResponse,)
     event = Field(Event, id=ID(required=True))
 
     places = Field(PlaceListResponse)
@@ -168,6 +171,10 @@ class Query:
 
     keywords = Field(KeywordListResponse)
     keyword = Field(Event, id=ID(required=True))
+
+    # TODO: Add support for start-end filter
+    events_search = Field(EventSearchListResponse, input=String(required=True))
+    places_search = Field(PlaceSearchListResponse, input=String(required=True))
 
     @staticmethod
     def resolve_event(parent, info, **kwargs):
@@ -178,8 +185,7 @@ class Query:
     @staticmethod
     def resolve_events(parent, info, **kwargs):
         response = api_client.list("event")
-        obj = json2obj(format_response(response))
-        return obj
+        return json2obj(format_response(response))
 
     @staticmethod
     def resolve_place(parent, info, **kwargs):
@@ -189,8 +195,7 @@ class Query:
     @staticmethod
     def resolve_places(parent, info, **kwargs):
         response = api_client.list("place")
-        obj = json2obj(format_response(response))
-        return obj
+        return json2obj(format_response(response))
 
     @staticmethod
     def resolve_keyword(parent, info, **kwargs):
@@ -200,8 +205,17 @@ class Query:
     @staticmethod
     def resolve_keywords(parent, info, **kwargs):
         response = api_client.list("keyword")
-        obj = json2obj(format_response(response))
-        return obj
+        return json2obj(format_response(response))
+
+    @staticmethod
+    def resolve_events_search(parent, info, **kwargs):
+        response = api_client.search("event", kwargs["input"])
+        return json2obj(format_response(response))
+
+    @staticmethod
+    def resolve_places_search(parent, info, **kwargs):
+        response = api_client.search("place", kwargs["input"])
+        return json2obj(format_response(response))
 
 
 class Mutation:

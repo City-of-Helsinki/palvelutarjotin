@@ -17,17 +17,21 @@ class LinkedEventsApiClient(object):
             "destroy": {"method": "DELETE", "url": self.root + resource + "/{}"},
         }
 
+    def get_search_action(self):
+        return {"method": "GET", "url": self.root + "search/"}
+
     def retrieve(self, resource, id):
         actions = self.get_actions(resource)
-        response = requests.request(
+        return requests.request(
             actions["retrieve"]["method"], actions["retrieve"]["url"].format(id)
         )
-        return response
 
     def list(self, resource, filter=None):
         actions = self.get_actions(resource)
-        response = requests.request(actions["list"]["method"], actions["list"]["url"])
-        return response
+        filter_params = {**filter}
+        return requests.request(
+            actions["list"]["method"], actions["list"]["url"], params=filter_params
+        )
 
     def post(self, resource, id=None):
         pass
@@ -35,10 +39,11 @@ class LinkedEventsApiClient(object):
     def delete(self, resource, id):
         pass
 
-    #
-    # def _build_resource_url(self, resource, filter=None):
-    #     # TODO: Add filter
-    #     return "{root}/{resource}/{id}".format(
-    #         root=self.root,
-    #         resource=self.resource
-    #     )
+    # Special action to full-text search generic resources
+    def search(self, type, query):
+        action = self.get_search_action()
+        search_params = {"type": type, "input": query}
+        response = requests.request(
+            action["method"], action["url"], params=search_params
+        )
+        return response
