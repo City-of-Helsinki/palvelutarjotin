@@ -163,28 +163,73 @@ class PlaceSearchListResponse(Response):
 
 
 class Query:
-    events = Field(EventListResponse,)
-    event = Field(Event, id=ID(required=True))
+    events = Field(
+        EventListResponse,
+        divisions=List(String),
+        end=String(),
+        include=List(String),
+        in_language=String(),
+        is_free=Boolean(),
+        keywords=List(String),
+        keyword_not=List(String),
+        language=String(),
+        locations=String(),
+        page=Int(),
+        page_size=Int(),
+        publisher=ID(),
+        sort=String(),
+        start=String(),
+        super_event=ID(),
+        super_event_type=List(String),
+        text=String(),
+        translation=String(),
+    )
+    event = Field(Event, id=ID(required=True), include=List(String))
 
-    places = Field(PlaceListResponse)
+    places = Field(
+        PlaceListResponse,
+        data_source=String(),
+        divisions=List(String),
+        page=Int(),
+        page_size=Int(),
+        show_all_places=Boolean(),
+        sort=String(),
+        text=String(),
+    )
     place = Field(Event, id=ID(required=True))
 
-    keywords = Field(KeywordListResponse)
+    keywords = Field(
+        KeywordListResponse,
+        data_source=String(),
+        page=Int(),
+        page_size=Int(),
+        show_all_keywords=Boolean(),
+        sort=String(),
+        text=String(),
+    )
     keyword = Field(Event, id=ID(required=True))
 
     # TODO: Add support for start-end filter
-    events_search = Field(EventSearchListResponse, input=String(required=True))
-    places_search = Field(PlaceSearchListResponse, input=String(required=True))
+    events_search = Field(
+        EventSearchListResponse, input=String(required=True), include=List(String)
+    )
+    places_search = Field(
+        PlaceSearchListResponse, input=String(required=True), include=List(String)
+    )
 
     @staticmethod
     def resolve_event(parent, info, **kwargs):
-        response = api_client.retrieve("event", kwargs["id"])
+        if kwargs.get("include"):
+            params = {"include": kwargs["include"]}
+            response = api_client.retrieve("event", kwargs["id"], params=params)
+        else:
+            response = api_client.retrieve("event", kwargs["id"])
         obj = json2obj(format_response(response))
         return obj
 
     @staticmethod
     def resolve_events(parent, info, **kwargs):
-        response = api_client.list("event")
+        response = api_client.list("event", filter_list=kwargs)
         return json2obj(format_response(response))
 
     @staticmethod
@@ -194,7 +239,7 @@ class Query:
 
     @staticmethod
     def resolve_places(parent, info, **kwargs):
-        response = api_client.list("place")
+        response = api_client.list("place", filter_list=kwargs)
         return json2obj(format_response(response))
 
     @staticmethod
@@ -204,17 +249,19 @@ class Query:
 
     @staticmethod
     def resolve_keywords(parent, info, **kwargs):
-        response = api_client.list("keyword")
+        response = api_client.list("keyword", filter_list=kwargs)
         return json2obj(format_response(response))
 
     @staticmethod
     def resolve_events_search(parent, info, **kwargs):
-        response = api_client.search("event", kwargs["input"])
+        search_params = {"type": "event", **kwargs}
+        response = api_client.search(search_params=search_params)
         return json2obj(format_response(response))
 
     @staticmethod
     def resolve_places_search(parent, info, **kwargs):
-        response = api_client.search("place", kwargs["input"])
+        search_params = {"type": "place", **kwargs}
+        response = api_client.search(search_params=search_params)
         return json2obj(format_response(response))
 
 
