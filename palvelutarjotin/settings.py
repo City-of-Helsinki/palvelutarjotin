@@ -141,10 +141,13 @@ INSTALLED_APPS = [
     "graphene_django",
     "anymail",
     "mailer",
+    "parler",
     "django_ilmoitin",
     "django_filters",
     # local apps under this line
     "utils",
+    "organisations",
+    "occurrences",
 ]
 
 MIDDLEWARE = [
@@ -183,6 +186,8 @@ AUTHENTICATION_BACKENDS = [
     "palvelutarjotin.oidc.GraphQLApiTokenAuthentication",
 ]
 
+AUTH_USER_MODEL = "organisations.User"
+
 OIDC_API_TOKEN_AUTH = {
     "AUDIENCE": env.str("TOKEN_AUTH_ACCEPTED_AUDIENCE"),
     "API_SCOPE_PREFIX": env.str("TOKEN_AUTH_ACCEPTED_SCOPE_PREFIX"),
@@ -193,6 +198,10 @@ OIDC_API_TOKEN_AUTH = {
 OIDC_AUTH = {"OIDC_LEEWAY": 60 * 60}
 
 SITE_ID = 1
+
+PARLER_LANGUAGES = {SITE_ID: ({"code": "fi"}, {"code": "sv"}, {"code": "en"})}
+
+PARLER_SUPPORTED_LANGUAGE_CODES = [x["code"] for x in PARLER_LANGUAGES[SITE_ID]]
 
 GRAPHENE = {
     "SCHEMA": "palvelutarjotin.schema.schema",
