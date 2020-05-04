@@ -1,10 +1,24 @@
-from graphene import Boolean, Field, Float, ID, Int, List, NonNull, ObjectType, String
+from graphene import (
+    Boolean,
+    Field,
+    Float,
+    ID,
+    InputField,
+    InputObjectType,
+    Int,
+    List,
+    Mutation,
+    NonNull,
+    ObjectType,
+    String,
+)
+from graphql_jwt.decorators import staff_member_required
 from linked_events_gql_wrapper.rest_client import LinkedEventsApiClient
-from linked_events_gql_wrapper.utils import format_response, json2obj
+from linked_events_gql_wrapper.utils import format_request, format_response, json2obj
 
 from palvelutarjotin import settings
 
-api_client = LinkedEventsApiClient(root=settings.LINKED_EVENTS_API_ROOT)
+api_client = LinkedEventsApiClient(config=settings.LINKED_EVENTS_API_CONFIG)
 
 
 class IdObject(ObjectType):
@@ -19,6 +33,12 @@ class IdObject(ObjectType):
 
 
 class LocalisedObject(ObjectType):
+    fi = String()
+    sv = String()
+    en = String()
+
+
+class LocalisedObjectInput(InputObjectType):
     fi = String()
     sv = String()
     en = String()
@@ -89,6 +109,13 @@ class Offer(ObjectType):
     description = Field(LocalisedObject)
     price = Field(LocalisedObject)
     info_url = Field(LocalisedObject)
+
+
+class OfferInput(InputObjectType):
+    is_free = Boolean()
+    description = Field(LocalisedObjectInput)
+    price = Field(LocalisedObjectInput)
+    info_url = Field(LocalisedObjectInput)
 
 
 class InLanguage(IdObject):
@@ -265,6 +292,98 @@ class Query:
         return json2obj(format_response(response))
 
 
+class EventMutationResponse(ObjectType):
+    status_code = Int(required=True)
+    body = Field(Event)
+
+
+class IdObjectInput(InputObjectType):
+    internal_id = String()
+
+
+class AddEventMutationInput(InputObjectType):
+    location = IdObjectInput(required=True)
+    keywords = NonNull(List(NonNull(IdObjectInput)))
+    super_event = String()
+    event_status = String()
+    external_links = List(NonNull(String))
+    offers = NonNull(List(NonNull(OfferInput)))
+    sub_events = List(NonNull(String))
+    images = List(NonNull(IdObjectInput))
+    in_language = List(NonNull(IdObjectInput))
+    audience = List(NonNull(IdObjectInput))
+    date_published = String()
+    start_time = String(required=True)
+    end_time = String()
+    custom_data = String()
+    audience_min_age = String()
+    audience_max_age = String()
+    super_event_type = String()
+    extension_course = InputField(IdObjectInput)
+    name = InputField(LocalisedObjectInput, required=True)
+    localization_extra_info = InputField(LocalisedObjectInput)
+    short_description = InputField(LocalisedObjectInput, required=True)
+    provider = InputField(LocalisedObjectInput)
+    info_url = InputField(LocalisedObjectInput)
+    provider_contact_info = String()
+    description = InputField(LocalisedObjectInput, required=True)
+
+
+class UpdateEventMutationInput(AddEventMutationInput):
+    id = String(required=True)
+
+
+class AddEventMutation(Mutation):
+    class Arguments:
+        event = AddEventMutationInput()
+
+    response = Field(EventMutationResponse)
+
+    @staff_member_required
+    def mutate(root, info, **kwargs):
+        # Format to JSON POST body
+        body = format_request(kwargs["event"])
+        # TODO: proper validation if necessary
+        result = api_client.create("event", body)
+        response = EventMutationResponse(
+            status_code=result.status_code, body=json2obj(format_response(result))
+        )
+        return AddEventMutation(response=response)
+
+
+class UpdateEventMutation(Mutation):
+    class Arguments:
+        event = UpdateEventMutationInput()
+
+    response = Field(EventMutationResponse)
+
+    @staff_member_required
+    def mutate(root, info, **kwargs):
+        # Format to JSON POST body
+        event_id = kwargs["event"].pop("id")
+        body = format_request(kwargs["event"])
+        # TODO: proper validation if necessary
+        result = api_client.update("event", event_id, body)
+        response = EventMutationResponse(status_code=result.status_code, body=None)
+        return AddEventMutation(response=response)
+
+
+class DeleteEventMutation(Mutation):
+    class Arguments:
+        event_id = String()
+
+    response = Field(EventMutationResponse)
+
+    @staff_member_required
+    def mutate(root, info, **kwargs):
+        event_id = kwargs["event_id"]
+        # TODO: proper validation if necessary
+        result = api_client.delete("event", event_id)
+        response = EventMutationResponse(status_code=result.status_code, body=None)
+        return AddEventMutation(response=response)
+
+
 class Mutation:
-    # TODO: Add support for graphql mutation
-    pass
+    add_event_mutation = AddEventMutation.Field()
+    update_event_mutation = UpdateEventMutation.Field()
+    delete_event_mutation = DeleteEventMutation.Field()

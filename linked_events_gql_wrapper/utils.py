@@ -15,3 +15,8 @@ def _json_object_hook(d):
 
 def json2obj(data):
     return json.loads(data, object_hook=_json_object_hook)
+
+
+def format_request(request):
+    # TODO: Find better way to replace internal_id key
+    return json.dumps(request).replace("internal_", "@")

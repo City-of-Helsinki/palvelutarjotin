@@ -2,19 +2,18 @@ import requests
 
 
 class LinkedEventsApiClient(object):
-    def __init__(self, root, headers=None) -> None:
-        self.headers = headers
-        self.root = root
+    def __init__(self, config) -> None:
+        self.root = config["ROOT"]
+        self.api_key = config["API_KEY"]
         super().__init__()
 
     def get_actions(self, resource):
         return {
-            "list": {"method": "GET", "url": self.root + resource},
-            "create": {"method": "POST", "url": self.root + resource},
-            "retrieve": {"method": "GET", "url": self.root + resource + "/{}"},
-            "update": {"method": "PUT", "url": self.root + resource + "/{}"},
-            "partial_update": {"method": "PATCH", "url": self.root + resource + "/{}"},
-            "destroy": {"method": "DELETE", "url": self.root + resource + "/{}"},
+            "list": {"method": "GET", "url": self.root + resource + "/"},
+            "create": {"method": "POST", "url": self.root + resource + "/"},
+            "retrieve": {"method": "GET", "url": self.root + resource + "/{}/"},
+            "update": {"method": "PUT", "url": self.root + resource + "/{}/"},
+            "destroy": {"method": "DELETE", "url": self.root + resource + "/{}/"},
         }
 
     def get_search_action(self):
@@ -35,11 +34,34 @@ class LinkedEventsApiClient(object):
             actions["list"]["method"], actions["list"]["url"], params=filter_params
         )
 
-    def post(self, resource, id=None):
-        pass
+    def create(self, resource, body):
+        actions = self.get_actions(resource)
+        headers = {"apikey": self.api_key, "Content-Type": "application/json"}
+        return requests.request(
+            actions["create"]["method"],
+            actions["create"]["url"],
+            data=body,
+            headers=headers,
+        )
+
+    def update(self, resource, id, body):
+        actions = self.get_actions(resource)
+        headers = {"apikey": self.api_key, "Content-Type": "application/json"}
+        return requests.request(
+            actions["update"]["method"],
+            actions["update"]["url"].format(id),
+            data=body,
+            headers=headers,
+        )
 
     def delete(self, resource, id):
-        pass
+        actions = self.get_actions(resource)
+        headers = {"apikey": self.api_key, "Content-Type": "application/json"}
+        return requests.request(
+            actions["destroy"]["method"],
+            actions["destroy"]["url"].format(id),
+            headers=headers,
+        )
 
     # Special action to full-text search generic resources
     def search(self, search_params):
