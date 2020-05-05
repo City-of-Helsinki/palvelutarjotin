@@ -7,17 +7,16 @@ class LinkedEventsApiClient(object):
         self.api_key = config["API_KEY"]
         super().__init__()
 
-    def get_actions(self, resource):
+    def get_actions(self, resource=None):
+        url = self.root + resource
         return {
-            "list": {"method": "GET", "url": self.root + resource + "/"},
-            "create": {"method": "POST", "url": self.root + resource + "/"},
-            "retrieve": {"method": "GET", "url": self.root + resource + "/{}/"},
-            "update": {"method": "PUT", "url": self.root + resource + "/{}/"},
-            "destroy": {"method": "DELETE", "url": self.root + resource + "/{}/"},
+            "list": {"method": "GET", "url": url + "/"},
+            "create": {"method": "POST", "url": url + "/"},
+            "retrieve": {"method": "GET", "url": url + "/{}/"},
+            "update": {"method": "PUT", "url": url + "/{}/"},
+            "delete": {"method": "DELETE", "url": url + "/{}/"},
+            "search": {"method": "GET", "url": self.root + "search/"},
         }
-
-    def get_search_action(self):
-        return {"method": "GET", "url": self.root + "search/"}
 
     def retrieve(self, resource, id, params=None):
         actions = self.get_actions(resource)
@@ -58,15 +57,14 @@ class LinkedEventsApiClient(object):
         actions = self.get_actions(resource)
         headers = {"apikey": self.api_key, "Content-Type": "application/json"}
         return requests.request(
-            actions["destroy"]["method"],
-            actions["destroy"]["url"].format(id),
+            actions["delete"]["method"],
+            actions["delete"]["url"].format(id),
             headers=headers,
         )
 
     # Special action to full-text search generic resources
     def search(self, search_params):
-        action = self.get_search_action()
-        # search_params = {"type": type, "input": query}
+        action = self.get_actions("search")["search"]
         response = requests.request(
             action["method"], action["url"], params=search_params
         )

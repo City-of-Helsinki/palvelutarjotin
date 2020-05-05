@@ -12,9 +12,9 @@ from graphene import (
     ObjectType,
     String,
 )
+from graphene_linked_events.rest_client import LinkedEventsApiClient
+from graphene_linked_events.utils import format_request, format_response, json2obj
 from graphql_jwt.decorators import staff_member_required
-from linked_events_gql_wrapper.rest_client import LinkedEventsApiClient
-from linked_events_gql_wrapper.utils import format_request, format_response, json2obj
 
 from palvelutarjotin import settings
 
@@ -22,14 +22,14 @@ api_client = LinkedEventsApiClient(config=settings.LINKED_EVENTS_API_CONFIG)
 
 
 class IdObject(ObjectType):
-    id = ID(required=True)
-    internal_id = String()
+    id = String()
+    internal_id = ID(required=True)
     internal_context = String()
     internal_type = String()
     created_time = String()
     last_modified_time = String()
     data_source = String()
-    publisher = ID()
+    publisher = String()
 
 
 class LocalisedObject(ObjectType):
@@ -46,7 +46,7 @@ class LocalisedObjectInput(InputObjectType):
 
 class Division(ObjectType):
     type = String(required=True)
-    ocdId = String()
+    ocdId = String(description="Open Civic Data ID")
     municipality = String()
     name = Field(LocalisedObject)
 
@@ -75,7 +75,7 @@ class Place(IdObject):
     address_country = String()
     deleted = Boolean()
     n_events = Int()
-    image = Field(Image)
+    image = Int()
     parent = ID()
     replaced_by = String()
     position = Field(PlacePosition)
@@ -92,7 +92,7 @@ class Keyword(IdObject):
     aggregate = Boolean()
     deprecated = Boolean()
     n_events = Int()
-    image = Field(Image)
+    image = Int()
     data_source = String()
     publisher = ID()
     name = Field(LocalisedObject)
@@ -223,7 +223,7 @@ class Query:
         sort=String(),
         text=String(),
     )
-    place = Field(Event, id=ID(required=True))
+    place = Field(Place, id=ID(required=True))
 
     keywords = Field(
         KeywordListResponse,
@@ -234,7 +234,7 @@ class Query:
         sort=String(),
         text=String(),
     )
-    keyword = Field(Event, id=ID(required=True))
+    keyword = Field(Keyword, id=ID(required=True))
 
     # TODO: Add support for start-end filter
     events_search = Field(
@@ -364,8 +364,10 @@ class UpdateEventMutation(Mutation):
         body = format_request(kwargs["event"])
         # TODO: proper validation if necessary
         result = api_client.update("event", event_id, body)
-        response = EventMutationResponse(status_code=result.status_code, body=None)
-        return AddEventMutation(response=response)
+        response = EventMutationResponse(
+            status_code=result.status_code, body=json2obj(format_response(result))
+        )
+        return UpdateEventMutation(response=response)
 
 
 class DeleteEventMutation(Mutation):
@@ -380,7 +382,7 @@ class DeleteEventMutation(Mutation):
         # TODO: proper validation if necessary
         result = api_client.delete("event", event_id)
         response = EventMutationResponse(status_code=result.status_code, body=None)
-        return AddEventMutation(response=response)
+        return DeleteEventMutation(response=response)
 
 
 class Mutation:

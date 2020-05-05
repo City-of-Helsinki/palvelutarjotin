@@ -1,12 +1,12 @@
 import graphene
-import linked_events_gql_wrapper.schema
+import graphene_linked_events.schema
 
 
-class Mutation(linked_events_gql_wrapper.schema.Mutation, graphene.ObjectType):
+class Mutation(graphene_linked_events.schema.Mutation, graphene.ObjectType):
     pass
 
 
-class Query(linked_events_gql_wrapper.schema.Query, graphene.ObjectType):
+class Query(graphene_linked_events.schema.Query, graphene.ObjectType):
     pass
 
 

@@ -1,0 +1,7 @@
+import json
+
+
+class MockResponse:
+    def __init__(self, json_data, status_code):
+        self.text = json.dumps(json_data)
+        self.status_code = status_code

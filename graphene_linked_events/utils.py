@@ -6,7 +6,7 @@ from collections import namedtuple
 
 def format_response(response):
     # Some fields from api have @prefix that need to be converted
-    return response.content.decode("utf-8").replace("@", "internal_")
+    return response.text.replace("@", "internal_")
 
 
 def _json_object_hook(d):
