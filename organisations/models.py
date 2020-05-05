@@ -23,8 +23,19 @@ class Organisation(models.Model):
     phone_number = models.CharField(
         verbose_name=_("phone number"), max_length=64, blank=True
     )
-    type = models.CharField(choices=ORGANISATION_TYPES, max_length=64)
-    persons = models.ManyToManyField("Person", related_name="organisations", blank=True)
+    type = models.CharField(
+        choices=ORGANISATION_TYPES, verbose_name=_("type"), max_length=64
+    )
+    persons = models.ManyToManyField(
+        "Person", verbose_name=_("persons"), related_name="organisations", blank=True
+    )
+    group = models.OneToOneField(
+        "auth.Group",
+        blank=True,
+        null=True,
+        verbose_name=_("group"),
+        on_delete=models.SET_NULL,
+    )
 
     class Meta:
         verbose_name = _("organisation")
