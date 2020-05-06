@@ -27,8 +27,11 @@ class PersonAdmin(admin.ModelAdmin):
 
 
 class UserAdmin(DjangoUserAdmin):
-    fieldsets = DjangoUserAdmin.fieldsets + (("UUID", {"fields": ("uuid",)}),)
-    readonly_fields = ("uuid",)
+    fieldsets = DjangoUserAdmin.fieldsets + (
+        ("UUID", {"fields": ("uuid",)}),
+        ("AD Groups", {"fields": ("ad_groups",)}),
+    )
+    readonly_fields = ("uuid", "ad_groups")
 
 
 admin.site.register(get_user_model(), UserAdmin)
