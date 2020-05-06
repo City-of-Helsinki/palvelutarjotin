@@ -6,6 +6,15 @@ from helusers.models import AbstractUser
 from common.models import TimestampedModel, UUIDPrimaryKeyModel
 
 
+class PersonQuerySet(models.QuerySet):
+    def user_can_view(self, user):
+        # Only return profile of logged in user if he's not staff
+        if user.is_staff:
+            return self
+        else:
+            return self.filter(user=user)
+
+
 class User(AbstractUser):
     class Meta:
         verbose_name = _("user")
@@ -58,6 +67,8 @@ class Person(UUIDPrimaryKeyModel, TimestampedModel):
         verbose_name=_("phone number"), max_length=64, blank=True
     )
     email_address = models.EmailField(max_length=255, verbose_name=_("email"))
+
+    objects = PersonQuerySet.as_manager()
 
     class Meta:
         verbose_name = _("person")
