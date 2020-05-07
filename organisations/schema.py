@@ -59,6 +59,32 @@ def validate_person_data(kwargs):
     pass
 
 
+class OrganisationTypeEnum(graphene.Enum):
+    TYPE_USER = "user"
+    TYPE_PROVIDER = "provider"
+
+
+def validate_organisation_data(kwargs):
+    pass
+
+
+class AddOrganisationMutation(graphene.relay.ClientIDMutation):
+    class Input:
+        name = graphene.String(required=True)
+        phone_number = graphene.String()
+        type = OrganisationTypeEnum()
+
+    organisation = graphene.Field(OrganisationNode)
+
+    @classmethod
+    @staff_member_required
+    @transaction.atomic
+    def mutate_and_get_payload(cls, root, info, **kwargs):
+        validate_organisation_data(kwargs)
+        organisation = Organisation.objects.create(**kwargs)
+        return AddOrganisationMutation(organisation=organisation)
+
+
 class UpdatePersonMutation(graphene.relay.ClientIDMutation):
     class Input:
         id = graphene.GlobalID()
@@ -80,12 +106,12 @@ class UpdatePersonMutation(graphene.relay.ClientIDMutation):
         except Person.DoesNotExist as e:
             raise ObjectDoesNotExistError(e)
 
-        return UpdateMyProfileMutation(my_profile=person)
+        return UpdatePersonMutation(person=person)
 
 
 class Query:
     my_profile = graphene.Field(
-        PersonNode, description="Query personal data of " "logged user"
+        PersonNode, description="Query personal data of logged user"
     )
 
     person = relay.Node.Field(PersonNode)
@@ -102,3 +128,5 @@ class Query:
 
 class Mutation:
     update_my_profile = UpdateMyProfileMutation.Field()
+    add_organisation = AddOrganisationMutation.Field()
+    update_person = UpdatePersonMutation.Field()
