@@ -28,7 +28,7 @@ env = environ.Env(
     USE_X_FORWARDED_HOST=(bool, False),
     DATABASE_URL=(
         str,
-        "postgres://palvelutarjotin:palvelutarjotin@localhost" "/palvelutarjotin",
+        "postgres://palvelutarjotin:palvelutarjotin@localhost/palvelutarjotin",
     ),
     CACHE_URL=(str, "locmemcache://"),
     MAILER_EMAIL_BACKEND=(str, "django.core.mail.backends.console.EmailBackend"),
