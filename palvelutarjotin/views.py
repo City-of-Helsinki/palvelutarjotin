@@ -7,6 +7,7 @@ from palvelutarjotin.consts import (
     API_USAGE_ERROR,
     DATA_VALIDATION_ERROR,
     GENERAL_ERROR,
+    INCORRECT_GLOBAL_ID_ERROR,
     MISSING_DEFAULT_TRANSLATION_ERROR,
     OBJECT_DOES_NOT_EXIST_ERROR,
     PERMISSION_DENIED_ERROR,
@@ -15,6 +16,7 @@ from palvelutarjotin.consts import (
 from palvelutarjotin.exceptions import (
     ApiUsageError,
     DataValidationError,
+    IncorrectGlobalIdError,
     MissingDefaultTranslationError,
     ObjectDoesNotExistError,
     PalvelutarjotinGraphQLError,
@@ -29,6 +31,7 @@ error_codes_shared = {
     ApiUsageError: API_USAGE_ERROR,
     DataValidationError: DATA_VALIDATION_ERROR,
     QueryTooDeepError: QUERY_TOO_DEEP_ERROR,
+    IncorrectGlobalIdError: INCORRECT_GLOBAL_ID_ERROR,
 }
 
 error_codes_palvelutarjotin = {

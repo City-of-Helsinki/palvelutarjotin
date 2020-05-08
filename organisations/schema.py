@@ -4,11 +4,10 @@ from django.db import transaction
 from graphene import relay
 from graphene_django import DjangoConnectionField
 from graphene_django.types import DjangoObjectType
-from graphql_jwt.decorators import login_required, staff_member_required
-from graphql_relay import from_global_id
+from graphql_jwt.decorators import login_required, superuser_required
 from organisations.models import Organisation, Person
 
-from common.utils import update_object
+from common.utils import get_node_id_from_global_id, update_object
 from palvelutarjotin.exceptions import ObjectDoesNotExistError
 
 User = get_user_model()
@@ -60,11 +59,12 @@ def validate_person_data(kwargs):
 
 
 class OrganisationTypeEnum(graphene.Enum):
-    TYPE_USER = "user"
-    TYPE_PROVIDER = "provider"
+    USER = "user"
+    PROVIDER = "provider"
 
 
 def validate_organisation_data(kwargs):
+    # TODO: Add validation
     pass
 
 
@@ -72,17 +72,45 @@ class AddOrganisationMutation(graphene.relay.ClientIDMutation):
     class Input:
         name = graphene.String(required=True)
         phone_number = graphene.String()
-        type = OrganisationTypeEnum()
+        type = OrganisationTypeEnum(required=True)
 
     organisation = graphene.Field(OrganisationNode)
 
     @classmethod
-    @staff_member_required
+    @superuser_required
     @transaction.atomic
     def mutate_and_get_payload(cls, root, info, **kwargs):
         validate_organisation_data(kwargs)
         organisation = Organisation.objects.create(**kwargs)
         return AddOrganisationMutation(organisation=organisation)
+
+
+class UpdateOrganisationMutation(graphene.relay.ClientIDMutation):
+    class Input:
+        id = graphene.GlobalID()
+        name = graphene.String()
+        phone_number = graphene.String()
+        type = OrganisationTypeEnum()
+
+    organisation = graphene.Field(OrganisationNode)
+
+    @classmethod
+    @superuser_required
+    @transaction.atomic
+    def mutate_and_get_payload(cls, root, info, **kwargs):
+        organisation_id = get_node_id_from_global_id(
+            kwargs.pop("id"), "OrganisationNode"
+        )
+        try:
+            organisation = Organisation.objects.get(pk=organisation_id)
+        except Organisation.DoesNotExist as e:
+            raise ObjectDoesNotExistError(e)
+
+        validate_organisation_data(kwargs)
+        update_object(organisation, kwargs)
+        # TODO: Add support to related fields update: e.g group/persons
+
+        return UpdateOrganisationMutation(organisation=organisation)
 
 
 class UpdatePersonMutation(graphene.relay.ClientIDMutation):
@@ -95,16 +123,17 @@ class UpdatePersonMutation(graphene.relay.ClientIDMutation):
     person = graphene.Field(PersonNode)
 
     @classmethod
-    @staff_member_required
+    @superuser_required
     @transaction.atomic
     def mutate_and_get_payload(cls, root, info, **kwargs):
-        person_id = from_global_id(kwargs.pop("id"))[1]
+        person_id = get_node_id_from_global_id(kwargs.pop("id"), "PersonNode")
         try:
             person = Person.objects.get(pk=person_id)
-            validate_person_data(kwargs)
-            update_object(person, kwargs)
         except Person.DoesNotExist as e:
             raise ObjectDoesNotExistError(e)
+        validate_person_data(kwargs)
+        update_object(person, kwargs)
+        # TODO: Add support to related fields update: e.g organisation/studyGroup
 
         return UpdatePersonMutation(person=person)
 
@@ -129,4 +158,6 @@ class Query:
 class Mutation:
     update_my_profile = UpdateMyProfileMutation.Field()
     add_organisation = AddOrganisationMutation.Field()
+    update_organisation = UpdateOrganisationMutation.Field()
+
     update_person = UpdatePersonMutation.Field()

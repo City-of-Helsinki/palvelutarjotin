@@ -11,8 +11,10 @@ class PersonQuerySet(models.QuerySet):
         # Only return profile of logged in user if he's not staff
         if user.is_staff:
             return self
-        else:
+        elif user.is_authenticated:
             return self.filter(user=user)
+        else:
+            return self.none()
 
 
 class User(AbstractUser):

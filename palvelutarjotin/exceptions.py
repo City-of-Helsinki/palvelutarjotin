@@ -23,3 +23,7 @@ class QueryTooDeepError(PalvelutarjotinGraphQLError):
 
 class MissingDefaultTranslationError(PalvelutarjotinGraphQLError):
     """Missing default translation for translatable object"""
+
+
+class IncorrectGlobalIdError(PalvelutarjotinGraphQLError):
+    """Unexpected node type from global id"""

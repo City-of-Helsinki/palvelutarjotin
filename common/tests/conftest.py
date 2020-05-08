@@ -4,7 +4,7 @@ from django.contrib.auth.models import AnonymousUser
 from django.test import RequestFactory
 from freezegun import freeze_time
 from graphene.test import Client
-from organisations.factories import UserFactory
+from organisations.factories import OrganisationFactory, PersonFactory, UserFactory
 
 from palvelutarjotin.schema import schema
 from palvelutarjotin.views import SentryGraphQLView
@@ -30,6 +30,31 @@ def user_api_client():
 @pytest.fixture
 def staff_api_client():
     return _create_api_client_with_user(UserFactory(is_staff=True))
+
+
+@pytest.fixture
+def superuser_api_client():
+    return _create_api_client_with_user(UserFactory(is_superuser=True))
+
+
+@pytest.fixture
+def person_api_client():
+    return _create_api_client_with_user(PersonFactory(user=UserFactory()).user)
+
+
+@pytest.fixture
+def person():
+    return PersonFactory(organisations=[OrganisationFactory()])
+
+
+@pytest.fixture
+def person_without_organisation():
+    return PersonFactory()
+
+
+@pytest.fixture
+def organisation():
+    return OrganisationFactory()
 
 
 def _create_api_client_with_user(user):
