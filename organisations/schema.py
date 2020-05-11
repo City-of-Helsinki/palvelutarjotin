@@ -1,7 +1,7 @@
 import graphene
 from django.contrib.auth import get_user_model
 from django.db import transaction
-from graphene import relay
+from graphene import InputObjectType, relay
 from graphene_django import DjangoConnectionField
 from graphene_django.types import DjangoObjectType
 from graphql_jwt.decorators import login_required, superuser_required
@@ -21,6 +21,13 @@ class PersonNode(DjangoObjectType):
     @classmethod
     def get_queryset(cls, queryset, info):
         return queryset.user_can_view(info.context.user).order_by("name")
+
+
+class PersonNodeInput(InputObjectType):
+    id = graphene.ID()
+    name = graphene.String(required=True)
+    phone_number = graphene.String()
+    email_address = graphene.String(required=True)
 
 
 class OrganisationNode(DjangoObjectType):
