@@ -746,6 +746,11 @@ snapshots["test_create_event 1"] = {
                     "keywords": [{"id": None}],
                     "location": {"id": None},
                     "offers": [{"isFree": False}],
+                    "pEvent": {
+                        "enrolmentEnd": "2021-06-06T16:40:48+00:00",
+                        "enrolmentStart": "2020-06-06T16:40:48+00:00",
+                        "linkedEventId": "qq:afy6aghr2y",
+                    },
                     "shortDescription": {
                         "en": "short desc en",
                         "fi": "short desc",
@@ -770,6 +775,11 @@ snapshots["test_update_event 1"] = {
                     "keywords": [{"id": None}],
                     "location": {"id": None},
                     "offers": [{"isFree": False}],
+                    "pEvent": {
+                        "enrolmentEnd": "2021-06-06T16:40:48+00:00",
+                        "enrolmentStart": "2020-06-06T16:40:48+00:00",
+                        "linkedEventId": "qq:afy6aghr2y",
+                    },
                     "shortDescription": {
                         "en": "short desc en",
                         "fi": "short desc",

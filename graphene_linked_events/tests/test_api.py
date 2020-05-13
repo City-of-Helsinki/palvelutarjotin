@@ -10,6 +10,8 @@ from graphene_linked_events.tests.mock_data import (
     UPDATE_EVENT_DATA,
 )
 from graphene_linked_events.tests.utils import MockResponse
+from occurrences.factories import PalvelutarjotinEventFactory
+from occurrences.models import PalvelutarjotinEvent
 
 from common.tests.utils import assert_permission_denied
 
@@ -694,6 +696,11 @@ mutation addEvent($input: AddEventMutationInput!){
           sv
           en
         }
+        pEvent {
+          enrolmentEnd
+          enrolmentStart
+          linkedEventId
+        }
       }
     }
   }
@@ -702,6 +709,10 @@ mutation addEvent($input: AddEventMutationInput!){
 
 CREATE_EVENT_VARIABLES = {
     "input": {
+        "pEvent": {
+            "enrolmentStart": "2020-06-06T16:40:48+00:00",
+            "enrolmentEnd": "2021-06-06T16:40:48+00:00",
+        },
         "name": {"fi": "testaus"},
         "startTime": "2020-05-05",
         "location": {"internalId": "http://testserver/v1/place/tprek:9972/"},
@@ -752,6 +763,7 @@ def test_create_event(staff_api_client, snapshot, monkeypatch):
     executed = staff_api_client.execute(
         CREATE_EVENT_MUTATION, variables=CREATE_EVENT_VARIABLES
     )
+    assert PalvelutarjotinEvent.objects.count() == 1
     snapshot.assert_match(executed)
 
 
@@ -787,6 +799,11 @@ mutation addEvent($input: UpdateEventMutationInput!){
           sv
           en
         }
+        pEvent {
+          enrolmentEnd
+          enrolmentStart
+          linkedEventId
+        }
       }
     }
   }
@@ -796,6 +813,10 @@ mutation addEvent($input: UpdateEventMutationInput!){
 UPDATE_EVENT_VARIABLES = {
     "input": {
         "id": "qq:afy6aghr2y",
+        "pEvent": {
+            "enrolmentStart": "2020-06-06T16:40:48+00:00",
+            "enrolmentEnd": "2021-06-06T16:40:48+00:00",
+        },
         "name": {"fi": "testaus"},
         "startTime": "2020-05-07",
         "location": {"internalId": "http://testserver/v1/place/tprek:9972/"},
@@ -842,6 +863,8 @@ def test_update_event(staff_api_client, snapshot, monkeypatch):
     monkeypatch.setattr(
         graphene_linked_events.rest_client.LinkedEventsApiClient, "update", mock_data
     )
+
+    PalvelutarjotinEventFactory(linked_event_id=UPDATE_EVENT_VARIABLES["input"]["id"],)
 
     executed = staff_api_client.execute(
         UPDATE_EVENT_MUTATION, variables=UPDATE_EVENT_VARIABLES

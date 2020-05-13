@@ -9,8 +9,12 @@ class PalvelutarjotinEvent(TimestampedModel):
     linked_event_id = models.CharField(
         max_length=255, verbose_name=_("linked event " "id")
     )
-    enrolment_start = models.DateTimeField(verbose_name=_("enrolment start"))
-    enrolment_end = models.DateTimeField(verbose_name=_("enrolment start"))
+    enrolment_start = models.DateTimeField(
+        verbose_name=_("enrolment start"), blank=True, null=True
+    )
+    enrolment_end = models.DateTimeField(
+        verbose_name=_("enrolment end"), blank=True, null=True
+    )
 
     class Meta:
         verbose_name = _("palvelutarjotin event")

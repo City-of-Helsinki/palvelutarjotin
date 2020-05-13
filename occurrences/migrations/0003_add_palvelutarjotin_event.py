@@ -5,7 +5,6 @@ from django.db import migrations, models
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
         ("occurrences", "0002_alter_fields"),
     ]
@@ -37,9 +36,16 @@ class Migration(migrations.Migration):
                 ),
                 (
                     "enrolment_start",
-                    models.DateTimeField(verbose_name="enrolment start"),
+                    models.DateTimeField(
+                        verbose_name="enrolment start", blank=True, null=True
+                    ),
                 ),
-                ("enrolment_end", models.DateTimeField(verbose_name="enrolment start")),
+                (
+                    "enrolment_end",
+                    models.DateTimeField(
+                        verbose_name="enrolment end", blank=True, null=True
+                    ),
+                ),
             ],
             options={
                 "verbose_name": "palvelutarjotin event",

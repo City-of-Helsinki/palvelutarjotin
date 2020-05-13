@@ -1,3 +1,4 @@
+from django.db import transaction
 from graphene import (
     Boolean,
     Field,
@@ -15,8 +16,12 @@ from graphene import (
 from graphene_linked_events.rest_client import LinkedEventsApiClient
 from graphene_linked_events.utils import format_request, format_response, json2obj
 from graphql_jwt.decorators import staff_member_required
+from occurrences.models import PalvelutarjotinEvent
+from occurrences.schema import PalvelutarjotinEventInput, PalvelutarjotinEventNode
 
+from common.utils import update_object
 from palvelutarjotin import settings
+from palvelutarjotin.exceptions import ObjectDoesNotExistError
 
 api_client = LinkedEventsApiClient(config=settings.LINKED_EVENTS_API_CONFIG)
 
@@ -157,6 +162,10 @@ class Event(IdObject):
     info_url = Field(LocalisedObject)
     provider_contact_info = String()
     description = Field(LocalisedObject)
+    p_event = Field(PalvelutarjotinEventNode)
+
+    def resolve_p_event(self, info, **kwargs):
+        return PalvelutarjotinEvent.objects.get(linked_event_id=self.id)
 
 
 class Meta(ObjectType):
@@ -327,6 +336,11 @@ class AddEventMutationInput(InputObjectType):
     info_url = InputField(LocalisedObjectInput)
     provider_contact_info = String()
     description = InputField(LocalisedObjectInput, required=True)
+    p_event = InputField(
+        PalvelutarjotinEventInput,
+        required=True,
+        description="Palvelutarjotin event data",
+    )
 
 
 class UpdateEventMutationInput(AddEventMutationInput):
@@ -340,14 +354,19 @@ class AddEventMutation(Mutation):
     response = Field(EventMutationResponse)
 
     @staff_member_required
+    @transaction.atomic
     def mutate(root, info, **kwargs):
         # Format to JSON POST body
+        p_event_data = kwargs["event"].pop("p_event")
         body = format_request(kwargs["event"])
         # TODO: proper validation if necessary
         result = api_client.create("event", body)
-        response = EventMutationResponse(
-            status_code=result.status_code, body=json2obj(format_response(result))
-        )
+        event_obj = json2obj(format_response(result))
+        if result.status_code == 201:
+            # Create palvelutarjotin event if event created successful
+            p_event_data["linked_event_id"] = event_obj.id
+            PalvelutarjotinEvent.objects.create(**p_event_data)
+        response = EventMutationResponse(status_code=result.status_code, body=event_obj)
         return AddEventMutation(response=response)
 
 
@@ -358,12 +377,21 @@ class UpdateEventMutation(Mutation):
     response = Field(EventMutationResponse)
 
     @staff_member_required
+    @transaction.atomic
     def mutate(root, info, **kwargs):
         # Format to JSON POST body
         event_id = kwargs["event"].pop("id")
+        p_event_data = kwargs["event"].pop("p_event")
         body = format_request(kwargs["event"])
         # TODO: proper validation if necessary
         result = api_client.update("event", event_id, body)
+        if result.status_code == 200:
+            # Only update p_event if main event updated successfully
+            try:
+                p_event = PalvelutarjotinEvent.objects.get(linked_event_id=event_id)
+            except PalvelutarjotinEvent.DoesNotExist as e:
+                raise ObjectDoesNotExistError(e)
+            update_object(p_event, p_event_data)
         response = EventMutationResponse(
             status_code=result.status_code, body=json2obj(format_response(result))
         )
