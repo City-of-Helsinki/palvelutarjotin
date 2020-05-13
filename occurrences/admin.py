@@ -1,5 +1,11 @@
 from django.contrib import admin
-from occurrences.models import Enrolment, Occurrence, StudyGroup, VenueCustomData
+from occurrences.models import (
+    Enrolment,
+    Occurrence,
+    PalvelutarjotinEvent,
+    StudyGroup,
+    VenueCustomData,
+)
 from parler.admin import TranslatableAdmin
 
 
@@ -12,7 +18,7 @@ class StudyGroupAdmin(admin.ModelAdmin):
 @admin.register(Occurrence)
 class OccurrenceAdmin(admin.ModelAdmin):
     list_display = (
-        "linked_event_id",
+        "place_id",
         "created_at",
         "updated_at",
     )
@@ -27,3 +33,8 @@ class EnrolmentAdmin(admin.ModelAdmin):
 @admin.register(VenueCustomData)
 class VenueCustomDataAdmin(TranslatableAdmin):
     list_display = ("place_id",)
+
+
+@admin.register(PalvelutarjotinEvent)
+class PalvelutarjotinEventAdmin(admin.ModelAdmin):
+    list_display = ("linked_event_id", "enrolment_start", "enrolment_end")

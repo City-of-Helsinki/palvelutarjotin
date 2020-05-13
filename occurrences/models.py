@@ -5,9 +5,29 @@ from parler.models import TranslatedFields
 from common.models import TimestampedModel, TranslatableModel
 
 
-class Occurrence(TimestampedModel):
+class PalvelutarjotinEvent(TimestampedModel):
     linked_event_id = models.CharField(
         max_length=255, verbose_name=_("linked event " "id")
+    )
+    enrolment_start = models.DateTimeField(verbose_name=_("enrolment start"))
+    enrolment_end = models.DateTimeField(verbose_name=_("enrolment start"))
+
+    class Meta:
+        verbose_name = _("palvelutarjotin event")
+        verbose_name_plural = _("palvelutarjotin events")
+
+    def __str__(self):
+        return f"{self.id} {self.linked_event_id}"
+
+
+class Occurrence(TimestampedModel):
+    p_event = models.ForeignKey(
+        PalvelutarjotinEvent,
+        verbose_name=_("palvelutarjotin event"),
+        related_name="occurrences",
+        on_delete=models.CASCADE,
+        blank=True,
+        null=True,
     )
     min_group_size = models.PositiveSmallIntegerField(verbose_name=_("min group size"))
     max_group_size = models.PositiveSmallIntegerField(verbose_name=_("max group size"))
@@ -31,13 +51,14 @@ class Occurrence(TimestampedModel):
         verbose_name=_("group"),
         blank=True,
     )
+    place_id = models.CharField(max_length=255, verbose_name=_("place id"), blank=True)
 
     class Meta:
         verbose_name = _("occurrence")
         verbose_name_plural = _("occurrences")
 
     def __str__(self):
-        return f"{self.id} {self.linked_event_id}"
+        return f"{self.id} {self.place_id}"
 
 
 class VenueCustomData(TranslatableModel):
@@ -63,6 +84,7 @@ class StudyGroup(TimestampedModel):
     )
     name = models.CharField(max_length=1000, blank=True, verbose_name=_("name"))
     group_size = models.PositiveSmallIntegerField(verbose_name=_("group size"))
+
     # TODO: Add audience/keyword/target group
 
     class Meta:
