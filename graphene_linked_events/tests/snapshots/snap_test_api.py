@@ -735,28 +735,8 @@ snapshots["test_search_events 1"] = {
     }
 }
 
-snapshots["test_create_event 1"] = {
-    "data": {
-        "addEventMutation": {
-            "response": {
-                "body": {
-                    "description": {"en": "desc en", "fi": "desc", "sv": "desc sv"},
-                    "id": "qq:afy6aghr2y",
-                    "infoUrl": None,
-                    "keywords": [{"id": None}],
-                    "location": {"id": None},
-                    "offers": [{"isFree": False}],
-                    "shortDescription": {
-                        "en": "short desc en",
-                        "fi": "short desc",
-                        "sv": "short desc sv",
-                    },
-                    "startTime": "2020-05-05",
-                },
-                "statusCode": 201,
-            }
-        }
-    }
+snapshots["test_delete_event 1"] = {
+    "data": {"deleteEventMutation": {"response": {"body": None, "statusCode": 204}}}
 }
 
 snapshots["test_update_event 1"] = {
@@ -770,6 +750,13 @@ snapshots["test_update_event 1"] = {
                     "keywords": [{"id": None}],
                     "location": {"id": None},
                     "offers": [{"isFree": False}],
+                    "pEvent": {
+                        "duration": 60,
+                        "enrolmentEnd": "2021-06-06T16:40:48+00:00",
+                        "enrolmentStart": "2020-06-06T16:40:48+00:00",
+                        "linkedEventId": "qq:afy6aghr2y",
+                        "neededOccurrences": 1,
+                    },
                     "shortDescription": {
                         "en": "short desc en",
                         "fi": "short desc",
@@ -783,6 +770,33 @@ snapshots["test_update_event 1"] = {
     }
 }
 
-snapshots["test_delete_event 1"] = {
-    "data": {"deleteEventMutation": {"response": {"body": None, "statusCode": 204}}}
+snapshots["test_create_event 1"] = {
+    "data": {
+        "addEventMutation": {
+            "response": {
+                "body": {
+                    "description": {"en": "desc en", "fi": "desc", "sv": "desc sv"},
+                    "id": "qq:afy6aghr2y",
+                    "infoUrl": None,
+                    "keywords": [{"id": None}],
+                    "location": {"id": None},
+                    "offers": [{"isFree": False}],
+                    "pEvent": {
+                        "duration": 60,
+                        "enrolmentEnd": "2021-06-06T16:40:48+00:00",
+                        "enrolmentStart": "2020-06-06T16:40:48+00:00",
+                        "linkedEventId": "qq:afy6aghr2y",
+                        "neededOccurrences": 1,
+                    },
+                    "shortDescription": {
+                        "en": "short desc en",
+                        "fi": "short desc",
+                        "sv": "short desc sv",
+                    },
+                    "startTime": "2020-05-05",
+                },
+                "statusCode": 201,
+            }
+        }
+    }
 }

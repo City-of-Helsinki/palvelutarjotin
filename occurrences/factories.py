@@ -1,16 +1,30 @@
 import factory
 import pytz
-from occurrences.models import Enrolment, Occurrence, StudyGroup
+from occurrences.models import Enrolment, Occurrence, PalvelutarjotinEvent, StudyGroup
 from organisations.factories import OrganisationFactory, PersonFactory
 
 
-class OccurrenceFactory(factory.django.DjangoModelFactory):
+class PalvelutarjotinEventFactory(factory.django.DjangoModelFactory):
     linked_event_id = factory.Faker("text", max_nb_chars=64)
+    enrolment_start = factory.Faker(
+        "date_time", tzinfo=pytz.timezone("Europe/Helsinki"),
+    )
+    enrolment_end = factory.Faker("date_time", tzinfo=pytz.timezone("Europe/Helsinki"))
+    duration = factory.Faker("random_int", max=300)
+    needed_occurrences = factory.Faker("random_int", max=10)
+
+    class Meta:
+        model = PalvelutarjotinEvent
+
+
+class OccurrenceFactory(factory.django.DjangoModelFactory):
+    place_id = factory.Faker("text", max_nb_chars=64)
     min_group_size = factory.Faker("random_int", max=1000)
     max_group_size = factory.Faker("random_int", max=1000)
     start_time = factory.Faker("date_time", tzinfo=pytz.timezone("Europe/Helsinki"))
     end_time = factory.Faker("date_time", tzinfo=pytz.timezone("Europe/Helsinki"))
     organisation = factory.SubFactory(OrganisationFactory)
+    p_event = factory.SubFactory(PalvelutarjotinEventFactory)
 
     class Meta:
         model = Occurrence
