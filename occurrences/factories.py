@@ -10,6 +10,8 @@ class PalvelutarjotinEventFactory(factory.django.DjangoModelFactory):
         "date_time", tzinfo=pytz.timezone("Europe/Helsinki"),
     )
     enrolment_end = factory.Faker("date_time", tzinfo=pytz.timezone("Europe/Helsinki"))
+    duration = factory.Faker("random_int", max=300)
+    needed_occurrences = factory.Faker("random_int", max=10)
 
     class Meta:
         model = PalvelutarjotinEvent

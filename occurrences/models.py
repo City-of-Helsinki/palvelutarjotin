@@ -15,6 +15,10 @@ class PalvelutarjotinEvent(TimestampedModel):
     enrolment_end = models.DateTimeField(
         verbose_name=_("enrolment end"), blank=True, null=True
     )
+    duration = models.PositiveSmallIntegerField(verbose_name=_("duration"))
+    needed_occurrences = models.PositiveSmallIntegerField(
+        verbose_name=_("needed " "occurrence"), default=1
+    )
 
     class Meta:
         verbose_name = _("palvelutarjotin event")
