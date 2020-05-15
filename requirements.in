@@ -5,6 +5,7 @@ django-graphql-jwt
 django-helusers
 django-ilmoitin
 django-filter
+django-axes
 factory-boy
 graphene-django
 psycopg2
