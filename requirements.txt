@@ -8,15 +8,18 @@ aniso8601==7.0.0          # via graphene
 certifi==2019.9.11        # via requests, sentry-sdk
 chardet==3.0.4            # via requests
 django-anymail==7.0.0     # via django-ilmoitin
+django-appconf==1.0.4     # via django-axes
+django-axes==5.3.1        # via -r requirements.in
 django-cors-headers==3.1.1  # via -r requirements.in
 django-environ==0.4.5     # via -r requirements.in
 django-filter==2.2.0      # via -r requirements.in
 django-graphql-jwt==0.2.2  # via -r requirements.in
 django-helusers==0.5.6    # via -r requirements.in
 django-ilmoitin==0.4.0    # via -r requirements.in
+django-ipware==2.1.0      # via django-axes
 django-mailer==2.0        # via django-ilmoitin
 django-parler==1.9.2      # via django-ilmoitin
-django==2.2.10            # via -r requirements.in, django-anymail, django-cors-headers, django-filter, django-graphql-jwt, django-helusers, django-ilmoitin, django-mailer, drf-oidc-auth, graphene-django
+django==2.2.10            # via -r requirements.in, django-anymail, django-appconf, django-axes, django-cors-headers, django-filter, django-graphql-jwt, django-helusers, django-ilmoitin, django-mailer, drf-oidc-auth, graphene-django
 djangorestframework==3.10.3  # via drf-oidc-auth
 drf-oidc-auth==0.9        # via django-helusers
 ecdsa==0.13.3             # via python-jose

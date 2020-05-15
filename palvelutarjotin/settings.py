@@ -146,6 +146,7 @@ INSTALLED_APPS = [
     "parler",
     "django_ilmoitin",
     "django_filters",
+    "axes",
     # local apps under this line
     "utils",
     "organisations",
@@ -162,6 +163,7 @@ MIDDLEWARE = [
     "django.contrib.auth.middleware.AuthenticationMiddleware",
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
+    "axes.middleware.AxesMiddleware",
 ]
 
 TEMPLATES = [
@@ -184,6 +186,7 @@ CORS_ORIGIN_WHITELIST = env.list("CORS_ORIGIN_WHITELIST")
 CORS_ORIGIN_ALLOW_ALL = env.bool("CORS_ORIGIN_ALLOW_ALL")
 
 AUTHENTICATION_BACKENDS = [
+    "axes.backends.AxesBackend",
     "django.contrib.auth.backends.ModelBackend",
     "palvelutarjotin.oidc.GraphQLApiTokenAuthentication",
 ]
@@ -217,6 +220,9 @@ LINKED_EVENTS_API_CONFIG = {
     "ROOT": env.str("LINKED_EVENTS_API_ROOT"),
     "API_KEY": env.str("LINKED_EVENTS_API_KEY"),
 }
+
+AXES_FAILURE_LIMIT = 5
+AXES_COOLOFF_TIME = 1  # hour after locked out, user will be able to attempt login
 
 LOGGING = {
     "version": 1,
