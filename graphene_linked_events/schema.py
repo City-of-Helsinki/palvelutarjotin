@@ -146,7 +146,7 @@ class Event(IdObject):
     sub_events = NonNull(List(NonNull(IdObject)))
     images = NonNull(List(NonNull(Image)))
     in_language = NonNull(List(NonNull(InLanguage)))
-    audience = NonNull(List(NonNull(IdObject)))
+    audience = NonNull(List(NonNull(Keyword)))
     date_published = String()
     start_time = String()
     end_time = String()
