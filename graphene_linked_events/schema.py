@@ -13,6 +13,7 @@ from graphene import (
     ObjectType,
     String,
 )
+from graphene_file_upload.scalars import Upload
 from graphene_linked_events.rest_client import LinkedEventsApiClient
 from graphene_linked_events.utils import format_request, format_response, json2obj
 from graphql_jwt.decorators import staff_member_required
@@ -289,6 +290,16 @@ class Query:
         return json2obj(format_response(response))
 
     @staticmethod
+    def resolve_image(parent, info, **kwargs):
+        response = api_client.retrieve("image", kwargs["id"])
+        return json2obj(format_response(response))
+
+    @staticmethod
+    def resolve_images(parent, info, **kwargs):
+        response = api_client.list("image", filter_list=kwargs)
+        return json2obj(format_response(response))
+
+    @staticmethod
     def resolve_events_search(parent, info, **kwargs):
         search_params = {"type": "event", **kwargs}
         response = api_client.search(search_params=search_params)
@@ -400,7 +411,7 @@ class UpdateEventMutation(Mutation):
 
 class DeleteEventMutation(Mutation):
     class Arguments:
-        event_id = String()
+        event_id = String(required=True)
 
     response = Field(EventMutationResponse)
 
@@ -413,7 +424,55 @@ class DeleteEventMutation(Mutation):
         return DeleteEventMutation(response=response)
 
 
+class UploadImageMutationInput(InputObjectType):
+    license = String()
+    name = String(required=True)
+    cropping = String()
+    photographer_name = String()
+    image = Upload()
+
+
+class ImageMutationResponse(ObjectType):
+    status_code = Int(required=True)
+    body = Field(Image)
+
+
+class UploadImageMutation(Mutation):
+    class Arguments:
+        image = UploadImageMutationInput()
+
+    response = Field(ImageMutationResponse)
+
+    @staff_member_required
+    def mutate(root, info, **kwargs):
+        image = kwargs["image"].pop("image")
+        body = kwargs["image"]
+        result = api_client.upload(
+            "image", body, files={"image": (image.name, image.file, image.content_type)}
+        )
+        image_obj = json2obj(format_response(result))
+        response = ImageMutationResponse(status_code=result.status_code, body=image_obj)
+        return UploadImageMutation(response=response)
+
+
+class DeleteImageMutation(Mutation):
+    class Arguments:
+        image_id = String(required=True)
+
+    response = Field(ImageMutationResponse)
+
+    @staff_member_required
+    def mutate(root, info, **kwargs):
+        image_id = kwargs["image_id"]
+        result = api_client.delete("image", image_id)
+        response = ImageMutationResponse(status_code=result.status_code, body=None)
+        return DeleteImageMutation(response=response)
+
+
 class Mutation:
     add_event_mutation = AddEventMutation.Field()
     update_event_mutation = UpdateEventMutation.Field()
     delete_event_mutation = DeleteEventMutation.Field()
+
+    upload_image_mutation = UploadImageMutation.Field()
+    delete_image_mutation = DeleteImageMutation.Field()

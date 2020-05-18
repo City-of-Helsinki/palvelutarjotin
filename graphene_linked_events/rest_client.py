@@ -16,6 +16,7 @@ class LinkedEventsApiClient(object):
             "update": {"method": "PUT", "url": url + "/{}/"},
             "delete": {"method": "DELETE", "url": url + "/{}/"},
             "search": {"method": "GET", "url": self.root + "search/"},
+            "upload": {"method": "POST", "url": url + "/"},
         }
 
     def retrieve(self, resource, id, params=None):
@@ -64,8 +65,15 @@ class LinkedEventsApiClient(object):
 
     # Special action to full-text search generic resources
     def search(self, search_params):
-        action = self.get_actions("search")["search"]
+        action = self.get_actions()["search"]
         response = requests.request(
             action["method"], action["url"], params=search_params
         )
         return response
+
+    def upload(self, resource, body, files):
+        action = self.get_actions(resource)["upload"]
+        headers = {"apikey": self.api_key}
+        return requests.request(
+            action["method"], action["url"], data=body, files=files, headers=headers
+        )

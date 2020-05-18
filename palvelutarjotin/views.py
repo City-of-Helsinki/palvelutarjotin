@@ -1,6 +1,6 @@
 import sentry_sdk
 from django.core.exceptions import ObjectDoesNotExist, PermissionDenied
-from graphene_django.views import GraphQLView
+from graphene_file_upload.django import FileUploadGraphQLView
 from graphql_jwt.exceptions import PermissionDenied as JwtPermissionDenied
 
 from palvelutarjotin.consts import (
@@ -47,7 +47,7 @@ sentry_ignored_errors = (
 error_codes = {**error_codes_shared, **error_codes_palvelutarjotin}
 
 
-class SentryGraphQLView(GraphQLView):
+class SentryGraphQLView(FileUploadGraphQLView):
     def execute_graphql_request(self, request, data, query, *args, **kwargs):
         """Extract any exceptions and send some of them to Sentry"""
         result = super().execute_graphql_request(request, data, query, *args, **kwargs)
