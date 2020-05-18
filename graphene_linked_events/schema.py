@@ -256,7 +256,7 @@ class Query:
     @staticmethod
     def resolve_event(parent, info, **kwargs):
         if kwargs.get("include"):
-            params = {"include": kwargs["include"]}
+            params = {"include": ",".join(kwargs["include"])}
             response = api_client.retrieve("event", kwargs["id"], params=params)
         else:
             response = api_client.retrieve("event", kwargs["id"])
