@@ -8,5 +8,6 @@ django-filter
 django-axes
 factory-boy
 graphene-django
+graphene-file-upload
 psycopg2
 sentry-sdk
