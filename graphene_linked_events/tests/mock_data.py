@@ -737,3 +737,65 @@ UPDATE_EVENT_DATA = {
     "@context": "http://schema.org",
     "@type": "Event/LinkedEvent",
 }
+
+IMAGES_DATA = {
+    "meta": {
+        "count": 64258,
+        "next": "https://api.hel.fi/linkedevents/v1/image/?page=2",
+        "previous": None,
+    },
+    "data": [
+        {
+            "id": 64390,
+            "license": "event_only",
+            "created_time": "2020-05-19T09:18:51.902275Z",
+            "last_modified_time": "2020-05-19T09:18:51.902297Z",
+            "name": "Tuohtumus",
+            "url": "https://api.hel.fi/linkedevents/media/images"
+            "/49776780903_bf54fd7b90_o.jpg",
+            "cropping": "0,478,1920,2399",
+            "photographer_name": "Suomen Kansallisteatteri (c) Katri Naukkarinen",
+            "alt_text": "Kaksi naista istuu tien laidassa",
+            "data_source": "helsinki",
+            "publisher": "ytj:0586977-6",
+            "@id": "https://api.hel.fi/linkedevents/v1/image/64390/",
+            "@context": "http://schema.org",
+            "@type": "ImageObject",
+        },
+        {
+            "id": 64389,
+            "license": "event_only",
+            "created_time": "2020-05-19T08:13:34.072354Z",
+            "last_modified_time": "2020-05-19T08:13:34.072380Z",
+            "name": "",
+            "url": "http://www.vuotalo.fi/instancedata/prime_product_resurssivaraus"
+            "/kulke/embeds/EventPic_671268.jpg",
+            "cropping": "",
+            "photographer_name": None,
+            "alt_text": None,
+            "data_source": "kulke",
+            "publisher": "ahjo:u4804001050",
+            "@id": "https://api.hel.fi/linkedevents/v1/image/64389/",
+            "@context": "http://schema.org",
+            "@type": "ImageObject",
+        },
+    ],
+}
+
+IMAGE_DATA = {
+    "id": 64390,
+    "license": "event_only",
+    "created_time": "2020-05-19T09:18:51.902275Z",
+    "last_modified_time": "2020-05-19T09:18:51.902297Z",
+    "name": "Tuohtumus",
+    "url": "https://api.hel.fi/linkedevents/media/images"
+    "/49776780903_bf54fd7b90_o.jpg",
+    "cropping": "0,478,1920,2399",
+    "photographer_name": "Suomen Kansallisteatteri (c) Katri Naukkarinen",
+    "alt_text": "Kaksi naista istuu tien laidassa",
+    "data_source": "helsinki",
+    "publisher": "ytj:0586977-6",
+    "@id": "https://api.hel.fi/linkedevents/v1/image/64390/",
+    "@context": "http://schema.org",
+    "@type": "ImageObject",
+}

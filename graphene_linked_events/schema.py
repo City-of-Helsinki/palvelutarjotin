@@ -63,6 +63,7 @@ class Image(IdObject):
     url = String(required=True)
     cropping = String()
     photographer_name = String()
+    alt_text = String()
 
 
 class PlacePosition(ObjectType):
@@ -199,6 +200,10 @@ class PlaceSearchListResponse(Response):
     data = NonNull(List(NonNull(Place)))
 
 
+class ImageListResponse(Response):
+    data = NonNull(List(NonNull(Image)))
+
+
 class Query:
     events = Field(
         EventListResponse,
@@ -234,6 +239,10 @@ class Query:
         text=String(),
     )
     place = Field(Place, id=ID(required=True))
+
+    images = Field(ImageListResponse)
+
+    image = Field(Image, id=ID(required=True))
 
     keywords = Field(
         KeywordListResponse,
@@ -429,7 +438,10 @@ class UploadImageMutationInput(InputObjectType):
     name = String(required=True)
     cropping = String()
     photographer_name = String()
-    image = Upload()
+    image = Upload(
+        description="Following GraphQL file upload specs here: "
+        "https://github.com/jaydenseric/graphql-multipart-request-spec"
+    )
 
 
 class ImageMutationResponse(ObjectType):
