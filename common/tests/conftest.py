@@ -4,6 +4,11 @@ from django.contrib.auth.models import AnonymousUser
 from django.test import RequestFactory
 from freezegun import freeze_time
 from graphene.test import Client
+from occurrences.factories import (
+    OccurrenceFactory,
+    PalvelutarjotinEventFactory,
+    StudyGroupFactory,
+)
 from organisations.factories import OrganisationFactory, PersonFactory, UserFactory
 
 from palvelutarjotin.schema import schema
@@ -55,6 +60,21 @@ def person_without_organisation():
 @pytest.fixture
 def organisation():
     return OrganisationFactory()
+
+
+@pytest.fixture
+def study_group():
+    return StudyGroupFactory()
+
+
+@pytest.fixture
+def occurrence():
+    return OccurrenceFactory()
+
+
+@pytest.fixture
+def p_event():
+    return PalvelutarjotinEventFactory()
 
 
 def _create_api_client_with_user(user):

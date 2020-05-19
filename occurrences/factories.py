@@ -1,6 +1,12 @@
 import factory
 import pytz
-from occurrences.models import Enrolment, Occurrence, PalvelutarjotinEvent, StudyGroup
+from occurrences.models import (
+    Enrolment,
+    Occurrence,
+    PalvelutarjotinEvent,
+    StudyGroup,
+    VenueCustomData,
+)
 from organisations.factories import OrganisationFactory, PersonFactory
 
 
@@ -61,3 +67,6 @@ class EnrolmentFactory(factory.django.DjangoModelFactory):
 class VenueCustomDataFactory(factory.django.DjangoModelFactory):
     place_id = factory.Faker("text", max_nb_chars=64)
     description = factory.Faker("text", max_nb_chars=1000)
+
+    class Meta:
+        model = VenueCustomData

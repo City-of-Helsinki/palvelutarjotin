@@ -17,6 +17,7 @@ class PersonFactory(factory.django.DjangoModelFactory):
     user = factory.SubFactory(UserFactory)
     name = factory.Faker("name")
     phone_number = factory.Faker("phone_number")
+    email_address = factory.Faker("email")
 
     class Meta:
         model = Person
