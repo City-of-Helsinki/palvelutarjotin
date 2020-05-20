@@ -800,3 +800,53 @@ snapshots["test_create_event 1"] = {
         }
     }
 }
+
+snapshots["test_images_query 1"] = {
+    "data": {
+        "images": {
+            "data": [
+                {
+                    "altText": "Kaksi naista istuu tien laidassa",
+                    "cropping": "0,478,1920,2399",
+                    "dataSource": "helsinki",
+                    "id": "64390",
+                    "name": "Tuohtumus",
+                    "photographerName": "Suomen Kansallisteatteri (c) Katri Naukkarinen",
+                    "url": "https://api.hel.fi/linkedevents/media/images/49776780903_bf54fd7b90_o.jpg",
+                },
+                {
+                    "altText": None,
+                    "cropping": "",
+                    "dataSource": "kulke",
+                    "id": "64389",
+                    "name": "",
+                    "photographerName": None,
+                    "url": "http://www.vuotalo.fi/instancedata/prime_product_resurssivaraus/kulke/embeds/EventPic_671268.jpg",
+                },
+            ],
+            "meta": {
+                "count": 64258,
+                "next": "https://api.hel.fi/linkedevents/v1/image/?page=2",
+                "previous": None,
+            },
+        }
+    }
+}
+
+snapshots["test_image_query 1"] = {
+    "data": {
+        "image": {
+            "altText": "Kaksi naista istuu tien laidassa",
+            "cropping": "0,478,1920,2399",
+            "dataSource": "helsinki",
+            "id": "64390",
+            "name": "Tuohtumus",
+            "photographerName": "Suomen Kansallisteatteri (c) Katri Naukkarinen",
+            "url": "https://api.hel.fi/linkedevents/media/images/49776780903_bf54fd7b90_o.jpg",
+        }
+    }
+}
+
+snapshots["test_delete_image 1"] = {
+    "data": {"deleteImageMutation": {"response": {"statusCode": 204}}}
+}

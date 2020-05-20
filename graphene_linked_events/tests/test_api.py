@@ -3,6 +3,8 @@ from graphene_linked_events.tests.mock_data import (
     CREATED_EVENT_DATA,
     EVENT_DATA,
     EVENTS_DATA,
+    IMAGE_DATA,
+    IMAGES_DATA,
     KEYWORD_DATA,
     KEYWORDS_DATA,
     PLACE_DATA,
@@ -916,4 +918,99 @@ def test_delete_event(staff_api_client, snapshot, monkeypatch):
     )
 
     executed = staff_api_client.execute(DELETE_EVENT_MUTATION)
+    snapshot.assert_match(executed)
+
+
+GET_IMAGES_QUERY = """
+query Images{
+  images{
+    meta {
+      count
+      next
+      previous
+    }
+    data {
+      id
+      url
+      name
+      photographerName
+      altText
+      cropping
+      dataSource
+    }
+  }
+}
+"""
+
+
+def test_images_query(api_client, snapshot, monkeypatch):
+    def mock_data(*args, **kwargs):
+        return MockResponse(status_code=200, json_data=IMAGES_DATA)
+
+    import graphene_linked_events.rest_client
+
+    monkeypatch.setattr(
+        graphene_linked_events.rest_client.LinkedEventsApiClient, "list", mock_data
+    )
+    executed = api_client.execute(GET_IMAGES_QUERY)
+    snapshot.assert_match(executed)
+
+
+GET_IMAGE_QUERY = """
+query Image($id: ID!){
+  image(id: $id){
+      id
+      url
+      name
+      photographerName
+      altText
+      cropping
+      dataSource
+  }
+}
+"""
+
+
+def test_image_query(api_client, snapshot, monkeypatch):
+    def mock_data(*args, **kwargs):
+        return MockResponse(status_code=200, json_data=IMAGE_DATA)
+
+    import graphene_linked_events.rest_client
+
+    monkeypatch.setattr(
+        graphene_linked_events.rest_client.LinkedEventsApiClient, "retrieve", mock_data
+    )
+    executed = api_client.execute(GET_IMAGE_QUERY, variables={"id": "2036"})
+    snapshot.assert_match(executed)
+
+
+DELETE_IMAGE_MUTATION = """
+mutation deleteImage{
+  deleteImageMutation(imageId:  "1"){
+    response{
+      statusCode
+    }
+  }
+}
+"""
+
+
+def test_delete_image_unauthorized(api_client, user_api_client):
+    executed = api_client.execute(DELETE_IMAGE_MUTATION)
+    assert_permission_denied(executed)
+    executed = user_api_client.execute(DELETE_IMAGE_MUTATION)
+    assert_permission_denied(executed)
+
+
+def test_delete_image(staff_api_client, snapshot, monkeypatch):
+    def mock_data(*args, **kwargs):
+        return MockResponse(status_code=204, json_data=None)
+
+    import graphene_linked_events.rest_client
+
+    monkeypatch.setattr(
+        graphene_linked_events.rest_client.LinkedEventsApiClient, "delete", mock_data
+    )
+
+    executed = staff_api_client.execute(DELETE_IMAGE_MUTATION)
     snapshot.assert_match(executed)
