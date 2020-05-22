@@ -850,3 +850,22 @@ snapshots["test_image_query 1"] = {
 snapshots["test_delete_image 1"] = {
     "data": {"deleteImageMutation": {"response": {"statusCode": 204}}}
 }
+
+snapshots["test_update_image 1"] = {
+    "data": {
+        "updateImageMutation": {
+            "response": {
+                "body": {
+                    "altText": "Kaksi naista istuu tien laidassa",
+                    "cropping": "0,478,1920,2399",
+                    "dataSource": "helsinki",
+                    "id": "64390",
+                    "name": "Tuohtumus",
+                    "photographerName": "Suomen Kansallisteatteri (c) Katri Naukkarinen",
+                    "url": "https://api.hel.fi/linkedevents/media/images/49776780903_bf54fd7b90_o.jpg",
+                },
+                "statusCode": 200,
+            }
+        }
+    }
+}
