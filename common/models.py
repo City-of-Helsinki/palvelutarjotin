@@ -1,5 +1,6 @@
 import uuid
 
+import django
 from django.conf import settings
 from django.db import models, transaction
 from django.utils.translation import ugettext_lazy as _
@@ -33,6 +34,32 @@ class TranslatableQuerySet(ParlerTranslatableQuerySet):
         obj = self.create(**kwargs)
         obj.create_or_update_translations(translations)
         return obj
+
+    def _extract_model_params(self, defaults, **kwargs):
+        # FIXME: Remove this method when it's possible to update to django-parler 2.0,
+        # (which is not compatible with django-ilmoitin atm). This function is cherry
+        # picked from django-parler 2.0 to fix a bug when calling
+        # queryset.get_or_create(**params)
+        translated_defaults = {}
+        if defaults:
+            for field in self.model._parler_meta.get_all_fields():
+                try:
+                    translated_defaults[field] = defaults.pop(field)
+                except KeyError:
+                    pass
+
+        if django.VERSION < (2, 2):
+            lookup, params = super(
+                ParlerTranslatableQuerySet, self
+            )._extract_model_params(defaults, **kwargs)
+            params.update(translated_defaults)
+            return lookup, params
+        else:
+            params = super(ParlerTranslatableQuerySet, self)._extract_model_params(
+                defaults, **kwargs
+            )
+            params.update(translated_defaults)
+            return params
 
 
 class TranslatableModel(ParlerTranslatableModel):
