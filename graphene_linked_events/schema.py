@@ -435,6 +435,7 @@ class DeleteEventMutation(Mutation):
 
 class UploadImageMutationInput(InputObjectType):
     license = String()
+    alt_text = String()
     name = String(required=True)
     cropping = String()
     photographer_name = String()
@@ -442,6 +443,10 @@ class UploadImageMutationInput(InputObjectType):
         description="Following GraphQL file upload specs here: "
         "https://github.com/jaydenseric/graphql-multipart-request-spec"
     )
+
+
+class UpdateImageMutationInput(UploadImageMutationInput):
+    id = String(required=True)
 
 
 class ImageMutationResponse(ObjectType):
@@ -467,6 +472,22 @@ class UploadImageMutation(Mutation):
         return UploadImageMutation(response=response)
 
 
+class UpdateImageMutation(Mutation):
+    class Arguments:
+        image = UpdateImageMutationInput()
+
+    response = Field(ImageMutationResponse)
+
+    @staff_member_required
+    def mutate(root, info, **kwargs):
+        image_id = kwargs["image"].pop("id")
+        body = format_request(kwargs["image"])
+        result = api_client.update("image", image_id, body)
+        image_obj = json2obj(format_response(result))
+        response = ImageMutationResponse(status_code=result.status_code, body=image_obj)
+        return UpdateImageMutation(response=response)
+
+
 class DeleteImageMutation(Mutation):
     class Arguments:
         image_id = String(required=True)
@@ -487,4 +508,5 @@ class Mutation:
     delete_event_mutation = DeleteEventMutation.Field()
 
     upload_image_mutation = UploadImageMutation.Field()
+    update_image_mutation = UpdateImageMutation.Field()
     delete_image_mutation = DeleteImageMutation.Field()

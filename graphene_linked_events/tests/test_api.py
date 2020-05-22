@@ -984,6 +984,62 @@ def test_image_query(api_client, snapshot, monkeypatch):
     snapshot.assert_match(executed)
 
 
+UPDATE_IMAGE_MUTATION = """
+mutation updateImage($image: UpdateImageMutationInput!){
+  updateImageMutation(image:  $image){
+    response{
+      statusCode
+      body{
+          id
+          url
+          name
+          photographerName
+          altText
+          cropping
+          dataSource
+      }
+    }
+  }
+}
+"""
+
+UPDATE_IMAGE_VARIABLES = {
+    "image": {
+        "id": "image_id",
+        "license": "event_only",
+        "name": "Image name",
+        "cropping": "0,478,1920,2399",
+        "altText": "Kaksi naista istuu tien laidassa",
+    }
+}
+
+
+def test_update_image_unauthorized(api_client, user_api_client):
+    executed = api_client.execute(
+        UPDATE_IMAGE_MUTATION, variables=UPDATE_IMAGE_VARIABLES
+    )
+    assert_permission_denied(executed)
+    executed = user_api_client.execute(
+        UPDATE_IMAGE_MUTATION, variables=UPDATE_IMAGE_VARIABLES
+    )
+    assert_permission_denied(executed)
+
+
+def test_update_image(staff_api_client, snapshot, monkeypatch):
+    def mock_data(*args, **kwargs):
+        return MockResponse(status_code=200, json_data=IMAGE_DATA)
+
+    import graphene_linked_events.rest_client
+
+    monkeypatch.setattr(
+        graphene_linked_events.rest_client.LinkedEventsApiClient, "update", mock_data
+    )
+    executed = staff_api_client.execute(
+        UPDATE_IMAGE_MUTATION, variables=UPDATE_IMAGE_VARIABLES
+    )
+    snapshot.assert_match(executed)
+
+
 DELETE_IMAGE_MUTATION = """
 mutation deleteImage{
   deleteImageMutation(imageId:  "1"){
