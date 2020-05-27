@@ -57,6 +57,7 @@ env = environ.Env(
     ENABLE_GRAPHIQL=(bool, False),
     LINKED_EVENTS_API_ROOT=(str, "https://api.hel.fi/linkedevents/v1/"),
     LINKED_EVENTS_API_KEY=(str, ""),
+    LINKED_EVENTS_DATA_SOURCE=(str, "palvelutarjotin"),
 )
 
 if os.path.exists(env_file):
@@ -219,6 +220,7 @@ PALVELUTARJOTIN_QUERY_MAX_DEPTH = 12
 LINKED_EVENTS_API_CONFIG = {
     "ROOT": env.str("LINKED_EVENTS_API_ROOT"),
     "API_KEY": env.str("LINKED_EVENTS_API_KEY"),
+    "DATA_SOURCE": env.str("LINKED_EVENTS_DATA_SOURCE"),
 }
 
 AXES_FAILURE_LIMIT = 5

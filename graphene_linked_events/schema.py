@@ -23,6 +23,7 @@ from occurrences.schema import PalvelutarjotinEventInput, PalvelutarjotinEventNo
 from common.utils import update_object
 from palvelutarjotin import settings
 from palvelutarjotin.exceptions import ObjectDoesNotExistError
+from palvelutarjotin.settings import LINKED_EVENTS_API_CONFIG
 
 api_client = LinkedEventsApiClient(config=settings.LINKED_EVENTS_API_CONFIG)
 
@@ -275,6 +276,9 @@ class Query:
 
     @staticmethod
     def resolve_events(parent, info, **kwargs):
+        # FIXME: Only return events belongs to user organisation
+        # Filter events created from palvelutarjotin
+        kwargs["data_source"] = LINKED_EVENTS_API_CONFIG["DATA_SOURCE"]
         response = api_client.list("event", filter_list=kwargs)
         return json2obj(format_response(response))
 
