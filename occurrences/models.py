@@ -52,14 +52,20 @@ class Occurrence(TimestampedModel):
         verbose_name=_("contact persons"),
         blank=True,
     )
-    groups = models.ManyToManyField(
+    study_groups = models.ManyToManyField(
         "StudyGroup",
         through="Enrolment",
         related_name="occurrences",
-        verbose_name=_("group"),
+        verbose_name=_("study group"),
         blank=True,
     )
     place_id = models.CharField(max_length=255, verbose_name=_("place id"), blank=True)
+    auto_enrolment = models.BooleanField(
+        default=False, verbose_name=_("auto " "enrolment")
+    )
+    amount_of_seats = models.PositiveSmallIntegerField(
+        default=0, verbose_name=_("amount of seats")
+    )
 
     class Meta:
         verbose_name = _("occurrence")
@@ -104,7 +110,7 @@ class StudyGroup(TimestampedModel):
 
 
 class Enrolment(models.Model):
-    group = models.ForeignKey(
+    study_group = models.ForeignKey(
         "StudyGroup",
         verbose_name=_("study group"),
         related_name="enrolments",

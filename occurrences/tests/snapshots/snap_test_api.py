@@ -42,9 +42,10 @@ snapshots["test_occurrences_query 1"] = {
             "edges": [
                 {
                     "node": {
+                        "amountOfSeats": 0,
+                        "autoEnrolment": False,
                         "contactPersons": {"edges": []},
                         "endTime": "2000-08-18T23:27:03+00:00",
-                        "groups": {"edges": []},
                         "maxGroupSize": 383,
                         "minGroupSize": 341,
                         "organisation": {"name": "Dr. Jesus Davis"},
@@ -55,6 +56,7 @@ snapshots["test_occurrences_query 1"] = {
                         },
                         "placeId": "Record card my. Sure sister return.",
                         "startTime": "2013-12-12T04:57:19+00:00",
+                        "studyGroups": {"edges": []},
                     }
                 }
             ]
@@ -68,9 +70,10 @@ snapshots["test_occurrence_query 1"] = {
             "edges": [
                 {
                     "node": {
+                        "amountOfSeats": 0,
+                        "autoEnrolment": False,
                         "contactPersons": {"edges": []},
                         "endTime": "2000-08-18T23:27:03+00:00",
-                        "groups": {"edges": []},
                         "maxGroupSize": 383,
                         "minGroupSize": 341,
                         "organisation": {"name": "Dr. Jesus Davis"},
@@ -81,6 +84,7 @@ snapshots["test_occurrence_query 1"] = {
                         },
                         "placeId": "Record card my. Sure sister return.",
                         "startTime": "2013-12-12T04:57:19+00:00",
+                        "studyGroups": {"edges": []},
                     }
                 }
             ]

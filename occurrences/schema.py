@@ -144,6 +144,8 @@ class AddOccurrenceMutation(graphene.relay.ClientIDMutation):
         organisation_id = graphene.ID(required=True)
         contact_persons = graphene.List(PersonNodeInput)
         p_event_id = graphene.ID(required=True)
+        auto_enrolment = graphene.Boolean(required=True)
+        amount_of_seats = graphene.Int(required=True)
 
     occurrence = graphene.Field(OccurrenceNode)
 
@@ -189,6 +191,8 @@ class UpdateOccurrenceMutation(graphene.relay.ClientIDMutation):
             "mutation",
         )
         p_event_id = graphene.ID()
+        auto_enrolment = graphene.Boolean()
+        amount_of_seats = graphene.Int()
 
     occurrence = graphene.Field(OccurrenceNode)
 

@@ -57,7 +57,7 @@ class StudyGroupFactory(factory.django.DjangoModelFactory):
 
 
 class EnrolmentFactory(factory.django.DjangoModelFactory):
-    group = factory.SubFactory(StudyGroupFactory)
+    study_group = factory.SubFactory(StudyGroupFactory)
     occurrence = factory.SubFactory(OccurrenceFactory)
 
     class Meta:

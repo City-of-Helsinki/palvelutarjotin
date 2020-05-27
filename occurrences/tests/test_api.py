@@ -64,6 +64,8 @@ query Occurrences{
     edges{
       node{
         placeId
+        amountOfSeats
+        autoEnrolment
         pEvent{
             linkedEventId
             enrolmentStart
@@ -71,7 +73,7 @@ query Occurrences{
         }
         startTime
         endTime
-        groups {
+        studyGroups {
           edges {
             node {
               name
@@ -107,13 +109,15 @@ query Occurrence($id: ID!){
     }
     startTime
     endTime
-    groups {
+    studyGroups {
       edges {
         node {
           name
         }
       }
     }
+    amountOfSeats
+    autoEnrolment
     minGroupSize
     maxGroupSize
     contactPersons {
@@ -172,6 +176,8 @@ ADD_OCCURRENCE_VARIABLES = {
             {"name": "New name", "emailAddress": "newname@email.address"},
         ],
         "pEventId": "",
+        "amountOfSeats": 40,
+        "autoEnrolment": True,
     }
 }
 
@@ -217,6 +223,8 @@ UPDATE_OCCURRENCE_VARIABLES = {
             {"id": "", "name": "New name", "emailAddress": "newname@email.address"},
         ],
         "pEventId": "",
+        "amountOfSeats": 40,
+        "autoEnrolment": True,
     }
 }
 
