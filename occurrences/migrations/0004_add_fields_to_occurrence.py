@@ -23,8 +23,8 @@ class Migration(migrations.Migration):
         ),
         migrations.AddField(
             model_name="occurrence",
-            name="auto_enrolment",
-            field=models.BooleanField(default=False, verbose_name="auto enrolment"),
+            name="auto_acceptance",
+            field=models.BooleanField(default=False, verbose_name="auto acceptance"),
         ),
         migrations.AddField(
             model_name="occurrence",

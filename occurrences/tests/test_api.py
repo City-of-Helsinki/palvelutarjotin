@@ -65,7 +65,7 @@ query Occurrences{
       node{
         placeId
         amountOfSeats
-        autoEnrolment
+        autoAcceptance
         pEvent{
             linkedEventId
             enrolmentStart
@@ -117,7 +117,7 @@ query Occurrence($id: ID!){
       }
     }
     amountOfSeats
-    autoEnrolment
+    autoAcceptance
     minGroupSize
     maxGroupSize
     contactPersons {
@@ -130,6 +130,7 @@ query Occurrence($id: ID!){
     organisation {
       name
     }
+    languages
   }
 }
 """
@@ -159,6 +160,10 @@ ADD_OCCURRENCE_MUTATION = """
             enrolmentStart
             linkedEventId
           }
+          languages{
+            id
+            name
+          }
         }
       }
     }
@@ -177,7 +182,8 @@ ADD_OCCURRENCE_VARIABLES = {
         ],
         "pEventId": "",
         "amountOfSeats": 40,
-        "autoEnrolment": True,
+        "autoAcceptance": True,
+        "languages": [{"id": "EN"}, {"id": "SV"}],
     }
 }
 
@@ -206,6 +212,10 @@ mutation updateOccurrence($input: UpdateOccurrenceMutationInput!){
         enrolmentStart
         linkedEventId
       }
+      languages{
+        id
+        name
+      }
     }
   }
 }
@@ -224,7 +234,8 @@ UPDATE_OCCURRENCE_VARIABLES = {
         ],
         "pEventId": "",
         "amountOfSeats": 40,
-        "autoEnrolment": True,
+        "autoAcceptance": True,
+        "languages": [{"id": "FI"}, {"id": "EN"}, {"id": "SV"}],
     }
 }
 

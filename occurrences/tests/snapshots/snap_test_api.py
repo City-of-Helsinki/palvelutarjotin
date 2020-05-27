@@ -42,8 +42,8 @@ snapshots["test_occurrences_query 1"] = {
             "edges": [
                 {
                     "node": {
-                        "amountOfSeats": 0,
-                        "autoEnrolment": False,
+                        "amountOfSeats": 13,
+                        "autoAcceptance": True,
                         "contactPersons": {"edges": []},
                         "endTime": "2000-08-18T23:27:03+00:00",
                         "maxGroupSize": 383,
@@ -70,8 +70,8 @@ snapshots["test_occurrence_query 1"] = {
             "edges": [
                 {
                     "node": {
-                        "amountOfSeats": 0,
-                        "autoEnrolment": False,
+                        "amountOfSeats": 13,
+                        "autoAcceptance": True,
                         "contactPersons": {"edges": []},
                         "endTime": "2000-08-18T23:27:03+00:00",
                         "maxGroupSize": 383,
@@ -103,6 +103,10 @@ snapshots["test_add_occurrence 1"] = {
                     ]
                 },
                 "endTime": "2020-05-05T00:00:00+00:00",
+                "languages": [
+                    {"id": "en", "name": "English"},
+                    {"id": "sv", "name": "Swedish"},
+                ],
                 "maxGroupSize": 20,
                 "minGroupSize": 10,
                 "organisation": {"name": "William Brewer"},
@@ -127,8 +131,13 @@ snapshots["test_update_occurrence 1"] = {
     "data": {
         "updateOccurrence": {
             "occurrence": {
-                "contactPersons": {"edges": [{"node": {"name": "Melissa Velasquez"}}]},
+                "contactPersons": {"edges": [{"node": {"name": "Michael Boyle"}}]},
                 "endTime": "2020-05-05T00:00:00+00:00",
+                "languages": [
+                    {"id": "fi", "name": "Finnish"},
+                    {"id": "en", "name": "English"},
+                    {"id": "sv", "name": "Swedish"},
+                ],
                 "maxGroupSize": 20,
                 "minGroupSize": 10,
                 "organisation": {"name": "William Brewer"},

@@ -7,6 +7,7 @@ from graphene import InputObjectType, relay
 from graphene_django import DjangoConnectionField, DjangoObjectType
 from graphql_jwt.decorators import staff_member_required
 from occurrences.models import (
+    Language,
     Occurrence,
     PalvelutarjotinEvent,
     StudyGroup,
@@ -100,7 +101,7 @@ class OccurrenceNode(DjangoObjectType):
 
 
 def validate_occurrence_data(kwargs):
-    # TODO: Validate place_id, ...
+    # TODO: Validate place_id, languages ...
     p_event_global_id = kwargs.get("p_event_id", None)
     if p_event_global_id:
         p_event_id = get_node_id_from_global_id(
@@ -134,6 +135,15 @@ def add_contact_persons_to_object(contact_persons, obj):
         obj.contact_persons.add(person)
 
 
+class LanguageType(DjangoObjectType):
+    class Meta:
+        model = Language
+
+
+class OccurrenceLanguageInput(InputObjectType):
+    id = LanguageEnum(required=True)
+
+
 class AddOccurrenceMutation(graphene.relay.ClientIDMutation):
     class Input:
         place_id = graphene.String(required=True)
@@ -144,8 +154,9 @@ class AddOccurrenceMutation(graphene.relay.ClientIDMutation):
         organisation_id = graphene.ID(required=True)
         contact_persons = graphene.List(PersonNodeInput)
         p_event_id = graphene.ID(required=True)
-        auto_enrolment = graphene.Boolean(required=True)
+        auto_acceptance = graphene.Boolean(required=True)
         amount_of_seats = graphene.Int(required=True)
+        languages = graphene.NonNull(graphene.List(OccurrenceLanguageInput))
 
     occurrence = graphene.Field(OccurrenceNode)
 
@@ -155,6 +166,7 @@ class AddOccurrenceMutation(graphene.relay.ClientIDMutation):
     def mutate_and_get_payload(cls, root, info, **kwargs):
         validate_occurrence_data(kwargs)
         contact_persons = kwargs.pop("contact_persons", None)
+        languages = kwargs.pop("languages", None)
         kwargs["organisation_id"] = get_node_id_from_global_id(
             kwargs["organisation_id"], "OrganisationNode"
         )
@@ -165,6 +177,9 @@ class AddOccurrenceMutation(graphene.relay.ClientIDMutation):
 
         if contact_persons:
             add_contact_persons_to_object(contact_persons, occurrence)
+
+        if languages:
+            occurrence.add_languages(languages)
 
         return AddOccurrenceMutation(occurrence=occurrence)
 
@@ -191,8 +206,12 @@ class UpdateOccurrenceMutation(graphene.relay.ClientIDMutation):
             "mutation",
         )
         p_event_id = graphene.ID()
-        auto_enrolment = graphene.Boolean()
+        auto_acceptance = graphene.Boolean()
         amount_of_seats = graphene.Int()
+        languages = graphene.NonNull(
+            graphene.List(OccurrenceLanguageInput),
+            description="If present, should include all languages of the occurrence",
+        )
 
     occurrence = graphene.Field(OccurrenceNode)
 
@@ -207,6 +226,7 @@ class UpdateOccurrenceMutation(graphene.relay.ClientIDMutation):
         except Occurrence.DoesNotExist as e:
             raise ObjectDoesNotExistError(e)
         contact_persons = kwargs.pop("contact_persons", None)
+        languages = kwargs.pop("languages", None)
         validate_occurrence_data(kwargs)
         kwargs["organisation_id"] = get_node_id_from_global_id(
             kwargs["organisation_id"], "OrganisationNode"
@@ -219,6 +239,8 @@ class UpdateOccurrenceMutation(graphene.relay.ClientIDMutation):
         # Nested update
         if contact_persons:
             add_contact_persons_to_object(contact_persons, occurrence)
+        if languages:
+            occurrence.add_languages(languages)
 
         return UpdateOccurrenceMutation(occurrence=occurrence)
 
