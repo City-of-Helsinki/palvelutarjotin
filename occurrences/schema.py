@@ -1,5 +1,8 @@
 import graphene
+from django.apps import apps
+from django.conf import settings
 from django.db import transaction
+from django.utils.translation import get_language
 from graphene import InputObjectType, relay
 from graphene_django import DjangoConnectionField, DjangoObjectType
 from graphql_jwt.decorators import staff_member_required
@@ -12,8 +15,18 @@ from occurrences.models import (
 from organisations.models import Organisation, Person
 from organisations.schema import PersonNodeInput
 
-from common.utils import get_node_id_from_global_id, update_object
+from common.utils import (
+    get_node_id_from_global_id,
+    update_object,
+    update_object_with_translations,
+)
 from palvelutarjotin.exceptions import ObjectDoesNotExistError
+
+LanguageEnum = graphene.Enum(
+    "Language", [(l[0].upper(), l[0]) for l in settings.LANGUAGES]
+)
+
+VenueTranslation = apps.get_model("occurrences", "VenueCustomDataTranslation")
 
 
 class PalvelutarjotinEventNode(DjangoObjectType):
@@ -35,15 +48,54 @@ class StudyGroupNode(DjangoObjectType):
         interfaces = (relay.Node,)
 
 
+class VenueTranslationType(DjangoObjectType):
+    language_code = LanguageEnum(required=True)
+
+    class Meta:
+        model = VenueTranslation
+        exclude = ("id", "master")
+
+
+class VenueTranslationsInput(InputObjectType):
+    description = graphene.String()
+    language_code = LanguageEnum(required=True)
+
+
+class VenueNode(DjangoObjectType):
+    description = graphene.String(
+        description="Translated field in the language "
+        "defined in request "
+        "ACCEPT-LANGUAGE header "
+    )
+    id = graphene.GlobalID(
+        source="place_id",
+        description="Venue custom data ID is "
+        "the encoded place_id from "
+        "linkedEvent",
+    )
+
+    class Meta:
+        model = VenueCustomData
+        interfaces = (relay.Node,)
+        exclude = ("place_id",)
+
+    @classmethod
+    def get_queryset(cls, queryset, info):
+        lang = get_language()
+        return queryset.language(lang)
+
+    @classmethod
+    def get_node(cls, info, id):
+        return super().get_node(info, id)
+
+
+class VenueNodeInput(InputObjectType):
+    translations = graphene.List(VenueTranslationsInput)
+
+
 class OccurrenceNode(DjangoObjectType):
     class Meta:
         model = Occurrence
-        interfaces = (relay.Node,)
-
-
-class VenueCustomDataNode(DjangoObjectType):
-    class Meta:
-        model = VenueCustomData
         interfaces = (relay.Node,)
 
 
@@ -108,8 +160,10 @@ class AddOccurrenceMutation(graphene.relay.ClientIDMutation):
             kwargs["p_event_id"], "PalvelutarjotinEventNode"
         )
         occurrence = Occurrence.objects.create(**kwargs)
+
         if contact_persons:
             add_contact_persons_to_object(contact_persons, occurrence)
+
         return AddOccurrenceMutation(occurrence=occurrence)
 
 
@@ -161,6 +215,7 @@ class UpdateOccurrenceMutation(graphene.relay.ClientIDMutation):
         # Nested update
         if contact_persons:
             add_contact_persons_to_object(contact_persons, occurrence)
+
         return UpdateOccurrenceMutation(occurrence=occurrence)
 
 
@@ -182,6 +237,66 @@ class DeleteOccurrenceMutation(graphene.ClientIDMutation):
         return DeleteOccurrenceMutation()
 
 
+class AddVenueMutation(graphene.relay.ClientIDMutation):
+    class Input:
+        id = graphene.GlobalID(description="Place id from linked event")
+        translations = graphene.List(VenueTranslationsInput)
+
+    venue = graphene.Field(VenueNode)
+
+    @classmethod
+    @staff_member_required
+    @transaction.atomic
+    def mutate_and_get_payload(cls, root, info, **kwargs):
+        # TODO: Add validation
+        kwargs["place_id"] = get_node_id_from_global_id(kwargs.pop("id"), "VenueNode")
+        translations = kwargs.pop("translations")
+        venue, _ = VenueCustomData.objects.get_or_create(**kwargs)
+        venue.create_or_update_translations(translations)
+        return AddVenueMutation(venue=venue)
+
+
+class UpdateVenueMutation(graphene.relay.ClientIDMutation):
+    class Input:
+        id = graphene.GlobalID(description="Place id from linked event")
+        translations = graphene.List(VenueTranslationsInput)
+
+    venue = graphene.Field(VenueNode)
+
+    @classmethod
+    @staff_member_required
+    @transaction.atomic
+    def mutate_and_get_payload(cls, root, info, **kwargs):
+        # TODO: Add validation
+        venue_global_id = kwargs.pop("id")
+        try:
+            venue = VenueCustomData.objects.get(
+                pk=get_node_id_from_global_id(venue_global_id, "VenueNode")
+            )
+            update_object_with_translations(venue, kwargs)
+        except VenueCustomData.DoesNotExist as e:
+            raise ObjectDoesNotExistError(e)
+        return UpdateVenueMutation(venue=venue)
+
+
+class DeleteVenueMutation(graphene.relay.ClientIDMutation):
+    class Input:
+        id = graphene.GlobalID(description="Place id from linked event")
+
+    @classmethod
+    @staff_member_required
+    @transaction.atomic
+    def mutate_and_get_payload(cls, root, info, **kwargs):
+        venue_global_id = kwargs.pop("id")
+        venue_id = get_node_id_from_global_id(venue_global_id, "VenueNode")
+        try:
+            venue = VenueCustomData.objects.get(pk=venue_id)
+            venue.delete()
+        except VenueCustomData.DoesNotExist as e:
+            raise ObjectDoesNotExistError(e)
+        return DeleteVenueMutation()
+
+
 class Query:
     occurrences = DjangoConnectionField(OccurrenceNode)
     occurrence = relay.Node.Field(OccurrenceNode)
@@ -189,11 +304,15 @@ class Query:
     study_groups = DjangoConnectionField(StudyGroupNode)
     study_group = relay.Node.Field(StudyGroupNode)
 
-    venues = DjangoConnectionField(VenueCustomDataNode)
-    venue = relay.Node.Field(VenueCustomDataNode)
+    venues = DjangoConnectionField(VenueNode)
+    venue = relay.Node.Field(VenueNode)
 
 
 class Mutation:
     add_occurrence = AddOccurrenceMutation.Field()
     update_occurrence = UpdateOccurrenceMutation.Field()
     delete_occurrence = DeleteOccurrenceMutation.Field()
+
+    add_venue = AddVenueMutation.Field()
+    update_venue = UpdateVenueMutation.Field()
+    delete_venue = DeleteVenueMutation.Field()

@@ -3,7 +3,7 @@ from copy import deepcopy
 import pytest
 from graphql_relay import to_global_id
 from occurrences.factories import OccurrenceFactory
-from occurrences.models import Occurrence
+from occurrences.models import Occurrence, VenueCustomData
 from organisations.factories import PersonFactory
 
 from common.tests.utils import assert_permission_denied
@@ -339,3 +339,155 @@ def test_delete_occurrence(snapshot, staff_api_client, occurrence):
     )
     snapshot.assert_match(executed)
     assert Occurrence.objects.count() == 0
+
+
+VENUES_QUERY = """
+query Venues {
+  venues {
+    edges {
+      node {
+        description
+        translations {
+          description
+        }
+      }
+    }
+  }
+}
+"""
+
+VENUE_QUERY = """
+query venue($id:ID!){
+  venue(id: $id){
+    description,
+    translations{
+      description
+    }
+  }
+}
+"""
+
+ADD_VENUE_MUTATION = """
+mutation AddVenue($input: AddVenueMutationInput!) {
+  addVenue(input: $input) {
+    venue {
+        description
+        translations {
+          description
+        }
+    }
+  }
+}
+"""
+
+ADD_VENUE_VARIABLES = {
+    "input": {
+        "id": "VmVudWVOb2RlOjk5OQ==",  # base64(
+        # "VenueNode:999")
+        "translations": [
+            {"description": "Venue description in FI", "languageCode": "FI"},
+            {"description": "Venue description in EN", "languageCode": "EN"},
+        ],
+    }
+}
+
+UPDATE_VENUE_MUTATION = """
+mutation updateVenue($input: UpdateVenueMutationInput!) {
+  updateVenue(input: $input) {
+    venue {
+        description
+        translations {
+          description
+        }
+    }
+  }
+}
+"""
+
+UPDATE_VENUE_VARIABLES = {
+    "input": {
+        "id": "",
+        "translations": [
+            {"description": "Venue description", "languageCode": "FI"},
+            {"description": "Venue description in EN", "languageCode": "EN"},
+        ],
+    }
+}
+
+DELETE_VENUE_MUTATION = """
+mutation DeleteVenue($input: DeleteVenueMutationInput!) {
+  deleteVenue(input: $input) {
+    __typename
+  }
+}
+"""
+
+
+def test_venues_query(snapshot, user_api_client, venue):
+    executed = user_api_client.execute(VENUES_QUERY)
+
+    snapshot.assert_match(executed)
+
+
+def test_venue_query(snapshot, user_api_client, venue):
+    variables = {"id": to_global_id("VenueNode", venue.place_id)}
+    executed = user_api_client.execute(VENUE_QUERY, variables=variables)
+
+    snapshot.assert_match(executed)
+
+
+def test_add_venue_permission_denied(api_client, user_api_client):
+    executed = api_client.execute(ADD_VENUE_MUTATION, variables=ADD_VENUE_VARIABLES)
+    assert_permission_denied(executed)
+
+    executed = user_api_client.execute(
+        ADD_VENUE_MUTATION, variables=ADD_VENUE_VARIABLES
+    )
+    assert_permission_denied(executed)
+
+
+def test_add_venue_staff_user(snapshot, staff_api_client):
+    venue_variables = deepcopy(ADD_VENUE_VARIABLES)
+    executed = staff_api_client.execute(ADD_VENUE_MUTATION, variables=venue_variables)
+    snapshot.assert_match(executed)
+
+
+def test_update_venue_permission_denied(api_client, user_api_client):
+    executed = api_client.execute(
+        UPDATE_VENUE_MUTATION, variables=UPDATE_VENUE_VARIABLES
+    )
+    assert_permission_denied(executed)
+
+    executed = user_api_client.execute(
+        UPDATE_VENUE_MUTATION, variables=UPDATE_VENUE_VARIABLES
+    )
+    assert_permission_denied(executed)
+
+
+def test_update_venue_staff_user(snapshot, staff_api_client, venue):
+    venue_variables = deepcopy(UPDATE_VENUE_VARIABLES)
+    venue_variables["input"]["id"] = to_global_id("VenueNode", venue.place_id)
+    executed = staff_api_client.execute(
+        UPDATE_VENUE_MUTATION, variables=venue_variables
+    )
+    snapshot.assert_match(executed)
+
+
+def test_delete_venue_permission_denied(api_client, user_api_client):
+    executed = api_client.execute(
+        DELETE_VENUE_MUTATION, variables={"input": {"id": ""}}
+    )
+    assert_permission_denied(executed)
+
+    executed = user_api_client.execute(
+        DELETE_VENUE_MUTATION, variables={"input": {"id": ""}}
+    )
+    assert_permission_denied(executed)
+
+
+def test_delete_venue_staff_user(staff_api_client, venue):
+    staff_api_client.execute(
+        DELETE_VENUE_MUTATION,
+        variables={"input": {"id": to_global_id("VenueNode", venue.place_id)}},
+    )
+    assert VenueCustomData.objects.count() == 0

@@ -140,3 +140,63 @@ snapshots["test_update_occurrence 1"] = {
         }
     }
 }
+
+snapshots["test_add_venue_staff_user 1"] = {
+    "data": {
+        "addVenue": {
+            "venue": {
+                "description": "Venue description in FI",
+                "translations": [
+                    {"description": "Venue description in EN"},
+                    {"description": "Venue description in FI"},
+                ],
+            }
+        }
+    }
+}
+
+snapshots["test_venues_query 1"] = {
+    "data": {
+        "venues": {
+            "edges": [
+                {
+                    "node": {
+                        "description": "Serious listen police shake. Page box child care any concern.",
+                        "translations": [
+                            {
+                                "description": "Serious listen police shake. Page box child care any concern."
+                            }
+                        ],
+                    }
+                }
+            ]
+        }
+    }
+}
+
+snapshots["test_update_venue_staff_user 1"] = {
+    "data": {
+        "updateVenue": {
+            "venue": {
+                "description": "Venue description",
+                "translations": [
+                    {"description": "Venue description in EN"},
+                    {"description": "Venue description"},
+                ],
+            }
+        }
+    }
+}
+
+snapshots["test_venue_query 1"] = {
+    "data": {
+        "venue": {
+            "description": "Serious listen police shake. Page box child care any concern.",
+            "translations": [
+                {
+                    "description": "Serious listen police shake. Page box child care any concern."
+                }
+            ],
+        }
+    }
+}

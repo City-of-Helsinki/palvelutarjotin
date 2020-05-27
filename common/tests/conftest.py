@@ -8,6 +8,7 @@ from occurrences.factories import (
     OccurrenceFactory,
     PalvelutarjotinEventFactory,
     StudyGroupFactory,
+    VenueCustomDataFactory,
 )
 from organisations.factories import OrganisationFactory, PersonFactory, UserFactory
 
@@ -75,6 +76,11 @@ def occurrence():
 @pytest.fixture
 def p_event():
     return PalvelutarjotinEventFactory()
+
+
+@pytest.fixture
+def venue():
+    return VenueCustomDataFactory()
 
 
 def _create_api_client_with_user(user):
