@@ -69,7 +69,7 @@ query Occurrences{
         pEvent{
             linkedEventId
             enrolmentStart
-            enrolmentEnd
+            enrolmentEndDays
         }
         startTime
         endTime
@@ -105,7 +105,7 @@ query Occurrence($id: ID!){
     pEvent{
         linkedEventId
         enrolmentStart
-        enrolmentEnd
+        enrolmentEndDays
     }
     startTime
     endTime
@@ -156,7 +156,7 @@ ADD_OCCURRENCE_MUTATION = """
           pEvent{
             duration
             neededOccurrences
-            enrolmentEnd
+            enrolmentEndDays
             enrolmentStart
             linkedEventId
           }
@@ -208,7 +208,7 @@ mutation updateOccurrence($input: UpdateOccurrenceMutationInput!){
       pEvent{
         duration
         neededOccurrences
-        enrolmentEnd
+        enrolmentEndDays
         enrolmentStart
         linkedEventId
       }

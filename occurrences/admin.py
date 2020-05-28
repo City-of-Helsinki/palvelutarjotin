@@ -37,4 +37,4 @@ class VenueCustomDataAdmin(TranslatableAdmin):
 
 @admin.register(PalvelutarjotinEvent)
 class PalvelutarjotinEventAdmin(admin.ModelAdmin):
-    list_display = ("linked_event_id", "enrolment_start", "enrolment_end")
+    list_display = ("linked_event_id", "enrolment_start", "enrolment_end_days")

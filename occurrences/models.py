@@ -12,8 +12,10 @@ class PalvelutarjotinEvent(TimestampedModel):
     enrolment_start = models.DateTimeField(
         verbose_name=_("enrolment start"), blank=True, null=True
     )
-    enrolment_end = models.DateTimeField(
-        verbose_name=_("enrolment end"), blank=True, null=True
+
+    # Enrolment will be close x days before the occurrence start
+    enrolment_end_days = models.PositiveSmallIntegerField(
+        verbose_name=_("enrolment end days"), blank=True, null=True
     )
     duration = models.PositiveSmallIntegerField(verbose_name=_("duration"))
     needed_occurrences = models.PositiveSmallIntegerField(

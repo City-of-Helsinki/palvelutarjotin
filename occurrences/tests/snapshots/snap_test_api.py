@@ -50,7 +50,7 @@ snapshots["test_occurrences_query 1"] = {
                         "minGroupSize": 341,
                         "organisation": {"name": "Dr. Jesus Davis"},
                         "pEvent": {
-                            "enrolmentEnd": "2011-02-05T18:10:51+00:00",
+                            "enrolmentEndDays": 2,
                             "enrolmentStart": "1995-04-12T06:10:43+00:00",
                             "linkedEventId": "Success answer entire increase thank. Least then top sing.",
                         },
@@ -78,7 +78,7 @@ snapshots["test_occurrence_query 1"] = {
                         "minGroupSize": 341,
                         "organisation": {"name": "Dr. Jesus Davis"},
                         "pEvent": {
-                            "enrolmentEnd": "2011-02-05T18:10:51+00:00",
+                            "enrolmentEndDays": 2,
                             "enrolmentStart": "1995-04-12T06:10:43+00:00",
                             "linkedEventId": "Success answer entire increase thank. Least then top sing.",
                         },
@@ -112,7 +112,7 @@ snapshots["test_add_occurrence 1"] = {
                 "organisation": {"name": "William Brewer"},
                 "pEvent": {
                     "duration": 119,
-                    "enrolmentEnd": "2004-06-15T12:51:54+00:00",
+                    "enrolmentEndDays": 2,
                     "enrolmentStart": "1987-12-17T21:42:45+00:00",
                     "linkedEventId": "Glass person along age else.",
                     "neededOccurrences": 2,
@@ -143,7 +143,7 @@ snapshots["test_update_occurrence 1"] = {
                 "organisation": {"name": "William Brewer"},
                 "pEvent": {
                     "duration": 190,
-                    "enrolmentEnd": "1977-11-16T07:32:26+00:00",
+                    "enrolmentEndDays": 0,
                     "enrolmentStart": "2013-06-24T17:35:24+00:00",
                     "linkedEventId": "Respond draw military dog hospital number.",
                     "neededOccurrences": 9,

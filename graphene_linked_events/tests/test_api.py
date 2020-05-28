@@ -699,7 +699,7 @@ mutation addEvent($input: AddEventMutationInput!){
           en
         }
         pEvent {
-          enrolmentEnd
+          enrolmentEndDays
           enrolmentStart
           duration
           neededOccurrences
@@ -715,7 +715,7 @@ CREATE_EVENT_VARIABLES = {
     "input": {
         "pEvent": {
             "enrolmentStart": "2020-06-06T16:40:48+00:00",
-            "enrolmentEnd": "2021-06-06T16:40:48+00:00",
+            "enrolmentEndDays": 2,
             "duration": 60,
             "neededOccurrences": 1,
         },
@@ -806,7 +806,7 @@ mutation addEvent($input: UpdateEventMutationInput!){
           en
         }
         pEvent {
-          enrolmentEnd
+          enrolmentEndDays
           enrolmentStart
           duration
           neededOccurrences
@@ -823,7 +823,7 @@ UPDATE_EVENT_VARIABLES = {
         "id": "qq:afy6aghr2y",
         "pEvent": {
             "enrolmentStart": "2020-06-06T16:40:48+00:00",
-            "enrolmentEnd": "2021-06-06T16:40:48+00:00",
+            "enrolmentEndDays": 2,
             "duration": 60,
             "neededOccurrences": 1,
         },
