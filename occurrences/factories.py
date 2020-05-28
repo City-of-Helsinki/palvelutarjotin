@@ -31,6 +31,8 @@ class OccurrenceFactory(factory.django.DjangoModelFactory):
     end_time = factory.Faker("date_time", tzinfo=pytz.timezone("Europe/Helsinki"))
     organisation = factory.SubFactory(OrganisationFactory)
     p_event = factory.SubFactory(PalvelutarjotinEventFactory)
+    auto_acceptance = factory.Faker("boolean")
+    amount_of_seats = factory.Faker("random_int", max=50)
 
     class Meta:
         model = Occurrence
@@ -57,7 +59,7 @@ class StudyGroupFactory(factory.django.DjangoModelFactory):
 
 
 class EnrolmentFactory(factory.django.DjangoModelFactory):
-    group = factory.SubFactory(StudyGroupFactory)
+    study_group = factory.SubFactory(StudyGroupFactory)
     occurrence = factory.SubFactory(OccurrenceFactory)
 
     class Meta:

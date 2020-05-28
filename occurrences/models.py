@@ -28,6 +28,18 @@ class PalvelutarjotinEvent(TimestampedModel):
         return f"{self.id} {self.linked_event_id}"
 
 
+class Language(models.Model):
+    id = models.CharField(max_length=10, primary_key=True)
+    name = models.CharField(verbose_name=_("name"), max_length=20)
+
+    def __str__(self):
+        return self.name
+
+    class Meta:
+        verbose_name = _("language")
+        verbose_name_plural = _("languages")
+
+
 class Occurrence(TimestampedModel):
     p_event = models.ForeignKey(
         PalvelutarjotinEvent,
@@ -52,14 +64,24 @@ class Occurrence(TimestampedModel):
         verbose_name=_("contact persons"),
         blank=True,
     )
-    groups = models.ManyToManyField(
+    study_groups = models.ManyToManyField(
         "StudyGroup",
         through="Enrolment",
         related_name="occurrences",
-        verbose_name=_("group"),
+        verbose_name=_("study group"),
         blank=True,
     )
     place_id = models.CharField(max_length=255, verbose_name=_("place id"), blank=True)
+    auto_acceptance = models.BooleanField(
+        default=False, verbose_name=_("auto acceptance")
+    )
+    amount_of_seats = models.PositiveSmallIntegerField(
+        default=0, verbose_name=_("amount of seats")
+    )
+
+    languages = models.ManyToManyField(
+        "Language", verbose_name=_("languages"), blank=True, related_name="occurrences"
+    )
 
     class Meta:
         verbose_name = _("occurrence")
@@ -67,6 +89,12 @@ class Occurrence(TimestampedModel):
 
     def __str__(self):
         return f"{self.id} {self.place_id}"
+
+    def add_languages(self, languages):
+        self.languages.clear()
+        for lang in languages:
+            l, _ = Language.objects.get_or_create(id=lang["id"])
+            self.languages.add(l)
 
 
 class VenueCustomData(TranslatableModel):
@@ -104,7 +132,7 @@ class StudyGroup(TimestampedModel):
 
 
 class Enrolment(models.Model):
-    group = models.ForeignKey(
+    study_group = models.ForeignKey(
         "StudyGroup",
         verbose_name=_("study group"),
         related_name="enrolments",
@@ -128,4 +156,4 @@ class Enrolment(models.Model):
         ]
 
     def __str__(self):
-        return f"{self.id} {self.occurrence} {self.group}"
+        return f"{self.id} {self.occurrence} {self.study_group}"

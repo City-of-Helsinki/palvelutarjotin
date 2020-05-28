@@ -64,6 +64,8 @@ query Occurrences{
     edges{
       node{
         placeId
+        amountOfSeats
+        autoAcceptance
         pEvent{
             linkedEventId
             enrolmentStart
@@ -71,7 +73,7 @@ query Occurrences{
         }
         startTime
         endTime
-        groups {
+        studyGroups {
           edges {
             node {
               name
@@ -107,13 +109,15 @@ query Occurrence($id: ID!){
     }
     startTime
     endTime
-    groups {
+    studyGroups {
       edges {
         node {
           name
         }
       }
     }
+    amountOfSeats
+    autoAcceptance
     minGroupSize
     maxGroupSize
     contactPersons {
@@ -126,6 +130,7 @@ query Occurrence($id: ID!){
     organisation {
       name
     }
+    languages
   }
 }
 """
@@ -155,6 +160,10 @@ ADD_OCCURRENCE_MUTATION = """
             enrolmentStart
             linkedEventId
           }
+          languages{
+            id
+            name
+          }
         }
       }
     }
@@ -172,6 +181,9 @@ ADD_OCCURRENCE_VARIABLES = {
             {"name": "New name", "emailAddress": "newname@email.address"},
         ],
         "pEventId": "",
+        "amountOfSeats": 40,
+        "autoAcceptance": True,
+        "languages": [{"id": "EN"}, {"id": "SV"}],
     }
 }
 
@@ -200,6 +212,10 @@ mutation updateOccurrence($input: UpdateOccurrenceMutationInput!){
         enrolmentStart
         linkedEventId
       }
+      languages{
+        id
+        name
+      }
     }
   }
 }
@@ -217,6 +233,9 @@ UPDATE_OCCURRENCE_VARIABLES = {
             {"id": "", "name": "New name", "emailAddress": "newname@email.address"},
         ],
         "pEventId": "",
+        "amountOfSeats": 40,
+        "autoAcceptance": True,
+        "languages": [{"id": "FI"}, {"id": "EN"}, {"id": "SV"}],
     }
 }
 
