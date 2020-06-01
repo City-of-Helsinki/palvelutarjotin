@@ -27,3 +27,24 @@ class MissingDefaultTranslationError(PalvelutarjotinGraphQLError):
 
 class IncorrectGlobalIdError(PalvelutarjotinGraphQLError):
     """Unexpected node type from global id"""
+
+
+class AlreadyJoinedEventError(PalvelutarjotinGraphQLError):
+    """Study group already enrol in the event"""
+
+
+class EnrolmentNotStartedError(PalvelutarjotinGraphQLError):
+    """Occurrence is not opened for enrolment"""
+
+
+class EnrolmentNotEnoughCapacityError(PalvelutarjotinGraphQLError):
+    """Not enough space for the study group"""
+
+
+class EnrolmentClosedError(PalvelutarjotinGraphQLError):
+    """Enrolment period closed"""
+
+
+class InvalidStudyGroupSizeError(PalvelutarjotinGraphQLError):
+    """Study group size greater than required max group size or smaller than min group
+    size"""

@@ -1,12 +1,22 @@
 from copy import deepcopy
+from datetime import datetime
 
 import pytest
+from django.utils import timezone
 from graphql_relay import to_global_id
-from occurrences.factories import OccurrenceFactory
-from occurrences.models import Occurrence, VenueCustomData
+from occurrences.factories import (
+    OccurrenceFactory,
+    PalvelutarjotinEventFactory,
+    StudyGroupFactory,
+)
+from occurrences.models import Occurrence, StudyGroup, VenueCustomData
 from organisations.factories import PersonFactory
 
-from common.tests.utils import assert_permission_denied
+from common.tests.utils import assert_match_error_code, assert_permission_denied
+from palvelutarjotin.consts import (
+    ENROLMENT_NOT_STARTED_ERROR,
+    INVALID_STUDY_GROUP_SIZE_ERROR,
+)
 
 
 @pytest.fixture(autouse=True)
@@ -524,3 +534,223 @@ def test_delete_venue_staff_user(staff_api_client, venue):
         DELETE_VENUE_MUTATION, variables={"input": {"id": venue.place_id}},
     )
     assert VenueCustomData.objects.count() == 0
+
+
+ADD_STUDY_GROUP_MUTATION = """
+mutation addStudyGroup($input: AddStudyGroupMutationInput!){
+  addStudyGroup(input:$input) {
+    studyGroup{
+      name
+      person{
+        name
+        emailAddress
+        phoneNumber
+      }
+      groupSize
+    }
+  }
+}
+"""
+
+ADD_STUDY_GROUP_VARIABLES = {
+    "input": {
+        "person": {
+            "name": "Name",
+            "emailAddress": "email@address.com",
+            "phoneNumber": "123123",
+        },
+        "name": "Sample study group name",
+        "groupSize": 20,
+    }
+}
+
+
+def test_add_study_group(snapshot, api_client, occurrence, person):
+    variables = deepcopy(ADD_STUDY_GROUP_VARIABLES)
+    executed = api_client.execute(ADD_STUDY_GROUP_MUTATION, variables=variables)
+    snapshot.assert_match(executed)
+
+    # Add study group with pre-defined person)
+    variables["input"]["person"]["id"] = to_global_id("PersonNode", person.id)
+    executed = api_client.execute(ADD_STUDY_GROUP_MUTATION, variables=variables)
+    snapshot.assert_match(executed)
+
+
+UPDATE_STUDY_GROUP_MUTATION = """
+mutation updateStudyGroup($input: UpdateStudyGroupMutationInput!){
+  updateStudyGroup(input:$input) {
+    studyGroup{
+      name
+      person{
+        name
+        emailAddress
+        phoneNumber
+      }
+      groupSize
+    }
+  }
+}
+"""
+
+UPDATE_STUDY_GROUP_VARIABLES = {
+    "input": {
+        "id": "",
+        "person": {
+            "name": "Name",
+            "emailAddress": "email@address.com",
+            "phoneNumber": "123123",
+        },
+        "name": "Sample study group name",
+        "groupSize": 20,
+    }
+}
+
+
+def test_update_study_group_unauthenticated(api_client, user_api_client):
+    variables = deepcopy(UPDATE_STUDY_GROUP_VARIABLES)
+    executed = api_client.execute(UPDATE_STUDY_GROUP_MUTATION, variables=variables)
+    assert_permission_denied(executed)
+
+    executed = user_api_client.execute(UPDATE_STUDY_GROUP_MUTATION, variables=variables)
+    assert_permission_denied(executed)
+
+
+def test_update_study_group_staff_user(snapshot, staff_api_client, study_group, person):
+    variables = deepcopy(UPDATE_STUDY_GROUP_VARIABLES)
+    variables["input"]["id"] = to_global_id("StudyGroupNode", study_group.id)
+    executed = staff_api_client.execute(
+        UPDATE_STUDY_GROUP_MUTATION, variables=variables
+    )
+    snapshot.assert_match(executed)
+
+    variables["input"]["person"]["id"] = to_global_id("PersonNode", person.id)
+    executed = staff_api_client.execute(
+        UPDATE_STUDY_GROUP_MUTATION, variables=variables
+    )
+    snapshot.assert_match(executed)
+
+
+DELETE_STUDY_GROUP_MUTATION = """
+mutation deleteStudyGroup($input: DeleteStudyGroupMutationInput!){
+  deleteStudyGroup(input: $input){
+    __typename
+  }
+}
+"""
+
+
+def test_delete_study_group_permission_denied(api_client, user_api_client):
+    executed = api_client.execute(
+        DELETE_STUDY_GROUP_MUTATION, variables={"input": {"id": ""}}
+    )
+    assert_permission_denied(executed)
+
+    executed = user_api_client.execute(
+        DELETE_STUDY_GROUP_MUTATION, variables={"input": {"id": ""}}
+    )
+    assert_permission_denied(executed)
+
+
+def test_delete_study_group_staff_user(staff_api_client, study_group):
+    staff_api_client.execute(
+        DELETE_STUDY_GROUP_MUTATION,
+        variables={"input": {"id": to_global_id("StudyGroupNode", study_group.id)}},
+    )
+    assert StudyGroup.objects.count() == 0
+
+
+ENROL_OCCURRENCE_MUTATION = """
+mutation enrolOccurrence($input: EnrolOccurrenceMutationInput!){
+  enrolOccurrence(input: $input){
+    enrolment{
+      studyGroup{
+        name
+      }
+      occurrence{
+        startTime
+      }
+    }
+  }
+}
+"""
+
+UNENROL_OCCURRENCE_MUTATION = """
+"""
+
+
+def test_enrol_not_started_occurrence(snapshot, api_client, study_group):
+    # with freeze_time("2020-01-04"):
+    p_event_1 = PalvelutarjotinEventFactory(
+        enrolment_start=datetime(2020, 1, 5, 0, 0, 0, tzinfo=timezone.now().tzinfo),
+        enrolment_end=datetime(2020, 2, 5, 0, 0, 0, tzinfo=timezone.now().tzinfo),
+    )
+    not_started_occurrence = OccurrenceFactory(
+        start_time=datetime(2020, 1, 6, 0, 0, 0, tzinfo=timezone.now().tzinfo),
+        p_event=p_event_1,
+    )
+
+    variables = {
+        "input": {
+            "occurrenceId": to_global_id("OccurrenceNode", not_started_occurrence.id),
+            "studyGroupId": to_global_id("StudyGroupNode", study_group.id),
+        }
+    }
+    executed = api_client.execute(ENROL_OCCURRENCE_MUTATION, variables=variables)
+    assert_match_error_code(executed, ENROLMENT_NOT_STARTED_ERROR)
+
+
+def test_enrol_past_occurrence(snapshot, api_client, occurrence, study_group):
+    pass
+
+
+def test_enrol_invalid_group_size(snapshot, api_client, occurrence):
+    study_group_21 = StudyGroupFactory(group_size=21)
+    study_group_9 = StudyGroupFactory(group_size=9)
+    # with freeze_time("2020-01-04"):
+    p_event_1 = PalvelutarjotinEventFactory(
+        enrolment_start=datetime(2020, 1, 3, 0, 0, 0, tzinfo=timezone.now().tzinfo),
+        enrolment_end=datetime(2020, 2, 5, 0, 0, 0, tzinfo=timezone.now().tzinfo),
+    )
+    not_started_occurrence = OccurrenceFactory(
+        start_time=datetime(2020, 1, 6, 0, 0, 0, tzinfo=timezone.now().tzinfo),
+        p_event=p_event_1,
+        min_group_size=10,
+        max_group_size=20,
+    )
+
+    variables = {
+        "input": {
+            "occurrenceId": to_global_id("OccurrenceNode", not_started_occurrence.id),
+            "studyGroupId": to_global_id("StudyGroupNode", study_group_21.id),
+        }
+    }
+    executed = api_client.execute(ENROL_OCCURRENCE_MUTATION, variables=variables)
+    assert_match_error_code(executed, INVALID_STUDY_GROUP_SIZE_ERROR)
+
+    variables["input"]["studyGroupId"] = to_global_id(
+        "StudyGroupNode", study_group_9.id
+    )
+    executed = api_client.execute(ENROL_OCCURRENCE_MUTATION, variables=variables)
+    assert_match_error_code(executed, INVALID_STUDY_GROUP_SIZE_ERROR)
+
+
+def test_enrol_full_occurrence(snapshot, api_client, occurrence, study_group):
+    pass
+
+
+def test_enrol_occurrence(snapshot, api_client, occurrence, study_group):
+    pass
+
+
+# Past occurrence
+# occurrence = OccurrenceFactory()
+# Full occurrence
+# occurrence = OccurrenceFactory()
+
+# Valid occurrence
+
+# Already enrolled
+
+
+def test_unenrol_occurrence(api_client, occurrence):
+    pass

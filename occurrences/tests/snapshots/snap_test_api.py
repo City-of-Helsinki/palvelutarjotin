@@ -225,3 +225,67 @@ snapshots["test_venue_query 1"] = {
         }
     }
 }
+
+snapshots["test_add_study_group 1"] = {
+    "data": {
+        "addStudyGroup": {
+            "studyGroup": {
+                "groupSize": 20,
+                "name": "Sample study group name",
+                "person": {
+                    "emailAddress": "email@address.com",
+                    "name": "Name",
+                    "phoneNumber": "123123",
+                },
+            }
+        }
+    }
+}
+
+snapshots["test_add_study_group 2"] = {
+    "data": {
+        "addStudyGroup": {
+            "studyGroup": {
+                "groupSize": 20,
+                "name": "Sample study group name",
+                "person": {
+                    "emailAddress": "stephencarey@hayes.net",
+                    "name": "Amanda Johnson",
+                    "phoneNumber": "830.190.5483",
+                },
+            }
+        }
+    }
+}
+
+snapshots["test_update_study_group_staff_user 1"] = {
+    "data": {
+        "updateStudyGroup": {
+            "studyGroup": {
+                "groupSize": 20,
+                "name": "Sample study group name",
+                "person": {
+                    "emailAddress": "email@address.com",
+                    "name": "Name",
+                    "phoneNumber": "123123",
+                },
+            }
+        }
+    }
+}
+
+snapshots["test_update_study_group_staff_user 2"] = {
+    "data": {
+        "updateStudyGroup": {
+            "studyGroup": {
+                "groupSize": 20,
+                "name": "Sample study group name",
+                "person": {
+                    "emailAddress": "barbarafarrell@yahoo.com",
+                    "name": "James Ellis",
+                    "phoneNumber": "(298)985-5681",
+                },
+            }
+        }
+    }
+}

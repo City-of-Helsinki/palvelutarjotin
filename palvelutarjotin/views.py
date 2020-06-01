@@ -4,19 +4,29 @@ from graphene_file_upload.django import FileUploadGraphQLView
 from graphql_jwt.exceptions import PermissionDenied as JwtPermissionDenied
 
 from palvelutarjotin.consts import (
+    ALREADY_JOINED_EVENT_ERROR,
     API_USAGE_ERROR,
     DATA_VALIDATION_ERROR,
+    ENROLMENT_CLOSED_ERROR,
+    ENROLMENT_NOT_STARTED_ERROR,
     GENERAL_ERROR,
     INCORRECT_GLOBAL_ID_ERROR,
+    INVALID_STUDY_GROUP_SIZE_ERROR,
     MISSING_DEFAULT_TRANSLATION_ERROR,
+    NOT_ENOUGH_CAPACITY_ERROR,
     OBJECT_DOES_NOT_EXIST_ERROR,
     PERMISSION_DENIED_ERROR,
     QUERY_TOO_DEEP_ERROR,
 )
 from palvelutarjotin.exceptions import (
+    AlreadyJoinedEventError,
     ApiUsageError,
     DataValidationError,
+    EnrolmentClosedError,
+    EnrolmentNotEnoughCapacityError,
+    EnrolmentNotStartedError,
     IncorrectGlobalIdError,
+    InvalidStudyGroupSizeError,
     MissingDefaultTranslationError,
     ObjectDoesNotExistError,
     PalvelutarjotinGraphQLError,
@@ -36,6 +46,11 @@ error_codes_shared = {
 
 error_codes_palvelutarjotin = {
     MissingDefaultTranslationError: MISSING_DEFAULT_TRANSLATION_ERROR,
+    AlreadyJoinedEventError: ALREADY_JOINED_EVENT_ERROR,
+    EnrolmentNotEnoughCapacityError: NOT_ENOUGH_CAPACITY_ERROR,
+    EnrolmentNotStartedError: ENROLMENT_NOT_STARTED_ERROR,
+    EnrolmentClosedError: ENROLMENT_CLOSED_ERROR,
+    InvalidStudyGroupSizeError: INVALID_STUDY_GROUP_SIZE_ERROR,
 }
 
 sentry_ignored_errors = (

@@ -159,7 +159,7 @@ class Enrolment(models.Model):
         verbose_name_plural = _("enrolments")
         constraints = [
             models.UniqueConstraint(
-                fields=["group", "occurrence"], name="unq_group_occurrence"
+                fields=["study_group", "occurrence"], name="unq_group_occurrence"
             )
         ]
 
