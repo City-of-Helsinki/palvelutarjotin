@@ -15,7 +15,7 @@ class PalvelutarjotinEventFactory(factory.django.DjangoModelFactory):
     enrolment_start = factory.Faker(
         "date_time", tzinfo=pytz.timezone("Europe/Helsinki"),
     )
-    enrolment_end = factory.Faker("date_time", tzinfo=pytz.timezone("Europe/Helsinki"))
+    enrolment_end_days = factory.Faker("random_int", max=2)
     duration = factory.Faker("random_int", max=300)
     needed_occurrences = factory.Faker("random_int", max=10)
 

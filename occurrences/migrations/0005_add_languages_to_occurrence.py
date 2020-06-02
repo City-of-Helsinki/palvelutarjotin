@@ -22,7 +22,7 @@ class Migration(migrations.Migration):
                     "id",
                     models.CharField(max_length=10, primary_key=True, serialize=False),
                 ),
-                ("name", models.CharField(max_length=20, verbose_name="Name")),
+                ("name", models.CharField(max_length=20, verbose_name="name")),
             ],
             options={"verbose_name": "language", "verbose_name_plural": "languages",},
         ),
