@@ -69,6 +69,8 @@ class EnrolmentFactory(factory.django.DjangoModelFactory):
 class VenueCustomDataFactory(factory.django.DjangoModelFactory):
     place_id = factory.Faker("pystr", max_chars=5)
     description = factory.Faker("text", max_nb_chars=100)
+    has_clothing_storage = factory.Faker("boolean")
+    has_snack_eating_place = factory.Faker("boolean")
 
     class Meta:
         model = VenueCustomData

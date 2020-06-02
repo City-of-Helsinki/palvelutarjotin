@@ -370,6 +370,8 @@ query Venues {
         translations {
           description
         }
+        hasClothingStorage
+        hasSnackEatingPlace
       }
     }
   }
@@ -384,6 +386,8 @@ query venue($id:ID!){
     translations{
       description
     }
+    hasClothingStorage
+    hasSnackEatingPlace
   }
 }
 """
@@ -397,6 +401,8 @@ mutation AddVenue($input: AddVenueMutationInput!) {
         translations {
           description
         }
+        hasClothingStorage
+        hasSnackEatingPlace
     }
   }
 }
@@ -409,6 +415,8 @@ ADD_VENUE_VARIABLES = {
             {"description": "Venue description in FI", "languageCode": "FI"},
             {"description": "Venue description in EN", "languageCode": "EN"},
         ],
+        "hasClothingStorage": True,
+        "hasSnackEatingPlace": True,
     }
 }
 
@@ -421,6 +429,8 @@ mutation updateVenue($input: UpdateVenueMutationInput!) {
         translations {
           description
         }
+        hasClothingStorage
+        hasSnackEatingPlace
     }
   }
 }
@@ -433,6 +443,8 @@ UPDATE_VENUE_VARIABLES = {
             {"description": "Venue description", "languageCode": "FI"},
             {"description": "Venue description in EN", "languageCode": "EN"},
         ],
+        "hasClothingStorage": True,
+        "hasSnackEatingPlace": True,
     }
 }
 

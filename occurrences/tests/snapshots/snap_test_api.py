@@ -160,6 +160,8 @@ snapshots["test_add_venue_staff_user 1"] = {
             "venue": {
                 "description": "Venue description in FI",
                 "id": "place_id",
+                "hasClothingStorage": True,
+                "hasSnackEatingPlace": True,
                 "translations": [
                     {"description": "Venue description in EN"},
                     {"description": "Venue description in FI"},
@@ -177,6 +179,8 @@ snapshots["test_venues_query 1"] = {
                     "node": {
                         "description": "Serious listen police shake. Page box child care any concern.",
                         "id": "mZHxy",
+                        "hasClothingStorage": True,
+                        "hasSnackEatingPlace": False,
                         "translations": [
                             {
                                 "description": "Serious listen police shake. Page box child care any concern."
@@ -195,6 +199,8 @@ snapshots["test_update_venue_staff_user 1"] = {
             "venue": {
                 "description": "Venue description",
                 "id": "mZHxy",
+                "hasClothingStorage": True,
+                "hasSnackEatingPlace": True,
                 "translations": [
                     {"description": "Venue description in EN"},
                     {"description": "Venue description"},
@@ -209,6 +215,8 @@ snapshots["test_venue_query 1"] = {
         "venue": {
             "description": "Serious listen police shake. Page box child care any concern.",
             "id": "mZHxy",
+            "hasClothingStorage": True,
+            "hasSnackEatingPlace": False,
             "translations": [
                 {
                     "description": "Serious listen police shake. Page box child care any concern."

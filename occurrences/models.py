@@ -107,6 +107,12 @@ class VenueCustomData(TranslatableModel):
     translations = TranslatedFields(
         description=models.TextField(verbose_name=_("description"), blank=True)
     )
+    has_clothing_storage = models.BooleanField(
+        default=False, verbose_name=_("has outer clothing storage")
+    )
+    has_snack_eating_place = models.BooleanField(
+        default=False, verbose_name=_("has snack eating place")
+    )
 
     class Meta:
         verbose_name = _("venue custom data")
