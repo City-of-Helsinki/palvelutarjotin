@@ -1,4 +1,5 @@
 from django.db import models
+from django.db.models import Sum
 from django.utils.translation import ugettext_lazy as _
 from parler.models import TranslatedFields
 
@@ -97,6 +98,13 @@ class Occurrence(TimestampedModel):
         for lang in languages:
             l, _ = Language.objects.get_or_create(id=lang["id"])
             self.languages.add(l)
+
+    @property
+    def seats_taken(self):
+        return (
+            self.study_groups.aggregate(seats_taken=Sum("group_size"))["seats_taken"]
+            or 0
+        )
 
 
 class VenueCustomData(TranslatableModel):

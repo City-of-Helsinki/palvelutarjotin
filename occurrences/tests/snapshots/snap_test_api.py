@@ -55,6 +55,8 @@ snapshots["test_occurrences_query 1"] = {
                             "linkedEventId": "Success answer entire increase thank. Least then top sing.",
                         },
                         "placeId": "Record card my. Sure sister return.",
+                        "remainingSeats": 13,
+                        "seatsTaken": 0,
                         "startTime": "2013-12-12T04:57:19+00:00",
                         "studyGroups": {"edges": []},
                     }
@@ -83,6 +85,8 @@ snapshots["test_occurrence_query 1"] = {
                             "linkedEventId": "Success answer entire increase thank. Least then top sing.",
                         },
                         "placeId": "Record card my. Sure sister return.",
+                        "remainingSeats": 13,
+                        "seatsTaken": 0,
                         "startTime": "2013-12-12T04:57:19+00:00",
                         "studyGroups": {"edges": []},
                     }
@@ -286,6 +290,40 @@ snapshots["test_update_study_group_staff_user 2"] = {
                     "phoneNumber": "(298)985-5681",
                 },
             }
+        }
+    }
+}
+
+snapshots["test_enrol_occurrence 1"] = {
+    "data": {
+        "enrolOccurrence": {
+            "enrolment": {
+                "occurrence": {
+                    "amountOfSeats": 50,
+                    "remainingSeats": 35,
+                    "seatsTaken": 15,
+                    "startTime": "2020-01-06T00:00:00+00:00",
+                },
+                "studyGroup": {
+                    "name": "Increase thank certainly again thought summer. Beyond than trial western."
+                },
+            }
+        }
+    }
+}
+
+snapshots["test_unenrol_occurrence 1"] = {
+    "data": {
+        "unenrolOccurrence": {
+            "occurrence": {
+                "amountOfSeats": 50,
+                "remainingSeats": 50,
+                "seatsTaken": 0,
+                "startTime": "2020-01-06T00:00:00+00:00",
+            },
+            "studyGroup": {
+                "name": "Bed agree room laugh prevent make never. Very television beat at success decade either."
+            },
         }
     }
 }

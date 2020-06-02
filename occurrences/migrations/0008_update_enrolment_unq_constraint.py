@@ -6,7 +6,7 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ("occurrences", "0005_add_languages_to_occurrence"),
+        ("occurrences", "0007_add_fields_to_venues"),
     ]
 
     operations = [

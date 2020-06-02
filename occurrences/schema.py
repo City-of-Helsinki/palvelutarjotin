@@ -1,3 +1,5 @@
+from datetime import timedelta
+
 import graphene
 from django.apps import apps
 from django.conf import settings
@@ -25,6 +27,7 @@ from common.utils import (
 )
 from palvelutarjotin.exceptions import (
     AlreadyJoinedEventError,
+    EnrolmentClosedError,
     EnrolmentNotEnoughCapacityError,
     EnrolmentNotStartedError,
     InvalidStudyGroupSizeError,
@@ -100,9 +103,15 @@ class VenueNodeInput(InputObjectType):
 
 
 class OccurrenceNode(DjangoObjectType):
+    remaining_seats = graphene.Int()
+    seats_taken = graphene.Int()
+
     class Meta:
         model = Occurrence
         interfaces = (relay.Node,)
+
+    def resolve_remaining_seats(self, info, **kwargs):
+        return self.amount_of_seats - self.seats_taken
 
 
 def validate_occurrence_data(kwargs):
@@ -344,13 +353,14 @@ def validate_enrolment(study_group, occurrence):
         )
     if timezone.now() < occurrence.p_event.enrolment_start:
         raise EnrolmentNotStartedError("Enrolment is not opened")
+    if timezone.now() > occurrence.start_time - timedelta(
+        days=occurrence.p_event.enrolment_end_days
+    ):
+        raise EnrolmentClosedError("Enrolment has been closed")
     if study_group.occurrences.filter(p_event=occurrence.p_event).exists():
-        raise AlreadyJoinedEventError("Child already joined this event")
-    if occurrence.remaining_capacity < study_group.group_size:
+        raise AlreadyJoinedEventError("Study group already joined this event")
+    if occurrence.seats_taken + study_group.group_size > occurrence.amount_of_seats:
         raise EnrolmentNotEnoughCapacityError("Not enough space for this study group")
-    # if timezone.now() > occurrence.p_event.start_time - timedelta(days=
-    #                                                               occurrence.p_event.enrolment_end_days):
-    #     raise EnrolmentClosedError("Enrolment has been closed")
 
 
 class EnrolOccurrenceMutation(graphene.relay.ClientIDMutation):
@@ -401,7 +411,9 @@ class UnenrolOccurrenceMutation(graphene.relay.ClientIDMutation):
         occurrence_id = get_node_id_from_global_id(
             kwargs["occurrence_id"], "OccurrenceNode"
         )
-        group_id = get_node_id_from_global_id(kwargs["study_group_id"], "StudyGroup")
+        group_id = get_node_id_from_global_id(
+            kwargs["study_group_id"], "StudyGroupNode"
+        )
         try:
             study_group = StudyGroup.objects.get(pk=group_id)
         except StudyGroup.DoesNotExist as e:
@@ -532,12 +544,12 @@ class Mutation:
 
     add_study_group = AddStudyGroupMutation.Field()
     update_study_group = UpdateStudyGroupMutation.Field(
-        description="Mutation for " "admin only"
+        description="Mutation for admin only"
     )
     delete_study_group = DeleteStudyGroupMutation.Field(
-        description="Mutation for " "admin only"
+        description="Mutation for admin only"
     )
     enrol_occurrence = EnrolOccurrenceMutation.Field()
     unenrol_occurrence = UnenrolOccurrenceMutation.Field(
-        description="Required logged " "in user for " "authorization"
+        description="Required logged in user for authorization"
     )

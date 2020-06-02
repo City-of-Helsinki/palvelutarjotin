@@ -14,8 +14,11 @@ from organisations.factories import PersonFactory
 
 from common.tests.utils import assert_match_error_code, assert_permission_denied
 from palvelutarjotin.consts import (
+    ALREADY_JOINED_EVENT_ERROR,
+    ENROLMENT_CLOSED_ERROR,
     ENROLMENT_NOT_STARTED_ERROR,
     INVALID_STUDY_GROUP_SIZE_ERROR,
+    NOT_ENOUGH_CAPACITY_ERROR,
 )
 
 
@@ -75,6 +78,8 @@ query Occurrences{
       node{
         placeId
         amountOfSeats
+        remainingSeats
+        seatsTaken
         autoAcceptance
         pEvent{
             linkedEventId
@@ -127,6 +132,8 @@ query Occurrence($id: ID!){
       }
     }
     amountOfSeats
+    remainingSeats
+    seatsTaken
     autoAcceptance
     minGroupSize
     maxGroupSize
@@ -668,25 +675,29 @@ mutation enrolOccurrence($input: EnrolOccurrenceMutationInput!){
       }
       occurrence{
         startTime
+        seatsTaken
+        remainingSeats
+        amountOfSeats
       }
     }
   }
 }
 """
 
-UNENROL_OCCURRENCE_MUTATION = """
-"""
 
-
-def test_enrol_not_started_occurrence(snapshot, api_client, study_group):
-    # with freeze_time("2020-01-04"):
+def test_enrol_not_started_occurrence(snapshot, api_client):
+    # Current date is freezed on 2020-01-04:
+    study_group = StudyGroupFactory(group_size=10)
     p_event_1 = PalvelutarjotinEventFactory(
         enrolment_start=datetime(2020, 1, 5, 0, 0, 0, tzinfo=timezone.now().tzinfo),
-        enrolment_end=datetime(2020, 2, 5, 0, 0, 0, tzinfo=timezone.now().tzinfo),
+        enrolment_end_days=2,
     )
     not_started_occurrence = OccurrenceFactory(
-        start_time=datetime(2020, 1, 6, 0, 0, 0, tzinfo=timezone.now().tzinfo),
+        start_time=datetime(2020, 1, 8, 0, 0, 0, tzinfo=timezone.now().tzinfo),
         p_event=p_event_1,
+        min_group_size=5,
+        max_group_size=15,
+        amount_of_seats=100,
     )
 
     variables = {
@@ -699,19 +710,40 @@ def test_enrol_not_started_occurrence(snapshot, api_client, study_group):
     assert_match_error_code(executed, ENROLMENT_NOT_STARTED_ERROR)
 
 
-def test_enrol_past_occurrence(snapshot, api_client, occurrence, study_group):
-    pass
+def test_enrol_past_occurrence(snapshot, api_client, occurrence):
+    # Current date is freezed on 2020-01-04:
+    study_group = StudyGroupFactory(group_size=10)
+    p_event_1 = PalvelutarjotinEventFactory(
+        enrolment_start=datetime(2020, 1, 1, 0, 0, 0, tzinfo=timezone.now().tzinfo),
+        enrolment_end_days=2,
+    )
+    past_occurrence = OccurrenceFactory(
+        start_time=datetime(2020, 1, 5, 0, 0, 0, tzinfo=timezone.now().tzinfo),
+        p_event=p_event_1,
+        min_group_size=5,
+        max_group_size=15,
+        amount_of_seats=100,
+    )
+
+    variables = {
+        "input": {
+            "occurrenceId": to_global_id("OccurrenceNode", past_occurrence.id),
+            "studyGroupId": to_global_id("StudyGroupNode", study_group.id),
+        }
+    }
+    executed = api_client.execute(ENROL_OCCURRENCE_MUTATION, variables=variables)
+    assert_match_error_code(executed, ENROLMENT_CLOSED_ERROR)
 
 
 def test_enrol_invalid_group_size(snapshot, api_client, occurrence):
     study_group_21 = StudyGroupFactory(group_size=21)
     study_group_9 = StudyGroupFactory(group_size=9)
-    # with freeze_time("2020-01-04"):
+    # Current date is freezed on 2020-01-04:
     p_event_1 = PalvelutarjotinEventFactory(
         enrolment_start=datetime(2020, 1, 3, 0, 0, 0, tzinfo=timezone.now().tzinfo),
-        enrolment_end=datetime(2020, 2, 5, 0, 0, 0, tzinfo=timezone.now().tzinfo),
+        enrolment_end_days=2,
     )
-    not_started_occurrence = OccurrenceFactory(
+    occurrence = OccurrenceFactory(
         start_time=datetime(2020, 1, 6, 0, 0, 0, tzinfo=timezone.now().tzinfo),
         p_event=p_event_1,
         min_group_size=10,
@@ -720,7 +752,7 @@ def test_enrol_invalid_group_size(snapshot, api_client, occurrence):
 
     variables = {
         "input": {
-            "occurrenceId": to_global_id("OccurrenceNode", not_started_occurrence.id),
+            "occurrenceId": to_global_id("OccurrenceNode", occurrence.id),
             "studyGroupId": to_global_id("StudyGroupNode", study_group_21.id),
         }
     }
@@ -734,23 +766,114 @@ def test_enrol_invalid_group_size(snapshot, api_client, occurrence):
     assert_match_error_code(executed, INVALID_STUDY_GROUP_SIZE_ERROR)
 
 
-def test_enrol_full_occurrence(snapshot, api_client, occurrence, study_group):
-    pass
+def test_enrol_full_occurrence(snapshot, api_client, occurrence):
+    study_group_15 = StudyGroupFactory(group_size=15)
+    study_group_20 = StudyGroupFactory(group_size=20)
+    # Current date is freezed on 2020-01-04:
+    p_event_1 = PalvelutarjotinEventFactory(
+        enrolment_start=datetime(2020, 1, 3, 0, 0, 0, tzinfo=timezone.now().tzinfo),
+        enrolment_end_days=2,
+    )
+    occurrence = OccurrenceFactory(
+        start_time=datetime(2020, 1, 6, 0, 0, 0, tzinfo=timezone.now().tzinfo),
+        p_event=p_event_1,
+        min_group_size=10,
+        max_group_size=20,
+        amount_of_seats=34,
+    )
+
+    occurrence.study_groups.add(study_group_20)
+
+    variables = {
+        "input": {
+            "occurrenceId": to_global_id("OccurrenceNode", occurrence.id),
+            "studyGroupId": to_global_id("StudyGroupNode", study_group_15.id),
+        }
+    }
+    executed = api_client.execute(ENROL_OCCURRENCE_MUTATION, variables=variables)
+    assert_match_error_code(executed, NOT_ENOUGH_CAPACITY_ERROR)
 
 
-def test_enrol_occurrence(snapshot, api_client, occurrence, study_group):
-    pass
+def test_enrol_occurrence(snapshot, api_client):
+    study_group_15 = StudyGroupFactory(group_size=15)
+    # Current date is freezed on 2020-01-04:
+    p_event_1 = PalvelutarjotinEventFactory(
+        enrolment_start=datetime(2020, 1, 3, 0, 0, 0, tzinfo=timezone.now().tzinfo),
+        enrolment_end_days=2,
+    )
+    occurrence = OccurrenceFactory(
+        start_time=datetime(2020, 1, 6, 0, 0, 0, tzinfo=timezone.now().tzinfo),
+        p_event=p_event_1,
+        min_group_size=10,
+        max_group_size=20,
+        amount_of_seats=50,
+    )
+
+    variables = {
+        "input": {
+            "occurrenceId": to_global_id("OccurrenceNode", occurrence.id),
+            "studyGroupId": to_global_id("StudyGroupNode", study_group_15.id),
+        }
+    }
+    executed = api_client.execute(ENROL_OCCURRENCE_MUTATION, variables=variables)
+    snapshot.assert_match(executed)
+
+    # Cannot join another occurrence of the same event
+    another_occurrence = OccurrenceFactory(
+        start_time=datetime(2020, 1, 6, 0, 0, 0, tzinfo=timezone.now().tzinfo),
+        p_event=p_event_1,
+        min_group_size=10,
+        max_group_size=20,
+        amount_of_seats=50,
+    )
+    variables["input"]["occurrenceId"] = to_global_id(
+        "OccurrenceNode", another_occurrence.id
+    )
+    executed = api_client.execute(ENROL_OCCURRENCE_MUTATION, variables=variables)
+    assert_match_error_code(executed, ALREADY_JOINED_EVENT_ERROR)
 
 
-# Past occurrence
-# occurrence = OccurrenceFactory()
-# Full occurrence
-# occurrence = OccurrenceFactory()
+UNENROL_OCCURRENCE_MUTATION = """
+mutation unenrolOccurrence($input: UnenrolOccurrenceMutationInput!){
+  unenrolOccurrence(input: $input){
+    occurrence{
+       startTime
+       seatsTaken
+       remainingSeats
+       amountOfSeats
+    }
+    studyGroup{
+      name
+    }
+  }
+}
+"""
 
-# Valid occurrence
 
-# Already enrolled
+def test_unenrol_occurrence(snapshot, user_api_client):
+    study_group_15 = StudyGroupFactory(group_size=15)
+    # Current date is freezed on 2020-01-04:
+    p_event_1 = PalvelutarjotinEventFactory(
+        enrolment_start=datetime(2020, 1, 3, 0, 0, 0, tzinfo=timezone.now().tzinfo),
+        enrolment_end_days=2,
+    )
+    occurrence = OccurrenceFactory(
+        start_time=datetime(2020, 1, 6, 0, 0, 0, tzinfo=timezone.now().tzinfo),
+        p_event=p_event_1,
+        min_group_size=10,
+        max_group_size=20,
+        amount_of_seats=50,
+    )
+    occurrence.study_groups.add(study_group_15)
+    assert occurrence.study_groups.count() == 1
 
+    variables = {
+        "input": {
+            "occurrenceId": to_global_id("OccurrenceNode", occurrence.id),
+            "studyGroupId": to_global_id("StudyGroupNode", study_group_15.id),
+        }
+    }
 
-def test_unenrol_occurrence(api_client, occurrence):
-    pass
+    executed = user_api_client.execute(UNENROL_OCCURRENCE_MUTATION, variables=variables)
+    snapshot.assert_match(executed)
+    assert occurrence.study_groups.count() == 0
