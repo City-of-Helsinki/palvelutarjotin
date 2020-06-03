@@ -1,4 +1,5 @@
 from django.db import models
+from django.db.models import Sum
 from django.utils.translation import ugettext_lazy as _
 from parler.models import TranslatedFields
 
@@ -98,6 +99,13 @@ class Occurrence(TimestampedModel):
             l, _ = Language.objects.get_or_create(id=lang["id"])
             self.languages.add(l)
 
+    @property
+    def seats_taken(self):
+        return (
+            self.study_groups.aggregate(seats_taken=Sum("group_size"))["seats_taken"]
+            or 0
+        )
+
 
 class VenueCustomData(TranslatableModel):
     # Primary reference to LinkedEvent place_id
@@ -159,7 +167,7 @@ class Enrolment(models.Model):
         verbose_name_plural = _("enrolments")
         constraints = [
             models.UniqueConstraint(
-                fields=["group", "occurrence"], name="unq_group_occurrence"
+                fields=["study_group", "occurrence"], name="unq_group_occurrence"
             )
         ]
 

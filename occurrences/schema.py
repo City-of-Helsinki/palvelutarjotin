@@ -1,12 +1,16 @@
+from datetime import timedelta
+
 import graphene
 from django.apps import apps
 from django.conf import settings
 from django.db import transaction
+from django.utils import timezone
 from django.utils.translation import get_language
 from graphene import InputObjectType, relay
 from graphene_django import DjangoConnectionField, DjangoObjectType
-from graphql_jwt.decorators import staff_member_required
+from graphql_jwt.decorators import login_required, staff_member_required
 from occurrences.models import (
+    Enrolment,
     Language,
     Occurrence,
     PalvelutarjotinEvent,
@@ -21,7 +25,14 @@ from common.utils import (
     update_object,
     update_object_with_translations,
 )
-from palvelutarjotin.exceptions import ObjectDoesNotExistError
+from palvelutarjotin.exceptions import (
+    AlreadyJoinedEventError,
+    EnrolmentClosedError,
+    EnrolmentNotEnoughCapacityError,
+    EnrolmentNotStartedError,
+    InvalidStudyGroupSizeError,
+    ObjectDoesNotExistError,
+)
 
 LanguageEnum = graphene.Enum(
     "Language", [(l[0].upper(), l[0]) for l in settings.LANGUAGES]
@@ -92,9 +103,15 @@ class VenueNodeInput(InputObjectType):
 
 
 class OccurrenceNode(DjangoObjectType):
+    remaining_seats = graphene.Int()
+    seats_taken = graphene.Int()
+
     class Meta:
         model = Occurrence
         interfaces = (relay.Node,)
+
+    def resolve_remaining_seats(self, info, **kwargs):
+        return self.amount_of_seats - self.seats_taken
 
 
 def validate_occurrence_data(kwargs):
@@ -319,6 +336,185 @@ class DeleteVenueMutation(graphene.relay.ClientIDMutation):
         return DeleteVenueMutation()
 
 
+class EnrolmentNode(DjangoObjectType):
+    class Meta:
+        model = Enrolment
+        interfaces = (relay.Node,)
+
+
+def validate_enrolment(study_group, occurrence):
+    # Expensive validation are sorted to bottom
+    if (
+        study_group.group_size > occurrence.max_group_size
+        or study_group.group_size < occurrence.min_group_size
+    ):
+        raise InvalidStudyGroupSizeError(
+            "Study group size not match occurrence group " "size"
+        )
+    if timezone.now() < occurrence.p_event.enrolment_start:
+        raise EnrolmentNotStartedError("Enrolment is not opened")
+    if timezone.now() > occurrence.start_time - timedelta(
+        days=occurrence.p_event.enrolment_end_days
+    ):
+        raise EnrolmentClosedError("Enrolment has been closed")
+    if study_group.occurrences.filter(p_event=occurrence.p_event).exists():
+        raise AlreadyJoinedEventError("Study group already joined this event")
+    if occurrence.seats_taken + study_group.group_size > occurrence.amount_of_seats:
+        raise EnrolmentNotEnoughCapacityError("Not enough space for this study group")
+
+
+class EnrolOccurrenceMutation(graphene.relay.ClientIDMutation):
+    class Input:
+        occurrence_id = graphene.GlobalID(description="Occurrence id of event")
+        study_group_id = graphene.GlobalID(description="Study group id")
+
+    enrolment = graphene.Field(EnrolmentNode)
+
+    @classmethod
+    @transaction.atomic
+    def mutate_and_get_payload(cls, root, info, **kwargs):
+        occurrence_id = get_node_id_from_global_id(
+            kwargs["occurrence_id"], "OccurrenceNode"
+        )
+        group_id = get_node_id_from_global_id(
+            kwargs["study_group_id"], "StudyGroupNode"
+        )
+        try:
+            occurrence = Occurrence.objects.get(pk=occurrence_id)
+        except Occurrence.DoesNotExist as e:
+            raise ObjectDoesNotExistError(e)
+        try:
+            study_group = StudyGroup.objects.get(pk=group_id)
+        except StudyGroup.DoesNotExist as e:
+            raise ObjectDoesNotExistError(e)
+        validate_enrolment(study_group, occurrence)
+        enrolment = Enrolment.objects.create(
+            study_group=study_group, occurrence=occurrence
+        )
+
+        return EnrolOccurrenceMutation(enrolment=enrolment)
+
+
+class UnenrolOccurrenceMutation(graphene.relay.ClientIDMutation):
+    class Input:
+        occurrence_id = graphene.GlobalID(description="Occurrence id of event")
+        study_group_id = graphene.GlobalID(description="Study group id")
+
+    occurrence = graphene.Field(OccurrenceNode)
+    study_group = graphene.Field(StudyGroupNode)
+
+    @classmethod
+    @login_required
+    @transaction.atomic
+    def mutate_and_get_payload(cls, root, info, **kwargs):
+        # TODO: Authorize if user has permission to unenrol the occurrence
+        occurrence_id = get_node_id_from_global_id(
+            kwargs["occurrence_id"], "OccurrenceNode"
+        )
+        group_id = get_node_id_from_global_id(
+            kwargs["study_group_id"], "StudyGroupNode"
+        )
+        try:
+            study_group = StudyGroup.objects.get(pk=group_id)
+        except StudyGroup.DoesNotExist as e:
+            raise ObjectDoesNotExistError(e)
+        try:
+            occurrence = study_group.occurrences.get(pk=occurrence_id)
+            occurrence.study_groups.remove(study_group)
+        except Occurrence.DoesNotExist as e:
+            raise ObjectDoesNotExistError(e)
+        return UnenrolOccurrenceMutation(study_group=study_group, occurrence=occurrence)
+
+
+class AddStudyGroupMutation(graphene.relay.ClientIDMutation):
+    class Input:
+        person = graphene.NonNull(
+            PersonNodeInput,
+            description="If person input doesn't include person"
+            " id, a new person object will be "
+            "created",
+        )
+        name = graphene.String()
+        group_size = graphene.Int(required=True)
+
+    study_group = graphene.Field(StudyGroupNode)
+
+    @classmethod
+    @transaction.atomic
+    def mutate_and_get_payload(cls, root, info, **kwargs):
+        person_data = kwargs.pop("person")
+        if person_data.get("id"):
+            person_id = get_node_id_from_global_id(person_data.get("id"), "PersonNode")
+            try:
+                person = Person.objects.get(id=person_id)
+            except Person.DoesNotExist as e:
+                raise ObjectDoesNotExistError(e)
+        else:
+            person = Person.objects.create(**person_data)
+        kwargs["person_id"] = person.id
+        study_group = StudyGroup.objects.create(**kwargs)
+        return AddStudyGroupMutation(study_group=study_group)
+
+
+class UpdateStudyGroupMutation(graphene.relay.ClientIDMutation):
+    class Input:
+        id = graphene.GlobalID()
+        person = PersonNodeInput()
+        name = graphene.String()
+        group_size = graphene.Int()
+
+    study_group = graphene.Field(StudyGroupNode)
+
+    @classmethod
+    @staff_member_required
+    @transaction.atomic
+    def mutate_and_get_payload(cls, root, info, **kwargs):
+        study_group_global_id = kwargs.pop("id")
+        study_group_id = get_node_id_from_global_id(
+            study_group_global_id, "StudyGroupNode"
+        )
+        try:
+            study_group = StudyGroup.objects.get(id=study_group_id)
+        except StudyGroup.DoesNotExist as e:
+            raise ObjectDoesNotExistError(e)
+
+        person_data = kwargs.pop("person", None)
+        if person_data:
+            if person_data.get("id"):
+                person_id = get_node_id_from_global_id(
+                    person_data.get("id"), "PersonNode"
+                )
+                try:
+                    person = Person.objects.get(id=person_id)
+                except Person.DoesNotExist as e:
+                    raise ObjectDoesNotExistError(e)
+            else:
+                person = Person.objects.create(**person_data)
+            kwargs["person_id"] = person.id
+        update_object(study_group, kwargs)
+        return UpdateStudyGroupMutation(study_group=study_group)
+
+
+class DeleteStudyGroupMutation(graphene.relay.ClientIDMutation):
+    class Input:
+        id = graphene.GlobalID()
+
+    @classmethod
+    @staff_member_required
+    @transaction.atomic
+    def mutate_and_get_payload(cls, root, info, **kwargs):
+        study_group_global_id = kwargs.pop("id")
+        study_group_id = get_node_id_from_global_id(
+            study_group_global_id, "StudyGroupNode"
+        )
+        try:
+            study_group = StudyGroup.objects.get(id=study_group_id)
+        except StudyGroup.DoesNotExist as e:
+            raise ObjectDoesNotExistError(e)
+        study_group.delete()
+        return DeleteStudyGroupMutation()
+
+
 class Query:
     occurrences = DjangoConnectionField(OccurrenceNode)
     occurrence = relay.Node.Field(OccurrenceNode)
@@ -333,6 +529,9 @@ class Query:
     def resolve_venue(parent, info, **kwargs):
         return VenueCustomData.objects.get(pk=kwargs.pop("id"))
 
+    enrolments = DjangoConnectionField(EnrolmentNode)
+    enrolment = relay.Node.Field(EnrolmentNode)
+
 
 class Mutation:
     add_occurrence = AddOccurrenceMutation.Field()
@@ -342,3 +541,15 @@ class Mutation:
     add_venue = AddVenueMutation.Field()
     update_venue = UpdateVenueMutation.Field()
     delete_venue = DeleteVenueMutation.Field()
+
+    add_study_group = AddStudyGroupMutation.Field()
+    update_study_group = UpdateStudyGroupMutation.Field(
+        description="Mutation for admin only"
+    )
+    delete_study_group = DeleteStudyGroupMutation.Field(
+        description="Mutation for admin only"
+    )
+    enrol_occurrence = EnrolOccurrenceMutation.Field()
+    unenrol_occurrence = UnenrolOccurrenceMutation.Field(
+        description="Required logged in user for authorization"
+    )
