@@ -365,6 +365,7 @@ query Venues {
   venues {
     edges {
       node {
+        id
         description
         translations {
           description
@@ -378,6 +379,7 @@ query Venues {
 VENUE_QUERY = """
 query venue($id:ID!){
   venue(id: $id){
+    id
     description,
     translations{
       description
@@ -390,6 +392,7 @@ ADD_VENUE_MUTATION = """
 mutation AddVenue($input: AddVenueMutationInput!) {
   addVenue(input: $input) {
     venue {
+        id
         description
         translations {
           description
@@ -401,8 +404,7 @@ mutation AddVenue($input: AddVenueMutationInput!) {
 
 ADD_VENUE_VARIABLES = {
     "input": {
-        "id": "VmVudWVOb2RlOjk5OQ==",  # base64(
-        # "VenueNode:999")
+        "id": "place_id",
         "translations": [
             {"description": "Venue description in FI", "languageCode": "FI"},
             {"description": "Venue description in EN", "languageCode": "EN"},
@@ -414,6 +416,7 @@ UPDATE_VENUE_MUTATION = """
 mutation updateVenue($input: UpdateVenueMutationInput!) {
   updateVenue(input: $input) {
     venue {
+        id
         description
         translations {
           description
@@ -449,7 +452,7 @@ def test_venues_query(snapshot, user_api_client, venue):
 
 
 def test_venue_query(snapshot, user_api_client, venue):
-    variables = {"id": to_global_id("VenueNode", venue.place_id)}
+    variables = {"id": venue.place_id}
     executed = user_api_client.execute(VENUE_QUERY, variables=variables)
 
     snapshot.assert_match(executed)
@@ -485,7 +488,7 @@ def test_update_venue_permission_denied(api_client, user_api_client):
 
 def test_update_venue_staff_user(snapshot, staff_api_client, venue):
     venue_variables = deepcopy(UPDATE_VENUE_VARIABLES)
-    venue_variables["input"]["id"] = to_global_id("VenueNode", venue.place_id)
+    venue_variables["input"]["id"] = venue.place_id
     executed = staff_api_client.execute(
         UPDATE_VENUE_MUTATION, variables=venue_variables
     )
@@ -506,7 +509,6 @@ def test_delete_venue_permission_denied(api_client, user_api_client):
 
 def test_delete_venue_staff_user(staff_api_client, venue):
     staff_api_client.execute(
-        DELETE_VENUE_MUTATION,
-        variables={"input": {"id": to_global_id("VenueNode", venue.place_id)}},
+        DELETE_VENUE_MUTATION, variables={"input": {"id": venue.place_id}},
     )
     assert VenueCustomData.objects.count() == 0

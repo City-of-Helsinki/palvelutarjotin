@@ -68,11 +68,8 @@ class VenueNode(DjangoObjectType):
         "defined in request "
         "ACCEPT-LANGUAGE header "
     )
-    id = graphene.GlobalID(
-        source="place_id",
-        description="Venue custom data ID is "
-        "the encoded place_id from "
-        "linkedEvent",
+    id = graphene.ID(
+        source="place_id", description="place_id from linkedEvent", required=True
     )
 
     class Meta:
@@ -265,7 +262,7 @@ class DeleteOccurrenceMutation(graphene.ClientIDMutation):
 
 class AddVenueMutation(graphene.relay.ClientIDMutation):
     class Input:
-        id = graphene.GlobalID(description="Place id from linked event")
+        id = graphene.ID(description="Place id from linked event", required=True)
         translations = graphene.List(VenueTranslationsInput)
 
     venue = graphene.Field(VenueNode)
@@ -275,7 +272,7 @@ class AddVenueMutation(graphene.relay.ClientIDMutation):
     @transaction.atomic
     def mutate_and_get_payload(cls, root, info, **kwargs):
         # TODO: Add validation
-        kwargs["place_id"] = get_node_id_from_global_id(kwargs.pop("id"), "VenueNode")
+        kwargs["place_id"] = kwargs.pop("id")
         translations = kwargs.pop("translations")
         venue, _ = VenueCustomData.objects.get_or_create(**kwargs)
         venue.create_or_update_translations(translations)
@@ -284,7 +281,7 @@ class AddVenueMutation(graphene.relay.ClientIDMutation):
 
 class UpdateVenueMutation(graphene.relay.ClientIDMutation):
     class Input:
-        id = graphene.GlobalID(description="Place id from linked event")
+        id = graphene.ID(description="Place id from linked event", required=True)
         translations = graphene.List(VenueTranslationsInput)
 
     venue = graphene.Field(VenueNode)
@@ -294,11 +291,8 @@ class UpdateVenueMutation(graphene.relay.ClientIDMutation):
     @transaction.atomic
     def mutate_and_get_payload(cls, root, info, **kwargs):
         # TODO: Add validation
-        venue_global_id = kwargs.pop("id")
         try:
-            venue = VenueCustomData.objects.get(
-                pk=get_node_id_from_global_id(venue_global_id, "VenueNode")
-            )
+            venue = VenueCustomData.objects.get(pk=kwargs.pop("id"))
             update_object_with_translations(venue, kwargs)
         except VenueCustomData.DoesNotExist as e:
             raise ObjectDoesNotExistError(e)
@@ -307,16 +301,14 @@ class UpdateVenueMutation(graphene.relay.ClientIDMutation):
 
 class DeleteVenueMutation(graphene.relay.ClientIDMutation):
     class Input:
-        id = graphene.GlobalID(description="Place id from linked event")
+        id = graphene.ID(description="Place id from linked event", required=True)
 
     @classmethod
     @staff_member_required
     @transaction.atomic
     def mutate_and_get_payload(cls, root, info, **kwargs):
-        venue_global_id = kwargs.pop("id")
-        venue_id = get_node_id_from_global_id(venue_global_id, "VenueNode")
         try:
-            venue = VenueCustomData.objects.get(pk=venue_id)
+            venue = VenueCustomData.objects.get(pk=kwargs.pop("id"))
             venue.delete()
         except VenueCustomData.DoesNotExist as e:
             raise ObjectDoesNotExistError(e)
@@ -331,7 +323,11 @@ class Query:
     study_group = relay.Node.Field(StudyGroupNode)
 
     venues = DjangoConnectionField(VenueNode)
-    venue = relay.Node.Field(VenueNode)
+    venue = graphene.Field(VenueNode, id=graphene.ID(required=True))
+
+    @staticmethod
+    def resolve_venue(parent, info, **kwargs):
+        return VenueCustomData.objects.get(pk=kwargs.pop("id"))
 
 
 class Mutation:
