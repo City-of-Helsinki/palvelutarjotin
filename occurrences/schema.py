@@ -264,6 +264,8 @@ class AddVenueMutation(graphene.relay.ClientIDMutation):
     class Input:
         id = graphene.ID(description="Place id from linked event", required=True)
         translations = graphene.List(VenueTranslationsInput)
+        has_clothing_storage = graphene.Boolean(required=True)
+        has_snack_eating_place = graphene.Boolean(required=True)
 
     venue = graphene.Field(VenueNode)
 
@@ -283,6 +285,8 @@ class UpdateVenueMutation(graphene.relay.ClientIDMutation):
     class Input:
         id = graphene.ID(description="Place id from linked event", required=True)
         translations = graphene.List(VenueTranslationsInput)
+        has_clothing_storage = graphene.Boolean()
+        has_snack_eating_place = graphene.Boolean()
 
     venue = graphene.Field(VenueNode)
 
