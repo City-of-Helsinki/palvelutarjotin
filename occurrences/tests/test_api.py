@@ -72,8 +72,8 @@ query StudyGroup($id: ID!){
 """
 
 OCCURRENCES_QUERY = """
-query Occurrences{
-  occurrences{
+query Occurrences($upcoming: Boolean, $date: Date, $time: Time){
+  occurrences(upcoming: $upcoming, date: $date, time: $time){
     edges{
       node{
         placeId
@@ -686,7 +686,7 @@ mutation enrolOccurrence($input: EnrolOccurrenceMutationInput!){
 
 
 def test_enrol_not_started_occurrence(snapshot, api_client):
-    # Current date is freezed on 2020-01-04:
+    # Current date froze on 2020-01-04:
     study_group = StudyGroupFactory(group_size=10)
     p_event_1 = PalvelutarjotinEventFactory(
         enrolment_start=datetime(2020, 1, 5, 0, 0, 0, tzinfo=timezone.now().tzinfo),
@@ -711,7 +711,7 @@ def test_enrol_not_started_occurrence(snapshot, api_client):
 
 
 def test_enrol_past_occurrence(snapshot, api_client, occurrence):
-    # Current date is freezed on 2020-01-04:
+    # Current date froze on 2020-01-04:
     study_group = StudyGroupFactory(group_size=10)
     p_event_1 = PalvelutarjotinEventFactory(
         enrolment_start=datetime(2020, 1, 1, 0, 0, 0, tzinfo=timezone.now().tzinfo),
@@ -738,7 +738,7 @@ def test_enrol_past_occurrence(snapshot, api_client, occurrence):
 def test_enrol_invalid_group_size(snapshot, api_client, occurrence):
     study_group_21 = StudyGroupFactory(group_size=21)
     study_group_9 = StudyGroupFactory(group_size=9)
-    # Current date is freezed on 2020-01-04:
+    # Current date froze on 2020-01-04:
     p_event_1 = PalvelutarjotinEventFactory(
         enrolment_start=datetime(2020, 1, 3, 0, 0, 0, tzinfo=timezone.now().tzinfo),
         enrolment_end_days=2,
@@ -769,7 +769,7 @@ def test_enrol_invalid_group_size(snapshot, api_client, occurrence):
 def test_enrol_full_occurrence(snapshot, api_client, occurrence):
     study_group_15 = StudyGroupFactory(group_size=15)
     study_group_20 = StudyGroupFactory(group_size=20)
-    # Current date is freezed on 2020-01-04:
+    # Current date froze on 2020-01-04:
     p_event_1 = PalvelutarjotinEventFactory(
         enrolment_start=datetime(2020, 1, 3, 0, 0, 0, tzinfo=timezone.now().tzinfo),
         enrolment_end_days=2,
@@ -796,7 +796,7 @@ def test_enrol_full_occurrence(snapshot, api_client, occurrence):
 
 def test_enrol_occurrence(snapshot, api_client):
     study_group_15 = StudyGroupFactory(group_size=15)
-    # Current date is freezed on 2020-01-04:
+    # Current date froze on 2020-01-04:
     p_event_1 = PalvelutarjotinEventFactory(
         enrolment_start=datetime(2020, 1, 3, 0, 0, 0, tzinfo=timezone.now().tzinfo),
         enrolment_end_days=2,
@@ -852,7 +852,7 @@ mutation unenrolOccurrence($input: UnenrolOccurrenceMutationInput!){
 
 def test_unenrol_occurrence(snapshot, user_api_client):
     study_group_15 = StudyGroupFactory(group_size=15)
-    # Current date is freezed on 2020-01-04:
+    # Current date froze on 2020-01-04:
     p_event_1 = PalvelutarjotinEventFactory(
         enrolment_start=datetime(2020, 1, 3, 0, 0, 0, tzinfo=timezone.now().tzinfo),
         enrolment_end_days=2,
@@ -877,3 +877,77 @@ def test_unenrol_occurrence(snapshot, user_api_client):
     executed = user_api_client.execute(UNENROL_OCCURRENCE_MUTATION, variables=variables)
     snapshot.assert_match(executed)
     assert occurrence.study_groups.count() == 0
+
+
+def test_occurrences_filter_by_date(api_client, snapshot):
+    OccurrenceFactory(
+        start_time=datetime(2020, 1, 1, 0, 0, 0, tzinfo=timezone.now().tzinfo),
+    )
+    OccurrenceFactory(
+        start_time=datetime(2020, 1, 2, 0, 0, 0, tzinfo=timezone.now().tzinfo),
+    )
+    variables = {"date": "2020-01-02"}
+    executed = api_client.execute(OCCURRENCES_QUERY, variables=variables)
+
+    assert len(executed["data"]["occurrences"]["edges"]) == 1
+    snapshot.assert_match(executed)
+    OccurrenceFactory(
+        start_time=datetime(2020, 1, 2, 0, 0, 0, tzinfo=timezone.now().tzinfo),
+    )
+    executed = api_client.execute(OCCURRENCES_QUERY, variables=variables)
+    assert len(executed["data"]["occurrences"]["edges"]) == 2
+    snapshot.assert_match(executed)
+
+
+def test_occurrences_filter_by_time(api_client, snapshot):
+    for i in range(10, 12):
+        OccurrenceFactory(
+            start_time=datetime(2020, 1, 1, i, 0, 0, tzinfo=timezone.now().tzinfo),
+        )
+        OccurrenceFactory(
+            start_time=datetime(2020, 1, 2, i + 1, 0, 0, tzinfo=timezone.now().tzinfo),
+        )
+    OccurrenceFactory(
+        start_time=datetime(2020, 1, 1, 13, 0, 0, tzinfo=timezone.now().tzinfo),
+    )
+    variables_1 = {"time": "12:00:00"}
+    variables_2 = {"time": "14:00:00+02:00"}
+    variables_3 = {"time": "11:00:00+00:00"}
+
+    executed = api_client.execute(OCCURRENCES_QUERY, variables=variables_1)
+    snapshot.assert_match(executed)
+    assert len(executed["data"]["occurrences"]["edges"]) == 1
+    executed = api_client.execute(OCCURRENCES_QUERY, variables=variables_2)
+    snapshot.assert_match(executed)
+    assert len(executed["data"]["occurrences"]["edges"]) == 1
+    executed = api_client.execute(OCCURRENCES_QUERY, variables=variables_3)
+    snapshot.assert_match(executed)
+    assert len(executed["data"]["occurrences"]["edges"]) == 2
+    snapshot.assert_match(executed)
+
+
+def test_occurrences_filter_by_upcoming(snapshot, api_client):
+    p_event_1 = PalvelutarjotinEventFactory(
+        enrolment_start=datetime(2020, 1, 5, 0, 0, 0, tzinfo=timezone.now().tzinfo),
+        enrolment_end_days=1,
+    )
+
+    OccurrenceFactory(
+        start_time=datetime(2020, 1, 7, 0, 0, 0, tzinfo=timezone.now().tzinfo),
+        p_event=p_event_1,
+    )
+
+    OccurrenceFactory(
+        start_time=datetime(2020, 1, 6, 0, 0, 0, tzinfo=timezone.now().tzinfo),
+        p_event=p_event_1,
+    )
+
+    # Past occurrences
+    OccurrenceFactory(
+        start_time=datetime(2020, 1, 5, 0, 0, 0, tzinfo=timezone.now().tzinfo),
+        p_event=p_event_1,
+    )
+
+    executed = api_client.execute(OCCURRENCES_QUERY, variables={"upcoming": True})
+    snapshot.assert_match(executed)
+    assert len(executed["data"]["occurrences"]["edges"]) == 2

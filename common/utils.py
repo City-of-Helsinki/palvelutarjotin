@@ -1,4 +1,7 @@
+from datetime import datetime
+
 from django.db import transaction
+from django.utils import timezone
 from graphql_relay import from_global_id
 
 from palvelutarjotin import __version__
@@ -33,3 +36,12 @@ def get_node_id_from_global_id(global_id, node_name):
     if name != node_name:
         raise IncorrectGlobalIdError("Node type does not match")
     return id
+
+
+def convert_to_localtime_tz(value):
+    dt = datetime.combine(datetime.now().date(), value)
+    if timezone.is_naive(value):
+        # Auto add local timezone to naive time
+        return timezone.make_aware(dt).timetz()
+    else:
+        return timezone.localtime(dt).timetz()
