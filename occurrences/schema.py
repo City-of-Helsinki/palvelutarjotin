@@ -160,7 +160,7 @@ class OccurrenceLanguageInput(InputObjectType):
 
 class AddOccurrenceMutation(graphene.relay.ClientIDMutation):
     class Input:
-        place_id = graphene.String(required=True)
+        place_id = graphene.String()
         min_group_size = graphene.Int(required=True)
         max_group_size = graphene.Int(required=True)
         start_time = graphene.DateTime(required=True)
