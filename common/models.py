@@ -70,9 +70,11 @@ class TranslatableModel(ParlerTranslatableModel):
 
     @transaction.atomic
     def create_or_update_translations(self, translations):
-        if settings.LANGUAGE_CODE not in [
-            translation["language_code"] for translation in translations
-        ]:
+        if (
+            settings.PARLER_REQUIRE_DEFAULT_TRANSLATION
+            and settings.LANGUAGE_CODE
+            not in [translation["language_code"] for translation in translations]
+        ):
             raise MissingDefaultTranslationError("Default translation is missing")
         self.clear_translations()
         for translation in translations:
