@@ -17,8 +17,12 @@ from graphene_file_upload.scalars import Upload
 from graphene_linked_events.rest_client import LinkedEventsApiClient
 from graphene_linked_events.utils import format_request, format_response, json2obj
 from graphql_jwt.decorators import staff_member_required
-from occurrences.models import PalvelutarjotinEvent
-from occurrences.schema import PalvelutarjotinEventInput, PalvelutarjotinEventNode
+from occurrences.models import PalvelutarjotinEvent, VenueCustomData
+from occurrences.schema import (
+    PalvelutarjotinEventInput,
+    PalvelutarjotinEventNode,
+    VenueNode,
+)
 
 from common.utils import update_object
 from palvelutarjotin import settings
@@ -166,9 +170,21 @@ class Event(IdObject):
     provider_contact_info = String()
     description = Field(LocalisedObject)
     p_event = Field(PalvelutarjotinEventNode)
+    venue = Field(VenueNode)
 
     def resolve_p_event(self, info, **kwargs):
-        return PalvelutarjotinEvent.objects.get(linked_event_id=self.id)
+        try:
+            return PalvelutarjotinEvent.objects.get(linked_event_id=self.id)
+        except PalvelutarjotinEvent.DoesNotExist:
+            return None
+
+    def resolve_venue(self, info, **kwargs):
+        if self.location.id:
+            try:
+                return VenueCustomData.objects.get(pk=self.location.id)
+            except VenueCustomData.DoesNotExist:
+                pass
+        return None
 
 
 class Meta(ObjectType):
