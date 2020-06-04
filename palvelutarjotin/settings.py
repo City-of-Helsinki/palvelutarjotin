@@ -209,6 +209,8 @@ PARLER_LANGUAGES = {SITE_ID: ({"code": "fi"}, {"code": "sv"}, {"code": "en"})}
 
 PARLER_SUPPORTED_LANGUAGE_CODES = [x["code"] for x in PARLER_LANGUAGES[SITE_ID]]
 
+PARLER_REQUIRE_DEFAULT_TRANSLATION = False
+
 GRAPHENE = {
     "SCHEMA": "palvelutarjotin.schema.schema",
     "MIDDLEWARE": ["graphql_jwt.middleware.JSONWebTokenMiddleware"],
