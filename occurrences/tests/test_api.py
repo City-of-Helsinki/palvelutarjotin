@@ -794,7 +794,7 @@ def test_enrol_full_occurrence(snapshot, api_client, occurrence):
     assert_match_error_code(executed, NOT_ENOUGH_CAPACITY_ERROR)
 
 
-def test_enrol_occurrence(snapshot, api_client):
+def test_enrol_occurrence(snapshot, api_client, mock_get_event_data):
     study_group_15 = StudyGroupFactory(group_size=15)
     # Current date froze on 2020-01-04:
     p_event_1 = PalvelutarjotinEventFactory(
@@ -850,7 +850,7 @@ mutation unenrolOccurrence($input: UnenrolOccurrenceMutationInput!){
 """
 
 
-def test_unenrol_occurrence(snapshot, user_api_client):
+def test_unenrol_occurrence(snapshot, user_api_client, mock_get_event_data):
     study_group_15 = StudyGroupFactory(group_size=15)
     # Current date froze on 2020-01-04:
     p_event_1 = PalvelutarjotinEventFactory(

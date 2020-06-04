@@ -14,8 +14,12 @@ from graphene import (
     String,
 )
 from graphene_file_upload.scalars import Upload
-from graphene_linked_events.rest_client import LinkedEventsApiClient
-from graphene_linked_events.utils import format_request, format_response, json2obj
+from graphene_linked_events.utils import (
+    api_client,
+    format_request,
+    format_response,
+    json2obj,
+)
 from graphql_jwt.decorators import staff_member_required
 from occurrences.models import PalvelutarjotinEvent, VenueCustomData
 from occurrences.schema import (
@@ -25,11 +29,8 @@ from occurrences.schema import (
 )
 
 from common.utils import update_object
-from palvelutarjotin import settings
 from palvelutarjotin.exceptions import ObjectDoesNotExistError
 from palvelutarjotin.settings import LINKED_EVENTS_API_CONFIG
-
-api_client = LinkedEventsApiClient(config=settings.LINKED_EVENTS_API_CONFIG)
 
 
 class IdObject(ObjectType):

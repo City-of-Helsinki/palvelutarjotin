@@ -41,7 +41,7 @@ def test_occurrence_creation():
 
 
 @pytest.mark.django_db
-def test_enrolment_creation():
+def test_enrolment_creation(mock_get_event_data):
     EnrolmentFactory()
     assert Occurrence.objects.count() == 1
     assert StudyGroup.objects.count() == 1

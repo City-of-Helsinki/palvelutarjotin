@@ -3,6 +3,11 @@
 import json
 from collections import namedtuple
 
+from django.conf import settings
+from graphene_linked_events.rest_client import LinkedEventsApiClient
+
+api_client = LinkedEventsApiClient(config=settings.LINKED_EVENTS_API_CONFIG)
+
 
 def format_response(response):
     # Some fields from api have @prefix that need to be converted
@@ -20,3 +25,8 @@ def json2obj(data):
 def format_request(request):
     # TODO: Find better way to replace internal_id key
     return json.dumps(request).replace("internal_", "@")
+
+
+def retrieve_linked_events_data(resource, resource_id, params=None):
+    response = api_client.retrieve(resource, resource_id, params=params)
+    return json2obj(format_response(response))
