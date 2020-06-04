@@ -8,7 +8,9 @@ from django.utils import timezone
 from django.utils.translation import get_language
 from graphene import InputObjectType, relay
 from graphene_django import DjangoConnectionField, DjangoObjectType
+from graphene_django.filter import DjangoFilterConnectionField
 from graphql_jwt.decorators import login_required, staff_member_required
+from occurrences.filters import OccurrenceFilter
 from occurrences.models import (
     Enrolment,
     Language,
@@ -109,6 +111,11 @@ class OccurrenceNode(DjangoObjectType):
     class Meta:
         model = Occurrence
         interfaces = (relay.Node,)
+        filterset_class = OccurrenceFilter
+
+    @classmethod
+    def get_queryset(cls, queryset, info):
+        return super().get_queryset(queryset, info).order_by("start_time")
 
     def resolve_remaining_seats(self, info, **kwargs):
         return self.amount_of_seats - self.seats_taken
@@ -516,7 +523,7 @@ class DeleteStudyGroupMutation(graphene.relay.ClientIDMutation):
 
 
 class Query:
-    occurrences = DjangoConnectionField(OccurrenceNode)
+    occurrences = DjangoFilterConnectionField(OccurrenceNode)
     occurrence = relay.Node.Field(OccurrenceNode)
 
     study_groups = DjangoConnectionField(StudyGroupNode)

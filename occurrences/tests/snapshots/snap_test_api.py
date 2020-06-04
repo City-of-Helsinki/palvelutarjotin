@@ -163,9 +163,9 @@ snapshots["test_add_venue_staff_user 1"] = {
         "addVenue": {
             "venue": {
                 "description": "Venue description in FI",
-                "id": "place_id",
                 "hasClothingStorage": True,
                 "hasSnackEatingPlace": True,
+                "id": "place_id",
                 "translations": [
                     {"description": "Venue description in EN"},
                     {"description": "Venue description in FI"},
@@ -182,9 +182,9 @@ snapshots["test_venues_query 1"] = {
                 {
                     "node": {
                         "description": "Serious listen police shake. Page box child care any concern.",
-                        "id": "mZHxy",
                         "hasClothingStorage": True,
                         "hasSnackEatingPlace": False,
+                        "id": "mZHxy",
                         "translations": [
                             {
                                 "description": "Serious listen police shake. Page box child care any concern."
@@ -202,9 +202,9 @@ snapshots["test_update_venue_staff_user 1"] = {
         "updateVenue": {
             "venue": {
                 "description": "Venue description",
-                "id": "mZHxy",
                 "hasClothingStorage": True,
                 "hasSnackEatingPlace": True,
+                "id": "mZHxy",
                 "translations": [
                     {"description": "Venue description in EN"},
                     {"description": "Venue description"},
@@ -218,9 +218,9 @@ snapshots["test_venue_query 1"] = {
     "data": {
         "venue": {
             "description": "Serious listen police shake. Page box child care any concern.",
-            "id": "mZHxy",
             "hasClothingStorage": True,
             "hasSnackEatingPlace": False,
+            "id": "mZHxy",
             "translations": [
                 {
                     "description": "Serious listen police shake. Page box child care any concern."
@@ -324,6 +324,300 @@ snapshots["test_unenrol_occurrence 1"] = {
             "studyGroup": {
                 "name": "Bed agree room laugh prevent make never. Very television beat at success decade either."
             },
+        }
+    }
+}
+
+snapshots["test_occurrences_filter_by_date 1"] = {
+    "data": {
+        "occurrences": {
+            "edges": [
+                {
+                    "node": {
+                        "amountOfSeats": 13,
+                        "autoAcceptance": True,
+                        "contactPersons": {"edges": []},
+                        "endTime": "1971-01-03T00:58:35+00:00",
+                        "maxGroupSize": 88,
+                        "minGroupSize": 511,
+                        "organisation": {"name": "Ryan Clark"},
+                        "pEvent": {
+                            "enrolmentEndDays": 1,
+                            "enrolmentStart": "1975-08-12T12:08:34+00:00",
+                            "linkedEventId": "Write century spring never skill down subject town.",
+                        },
+                        "placeId": "Table TV minute defense.",
+                        "remainingSeats": 13,
+                        "seatsTaken": 0,
+                        "startTime": "2020-01-02T00:00:00+00:00",
+                        "studyGroups": {"edges": []},
+                    }
+                }
+            ]
+        }
+    }
+}
+
+snapshots["test_occurrences_filter_by_time 1"] = {
+    "data": {
+        "occurrences": {
+            "edges": [
+                {
+                    "node": {
+                        "amountOfSeats": 13,
+                        "autoAcceptance": True,
+                        "contactPersons": {"edges": []},
+                        "endTime": "2013-12-12T04:57:19+00:00",
+                        "maxGroupSize": 383,
+                        "minGroupSize": 341,
+                        "organisation": {"name": "Kari Sellers"},
+                        "pEvent": {
+                            "enrolmentEndDays": 2,
+                            "enrolmentStart": "1995-04-12T06:10:43+00:00",
+                            "linkedEventId": "Success answer entire increase thank. Least then top sing.",
+                        },
+                        "placeId": "Record card my. Sure sister return.",
+                        "remainingSeats": 13,
+                        "seatsTaken": 0,
+                        "startTime": "2020-01-01T10:00:00+00:00",
+                        "studyGroups": {"edges": []},
+                    }
+                }
+            ]
+        }
+    }
+}
+
+snapshots["test_occurrences_filter_by_upcoming 1"] = {
+    "data": {
+        "occurrences": {
+            "edges": [
+                {
+                    "node": {
+                        "amountOfSeats": 43,
+                        "autoAcceptance": True,
+                        "contactPersons": {"edges": []},
+                        "endTime": "1988-12-20T15:52:53+00:00",
+                        "maxGroupSize": 899,
+                        "minGroupSize": 271,
+                        "organisation": {"name": "Kristin Murphy"},
+                        "pEvent": {
+                            "enrolmentEndDays": 1,
+                            "enrolmentStart": "2020-01-05T00:00:00+00:00",
+                            "linkedEventId": "Record card my. Sure sister return.",
+                        },
+                        "placeId": "Bed agree room laugh prevent make never.",
+                        "remainingSeats": 43,
+                        "seatsTaken": 0,
+                        "startTime": "2020-01-06T00:00:00+00:00",
+                        "studyGroups": {"edges": []},
+                    }
+                },
+                {
+                    "node": {
+                        "amountOfSeats": 11,
+                        "autoAcceptance": True,
+                        "contactPersons": {"edges": []},
+                        "endTime": "1986-01-08T08:26:19+00:00",
+                        "maxGroupSize": 49,
+                        "minGroupSize": 530,
+                        "organisation": {"name": "Jason Berg"},
+                        "pEvent": {
+                            "enrolmentEndDays": 1,
+                            "enrolmentStart": "2020-01-05T00:00:00+00:00",
+                            "linkedEventId": "Record card my. Sure sister return.",
+                        },
+                        "placeId": "Machine try lead behind everyone agency start.",
+                        "remainingSeats": 11,
+                        "seatsTaken": 0,
+                        "startTime": "2020-01-07T00:00:00+00:00",
+                        "studyGroups": {"edges": []},
+                    }
+                },
+            ]
+        }
+    }
+}
+
+snapshots["test_occurrences_filter_by_date 2"] = {
+    "data": {
+        "occurrences": {
+            "edges": [
+                {
+                    "node": {
+                        "amountOfSeats": 13,
+                        "autoAcceptance": True,
+                        "contactPersons": {"edges": []},
+                        "endTime": "1971-01-03T00:58:35+00:00",
+                        "maxGroupSize": 88,
+                        "minGroupSize": 511,
+                        "organisation": {"name": "Ryan Clark"},
+                        "pEvent": {
+                            "enrolmentEndDays": 1,
+                            "enrolmentStart": "1975-08-12T12:08:34+00:00",
+                            "linkedEventId": "Write century spring never skill down subject town.",
+                        },
+                        "placeId": "Table TV minute defense.",
+                        "remainingSeats": 13,
+                        "seatsTaken": 0,
+                        "startTime": "2020-01-02T00:00:00+00:00",
+                        "studyGroups": {"edges": []},
+                    }
+                },
+                {
+                    "node": {
+                        "amountOfSeats": 34,
+                        "autoAcceptance": True,
+                        "contactPersons": {"edges": []},
+                        "endTime": "1986-04-11T14:17:11+00:00",
+                        "maxGroupSize": 562,
+                        "minGroupSize": 348,
+                        "organisation": {"name": "Matthew Hull"},
+                        "pEvent": {
+                            "enrolmentEndDays": 2,
+                            "enrolmentStart": "1981-08-20T11:43:01+00:00",
+                            "linkedEventId": "Treat final central situation past ready join.",
+                        },
+                        "placeId": "Scientist service wonder everything pay.",
+                        "remainingSeats": 34,
+                        "seatsTaken": 0,
+                        "startTime": "2020-01-02T00:00:00+00:00",
+                        "studyGroups": {"edges": []},
+                    }
+                },
+            ]
+        }
+    }
+}
+
+snapshots["test_occurrences_filter_by_time 2"] = {
+    "data": {
+        "occurrences": {
+            "edges": [
+                {
+                    "node": {
+                        "amountOfSeats": 40,
+                        "autoAcceptance": True,
+                        "contactPersons": {"edges": []},
+                        "endTime": "2018-01-05T23:56:15+00:00",
+                        "maxGroupSize": 429,
+                        "minGroupSize": 836,
+                        "organisation": {"name": "Monique Little"},
+                        "pEvent": {
+                            "enrolmentEndDays": 1,
+                            "enrolmentStart": "2011-10-01T03:22:55+00:00",
+                            "linkedEventId": "Affect difficult look can.",
+                        },
+                        "placeId": "Likely behind mission.",
+                        "remainingSeats": 40,
+                        "seatsTaken": 0,
+                        "startTime": "2020-01-02T12:00:00+00:00",
+                        "studyGroups": {"edges": []},
+                    }
+                }
+            ]
+        }
+    }
+}
+
+snapshots["test_occurrences_filter_by_time 3"] = {
+    "data": {
+        "occurrences": {
+            "edges": [
+                {
+                    "node": {
+                        "amountOfSeats": 34,
+                        "autoAcceptance": True,
+                        "contactPersons": {"edges": []},
+                        "endTime": "1986-04-11T14:17:11+00:00",
+                        "maxGroupSize": 562,
+                        "minGroupSize": 348,
+                        "organisation": {"name": "Matthew Hull"},
+                        "pEvent": {
+                            "enrolmentEndDays": 2,
+                            "enrolmentStart": "1981-08-20T11:43:01+00:00",
+                            "linkedEventId": "Treat final central situation past ready join.",
+                        },
+                        "placeId": "Scientist service wonder everything pay.",
+                        "remainingSeats": 34,
+                        "seatsTaken": 0,
+                        "startTime": "2020-01-01T11:00:00+00:00",
+                        "studyGroups": {"edges": []},
+                    }
+                },
+                {
+                    "node": {
+                        "amountOfSeats": 13,
+                        "autoAcceptance": True,
+                        "contactPersons": {"edges": []},
+                        "endTime": "1971-01-03T00:58:35+00:00",
+                        "maxGroupSize": 88,
+                        "minGroupSize": 511,
+                        "organisation": {"name": "Ryan Clark"},
+                        "pEvent": {
+                            "enrolmentEndDays": 1,
+                            "enrolmentStart": "1975-08-12T12:08:34+00:00",
+                            "linkedEventId": "Write century spring never skill down subject town.",
+                        },
+                        "placeId": "Table TV minute defense.",
+                        "remainingSeats": 13,
+                        "seatsTaken": 0,
+                        "startTime": "2020-01-02T11:00:00+00:00",
+                        "studyGroups": {"edges": []},
+                    }
+                },
+            ]
+        }
+    }
+}
+
+snapshots["test_occurrences_filter_by_time 4"] = {
+    "data": {
+        "occurrences": {
+            "edges": [
+                {
+                    "node": {
+                        "amountOfSeats": 34,
+                        "autoAcceptance": True,
+                        "contactPersons": {"edges": []},
+                        "endTime": "1986-04-11T14:17:11+00:00",
+                        "maxGroupSize": 562,
+                        "minGroupSize": 348,
+                        "organisation": {"name": "Matthew Hull"},
+                        "pEvent": {
+                            "enrolmentEndDays": 2,
+                            "enrolmentStart": "1981-08-20T11:43:01+00:00",
+                            "linkedEventId": "Treat final central situation past ready join.",
+                        },
+                        "placeId": "Scientist service wonder everything pay.",
+                        "remainingSeats": 34,
+                        "seatsTaken": 0,
+                        "startTime": "2020-01-01T11:00:00+00:00",
+                        "studyGroups": {"edges": []},
+                    }
+                },
+                {
+                    "node": {
+                        "amountOfSeats": 13,
+                        "autoAcceptance": True,
+                        "contactPersons": {"edges": []},
+                        "endTime": "1971-01-03T00:58:35+00:00",
+                        "maxGroupSize": 88,
+                        "minGroupSize": 511,
+                        "organisation": {"name": "Ryan Clark"},
+                        "pEvent": {
+                            "enrolmentEndDays": 1,
+                            "enrolmentStart": "1975-08-12T12:08:34+00:00",
+                            "linkedEventId": "Write century spring never skill down subject town.",
+                        },
+                        "placeId": "Table TV minute defense.",
+                        "remainingSeats": 13,
+                        "seatsTaken": 0,
+                        "startTime": "2020-01-02T11:00:00+00:00",
+                        "studyGroups": {"edges": []},
+                    }
+                },
+            ]
         }
     }
 }
