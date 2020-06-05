@@ -534,7 +534,10 @@ class Query:
 
     @staticmethod
     def resolve_venue(parent, info, **kwargs):
-        return VenueCustomData.objects.get(pk=kwargs.pop("id"))
+        try:
+            return VenueCustomData.objects.get(pk=kwargs.pop("id"))
+        except VenueCustomData.DoesNotExist:
+            return None
 
     enrolments = DjangoConnectionField(EnrolmentNode)
     enrolment = relay.Node.Field(EnrolmentNode)
