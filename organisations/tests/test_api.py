@@ -2,9 +2,10 @@ from copy import deepcopy
 
 import pytest
 from graphql_relay import to_global_id
-from organisations.factories import PersonFactory
+from organisations.factories import OrganisationFactory, PersonFactory
 
-from common.tests.utils import assert_permission_denied
+from common.tests.utils import assert_match_error_code, assert_permission_denied
+from palvelutarjotin.consts import API_USAGE_ERROR
 
 
 @pytest.fixture(autouse=True)
@@ -94,6 +95,13 @@ query myProfile{
     name
     phoneNumber
     emailAddress
+    organisations{
+         edges{
+             node{
+                 name
+             }
+         }
+      }
   }
 }
 """
@@ -105,12 +113,42 @@ mutation updateMyProfileMutation($input: UpdateMyProfileMutationInput!){
       name
       phoneNumber
       emailAddress
+      organisations{
+         edges{
+             node{
+                 name
+             }
+         }
+      }
     }
   }
 }
 """
 
 UPDATE_MY_PROFILE_VARIABLES = {
+    "input": {"name": "New name", "emailAddress": "newEmail@address.com"}
+}
+
+CREATE_MY_PROFILE_MUTATION = """
+mutation createMyProfileMutation($input: CreateMyProfileMutationInput!){
+  createMyProfile(input: $input){
+    myProfile{
+      name
+      phoneNumber
+      emailAddress
+      organisations{
+         edges{
+             node{
+                 name
+             }
+         }
+      }
+    }
+  }
+}
+"""
+
+CREATE_MY_PROFILE_VARIABLES = {
     "input": {"name": "New name", "emailAddress": "newEmail@address.com"}
 }
 
@@ -227,13 +265,35 @@ def test_my_profile_query_unauthenticated(snapshot, api_client, organisation):
     assert_permission_denied(executed)
 
 
-def test_my_profile_query(snapshot, person_api_client):
+def test_my_profile_query(snapshot, person_api_client, organisation):
+    organisation.persons.add(person_api_client.user.person)
     executed = person_api_client.execute(MY_PROFILE_QUERY)
     snapshot.assert_match(executed)
 
 
-def test_update_my_profile(snapshot, person_api_client):
+def test_create_my_profile(snapshot, user_api_client, person_api_client, organisation):
+    variables = deepcopy(CREATE_MY_PROFILE_VARIABLES)
+    variables["input"]["organisations"] = [
+        to_global_id("OrganisationNode", organisation.id),
+    ]
+    # Should raise error if profile already exists
+    executed = person_api_client.execute(
+        CREATE_MY_PROFILE_MUTATION, variables=variables
+    )
+    assert_match_error_code(executed, API_USAGE_ERROR)
+
+    executed = user_api_client.execute(CREATE_MY_PROFILE_MUTATION, variables=variables)
+    snapshot.assert_match(executed)
+
+
+def test_update_my_profile(snapshot, person_api_client, organisation):
+    person_api_client.user.person.organisations.add(
+        OrganisationFactory(name="old organisation")
+    )
     variables = deepcopy(UPDATE_MY_PROFILE_VARIABLES)
+    variables["input"]["organisations"] = [
+        to_global_id("OrganisationNode", organisation.id),
+    ]
     executed = person_api_client.execute(
         UPDATE_MY_PROFILE_MUTATION, variables=variables
     )

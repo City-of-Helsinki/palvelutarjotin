@@ -113,19 +113,8 @@ snapshots["test_my_profile_query 1"] = {
         "myProfile": {
             "emailAddress": "stephanieskinner@gmail.com",
             "name": "William Brewer",
+            "organisations": {"edges": [{"node": {"name": "Jason Berg"}}]},
             "phoneNumber": "(767)124-0675x064",
-        }
-    }
-}
-
-snapshots["test_update_my_profile 1"] = {
-    "data": {
-        "updateMyProfile": {
-            "myProfile": {
-                "emailAddress": "newEmail@address.com",
-                "name": "New name",
-                "phoneNumber": "(767)124-0675x064",
-            }
         }
     }
 }
@@ -162,6 +151,32 @@ snapshots["test_update_organisation 1"] = {
                 "name": "New name",
                 "phoneNumber": "(767)124-0675x064",
                 "type": "PROVIDER",
+            }
+        }
+    }
+}
+
+snapshots["test_update_my_profile 1"] = {
+    "data": {
+        "updateMyProfile": {
+            "myProfile": {
+                "emailAddress": "newEmail@address.com",
+                "name": "New name",
+                "organisations": {"edges": [{"node": {"name": "Jason Berg"}}]},
+                "phoneNumber": "(767)124-0675x064",
+            }
+        }
+    }
+}
+
+snapshots["test_create_my_profile 1"] = {
+    "data": {
+        "createMyProfile": {
+            "myProfile": {
+                "emailAddress": "newEmail@address.com",
+                "name": "New name",
+                "organisations": {"edges": [{"node": {"name": "Brandon Johnson"}}]},
+                "phoneNumber": "",
             }
         }
     }
