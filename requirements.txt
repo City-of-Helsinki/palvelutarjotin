@@ -19,7 +19,7 @@ django-ilmoitin==0.4.0    # via -r requirements.in
 django-ipware==2.1.0      # via django-axes
 django-mailer==2.0        # via django-ilmoitin
 django-parler==1.9.2      # via django-ilmoitin
-django==2.2.10            # via -r requirements.in, django-anymail, django-appconf, django-axes, django-cors-headers, django-filter, django-graphql-jwt, django-helusers, django-ilmoitin, django-mailer, drf-oidc-auth, graphene-django
+django==2.2.13            # via -r requirements.in, django-anymail, django-appconf, django-axes, django-cors-headers, django-filter, django-graphql-jwt, django-helusers, django-ilmoitin, django-mailer, drf-oidc-auth, graphene-django
 djangorestframework==3.10.3  # via drf-oidc-auth
 drf-oidc-auth==0.9        # via django-helusers
 ecdsa==0.13.3             # via python-jose
