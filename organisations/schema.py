@@ -8,7 +8,7 @@ from graphql_jwt.decorators import login_required, superuser_required
 from organisations.models import Organisation, Person
 
 from common.utils import get_node_id_from_global_id, update_object
-from palvelutarjotin.exceptions import ObjectDoesNotExistError
+from palvelutarjotin.exceptions import ApiUsageError, ObjectDoesNotExistError
 
 User = get_user_model()
 
@@ -36,11 +36,17 @@ class OrganisationNode(DjangoObjectType):
         interfaces = (relay.Node,)
 
 
-class UpdateMyProfileMutation(graphene.relay.ClientIDMutation):
+def validate_person_data(kwargs):
+    # TODO: Add validation
+    pass
+
+
+class CreateMyProfileMutation(graphene.relay.ClientIDMutation):
     class Input:
-        name = graphene.String()
+        name = graphene.String(required=True)
         phone_number = graphene.String()
-        email_address = graphene.String()
+        email_address = graphene.String(required=True)
+        organisations = graphene.List(graphene.ID)
 
     my_profile = graphene.Field(PersonNode)
 
@@ -49,20 +55,59 @@ class UpdateMyProfileMutation(graphene.relay.ClientIDMutation):
     @transaction.atomic
     def mutate_and_get_payload(cls, root, info, **kwargs):
         user = info.context.user
+        if Person.objects.filter(user=user).exists():
+            raise ApiUsageError("User profile already exists")
+        validate_person_data(kwargs)
+        organisation_ids = kwargs.pop("organisations", None)
+        kwargs["user_id"] = user.id
+        person = Person.objects.create(**kwargs)
+        if organisation_ids:
+            for org_global_id in organisation_ids:
+                org_id = get_node_id_from_global_id(org_global_id, "OrganisationNode")
+                try:
+                    organisation = Organisation.objects.get(id=org_id)
+                except Organisation.DoesNotExist as e:
+                    raise ObjectDoesNotExistError(e)
+                person.organisations.add(organisation)
+        return CreateMyProfileMutation(my_profile=person)
 
+
+class UpdateMyProfileMutation(graphene.relay.ClientIDMutation):
+    class Input:
+        name = graphene.String()
+        phone_number = graphene.String()
+        email_address = graphene.String()
+        organisations = graphene.List(
+            graphene.ID,
+            description="If present, should include all organisation ids of user",
+        )
+
+    my_profile = graphene.Field(PersonNode)
+
+    @classmethod
+    @login_required
+    @transaction.atomic
+    def mutate_and_get_payload(cls, root, info, **kwargs):
+        validate_person_data(kwargs)
+        user = info.context.user
+        organisation_ids = kwargs.pop("organisations", None)
         try:
             person = user.person
         except Person.DoesNotExist as e:
             raise ObjectDoesNotExistError(e)
 
         update_object(person, kwargs)
+        if organisation_ids:
+            person.organisations.clear()
+            for org_global_id in organisation_ids:
+                org_id = get_node_id_from_global_id(org_global_id, "OrganisationNode")
+                try:
+                    organisation = Organisation.objects.get(id=org_id)
+                except Organisation.DoesNotExist as e:
+                    raise ObjectDoesNotExistError(e)
+                person.organisations.add(organisation)
 
         return UpdateMyProfileMutation(my_profile=person)
-
-
-def validate_person_data(kwargs):
-    # TODO: Add validation
-    pass
 
 
 class OrganisationTypeEnum(graphene.Enum):
@@ -163,6 +208,7 @@ class Query:
 
 
 class Mutation:
+    create_my_profile = CreateMyProfileMutation.Field()
     update_my_profile = UpdateMyProfileMutation.Field()
     add_organisation = AddOrganisationMutation.Field()
     update_organisation = UpdateOrganisationMutation.Field()
