@@ -179,7 +179,7 @@ class Event(IdObject):
             return None
 
     def resolve_venue(self, info, **kwargs):
-        if self.location.id:
+        if hasattr(self.location, "id"):
             try:
                 return VenueCustomData.objects.get(pk=self.location.id)
             except VenueCustomData.DoesNotExist:
