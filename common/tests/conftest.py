@@ -12,6 +12,7 @@ from occurrences.factories import (
 )
 from organisations.factories import OrganisationFactory, PersonFactory, UserFactory
 
+from common.tests.json_fixtures import *  # noqa
 from palvelutarjotin.schema import schema
 from palvelutarjotin.views import SentryGraphQLView
 

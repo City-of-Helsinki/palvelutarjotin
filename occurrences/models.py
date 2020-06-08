@@ -1,6 +1,7 @@
 from django.db import models
 from django.db.models import Sum
 from django.utils.translation import ugettext_lazy as _
+from graphene_linked_events.utils import retrieve_linked_events_data
 from parler.models import TranslatedFields
 
 from common.models import TimestampedModel, TranslatableModel
@@ -29,6 +30,9 @@ class PalvelutarjotinEvent(TimestampedModel):
 
     def __str__(self):
         return f"{self.id} {self.linked_event_id}"
+
+    def get_event_data(self):
+        return retrieve_linked_events_data("event", self.linked_event_id)
 
 
 class Language(models.Model):

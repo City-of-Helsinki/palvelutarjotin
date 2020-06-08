@@ -1,17 +1,4 @@
 import pytest
-from graphene_linked_events.tests.mock_data import (
-    CREATED_EVENT_DATA,
-    EVENT_DATA,
-    EVENTS_DATA,
-    IMAGE_DATA,
-    IMAGES_DATA,
-    KEYWORD_DATA,
-    KEYWORDS_DATA,
-    PLACE_DATA,
-    PLACES_DATA,
-    UPDATE_EVENT_DATA,
-)
-from graphene_linked_events.tests.utils import MockResponse
 from occurrences.factories import PalvelutarjotinEventFactory
 from occurrences.models import PalvelutarjotinEvent
 
@@ -562,106 +549,42 @@ query eventsSearch{
 """
 
 
-def test_get_events(api_client, snapshot, monkeypatch):
-    def mock_data(*args, **kwargs):
-        return MockResponse(status_code=200, json_data=EVENTS_DATA)
-
-    import graphene_linked_events.rest_client
-
-    monkeypatch.setattr(
-        graphene_linked_events.rest_client.LinkedEventsApiClient, "list", mock_data
-    )
+def test_get_events(api_client, snapshot, mock_get_events_data):
     executed = api_client.execute(GET_EVENTS_QUERY)
     snapshot.assert_match(executed)
 
 
-def test_get_event(api_client, snapshot, monkeypatch):
-    def mock_data(*args, **kwargs):
-        return MockResponse(status_code=200, json_data=EVENT_DATA)
-
-    import graphene_linked_events.rest_client
-
-    monkeypatch.setattr(
-        graphene_linked_events.rest_client.LinkedEventsApiClient, "retrieve", mock_data
-    )
+def test_get_event(api_client, snapshot, mock_get_event_data):
     executed = api_client.execute(GET_EVENT_QUERY)
     snapshot.assert_match(executed)
 
 
-def test_get_places(api_client, snapshot, monkeypatch):
-    def mock_data(*args, **kwargs):
-        return MockResponse(status_code=200, json_data=PLACES_DATA)
-
-    import graphene_linked_events.rest_client
-
-    monkeypatch.setattr(
-        graphene_linked_events.rest_client.LinkedEventsApiClient, "list", mock_data
-    )
+def test_get_places(api_client, snapshot, mock_get_places_data):
     executed = api_client.execute(GET_PLACES_QUERY)
     snapshot.assert_match(executed)
 
 
-def test_get_place(api_client, snapshot, monkeypatch):
-    def mock_data(*args, **kwargs):
-        return MockResponse(status_code=200, json_data=PLACE_DATA)
-
-    import graphene_linked_events.rest_client
-
-    monkeypatch.setattr(
-        graphene_linked_events.rest_client.LinkedEventsApiClient, "retrieve", mock_data
-    )
+def test_get_place(api_client, snapshot, mock_get_place_data):
     executed = api_client.execute(GET_PLACE_QUERY)
     snapshot.assert_match(executed)
 
 
-def test_get_keywords(api_client, snapshot, monkeypatch):
-    def mock_data(*args, **kwargs):
-        return MockResponse(status_code=200, json_data=KEYWORDS_DATA)
-
-    import graphene_linked_events.rest_client
-
-    monkeypatch.setattr(
-        graphene_linked_events.rest_client.LinkedEventsApiClient, "list", mock_data
-    )
+def test_get_keywords(api_client, snapshot, mock_get_keywords_data):
     executed = api_client.execute(GET_KEYWORDS_QUERY)
     snapshot.assert_match(executed)
 
 
-def test_get_keyword(api_client, snapshot, monkeypatch):
-    def mock_data(*args, **kwargs):
-        return MockResponse(status_code=200, json_data=KEYWORD_DATA)
-
-    import graphene_linked_events.rest_client
-
-    monkeypatch.setattr(
-        graphene_linked_events.rest_client.LinkedEventsApiClient, "retrieve", mock_data
-    )
+def test_get_keyword(api_client, snapshot, mock_get_keyword_data):
     executed = api_client.execute(GET_KEYWORD_QUERY)
     snapshot.assert_match(executed)
 
 
-def test_search_places(api_client, snapshot, monkeypatch):
-    def mock_data(*args, **kwargs):
-        return MockResponse(status_code=200, json_data=PLACES_DATA)
-
-    import graphene_linked_events.rest_client
-
-    monkeypatch.setattr(
-        graphene_linked_events.rest_client.LinkedEventsApiClient, "search", mock_data
-    )
+def test_search_places(api_client, snapshot, mock_search_places_data):
     executed = api_client.execute(SEARCH_PLACES_QUERY)
     snapshot.assert_match(executed)
 
 
-def test_search_events(api_client, snapshot, monkeypatch):
-    def mock_data(*args, **kwargs):
-        return MockResponse(status_code=200, json_data=EVENTS_DATA)
-
-    import graphene_linked_events.rest_client
-
-    monkeypatch.setattr(
-        graphene_linked_events.rest_client.LinkedEventsApiClient, "search", mock_data
-    )
+def test_search_events(api_client, snapshot, mock_search_events_data):
     executed = api_client.execute(SEARCH_EVENTS_QUERY)
     snapshot.assert_match(executed)
 
@@ -756,16 +679,7 @@ def test_create_event_unauthorized(api_client, user_api_client):
     assert_permission_denied(executed)
 
 
-def test_create_event(staff_api_client, snapshot, monkeypatch):
-    def mock_data(*args, **kwargs):
-        return MockResponse(status_code=201, json_data=CREATED_EVENT_DATA)
-
-    import graphene_linked_events.rest_client
-
-    monkeypatch.setattr(
-        graphene_linked_events.rest_client.LinkedEventsApiClient, "create", mock_data
-    )
-
+def test_create_event(staff_api_client, snapshot, mock_create_event_data):
     executed = staff_api_client.execute(
         CREATE_EVENT_MUTATION, variables=CREATE_EVENT_VARIABLES
     )
@@ -864,16 +778,7 @@ def test_update_event_unauthorized(api_client, user_api_client):
     assert_permission_denied(executed)
 
 
-def test_update_event(staff_api_client, snapshot, monkeypatch):
-    def mock_data(*args, **kwargs):
-        return MockResponse(status_code=200, json_data=UPDATE_EVENT_DATA)
-
-    import graphene_linked_events.rest_client
-
-    monkeypatch.setattr(
-        graphene_linked_events.rest_client.LinkedEventsApiClient, "update", mock_data
-    )
-
+def test_update_event(staff_api_client, snapshot, mock_update_event_data):
     PalvelutarjotinEventFactory(linked_event_id=UPDATE_EVENT_VARIABLES["input"]["id"],)
 
     executed = staff_api_client.execute(
@@ -907,16 +812,7 @@ def test_delete_event_unauthorized(api_client, user_api_client):
     assert_permission_denied(executed)
 
 
-def test_delete_event(staff_api_client, snapshot, monkeypatch):
-    def mock_data(*args, **kwargs):
-        return MockResponse(status_code=204, json_data=None)
-
-    import graphene_linked_events.rest_client
-
-    monkeypatch.setattr(
-        graphene_linked_events.rest_client.LinkedEventsApiClient, "delete", mock_data
-    )
-
+def test_delete_event(staff_api_client, snapshot, mock_delete_event_data):
     executed = staff_api_client.execute(DELETE_EVENT_MUTATION)
     snapshot.assert_match(executed)
 
@@ -943,15 +839,7 @@ query Images{
 """
 
 
-def test_images_query(api_client, snapshot, monkeypatch):
-    def mock_data(*args, **kwargs):
-        return MockResponse(status_code=200, json_data=IMAGES_DATA)
-
-    import graphene_linked_events.rest_client
-
-    monkeypatch.setattr(
-        graphene_linked_events.rest_client.LinkedEventsApiClient, "list", mock_data
-    )
+def test_images_query(api_client, snapshot, mock_get_images_data):
     executed = api_client.execute(GET_IMAGES_QUERY)
     snapshot.assert_match(executed)
 
@@ -971,15 +859,7 @@ query Image($id: ID!){
 """
 
 
-def test_image_query(api_client, snapshot, monkeypatch):
-    def mock_data(*args, **kwargs):
-        return MockResponse(status_code=200, json_data=IMAGE_DATA)
-
-    import graphene_linked_events.rest_client
-
-    monkeypatch.setattr(
-        graphene_linked_events.rest_client.LinkedEventsApiClient, "retrieve", mock_data
-    )
+def test_image_query(api_client, snapshot, mock_get_image_data):
     executed = api_client.execute(GET_IMAGE_QUERY, variables={"id": "2036"})
     snapshot.assert_match(executed)
 
@@ -1025,15 +905,7 @@ def test_update_image_unauthorized(api_client, user_api_client):
     assert_permission_denied(executed)
 
 
-def test_update_image(staff_api_client, snapshot, monkeypatch):
-    def mock_data(*args, **kwargs):
-        return MockResponse(status_code=200, json_data=IMAGE_DATA)
-
-    import graphene_linked_events.rest_client
-
-    monkeypatch.setattr(
-        graphene_linked_events.rest_client.LinkedEventsApiClient, "update", mock_data
-    )
+def test_update_image(staff_api_client, snapshot, mock_update_image_data):
     executed = staff_api_client.execute(
         UPDATE_IMAGE_MUTATION, variables=UPDATE_IMAGE_VARIABLES
     )
@@ -1058,15 +930,6 @@ def test_delete_image_unauthorized(api_client, user_api_client):
     assert_permission_denied(executed)
 
 
-def test_delete_image(staff_api_client, snapshot, monkeypatch):
-    def mock_data(*args, **kwargs):
-        return MockResponse(status_code=204, json_data=None)
-
-    import graphene_linked_events.rest_client
-
-    monkeypatch.setattr(
-        graphene_linked_events.rest_client.LinkedEventsApiClient, "delete", mock_data
-    )
-
+def test_delete_image(staff_api_client, snapshot, mock_delete_image_data):
     executed = staff_api_client.execute(DELETE_IMAGE_MUTATION)
     snapshot.assert_match(executed)
