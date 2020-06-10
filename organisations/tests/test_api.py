@@ -56,6 +56,7 @@ query Organisations{
   organisations{
     edges{
       node{
+        publisherId
         name
         phoneNumber
         type
@@ -75,6 +76,7 @@ query Organisations{
 ORGANISATION_QUERY = """
 query Organisation($id : ID!){
   organisation(id: $id){
+    publisherId
     name
     phoneNumber
     type
@@ -180,6 +182,7 @@ mutation addOrganisationMutation($input:AddOrganisationMutationInput!){
       name
       type
       phoneNumber
+      publisherId
     }
   }
 }
@@ -190,6 +193,7 @@ ADD_ORGANISATION_VARIABLES = {
         "name": "New organisation",
         "type": "PROVIDER",
         "phoneNumber": "012345678",
+        "publisherId": "publisher_id",
     }
 }
 
@@ -200,12 +204,15 @@ mutation updateOrganisationMutation($input:UpdateOrganisationMutationInput!){
       name
       type
       phoneNumber
+      publisherId
     }
   }
 }
 """
 
-UPDATE_ORGANISATION_VARIABLES = {"input": {"id": "", "name": "New name"}}
+UPDATE_ORGANISATION_VARIABLES = {
+    "input": {"id": "", "name": "New name", "publisherId": "publisher_id"}
+}
 
 
 def test_persons_query(snapshot, api_client, user_api_client, staff_api_client, person):

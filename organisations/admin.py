@@ -7,7 +7,7 @@ from organisations.models import Organisation, Person
 @admin.register(Organisation)
 class OrganisationAdmin(admin.ModelAdmin):
     filter_horizontal = ("persons",)
-    list_display = ("name", "type")
+    list_display = ("name", "type", "publisher_id")
     exclude = ("id",)
 
 
@@ -19,10 +19,11 @@ class OrganisationInline(admin.TabularInline):
 class PersonAdmin(admin.ModelAdmin):
     list_display = (
         "name",
+        "email_address",
         "created_at",
         "updated_at",
     )
-    fields = ("user", "name", "phone_number")
+    fields = ("user", "name", "phone_number", "email_address")
     inlines = (OrganisationInline,)
 
 

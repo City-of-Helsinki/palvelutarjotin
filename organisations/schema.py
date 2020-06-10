@@ -125,6 +125,7 @@ class AddOrganisationMutation(graphene.relay.ClientIDMutation):
         name = graphene.String(required=True)
         phone_number = graphene.String()
         type = OrganisationTypeEnum(required=True)
+        publisher_id = graphene.String()
 
     organisation = graphene.Field(OrganisationNode)
 
@@ -143,6 +144,7 @@ class UpdateOrganisationMutation(graphene.relay.ClientIDMutation):
         name = graphene.String()
         phone_number = graphene.String()
         type = OrganisationTypeEnum()
+        publisher_id = graphene.String()
 
     organisation = graphene.Field(OrganisationNode)
 
@@ -210,6 +212,7 @@ class Query:
 class Mutation:
     create_my_profile = CreateMyProfileMutation.Field()
     update_my_profile = UpdateMyProfileMutation.Field()
+
     add_organisation = AddOrganisationMutation.Field()
     update_organisation = UpdateOrganisationMutation.Field()
 

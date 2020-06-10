@@ -40,12 +40,8 @@ class Organisation(models.Model):
     persons = models.ManyToManyField(
         "Person", verbose_name=_("persons"), related_name="organisations", blank=True
     )
-    group = models.OneToOneField(
-        "auth.Group",
-        blank=True,
-        null=True,
-        verbose_name=_("group"),
-        on_delete=models.SET_NULL,
+    publisher_id = models.CharField(
+        max_length=255, verbose_name=_("publisher id"), blank=True
     )
 
     class Meta:
