@@ -21,7 +21,7 @@ class PalvelutarjotinEvent(TimestampedModel):
     )
     duration = models.PositiveSmallIntegerField(verbose_name=_("duration"))
     needed_occurrences = models.PositiveSmallIntegerField(
-        verbose_name=_("needed " "occurrence"), default=1
+        verbose_name=_("needed occurrence"), default=1
     )
 
     class Meta:

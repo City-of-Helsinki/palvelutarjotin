@@ -14,8 +14,8 @@ def autouse_db(db):
 
 
 GET_EVENTS_QUERY = """
-query Events{
-  events{
+query Events($organisationId: String){
+  events(organisationId: $organisationId){
     meta {
       count
       next
@@ -552,8 +552,13 @@ query eventsSearch{
 """
 
 
-def test_get_events(api_client, snapshot, mock_get_events_data):
-    executed = api_client.execute(GET_EVENTS_QUERY)
+def test_get_events(api_client, snapshot, mock_get_events_data, organisation):
+    # Because of mock data, this test might not return correct result,
+    # but the goal is to test if organisation argument work in `resolve_events`
+    executed = api_client.execute(
+        GET_EVENTS_QUERY,
+        variables={"organisationId": to_global_id("OrganisationNode", organisation.id)},
+    )
     snapshot.assert_match(executed)
 
 

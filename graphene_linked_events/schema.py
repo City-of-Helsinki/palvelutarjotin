@@ -244,6 +244,7 @@ class Query:
         super_event_type=List(String),
         text=String(),
         translation=String(),
+        organisation_id=String(),
     )
     event = Field(Event, id=ID(required=True), include=List(String))
 
@@ -294,9 +295,17 @@ class Query:
 
     @staticmethod
     def resolve_events(parent, info, **kwargs):
-        # FIXME: Only return events belongs to user organisation
-        # Filter events created from palvelutarjotin
-        kwargs["data_source"] = LINKED_EVENTS_API_CONFIG["DATA_SOURCE"]
+        organisation_global_id = kwargs.pop("organisation_id", None)
+        if organisation_global_id:
+            # Filter events by organisation id
+            organisation = get_obj_from_global_id(
+                info, organisation_global_id, Organisation
+            )
+            kwargs["publisher"] = organisation.publisher_id
+        else:
+            # If no organisation id specified, return all events from
+            # palvelutarjotin data source
+            kwargs["data_source"] = LINKED_EVENTS_API_CONFIG["DATA_SOURCE"]
         response = api_client.list("event", filter_list=kwargs)
         return json2obj(format_response(response))
 
@@ -409,7 +418,7 @@ class AddEventMutation(Mutation):
             organisation = get_obj_from_global_id(info, organisation_gid, Organisation)
             if organisation.publisher_id:
                 # If publisher id does not exist, LinkedEvent will decide the
-                # publisher id which is a API key root publisher
+                # publisher id which is the API key root publisher
                 kwargs["event"]["publisher"] = organisation.publisher_id
 
         body = format_request(kwargs["event"])
@@ -442,7 +451,7 @@ class UpdateEventMutation(Mutation):
             organisation = get_obj_from_global_id(info, organisation_gid, Organisation)
             if organisation.publisher_id:
                 # If publisher id does not exist, LinkedEvent will decide the
-                # publisher id which is a API key root publisher
+                # publisher id which is the API key root publisher
                 kwargs["event"]["publisher"] = organisation.publisher_id
 
         body = format_request(kwargs["event"])
