@@ -27,8 +27,9 @@ from occurrences.schema import (
     PalvelutarjotinEventNode,
     VenueNode,
 )
+from organisations.models import Organisation
 
-from common.utils import update_object
+from common.utils import get_obj_from_global_id, update_object
 from palvelutarjotin.exceptions import ObjectDoesNotExistError
 from palvelutarjotin.settings import LINKED_EVENTS_API_CONFIG
 
@@ -382,6 +383,9 @@ class AddEventMutationInput(InputObjectType):
         required=True,
         description="Palvelutarjotin event data",
     )
+    organisation_id = String(
+        description="Organisation global id which the created event belongs to"
+    )
 
 
 class UpdateEventMutationInput(AddEventMutationInput):
@@ -399,6 +403,15 @@ class AddEventMutation(Mutation):
     def mutate(root, info, **kwargs):
         # Format to JSON POST body
         p_event_data = kwargs["event"].pop("p_event")
+        organisation_gid = kwargs["event"].pop("organisation_id", None)
+
+        if organisation_gid:
+            organisation = get_obj_from_global_id(info, organisation_gid, Organisation)
+            if organisation.publisher_id:
+                # If publisher id does not exist, LinkedEvent will decide the
+                # publisher id which is a API key root publisher
+                kwargs["event"]["publisher"] = organisation.publisher_id
+
         body = format_request(kwargs["event"])
         # TODO: proper validation if necessary
         result = api_client.create("event", body)
@@ -423,6 +436,15 @@ class UpdateEventMutation(Mutation):
         # Format to JSON POST body
         event_id = kwargs["event"].pop("id")
         p_event_data = kwargs["event"].pop("p_event")
+        organisation_gid = kwargs["event"].pop("organisation_id", None)
+
+        if organisation_gid:
+            organisation = get_obj_from_global_id(info, organisation_gid, Organisation)
+            if organisation.publisher_id:
+                # If publisher id does not exist, LinkedEvent will decide the
+                # publisher id which is a API key root publisher
+                kwargs["event"]["publisher"] = organisation.publisher_id
+
         body = format_request(kwargs["event"])
         # TODO: proper validation if necessary
         result = api_client.update("event", event_id, body)

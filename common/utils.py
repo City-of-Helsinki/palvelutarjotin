@@ -2,10 +2,15 @@ from datetime import datetime
 
 from django.db import transaction
 from django.utils import timezone
+from graphene import Node
 from graphql_relay import from_global_id
 
 from palvelutarjotin import __version__
-from palvelutarjotin.exceptions import DataValidationError, IncorrectGlobalIdError
+from palvelutarjotin.exceptions import (
+    DataValidationError,
+    IncorrectGlobalIdError,
+    ObjectDoesNotExistError,
+)
 from palvelutarjotin.settings import REVISION
 
 
@@ -45,3 +50,12 @@ def convert_to_localtime_tz(value):
         return timezone.make_aware(dt).timetz()
     else:
         return timezone.localtime(dt).timetz()
+
+
+def get_obj_from_global_id(info, global_id, expected_obj_type):
+    obj = Node.get_node_from_global_id(info, global_id)
+    if not obj or type(obj) != expected_obj_type:
+        raise ObjectDoesNotExistError(
+            f"{expected_obj_type.__name__} matching query does not exist."
+        )
+    return obj
