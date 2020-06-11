@@ -16,10 +16,10 @@ snapshots["test_persons_query 3"] = {
             "edges": [
                 {
                     "node": {
-                        "emailAddress": "mallory34@manning.com",
-                        "name": "Melinda Cunningham",
+                        "emailAddress": "manningelizabeth@gmail.com",
+                        "name": "Jacob Baker",
                         "organisations": {"edges": []},
-                        "phoneNumber": "+1-483-227-7416x754",
+                        "phoneNumber": "001-227-741-6754x3903",
                     }
                 }
             ]
@@ -33,20 +33,20 @@ snapshots["test_persons_query 4"] = {
             "edges": [
                 {
                     "node": {
-                        "emailAddress": "htravis@peters.net",
-                        "name": "Jonathan Smith",
+                        "emailAddress": "amykey@keller.info",
+                        "name": "Carolyn Scott",
                         "organisations": {
                             "edges": [{"node": {"name": "Jennifer Crane"}}]
                         },
-                        "phoneNumber": "234.474.4685x81662",
+                        "phoneNumber": "(468)581-6624x5902",
                     }
                 },
                 {
                     "node": {
-                        "emailAddress": "mallory34@manning.com",
-                        "name": "Melinda Cunningham",
+                        "emailAddress": "manningelizabeth@gmail.com",
+                        "name": "Jacob Baker",
                         "organisations": {"edges": []},
-                        "phoneNumber": "+1-483-227-7416x754",
+                        "phoneNumber": "001-227-741-6754x3903",
                     }
                 },
             ]
@@ -61,10 +61,10 @@ snapshots["test_person_query 2"] = {"data": {"person": None}}
 snapshots["test_person_query 3"] = {
     "data": {
         "person": {
-            "emailAddress": "mallory34@manning.com",
-            "name": "Melinda Cunningham",
+            "emailAddress": "manningelizabeth@gmail.com",
+            "name": "Jacob Baker",
             "organisations": {"edges": []},
-            "phoneNumber": "+1-483-227-7416x754",
+            "phoneNumber": "001-227-741-6754x3903",
         }
     }
 }
@@ -72,10 +72,10 @@ snapshots["test_person_query 3"] = {
 snapshots["test_person_query 4"] = {
     "data": {
         "person": {
-            "emailAddress": "htravis@peters.net",
-            "name": "Jonathan Smith",
+            "emailAddress": "amykey@keller.info",
+            "name": "Carolyn Scott",
             "organisations": {"edges": [{"node": {"name": "Jennifer Crane"}}]},
-            "phoneNumber": "234.474.4685x81662",
+            "phoneNumber": "(468)581-6624x5902",
         }
     }
 }
@@ -89,6 +89,7 @@ snapshots["test_organisations_query 1"] = {
                         "name": "Jose Kerr",
                         "persons": {"edges": []},
                         "phoneNumber": "063.334.5773x557",
+                        "publisherId": "Vxeob",
                         "type": "USER",
                     }
                 }
@@ -103,6 +104,7 @@ snapshots["test_organisation_query 1"] = {
             "name": "Jose Kerr",
             "persons": {"edges": []},
             "phoneNumber": "063.334.5773x557",
+            "publisherId": "Vxeob",
             "type": "USER",
         }
     }
@@ -123,10 +125,10 @@ snapshots["test_update_person_mutation 1"] = {
     "data": {
         "updatePerson": {
             "person": {
-                "emailAddress": "clifford71@gmail.com",
+                "emailAddress": "travis89@davis-porter.com",
                 "name": "New name",
                 "organisations": {"edges": [{"node": {"name": "William Brewer"}}]},
-                "phoneNumber": "+1-023-202-8130x72770",
+                "phoneNumber": "3202813072",
             }
         }
     }
@@ -138,6 +140,7 @@ snapshots["test_add_organisation 1"] = {
             "organisation": {
                 "name": "New organisation",
                 "phoneNumber": "012345678",
+                "publisherId": "publisher_id",
                 "type": "PROVIDER",
             }
         }
@@ -150,6 +153,7 @@ snapshots["test_update_organisation 1"] = {
             "organisation": {
                 "name": "New name",
                 "phoneNumber": "(767)124-0675x064",
+                "publisherId": "publisher_id",
                 "type": "PROVIDER",
             }
         }

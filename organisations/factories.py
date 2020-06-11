@@ -40,6 +40,7 @@ class OrganisationFactory(factory.django.DjangoModelFactory):
     type = factory.Faker(
         "random_element", elements=[t[0] for t in Organisation.ORGANISATION_TYPES]
     )
+    publisher_id = factory.Faker("pystr", max_chars=5)
 
     class Meta:
         model = Organisation
