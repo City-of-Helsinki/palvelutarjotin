@@ -1,3 +1,4 @@
+from django.core.exceptions import PermissionDenied
 from django.db import transaction
 from graphene import (
     Boolean,
@@ -29,8 +30,11 @@ from occurrences.schema import (
 )
 from organisations.models import Organisation
 
-from common.utils import get_obj_from_global_id, update_object
-from palvelutarjotin.exceptions import ObjectDoesNotExistError
+from common.utils import (
+    get_editable_obj_from_global_id,
+    get_obj_from_global_id,
+    update_object,
+)
 from palvelutarjotin.settings import LINKED_EVENTS_API_CONFIG
 
 
@@ -393,7 +397,8 @@ class AddEventMutationInput(InputObjectType):
         description="Palvelutarjotin event data",
     )
     organisation_id = String(
-        description="Organisation global id which the created event belongs to"
+        description="Organisation global id which the created event belongs to",
+        required=True,
     )
 
 
@@ -412,14 +417,14 @@ class AddEventMutation(Mutation):
     def mutate(root, info, **kwargs):
         # Format to JSON POST body
         p_event_data = kwargs["event"].pop("p_event")
-        organisation_gid = kwargs["event"].pop("organisation_id", None)
-
-        if organisation_gid:
-            organisation = get_obj_from_global_id(info, organisation_gid, Organisation)
-            if organisation.publisher_id:
-                # If publisher id does not exist, LinkedEvent will decide the
-                # publisher id which is the API key root publisher
-                kwargs["event"]["publisher"] = organisation.publisher_id
+        organisation_gid = kwargs["event"].pop("organisation_id")
+        organisation = get_editable_obj_from_global_id(
+            info, organisation_gid, Organisation
+        )
+        if organisation.publisher_id:
+            # If publisher id does not exist, LinkedEvent will decide the
+            # publisher id which is the API key root publisher
+            kwargs["event"]["publisher"] = organisation.publisher_id
 
         body = format_request(kwargs["event"])
         # TODO: proper validation if necessary
@@ -428,6 +433,7 @@ class AddEventMutation(Mutation):
         if result.status_code == 201:
             # Create palvelutarjotin event if event created successful
             p_event_data["linked_event_id"] = event_obj.id
+            p_event_data["organisation_id"] = organisation.id
             PalvelutarjotinEvent.objects.create(**p_event_data)
         response = EventMutationResponse(status_code=result.status_code, body=event_obj)
         return AddEventMutation(response=response)
@@ -445,24 +451,30 @@ class UpdateEventMutation(Mutation):
         # Format to JSON POST body
         event_id = kwargs["event"].pop("id")
         p_event_data = kwargs["event"].pop("p_event")
-        organisation_gid = kwargs["event"].pop("organisation_id", None)
+        organisation_gid = kwargs["event"].pop("organisation_id")
 
-        if organisation_gid:
-            organisation = get_obj_from_global_id(info, organisation_gid, Organisation)
-            if organisation.publisher_id:
-                # If publisher id does not exist, LinkedEvent will decide the
-                # publisher id which is the API key root publisher
-                kwargs["event"]["publisher"] = organisation.publisher_id
+        organisation = get_editable_obj_from_global_id(
+            info, organisation_gid, Organisation
+        )
+        try:
+            p_event = PalvelutarjotinEvent.objects.get(
+                linked_event_id=event_id, organisation=organisation
+            )
+        except PalvelutarjotinEvent.DoesNotExist:
+            raise PermissionDenied(
+                f"User does not have permission to edit this "
+                f"{PalvelutarjotinEvent.__name__}"
+            )
+
+        if organisation.publisher_id:
+            # If publisher id does not exist, LinkedEvent will decide the
+            # publisher id which is the API key root publisher
+            kwargs["event"]["publisher"] = organisation.publisher_id
 
         body = format_request(kwargs["event"])
         # TODO: proper validation if necessary
         result = api_client.update("event", event_id, body)
         if result.status_code == 200:
-            # Only update p_event if main event updated successfully
-            try:
-                p_event = PalvelutarjotinEvent.objects.get(linked_event_id=event_id)
-            except PalvelutarjotinEvent.DoesNotExist as e:
-                raise ObjectDoesNotExistError(e)
             update_object(p_event, p_event_data)
         response = EventMutationResponse(
             status_code=result.status_code, body=json2obj(format_response(result))

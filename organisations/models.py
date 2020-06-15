@@ -51,6 +51,9 @@ class Organisation(models.Model):
     def __str__(self):
         return f"{self.id} {self.name}"
 
+    def is_editable_by_user(self, user):
+        return user.person.organisations.filter(id=self.id).exists()
+
 
 class Person(UUIDPrimaryKeyModel, TimestampedModel):
     user = models.OneToOneField(

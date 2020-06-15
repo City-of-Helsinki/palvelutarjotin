@@ -9,7 +9,7 @@ from django.utils.translation import get_language
 from graphene import InputObjectType, relay
 from graphene_django import DjangoConnectionField, DjangoObjectType
 from graphene_django.filter import DjangoFilterConnectionField
-from graphql_jwt.decorators import login_required, staff_member_required
+from graphql_jwt.decorators import staff_member_required
 from occurrences.filters import OccurrenceFilter
 from occurrences.models import (
     Enrolment,
@@ -23,7 +23,9 @@ from organisations.models import Organisation, Person
 from organisations.schema import PersonNodeInput
 
 from common.utils import (
+    get_editable_obj_from_global_id,
     get_node_id_from_global_id,
+    get_obj_from_global_id,
     update_object,
     update_object_with_translations,
 )
@@ -123,34 +125,16 @@ class OccurrenceNode(DjangoObjectType):
 
 def validate_occurrence_data(kwargs):
     # TODO: Validate place_id, languages ...
-    p_event_global_id = kwargs.get("p_event_id", None)
-    if p_event_global_id:
-        p_event_id = get_node_id_from_global_id(
-            p_event_global_id, "PalvelutarjotinEventNode"
-        )
-        if not PalvelutarjotinEvent.objects.filter(id=p_event_id).exists():
-            raise ObjectDoesNotExistError("Palvelutarjotin event does not exist")
-    organisation_global_id = kwargs.get("organisation_id", None)
-    if organisation_global_id:
-        organisation_id = get_node_id_from_global_id(
-            organisation_global_id, "OrganisationNode"
-        )
-        if not Organisation.objects.filter(id=organisation_id).exists():
-            raise ObjectDoesNotExistError("Organisation does not exist")
+    pass
 
 
 @transaction.atomic
-def add_contact_persons_to_object(contact_persons, obj):
+def add_contact_persons_to_object(info, contact_persons, obj):
     obj.contact_persons.clear()
     for p in contact_persons:
         p_global_id = p.get("id", None)
         if p_global_id:
-            try:
-                person = Person.objects.get(
-                    id=get_node_id_from_global_id(p_global_id, "PersonNode")
-                )
-            except Person.DoesNotExist as e:
-                raise ObjectDoesNotExistError(e)
+            person = get_obj_from_global_id(info, p_global_id, Person)
         else:
             person = Person.objects.create(**p)
         obj.contact_persons.add(person)
@@ -188,16 +172,16 @@ class AddOccurrenceMutation(graphene.relay.ClientIDMutation):
         validate_occurrence_data(kwargs)
         contact_persons = kwargs.pop("contact_persons", None)
         languages = kwargs.pop("languages", None)
-        kwargs["organisation_id"] = get_node_id_from_global_id(
-            kwargs["organisation_id"], "OrganisationNode"
-        )
-        kwargs["p_event_id"] = get_node_id_from_global_id(
-            kwargs["p_event_id"], "PalvelutarjotinEventNode"
-        )
+        kwargs["organisation_id"] = get_editable_obj_from_global_id(
+            info, kwargs["organisation_id"], Organisation
+        ).id
+        kwargs["p_event_id"] = get_editable_obj_from_global_id(
+            info, kwargs["p_event_id"], PalvelutarjotinEvent
+        ).id
         occurrence = Occurrence.objects.create(**kwargs)
 
         if contact_persons:
-            add_contact_persons_to_object(contact_persons, occurrence)
+            add_contact_persons_to_object(info, contact_persons, occurrence)
 
         if languages:
             occurrence.add_languages(languages)
@@ -216,15 +200,8 @@ class UpdateOccurrenceMutation(graphene.relay.ClientIDMutation):
         organisation_id = graphene.ID()
         contact_persons = graphene.List(
             PersonNodeInput,
-            description="Should include "
-            "all contact "
-            "persons of "
-            "the "
-            "occurrence, "
-            "missing contact "
-            "persons will be "
-            "removed during "
-            "mutation",
+            description="Should include all contact persons of the occurrence, "
+            "missing contact persons will be removed during mutation",
         )
         p_event_id = graphene.ID()
         auto_acceptance = graphene.Boolean()
@@ -240,26 +217,20 @@ class UpdateOccurrenceMutation(graphene.relay.ClientIDMutation):
     @staff_member_required
     @transaction.atomic
     def mutate_and_get_payload(cls, root, info, **kwargs):
-        try:
-            occurrence = Occurrence.objects.get(
-                id=get_node_id_from_global_id(kwargs.pop("id"), "OccurrenceNode")
-            )
-        except Occurrence.DoesNotExist as e:
-            raise ObjectDoesNotExistError(e)
+        occurrence = get_editable_obj_from_global_id(info, kwargs.pop("id"), Occurrence)
         contact_persons = kwargs.pop("contact_persons", None)
         languages = kwargs.pop("languages", None)
-        validate_occurrence_data(kwargs)
-        kwargs["organisation_id"] = get_node_id_from_global_id(
-            kwargs["organisation_id"], "OrganisationNode"
-        )
-        kwargs["p_event_id"] = get_node_id_from_global_id(
-            kwargs["p_event_id"], "PalvelutarjotinEventNode"
-        )
+        kwargs["organisation_id"] = get_editable_obj_from_global_id(
+            info, kwargs["organisation_id"], Organisation
+        ).id
+        kwargs["p_event_id"] = get_editable_obj_from_global_id(
+            info, kwargs["p_event_id"], PalvelutarjotinEvent
+        ).id
 
         update_object(occurrence, kwargs)
         # Nested update
         if contact_persons:
-            add_contact_persons_to_object(contact_persons, occurrence)
+            add_contact_persons_to_object(info, contact_persons, occurrence)
         if languages:
             occurrence.add_languages(languages)
 
@@ -274,12 +245,7 @@ class DeleteOccurrenceMutation(graphene.ClientIDMutation):
     @staff_member_required
     @transaction.atomic
     def mutate_and_get_payload(cls, root, info, **kwargs):
-        try:
-            occurrence = Occurrence.objects.get(
-                id=get_node_id_from_global_id(kwargs.pop("id"), "OccurrenceNode")
-            )
-        except Occurrence.DoesNotExist as e:
-            raise ObjectDoesNotExistError(e)
+        occurrence = get_editable_obj_from_global_id(info, kwargs.pop("id"), Occurrence)
         occurrence.delete()
         return DeleteOccurrenceMutation()
 
@@ -411,13 +377,9 @@ class UnenrolOccurrenceMutation(graphene.relay.ClientIDMutation):
     study_group = graphene.Field(StudyGroupNode)
 
     @classmethod
-    @login_required
+    @staff_member_required
     @transaction.atomic
     def mutate_and_get_payload(cls, root, info, **kwargs):
-        # TODO: Authorize if user has permission to unenrol the occurrence
-        occurrence_id = get_node_id_from_global_id(
-            kwargs["occurrence_id"], "OccurrenceNode"
-        )
         group_id = get_node_id_from_global_id(
             kwargs["study_group_id"], "StudyGroupNode"
         )
@@ -425,11 +387,10 @@ class UnenrolOccurrenceMutation(graphene.relay.ClientIDMutation):
             study_group = StudyGroup.objects.get(pk=group_id)
         except StudyGroup.DoesNotExist as e:
             raise ObjectDoesNotExistError(e)
-        try:
-            occurrence = study_group.occurrences.get(pk=occurrence_id)
-            occurrence.study_groups.remove(study_group)
-        except Occurrence.DoesNotExist as e:
-            raise ObjectDoesNotExistError(e)
+        occurrence = get_editable_obj_from_global_id(
+            info, kwargs["occurrence_id"], Occurrence
+        )
+        occurrence.study_groups.remove(study_group)
         return UnenrolOccurrenceMutation(study_group=study_group, occurrence=occurrence)
 
 
@@ -437,9 +398,8 @@ class AddStudyGroupMutation(graphene.relay.ClientIDMutation):
     class Input:
         person = graphene.NonNull(
             PersonNodeInput,
-            description="If person input doesn't include person"
-            " id, a new person object will be "
-            "created",
+            description="If person input doesn't include person id, a new person "
+            "object will be created",
         )
         name = graphene.String()
         group_size = graphene.Int(required=True)
@@ -561,5 +521,5 @@ class Mutation:
     )
     enrol_occurrence = EnrolOccurrenceMutation.Field()
     unenrol_occurrence = UnenrolOccurrenceMutation.Field(
-        description="Required logged in user for authorization"
+        description="Only staff can unenrol study group"
     )

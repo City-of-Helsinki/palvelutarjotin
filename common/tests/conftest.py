@@ -35,8 +35,10 @@ def user_api_client():
 
 
 @pytest.fixture
-def staff_api_client():
-    return _create_api_client_with_user(UserFactory(is_staff=True))
+def staff_api_client(person):
+    return _create_api_client_with_user(
+        PersonFactory(user=UserFactory(is_staff=True)).user
+    )
 
 
 @pytest.fixture

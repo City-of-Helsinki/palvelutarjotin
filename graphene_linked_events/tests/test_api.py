@@ -635,6 +635,9 @@ mutation addEvent($input: AddEventMutationInput!){
           duration
           neededOccurrences
           linkedEventId
+          organisation{
+              name
+          }
         }
       }
     }
@@ -677,7 +680,9 @@ CREATE_EVENT_VARIABLES = {
 }
 
 
-def test_create_event_unauthorized(api_client, user_api_client):
+def test_create_event_unauthorized(
+    api_client, user_api_client, staff_api_client, organisation
+):
     executed = api_client.execute(
         CREATE_EVENT_MUTATION, variables=CREATE_EVENT_VARIABLES
     )
@@ -687,12 +692,20 @@ def test_create_event_unauthorized(api_client, user_api_client):
     )
     assert_permission_denied(executed)
 
+    variables = deepcopy(CREATE_EVENT_VARIABLES)
+    variables["input"]["organisationId"] = to_global_id(
+        "OrganisationNode", organisation.id
+    )
+    executed = staff_api_client.execute(CREATE_EVENT_MUTATION, variables=variables)
+    assert_permission_denied(executed)
+
 
 def test_create_event(staff_api_client, snapshot, mock_create_event_data, organisation):
     variables = deepcopy(CREATE_EVENT_VARIABLES)
     variables["input"]["organisationId"] = to_global_id(
         "OrganisationNode", organisation.id
     )
+    staff_api_client.user.person.organisations.add(organisation)
     executed = staff_api_client.execute(CREATE_EVENT_MUTATION, variables=variables)
     assert PalvelutarjotinEvent.objects.count() == 1
     snapshot.assert_match(executed)
@@ -736,6 +749,9 @@ mutation addEvent($input: UpdateEventMutationInput!){
           duration
           neededOccurrences
           linkedEventId
+          organisation{
+              name
+          }
         }
       }
     }
@@ -779,7 +795,9 @@ UPDATE_EVENT_VARIABLES = {
 }
 
 
-def test_update_event_unauthorized(api_client, user_api_client):
+def test_update_event_unauthorized(
+    api_client, user_api_client, staff_api_client, organisation
+):
     executed = api_client.execute(
         UPDATE_EVENT_MUTATION, variables=UPDATE_EVENT_VARIABLES
     )
@@ -789,14 +807,23 @@ def test_update_event_unauthorized(api_client, user_api_client):
     )
     assert_permission_denied(executed)
 
+    variables = deepcopy(UPDATE_EVENT_VARIABLES)
+    variables["input"]["organisationId"] = to_global_id(
+        "OrganisationNode", organisation.id
+    )
+    executed = staff_api_client.execute(UPDATE_EVENT_MUTATION, variables=variables)
+    assert_permission_denied(executed)
+
 
 def test_update_event(staff_api_client, snapshot, mock_update_event_data, organisation):
     variables = deepcopy(UPDATE_EVENT_VARIABLES)
     variables["input"]["organisationId"] = to_global_id(
         "OrganisationNode", organisation.id
     )
-    PalvelutarjotinEventFactory(linked_event_id=UPDATE_EVENT_VARIABLES["input"]["id"],)
-
+    PalvelutarjotinEventFactory(
+        linked_event_id=UPDATE_EVENT_VARIABLES["input"]["id"], organisation=organisation
+    )
+    staff_api_client.user.person.organisations.add(organisation)
     executed = staff_api_client.execute(UPDATE_EVENT_MUTATION, variables=variables)
     snapshot.assert_match(executed)
 
