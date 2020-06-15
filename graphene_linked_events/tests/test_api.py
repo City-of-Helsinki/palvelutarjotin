@@ -1,4 +1,7 @@
+from copy import deepcopy
+
 import pytest
+from graphql_relay import to_global_id
 from occurrences.factories import PalvelutarjotinEventFactory
 from occurrences.models import PalvelutarjotinEvent
 
@@ -11,8 +14,8 @@ def autouse_db(db):
 
 
 GET_EVENTS_QUERY = """
-query Events{
-  events{
+query Events($organisationId: String){
+  events(organisationId: $organisationId){
     meta {
       count
       next
@@ -549,8 +552,13 @@ query eventsSearch{
 """
 
 
-def test_get_events(api_client, snapshot, mock_get_events_data):
-    executed = api_client.execute(GET_EVENTS_QUERY)
+def test_get_events(api_client, snapshot, mock_get_events_data, organisation):
+    # Because of mock data, this test might not return correct result,
+    # but the goal is to test if organisation argument work in `resolve_events`
+    executed = api_client.execute(
+        GET_EVENTS_QUERY,
+        variables={"organisationId": to_global_id("OrganisationNode", organisation.id)},
+    )
     snapshot.assert_match(executed)
 
 
@@ -636,6 +644,7 @@ mutation addEvent($input: AddEventMutationInput!){
 
 CREATE_EVENT_VARIABLES = {
     "input": {
+        "organisationId": "",
         "pEvent": {
             "enrolmentStart": "2020-06-06T16:40:48+00:00",
             "enrolmentEndDays": 2,
@@ -679,10 +688,12 @@ def test_create_event_unauthorized(api_client, user_api_client):
     assert_permission_denied(executed)
 
 
-def test_create_event(staff_api_client, snapshot, mock_create_event_data):
-    executed = staff_api_client.execute(
-        CREATE_EVENT_MUTATION, variables=CREATE_EVENT_VARIABLES
+def test_create_event(staff_api_client, snapshot, mock_create_event_data, organisation):
+    variables = deepcopy(CREATE_EVENT_VARIABLES)
+    variables["input"]["organisationId"] = to_global_id(
+        "OrganisationNode", organisation.id
     )
+    executed = staff_api_client.execute(CREATE_EVENT_MUTATION, variables=variables)
     assert PalvelutarjotinEvent.objects.count() == 1
     snapshot.assert_match(executed)
 
@@ -735,6 +746,7 @@ mutation addEvent($input: UpdateEventMutationInput!){
 UPDATE_EVENT_VARIABLES = {
     "input": {
         "id": "qq:afy6aghr2y",
+        "organisationId": "",
         "pEvent": {
             "enrolmentStart": "2020-06-06T16:40:48+00:00",
             "enrolmentEndDays": 2,
@@ -778,12 +790,14 @@ def test_update_event_unauthorized(api_client, user_api_client):
     assert_permission_denied(executed)
 
 
-def test_update_event(staff_api_client, snapshot, mock_update_event_data):
+def test_update_event(staff_api_client, snapshot, mock_update_event_data, organisation):
+    variables = deepcopy(UPDATE_EVENT_VARIABLES)
+    variables["input"]["organisationId"] = to_global_id(
+        "OrganisationNode", organisation.id
+    )
     PalvelutarjotinEventFactory(linked_event_id=UPDATE_EVENT_VARIABLES["input"]["id"],)
 
-    executed = staff_api_client.execute(
-        UPDATE_EVENT_MUTATION, variables=UPDATE_EVENT_VARIABLES
-    )
+    executed = staff_api_client.execute(UPDATE_EVENT_MUTATION, variables=variables)
     snapshot.assert_match(executed)
 
 
