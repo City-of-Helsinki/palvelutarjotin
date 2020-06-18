@@ -102,7 +102,7 @@ snapshots["test_add_occurrence 1"] = {
             "occurrence": {
                 "contactPersons": {
                     "edges": [
-                        {"node": {"name": "Kristin Murphy"}},
+                        {"node": {"name": "Jason Berg"}},
                         {"node": {"name": "New name"}},
                     ]
                 },
@@ -113,13 +113,13 @@ snapshots["test_add_occurrence 1"] = {
                 ],
                 "maxGroupSize": 20,
                 "minGroupSize": 10,
-                "organisation": {"name": "William Brewer"},
+                "organisation": {"name": "Deborah Cardenas"},
                 "pEvent": {
-                    "duration": 144,
-                    "enrolmentEndDays": 2,
-                    "enrolmentStart": "2015-05-17T15:09:08+00:00",
-                    "linkedEventId": "Media do concern sit enter. Himself from daughter order.",
-                    "neededOccurrences": 4,
+                    "duration": 81,
+                    "enrolmentEndDays": 0,
+                    "enrolmentStart": "1978-12-17T12:06:21+00:00",
+                    "linkedEventId": "Respond improve office table.",
+                    "neededOccurrences": 6,
                 },
                 "startTime": "2020-05-05T00:00:00+00:00",
             }
@@ -135,7 +135,7 @@ snapshots["test_update_occurrence 1"] = {
     "data": {
         "updateOccurrence": {
             "occurrence": {
-                "contactPersons": {"edges": [{"node": {"name": "Adam Reed"}}]},
+                "contactPersons": {"edges": [{"node": {"name": "Gregory Flores"}}]},
                 "endTime": "2020-05-05T00:00:00+00:00",
                 "languages": [
                     {"id": "fi", "name": "Finnish"},
@@ -144,13 +144,13 @@ snapshots["test_update_occurrence 1"] = {
                 ],
                 "maxGroupSize": 20,
                 "minGroupSize": 10,
-                "organisation": {"name": "William Brewer"},
+                "organisation": {"name": "Deborah Cardenas"},
                 "pEvent": {
-                    "duration": 13,
-                    "enrolmentEndDays": 0,
-                    "enrolmentStart": "1976-02-18T13:49:01+00:00",
-                    "linkedEventId": "Number lose least then top sing. Serious listen police shake.",
-                    "neededOccurrences": 7,
+                    "duration": 297,
+                    "enrolmentEndDays": 1,
+                    "enrolmentStart": "2003-11-12T21:12:26+00:00",
+                    "linkedEventId": "Those notice medical science sort already.",
+                    "neededOccurrences": 4,
                 },
                 "startTime": "2020-05-05T00:00:00+00:00",
             }
@@ -204,7 +204,7 @@ snapshots["test_update_venue_staff_user 1"] = {
                 "description": "Venue description",
                 "hasClothingStorage": True,
                 "hasSnackEatingPlace": True,
-                "id": "mZHxy",
+                "id": "OnQtr",
                 "translations": [
                     {"description": "Venue description in EN"},
                     {"description": "Venue description"},
@@ -285,9 +285,9 @@ snapshots["test_update_study_group_staff_user 2"] = {
                 "groupSize": 20,
                 "name": "Sample study group name",
                 "person": {
-                    "emailAddress": "marilyn21@gmail.com",
-                    "name": "Sherri Bell",
-                    "phoneNumber": "810-669-5836x9317",
+                    "emailAddress": "bdorsey@owens.org",
+                    "name": "Jason Berg",
+                    "phoneNumber": "011-715-9102",
                 },
             }
         }
@@ -322,7 +322,7 @@ snapshots["test_unenrol_occurrence 1"] = {
                 "startTime": "2020-01-06T00:00:00+00:00",
             },
             "studyGroup": {
-                "name": "Bed agree room laugh prevent make never. Very television beat at success decade either."
+                "name": "Last appear experience seven. Throw wrong party wall agency customer clear. Control as receive cup."
             },
         }
     }

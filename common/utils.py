@@ -1,5 +1,6 @@
 from datetime import datetime
 
+from django.core.exceptions import PermissionDenied
 from django.db import transaction
 from django.utils import timezone
 from graphene import Node
@@ -59,3 +60,17 @@ def get_obj_from_global_id(info, global_id, expected_obj_type):
             f"{expected_obj_type.__name__} matching query does not exist."
         )
     return obj
+
+
+def get_editable_obj_from_global_id(info, global_id, expected_obj_type):
+    obj = get_obj_from_global_id(info, global_id, expected_obj_type)
+    try:
+        if obj.is_editable_by_user(info.context.user):
+            return obj
+    except AttributeError:
+        raise TypeError(
+            f"{obj.__class__.__name__} model does not implement is_editable_by_user()."
+        )
+    raise PermissionDenied(
+        f"User does not have permission to edit this {expected_obj_type.__name__}"
+    )

@@ -291,7 +291,9 @@ def test_occurrence_query(snapshot, occurrence, api_client):
     snapshot.assert_match(executed)
 
 
-def test_add_occurrence_unauthenticated(api_client, user_api_client):
+def test_add_occurrence_unauthorized(
+    api_client, user_api_client, organisation, p_event, staff_api_client
+):
     executed = api_client.execute(
         ADD_OCCURRENCE_MUTATION, variables=ADD_OCCURRENCE_VARIABLES
     )
@@ -302,9 +304,17 @@ def test_add_occurrence_unauthenticated(api_client, user_api_client):
     )
     assert_permission_denied(executed)
 
-
-def test_add_occurrence(snapshot, staff_api_client, organisation, person, p_event):
     variables = deepcopy(ADD_OCCURRENCE_VARIABLES)
+    variables["input"]["organisationId"] = to_global_id(
+        "OrganisationNode", organisation.id
+    )
+    executed = staff_api_client.execute(ADD_OCCURRENCE_MUTATION, variables=variables)
+    assert_permission_denied(executed)
+
+
+def test_add_occurrence(snapshot, staff_api_client, organisation, person):
+    variables = deepcopy(ADD_OCCURRENCE_VARIABLES)
+    p_event = PalvelutarjotinEventFactory(organisation=organisation)
     variables["input"]["organisationId"] = to_global_id(
         "OrganisationNode", organisation.id
     )
@@ -319,11 +329,14 @@ def test_add_occurrence(snapshot, staff_api_client, organisation, person, p_even
             "name": person.name,
         }
     )
+    staff_api_client.user.person.organisations.add(organisation)
     executed = staff_api_client.execute(ADD_OCCURRENCE_MUTATION, variables=variables)
     snapshot.assert_match(executed)
 
 
-def test_update_occurrence_unauthenticated(api_client, user_api_client, occurrence):
+def test_update_occurrence_unauthorized(
+    api_client, user_api_client, occurrence, staff_api_client
+):
     variables = deepcopy(UPDATE_OCCURRENCE_VARIABLES)
     variables["input"]["id"] = to_global_id("OccurrenceNode", occurrence.id)
     executed = api_client.execute(UPDATE_OCCURRENCE_MUTATION, variables=variables)
@@ -332,10 +345,14 @@ def test_update_occurrence_unauthenticated(api_client, user_api_client, occurren
     executed = user_api_client.execute(UPDATE_OCCURRENCE_MUTATION, variables=variables)
     assert_permission_denied(executed)
 
+    executed = staff_api_client.execute(UPDATE_OCCURRENCE_MUTATION, variables=variables)
+    assert_permission_denied(executed)
 
-def test_update_occurrence(snapshot, staff_api_client, organisation, p_event, person):
+
+def test_update_occurrence(snapshot, staff_api_client, organisation, person):
     variables = deepcopy(UPDATE_OCCURRENCE_VARIABLES)
-    occurrence = OccurrenceFactory(contact_persons=[person])
+    occurrence = OccurrenceFactory(contact_persons=[person], organisation=organisation)
+    p_event = PalvelutarjotinEventFactory(organisation=organisation)
     variables["input"]["id"] = to_global_id("OccurrenceNode", occurrence.id)
     # Change p_event, organisation
     variables["input"]["organisationId"] = to_global_id(
@@ -353,22 +370,29 @@ def test_update_occurrence(snapshot, staff_api_client, organisation, p_event, pe
             "name": new_person.name,
         },
     ]
-
+    staff_api_client.user.person.organisations.add(organisation)
     executed = staff_api_client.execute(UPDATE_OCCURRENCE_MUTATION, variables=variables)
     snapshot.assert_match(executed)
 
 
-def test_delete_occurrence_unauthenticated(api_client, user_api_client, occurrence):
+def test_delete_occurrence_unauthorized(
+    api_client, user_api_client, staff_api_client, occurrence
+):
+    # TODO: paremeterize
     variables = {"input": {"id": to_global_id("OccurrenceNode", occurrence.id)}}
     executed = api_client.execute(DELETE_OCCURRENCE_MUTATION, variables=variables)
     assert_permission_denied(executed)
 
     executed = user_api_client.execute(DELETE_OCCURRENCE_MUTATION, variables=variables)
     assert_permission_denied(executed)
+
+    executed = staff_api_client.execute(DELETE_OCCURRENCE_MUTATION, variables=variables)
+    assert_permission_denied(executed)
     assert Occurrence.objects.count() == 1
 
 
 def test_delete_occurrence(snapshot, staff_api_client, occurrence):
+    staff_api_client.user.person.organisations.add(occurrence.organisation)
     executed = staff_api_client.execute(
         DELETE_OCCURRENCE_MUTATION,
         variables={"input": {"id": to_global_id("OccurrenceNode", occurrence.id)}},
@@ -850,7 +874,9 @@ mutation unenrolOccurrence($input: UnenrolOccurrenceMutationInput!){
 """
 
 
-def test_unenrol_occurrence(snapshot, user_api_client, mock_get_event_data):
+def test_unenrol_occurrence_unauthorized(
+    snapshot, api_client, user_api_client, staff_api_client, mock_get_event_data
+):
     study_group_15 = StudyGroupFactory(group_size=15)
     # Current date froze on 2020-01-04:
     p_event_1 = PalvelutarjotinEventFactory(
@@ -874,7 +900,44 @@ def test_unenrol_occurrence(snapshot, user_api_client, mock_get_event_data):
         }
     }
 
+    executed = api_client.execute(UNENROL_OCCURRENCE_MUTATION, variables=variables)
+    assert_permission_denied(executed)
     executed = user_api_client.execute(UNENROL_OCCURRENCE_MUTATION, variables=variables)
+    assert_permission_denied(executed)
+    executed = staff_api_client.execute(
+        UNENROL_OCCURRENCE_MUTATION, variables=variables
+    )
+    assert_permission_denied(executed)
+    assert occurrence.study_groups.count() == 1
+
+
+def test_unenrol_occurrence(snapshot, staff_api_client, mock_get_event_data):
+    study_group_15 = StudyGroupFactory(group_size=15)
+    # Current date froze on 2020-01-04:
+    p_event_1 = PalvelutarjotinEventFactory(
+        enrolment_start=datetime(2020, 1, 3, 0, 0, 0, tzinfo=timezone.now().tzinfo),
+        enrolment_end_days=2,
+    )
+    occurrence = OccurrenceFactory(
+        start_time=datetime(2020, 1, 6, 0, 0, 0, tzinfo=timezone.now().tzinfo),
+        p_event=p_event_1,
+        min_group_size=10,
+        max_group_size=20,
+        amount_of_seats=50,
+    )
+    occurrence.study_groups.add(study_group_15)
+    assert occurrence.study_groups.count() == 1
+
+    variables = {
+        "input": {
+            "occurrenceId": to_global_id("OccurrenceNode", occurrence.id),
+            "studyGroupId": to_global_id("StudyGroupNode", study_group_15.id),
+        }
+    }
+    staff_api_client.user.person.organisations.add(occurrence.organisation)
+    executed = staff_api_client.execute(
+        UNENROL_OCCURRENCE_MUTATION, variables=variables
+    )
     snapshot.assert_match(executed)
     assert occurrence.study_groups.count() == 0
 

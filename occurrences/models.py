@@ -23,6 +23,14 @@ class PalvelutarjotinEvent(TimestampedModel):
     needed_occurrences = models.PositiveSmallIntegerField(
         verbose_name=_("needed occurrence"), default=1
     )
+    organisation = models.ForeignKey(
+        "organisations.Organisation",
+        verbose_name=_("organisation"),
+        related_name="p_event",
+        on_delete=models.PROTECT,
+        blank=True,
+        null=True,
+    )
 
     class Meta:
         verbose_name = _("palvelutarjotin event")
@@ -33,6 +41,11 @@ class PalvelutarjotinEvent(TimestampedModel):
 
     def get_event_data(self):
         return retrieve_linked_events_data("event", self.linked_event_id)
+
+    def is_editable_by_user(self, user):
+        if self.organisation:
+            return user.person.organisations.filter(id=self.organisation.id).exists()
+        return True
 
 
 class Language(models.Model):
@@ -110,6 +123,9 @@ class Occurrence(TimestampedModel):
             or 0
         )
 
+    def is_editable_by_user(self, user):
+        return user.person.organisations.filter(id=self.organisation.id).exists()
+
 
 class VenueCustomData(TranslatableModel):
     # Primary reference to LinkedEvent place_id
@@ -177,3 +193,8 @@ class Enrolment(models.Model):
 
     def __str__(self):
         return f"{self.id} {self.occurrence} {self.study_group}"
+
+    def is_editable_by_user(self, user):
+        return user.person.organisations.filter(
+            id=self.occurrence.organisation.id
+        ).exists()
