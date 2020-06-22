@@ -31,6 +31,12 @@ class PalvelutarjotinEvent(TimestampedModel):
         blank=True,
         null=True,
     )
+    contact_phone_number = models.CharField(
+        verbose_name=_("contact phone number"), max_length=64, blank=True
+    )
+    contact_email = models.EmailField(
+        max_length=255, verbose_name=_("contact " "email"), blank=True
+    )
 
     class Meta:
         verbose_name = _("palvelutarjotin event")

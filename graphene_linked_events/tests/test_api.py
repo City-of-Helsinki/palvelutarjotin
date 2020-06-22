@@ -630,6 +630,8 @@ mutation addEvent($input: AddEventMutationInput!){
           en
         }
         pEvent {
+          contactEmail
+          contactPhoneNumber
           enrolmentEndDays
           enrolmentStart
           duration
@@ -653,6 +655,8 @@ CREATE_EVENT_VARIABLES = {
             "enrolmentEndDays": 2,
             "duration": 60,
             "neededOccurrences": 1,
+            "contactPhoneNumber": "123123",
+            "contactEmail": "contact@email.me",
         },
         "name": {"fi": "testaus"},
         "startTime": "2020-05-05",
@@ -744,6 +748,8 @@ mutation addEvent($input: UpdateEventMutationInput!){
           en
         }
         pEvent {
+          contactEmail
+          contactPhoneNumber
           enrolmentEndDays
           enrolmentStart
           duration
@@ -768,6 +774,8 @@ UPDATE_EVENT_VARIABLES = {
             "enrolmentEndDays": 2,
             "duration": 60,
             "neededOccurrences": 1,
+            "contactPhoneNumber": "123123",
+            "contactEmail": "contact@email.me",
         },
         "name": {"fi": "testaus"},
         "startTime": "2020-05-07",

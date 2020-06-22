@@ -82,9 +82,13 @@ query Occurrences($upcoming: Boolean, $date: Date, $time: Time){
         seatsTaken
         autoAcceptance
         pEvent{
-            linkedEventId
-            enrolmentStart
+            contactEmail
+            contactPhoneNumber
+            duration
+            neededOccurrences
             enrolmentEndDays
+            enrolmentStart
+            linkedEventId
         }
         startTime
         endTime
@@ -115,9 +119,13 @@ query Occurrence($id: ID!){
   occurrence(id: $id){
     placeId
     pEvent{
-        linkedEventId
-        enrolmentStart
+        contactEmail
+        contactPhoneNumber
+        duration
+        neededOccurrences
         enrolmentEndDays
+        enrolmentStart
+        linkedEventId
     }
     startTime
     endTime
@@ -162,6 +170,8 @@ ADD_OCCURRENCE_MUTATION = """
           startTime
           endTime
           pEvent{
+            contactEmail
+            contactPhoneNumber
             duration
             neededOccurrences
             enrolmentEndDays
@@ -210,6 +220,8 @@ mutation updateOccurrence($input: UpdateOccurrenceMutationInput!){
       startTime
       endTime
       pEvent{
+        contactEmail
+        contactPhoneNumber
         duration
         neededOccurrences
         enrolmentEndDays

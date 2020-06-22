@@ -751,6 +751,8 @@ snapshots["test_update_event 1"] = {
                     "location": {"id": None},
                     "offers": [{"isFree": False}],
                     "pEvent": {
+                        "contactEmail": "contact@email.me",
+                        "contactPhoneNumber": "123123",
                         "duration": 60,
                         "enrolmentEndDays": 2,
                         "enrolmentStart": "2020-06-06T16:40:48+00:00",
@@ -852,6 +854,8 @@ snapshots["test_create_event 1"] = {
                     "location": {"id": None},
                     "offers": [{"isFree": False}],
                     "pEvent": {
+                        "contactEmail": "contact@email.me",
+                        "contactPhoneNumber": "123123",
                         "duration": 60,
                         "enrolmentEndDays": 2,
                         "enrolmentStart": "2020-06-06T16:40:48+00:00",
