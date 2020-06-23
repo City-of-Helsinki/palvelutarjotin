@@ -570,6 +570,7 @@ mutation addStudyGroup($input: AddStudyGroupMutationInput!){
         name
         emailAddress
         phoneNumber
+        language
       }
       groupSize
     }
@@ -583,6 +584,7 @@ ADD_STUDY_GROUP_VARIABLES = {
             "name": "Name",
             "emailAddress": "email@address.com",
             "phoneNumber": "123123",
+            "language": "SV",
         },
         "name": "Sample study group name",
         "groupSize": 20,
@@ -610,6 +612,7 @@ mutation updateStudyGroup($input: UpdateStudyGroupMutationInput!){
         name
         emailAddress
         phoneNumber
+        language
       }
       groupSize
     }

@@ -242,6 +242,7 @@ snapshots["test_add_study_group 1"] = {
                 "name": "Sample study group name",
                 "person": {
                     "emailAddress": "email@address.com",
+                    "language": "SV",
                     "name": "Name",
                     "phoneNumber": "123123",
                 },
@@ -260,6 +261,7 @@ snapshots["test_add_study_group 2"] = {
                     "emailAddress": "marilyn21@gmail.com",
                     "name": "Sherri Bell",
                     "phoneNumber": "810-669-5836x9317",
+                    "language": "FI",
                 },
             }
         }
@@ -274,6 +276,7 @@ snapshots["test_update_study_group_staff_user 1"] = {
                 "name": "Sample study group name",
                 "person": {
                     "emailAddress": "email@address.com",
+                    "language": "FI",
                     "name": "Name",
                     "phoneNumber": "123123",
                 },
@@ -290,6 +293,7 @@ snapshots["test_update_study_group_staff_user 2"] = {
                 "name": "Sample study group name",
                 "person": {
                     "emailAddress": "bdorsey@owens.org",
+                    "language": "FI",
                     "name": "Jason Berg",
                     "phoneNumber": "011-715-9102",
                 },
