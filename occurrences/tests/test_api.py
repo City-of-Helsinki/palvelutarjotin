@@ -104,9 +104,6 @@ query Occurrences($upcoming: Boolean, $date: Date, $time: Time){
             }
           }
         }
-        organisation {
-          name
-        }
       }
     }
   }
@@ -144,9 +141,6 @@ query Occurrence($id: ID!){
         }
       }
     }
-    organisation {
-      name
-    }
     languages
   }
 }
@@ -158,9 +152,6 @@ ADD_OCCURRENCE_MUTATION = """
         occurrence{
           minGroupSize
           maxGroupSize
-          organisation{
-            name
-          }
           contactPersons{
             edges {
               node {
@@ -193,7 +184,6 @@ ADD_OCCURRENCE_VARIABLES = {
         "maxGroupSize": 20,
         "startTime": "2020-05-05T00:00:00+00",
         "endTime": "2020-05-05T00:00:00+00",
-        "organisationId": "",
         "contactPersons": [
             {"name": "New name", "emailAddress": "newname@email.address"},
         ],
@@ -210,9 +200,6 @@ mutation updateOccurrence($input: UpdateOccurrenceMutationInput!){
     occurrence{
       minGroupSize
       maxGroupSize
-      organisation{
-        name
-      }
       contactPersons{
         edges {
           node {
@@ -245,7 +232,6 @@ UPDATE_OCCURRENCE_VARIABLES = {
         "maxGroupSize": 20,
         "startTime": "2020-05-05T00:00:00+00",
         "endTime": "2020-05-05T00:00:00+00",
-        "organisationId": "",
         "contactPersons": [
             {"id": "", "name": "New name", "emailAddress": "newname@email.address"},
         ],
@@ -305,8 +291,8 @@ def test_add_occurrence_unauthorized(
     assert_permission_denied(executed)
 
     variables = deepcopy(ADD_OCCURRENCE_VARIABLES)
-    variables["input"]["organisationId"] = to_global_id(
-        "OrganisationNode", organisation.id
+    variables["input"]["pEventId"] = to_global_id(
+        "PalvelutarjotinEventNode", p_event.id
     )
     executed = staff_api_client.execute(ADD_OCCURRENCE_MUTATION, variables=variables)
     assert_permission_denied(executed)
@@ -315,9 +301,6 @@ def test_add_occurrence_unauthorized(
 def test_add_occurrence(snapshot, staff_api_client, organisation, person):
     variables = deepcopy(ADD_OCCURRENCE_VARIABLES)
     p_event = PalvelutarjotinEventFactory(organisation=organisation)
-    variables["input"]["organisationId"] = to_global_id(
-        "OrganisationNode", organisation.id
-    )
     variables["input"]["pEventId"] = to_global_id(
         "PalvelutarjotinEventNode", p_event.id
     )
@@ -351,13 +334,12 @@ def test_update_occurrence_unauthorized(
 
 def test_update_occurrence(snapshot, staff_api_client, organisation, person):
     variables = deepcopy(UPDATE_OCCURRENCE_VARIABLES)
-    occurrence = OccurrenceFactory(contact_persons=[person], organisation=organisation)
+    occurrence = OccurrenceFactory(
+        contact_persons=[person], p_event__organisation=organisation
+    )
     p_event = PalvelutarjotinEventFactory(organisation=organisation)
     variables["input"]["id"] = to_global_id("OccurrenceNode", occurrence.id)
-    # Change p_event, organisation
-    variables["input"]["organisationId"] = to_global_id(
-        "OrganisationNode", organisation.id
-    )
+    # Change p_event
     variables["input"]["pEventId"] = to_global_id(
         "PalvelutarjotinEventNode", p_event.id
     )
@@ -392,7 +374,7 @@ def test_delete_occurrence_unauthorized(
 
 
 def test_delete_occurrence(snapshot, staff_api_client, occurrence):
-    staff_api_client.user.person.organisations.add(occurrence.organisation)
+    staff_api_client.user.person.organisations.add(occurrence.p_event.organisation)
     executed = staff_api_client.execute(
         DELETE_OCCURRENCE_MUTATION,
         variables={"input": {"id": to_global_id("OccurrenceNode", occurrence.id)}},
@@ -934,7 +916,7 @@ def test_unenrol_occurrence(snapshot, staff_api_client, mock_get_event_data):
             "studyGroupId": to_global_id("StudyGroupNode", study_group_15.id),
         }
     }
-    staff_api_client.user.person.organisations.add(occurrence.organisation)
+    staff_api_client.user.person.organisations.add(occurrence.p_event.organisation)
     executed = staff_api_client.execute(
         UNENROL_OCCURRENCE_MUTATION, variables=variables
     )

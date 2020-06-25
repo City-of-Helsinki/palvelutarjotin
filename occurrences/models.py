@@ -73,11 +73,6 @@ class Occurrence(TimestampedModel):
     max_group_size = models.PositiveSmallIntegerField(verbose_name=_("max group size"))
     start_time = models.DateTimeField(verbose_name=_("start time"))
     end_time = models.DateTimeField(verbose_name=_("end time"))
-    organisation = models.ForeignKey(
-        "organisations.Organisation",
-        verbose_name=_("organisation"),
-        on_delete=models.PROTECT,
-    )
     contact_persons = models.ManyToManyField(
         "organisations.Person",
         related_name="occurrences",
@@ -124,7 +119,9 @@ class Occurrence(TimestampedModel):
         )
 
     def is_editable_by_user(self, user):
-        return user.person.organisations.filter(id=self.organisation.id).exists()
+        return user.person.organisations.filter(
+            id=self.p_event.organisation.id
+        ).exists()
 
 
 class VenueCustomData(TranslatableModel):
@@ -196,5 +193,5 @@ class Enrolment(models.Model):
 
     def is_editable_by_user(self, user):
         return user.person.organisations.filter(
-            id=self.occurrence.organisation.id
+            id=self.occurrence.p_event.organisation.id
         ).exists()

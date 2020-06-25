@@ -18,6 +18,7 @@ class PalvelutarjotinEventFactory(factory.django.DjangoModelFactory):
     enrolment_end_days = factory.Faker("random_int", max=2)
     duration = factory.Faker("random_int", max=300)
     needed_occurrences = factory.Faker("random_int", max=10)
+    organisation = factory.SubFactory(OrganisationFactory)
 
     class Meta:
         model = PalvelutarjotinEvent
@@ -29,7 +30,6 @@ class OccurrenceFactory(factory.django.DjangoModelFactory):
     max_group_size = factory.Faker("random_int", max=1000)
     start_time = factory.Faker("date_time", tzinfo=pytz.timezone("Europe/Helsinki"))
     end_time = factory.Faker("date_time", tzinfo=pytz.timezone("Europe/Helsinki"))
-    organisation = factory.SubFactory(OrganisationFactory)
     p_event = factory.SubFactory(PalvelutarjotinEventFactory)
     auto_acceptance = factory.Faker("boolean")
     amount_of_seats = factory.Faker("random_int", max=50)
