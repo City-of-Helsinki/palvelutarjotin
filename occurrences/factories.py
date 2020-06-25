@@ -18,6 +18,8 @@ class PalvelutarjotinEventFactory(factory.django.DjangoModelFactory):
     enrolment_end_days = factory.Faker("random_int", max=2)
     duration = factory.Faker("random_int", max=300)
     needed_occurrences = factory.Faker("random_int", max=10)
+    contact_phone_number = factory.Faker("phone_number")
+    contact_email = factory.Faker("email")
     organisation = factory.SubFactory(OrganisationFactory)
 
     class Meta:

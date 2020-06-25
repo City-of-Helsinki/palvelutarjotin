@@ -42,19 +42,23 @@ snapshots["test_occurrences_query 1"] = {
             "edges": [
                 {
                     "node": {
-                        "amountOfSeats": 35,
+                        "amountOfSeats": 9,
                         "autoAcceptance": True,
                         "contactPersons": {"edges": []},
                         "endTime": "2000-08-18T23:27:03+00:00",
                         "maxGroupSize": 383,
                         "minGroupSize": 341,
                         "pEvent": {
+                            "contactEmail": "bdorsey@owens.org",
+                            "contactPhoneNumber": "972-701-1715x9102",
+                            "duration": 120,
                             "enrolmentEndDays": 0,
                             "enrolmentStart": "2005-04-01T09:01:02+00:00",
                             "linkedEventId": "Leg him president compare room hotel town.",
+                            "neededOccurrences": 4,
                         },
                         "placeId": "Record card my. Sure sister return.",
-                        "remainingSeats": 35,
+                        "remainingSeats": 9,
                         "seatsTaken": 0,
                         "startTime": "2013-12-12T04:57:19+00:00",
                         "studyGroups": {"edges": []},
@@ -71,19 +75,23 @@ snapshots["test_occurrence_query 1"] = {
             "edges": [
                 {
                     "node": {
-                        "amountOfSeats": 35,
+                        "amountOfSeats": 9,
                         "autoAcceptance": True,
                         "contactPersons": {"edges": []},
                         "endTime": "2000-08-18T23:27:03+00:00",
                         "maxGroupSize": 383,
                         "minGroupSize": 341,
                         "pEvent": {
+                            "contactEmail": "bdorsey@owens.org",
+                            "contactPhoneNumber": "972-701-1715x9102",
+                            "duration": 120,
                             "enrolmentEndDays": 0,
                             "enrolmentStart": "2005-04-01T09:01:02+00:00",
                             "linkedEventId": "Leg him president compare room hotel town.",
+                            "neededOccurrences": 4,
                         },
                         "placeId": "Record card my. Sure sister return.",
-                        "remainingSeats": 35,
+                        "remainingSeats": 9,
                         "seatsTaken": 0,
                         "startTime": "2013-12-12T04:57:19+00:00",
                         "studyGroups": {"edges": []},
@@ -112,6 +120,8 @@ snapshots["test_add_occurrence 1"] = {
                 "maxGroupSize": 20,
                 "minGroupSize": 10,
                 "pEvent": {
+                    "contactEmail": "jgilbert@baker-johnston.org",
+                    "contactPhoneNumber": "+1-614-494-8118x845",
                     "duration": 81,
                     "enrolmentEndDays": 0,
                     "enrolmentStart": "1978-12-17T12:06:21+00:00",
@@ -124,15 +134,11 @@ snapshots["test_add_occurrence 1"] = {
     }
 }
 
-snapshots["test_delete_occurrence 1"] = {
-    "data": {"deleteOccurrence": {"__typename": "DeleteOccurrenceMutationPayload"}}
-}
-
 snapshots["test_update_occurrence 1"] = {
     "data": {
         "updateOccurrence": {
             "occurrence": {
-                "contactPersons": {"edges": [{"node": {"name": "Gregory Flores"}}]},
+                "contactPersons": {"edges": [{"node": {"name": "Rhonda Fischer"}}]},
                 "endTime": "2020-05-05T00:00:00+00:00",
                 "languages": [
                     {"id": "fi", "name": "Finnish"},
@@ -142,11 +148,13 @@ snapshots["test_update_occurrence 1"] = {
                 "maxGroupSize": 20,
                 "minGroupSize": 10,
                 "pEvent": {
-                    "duration": 297,
-                    "enrolmentEndDays": 1,
-                    "enrolmentStart": "2003-11-12T21:12:26+00:00",
-                    "linkedEventId": "Those notice medical science sort already.",
-                    "neededOccurrences": 4,
+                    "contactEmail": "mitchellkathleen@orozco.org",
+                    "contactPhoneNumber": "462.003.7722x182",
+                    "duration": 261,
+                    "enrolmentEndDays": 0,
+                    "enrolmentStart": "1991-09-02T05:06:30+00:00",
+                    "linkedEventId": "Realize staff staff read.",
+                    "neededOccurrences": 10,
                 },
                 "startTime": "2020-05-05T00:00:00+00:00",
             }
@@ -249,9 +257,9 @@ snapshots["test_add_study_group 2"] = {
                 "groupSize": 20,
                 "name": "Sample study group name",
                 "person": {
-                    "emailAddress": "manningelizabeth@gmail.com",
-                    "name": "Jacob Baker",
-                    "phoneNumber": "001-227-741-6754x3903",
+                    "emailAddress": "marilyn21@gmail.com",
+                    "name": "Sherri Bell",
+                    "phoneNumber": "810-669-5836x9317",
                 },
             }
         }
@@ -308,41 +316,29 @@ snapshots["test_enrol_occurrence 1"] = {
     }
 }
 
-snapshots["test_unenrol_occurrence 1"] = {
-    "data": {
-        "unenrolOccurrence": {
-            "occurrence": {
-                "amountOfSeats": 50,
-                "remainingSeats": 50,
-                "seatsTaken": 0,
-                "startTime": "2020-01-06T00:00:00+00:00",
-            },
-            "studyGroup": {
-                "name": "Last appear experience seven. Throw wrong party wall agency customer clear. Control as receive cup."
-            },
-        }
-    }
-}
-
 snapshots["test_occurrences_filter_by_date 1"] = {
     "data": {
         "occurrences": {
             "edges": [
                 {
                     "node": {
-                        "amountOfSeats": 23,
-                        "autoAcceptance": True,
+                        "amountOfSeats": 32,
+                        "autoAcceptance": False,
                         "contactPersons": {"edges": []},
-                        "endTime": "1989-05-02T21:40:19+00:00",
-                        "maxGroupSize": 181,
-                        "minGroupSize": 392,
+                        "endTime": "1996-02-20T13:49:25+00:00",
+                        "maxGroupSize": 84,
+                        "minGroupSize": 838,
                         "pEvent": {
-                            "enrolmentEndDays": 1,
-                            "enrolmentStart": "1995-02-20T07:52:36+00:00",
-                            "linkedEventId": "Shoulder write century spring never skill.",
+                            "contactEmail": "marilyn21@gmail.com",
+                            "contactPhoneNumber": "810-669-5836x9317",
+                            "duration": 269,
+                            "enrolmentEndDays": 2,
+                            "enrolmentStart": "2011-12-27T10:59:58+00:00",
+                            "linkedEventId": "From daughter order stay sign discover eight.",
+                            "neededOccurrences": 5,
                         },
-                        "placeId": "News behind material address prove color effort loss.",
-                        "remainingSeats": 23,
+                        "placeId": "Spring never skill. Able process base sing according.",
+                        "remainingSeats": 32,
                         "seatsTaken": 0,
                         "startTime": "2020-01-02T00:00:00+00:00",
                         "studyGroups": {"edges": []},
@@ -359,19 +355,23 @@ snapshots["test_occurrences_filter_by_time 1"] = {
             "edges": [
                 {
                     "node": {
-                        "amountOfSeats": 35,
+                        "amountOfSeats": 9,
                         "autoAcceptance": True,
                         "contactPersons": {"edges": []},
                         "endTime": "2013-12-12T04:57:19+00:00",
                         "maxGroupSize": 383,
                         "minGroupSize": 341,
                         "pEvent": {
+                            "contactEmail": "bdorsey@owens.org",
+                            "contactPhoneNumber": "972-701-1715x9102",
+                            "duration": 120,
                             "enrolmentEndDays": 0,
                             "enrolmentStart": "2005-04-01T09:01:02+00:00",
                             "linkedEventId": "Machine try lead behind everyone agency start.",
+                            "neededOccurrences": 4,
                         },
                         "placeId": "Record card my. Sure sister return.",
-                        "remainingSeats": 35,
+                        "remainingSeats": 9,
                         "seatsTaken": 0,
                         "startTime": "2020-01-01T10:00:00+00:00",
                         "studyGroups": {"edges": []},
@@ -388,19 +388,23 @@ snapshots["test_occurrences_filter_by_upcoming 1"] = {
             "edges": [
                 {
                     "node": {
-                        "amountOfSeats": 35,
-                        "autoAcceptance": True,
+                        "amountOfSeats": 14,
+                        "autoAcceptance": False,
                         "contactPersons": {"edges": []},
-                        "endTime": "1988-12-20T15:52:53+00:00",
-                        "maxGroupSize": 899,
-                        "minGroupSize": 271,
+                        "endTime": "1987-12-17T21:42:45+00:00",
+                        "maxGroupSize": 968,
+                        "minGroupSize": 378,
                         "pEvent": {
+                            "contactEmail": "stephanieskinner@gmail.com",
+                            "contactPhoneNumber": "777.671.2406x75064",
+                            "duration": 170,
                             "enrolmentEndDays": 1,
                             "enrolmentStart": "2020-01-05T00:00:00+00:00",
                             "linkedEventId": "Record card my. Sure sister return.",
+                            "neededOccurrences": 5,
                         },
-                        "placeId": "Laugh prevent make never.",
-                        "remainingSeats": 35,
+                        "placeId": "Stay public high concern glass person. Century spring never.",
+                        "remainingSeats": 14,
                         "seatsTaken": 0,
                         "startTime": "2020-01-06T00:00:00+00:00",
                         "studyGroups": {"edges": []},
@@ -408,19 +412,23 @@ snapshots["test_occurrences_filter_by_upcoming 1"] = {
                 },
                 {
                     "node": {
-                        "amountOfSeats": 46,
-                        "autoAcceptance": False,
+                        "amountOfSeats": 35,
+                        "autoAcceptance": True,
                         "contactPersons": {"edges": []},
-                        "endTime": "1971-11-04T13:17:08+00:00",
-                        "maxGroupSize": 218,
-                        "minGroupSize": 92,
+                        "endTime": "1988-12-20T15:52:53+00:00",
+                        "maxGroupSize": 899,
+                        "minGroupSize": 271,
                         "pEvent": {
+                            "contactEmail": "stephanieskinner@gmail.com",
+                            "contactPhoneNumber": "777.671.2406x75064",
+                            "duration": 170,
                             "enrolmentEndDays": 1,
                             "enrolmentStart": "2020-01-05T00:00:00+00:00",
                             "linkedEventId": "Record card my. Sure sister return.",
+                            "neededOccurrences": 5,
                         },
-                        "placeId": "Then top sing. Serious listen police shake.",
-                        "remainingSeats": 46,
+                        "placeId": "Laugh prevent make never.",
+                        "remainingSeats": 35,
                         "seatsTaken": 0,
                         "startTime": "2020-01-07T00:00:00+00:00",
                         "studyGroups": {"edges": []},
@@ -437,19 +445,23 @@ snapshots["test_occurrences_filter_by_date 2"] = {
             "edges": [
                 {
                     "node": {
-                        "amountOfSeats": 23,
-                        "autoAcceptance": True,
+                        "amountOfSeats": 32,
+                        "autoAcceptance": False,
                         "contactPersons": {"edges": []},
-                        "endTime": "1989-05-02T21:40:19+00:00",
-                        "maxGroupSize": 181,
-                        "minGroupSize": 392,
+                        "endTime": "1996-02-20T13:49:25+00:00",
+                        "maxGroupSize": 84,
+                        "minGroupSize": 838,
                         "pEvent": {
-                            "enrolmentEndDays": 1,
-                            "enrolmentStart": "1995-02-20T07:52:36+00:00",
-                            "linkedEventId": "Shoulder write century spring never skill.",
+                            "contactEmail": "marilyn21@gmail.com",
+                            "contactPhoneNumber": "810-669-5836x9317",
+                            "duration": 269,
+                            "enrolmentEndDays": 2,
+                            "enrolmentStart": "2011-12-27T10:59:58+00:00",
+                            "linkedEventId": "From daughter order stay sign discover eight.",
+                            "neededOccurrences": 5,
                         },
-                        "placeId": "News behind material address prove color effort loss.",
-                        "remainingSeats": 23,
+                        "placeId": "Spring never skill. Able process base sing according.",
+                        "remainingSeats": 32,
                         "seatsTaken": 0,
                         "startTime": "2020-01-02T00:00:00+00:00",
                         "studyGroups": {"edges": []},
@@ -457,19 +469,23 @@ snapshots["test_occurrences_filter_by_date 2"] = {
                 },
                 {
                     "node": {
-                        "amountOfSeats": 45,
-                        "autoAcceptance": False,
+                        "amountOfSeats": 50,
+                        "autoAcceptance": True,
                         "contactPersons": {"edges": []},
-                        "endTime": "1996-04-05T11:49:51+00:00",
-                        "maxGroupSize": 851,
-                        "minGroupSize": 837,
+                        "endTime": "1978-10-12T13:40:17+00:00",
+                        "maxGroupSize": 275,
+                        "minGroupSize": 594,
                         "pEvent": {
-                            "enrolmentEndDays": 1,
-                            "enrolmentStart": "1999-10-11T19:54:38+00:00",
-                            "linkedEventId": "Beautiful if his their. Stuff election stay every.",
+                            "contactEmail": "ujoseph@austin.com",
+                            "contactPhoneNumber": "003-772-2182x7408",
+                            "duration": 175,
+                            "enrolmentEndDays": 2,
+                            "enrolmentStart": "2014-10-11T15:38:18+00:00",
+                            "linkedEventId": "Staff read rule point leg within.",
+                            "neededOccurrences": 4,
                         },
-                        "placeId": "Push book and interesting sit future.",
-                        "remainingSeats": 45,
+                        "placeId": "Science sort already name.",
+                        "remainingSeats": 50,
                         "seatsTaken": 0,
                         "startTime": "2020-01-02T00:00:00+00:00",
                         "studyGroups": {"edges": []},
@@ -486,19 +502,23 @@ snapshots["test_occurrences_filter_by_time 2"] = {
             "edges": [
                 {
                     "node": {
-                        "amountOfSeats": 13,
+                        "amountOfSeats": 34,
                         "autoAcceptance": False,
                         "contactPersons": {"edges": []},
-                        "endTime": "2002-06-15T11:57:08+00:00",
-                        "maxGroupSize": 231,
-                        "minGroupSize": 45,
+                        "endTime": "2005-03-18T22:03:03+00:00",
+                        "maxGroupSize": 698,
+                        "minGroupSize": 744,
                         "pEvent": {
-                            "enrolmentEndDays": 0,
-                            "enrolmentStart": "1979-11-05T04:12:50+00:00",
-                            "linkedEventId": "Challenge box myself last appear experience seven.",
+                            "contactEmail": "lfriedman@yahoo.com",
+                            "contactPhoneNumber": "339-471-3127x06051",
+                            "duration": 194,
+                            "enrolmentEndDays": 1,
+                            "enrolmentStart": "2009-04-10T19:35:34+00:00",
+                            "linkedEventId": "Republican somebody hotel same can assume.",
+                            "neededOccurrences": 2,
                         },
-                        "placeId": "Which president smile staff country actually generation.",
-                        "remainingSeats": 13,
+                        "placeId": "Score think turn argue present.",
+                        "remainingSeats": 34,
                         "seatsTaken": 0,
                         "startTime": "2020-01-02T12:00:00+00:00",
                         "studyGroups": {"edges": []},
@@ -515,19 +535,23 @@ snapshots["test_occurrences_filter_by_time 3"] = {
             "edges": [
                 {
                     "node": {
-                        "amountOfSeats": 45,
-                        "autoAcceptance": False,
+                        "amountOfSeats": 50,
+                        "autoAcceptance": True,
                         "contactPersons": {"edges": []},
-                        "endTime": "1996-04-05T11:49:51+00:00",
-                        "maxGroupSize": 851,
-                        "minGroupSize": 837,
+                        "endTime": "1978-10-12T13:40:17+00:00",
+                        "maxGroupSize": 275,
+                        "minGroupSize": 594,
                         "pEvent": {
-                            "enrolmentEndDays": 1,
-                            "enrolmentStart": "1999-10-11T19:54:38+00:00",
-                            "linkedEventId": "Beautiful if his their. Stuff election stay every.",
+                            "contactEmail": "ujoseph@austin.com",
+                            "contactPhoneNumber": "003-772-2182x7408",
+                            "duration": 175,
+                            "enrolmentEndDays": 2,
+                            "enrolmentStart": "2014-10-11T15:38:18+00:00",
+                            "linkedEventId": "Staff read rule point leg within.",
+                            "neededOccurrences": 4,
                         },
-                        "placeId": "Push book and interesting sit future.",
-                        "remainingSeats": 45,
+                        "placeId": "Science sort already name.",
+                        "remainingSeats": 50,
                         "seatsTaken": 0,
                         "startTime": "2020-01-01T11:00:00+00:00",
                         "studyGroups": {"edges": []},
@@ -535,19 +559,23 @@ snapshots["test_occurrences_filter_by_time 3"] = {
                 },
                 {
                     "node": {
-                        "amountOfSeats": 23,
-                        "autoAcceptance": True,
+                        "amountOfSeats": 32,
+                        "autoAcceptance": False,
                         "contactPersons": {"edges": []},
-                        "endTime": "1989-05-02T21:40:19+00:00",
-                        "maxGroupSize": 181,
-                        "minGroupSize": 392,
+                        "endTime": "1996-02-20T13:49:25+00:00",
+                        "maxGroupSize": 84,
+                        "minGroupSize": 838,
                         "pEvent": {
-                            "enrolmentEndDays": 1,
-                            "enrolmentStart": "1995-02-20T07:52:36+00:00",
-                            "linkedEventId": "Shoulder write century spring never skill.",
+                            "contactEmail": "marilyn21@gmail.com",
+                            "contactPhoneNumber": "810-669-5836x9317",
+                            "duration": 269,
+                            "enrolmentEndDays": 2,
+                            "enrolmentStart": "2011-12-27T10:59:58+00:00",
+                            "linkedEventId": "From daughter order stay sign discover eight.",
+                            "neededOccurrences": 5,
                         },
-                        "placeId": "News behind material address prove color effort loss.",
-                        "remainingSeats": 23,
+                        "placeId": "Spring never skill. Able process base sing according.",
+                        "remainingSeats": 32,
                         "seatsTaken": 0,
                         "startTime": "2020-01-02T11:00:00+00:00",
                         "studyGroups": {"edges": []},
@@ -564,19 +592,23 @@ snapshots["test_occurrences_filter_by_time 4"] = {
             "edges": [
                 {
                     "node": {
-                        "amountOfSeats": 45,
-                        "autoAcceptance": False,
+                        "amountOfSeats": 50,
+                        "autoAcceptance": True,
                         "contactPersons": {"edges": []},
-                        "endTime": "1996-04-05T11:49:51+00:00",
-                        "maxGroupSize": 851,
-                        "minGroupSize": 837,
+                        "endTime": "1978-10-12T13:40:17+00:00",
+                        "maxGroupSize": 275,
+                        "minGroupSize": 594,
                         "pEvent": {
-                            "enrolmentEndDays": 1,
-                            "enrolmentStart": "1999-10-11T19:54:38+00:00",
-                            "linkedEventId": "Beautiful if his their. Stuff election stay every.",
+                            "contactEmail": "ujoseph@austin.com",
+                            "contactPhoneNumber": "003-772-2182x7408",
+                            "duration": 175,
+                            "enrolmentEndDays": 2,
+                            "enrolmentStart": "2014-10-11T15:38:18+00:00",
+                            "linkedEventId": "Staff read rule point leg within.",
+                            "neededOccurrences": 4,
                         },
-                        "placeId": "Push book and interesting sit future.",
-                        "remainingSeats": 45,
+                        "placeId": "Science sort already name.",
+                        "remainingSeats": 50,
                         "seatsTaken": 0,
                         "startTime": "2020-01-01T11:00:00+00:00",
                         "studyGroups": {"edges": []},
@@ -584,25 +616,49 @@ snapshots["test_occurrences_filter_by_time 4"] = {
                 },
                 {
                     "node": {
-                        "amountOfSeats": 23,
-                        "autoAcceptance": True,
+                        "amountOfSeats": 32,
+                        "autoAcceptance": False,
                         "contactPersons": {"edges": []},
-                        "endTime": "1989-05-02T21:40:19+00:00",
-                        "maxGroupSize": 181,
-                        "minGroupSize": 392,
+                        "endTime": "1996-02-20T13:49:25+00:00",
+                        "maxGroupSize": 84,
+                        "minGroupSize": 838,
                         "pEvent": {
-                            "enrolmentEndDays": 1,
-                            "enrolmentStart": "1995-02-20T07:52:36+00:00",
-                            "linkedEventId": "Shoulder write century spring never skill.",
+                            "contactEmail": "marilyn21@gmail.com",
+                            "contactPhoneNumber": "810-669-5836x9317",
+                            "duration": 269,
+                            "enrolmentEndDays": 2,
+                            "enrolmentStart": "2011-12-27T10:59:58+00:00",
+                            "linkedEventId": "From daughter order stay sign discover eight.",
+                            "neededOccurrences": 5,
                         },
-                        "placeId": "News behind material address prove color effort loss.",
-                        "remainingSeats": 23,
+                        "placeId": "Spring never skill. Able process base sing according.",
+                        "remainingSeats": 32,
                         "seatsTaken": 0,
                         "startTime": "2020-01-02T11:00:00+00:00",
                         "studyGroups": {"edges": []},
                     }
                 },
             ]
+        }
+    }
+}
+
+snapshots["test_delete_occurrence 1"] = {
+    "data": {"deleteOccurrence": {"__typename": "DeleteOccurrenceMutationPayload"}}
+}
+
+snapshots["test_unenrol_occurrence 1"] = {
+    "data": {
+        "unenrolOccurrence": {
+            "occurrence": {
+                "amountOfSeats": 50,
+                "remainingSeats": 50,
+                "seatsTaken": 0,
+                "startTime": "2020-01-06T00:00:00+00:00",
+            },
+            "studyGroup": {
+                "name": "Last appear experience seven. Throw wrong party wall agency customer clear. Control as receive cup."
+            },
         }
     }
 }
