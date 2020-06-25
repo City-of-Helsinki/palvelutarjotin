@@ -19,7 +19,7 @@ from occurrences.models import (
     StudyGroup,
     VenueCustomData,
 )
-from organisations.models import Organisation, Person
+from organisations.models import Person
 from organisations.schema import PersonNodeInput
 
 from common.utils import (
@@ -156,7 +156,6 @@ class AddOccurrenceMutation(graphene.relay.ClientIDMutation):
         max_group_size = graphene.Int(required=True)
         start_time = graphene.DateTime(required=True)
         end_time = graphene.DateTime(required=True)
-        organisation_id = graphene.ID(required=True)
         contact_persons = graphene.List(PersonNodeInput)
         p_event_id = graphene.ID(required=True)
         auto_acceptance = graphene.Boolean(required=True)
@@ -172,9 +171,6 @@ class AddOccurrenceMutation(graphene.relay.ClientIDMutation):
         validate_occurrence_data(kwargs)
         contact_persons = kwargs.pop("contact_persons", None)
         languages = kwargs.pop("languages", None)
-        kwargs["organisation_id"] = get_editable_obj_from_global_id(
-            info, kwargs["organisation_id"], Organisation
-        ).id
         kwargs["p_event_id"] = get_editable_obj_from_global_id(
             info, kwargs["p_event_id"], PalvelutarjotinEvent
         ).id
@@ -197,7 +193,6 @@ class UpdateOccurrenceMutation(graphene.relay.ClientIDMutation):
         max_group_size = graphene.Int()
         start_time = graphene.DateTime()
         end_time = graphene.DateTime()
-        organisation_id = graphene.ID()
         contact_persons = graphene.List(
             PersonNodeInput,
             description="Should include all contact persons of the occurrence, "
@@ -220,9 +215,6 @@ class UpdateOccurrenceMutation(graphene.relay.ClientIDMutation):
         occurrence = get_editable_obj_from_global_id(info, kwargs.pop("id"), Occurrence)
         contact_persons = kwargs.pop("contact_persons", None)
         languages = kwargs.pop("languages", None)
-        kwargs["organisation_id"] = get_editable_obj_from_global_id(
-            info, kwargs["organisation_id"], Organisation
-        ).id
         kwargs["p_event_id"] = get_editable_obj_from_global_id(
             info, kwargs["p_event_id"], PalvelutarjotinEvent
         ).id
