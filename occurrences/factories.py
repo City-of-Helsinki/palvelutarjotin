@@ -21,6 +21,7 @@ class PalvelutarjotinEventFactory(factory.django.DjangoModelFactory):
     contact_phone_number = factory.Faker("phone_number")
     contact_email = factory.Faker("email")
     organisation = factory.SubFactory(OrganisationFactory)
+    contact_person = factory.SubFactory(PersonFactory)
 
     class Meta:
         model = PalvelutarjotinEvent

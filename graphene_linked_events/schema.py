@@ -28,7 +28,7 @@ from occurrences.schema import (
     PalvelutarjotinEventNode,
     VenueNode,
 )
-from organisations.models import Organisation
+from organisations.models import Organisation, Person
 
 from common.utils import (
     get_editable_obj_from_global_id,
@@ -428,10 +428,16 @@ class AddEventMutation(Mutation):
     def mutate(root, info, **kwargs):
         # Format to JSON POST body
         p_event_data = kwargs["event"].pop("p_event")
+
         organisation_gid = kwargs["event"].pop("organisation_id")
         organisation = get_editable_obj_from_global_id(
             info, organisation_gid, Organisation
         )
+        person_gid = p_event_data.pop("contact_person_id", None)
+        if person_gid:
+            person = get_obj_from_global_id(info, person_gid, Person)
+            if not organisation.persons.filter(id=person.id).exists():
+                raise PermissionDenied("Contact person does not belong to organisation")
         if organisation.publisher_id:
             # If publisher id does not exist, LinkedEvent will decide the
             # publisher id which is the API key root publisher
@@ -445,7 +451,7 @@ class AddEventMutation(Mutation):
             # Create palvelutarjotin event if event created successful
             p_event_data["linked_event_id"] = event_obj.id
             p_event_data["organisation_id"] = organisation.id
-            PalvelutarjotinEvent.objects.create(**p_event_data)
+            PalvelutarjotinEvent.objects.create(**p_event_data, contact_person=person)
         response = EventMutationResponse(status_code=result.status_code, body=event_obj)
         return AddEventMutation(response=response)
 
@@ -462,11 +468,18 @@ class UpdateEventMutation(Mutation):
         # Format to JSON POST body
         event_id = kwargs["event"].pop("id")
         p_event_data = kwargs["event"].pop("p_event")
+
         organisation_gid = kwargs["event"].pop("organisation_id")
 
         organisation = get_editable_obj_from_global_id(
             info, organisation_gid, Organisation
         )
+        person_gid = p_event_data.pop("contact_person_id", None)
+        if person_gid:
+            person = get_obj_from_global_id(info, person_gid, Person)
+            if not organisation.persons.filter(id=person.id).exists():
+                raise PermissionDenied("Contact person does not belong to organisation")
+            p_event_data["contact_person_id"] = person.id
         try:
             p_event = PalvelutarjotinEvent.objects.get(
                 linked_event_id=event_id, organisation=organisation
