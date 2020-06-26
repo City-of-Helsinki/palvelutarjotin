@@ -7,13 +7,15 @@ from graphene_django.types import DjangoObjectType
 from graphql_jwt.decorators import login_required, superuser_required
 from organisations.models import Organisation, Person
 
-from common.utils import get_node_id_from_global_id, update_object
+from common.utils import get_node_id_from_global_id, LanguageEnum, update_object
 from palvelutarjotin.exceptions import ApiUsageError, ObjectDoesNotExistError
 
 User = get_user_model()
 
 
 class PersonNode(DjangoObjectType):
+    language = LanguageEnum(required=True)
+
     class Meta:
         model = Person
         interfaces = (relay.Node,)
@@ -28,6 +30,7 @@ class PersonNodeInput(InputObjectType):
     name = graphene.String(required=True)
     phone_number = graphene.String()
     email_address = graphene.String(required=True)
+    language = LanguageEnum(description="Default `fi`")
 
 
 class OrganisationNode(DjangoObjectType):
@@ -47,6 +50,7 @@ class CreateMyProfileMutation(graphene.relay.ClientIDMutation):
         phone_number = graphene.String()
         email_address = graphene.String(required=True)
         organisations = graphene.List(graphene.ID)
+        language = LanguageEnum(description="Default `fi`")
 
     my_profile = graphene.Field(PersonNode)
 
@@ -81,6 +85,7 @@ class UpdateMyProfileMutation(graphene.relay.ClientIDMutation):
             graphene.ID,
             description="If present, should include all organisation ids of user",
         )
+        language = LanguageEnum(description="Default `fi`")
 
     my_profile = graphene.Field(PersonNode)
 
@@ -173,6 +178,7 @@ class UpdatePersonMutation(graphene.relay.ClientIDMutation):
         name = graphene.String()
         phone_number = graphene.String()
         email_address = graphene.String()
+        language = LanguageEnum()
 
     person = graphene.Field(PersonNode)
 

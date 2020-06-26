@@ -11,5 +11,8 @@ def send_event_notifications_to_contact_person(
     }
     # TODO: Send notification based on user language
     send_notification(
-        study_group.person.email_address, notification_type, context=context,
+        study_group.person.email_address,
+        notification_type,
+        language=study_group.person.language,
+        context=context,
     )

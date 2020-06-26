@@ -1,5 +1,7 @@
 from datetime import datetime
 
+import graphene
+from django.conf import settings
 from django.core.exceptions import PermissionDenied
 from django.db import transaction
 from django.utils import timezone
@@ -13,6 +15,10 @@ from palvelutarjotin.exceptions import (
     ObjectDoesNotExistError,
 )
 from palvelutarjotin.settings import REVISION
+
+LanguageEnum = graphene.Enum(
+    "Language", [(l[0].upper(), l[0]) for l in settings.LANGUAGES]
+)
 
 
 def update_object(obj, data):

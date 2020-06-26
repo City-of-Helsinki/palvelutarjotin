@@ -2,7 +2,6 @@ from datetime import timedelta
 
 import graphene
 from django.apps import apps
-from django.conf import settings
 from django.db import transaction
 from django.utils import timezone
 from django.utils.translation import get_language
@@ -26,6 +25,7 @@ from common.utils import (
     get_editable_obj_from_global_id,
     get_node_id_from_global_id,
     get_obj_from_global_id,
+    LanguageEnum,
     update_object,
     update_object_with_translations,
 )
@@ -36,10 +36,6 @@ from palvelutarjotin.exceptions import (
     EnrolmentNotStartedError,
     InvalidStudyGroupSizeError,
     ObjectDoesNotExistError,
-)
-
-LanguageEnum = graphene.Enum(
-    "Language", [(l[0].upper(), l[0]) for l in settings.LANGUAGES]
 )
 
 VenueTranslation = apps.get_model("occurrences", "VenueCustomDataTranslation")

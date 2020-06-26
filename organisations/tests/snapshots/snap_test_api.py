@@ -17,6 +17,7 @@ snapshots["test_persons_query 3"] = {
                 {
                     "node": {
                         "emailAddress": "nancy55@yahoo.com",
+                        "language": "FI",
                         "name": "Robert Cruz",
                         "organisations": {"edges": []},
                         "phoneNumber": "390-340-4467x342",
@@ -34,6 +35,7 @@ snapshots["test_persons_query 4"] = {
                 {
                     "node": {
                         "emailAddress": "jesse27@hotmail.com",
+                        "language": "FI",
                         "name": "Gregory Weber",
                         "organisations": {"edges": []},
                         "phoneNumber": "0488301905",
@@ -42,6 +44,7 @@ snapshots["test_persons_query 4"] = {
                 {
                     "node": {
                         "emailAddress": "travis89@davis-porter.com",
+                        "language": "FI",
                         "name": "Jacqueline Salas",
                         "organisations": {
                             "edges": [{"node": {"name": "William Brewer"}}]
@@ -52,6 +55,7 @@ snapshots["test_persons_query 4"] = {
                 {
                     "node": {
                         "emailAddress": "nancy55@yahoo.com",
+                        "language": "FI",
                         "name": "Robert Cruz",
                         "organisations": {"edges": []},
                         "phoneNumber": "390-340-4467x342",
@@ -70,6 +74,7 @@ snapshots["test_person_query 3"] = {
     "data": {
         "person": {
             "emailAddress": "nancy55@yahoo.com",
+            "language": "FI",
             "name": "Robert Cruz",
             "organisations": {"edges": []},
             "phoneNumber": "390-340-4467x342",
@@ -81,6 +86,7 @@ snapshots["test_person_query 4"] = {
     "data": {
         "person": {
             "emailAddress": "travis89@davis-porter.com",
+            "language": "FI",
             "name": "Jacqueline Salas",
             "organisations": {"edges": [{"node": {"name": "William Brewer"}}]},
             "phoneNumber": "3202813072",
@@ -122,6 +128,7 @@ snapshots["test_my_profile_query 1"] = {
     "data": {
         "myProfile": {
             "emailAddress": "stephanieskinner@gmail.com",
+            "language": "FI",
             "name": "William Brewer",
             "organisations": {"edges": [{"node": {"name": "Jason Berg"}}]},
             "phoneNumber": "(767)124-0675x064",
@@ -134,6 +141,7 @@ snapshots["test_update_person_mutation 1"] = {
         "updatePerson": {
             "person": {
                 "emailAddress": "travis89@davis-porter.com",
+                "language": "SV",
                 "name": "New name",
                 "organisations": {"edges": [{"node": {"name": "William Brewer"}}]},
                 "phoneNumber": "3202813072",
@@ -173,6 +181,7 @@ snapshots["test_update_my_profile 1"] = {
         "updateMyProfile": {
             "myProfile": {
                 "emailAddress": "newEmail@address.com",
+                "language": "SV",
                 "name": "New name",
                 "organisations": {"edges": [{"node": {"name": "Jason Berg"}}]},
                 "phoneNumber": "(767)124-0675x064",
@@ -186,6 +195,7 @@ snapshots["test_create_my_profile 1"] = {
         "createMyProfile": {
             "myProfile": {
                 "emailAddress": "newEmail@address.com",
+                "language": "EN",
                 "name": "New name",
                 "organisations": {"edges": [{"node": {"name": "Brandon Johnson"}}]},
                 "phoneNumber": "",

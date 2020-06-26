@@ -21,6 +21,7 @@ query Persons{
         name
         phoneNumber
         emailAddress
+        language
         organisations{
           edges{
             node{
@@ -40,6 +41,7 @@ query Person($id:ID!){
     name
     phoneNumber
     emailAddress
+    language
     organisations{
       edges{
         node{
@@ -97,6 +99,7 @@ query myProfile{
     name
     phoneNumber
     emailAddress
+    language
     organisations{
          edges{
              node{
@@ -115,6 +118,7 @@ mutation updateMyProfileMutation($input: UpdateMyProfileMutationInput!){
       name
       phoneNumber
       emailAddress
+      language
       organisations{
          edges{
              node{
@@ -128,7 +132,11 @@ mutation updateMyProfileMutation($input: UpdateMyProfileMutationInput!){
 """
 
 UPDATE_MY_PROFILE_VARIABLES = {
-    "input": {"name": "New name", "emailAddress": "newEmail@address.com"}
+    "input": {
+        "name": "New name",
+        "emailAddress": "newEmail@address.com",
+        "language": "SV",
+    }
 }
 
 CREATE_MY_PROFILE_MUTATION = """
@@ -138,6 +146,7 @@ mutation createMyProfileMutation($input: CreateMyProfileMutationInput!){
       name
       phoneNumber
       emailAddress
+      language
       organisations{
          edges{
              node{
@@ -151,7 +160,11 @@ mutation createMyProfileMutation($input: CreateMyProfileMutationInput!){
 """
 
 CREATE_MY_PROFILE_VARIABLES = {
-    "input": {"name": "New name", "emailAddress": "newEmail@address.com"}
+    "input": {
+        "name": "New name",
+        "emailAddress": "newEmail@address.com",
+        "language": "EN",
+    }
 }
 
 UPDATE_PERSON_MUTATION = """
@@ -168,12 +181,13 @@ mutation updatePersonMutation($input: UpdatePersonMutationInput!){
       }
       phoneNumber
       emailAddress
+      language
     }
   }
 }
 """
 
-UPDATE_PERSON_VARIABLES = {"input": {"id": "", "name": "New name"}}
+UPDATE_PERSON_VARIABLES = {"input": {"id": "", "name": "New name", "language": "SV"}}
 
 ADD_ORGANISATION_MUTATION = """
 mutation addOrganisationMutation($input:AddOrganisationMutationInput!){

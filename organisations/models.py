@@ -1,3 +1,4 @@
+from django.conf import settings
 from django.contrib.auth import get_user_model
 from django.db import models
 from django.utils.translation import ugettext_lazy as _
@@ -68,6 +69,9 @@ class Person(UUIDPrimaryKeyModel, TimestampedModel):
         verbose_name=_("phone number"), max_length=64, blank=True
     )
     email_address = models.EmailField(max_length=255, verbose_name=_("email"))
+    language = models.CharField(
+        verbose_name=_("language"), max_length=10, default=settings.LANGUAGES[0][0]
+    )
 
     objects = PersonQuerySet.as_manager()
 
