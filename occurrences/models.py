@@ -31,6 +31,14 @@ class PalvelutarjotinEvent(TimestampedModel):
         blank=True,
         null=True,
     )
+    contact_person = models.ForeignKey(
+        "organisations.Person",
+        verbose_name=_("contact person"),
+        related_name="p_event",
+        on_delete=models.PROTECT,
+        blank=True,
+        null=True,
+    )
     contact_phone_number = models.CharField(
         verbose_name=_("contact phone number"), max_length=64, blank=True
     )

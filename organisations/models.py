@@ -81,3 +81,10 @@ class Person(UUIDPrimaryKeyModel, TimestampedModel):
 
     def __str__(self):
         return f"{self.name}"
+
+    def is_editable_by_user(self, user):
+        return (
+            user.person.organisations.get_queryset()
+            .intersection(self.organisations.get_queryset())
+            .exists()
+        )

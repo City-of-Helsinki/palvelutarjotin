@@ -632,6 +632,10 @@ mutation addEvent($input: AddEventMutationInput!){
         pEvent {
           contactEmail
           contactPhoneNumber
+          contactPerson
+          {
+            name
+          }
           enrolmentEndDays
           enrolmentStart
           duration
@@ -655,6 +659,7 @@ CREATE_EVENT_VARIABLES = {
             "enrolmentEndDays": 2,
             "duration": 60,
             "neededOccurrences": 1,
+            "contactPersonId": "",
             "contactPhoneNumber": "123123",
             "contactEmail": "contact@email.me",
         },
@@ -685,12 +690,13 @@ CREATE_EVENT_VARIABLES = {
 
 
 def test_create_event_unauthorized(
-    api_client, user_api_client, staff_api_client, organisation
+    api_client, user_api_client, staff_api_client, person, organisation
 ):
     executed = api_client.execute(
         CREATE_EVENT_MUTATION, variables=CREATE_EVENT_VARIABLES
     )
     assert_permission_denied(executed)
+
     executed = user_api_client.execute(
         CREATE_EVENT_MUTATION, variables=CREATE_EVENT_VARIABLES
     )
@@ -700,16 +706,31 @@ def test_create_event_unauthorized(
     variables["input"]["organisationId"] = to_global_id(
         "OrganisationNode", organisation.id
     )
+
+    variables["input"]["pEvent"]["contactPersonId"] = to_global_id(
+        "PersonNode", person.id
+    )
+
+    executed = staff_api_client.execute(CREATE_EVENT_MUTATION, variables=variables)
+    assert_permission_denied(executed)
+    # Still contact person doesn't belong to organisation
+    staff_api_client.user.person.organisations.add(organisation)
     executed = staff_api_client.execute(CREATE_EVENT_MUTATION, variables=variables)
     assert_permission_denied(executed)
 
 
-def test_create_event(staff_api_client, snapshot, mock_create_event_data, organisation):
+def test_create_event(
+    staff_api_client, snapshot, person, mock_create_event_data, organisation
+):
     variables = deepcopy(CREATE_EVENT_VARIABLES)
     variables["input"]["organisationId"] = to_global_id(
         "OrganisationNode", organisation.id
     )
+    variables["input"]["pEvent"]["contactPersonId"] = to_global_id(
+        "PersonNode", person.id
+    )
     staff_api_client.user.person.organisations.add(organisation)
+    person.organisations.add(organisation)
     executed = staff_api_client.execute(CREATE_EVENT_MUTATION, variables=variables)
     assert PalvelutarjotinEvent.objects.count() == 1
     snapshot.assert_match(executed)
@@ -758,6 +779,9 @@ mutation addEvent($input: UpdateEventMutationInput!){
           organisation{
               name
           }
+          contactPerson{
+              name
+          }
         }
       }
     }
@@ -804,7 +828,7 @@ UPDATE_EVENT_VARIABLES = {
 
 
 def test_update_event_unauthorized(
-    api_client, user_api_client, staff_api_client, organisation
+    api_client, user_api_client, person, staff_api_client, organisation
 ):
     executed = api_client.execute(
         UPDATE_EVENT_MUTATION, variables=UPDATE_EVENT_VARIABLES
@@ -819,19 +843,32 @@ def test_update_event_unauthorized(
     variables["input"]["organisationId"] = to_global_id(
         "OrganisationNode", organisation.id
     )
+    variables["input"]["pEvent"]["contactPersonId"] = to_global_id(
+        "PersonNode", person.id
+    )
+    executed = staff_api_client.execute(UPDATE_EVENT_MUTATION, variables=variables)
+    assert_permission_denied(executed)
+    # Still contact person doesn't belong to organisation
+    staff_api_client.user.person.organisations.add(organisation)
     executed = staff_api_client.execute(UPDATE_EVENT_MUTATION, variables=variables)
     assert_permission_denied(executed)
 
 
-def test_update_event(staff_api_client, snapshot, mock_update_event_data, organisation):
+def test_update_event(
+    staff_api_client, snapshot, person, mock_update_event_data, organisation
+):
     variables = deepcopy(UPDATE_EVENT_VARIABLES)
     variables["input"]["organisationId"] = to_global_id(
         "OrganisationNode", organisation.id
+    )
+    variables["input"]["pEvent"]["contactPersonId"] = to_global_id(
+        "PersonNode", person.id
     )
     PalvelutarjotinEventFactory(
         linked_event_id=UPDATE_EVENT_VARIABLES["input"]["id"], organisation=organisation
     )
     staff_api_client.user.person.organisations.add(organisation)
+    person.organisations.add(organisation)
     executed = staff_api_client.execute(UPDATE_EVENT_MUTATION, variables=variables)
     snapshot.assert_match(executed)
 

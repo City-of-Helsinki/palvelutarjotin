@@ -752,6 +752,7 @@ snapshots["test_update_event 1"] = {
                     "offers": [{"isFree": False}],
                     "pEvent": {
                         "contactEmail": "contact@email.me",
+                        "contactPerson": {"name": "Jason Berg"},
                         "contactPhoneNumber": "123123",
                         "duration": 60,
                         "enrolmentEndDays": 2,
@@ -855,6 +856,7 @@ snapshots["test_create_event 1"] = {
                     "offers": [{"isFree": False}],
                     "pEvent": {
                         "contactEmail": "contact@email.me",
+                        "contactPerson": {"name": "Jason Berg"},
                         "contactPhoneNumber": "123123",
                         "duration": 60,
                         "enrolmentEndDays": 2,
