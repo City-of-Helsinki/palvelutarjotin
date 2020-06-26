@@ -249,6 +249,8 @@ class Query:
         text=String(),
         translation=String(),
         organisation_id=String(),
+        show_all=Boolean(),
+        publication_status=String(),
     )
     event = Field(Event, id=ID(required=True), include=List(String))
 
@@ -291,9 +293,16 @@ class Query:
     def resolve_event(parent, info, **kwargs):
         if kwargs.get("include"):
             params = {"include": ",".join(kwargs["include"])}
-            response = api_client.retrieve("event", kwargs["id"], params=params)
+            response = api_client.retrieve(
+                "event",
+                kwargs["id"],
+                params=params,
+                is_staff=info.context.user.is_staff,
+            )
         else:
-            response = api_client.retrieve("event", kwargs["id"])
+            response = api_client.retrieve(
+                "event", kwargs["id"], is_staff=info.context.user.is_staff
+            )
         obj = json2obj(format_response(response))
         return obj
 
@@ -310,7 +319,9 @@ class Query:
             # If no organisation id specified, return all events from
             # palvelutarjotin data source
             kwargs["data_source"] = LINKED_EVENTS_API_CONFIG["DATA_SOURCE"]
-        response = api_client.list("event", filter_list=kwargs)
+        response = api_client.list(
+            "event", filter_list=kwargs, is_staff=info.context.user.is_staff
+        )
         return json2obj(format_response(response))
 
     @staticmethod

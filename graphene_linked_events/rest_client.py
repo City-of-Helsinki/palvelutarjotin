@@ -19,24 +19,41 @@ class LinkedEventsApiClient(object):
             "upload": {"method": "POST", "url": url + "/"},
         }
 
-    def retrieve(self, resource, id, params=None):
+    def retrieve(self, resource, id, params=None, is_staff=False):
         actions = self.get_actions(resource)
+
+        if is_staff:
+            headers = {"apikey": self.api_key}
+            return requests.request(
+                actions["retrieve"]["method"],
+                actions["retrieve"]["url"].format(id),
+                params=params,
+                headers=headers,
+            )
         return requests.request(
             actions["retrieve"]["method"],
             actions["retrieve"]["url"].format(id),
             params=params,
         )
 
-    def list(self, resource, filter_list=None):
+    def list(self, resource, filter_list=None, is_staff=False):
         actions = self.get_actions(resource)
         filter_params = filter_list
+        if is_staff:
+            headers = {"apikey": self.api_key}
+            return requests.request(
+                actions["list"]["method"],
+                actions["list"]["url"],
+                params=filter_params,
+                headers=headers,
+            )
         return requests.request(
             actions["list"]["method"], actions["list"]["url"], params=filter_params
         )
 
     def create(self, resource, body):
         actions = self.get_actions(resource)
-        headers = {"apikey": self.api_key, "Content-Type": "application/json"}
+        headers = {"apikey": self.api_key}
         return requests.request(
             actions["create"]["method"],
             actions["create"]["url"],
@@ -46,7 +63,7 @@ class LinkedEventsApiClient(object):
 
     def update(self, resource, id, body):
         actions = self.get_actions(resource)
-        headers = {"apikey": self.api_key, "Content-Type": "application/json"}
+        headers = {"apikey": self.api_key}
         return requests.request(
             actions["update"]["method"],
             actions["update"]["url"].format(id),
@@ -56,7 +73,7 @@ class LinkedEventsApiClient(object):
 
     def delete(self, resource, id):
         actions = self.get_actions(resource)
-        headers = {"apikey": self.api_key, "Content-Type": "application/json"}
+        headers = {"apikey": self.api_key}
         return requests.request(
             actions["delete"]["method"],
             actions["delete"]["url"].format(id),
