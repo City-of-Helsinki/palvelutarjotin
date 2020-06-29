@@ -53,7 +53,7 @@ class LinkedEventsApiClient(object):
 
     def create(self, resource, body):
         actions = self.get_actions(resource)
-        headers = {"apikey": self.api_key}
+        headers = {"apikey": self.api_key, "Content-Type": "application/json"}
         return requests.request(
             actions["create"]["method"],
             actions["create"]["url"],
@@ -63,7 +63,7 @@ class LinkedEventsApiClient(object):
 
     def update(self, resource, id, body):
         actions = self.get_actions(resource)
-        headers = {"apikey": self.api_key}
+        headers = {"apikey": self.api_key, "Content-Type": "application/json"}
         return requests.request(
             actions["update"]["method"],
             actions["update"]["url"].format(id),
@@ -73,7 +73,7 @@ class LinkedEventsApiClient(object):
 
     def delete(self, resource, id):
         actions = self.get_actions(resource)
-        headers = {"apikey": self.api_key}
+        headers = {"apikey": self.api_key, "Content-Type": "application/json"}
         return requests.request(
             actions["delete"]["method"],
             actions["delete"]["url"].format(id),
