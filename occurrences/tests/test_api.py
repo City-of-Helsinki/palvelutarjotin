@@ -14,7 +14,6 @@ from organisations.factories import PersonFactory
 
 from common.tests.utils import assert_match_error_code, assert_permission_denied
 from palvelutarjotin.consts import (
-    ALREADY_JOINED_EVENT_ERROR,
     ENROLMENT_CLOSED_ERROR,
     ENROLMENT_NOT_STARTED_ERROR,
     INVALID_STUDY_GROUP_SIZE_ERROR,
@@ -38,6 +37,10 @@ query StudyGroups{
         }
         updatedAt
         groupSize
+        groupName
+        amountOfAdult
+        studyLevel
+        extraNeeds
         occurrences {
           edges {
             node {
@@ -60,6 +63,10 @@ query StudyGroup($id: ID!){
     }
     updatedAt
     groupSize
+    groupName
+    amountOfAdult
+    studyLevel
+    extraNeeds
     occurrences {
       edges {
         node {
@@ -573,6 +580,10 @@ mutation addStudyGroup($input: AddStudyGroupMutationInput!){
         language
       }
       groupSize
+      groupName
+      amountOfAdult
+      studyLevel
+      extraNeeds
     }
   }
 }
@@ -588,6 +599,10 @@ ADD_STUDY_GROUP_VARIABLES = {
         },
         "name": "Sample study group name",
         "groupSize": 20,
+        "amountOfAdult": 1,
+        "studyLevel": "GRADE_1",
+        "groupName": "Sample group name",
+        "extraNeeds": "Extra needs",
     }
 }
 
@@ -597,7 +612,7 @@ def test_add_study_group(snapshot, api_client, occurrence, person):
     executed = api_client.execute(ADD_STUDY_GROUP_MUTATION, variables=variables)
     snapshot.assert_match(executed)
 
-    # Add study group with pre-defined person)
+    # Add study group with pre-defined person
     variables["input"]["person"]["id"] = to_global_id("PersonNode", person.id)
     executed = api_client.execute(ADD_STUDY_GROUP_MUTATION, variables=variables)
     snapshot.assert_match(executed)
@@ -615,6 +630,10 @@ mutation updateStudyGroup($input: UpdateStudyGroupMutationInput!){
         language
       }
       groupSize
+      groupName
+      amountOfAdult
+      studyLevel
+      extraNeeds
     }
   }
 }
@@ -630,6 +649,10 @@ UPDATE_STUDY_GROUP_VARIABLES = {
         },
         "name": "Sample study group name",
         "groupSize": 20,
+        "amountOfAdult": 2,
+        "studyLevel": "GRADE_2",
+        "groupName": "Sample group name",
+        "extraNeeds": "Extra needs",
     }
 }
 
@@ -700,6 +723,7 @@ mutation enrolOccurrence($input: EnrolOccurrenceMutationInput!){
         remainingSeats
         amountOfSeats
       }
+      notificationType
     }
   }
 }
@@ -724,7 +748,18 @@ def test_enrol_not_started_occurrence(snapshot, api_client):
     variables = {
         "input": {
             "occurrenceId": to_global_id("OccurrenceNode", not_started_occurrence.id),
-            "studyGroupId": to_global_id("StudyGroupNode", study_group.id),
+            "studyGroup": {
+                "person": {
+                    "id": to_global_id("PersonNode", study_group.person.id),
+                    "name": study_group.person.name,
+                    "emailAddress": study_group.person.email_address,
+                },
+                "name": "To be created group",
+                "groupSize": study_group.group_size,
+                "groupName": study_group.group_name,
+                "studyLevel": study_group.study_level.upper(),
+                "amountOfAdult": study_group.amount_of_adult,
+            },
         }
     }
     executed = api_client.execute(ENROL_OCCURRENCE_MUTATION, variables=variables)
@@ -749,7 +784,18 @@ def test_enrol_past_occurrence(snapshot, api_client, occurrence):
     variables = {
         "input": {
             "occurrenceId": to_global_id("OccurrenceNode", past_occurrence.id),
-            "studyGroupId": to_global_id("StudyGroupNode", study_group.id),
+            "studyGroup": {
+                "person": {
+                    "id": to_global_id("PersonNode", study_group.person.id),
+                    "name": study_group.person.name,
+                    "emailAddress": study_group.person.email_address,
+                },
+                "name": "To be created group",
+                "groupSize": study_group.group_size,
+                "groupName": study_group.group_name,
+                "studyLevel": study_group.study_level.upper(),
+                "amountOfAdult": study_group.amount_of_adult,
+            },
         }
     }
     executed = api_client.execute(ENROL_OCCURRENCE_MUTATION, variables=variables)
@@ -774,15 +820,40 @@ def test_enrol_invalid_group_size(snapshot, api_client, occurrence):
     variables = {
         "input": {
             "occurrenceId": to_global_id("OccurrenceNode", occurrence.id),
-            "studyGroupId": to_global_id("StudyGroupNode", study_group_21.id),
+            "studyGroup": {
+                "person": {
+                    "id": to_global_id("PersonNode", study_group_21.person.id),
+                    "name": study_group_21.person.name,
+                    "emailAddress": study_group_21.person.email_address,
+                },
+                "name": "To be created group",
+                "groupSize": study_group_21.group_size,
+                "groupName": study_group_21.group_name,
+                "studyLevel": study_group_21.study_level.upper(),
+                "amountOfAdult": study_group_21.amount_of_adult,
+            },
         }
     }
     executed = api_client.execute(ENROL_OCCURRENCE_MUTATION, variables=variables)
     assert_match_error_code(executed, INVALID_STUDY_GROUP_SIZE_ERROR)
 
-    variables["input"]["studyGroupId"] = to_global_id(
-        "StudyGroupNode", study_group_9.id
-    )
+    variables = {
+        "input": {
+            "occurrenceId": to_global_id("OccurrenceNode", occurrence.id),
+            "studyGroup": {
+                "person": {
+                    "id": to_global_id("PersonNode", study_group_9.person.id),
+                    "name": study_group_9.person.name,
+                    "emailAddress": study_group_9.person.email_address,
+                },
+                "name": "To be created group",
+                "groupSize": study_group_9.group_size,
+                "groupName": study_group_9.group_name,
+                "studyLevel": study_group_9.study_level.upper(),
+                "amountOfAdult": study_group_9.amount_of_adult,
+            },
+        }
+    }
     executed = api_client.execute(ENROL_OCCURRENCE_MUTATION, variables=variables)
     assert_match_error_code(executed, INVALID_STUDY_GROUP_SIZE_ERROR)
 
@@ -808,7 +879,18 @@ def test_enrol_full_occurrence(snapshot, api_client, occurrence):
     variables = {
         "input": {
             "occurrenceId": to_global_id("OccurrenceNode", occurrence.id),
-            "studyGroupId": to_global_id("StudyGroupNode", study_group_15.id),
+            "studyGroup": {
+                "person": {
+                    "id": to_global_id("PersonNode", study_group_15.person.id),
+                    "name": study_group_15.person.name,
+                    "emailAddress": study_group_15.person.email_address,
+                },
+                "name": "To be created group",
+                "groupSize": study_group_15.group_size,
+                "groupName": study_group_15.group_name,
+                "studyLevel": study_group_15.study_level.upper(),
+                "amountOfAdult": study_group_15.amount_of_adult,
+            },
         }
     }
     executed = api_client.execute(ENROL_OCCURRENCE_MUTATION, variables=variables)
@@ -833,25 +915,22 @@ def test_enrol_occurrence(snapshot, api_client, mock_get_event_data):
     variables = {
         "input": {
             "occurrenceId": to_global_id("OccurrenceNode", occurrence.id),
-            "studyGroupId": to_global_id("StudyGroupNode", study_group_15.id),
+            "studyGroup": {
+                "person": {
+                    "id": to_global_id("PersonNode", study_group_15.person.id),
+                    "name": study_group_15.person.name,
+                    "emailAddress": study_group_15.person.email_address,
+                },
+                "name": "To be created group",
+                "groupSize": study_group_15.group_size,
+                "groupName": study_group_15.group_name,
+                "studyLevel": study_group_15.study_level.upper(),
+                "amountOfAdult": study_group_15.amount_of_adult,
+            },
         }
     }
     executed = api_client.execute(ENROL_OCCURRENCE_MUTATION, variables=variables)
     snapshot.assert_match(executed)
-
-    # Cannot join another occurrence of the same event
-    another_occurrence = OccurrenceFactory(
-        start_time=datetime(2020, 1, 6, 0, 0, 0, tzinfo=timezone.now().tzinfo),
-        p_event=p_event_1,
-        min_group_size=10,
-        max_group_size=20,
-        amount_of_seats=50,
-    )
-    variables["input"]["occurrenceId"] = to_global_id(
-        "OccurrenceNode", another_occurrence.id
-    )
-    executed = api_client.execute(ENROL_OCCURRENCE_MUTATION, variables=variables)
-    assert_match_error_code(executed, ALREADY_JOINED_EVENT_ERROR)
 
 
 UNENROL_OCCURRENCE_MUTATION = """

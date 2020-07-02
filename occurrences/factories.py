@@ -56,6 +56,12 @@ class StudyGroupFactory(factory.django.DjangoModelFactory):
     person = factory.SubFactory(PersonFactory)
     name = factory.Faker("text", max_nb_chars=100)
     group_size = factory.Faker("random_int", max=1000)
+    extra_needs = factory.Faker("text", max_nb_chars=100)
+    group_name = factory.Faker("text", max_nb_chars=100)
+    amount_of_adult = factory.Faker("random_int", max=10)
+    study_level = factory.Faker(
+        "random_element", elements=[l[0] for l in StudyGroup.STUDY_LEVELS]
+    )
 
     class Meta:
         model = StudyGroup
@@ -64,6 +70,7 @@ class StudyGroupFactory(factory.django.DjangoModelFactory):
 class EnrolmentFactory(factory.django.DjangoModelFactory):
     study_group = factory.SubFactory(StudyGroupFactory)
     occurrence = factory.SubFactory(OccurrenceFactory)
+    person = factory.SubFactory(PersonFactory)
 
     class Meta:
         model = Enrolment

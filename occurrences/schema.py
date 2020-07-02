@@ -39,6 +39,12 @@ from palvelutarjotin.exceptions import (
 )
 
 VenueTranslation = apps.get_model("occurrences", "VenueCustomDataTranslation")
+StudyLevelEnum = graphene.Enum(
+    "StudyLevel", [(l[0].upper(), l[0]) for l in StudyGroup.STUDY_LEVELS]
+)
+NotificationTypeEnum = graphene.Enum(
+    "NotificationType", [(t[0].upper(), t[0]) for t in Enrolment.NOTIFICATION_TYPES]
+)
 
 
 class PalvelutarjotinEventNode(DjangoObjectType):
@@ -58,6 +64,8 @@ class PalvelutarjotinEventInput(InputObjectType):
 
 
 class StudyGroupNode(DjangoObjectType):
+    study_level = StudyLevelEnum()
+
     class Meta:
         model = StudyGroup
         interfaces = (relay.Node,)
@@ -301,6 +309,8 @@ class DeleteVenueMutation(graphene.relay.ClientIDMutation):
 
 
 class EnrolmentNode(DjangoObjectType):
+    notification_type = NotificationTypeEnum()
+
     class Meta:
         model = Enrolment
         interfaces = (relay.Node,)
@@ -327,10 +337,29 @@ def validate_enrolment(study_group, occurrence):
         raise EnrolmentNotEnoughCapacityError("Not enough space for this study group")
 
 
+class StudyGroupInput(InputObjectType):
+    person = graphene.NonNull(
+        PersonNodeInput,
+        description="If person input doesn't include person id, a new person "
+        "object will be created",
+    )
+    name = graphene.String()
+    group_size = graphene.Int(required=True)
+    group_name = graphene.String()
+    extra_needs = graphene.String()
+    amount_of_adult = graphene.Int()
+    study_level = StudyLevelEnum()
+
+
 class EnrolOccurrenceMutation(graphene.relay.ClientIDMutation):
     class Input:
         occurrence_id = graphene.GlobalID(description="Occurrence id of event")
-        study_group_id = graphene.GlobalID(description="Study group id")
+        study_group = StudyGroupInput(description="Study group data", required=True)
+        notification_type = NotificationTypeEnum()
+        person = PersonNodeInput(
+            description="Leave blank if the contact person is "
+            "the same with group contact person"
+        )
 
     enrolment = graphene.Field(EnrolmentNode)
 
@@ -338,22 +367,25 @@ class EnrolOccurrenceMutation(graphene.relay.ClientIDMutation):
     @transaction.atomic
     def mutate_and_get_payload(cls, root, info, **kwargs):
         occurrence_id = get_node_id_from_global_id(
-            kwargs["occurrence_id"], "OccurrenceNode"
+            kwargs.pop("occurrence_id"), "OccurrenceNode"
         )
-        group_id = get_node_id_from_global_id(
-            kwargs["study_group_id"], "StudyGroupNode"
-        )
+        study_group = _create_study_group(kwargs.pop("study_group"))
         try:
             occurrence = Occurrence.objects.get(pk=occurrence_id)
         except Occurrence.DoesNotExist as e:
             raise ObjectDoesNotExistError(e)
-        try:
-            study_group = StudyGroup.objects.get(pk=group_id)
-        except StudyGroup.DoesNotExist as e:
-            raise ObjectDoesNotExistError(e)
+
+        contact_person_data = kwargs.pop("person", None)
+        # Use group contact person if person data not submitted
+        if contact_person_data:
+            person = _get_or_create_contact_person(contact_person_data)
+        else:
+            person = study_group.person
+
         validate_enrolment(study_group, occurrence)
+
         enrolment = Enrolment.objects.create(
-            study_group=study_group, occurrence=occurrence
+            study_group=study_group, occurrence=occurrence, person=person, **kwargs
         )
 
         return EnrolOccurrenceMutation(enrolment=enrolment)
@@ -394,23 +426,17 @@ class AddStudyGroupMutation(graphene.relay.ClientIDMutation):
         )
         name = graphene.String()
         group_size = graphene.Int(required=True)
+        group_name = graphene.String()
+        extra_needs = graphene.String()
+        amount_of_adult = graphene.Int()
+        study_level = StudyLevelEnum()
 
     study_group = graphene.Field(StudyGroupNode)
 
     @classmethod
     @transaction.atomic
     def mutate_and_get_payload(cls, root, info, **kwargs):
-        person_data = kwargs.pop("person")
-        if person_data.get("id"):
-            person_id = get_node_id_from_global_id(person_data.get("id"), "PersonNode")
-            try:
-                person = Person.objects.get(id=person_id)
-            except Person.DoesNotExist as e:
-                raise ObjectDoesNotExistError(e)
-        else:
-            person = Person.objects.create(**person_data)
-        kwargs["person_id"] = person.id
-        study_group = StudyGroup.objects.create(**kwargs)
+        study_group = _create_study_group(kwargs)
         return AddStudyGroupMutation(study_group=study_group)
 
 
@@ -420,6 +446,10 @@ class UpdateStudyGroupMutation(graphene.relay.ClientIDMutation):
         person = PersonNodeInput()
         name = graphene.String()
         group_size = graphene.Int()
+        group_name = graphene.String()
+        extra_needs = graphene.String()
+        amount_of_adult = graphene.Int()
+        study_level = StudyLevelEnum()
 
     study_group = graphene.Field(StudyGroupNode)
 
@@ -438,16 +468,7 @@ class UpdateStudyGroupMutation(graphene.relay.ClientIDMutation):
 
         person_data = kwargs.pop("person", None)
         if person_data:
-            if person_data.get("id"):
-                person_id = get_node_id_from_global_id(
-                    person_data.get("id"), "PersonNode"
-                )
-                try:
-                    person = Person.objects.get(id=person_id)
-                except Person.DoesNotExist as e:
-                    raise ObjectDoesNotExistError(e)
-            else:
-                person = Person.objects.create(**person_data)
+            person = _get_or_create_contact_person(person_data)
             kwargs["person_id"] = person.id
         update_object(study_group, kwargs)
         return UpdateStudyGroupMutation(study_group=study_group)
@@ -492,6 +513,28 @@ class Query:
 
     enrolments = DjangoConnectionField(EnrolmentNode)
     enrolment = relay.Node.Field(EnrolmentNode)
+
+
+def _create_study_group(study_group_data):
+    person_data = study_group_data.pop("person")
+    person = _get_or_create_contact_person(person_data)
+    study_group_data["person_id"] = person.id
+    study_group = StudyGroup.objects.create(**study_group_data)
+    return study_group
+
+
+def _get_or_create_contact_person(contact_person_data):
+    if contact_person_data.get("id"):
+        person_id = get_node_id_from_global_id(
+            contact_person_data.get("id"), "PersonNode"
+        )
+        try:
+            person = Person.objects.get(id=person_id)
+        except Person.DoesNotExist as e:
+            raise ObjectDoesNotExistError(e)
+    else:
+        person = Person.objects.create(**contact_person_data)
+    return person
 
 
 class Mutation:
