@@ -5,7 +5,7 @@ from django.apps import apps
 from django.db import transaction
 from django.utils import timezone
 from django.utils.translation import get_language
-from graphene import InputObjectType, relay
+from graphene import InputObjectType, NonNull, relay
 from graphene_django import DjangoConnectionField, DjangoObjectType
 from graphene_django.filter import DjangoFilterConnectionField
 from graphql_jwt.decorators import staff_member_required
@@ -30,8 +30,8 @@ from common.utils import (
     update_object_with_translations,
 )
 from palvelutarjotin.exceptions import (
-    AlreadyJoinedEventError,
     EnrolmentClosedError,
+    EnrolmentMaxNeededOccurrenceReached,
     EnrolmentNotEnoughCapacityError,
     EnrolmentNotStartedError,
     InvalidStudyGroupSizeError,
@@ -167,7 +167,7 @@ class AddOccurrenceMutation(graphene.relay.ClientIDMutation):
         p_event_id = graphene.ID(required=True)
         auto_acceptance = graphene.Boolean(required=True)
         amount_of_seats = graphene.Int(required=True)
-        languages = graphene.NonNull(graphene.List(OccurrenceLanguageInput))
+        languages = NonNull(graphene.List(OccurrenceLanguageInput))
 
     occurrence = graphene.Field(OccurrenceNode)
 
@@ -208,7 +208,7 @@ class UpdateOccurrenceMutation(graphene.relay.ClientIDMutation):
         p_event_id = graphene.ID()
         auto_acceptance = graphene.Boolean()
         amount_of_seats = graphene.Int()
-        languages = graphene.NonNull(
+        languages = NonNull(
             graphene.List(OccurrenceLanguageInput),
             description="If present, should include all languages of the occurrence",
         )
@@ -331,14 +331,19 @@ def validate_enrolment(study_group, occurrence):
         days=occurrence.p_event.enrolment_end_days
     ):
         raise EnrolmentClosedError("Enrolment has been closed")
-    if study_group.occurrences.filter(p_event=occurrence.p_event).exists():
-        raise AlreadyJoinedEventError("Study group already joined this event")
+    if (
+        study_group.occurrences.filter(p_event=occurrence.p_event).count()
+        >= occurrence.p_event.needed_occurrences
+    ):
+        raise EnrolmentMaxNeededOccurrenceReached(
+            "Number of enroled occurrences greater than needed occurrences"
+        )
     if occurrence.seats_taken + study_group.group_size > occurrence.amount_of_seats:
         raise EnrolmentNotEnoughCapacityError("Not enough space for this study group")
 
 
 class StudyGroupInput(InputObjectType):
-    person = graphene.NonNull(
+    person = NonNull(
         PersonNodeInput,
         description="If person input doesn't include person id, a new person "
         "object will be created",
@@ -353,7 +358,9 @@ class StudyGroupInput(InputObjectType):
 
 class EnrolOccurrenceMutation(graphene.relay.ClientIDMutation):
     class Input:
-        occurrence_id = graphene.GlobalID(description="Occurrence id of event")
+        occurrence_ids = NonNull(
+            graphene.List(graphene.ID), description="Occurrence ids of event"
+        )
         study_group = StudyGroupInput(description="Study group data", required=True)
         notification_type = NotificationTypeEnum()
         person = PersonNodeInput(
@@ -361,34 +368,38 @@ class EnrolOccurrenceMutation(graphene.relay.ClientIDMutation):
             "the same with group contact person"
         )
 
-    enrolment = graphene.Field(EnrolmentNode)
+    enrolments = graphene.List(EnrolmentNode)
 
     @classmethod
     @transaction.atomic
     def mutate_and_get_payload(cls, root, info, **kwargs):
-        occurrence_id = get_node_id_from_global_id(
-            kwargs.pop("occurrence_id"), "OccurrenceNode"
-        )
+        occurrence_gids = kwargs.pop("occurrence_ids")
         study_group = _create_study_group(kwargs.pop("study_group"))
-        try:
-            occurrence = Occurrence.objects.get(pk=occurrence_id)
-        except Occurrence.DoesNotExist as e:
-            raise ObjectDoesNotExistError(e)
-
         contact_person_data = kwargs.pop("person", None)
-        # Use group contact person if person data not submitted
-        if contact_person_data:
-            person = _get_or_create_contact_person(contact_person_data)
-        else:
-            person = study_group.person
+        enrolments = []
+        for occurrence_gid in occurrence_gids:
+            occurrence_id = get_node_id_from_global_id(occurrence_gid, "OccurrenceNode")
+            try:
+                occurrence = Occurrence.objects.get(pk=occurrence_id)
+            except Occurrence.DoesNotExist as e:
+                raise ObjectDoesNotExistError(e)
+            # Use group contact person if person data not submitted
+            if contact_person_data:
+                person = _get_or_create_contact_person(contact_person_data)
+            else:
+                person = study_group.person
 
-        validate_enrolment(study_group, occurrence)
+            validate_enrolment(study_group, occurrence)
 
-        enrolment = Enrolment.objects.create(
-            study_group=study_group, occurrence=occurrence, person=person, **kwargs
-        )
+            enrolment = Enrolment.objects.create(
+                study_group=study_group, occurrence=occurrence, person=person, **kwargs
+            )
 
-        return EnrolOccurrenceMutation(enrolment=enrolment)
+            if occurrence.auto_acceptance:
+                enrolment.approve()
+            enrolments.append(enrolment)
+
+        return EnrolOccurrenceMutation(enrolments=enrolments)
 
 
 class UnenrolOccurrenceMutation(graphene.relay.ClientIDMutation):
@@ -417,9 +428,26 @@ class UnenrolOccurrenceMutation(graphene.relay.ClientIDMutation):
         return UnenrolOccurrenceMutation(study_group=study_group, occurrence=occurrence)
 
 
+class ApproveEnrolmentMutation(graphene.relay.ClientIDMutation):
+    class Input:
+        enrolment_id = graphene.GlobalID()
+
+    enrolment = graphene.Field(EnrolmentNode)
+
+    @classmethod
+    @staff_member_required
+    @transaction.atomic
+    def mutate_and_get_payload(cls, root, info, **kwargs):
+        enrolment = get_editable_obj_from_global_id(
+            info, kwargs["enrolment_id"], Enrolment
+        )
+        enrolment.approve()
+        return ApproveEnrolmentMutation(enrolment=enrolment)
+
+
 class AddStudyGroupMutation(graphene.relay.ClientIDMutation):
     class Input:
-        person = graphene.NonNull(
+        person = NonNull(
             PersonNodeInput,
             description="If person input doesn't include person id, a new person "
             "object will be created",
@@ -557,3 +585,4 @@ class Mutation:
     unenrol_occurrence = UnenrolOccurrenceMutation.Field(
         description="Only staff can unenrol study group"
     )
+    approve_enrolment = ApproveEnrolmentMutation.Field()

@@ -17,6 +17,7 @@ from palvelutarjotin.consts import (
     ENROLMENT_CLOSED_ERROR,
     ENROLMENT_NOT_STARTED_ERROR,
     INVALID_STUDY_GROUP_SIZE_ERROR,
+    MAX_NEEDED_OCCURRENCES_REACHED_ERROR,
     NOT_ENOUGH_CAPACITY_ERROR,
 )
 
@@ -713,7 +714,7 @@ def test_delete_study_group_staff_user(staff_api_client, study_group):
 ENROL_OCCURRENCE_MUTATION = """
 mutation enrolOccurrence($input: EnrolOccurrenceMutationInput!){
   enrolOccurrence(input: $input){
-    enrolment{
+    enrolments{
       studyGroup{
         name
       }
@@ -724,6 +725,7 @@ mutation enrolOccurrence($input: EnrolOccurrenceMutationInput!){
         amountOfSeats
       }
       notificationType
+      status
     }
   }
 }
@@ -747,7 +749,9 @@ def test_enrol_not_started_occurrence(snapshot, api_client):
 
     variables = {
         "input": {
-            "occurrenceId": to_global_id("OccurrenceNode", not_started_occurrence.id),
+            "occurrenceIds": [
+                to_global_id("OccurrenceNode", not_started_occurrence.id),
+            ],
             "studyGroup": {
                 "person": {
                     "id": to_global_id("PersonNode", study_group.person.id),
@@ -783,7 +787,7 @@ def test_enrol_past_occurrence(snapshot, api_client, occurrence):
 
     variables = {
         "input": {
-            "occurrenceId": to_global_id("OccurrenceNode", past_occurrence.id),
+            "occurrenceIds": [to_global_id("OccurrenceNode", past_occurrence.id)],
             "studyGroup": {
                 "person": {
                     "id": to_global_id("PersonNode", study_group.person.id),
@@ -819,7 +823,7 @@ def test_enrol_invalid_group_size(snapshot, api_client, occurrence):
 
     variables = {
         "input": {
-            "occurrenceId": to_global_id("OccurrenceNode", occurrence.id),
+            "occurrenceIds": [to_global_id("OccurrenceNode", occurrence.id)],
             "studyGroup": {
                 "person": {
                     "id": to_global_id("PersonNode", study_group_21.person.id),
@@ -839,7 +843,7 @@ def test_enrol_invalid_group_size(snapshot, api_client, occurrence):
 
     variables = {
         "input": {
-            "occurrenceId": to_global_id("OccurrenceNode", occurrence.id),
+            "occurrenceIds": [to_global_id("OccurrenceNode", occurrence.id)],
             "studyGroup": {
                 "person": {
                     "id": to_global_id("PersonNode", study_group_9.person.id),
@@ -878,7 +882,7 @@ def test_enrol_full_occurrence(snapshot, api_client, occurrence):
 
     variables = {
         "input": {
-            "occurrenceId": to_global_id("OccurrenceNode", occurrence.id),
+            "occurrenceIds": [to_global_id("OccurrenceNode", occurrence.id)],
             "studyGroup": {
                 "person": {
                     "id": to_global_id("PersonNode", study_group_15.person.id),
@@ -914,7 +918,7 @@ def test_enrol_occurrence(snapshot, api_client, mock_get_event_data):
 
     variables = {
         "input": {
-            "occurrenceId": to_global_id("OccurrenceNode", occurrence.id),
+            "occurrenceIds": [to_global_id("OccurrenceNode", occurrence.id)],
             "studyGroup": {
                 "person": {
                     "id": to_global_id("PersonNode", study_group_15.person.id),
@@ -931,6 +935,96 @@ def test_enrol_occurrence(snapshot, api_client, mock_get_event_data):
     }
     executed = api_client.execute(ENROL_OCCURRENCE_MUTATION, variables=variables)
     snapshot.assert_match(executed)
+
+
+def test_enrol_auto_acceptance_occurrence(snapshot, api_client, mock_get_event_data):
+    study_group_15 = StudyGroupFactory(group_size=15)
+    # Current date froze on 2020-01-04:
+    p_event_1 = PalvelutarjotinEventFactory(
+        enrolment_start=datetime(2020, 1, 3, 0, 0, 0, tzinfo=timezone.now().tzinfo),
+        enrolment_end_days=2,
+    )
+    occurrence = OccurrenceFactory(
+        start_time=datetime(2020, 1, 6, 0, 0, 0, tzinfo=timezone.now().tzinfo),
+        p_event=p_event_1,
+        min_group_size=10,
+        max_group_size=20,
+        amount_of_seats=50,
+        auto_acceptance=False,
+    )
+
+    auto_accept_occurrence = OccurrenceFactory(
+        start_time=datetime(2020, 1, 6, 0, 0, 0, tzinfo=timezone.now().tzinfo),
+        p_event=p_event_1,
+        min_group_size=10,
+        max_group_size=20,
+        amount_of_seats=50,
+        auto_acceptance=True,
+    )
+
+    variables = {
+        "input": {
+            "occurrenceIds": [
+                to_global_id("OccurrenceNode", occurrence.id),
+                to_global_id("OccurrenceNode", auto_accept_occurrence.id),
+            ],
+            "studyGroup": {
+                "person": {
+                    "id": to_global_id("PersonNode", study_group_15.person.id),
+                    "name": study_group_15.person.name,
+                    "emailAddress": study_group_15.person.email_address,
+                },
+                "name": "To be created group",
+                "groupSize": study_group_15.group_size,
+                "groupName": study_group_15.group_name,
+                "studyLevel": study_group_15.study_level.upper(),
+                "amountOfAdult": study_group_15.amount_of_adult,
+            },
+        }
+    }
+    executed = api_client.execute(ENROL_OCCURRENCE_MUTATION, variables=variables)
+    snapshot.assert_match(executed)
+
+
+def test_enrol_max_needed_occurrences(snapshot, api_client, mock_get_event_data):
+    study_group_15 = StudyGroupFactory(group_size=15)
+    # Current date froze on 2020-01-04:
+    p_event_1 = PalvelutarjotinEventFactory(
+        enrolment_start=datetime(2020, 1, 3, 0, 0, 0, tzinfo=timezone.now().tzinfo),
+        enrolment_end_days=2,
+        needed_occurrences=2,
+    )
+
+    occurrences = OccurrenceFactory.create_batch(
+        3,
+        start_time=datetime(2020, 1, 6, 0, 0, 0, tzinfo=timezone.now().tzinfo),
+        p_event=p_event_1,
+        min_group_size=10,
+        max_group_size=20,
+        amount_of_seats=50,
+    )
+
+    occurrence_ids = [to_global_id("OccurrenceNode", o.id) for o in occurrences]
+
+    variables = {
+        "input": {
+            "occurrenceIds": occurrence_ids,
+            "studyGroup": {
+                "person": {
+                    "id": to_global_id("PersonNode", study_group_15.person.id),
+                    "name": study_group_15.person.name,
+                    "emailAddress": study_group_15.person.email_address,
+                },
+                "name": "To be created group",
+                "groupSize": study_group_15.group_size,
+                "groupName": study_group_15.group_name,
+                "studyLevel": study_group_15.study_level.upper(),
+                "amountOfAdult": study_group_15.amount_of_adult,
+            },
+        }
+    }
+    executed = api_client.execute(ENROL_OCCURRENCE_MUTATION, variables=variables)
+    assert_match_error_code(executed, MAX_NEEDED_OCCURRENCES_REACHED_ERROR)
 
 
 UNENROL_OCCURRENCE_MUTATION = """

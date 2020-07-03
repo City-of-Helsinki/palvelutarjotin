@@ -329,16 +329,19 @@ snapshots["test_update_study_group_staff_user 2"] = {
 snapshots["test_enrol_occurrence 1"] = {
     "data": {
         "enrolOccurrence": {
-            "enrolment": {
-                "notificationType": "EMAIL",
-                "occurrence": {
-                    "amountOfSeats": 50,
-                    "remainingSeats": 35,
-                    "seatsTaken": 15,
-                    "startTime": "2020-01-06T00:00:00+00:00",
-                },
-                "studyGroup": {"name": "To be created group"},
-            }
+            "enrolments": [
+                {
+                    "notificationType": "EMAIL",
+                    "occurrence": {
+                        "amountOfSeats": 50,
+                        "remainingSeats": 35,
+                        "seatsTaken": 15,
+                        "startTime": "2020-01-06T00:00:00+00:00",
+                    },
+                    "status": "PENDING",
+                    "studyGroup": {"name": "To be created group"},
+                }
+            ]
         }
     }
 }
@@ -686,6 +689,37 @@ snapshots["test_unenrol_occurrence 1"] = {
             "studyGroup": {
                 "name": "Last appear experience seven. Throw wrong party wall agency customer clear. Control as receive cup."
             },
+        }
+    }
+}
+
+snapshots["test_enrol_auto_acceptance_occurrence 1"] = {
+    "data": {
+        "enrolOccurrence": {
+            "enrolments": [
+                {
+                    "notificationType": "EMAIL",
+                    "occurrence": {
+                        "amountOfSeats": 50,
+                        "remainingSeats": 35,
+                        "seatsTaken": 15,
+                        "startTime": "2020-01-06T00:00:00+00:00",
+                    },
+                    "status": "PENDING",
+                    "studyGroup": {"name": "To be created group"},
+                },
+                {
+                    "notificationType": "EMAIL",
+                    "occurrence": {
+                        "amountOfSeats": 50,
+                        "remainingSeats": 35,
+                        "seatsTaken": 15,
+                        "startTime": "2020-01-06T00:00:00+00:00",
+                    },
+                    "status": "APPROVED",
+                    "studyGroup": {"name": "To be created group"},
+                },
+            ]
         }
     }
 }

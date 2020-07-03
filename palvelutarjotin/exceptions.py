@@ -33,6 +33,10 @@ class AlreadyJoinedEventError(PalvelutarjotinGraphQLError):
     """Study group already enrol in the event"""
 
 
+class EnrolmentMaxNeededOccurrenceReached(PalvelutarjotinGraphQLError):
+    """Number of enroled occurrences greater than needed occurrences"""
+
+
 class EnrolmentNotStartedError(PalvelutarjotinGraphQLError):
     """Occurrence is not opened for enrolment"""
 

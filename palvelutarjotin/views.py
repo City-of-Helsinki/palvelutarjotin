@@ -12,6 +12,7 @@ from palvelutarjotin.consts import (
     GENERAL_ERROR,
     INCORRECT_GLOBAL_ID_ERROR,
     INVALID_STUDY_GROUP_SIZE_ERROR,
+    MAX_NEEDED_OCCURRENCES_REACHED_ERROR,
     MISSING_DEFAULT_TRANSLATION_ERROR,
     NOT_ENOUGH_CAPACITY_ERROR,
     OBJECT_DOES_NOT_EXIST_ERROR,
@@ -23,6 +24,7 @@ from palvelutarjotin.exceptions import (
     ApiUsageError,
     DataValidationError,
     EnrolmentClosedError,
+    EnrolmentMaxNeededOccurrenceReached,
     EnrolmentNotEnoughCapacityError,
     EnrolmentNotStartedError,
     IncorrectGlobalIdError,
@@ -50,6 +52,7 @@ error_codes_palvelutarjotin = {
     EnrolmentNotEnoughCapacityError: NOT_ENOUGH_CAPACITY_ERROR,
     EnrolmentNotStartedError: ENROLMENT_NOT_STARTED_ERROR,
     EnrolmentClosedError: ENROLMENT_CLOSED_ERROR,
+    EnrolmentMaxNeededOccurrenceReached: MAX_NEEDED_OCCURRENCES_REACHED_ERROR,
     InvalidStudyGroupSizeError: INVALID_STUDY_GROUP_SIZE_ERROR,
 }
 

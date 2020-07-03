@@ -5,6 +5,7 @@ from graphene_linked_events.utils import retrieve_linked_events_data
 from parler.models import TranslatedFields
 
 from common.models import TimestampedModel, TranslatableModel
+from palvelutarjotin.exceptions import ApiUsageError
 
 
 class PalvelutarjotinEvent(TimestampedModel):
@@ -224,6 +225,15 @@ class Enrolment(models.Model):
         (NOTIFICATION_TYPE_EMAIL, _("email")),
         (NOTIFICATION_TYPE_SMS, _("sms")),
     )
+    STATUS_APPROVED = "approved"
+    STATUS_PENDING = "pending"
+    STATUS_CANCELLED = "cancelled"
+    STATUSES = (
+        (STATUS_APPROVED, _("approved")),
+        (STATUS_PENDING, _("pending")),
+        (STATUS_CANCELLED, _("cancelled")),
+    )
+
     study_group = models.ForeignKey(
         "StudyGroup",
         verbose_name=_("study group"),
@@ -250,6 +260,12 @@ class Enrolment(models.Model):
         default=NOTIFICATION_TYPE_EMAIL,
         verbose_name=_("notification type"),
     )
+    status = models.CharField(
+        choices=STATUSES,
+        default=STATUS_PENDING,
+        verbose_name=_("status"),
+        max_length=255,
+    )
 
     class Meta:
         verbose_name = _("enrolment")
@@ -267,3 +283,10 @@ class Enrolment(models.Model):
         return user.person.organisations.filter(
             id=self.occurrence.p_event.organisation.id
         ).exists()
+
+    def approve(self):
+        if self.status == self.STATUS_APPROVED:
+            raise ApiUsageError("Enrolment already approved")
+        self.status = self.STATUS_APPROVED
+        # TODO: Do something with notification after approval
+        self.save()
