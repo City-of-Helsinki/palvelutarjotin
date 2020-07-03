@@ -475,30 +475,6 @@ snapshots["test_occurrences_filter_by_date 2"] = {
             "edges": [
                 {
                     "node": {
-                        "amountOfSeats": 50,
-                        "autoAcceptance": True,
-                        "contactPersons": {"edges": []},
-                        "endTime": "2013-05-12T21:58:38+00:00",
-                        "maxGroupSize": 605,
-                        "minGroupSize": 263,
-                        "pEvent": {
-                            "contactEmail": "jvelasquez@hotmail.com",
-                            "contactPhoneNumber": "071-988-5777x942",
-                            "duration": 172,
-                            "enrolmentEndDays": 2,
-                            "enrolmentStart": "2020-04-28T13:05:41+00:00",
-                            "linkedEventId": "Put matter benefit treat final. Father boy economy the.",
-                            "neededOccurrences": 0,
-                        },
-                        "placeId": "Near increase process truth list pressure.",
-                        "remainingSeats": 50,
-                        "seatsTaken": 0,
-                        "startTime": "2020-01-02T00:00:00+00:00",
-                        "studyGroups": {"edges": []},
-                    }
-                },
-                {
-                    "node": {
                         "amountOfSeats": 32,
                         "autoAcceptance": True,
                         "contactPersons": {"edges": []},
@@ -516,6 +492,30 @@ snapshots["test_occurrences_filter_by_date 2"] = {
                         },
                         "placeId": "Believe policy security score.",
                         "remainingSeats": 32,
+                        "seatsTaken": 0,
+                        "startTime": "2020-01-02T00:00:00+00:00",
+                        "studyGroups": {"edges": []},
+                    }
+                },
+                {
+                    "node": {
+                        "amountOfSeats": 50,
+                        "autoAcceptance": True,
+                        "contactPersons": {"edges": []},
+                        "endTime": "2013-05-12T21:58:38+00:00",
+                        "maxGroupSize": 605,
+                        "minGroupSize": 263,
+                        "pEvent": {
+                            "contactEmail": "jvelasquez@hotmail.com",
+                            "contactPhoneNumber": "071-988-5777x942",
+                            "duration": 172,
+                            "enrolmentEndDays": 2,
+                            "enrolmentStart": "2020-04-28T13:05:41+00:00",
+                            "linkedEventId": "Put matter benefit treat final. Father boy economy the.",
+                            "neededOccurrences": 0,
+                        },
+                        "placeId": "Near increase process truth list pressure.",
+                        "remainingSeats": 50,
                         "seatsTaken": 0,
                         "startTime": "2020-01-02T00:00:00+00:00",
                         "studyGroups": {"edges": []},
@@ -726,4 +726,8 @@ snapshots["test_enrol_auto_acceptance_occurrence 1"] = {
 
 snapshots["test_approve_enrolment 1"] = {
     "data": {"approveEnrolment": {"enrolment": {"status": "APPROVED"}}}
+}
+
+snapshots["test_decline_enrolment 1"] = {
+    "data": {"declineEnrolment": {"enrolment": {"status": "DECLINED"}}}
 }

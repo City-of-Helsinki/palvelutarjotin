@@ -228,10 +228,12 @@ class Enrolment(models.Model):
     STATUS_APPROVED = "approved"
     STATUS_PENDING = "pending"
     STATUS_CANCELLED = "cancelled"
+    STATUS_DECLINED = "declined"
     STATUSES = (
         (STATUS_APPROVED, _("approved")),
         (STATUS_PENDING, _("pending")),
         (STATUS_CANCELLED, _("cancelled")),
+        (STATUS_DECLINED, _("declined")),
     )
 
     study_group = models.ForeignKey(
@@ -284,9 +286,16 @@ class Enrolment(models.Model):
             id=self.occurrence.p_event.organisation.id
         ).exists()
 
-    def approve(self):
-        if self.status == self.STATUS_APPROVED:
-            raise ApiUsageError("Enrolment already approved")
-        self.status = self.STATUS_APPROVED
-        # TODO: Do something with notification after approval
+    def set_status(self, status):
+        if self.status == status:
+            raise ApiUsageError(f"Enrolment status is already set to {status}")
+        self.status = status
         self.save()
+
+    def approve(self):
+        self.set_status(self.STATUS_APPROVED)
+        # TODO: Do something with notification after approval
+
+    def decline(self):
+        self.set_status(self.STATUS_DECLINED)
+        # TODO: Do something with notification after decline

@@ -445,6 +445,23 @@ class ApproveEnrolmentMutation(graphene.relay.ClientIDMutation):
         return ApproveEnrolmentMutation(enrolment=enrolment)
 
 
+class DeclineEnrolmentMutation(graphene.relay.ClientIDMutation):
+    class Input:
+        enrolment_id = graphene.GlobalID()
+
+    enrolment = graphene.Field(EnrolmentNode)
+
+    @classmethod
+    @staff_member_required
+    @transaction.atomic
+    def mutate_and_get_payload(cls, root, info, **kwargs):
+        enrolment = get_editable_obj_from_global_id(
+            info, kwargs["enrolment_id"], Enrolment
+        )
+        enrolment.decline()
+        return DeclineEnrolmentMutation(enrolment=enrolment)
+
+
 class AddStudyGroupMutation(graphene.relay.ClientIDMutation):
     class Input:
         person = NonNull(
@@ -586,3 +603,4 @@ class Mutation:
         description="Only staff can unenrol study group"
     )
     approve_enrolment = ApproveEnrolmentMutation.Field()
+    decline_enrolment = DeclineEnrolmentMutation.Field()
