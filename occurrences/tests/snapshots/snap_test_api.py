@@ -12,10 +12,14 @@ snapshots["test_study_groups_query 1"] = {
             "edges": [
                 {
                     "node": {
+                        "amountOfAdult": 5,
+                        "extraNeeds": "Recently analysis season project executive.",
+                        "groupName": "Dream party door better performance race story. Beautiful if his their. Stuff election stay every.",
                         "groupSize": 860,
                         "name": "Increase thank certainly again thought summer. Beyond than trial western.",
                         "occurrences": {"edges": []},
                         "person": {"name": "William Brewer"},
+                        "studyLevel": "GRADE_6",
                         "updatedAt": "2020-01-04T00:00:00+00:00",
                     }
                 }
@@ -27,10 +31,14 @@ snapshots["test_study_groups_query 1"] = {
 snapshots["test_study_group_query 1"] = {
     "data": {
         "studyGroup": {
+            "amountOfAdult": 5,
+            "extraNeeds": "Recently analysis season project executive.",
+            "groupName": "Dream party door better performance race story. Beautiful if his their. Stuff election stay every.",
             "groupSize": 860,
             "name": "Increase thank certainly again thought summer. Beyond than trial western.",
             "occurrences": {"edges": []},
             "person": {"name": "William Brewer"},
+            "studyLevel": "GRADE_6",
             "updatedAt": "2020-01-04T00:00:00+00:00",
         }
     }
@@ -238,6 +246,9 @@ snapshots["test_add_study_group 1"] = {
     "data": {
         "addStudyGroup": {
             "studyGroup": {
+                "amountOfAdult": 1,
+                "extraNeeds": "Extra needs",
+                "groupName": "Sample group name",
                 "groupSize": 20,
                 "name": "Sample study group name",
                 "person": {
@@ -246,6 +257,7 @@ snapshots["test_add_study_group 1"] = {
                     "name": "Name",
                     "phoneNumber": "123123",
                 },
+                "studyLevel": "GRADE_1",
             }
         }
     }
@@ -255,6 +267,9 @@ snapshots["test_add_study_group 2"] = {
     "data": {
         "addStudyGroup": {
             "studyGroup": {
+                "amountOfAdult": 1,
+                "extraNeeds": "Extra needs",
+                "groupName": "Sample group name",
                 "groupSize": 20,
                 "name": "Sample study group name",
                 "person": {
@@ -263,6 +278,7 @@ snapshots["test_add_study_group 2"] = {
                     "name": "Rebekah Johnson",
                     "phoneNumber": "(719)885-7779x42677",
                 },
+                "studyLevel": "GRADE_1",
             }
         }
     }
@@ -272,6 +288,9 @@ snapshots["test_update_study_group_staff_user 1"] = {
     "data": {
         "updateStudyGroup": {
             "studyGroup": {
+                "amountOfAdult": 2,
+                "extraNeeds": "Extra needs",
+                "groupName": "Sample group name",
                 "groupSize": 20,
                 "name": "Sample study group name",
                 "person": {
@@ -280,6 +299,7 @@ snapshots["test_update_study_group_staff_user 1"] = {
                     "name": "Name",
                     "phoneNumber": "123123",
                 },
+                "studyLevel": "GRADE_2",
             }
         }
     }
@@ -289,6 +309,9 @@ snapshots["test_update_study_group_staff_user 2"] = {
     "data": {
         "updateStudyGroup": {
             "studyGroup": {
+                "amountOfAdult": 2,
+                "extraNeeds": "Extra needs",
+                "groupName": "Sample group name",
                 "groupSize": 20,
                 "name": "Sample study group name",
                 "person": {
@@ -297,6 +320,7 @@ snapshots["test_update_study_group_staff_user 2"] = {
                     "name": "Jason Berg",
                     "phoneNumber": "011-715-9102",
                 },
+                "studyLevel": "GRADE_2",
             }
         }
     }
@@ -306,15 +330,14 @@ snapshots["test_enrol_occurrence 1"] = {
     "data": {
         "enrolOccurrence": {
             "enrolment": {
+                "notificationType": "EMAIL",
                 "occurrence": {
                     "amountOfSeats": 50,
                     "remainingSeats": 35,
                     "seatsTaken": 15,
                     "startTime": "2020-01-06T00:00:00+00:00",
                 },
-                "studyGroup": {
-                    "name": "Increase thank certainly again thought summer. Beyond than trial western."
-                },
+                "studyGroup": {"name": "To be created group"},
             }
         }
     }
