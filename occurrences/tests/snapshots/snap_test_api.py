@@ -723,3 +723,7 @@ snapshots["test_enrol_auto_acceptance_occurrence 1"] = {
         }
     }
 }
+
+snapshots["test_approve_enrolment 1"] = {
+    "data": {"approveEnrolment": {"enrolment": {"status": "APPROVED"}}}
+}

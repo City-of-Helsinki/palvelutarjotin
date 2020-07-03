@@ -9,11 +9,12 @@ from occurrences.factories import (
     PalvelutarjotinEventFactory,
     StudyGroupFactory,
 )
-from occurrences.models import Occurrence, StudyGroup, VenueCustomData
+from occurrences.models import Enrolment, Occurrence, StudyGroup, VenueCustomData
 from organisations.factories import PersonFactory
 
 from common.tests.utils import assert_match_error_code, assert_permission_denied
 from palvelutarjotin.consts import (
+    API_USAGE_ERROR,
     ENROLMENT_CLOSED_ERROR,
     ENROLMENT_NOT_STARTED_ERROR,
     INVALID_STUDY_GROUP_SIZE_ERROR,
@@ -1110,6 +1111,45 @@ def test_unenrol_occurrence(snapshot, staff_api_client, mock_get_event_data):
     )
     snapshot.assert_match(executed)
     assert occurrence.study_groups.count() == 0
+
+
+APPROVE_ENROLMENT_MUTATION = """
+mutation approveEnrolmentMutation($input: ApproveEnrolmentMutationInput!){
+  approveEnrolment(input: $input){
+    enrolment{
+       status
+    }
+  }
+}
+"""
+
+
+def test_approve_enrolment(snapshot, staff_api_client, mock_get_event_data):
+    study_group_15 = StudyGroupFactory(group_size=15)
+    # Current date froze on 2020-01-04:
+    p_event_1 = PalvelutarjotinEventFactory(
+        enrolment_start=datetime(2020, 1, 3, 0, 0, 0, tzinfo=timezone.now().tzinfo),
+        enrolment_end_days=2,
+    )
+    occurrence = OccurrenceFactory(
+        start_time=datetime(2020, 1, 6, 0, 0, 0, tzinfo=timezone.now().tzinfo),
+        p_event=p_event_1,
+        min_group_size=10,
+        max_group_size=20,
+        amount_of_seats=50,
+        auto_acceptance=False,
+    )
+    occurrence.study_groups.add(study_group_15)
+    assert occurrence.study_groups.count() == 1
+    enrolment = occurrence.enrolments.first()
+    assert enrolment.status == Enrolment.STATUS_PENDING
+
+    variables = {"input": {"enrolmentId": to_global_id("EnrolmentNode", enrolment.id)}}
+    staff_api_client.user.person.organisations.add(occurrence.p_event.organisation)
+    executed = staff_api_client.execute(APPROVE_ENROLMENT_MUTATION, variables=variables)
+    snapshot.assert_match(executed)
+    executed = staff_api_client.execute(APPROVE_ENROLMENT_MUTATION, variables=variables)
+    assert_match_error_code(executed, API_USAGE_ERROR)
 
 
 def test_occurrences_filter_by_date(api_client, snapshot):
