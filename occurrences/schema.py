@@ -325,7 +325,9 @@ def validate_enrolment(study_group, occurrence):
         raise InvalidStudyGroupSizeError(
             "Study group size not match occurrence group " "size"
         )
-    if timezone.now() < occurrence.p_event.enrolment_start:
+    if not occurrence.p_event.enrolment_start or (
+        timezone.now() < occurrence.p_event.enrolment_start
+    ):
         raise EnrolmentNotStartedError("Enrolment is not opened")
     if timezone.now() > occurrence.start_time - timedelta(
         days=occurrence.p_event.enrolment_end_days
