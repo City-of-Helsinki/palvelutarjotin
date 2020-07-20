@@ -1190,6 +1190,99 @@ def test_decline_enrolment(snapshot, staff_api_client, mock_get_event_data):
     assert_match_error_code(executed, API_USAGE_ERROR)
 
 
+UPDATE_ENROLMENT_MUTATION = """
+mutation updateEnrolmentMutation($input: UpdateEnrolmentMutationInput!){
+  updateEnrolment(input: $input){
+    enrolment{
+      studyGroup{
+        name
+        groupName
+        amountOfAdult
+        groupSize
+      }
+      occurrence{
+        startTime
+        seatsTaken
+        remainingSeats
+        amountOfSeats
+      }
+      notificationType
+      status
+    }
+  }
+}
+"""
+
+
+def test_update_enrolment_unauthorized(api_client, user_api_client):
+    study_group_15 = StudyGroupFactory(group_size=15)
+    # Current date froze on 2020-01-04:
+    p_event_1 = PalvelutarjotinEventFactory(
+        enrolment_start=datetime(2020, 1, 3, 0, 0, 0, tzinfo=timezone.now().tzinfo),
+        enrolment_end_days=2,
+    )
+    occurrence = OccurrenceFactory(
+        start_time=datetime(2020, 1, 6, 0, 0, 0, tzinfo=timezone.now().tzinfo),
+        p_event=p_event_1,
+        min_group_size=10,
+        max_group_size=20,
+        amount_of_seats=50,
+        auto_acceptance=False,
+    )
+    occurrence.study_groups.add(study_group_15)
+    assert Enrolment.objects.count() == 1
+    enrolment = Enrolment.objects.first()
+    variables = {"input": {"enrolmentId": to_global_id("EnrolmentNode", enrolment.id)}}
+
+    executed = api_client.execute(UPDATE_ENROLMENT_MUTATION, variables=variables)
+    assert_permission_denied(executed)
+
+    executed = user_api_client.execute(UPDATE_ENROLMENT_MUTATION, variables=variables)
+    assert_permission_denied(executed)
+
+
+def test_update_enrolment(snapshot, staff_api_client):
+    study_group_15 = StudyGroupFactory(group_size=15)
+    # Current date froze on 2020-01-04:
+    p_event_1 = PalvelutarjotinEventFactory(
+        enrolment_start=datetime(2020, 1, 3, 0, 0, 0, tzinfo=timezone.now().tzinfo),
+        enrolment_end_days=2,
+    )
+    occurrence = OccurrenceFactory(
+        start_time=datetime(2020, 1, 6, 0, 0, 0, tzinfo=timezone.now().tzinfo),
+        p_event=p_event_1,
+        min_group_size=10,
+        max_group_size=20,
+        amount_of_seats=50,
+        auto_acceptance=False,
+    )
+    occurrence.study_groups.add(study_group_15)
+    staff_api_client.user.person.organisations.add(occurrence.p_event.organisation)
+    assert Enrolment.objects.count() == 1
+    enrolment = Enrolment.objects.first()
+    variables = {
+        "input": {
+            "enrolmentId": to_global_id("EnrolmentNode", enrolment.id),
+            "notificationType": "SMS",
+            "studyGroup": {
+                "person": {
+                    "id": to_global_id("PersonNode", study_group_15.person.id),
+                    "name": study_group_15.person.name,
+                    "emailAddress": study_group_15.person.email_address,
+                },
+                "name": "Updated name",
+                "groupSize": 16,
+                "groupName": "Updated study group name",
+                "studyLevel": study_group_15.study_level.upper(),
+                "amountOfAdult": 3,
+            },
+        }
+    }
+
+    executed = staff_api_client.execute(UPDATE_ENROLMENT_MUTATION, variables=variables)
+    snapshot.assert_match(executed)
+
+
 def test_occurrences_filter_by_date(api_client, snapshot):
     OccurrenceFactory(
         start_time=datetime(2020, 1, 1, 0, 0, 0, tzinfo=timezone.now().tzinfo),

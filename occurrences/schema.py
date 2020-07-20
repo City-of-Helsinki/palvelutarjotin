@@ -323,7 +323,7 @@ def validate_enrolment(study_group, occurrence):
         or study_group.group_size < occurrence.min_group_size
     ):
         raise InvalidStudyGroupSizeError(
-            "Study group size not match occurrence group " "size"
+            "Study group size not match occurrence group size"
         )
     if not occurrence.p_event.enrolment_start or (
         timezone.now() < occurrence.p_event.enrolment_start
@@ -430,6 +430,43 @@ class UnenrolOccurrenceMutation(graphene.relay.ClientIDMutation):
         return UnenrolOccurrenceMutation(study_group=study_group, occurrence=occurrence)
 
 
+class UpdateEnrolmentMutation(graphene.relay.ClientIDMutation):
+    class Input:
+        enrolment_id = graphene.GlobalID()
+        notification_type = NotificationTypeEnum()
+        study_group = StudyGroupInput(description="Study group input")
+        person = PersonNodeInput(
+            description="Leave blank if the contact person is "
+            "the same with group contact person"
+        )
+
+    enrolment = graphene.Field(EnrolmentNode)
+
+    @classmethod
+    @staff_member_required
+    @transaction.atomic
+    def mutate_and_get_payload(cls, root, info, **kwargs):
+        enrolment = get_editable_obj_from_global_id(
+            info, kwargs.pop("enrolment_id"), Enrolment
+        )
+        study_group = enrolment.study_group
+        study_group_data = kwargs.pop("study_group", None)
+        if study_group_data:
+            _update_study_group(study_group_data, study_group)
+
+        contact_person_data = kwargs.pop("person", None)
+        # Use latest group contact person if person data not submitted
+        if contact_person_data:
+            person = _get_or_create_contact_person(contact_person_data)
+        else:
+            person = study_group.person
+        kwargs["person_id"] = person.id
+
+        validate_enrolment(study_group, enrolment.occurrence)
+        update_object(enrolment, kwargs)
+        return UpdateEnrolmentMutation(enrolment=enrolment)
+
+
 class ApproveEnrolmentMutation(graphene.relay.ClientIDMutation):
     class Input:
         enrolment_id = graphene.GlobalID()
@@ -504,20 +541,7 @@ class UpdateStudyGroupMutation(graphene.relay.ClientIDMutation):
     @staff_member_required
     @transaction.atomic
     def mutate_and_get_payload(cls, root, info, **kwargs):
-        study_group_global_id = kwargs.pop("id")
-        study_group_id = get_node_id_from_global_id(
-            study_group_global_id, "StudyGroupNode"
-        )
-        try:
-            study_group = StudyGroup.objects.get(id=study_group_id)
-        except StudyGroup.DoesNotExist as e:
-            raise ObjectDoesNotExistError(e)
-
-        person_data = kwargs.pop("person", None)
-        if person_data:
-            person = _get_or_create_contact_person(person_data)
-            kwargs["person_id"] = person.id
-        update_object(study_group, kwargs)
+        study_group = _update_study_group(kwargs)
         return UpdateStudyGroupMutation(study_group=study_group)
 
 
@@ -570,6 +594,25 @@ def _create_study_group(study_group_data):
     return study_group
 
 
+def _update_study_group(study_group_data, study_group_obj=None):
+    if not study_group_obj:
+        study_group_global_id = study_group_data.pop("id")
+        study_group_id = get_node_id_from_global_id(
+            study_group_global_id, "StudyGroupNode"
+        )
+        try:
+            study_group_obj = StudyGroup.objects.get(id=study_group_id)
+        except StudyGroup.DoesNotExist as e:
+            raise ObjectDoesNotExistError(e)
+
+    person_data = study_group_data.pop("person", None)
+    if person_data:
+        person = _get_or_create_contact_person(person_data)
+        study_group_data["person_id"] = person.id
+    update_object(study_group_obj, study_group_data)
+    return study_group_obj
+
+
 def _get_or_create_contact_person(contact_person_data):
     if contact_person_data.get("id"):
         person_id = get_node_id_from_global_id(
@@ -604,5 +647,7 @@ class Mutation:
     unenrol_occurrence = UnenrolOccurrenceMutation.Field(
         description="Only staff can unenrol study group"
     )
+
+    update_enrolment = UpdateEnrolmentMutation.Field()
     approve_enrolment = ApproveEnrolmentMutation.Field()
     decline_enrolment = DeclineEnrolmentMutation.Field()

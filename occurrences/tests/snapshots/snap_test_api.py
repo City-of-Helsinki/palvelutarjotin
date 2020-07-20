@@ -475,30 +475,6 @@ snapshots["test_occurrences_filter_by_date 2"] = {
             "edges": [
                 {
                     "node": {
-                        "amountOfSeats": 32,
-                        "autoAcceptance": True,
-                        "contactPersons": {"edges": []},
-                        "endTime": "2013-06-04T19:09:17+00:00",
-                        "maxGroupSize": 342,
-                        "minGroupSize": 669,
-                        "pEvent": {
-                            "contactEmail": "lfriedman@yahoo.com",
-                            "contactPhoneNumber": "339-471-3127x06051",
-                            "duration": 194,
-                            "enrolmentEndDays": 1,
-                            "enrolmentStart": "2009-04-10T19:35:34+00:00",
-                            "linkedEventId": "Voice radio happen color scene. Create state rock only.",
-                            "neededOccurrences": 2,
-                        },
-                        "placeId": "Believe policy security score.",
-                        "remainingSeats": 32,
-                        "seatsTaken": 0,
-                        "startTime": "2020-01-02T00:00:00+00:00",
-                        "studyGroups": {"edges": []},
-                    }
-                },
-                {
-                    "node": {
                         "amountOfSeats": 50,
                         "autoAcceptance": True,
                         "contactPersons": {"edges": []},
@@ -516,6 +492,30 @@ snapshots["test_occurrences_filter_by_date 2"] = {
                         },
                         "placeId": "Near increase process truth list pressure.",
                         "remainingSeats": 50,
+                        "seatsTaken": 0,
+                        "startTime": "2020-01-02T00:00:00+00:00",
+                        "studyGroups": {"edges": []},
+                    }
+                },
+                {
+                    "node": {
+                        "amountOfSeats": 32,
+                        "autoAcceptance": True,
+                        "contactPersons": {"edges": []},
+                        "endTime": "2013-06-04T19:09:17+00:00",
+                        "maxGroupSize": 342,
+                        "minGroupSize": 669,
+                        "pEvent": {
+                            "contactEmail": "lfriedman@yahoo.com",
+                            "contactPhoneNumber": "339-471-3127x06051",
+                            "duration": 194,
+                            "enrolmentEndDays": 1,
+                            "enrolmentStart": "2009-04-10T19:35:34+00:00",
+                            "linkedEventId": "Voice radio happen color scene. Create state rock only.",
+                            "neededOccurrences": 2,
+                        },
+                        "placeId": "Believe policy security score.",
+                        "remainingSeats": 32,
                         "seatsTaken": 0,
                         "startTime": "2020-01-02T00:00:00+00:00",
                         "studyGroups": {"edges": []},
@@ -730,4 +730,27 @@ snapshots["test_approve_enrolment 1"] = {
 
 snapshots["test_decline_enrolment 1"] = {
     "data": {"declineEnrolment": {"enrolment": {"status": "DECLINED"}}}
+}
+
+snapshots["test_update_enrolment 1"] = {
+    "data": {
+        "updateEnrolment": {
+            "enrolment": {
+                "notificationType": "SMS",
+                "occurrence": {
+                    "amountOfSeats": 50,
+                    "remainingSeats": 34,
+                    "seatsTaken": 16,
+                    "startTime": "2020-01-06T00:00:00+00:00",
+                },
+                "status": "PENDING",
+                "studyGroup": {
+                    "amountOfAdult": 3,
+                    "groupName": "Updated study group name",
+                    "groupSize": 16,
+                    "name": "Updated name",
+                },
+            }
+        }
+    }
 }
