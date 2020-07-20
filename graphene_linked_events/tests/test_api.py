@@ -30,6 +30,7 @@ query Events($organisationId: String){
       lastModifiedTime
       dataSource
       publisher
+      publicationStatus
       location {
         internalId
       }
@@ -121,6 +122,7 @@ query Event{
       lastModifiedTime
       dataSource
       publisher
+      publicationStatus
       location {
         internalId
       }
@@ -471,6 +473,7 @@ query eventsSearch{
       lastModifiedTime
       dataSource
       publisher
+      publicationStatus
       location {
         internalId
       }
