@@ -177,6 +177,7 @@ class Event(IdObject):
     description = Field(LocalisedObject)
     p_event = Field(PalvelutarjotinEventNode)
     venue = Field(VenueNode)
+    publication_status = String()
 
     def resolve_p_event(self, info, **kwargs):
         try:
