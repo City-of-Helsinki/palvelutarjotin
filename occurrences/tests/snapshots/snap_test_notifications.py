@@ -6,7 +6,7 @@ from snapshottest import Snapshot
 
 snapshots = Snapshot()
 
-snapshots["test_occurrence_enrolment_notifications 1"] = [
+snapshots["test_occurrence_enrolment_notifications_email_only 1"] = [
     """no-reply@hel.ninja|['stacey98@wolfe.com']|Occurrence enrolment FI|
         Event FI: Raija Malka & Kaija Saariaho: Blick
         Extra event info: Leg him president compare room hotel town.

@@ -20,12 +20,12 @@ def assert_match_error_code(response, error_code):
 
 
 def create_notification_template_in_language(
-    notification_type, language, **translations
+    notification_template_id, language, **translations
 ):
     try:
-        template = NotificationTemplate.objects.get(type=notification_type)
+        template = NotificationTemplate.objects.get(type=notification_template_id)
     except NotificationTemplate.DoesNotExist:
-        template = NotificationTemplate(type=notification_type)
+        template = NotificationTemplate(type=notification_template_id)
     with switch_language(template, language):
         for field, value in translations.items():
             setattr(template, field, value)

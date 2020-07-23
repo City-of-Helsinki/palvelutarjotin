@@ -1,7 +1,7 @@
 from anymail.signals import pre_send
 from django.db.models.signals import post_delete, post_save
 from django.dispatch import receiver
-from occurrences.consts import NotificationType
+from occurrences.consts import NotificationTemplate
 from occurrences.models import Enrolment
 from occurrences.utils import send_event_notifications_to_contact_person
 
@@ -12,7 +12,9 @@ def send_enrolment_email(instance, created, **kwargs):
         send_event_notifications_to_contact_person(
             instance.occurrence,
             instance.study_group,
-            NotificationType.OCCURRENCE_ENROLMENT,
+            instance.notification_type,
+            NotificationTemplate.OCCURRENCE_ENROLMENT,
+            NotificationTemplate.OCCURRENCE_ENROLMENT_SMS,
             event=instance.occurrence.p_event.get_event_data(),
         )
 
@@ -22,7 +24,9 @@ def send_unenrolment_email(instance, **kwargs):
     send_event_notifications_to_contact_person(
         instance.occurrence,
         instance.study_group,
-        NotificationType.OCCURRENCE_UNENROLMENT,
+        instance.notification_type,
+        NotificationTemplate.OCCURRENCE_UNENROLMENT,
+        NotificationTemplate.OCCURRENCE_UNENROLMENT_SMS,
         event=instance.occurrence.p_event.get_event_data(),
     )
 
