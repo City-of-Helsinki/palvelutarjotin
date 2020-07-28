@@ -682,6 +682,7 @@ CREATED_EVENT_DATA = {
     "@type": "Event/LinkedEvent",
 }
 
+
 UPDATE_EVENT_DATA = {
     "id": "qq:afy6aghr2y",
     "location": {"@id": "http://localhost:8080/v1/place/tprek:9972/"},
@@ -737,6 +738,7 @@ UPDATE_EVENT_DATA = {
     "@context": "http://schema.org",
     "@type": "Event/LinkedEvent",
 }
+
 
 IMAGES_DATA = {
     "meta": {

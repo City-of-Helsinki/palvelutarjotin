@@ -1,3 +1,5 @@
+from datetime import timedelta
+
 from django.db import models
 from django.db.models import Sum
 from django.utils.translation import ugettext_lazy as _
@@ -9,8 +11,14 @@ from palvelutarjotin.exceptions import ApiUsageError
 
 
 class PalvelutarjotinEvent(TimestampedModel):
+    PUBLICATION_STATUS_PUBLIC = "public"
+    PUBLICATION_STATUS_DRAFT = "draft"
+    PUBLICATION_STATUSES = (
+        (PUBLICATION_STATUS_PUBLIC, _("public")),
+        (PUBLICATION_STATUS_DRAFT, _("draft")),
+    )
     linked_event_id = models.CharField(
-        max_length=255, verbose_name=_("linked event " "id")
+        max_length=255, verbose_name=_("linked event id")
     )
     enrolment_start = models.DateTimeField(
         verbose_name=_("enrolment start"), blank=True, null=True
@@ -44,7 +52,7 @@ class PalvelutarjotinEvent(TimestampedModel):
         verbose_name=_("contact phone number"), max_length=64, blank=True
     )
     contact_email = models.EmailField(
-        max_length=255, verbose_name=_("contact " "email"), blank=True
+        max_length=255, verbose_name=_("contact email"), blank=True
     )
 
     class Meta:
@@ -61,6 +69,14 @@ class PalvelutarjotinEvent(TimestampedModel):
         if self.organisation:
             return user.person.organisations.filter(id=self.organisation.id).exists()
         return True
+
+    def get_end_time_from_occurrences(self):
+        # Return the latest time that teacher can enrol to the event
+        try:
+            last_occurrence = self.occurrences.latest("start_time")
+        except Occurrence.DoesNotExist:
+            raise ValueError("Palvelutarjotin event has no occurrence")
+        return last_occurrence.start_time - timedelta(days=self.enrolment_end_days)
 
 
 class Language(models.Model):

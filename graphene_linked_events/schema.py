@@ -1,7 +1,9 @@
 from django.core.exceptions import PermissionDenied
 from django.db import transaction
+from django.utils import timezone
 from graphene import (
     Boolean,
+    Enum,
     Field,
     Float,
     ID,
@@ -31,11 +33,18 @@ from occurrences.schema import (
 from organisations.models import Organisation, Person
 
 from common.utils import (
+    format_linked_event_date,
     get_editable_obj_from_global_id,
     get_obj_from_global_id,
     update_object,
 )
+from palvelutarjotin.exceptions import ApiUsageError, ObjectDoesNotExistError
 from palvelutarjotin.settings import LINKED_EVENTS_API_CONFIG
+
+PublicationStatusEnum = Enum(
+    "PublicationStatus",
+    [(s[0].upper(), s[0]) for s in PalvelutarjotinEvent.PUBLICATION_STATUSES],
+)
 
 
 class IdObject(ObjectType):
@@ -377,7 +386,7 @@ class IdObjectInput(InputObjectType):
     internal_id = String()
 
 
-class AddEventMutationInput(InputObjectType):
+class EventMutationInput(InputObjectType):
     location = IdObjectInput(required=True)
     keywords = NonNull(List(NonNull(IdObjectInput)))
     super_event = String()
@@ -389,7 +398,7 @@ class AddEventMutationInput(InputObjectType):
     in_language = List(NonNull(IdObjectInput))
     audience = List(NonNull(IdObjectInput))
     date_published = String()
-    start_time = String(required=True)
+    start_time = String()
     end_time = String()
     custom_data = String()
     audience_min_age = String()
@@ -414,7 +423,21 @@ class AddEventMutationInput(InputObjectType):
     )
 
 
-class UpdateEventMutationInput(AddEventMutationInput):
+class AddEventMutationInput(EventMutationInput):
+    draft = Boolean(
+        description="Set to `true` to save event as draft version, when draft is true, "
+        "event data validation will be skipped",
+        default_value=False,
+    )
+    start_time = String(required=True)
+
+
+class UpdateEventMutationInput(EventMutationInput):
+    id = String(required=True)
+    start_time = String(required=True)
+
+
+class PublishEventMutationInput(EventMutationInput):
     id = String(required=True)
 
 
@@ -439,10 +462,15 @@ class AddEventMutation(Mutation):
             person = get_obj_from_global_id(info, person_gid, Person)
             if not organisation.persons.filter(id=person.id).exists():
                 raise PermissionDenied("Contact person does not belong to organisation")
+            p_event_data["contact_person_id"] = person.id
         if organisation.publisher_id:
             # If publisher id does not exist, LinkedEvent will decide the
             # publisher id which is the API key root publisher
             kwargs["event"]["publisher"] = organisation.publisher_id
+        if kwargs["event"]["draft"]:
+            kwargs["event"][
+                "publication_status"
+            ] = PalvelutarjotinEvent.PUBLICATION_STATUS_DRAFT
 
         body = format_request(kwargs["event"])
         # TODO: proper validation if necessary
@@ -452,7 +480,7 @@ class AddEventMutation(Mutation):
             # Create palvelutarjotin event if event created successful
             p_event_data["linked_event_id"] = event_obj.id
             p_event_data["organisation_id"] = organisation.id
-            PalvelutarjotinEvent.objects.create(**p_event_data, contact_person=person)
+            PalvelutarjotinEvent.objects.create(**p_event_data)
         response = EventMutationResponse(status_code=result.status_code, body=event_obj)
         return AddEventMutation(response=response)
 
@@ -505,6 +533,39 @@ class UpdateEventMutation(Mutation):
             status_code=result.status_code, body=json2obj(format_response(result))
         )
         return UpdateEventMutation(response=response)
+
+
+def _prepare_published_event_data(event_id):
+    # Only care about getting published event data, no permission/authorization check
+    # here
+    p_event = PalvelutarjotinEvent.objects.get(linked_event_id=event_id)
+    if not p_event.occurrences.exists():
+        raise ApiUsageError("Cannot publish event without event occurrences")
+    body = {
+        "publication_status": PalvelutarjotinEvent.PUBLICATION_STATUS_PUBLIC,
+        "start_time": format_linked_event_date(timezone.now()),
+        "end_time": format_linked_event_date(p_event.get_end_time_from_occurrences()),
+    }
+    return body
+
+
+class PublishEventMutation(UpdateEventMutation):
+    class Arguments:
+        event = PublishEventMutationInput()
+
+    response = Field(EventMutationResponse)
+
+    @staff_member_required
+    @transaction.atomic
+    def mutate(root, info, **kwargs):
+        event_id = kwargs["event"].get("id")
+        try:
+            kwargs["event"].update(_prepare_published_event_data(event_id))
+        except PalvelutarjotinEvent.DoesNotExist as e:
+            raise ObjectDoesNotExistError(e)
+        # Publish event is actually update event, reuse UpdateEventMutation
+        response = UpdateEventMutation.mutate(root, info, **kwargs).response
+        return PublishEventMutation(response=response)
 
 
 class DeleteEventMutation(Mutation):
@@ -594,6 +655,10 @@ class DeleteImageMutation(Mutation):
 class Mutation:
     add_event_mutation = AddEventMutation.Field()
     update_event_mutation = UpdateEventMutation.Field()
+    publish_event_mutation = PublishEventMutation.Field(
+        description="Using this mutation will update event publication status and "
+        "also set the `start_time`, `end_time` of linkedEvent"
+    )
     delete_event_mutation = DeleteEventMutation.Field()
 
     upload_image_mutation = UploadImageMutation.Field()
