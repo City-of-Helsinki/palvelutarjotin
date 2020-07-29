@@ -33,7 +33,9 @@ env = environ.Env(
     CACHE_URL=(str, "locmemcache://"),
     MAILER_EMAIL_BACKEND=(str, "django.core.mail.backends.console.EmailBackend"),
     DEFAULT_FROM_EMAIL=(str, "no-reply@hel.ninja"),
+    DEFAULT_SMS_SENDER=(str, "Hel.fi"),
     ILMOITIN_TRANSLATED_FROM_EMAIL=(dict, {}),
+    TRANSLATED_SMS_SENDER=(dict, {}),
     MAIL_MAILGUN_KEY=(str, ""),
     MAIL_MAILGUN_DOMAIN=(str, ""),
     MAIL_MAILGUN_API=(str, ""),
@@ -58,6 +60,8 @@ env = environ.Env(
     LINKED_EVENTS_API_ROOT=(str, "https://api.hel.fi/linkedevents/v1/"),
     LINKED_EVENTS_API_KEY=(str, ""),
     LINKED_EVENTS_DATA_SOURCE=(str, "palvelutarjotin"),
+    NOTIFICATION_SERVICE_API_TOKEN=(str, ""),
+    NOTIFICATION_SERVICE_API_URL=(str, "https://notification-service.hel.fi/v1/"),
 )
 
 if os.path.exists(env_file):
@@ -79,6 +83,13 @@ CACHES = {"default": env.cache()}
 
 if env.str("DEFAULT_FROM_EMAIL"):
     DEFAULT_FROM_EMAIL = env.str("DEFAULT_FROM_EMAIL")
+
+if env.str("DEFAULT_SMS_SENDER"):
+    DEFAULT_SMS_SENDER = env.str("DEFAULT_SMS_SENDER")
+
+NOTIFICATION_SERVICE_API_TOKEN = env.str("NOTIFICATION_SERVICE_API_TOKEN")
+NOTIFICATION_SERVICE_API_URL = env.str("NOTIFICATION_SERVICE_API_URL")
+
 if env("MAIL_MAILGUN_KEY"):
     ANYMAIL = {
         "MAILGUN_API_KEY": env("MAIL_MAILGUN_KEY"),
@@ -89,6 +100,7 @@ EMAIL_BACKEND = "mailer.backend.DbBackend"
 MAILER_EMAIL_BACKEND = env.str("MAILER_EMAIL_BACKEND")
 ILMOITIN_TRANSLATED_FROM_EMAIL = env("ILMOITIN_TRANSLATED_FROM_EMAIL")
 ILMOITIN_QUEUE_NOTIFICATIONS = env("ILMOITIN_QUEUE_NOTIFICATIONS")
+TRANSLATED_SMS_SENDER = env("TRANSLATED_SMS_SENDER")
 
 try:
     REVISION = subprocess.check_output(["git", "rev-parse", "--short", "HEAD"]).strip()

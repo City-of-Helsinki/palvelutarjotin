@@ -1,6 +1,8 @@
+from unittest.mock import patch
+
 import pytest
 from django.core import mail
-from occurrences.consts import NotificationType
+from occurrences.consts import NotificationTemplate
 from occurrences.factories import StudyGroupFactory
 from occurrences.models import Enrolment
 from organisations.factories import PersonFactory
@@ -14,7 +16,7 @@ from common.tests.utils import (
 @pytest.fixture
 def notification_template_occurrence_enrolment_fi():
     return create_notification_template_in_language(
-        NotificationType.OCCURRENCE_ENROLMENT,
+        NotificationTemplate.OCCURRENCE_ENROLMENT,
         "fi",
         subject="Occurrence enrolment FI",
         body_text="""
@@ -30,7 +32,7 @@ def notification_template_occurrence_enrolment_fi():
 @pytest.fixture
 def notification_template_occurrence_unenrolment_fi():
     return create_notification_template_in_language(
-        NotificationType.OCCURRENCE_UNENROLMENT,
+        NotificationTemplate.OCCURRENCE_UNENROLMENT,
         "fi",
         subject="Occurrence unenrolment FI",
         body_text="""
@@ -46,7 +48,7 @@ def notification_template_occurrence_unenrolment_fi():
 @pytest.fixture
 def notification_template_occurrence_enrolment_en():
     return create_notification_template_in_language(
-        NotificationType.OCCURRENCE_ENROLMENT,
+        NotificationTemplate.OCCURRENCE_ENROLMENT,
         "en",
         subject="Occurrence enrolment EN",
         body_text="""
@@ -62,7 +64,7 @@ def notification_template_occurrence_enrolment_en():
 @pytest.fixture
 def notification_template_occurrence_unenrolment_en():
     return create_notification_template_in_language(
-        NotificationType.OCCURRENCE_UNENROLMENT,
+        NotificationTemplate.OCCURRENCE_UNENROLMENT,
         "en",
         subject="Occurrence unenrolment EN",
         body_text="""
@@ -75,8 +77,72 @@ def notification_template_occurrence_unenrolment_en():
     )
 
 
+@pytest.fixture
+def notification_sms_template_occurrence_enrolment_en():
+    return create_notification_template_in_language(
+        NotificationTemplate.OCCURRENCE_ENROLMENT_SMS,
+        "en",
+        subject="Occurrence enrolment SMS EN",
+        body_text="""
+        Event EN: {{ event.name.en }}
+        Extra event info: {{ occurrence.p_event.linked_event_id }}
+        Study group: {{ study_group.name }}
+        Occurrence: {{ occurrence.start_time }}
+        Person: {{ study_group.person.email_address}}
+""",
+    )
+
+
+@pytest.fixture
+def notification_sms_template_occurrence_unenrolment_en():
+    return create_notification_template_in_language(
+        NotificationTemplate.OCCURRENCE_UNENROLMENT_SMS,
+        "en",
+        subject="Occurrence unenrolment SMS EN",
+        body_text="""
+        Event EN: {{ event.name.en }}
+        Extra event info: {{ occurrence.p_event.linked_event_id }}
+        Study group: {{ study_group.name }}
+        Occurrence: {{ occurrence.start_time }}
+        Person: {{ study_group.person.email_address}}
+""",
+    )
+
+
+@pytest.fixture
+def notification_sms_template_occurrence_enrolment_fi():
+    return create_notification_template_in_language(
+        NotificationTemplate.OCCURRENCE_ENROLMENT_SMS,
+        "fi",
+        subject="Occurrence enrolment SMS FI",
+        body_text="""
+        Event FI: {{ event.name.fi }}
+        Extra event info: {{ occurrence.p_event.linked_event_id }}
+        Study group: {{ study_group.name }}
+        Occurrence: {{ occurrence.start_time }}
+        Person: {{ study_group.person.email_address}}
+""",
+    )
+
+
+@pytest.fixture
+def notification_sms_template_occurrence_unenrolment_fi():
+    return create_notification_template_in_language(
+        NotificationTemplate.OCCURRENCE_UNENROLMENT_SMS,
+        "fi",
+        subject="Occurrence unenrolment SMS FI",
+        body_text="""
+        Event FI: {{ event.name.fi }}
+        Extra event info: {{ occurrence.p_event.linked_event_id }}
+        Study group: {{ study_group.name }}
+        Occurrence: {{ occurrence.start_time }}
+        Person: {{ study_group.person.email_address}}
+""",
+    )
+
+
 @pytest.mark.django_db
-def test_occurrence_enrolment_notifications(
+def test_occurrence_enrolment_notifications_email_only(
     snapshot,
     notification_template_occurrence_unenrolment_fi,
     notification_template_occurrence_enrolment_fi,
@@ -94,3 +160,53 @@ def test_occurrence_enrolment_notifications(
     occurrence.study_groups.remove(en_study_group)
     assert len(mail.outbox) == 4
     assert_mails_match_snapshot(snapshot)
+
+
+@pytest.mark.django_db
+@patch("occurrences.utils.notification_service.send_sms")
+def test_occurrence_enrolment_notification_sms_only(
+    mock_send_sms,
+    snapshot,
+    notification_sms_template_occurrence_enrolment_en,
+    notification_sms_template_occurrence_enrolment_fi,
+    notification_sms_template_occurrence_unenrolment_en,
+    notification_sms_template_occurrence_unenrolment_fi,
+    mock_get_event_data,
+    occurrence,
+    study_group,
+):
+    Enrolment.objects.create(
+        study_group=study_group,
+        occurrence=occurrence,
+        notification_type=Enrolment.NOTIFICATION_TYPE_SMS,
+    )
+    occurrence.study_groups.remove(study_group)
+    assert len(mail.outbox) == 0
+    assert mock_send_sms.call_count == 2
+
+
+@pytest.mark.django_db
+@patch("occurrences.utils.notification_service.send_sms")
+def test_occurrence_enrolment_notification_sms_and_email(
+    mock_send_sms,
+    snapshot,
+    notification_template_occurrence_unenrolment_fi,
+    notification_template_occurrence_enrolment_fi,
+    notification_template_occurrence_unenrolment_en,
+    notification_template_occurrence_enrolment_en,
+    notification_sms_template_occurrence_enrolment_en,
+    notification_sms_template_occurrence_enrolment_fi,
+    notification_sms_template_occurrence_unenrolment_en,
+    notification_sms_template_occurrence_unenrolment_fi,
+    mock_get_event_data,
+    occurrence,
+    study_group,
+):
+    Enrolment.objects.create(
+        study_group=study_group,
+        occurrence=occurrence,
+        notification_type=Enrolment.NOTIFICATION_TYPE_ALL,
+    )
+    occurrence.study_groups.remove(study_group)
+    assert len(mail.outbox) == 2
+    assert mock_send_sms.call_count == 2
