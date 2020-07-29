@@ -9,6 +9,7 @@ from graphene import InputObjectType, NonNull, relay
 from graphene_django import DjangoConnectionField, DjangoObjectType
 from graphene_django.filter import DjangoFilterConnectionField
 from graphql_jwt.decorators import staff_member_required
+from occurrences.consts import NOTIFICATION_TYPES
 from occurrences.filters import OccurrenceFilter
 from occurrences.models import (
     Enrolment,
@@ -43,7 +44,7 @@ StudyLevelEnum = graphene.Enum(
     "StudyLevel", [(l[0].upper(), l[0]) for l in StudyGroup.STUDY_LEVELS]
 )
 NotificationTypeEnum = graphene.Enum(
-    "NotificationType", [(t[0].upper(), t[0]) for t in Enrolment.NOTIFICATION_TYPES]
+    "NotificationType", [(t[0].upper(), t[0]) for t in NOTIFICATION_TYPES]
 )
 
 

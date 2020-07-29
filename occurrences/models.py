@@ -4,6 +4,12 @@ from django.db import models
 from django.db.models import Sum
 from django.utils.translation import ugettext_lazy as _
 from graphene_linked_events.utils import retrieve_linked_events_data
+from occurrences.consts import (
+    NOTIFICATION_TYPE_EMAIL,
+    NOTIFICATION_TYPES,
+    NotificationTemplate,
+)
+from occurrences.utils import send_event_notifications_to_contact_person
 from parler.models import TranslatedFields
 
 from common.models import TimestampedModel, TranslatableModel
@@ -233,14 +239,6 @@ class StudyGroup(TimestampedModel):
 
 
 class Enrolment(models.Model):
-    NOTIFICATION_TYPE_EMAIL = "email"
-    NOTIFICATION_TYPE_SMS = "sms"
-    NOTIFICATION_TYPE_ALL = "email_sms"
-    NOTIFICATION_TYPES = (
-        (NOTIFICATION_TYPE_ALL, _("email and sms")),
-        (NOTIFICATION_TYPE_EMAIL, _("email")),
-        (NOTIFICATION_TYPE_SMS, _("sms")),
-    )
     STATUS_APPROVED = "approved"
     STATUS_PENDING = "pending"
     STATUS_CANCELLED = "cancelled"
@@ -310,8 +308,22 @@ class Enrolment(models.Model):
 
     def approve(self):
         self.set_status(self.STATUS_APPROVED)
-        # TODO: Do something with notification after approval
+        send_event_notifications_to_contact_person(
+            self.occurrence,
+            self.study_group,
+            self.notification_type,
+            NotificationTemplate.ENROLMENT_APPROVED,
+            NotificationTemplate.ENROLMENT_APPROVED_SMS,
+            event=self.occurrence.p_event.get_event_data(),
+        )
 
     def decline(self):
         self.set_status(self.STATUS_DECLINED)
-        # TODO: Do something with notification after decline
+        send_event_notifications_to_contact_person(
+            self.occurrence,
+            self.study_group,
+            self.notification_type,
+            NotificationTemplate.ENROLMENT_DECLINED,
+            NotificationTemplate.ENROLMENT_DECLINED_SMS,
+            event=self.occurrence.p_event.get_event_data(),
+        )
