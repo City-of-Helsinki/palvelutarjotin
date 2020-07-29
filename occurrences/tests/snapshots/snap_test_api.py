@@ -738,8 +738,8 @@ snapshots["test_update_enrolment 1"] = {
             "enrolment": {
                 "notificationType": "SMS",
                 "occurrence": {
-                    "amountOfSeats": 50,
-                    "remainingSeats": 34,
+                    "amountOfSeats": 30,
+                    "remainingSeats": 14,
                     "seatsTaken": 16,
                     "startTime": "2020-01-06T00:00:00+00:00",
                 },

@@ -1247,13 +1247,14 @@ def test_update_enrolment(snapshot, staff_api_client):
     p_event_1 = PalvelutarjotinEventFactory(
         enrolment_start=datetime(2020, 1, 3, 0, 0, 0, tzinfo=timezone.now().tzinfo),
         enrolment_end_days=2,
+        needed_occurrences=1,
     )
     occurrence = OccurrenceFactory(
         start_time=datetime(2020, 1, 6, 0, 0, 0, tzinfo=timezone.now().tzinfo),
         p_event=p_event_1,
         min_group_size=10,
         max_group_size=20,
-        amount_of_seats=50,
+        amount_of_seats=30,
         auto_acceptance=False,
     )
     occurrence.study_groups.add(study_group_15)
