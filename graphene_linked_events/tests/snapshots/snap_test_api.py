@@ -882,3 +882,19 @@ snapshots["test_create_event 1"] = {
         }
     }
 }
+
+snapshots["test_publish_event 1"] = {
+    "data": {
+        "publishEventMutation": {
+            "response": {
+                "body": {
+                    "endTime": None,
+                    "id": "qq:afy6aghr2y",
+                    "publicationStatus": "public",
+                    "startTime": "2020-05-07",
+                },
+                "statusCode": 200,
+            }
+        }
+    }
+}

@@ -20,6 +20,12 @@ LanguageEnum = graphene.Enum(
     "Language", [(l[0].upper(), l[0]) for l in settings.LANGUAGES]
 )
 
+LINKED_EVENT_DATE_FORMAT = "%Y-%m-%d"
+
+
+def format_linked_event_date(datetime_obj):
+    return datetime_obj.strftime(LINKED_EVENT_DATE_FORMAT)
+
 
 def update_object(obj, data):
     if not data:
