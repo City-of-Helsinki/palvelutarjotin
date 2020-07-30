@@ -316,7 +316,7 @@ class EnrolmentNode(DjangoObjectType):
         interfaces = (relay.Node,)
 
 
-def validate_enrolment(study_group, occurrence):
+def validate_enrolment(study_group, occurrence, new_enrolment=True):
     # Expensive validation are sorted to bottom
     if (
         study_group.group_size > occurrence.max_group_size
@@ -333,15 +333,24 @@ def validate_enrolment(study_group, occurrence):
         days=occurrence.p_event.enrolment_end_days
     ):
         raise EnrolmentClosedError("Enrolment has been closed")
-    if (
-        study_group.occurrences.filter(p_event=occurrence.p_event).count()
-        >= occurrence.p_event.needed_occurrences
-    ):
-        raise EnrolmentMaxNeededOccurrenceReached(
-            "Number of enroled occurrences greater than needed occurrences"
-        )
-    if occurrence.seats_taken + study_group.group_size > occurrence.amount_of_seats:
-        raise EnrolmentNotEnoughCapacityError("Not enough space for this study group")
+    # Skip these validations when updating enrolment
+    if new_enrolment:
+        if (
+            study_group.occurrences.filter(p_event=occurrence.p_event).count()
+            >= occurrence.p_event.needed_occurrences
+        ):
+            raise EnrolmentMaxNeededOccurrenceReached(
+                "Number of enroled occurrences greater than needed occurrences"
+            )
+        if occurrence.seats_taken + study_group.group_size > occurrence.amount_of_seats:
+            raise EnrolmentNotEnoughCapacityError(
+                "Not enough space for this study group"
+            )
+    else:
+        if occurrence.seats_taken > occurrence.amount_of_seats:
+            raise EnrolmentNotEnoughCapacityError(
+                "Not enough space for this study group"
+            )
 
 
 class StudyGroupInput(InputObjectType):
@@ -462,7 +471,7 @@ class UpdateEnrolmentMutation(graphene.relay.ClientIDMutation):
             person = study_group.person
         kwargs["person_id"] = person.id
 
-        validate_enrolment(study_group, enrolment.occurrence)
+        validate_enrolment(study_group, enrolment.occurrence, new_enrolment=False)
         update_object(enrolment, kwargs)
         return UpdateEnrolmentMutation(enrolment=enrolment)
 
