@@ -159,6 +159,7 @@ class ExtensionCourse(ObjectType):
 
 
 class Event(IdObject):
+    id = String(required=True)
     location = Field(Place)
     keywords = NonNull(List(NonNull(Keyword)))
     super_event = Field(IdObject)
@@ -412,11 +413,6 @@ class EventMutationInput(InputObjectType):
     info_url = InputField(LocalisedObjectInput)
     provider_contact_info = String()
     description = InputField(LocalisedObjectInput, required=True)
-    p_event = InputField(
-        PalvelutarjotinEventInput,
-        required=True,
-        description="Palvelutarjotin event data",
-    )
     organisation_id = String(
         description="Organisation global id which the created event belongs to",
         required=True,
@@ -430,15 +426,26 @@ class AddEventMutationInput(EventMutationInput):
         default_value=False,
     )
     start_time = String(required=True)
+    p_event = InputField(
+        PalvelutarjotinEventInput,
+        required=True,
+        description="Palvelutarjotin event data",
+    )
 
 
 class UpdateEventMutationInput(EventMutationInput):
     id = String(required=True)
     start_time = String(required=True)
+    p_event = InputField(
+        PalvelutarjotinEventInput, description="Palvelutarjotin event data",
+    )
 
 
 class PublishEventMutationInput(EventMutationInput):
     id = String(required=True)
+    p_event = InputField(
+        PalvelutarjotinEventInput, description="Palvelutarjotin event data",
+    )
 
 
 class AddEventMutation(Mutation):
@@ -496,19 +503,22 @@ class UpdateEventMutation(Mutation):
     def mutate(root, info, **kwargs):
         # Format to JSON POST body
         event_id = kwargs["event"].pop("id")
-        p_event_data = kwargs["event"].pop("p_event")
+        p_event_data = kwargs["event"].pop("p_event", None)
 
         organisation_gid = kwargs["event"].pop("organisation_id")
 
         organisation = get_editable_obj_from_global_id(
             info, organisation_gid, Organisation
         )
-        person_gid = p_event_data.pop("contact_person_id", None)
-        if person_gid:
-            person = get_obj_from_global_id(info, person_gid, Person)
-            if not organisation.persons.filter(id=person.id).exists():
-                raise PermissionDenied("Contact person does not belong to organisation")
-            p_event_data["contact_person_id"] = person.id
+        if p_event_data:
+            person_gid = p_event_data.pop("contact_person_id", None)
+            if person_gid:
+                person = get_obj_from_global_id(info, person_gid, Person)
+                if not organisation.persons.filter(id=person.id).exists():
+                    raise PermissionDenied(
+                        "Contact person does not belong to organisation"
+                    )
+                p_event_data["contact_person_id"] = person.id
         try:
             p_event = PalvelutarjotinEvent.objects.get(
                 linked_event_id=event_id, organisation=organisation
@@ -527,7 +537,7 @@ class UpdateEventMutation(Mutation):
         body = format_request(kwargs["event"])
         # TODO: proper validation if necessary
         result = api_client.update("event", event_id, body)
-        if result.status_code == 200:
+        if result.status_code == 200 and p_event_data:
             update_object(p_event, p_event_data)
         response = EventMutationResponse(
             status_code=result.status_code, body=json2obj(format_response(result))
