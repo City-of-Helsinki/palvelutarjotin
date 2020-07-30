@@ -3,7 +3,7 @@ import logging
 from django.conf import settings
 from django_ilmoitin.models import NotificationTemplate, NotificationTemplateException
 from django_ilmoitin.utils import render_notification_template, send_notification
-from occurrences.models import Enrolment
+from occurrences.consts import NOTIFICATION_TYPE_EMAIL, NOTIFICATION_TYPE_SMS
 
 from common.notification_service import NotificationService
 from palvelutarjotin.settings import (
@@ -25,7 +25,7 @@ def send_event_notifications_to_contact_person(
     notification_sms_template_id,
     **kwargs,
 ):
-    if Enrolment.NOTIFICATION_TYPE_EMAIL in notification_type:
+    if NOTIFICATION_TYPE_EMAIL in notification_type:
         context = {
             "occurrence": occurrence,
             "study_group": study_group,
@@ -38,7 +38,7 @@ def send_event_notifications_to_contact_person(
             language=study_group.person.language,
             context=context,
         )
-    if Enrolment.NOTIFICATION_TYPE_SMS in notification_type:
+    if NOTIFICATION_TYPE_SMS in notification_type:
         context = {
             "occurrence": occurrence,
             "study_group": study_group,

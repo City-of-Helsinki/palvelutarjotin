@@ -2,7 +2,11 @@ from unittest.mock import patch
 
 import pytest
 from django.core import mail
-from occurrences.consts import NotificationTemplate
+from occurrences.consts import (
+    NOTIFICATION_TYPE_ALL,
+    NOTIFICATION_TYPE_SMS,
+    NotificationTemplate,
+)
 from occurrences.factories import StudyGroupFactory
 from occurrences.models import Enrolment
 from organisations.factories import PersonFactory
@@ -141,6 +145,70 @@ def notification_sms_template_occurrence_unenrolment_fi():
     )
 
 
+@pytest.fixture
+def notification_template_enrolment_approved_en():
+    return create_notification_template_in_language(
+        NotificationTemplate.ENROLMENT_APPROVED,
+        "en",
+        subject="Enrolment approved EN",
+        body_text="""
+        Event EN: {{ event.name.en }}
+        Extra event info: {{ occurrence.p_event.linked_event_id }}
+        Study group: {{ study_group.name }}
+        Occurrence: {{ occurrence.start_time }}
+        Person: {{ study_group.person.email_address}}
+""",
+    )
+
+
+@pytest.fixture
+def notification_template_enrolment_approved_fi():
+    return create_notification_template_in_language(
+        NotificationTemplate.ENROLMENT_APPROVED,
+        "fi",
+        subject="Enrolment approved FI",
+        body_text="""
+        Event FI: {{ event.name.fi }}
+        Extra event info: {{ occurrence.p_event.linked_event_id }}
+        Study group: {{ study_group.name }}
+        Occurrence: {{ occurrence.start_time }}
+        Person: {{ study_group.person.email_address}}
+""",
+    )
+
+
+@pytest.fixture
+def notification_template_enrolment_declined_en():
+    return create_notification_template_in_language(
+        NotificationTemplate.ENROLMENT_DECLINED,
+        "en",
+        subject="Enrolment declined EN",
+        body_text="""
+        Event EN: {{ event.name.en }}
+        Extra event info: {{ occurrence.p_event.linked_event_id }}
+        Study group: {{ study_group.name }}
+        Occurrence: {{ occurrence.start_time }}
+        Person: {{ study_group.person.email_address}}
+""",
+    )
+
+
+@pytest.fixture
+def notification_template_enrolment_declined_fi():
+    return create_notification_template_in_language(
+        NotificationTemplate.ENROLMENT_DECLINED,
+        "fi",
+        subject="Enrolment declined FI",
+        body_text="""
+        Event FI: {{ event.name.fi }}
+        Extra event info: {{ occurrence.p_event.linked_event_id }}
+        Study group: {{ study_group.name }}
+        Occurrence: {{ occurrence.start_time }}
+        Person: {{ study_group.person.email_address}}
+""",
+    )
+
+
 @pytest.mark.django_db
 def test_occurrence_enrolment_notifications_email_only(
     snapshot,
@@ -178,7 +246,7 @@ def test_occurrence_enrolment_notification_sms_only(
     Enrolment.objects.create(
         study_group=study_group,
         occurrence=occurrence,
-        notification_type=Enrolment.NOTIFICATION_TYPE_SMS,
+        notification_type=NOTIFICATION_TYPE_SMS,
     )
     occurrence.study_groups.remove(study_group)
     assert len(mail.outbox) == 0
@@ -205,8 +273,42 @@ def test_occurrence_enrolment_notification_sms_and_email(
     Enrolment.objects.create(
         study_group=study_group,
         occurrence=occurrence,
-        notification_type=Enrolment.NOTIFICATION_TYPE_ALL,
+        notification_type=NOTIFICATION_TYPE_ALL,
     )
     occurrence.study_groups.remove(study_group)
     assert len(mail.outbox) == 2
     assert mock_send_sms.call_count == 2
+
+
+@pytest.mark.django_db
+def test_approve_enrolment_notification_email(
+    mock_get_event_data,
+    notification_template_enrolment_approved_en,
+    notification_template_enrolment_approved_fi,
+    snapshot,
+    occurrence,
+    study_group,
+):
+    enrolment = Enrolment.objects.create(
+        study_group=study_group, occurrence=occurrence,
+    )
+    enrolment.approve()
+    assert len(mail.outbox) == 1
+    assert_mails_match_snapshot(snapshot)
+
+
+@pytest.mark.django_db
+def test_decline_enrolment_notification_email(
+    mock_get_event_data,
+    notification_template_enrolment_declined_en,
+    notification_template_enrolment_declined_fi,
+    snapshot,
+    occurrence,
+    study_group,
+):
+    enrolment = Enrolment.objects.create(
+        study_group=study_group, occurrence=occurrence,
+    )
+    enrolment.decline()
+    assert len(mail.outbox) == 1
+    assert_mails_match_snapshot(snapshot)
