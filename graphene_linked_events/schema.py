@@ -160,7 +160,7 @@ class ExtensionCourse(ObjectType):
 
 class Event(IdObject):
     id = String(required=True)
-    location = Field(Place)
+    location = Field(Place, required=True)
     keywords = NonNull(List(NonNull(Keyword)))
     super_event = Field(IdObject)
     event_status = String()
