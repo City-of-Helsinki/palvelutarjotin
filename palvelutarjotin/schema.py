@@ -1,3 +1,4 @@
+import django_ilmoitin.api.schema as django_ilmoitin_schema
 import graphene
 import graphene_linked_events.schema
 import occurrences.schema
@@ -14,6 +15,7 @@ class Mutation(
 
 
 class Query(
+    django_ilmoitin_schema.Query,
     graphene_linked_events.schema.Query,
     organisations.schema.Query,
     occurrences.schema.Query,

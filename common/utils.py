@@ -16,11 +16,11 @@ from palvelutarjotin.exceptions import (
 )
 from palvelutarjotin.settings import REVISION
 
+LINKED_EVENT_DATE_FORMAT = "%Y-%m-%d"
+
 LanguageEnum = graphene.Enum(
     "Language", [(l[0].upper(), l[0]) for l in settings.LANGUAGES]
 )
-
-LINKED_EVENT_DATE_FORMAT = "%Y-%m-%d"
 
 
 def format_linked_event_date(datetime_obj):

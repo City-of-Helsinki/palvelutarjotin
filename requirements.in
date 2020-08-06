@@ -3,7 +3,7 @@ django-cors-headers
 django-environ
 django-graphql-jwt
 django-helusers
-django-ilmoitin
+django-ilmoitin[graphql_api]
 django-filter
 django-axes
 factory-boy
