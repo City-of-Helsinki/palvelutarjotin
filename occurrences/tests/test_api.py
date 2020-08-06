@@ -2,6 +2,7 @@ from copy import deepcopy
 from datetime import datetime
 
 import pytest
+from django.core import mail
 from django.utils import timezone
 from graphql_relay import to_global_id
 from occurrences.factories import (
@@ -12,7 +13,11 @@ from occurrences.factories import (
 from occurrences.models import Enrolment, Occurrence, StudyGroup, VenueCustomData
 from organisations.factories import PersonFactory
 
-from common.tests.utils import assert_match_error_code, assert_permission_denied
+from common.tests.utils import (
+    assert_mails_match_snapshot,
+    assert_match_error_code,
+    assert_permission_denied,
+)
 from palvelutarjotin.consts import (
     API_USAGE_ERROR,
     ENROLMENT_CLOSED_ERROR,
@@ -1134,7 +1139,13 @@ mutation declineEnrolmentMutation($input: DeclineEnrolmentMutationInput!){
 """
 
 
-def test_approve_enrolment(snapshot, staff_api_client, mock_get_event_data):
+def test_approve_enrolment(
+    snapshot,
+    staff_api_client,
+    mock_get_event_data,
+    notification_template_enrolment_approved_en,
+    notification_template_enrolment_approved_fi,
+):
     study_group_15 = StudyGroupFactory(group_size=15)
     # Current date froze on 2020-01-04:
     p_event_1 = PalvelutarjotinEventFactory(
@@ -1158,11 +1169,58 @@ def test_approve_enrolment(snapshot, staff_api_client, mock_get_event_data):
     staff_api_client.user.person.organisations.add(occurrence.p_event.organisation)
     executed = staff_api_client.execute(APPROVE_ENROLMENT_MUTATION, variables=variables)
     snapshot.assert_match(executed)
+    assert len(mail.outbox) == 1
+    assert_mails_match_snapshot(snapshot)
     executed = staff_api_client.execute(APPROVE_ENROLMENT_MUTATION, variables=variables)
     assert_match_error_code(executed, API_USAGE_ERROR)
 
 
-def test_decline_enrolment(snapshot, staff_api_client, mock_get_event_data):
+def test_approve_enrolment_with_custom_message(
+    snapshot,
+    staff_api_client,
+    mock_get_event_data,
+    notification_template_enrolment_approved_en,
+    notification_template_enrolment_approved_fi,
+):
+    study_group_15 = StudyGroupFactory(group_size=15)
+    # Current date froze on 2020-01-04:
+    p_event_1 = PalvelutarjotinEventFactory(
+        enrolment_start=datetime(2020, 1, 3, 0, 0, 0, tzinfo=timezone.now().tzinfo),
+        enrolment_end_days=2,
+    )
+    occurrence = OccurrenceFactory(
+        start_time=datetime(2020, 1, 6, 0, 0, 0, tzinfo=timezone.now().tzinfo),
+        p_event=p_event_1,
+        min_group_size=10,
+        max_group_size=20,
+        amount_of_seats=50,
+        auto_acceptance=False,
+    )
+    occurrence.study_groups.add(study_group_15)
+    assert occurrence.study_groups.count() == 1
+    enrolment = occurrence.enrolments.first()
+    assert enrolment.status == Enrolment.STATUS_PENDING
+
+    variables = {
+        "input": {
+            "enrolmentId": to_global_id("EnrolmentNode", enrolment.id),
+            "customMessage": "custom message",
+        }
+    }
+    staff_api_client.user.person.organisations.add(occurrence.p_event.organisation)
+    executed = staff_api_client.execute(APPROVE_ENROLMENT_MUTATION, variables=variables)
+    snapshot.assert_match(executed)
+    assert len(mail.outbox) == 1
+    assert_mails_match_snapshot(snapshot)
+
+
+def test_decline_enrolment(
+    snapshot,
+    staff_api_client,
+    mock_get_event_data,
+    notification_template_enrolment_declined_en,
+    notification_template_enrolment_declined_fi,
+):
     study_group_15 = StudyGroupFactory(group_size=15)
     # Current date froze on 2020-01-04:
     p_event_1 = PalvelutarjotinEventFactory(
@@ -1186,8 +1244,49 @@ def test_decline_enrolment(snapshot, staff_api_client, mock_get_event_data):
     staff_api_client.user.person.organisations.add(occurrence.p_event.organisation)
     executed = staff_api_client.execute(DECLINE_ENROLMENT_MUTATION, variables=variables)
     snapshot.assert_match(executed)
+    assert len(mail.outbox) == 1
+    assert_mails_match_snapshot(snapshot)
     executed = staff_api_client.execute(DECLINE_ENROLMENT_MUTATION, variables=variables)
     assert_match_error_code(executed, API_USAGE_ERROR)
+
+
+def test_decline_enrolment_with_custom_message(
+    snapshot,
+    staff_api_client,
+    mock_get_event_data,
+    notification_template_enrolment_declined_en,
+    notification_template_enrolment_declined_fi,
+):
+    study_group_15 = StudyGroupFactory(group_size=15)
+    # Current date froze on 2020-01-04:
+    p_event_1 = PalvelutarjotinEventFactory(
+        enrolment_start=datetime(2020, 1, 3, 0, 0, 0, tzinfo=timezone.now().tzinfo),
+        enrolment_end_days=2,
+    )
+    occurrence = OccurrenceFactory(
+        start_time=datetime(2020, 1, 6, 0, 0, 0, tzinfo=timezone.now().tzinfo),
+        p_event=p_event_1,
+        min_group_size=10,
+        max_group_size=20,
+        amount_of_seats=50,
+        auto_acceptance=False,
+    )
+    occurrence.study_groups.add(study_group_15)
+    assert occurrence.study_groups.count() == 1
+    enrolment = occurrence.enrolments.first()
+    assert enrolment.status == Enrolment.STATUS_PENDING
+
+    variables = {
+        "input": {
+            "enrolmentId": to_global_id("EnrolmentNode", enrolment.id),
+            "customMessage": "custom message",
+        }
+    }
+    staff_api_client.user.person.organisations.add(occurrence.p_event.organisation)
+    executed = staff_api_client.execute(DECLINE_ENROLMENT_MUTATION, variables=variables)
+    snapshot.assert_match(executed)
+    assert len(mail.outbox) == 1
+    assert_mails_match_snapshot(snapshot)
 
 
 UPDATE_ENROLMENT_MUTATION = """

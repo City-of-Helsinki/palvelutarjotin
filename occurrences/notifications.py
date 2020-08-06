@@ -54,21 +54,25 @@ dummy_context.update(
             "study_group": study_group,
             "occurrence": occurrence,
             "event": EVENT_DATA,
+            "custom_message": "custom_message",
         },
         NotificationTemplate.ENROLMENT_APPROVED_SMS: {
             "study_group": study_group,
             "occurrence": occurrence,
             "event": EVENT_DATA,
+            "custom_message": "custom_message",
         },
         NotificationTemplate.ENROLMENT_DECLINED: {
             "study_group": study_group,
             "occurrence": occurrence,
             "event": EVENT_DATA,
+            "custom_message": "custom_message",
         },
         NotificationTemplate.ENROLMENT_DECLINED_SMS: {
             "study_group": study_group,
             "occurrence": occurrence,
             "event": EVENT_DATA,
+            "custom_message": "custom_message",
         },
     }
 )

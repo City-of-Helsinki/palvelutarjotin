@@ -306,7 +306,7 @@ class Enrolment(models.Model):
         self.status = status
         self.save()
 
-    def approve(self):
+    def approve(self, custom_message=None):
         self.set_status(self.STATUS_APPROVED)
         send_event_notifications_to_contact_person(
             self.occurrence,
@@ -315,9 +315,10 @@ class Enrolment(models.Model):
             NotificationTemplate.ENROLMENT_APPROVED,
             NotificationTemplate.ENROLMENT_APPROVED_SMS,
             event=self.occurrence.p_event.get_event_data(),
+            custom_message=custom_message,
         )
 
-    def decline(self):
+    def decline(self, custom_message=None):
         self.set_status(self.STATUS_DECLINED)
         send_event_notifications_to_contact_person(
             self.occurrence,
@@ -326,4 +327,5 @@ class Enrolment(models.Model):
             NotificationTemplate.ENROLMENT_DECLINED,
             NotificationTemplate.ENROLMENT_DECLINED_SMS,
             event=self.occurrence.p_event.get_event_data(),
+            custom_message=custom_message,
         )

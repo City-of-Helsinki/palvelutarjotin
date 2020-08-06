@@ -39,7 +39,9 @@ snapshots["test_approve_enrolment_notification_email 1"] = [
         Extra event info: Leg him president compare room hotel town.
         Study group: Senior number scene today friend maintain marriage.
         Occurrence: 2013-12-12 06:37:19+01:40
-        Person: stacey98@wolfe.com"""
+        Person: stacey98@wolfe.com
+        Custom message: custom message
+"""
 ]
 
 snapshots["test_decline_enrolment_notification_email 1"] = [
@@ -48,5 +50,7 @@ snapshots["test_decline_enrolment_notification_email 1"] = [
         Extra event info: Leg him president compare room hotel town.
         Study group: Senior number scene today friend maintain marriage.
         Occurrence: 2013-12-12 06:37:19+01:40
-        Person: stacey98@wolfe.com"""
+        Person: stacey98@wolfe.com
+        Custom message: custom message
+"""
 ]
