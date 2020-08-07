@@ -754,3 +754,53 @@ snapshots["test_update_enrolment 1"] = {
         }
     }
 }
+
+snapshots["test_approve_enrolment_with_custom_message 1"] = {
+    "data": {"approveEnrolment": {"enrolment": {"status": "APPROVED"}}}
+}
+
+snapshots["test_approve_enrolment_with_custom_message 2"] = [
+    """no-reply@hel.ninja|['barbarafarrell@yahoo.com']|Enrolment approved FI|
+        Event FI: Raija Malka & Kaija Saariaho: Blick
+        Extra event info: Plant traditional after born.
+        Study group: Last appear experience seven. Throw wrong party wall agency customer clear. Control as receive cup.
+        Occurrence: 2020-01-06 00:00:00+00:00
+        Person: barbarafarrell@yahoo.com
+        Custom message: custom message
+"""
+]
+
+snapshots["test_approve_enrolment 2"] = [
+    """no-reply@hel.ninja|['barbarafarrell@yahoo.com']|Enrolment approved FI|
+        Event FI: Raija Malka & Kaija Saariaho: Blick
+        Extra event info: Plant traditional after born.
+        Study group: Last appear experience seven. Throw wrong party wall agency customer clear. Control as receive cup.
+        Occurrence: 2020-01-06 00:00:00+00:00
+        Person: barbarafarrell@yahoo.com
+"""
+]
+
+snapshots["test_decline_enrolment 2"] = [
+    """no-reply@hel.ninja|['barbarafarrell@yahoo.com']|Enrolment declined FI|
+        Event FI: Raija Malka & Kaija Saariaho: Blick
+        Extra event info: Plant traditional after born.
+        Study group: Last appear experience seven. Throw wrong party wall agency customer clear. Control as receive cup.
+        Occurrence: 2020-01-06 00:00:00+00:00
+        Person: barbarafarrell@yahoo.com
+"""
+]
+
+snapshots["test_decline_enrolment_with_custom_message 1"] = {
+    "data": {"declineEnrolment": {"enrolment": {"status": "DECLINED"}}}
+}
+
+snapshots["test_decline_enrolment_with_custom_message 2"] = [
+    """no-reply@hel.ninja|['barbarafarrell@yahoo.com']|Enrolment declined FI|
+        Event FI: Raija Malka & Kaija Saariaho: Blick
+        Extra event info: Plant traditional after born.
+        Study group: Last appear experience seven. Throw wrong party wall agency customer clear. Control as receive cup.
+        Occurrence: 2020-01-06 00:00:00+00:00
+        Person: barbarafarrell@yahoo.com
+        Custom message: custom message
+"""
+]

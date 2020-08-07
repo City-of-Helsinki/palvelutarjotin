@@ -480,6 +480,7 @@ class UpdateEnrolmentMutation(graphene.relay.ClientIDMutation):
 class ApproveEnrolmentMutation(graphene.relay.ClientIDMutation):
     class Input:
         enrolment_id = graphene.GlobalID()
+        custom_message = graphene.String()
 
     enrolment = graphene.Field(EnrolmentNode)
 
@@ -490,13 +491,15 @@ class ApproveEnrolmentMutation(graphene.relay.ClientIDMutation):
         enrolment = get_editable_obj_from_global_id(
             info, kwargs["enrolment_id"], Enrolment
         )
-        enrolment.approve()
+        custom_message = kwargs.pop("custom_message", None)
+        enrolment.approve(custom_message=custom_message)
         return ApproveEnrolmentMutation(enrolment=enrolment)
 
 
 class DeclineEnrolmentMutation(graphene.relay.ClientIDMutation):
     class Input:
         enrolment_id = graphene.GlobalID()
+        custom_message = graphene.String()
 
     enrolment = graphene.Field(EnrolmentNode)
 
@@ -507,7 +510,8 @@ class DeclineEnrolmentMutation(graphene.relay.ClientIDMutation):
         enrolment = get_editable_obj_from_global_id(
             info, kwargs["enrolment_id"], Enrolment
         )
-        enrolment.decline()
+        custom_message = kwargs.pop("custom_message", None)
+        enrolment.decline(custom_message=custom_message)
         return DeclineEnrolmentMutation(enrolment=enrolment)
 
 
