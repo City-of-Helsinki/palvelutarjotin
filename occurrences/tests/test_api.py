@@ -5,6 +5,7 @@ import pytest
 from django.core import mail
 from django.utils import timezone
 from graphql_relay import to_global_id
+from occurrences.consts import NOTIFICATION_TYPE_EMAIL
 from occurrences.factories import (
     OccurrenceFactory,
     PalvelutarjotinEventFactory,
@@ -1093,6 +1094,7 @@ def test_unenrol_occurrence(snapshot, staff_api_client, mock_get_event_data):
     p_event_1 = PalvelutarjotinEventFactory(
         enrolment_start=datetime(2020, 1, 3, 0, 0, 0, tzinfo=timezone.now().tzinfo),
         enrolment_end_days=2,
+        needed_occurrences=2,
     )
     occurrence = OccurrenceFactory(
         start_time=datetime(2020, 1, 6, 0, 0, 0, tzinfo=timezone.now().tzinfo),
@@ -1101,8 +1103,18 @@ def test_unenrol_occurrence(snapshot, staff_api_client, mock_get_event_data):
         max_group_size=20,
         amount_of_seats=50,
     )
+    occurrence_2 = OccurrenceFactory(
+        start_time=datetime(2020, 1, 6, 0, 0, 0, tzinfo=timezone.now().tzinfo),
+        p_event=p_event_1,
+        min_group_size=10,
+        max_group_size=20,
+        amount_of_seats=50,
+    )
     occurrence.study_groups.add(study_group_15)
+    occurrence_2.study_groups.add(study_group_15)
     assert occurrence.study_groups.count() == 1
+    assert occurrence_2.study_groups.count() == 1
+    assert study_group_15.occurrences.count() == 2
 
     variables = {
         "input": {
@@ -1116,6 +1128,8 @@ def test_unenrol_occurrence(snapshot, staff_api_client, mock_get_event_data):
     )
     snapshot.assert_match(executed)
     assert occurrence.study_groups.count() == 0
+    assert occurrence_2.study_groups.count() == 0
+    assert study_group_15.occurrences.count() == 0
 
 
 APPROVE_ENROLMENT_MUTATION = """
@@ -1222,10 +1236,12 @@ def test_decline_enrolment(
     notification_template_enrolment_declined_fi,
 ):
     study_group_15 = StudyGroupFactory(group_size=15)
+    study_group_10 = StudyGroupFactory(group_size=10)
     # Current date froze on 2020-01-04:
     p_event_1 = PalvelutarjotinEventFactory(
         enrolment_start=datetime(2020, 1, 3, 0, 0, 0, tzinfo=timezone.now().tzinfo),
         enrolment_end_days=2,
+        needed_occurrences=2,
     )
     occurrence = OccurrenceFactory(
         start_time=datetime(2020, 1, 6, 0, 0, 0, tzinfo=timezone.now().tzinfo),
@@ -1235,17 +1251,37 @@ def test_decline_enrolment(
         amount_of_seats=50,
         auto_acceptance=False,
     )
+    occurrence_2 = OccurrenceFactory(
+        start_time=datetime(2020, 1, 6, 0, 0, 0, tzinfo=timezone.now().tzinfo),
+        p_event=p_event_1,
+        min_group_size=10,
+        max_group_size=20,
+        amount_of_seats=50,
+        auto_acceptance=False,
+    )
     occurrence.study_groups.add(study_group_15)
-    assert occurrence.study_groups.count() == 1
     enrolment = occurrence.enrolments.first()
+    occurrence_2.study_groups.add(study_group_15)
+    occurrence.study_groups.add(study_group_10)
+    occurrence_2.study_groups.add(study_group_10)
+
+    assert occurrence.study_groups.count() == 2
+    assert occurrence_2.study_groups.count() == 2
     assert enrolment.status == Enrolment.STATUS_PENDING
 
     variables = {"input": {"enrolmentId": to_global_id("EnrolmentNode", enrolment.id)}}
     staff_api_client.user.person.organisations.add(occurrence.p_event.organisation)
     executed = staff_api_client.execute(DECLINE_ENROLMENT_MUTATION, variables=variables)
     snapshot.assert_match(executed)
-    assert len(mail.outbox) == 1
+    assert len(mail.outbox) == 2
     assert_mails_match_snapshot(snapshot)
+    for e in study_group_15.enrolments.all():
+        # Check if related enrolments do not change
+        assert e.status == Enrolment.STATUS_DECLINED
+    for e in study_group_10.enrolments.all():
+        # Check if unrelated enrolments do not change
+        assert e.status == Enrolment.STATUS_PENDING
+
     executed = staff_api_client.execute(DECLINE_ENROLMENT_MUTATION, variables=variables)
     assert_match_error_code(executed, API_USAGE_ERROR)
 
@@ -1298,6 +1334,13 @@ mutation updateEnrolmentMutation($input: UpdateEnrolmentMutationInput!){
         groupName
         amountOfAdult
         groupSize
+        enrolments{
+            edges{
+               node{
+                   notificationType
+               }
+            }
+        }
       }
       occurrence{
         startTime
@@ -1342,13 +1385,14 @@ def test_update_enrolment_unauthorized(api_client, user_api_client):
 
 def test_update_enrolment(snapshot, staff_api_client):
     study_group_15 = StudyGroupFactory(group_size=15)
+    study_group_10 = StudyGroupFactory(group_size=10)
     # Current date froze on 2020-01-04:
     p_event_1 = PalvelutarjotinEventFactory(
         enrolment_start=datetime(2020, 1, 3, 0, 0, 0, tzinfo=timezone.now().tzinfo),
         enrolment_end_days=2,
-        needed_occurrences=1,
+        needed_occurrences=2,
     )
-    occurrence = OccurrenceFactory(
+    occurrence_1 = OccurrenceFactory(
         start_time=datetime(2020, 1, 6, 0, 0, 0, tzinfo=timezone.now().tzinfo),
         p_event=p_event_1,
         min_group_size=10,
@@ -1356,10 +1400,21 @@ def test_update_enrolment(snapshot, staff_api_client):
         amount_of_seats=30,
         auto_acceptance=False,
     )
-    occurrence.study_groups.add(study_group_15)
-    staff_api_client.user.person.organisations.add(occurrence.p_event.organisation)
-    assert Enrolment.objects.count() == 1
+    occurrence_2 = OccurrenceFactory(
+        start_time=datetime(2020, 1, 6, 0, 0, 0, tzinfo=timezone.now().tzinfo),
+        p_event=p_event_1,
+        min_group_size=10,
+        max_group_size=20,
+        amount_of_seats=30,
+        auto_acceptance=False,
+    )
+    occurrence_1.study_groups.add(study_group_15)
+    staff_api_client.user.person.organisations.add(occurrence_1.p_event.organisation)
     enrolment = Enrolment.objects.first()
+    occurrence_2.study_groups.add(study_group_15)
+    occurrence_1.study_groups.add(study_group_10)
+    occurrence_2.study_groups.add(study_group_10)
+    assert Enrolment.objects.count() == 4
     variables = {
         "input": {
             "enrolmentId": to_global_id("EnrolmentNode", enrolment.id),
@@ -1381,6 +1436,10 @@ def test_update_enrolment(snapshot, staff_api_client):
 
     executed = staff_api_client.execute(UPDATE_ENROLMENT_MUTATION, variables=variables)
     snapshot.assert_match(executed)
+    unrelated_enrolments = Enrolment.objects.filter(study_group=study_group_10)
+    for e in unrelated_enrolments:
+        # Check if unrelated enrolments do not change
+        assert e.notification_type == NOTIFICATION_TYPE_EMAIL
 
 
 def test_occurrences_filter_by_date(api_client, snapshot):

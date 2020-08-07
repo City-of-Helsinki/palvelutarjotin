@@ -732,29 +732,6 @@ snapshots["test_decline_enrolment 1"] = {
     "data": {"declineEnrolment": {"enrolment": {"status": "DECLINED"}}}
 }
 
-snapshots["test_update_enrolment 1"] = {
-    "data": {
-        "updateEnrolment": {
-            "enrolment": {
-                "notificationType": "SMS",
-                "occurrence": {
-                    "amountOfSeats": 30,
-                    "remainingSeats": 14,
-                    "seatsTaken": 16,
-                    "startTime": "2020-01-06T00:00:00+00:00",
-                },
-                "status": "PENDING",
-                "studyGroup": {
-                    "amountOfAdult": 3,
-                    "groupName": "Updated study group name",
-                    "groupSize": 16,
-                    "name": "Updated name",
-                },
-            }
-        }
-    }
-}
-
 snapshots["test_approve_enrolment_with_custom_message 1"] = {
     "data": {"approveEnrolment": {"enrolment": {"status": "APPROVED"}}}
 }
@@ -783,11 +760,18 @@ snapshots["test_approve_enrolment 2"] = [
 snapshots["test_decline_enrolment 2"] = [
     """no-reply@hel.ninja|['barbarafarrell@yahoo.com']|Enrolment declined FI|
         Event FI: Raija Malka & Kaija Saariaho: Blick
-        Extra event info: Plant traditional after born.
+        Extra event info: Anyone during approach herself remember put list.
         Study group: Last appear experience seven. Throw wrong party wall agency customer clear. Control as receive cup.
         Occurrence: 2020-01-06 00:00:00+00:00
         Person: barbarafarrell@yahoo.com
-"""
+""",
+    """no-reply@hel.ninja|['barbarafarrell@yahoo.com']|Enrolment declined FI|
+        Event FI: Raija Malka & Kaija Saariaho: Blick
+        Extra event info: Anyone during approach herself remember put list.
+        Study group: Last appear experience seven. Throw wrong party wall agency customer clear. Control as receive cup.
+        Occurrence: 2020-01-06 00:00:00+00:00
+        Person: barbarafarrell@yahoo.com
+""",
 ]
 
 snapshots["test_decline_enrolment_with_custom_message 1"] = {
@@ -804,3 +788,32 @@ snapshots["test_decline_enrolment_with_custom_message 2"] = [
         Custom message: custom message
 """
 ]
+
+snapshots["test_update_enrolment 1"] = {
+    "data": {
+        "updateEnrolment": {
+            "enrolment": {
+                "notificationType": "SMS",
+                "occurrence": {
+                    "amountOfSeats": 30,
+                    "remainingSeats": 4,
+                    "seatsTaken": 26,
+                    "startTime": "2020-01-06T00:00:00+00:00",
+                },
+                "status": "PENDING",
+                "studyGroup": {
+                    "amountOfAdult": 3,
+                    "enrolments": {
+                        "edges": [
+                            {"node": {"notificationType": "SMS"}},
+                            {"node": {"notificationType": "SMS"}},
+                        ]
+                    },
+                    "groupName": "Updated study group name",
+                    "groupSize": 16,
+                    "name": "Updated name",
+                },
+            }
+        }
+    }
+}
