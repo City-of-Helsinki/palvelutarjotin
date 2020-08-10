@@ -23,8 +23,8 @@ LanguageEnum = graphene.Enum(
 )
 
 
-def format_linked_event_date(datetime_obj):
-    return datetime_obj.strftime(LINKED_EVENT_DATE_FORMAT)
+def format_linked_event_datetime(datetime_obj):
+    return datetime_obj.isoformat(timespec="seconds")
 
 
 def update_object(obj, data):

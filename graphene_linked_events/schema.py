@@ -33,7 +33,7 @@ from occurrences.schema import (
 from organisations.models import Organisation, Person
 
 from common.utils import (
-    format_linked_event_date,
+    format_linked_event_datetime,
     get_editable_obj_from_global_id,
     get_obj_from_global_id,
     update_object,
@@ -553,8 +553,10 @@ def _prepare_published_event_data(event_id):
         raise ApiUsageError("Cannot publish event without event occurrences")
     body = {
         "publication_status": PalvelutarjotinEvent.PUBLICATION_STATUS_PUBLIC,
-        "start_time": format_linked_event_date(timezone.now()),
-        "end_time": format_linked_event_date(p_event.get_end_time_from_occurrences()),
+        "start_time": format_linked_event_datetime(timezone.now()),
+        "end_time": format_linked_event_datetime(
+            p_event.get_end_time_from_occurrences()
+        ),
     }
     return body
 
