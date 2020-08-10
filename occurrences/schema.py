@@ -436,7 +436,12 @@ class UnenrolOccurrenceMutation(graphene.relay.ClientIDMutation):
         occurrence = get_editable_obj_from_global_id(
             info, kwargs["occurrence_id"], Occurrence
         )
-        occurrence.study_groups.remove(study_group)
+        # Need to unenrol all related occurrence of the study group
+        enrolments = study_group.enrolments.filter(
+            occurrence__p_event=occurrence.p_event
+        )
+        for e in enrolments:
+            e.delete()
         return UnenrolOccurrenceMutation(study_group=study_group, occurrence=occurrence)
 
 
@@ -472,8 +477,15 @@ class UpdateEnrolmentMutation(graphene.relay.ClientIDMutation):
             person = study_group.person
         kwargs["person_id"] = person.id
 
-        validate_enrolment(study_group, enrolment.occurrence, new_enrolment=False)
-        update_object(enrolment, kwargs)
+        # Update all related enrolments
+        enrolments = Enrolment.objects.filter(
+            occurrence__p_event=enrolment.occurrence.p_event,
+            study_group=enrolment.study_group,
+        )
+        for enrolment in enrolments:
+            validate_enrolment(study_group, enrolment.occurrence, new_enrolment=False)
+            update_object(enrolment, kwargs)
+
         return UpdateEnrolmentMutation(enrolment=enrolment)
 
 
@@ -511,7 +523,14 @@ class DeclineEnrolmentMutation(graphene.relay.ClientIDMutation):
             info, kwargs["enrolment_id"], Enrolment
         )
         custom_message = kwargs.pop("custom_message", None)
-        enrolment.decline(custom_message=custom_message)
+        # Need to decline all related occurrences of the study group
+        enrolments = Enrolment.objects.filter(
+            occurrence__p_event=enrolment.occurrence.p_event,
+            study_group=enrolment.study_group,
+        )
+        for e in enrolments:
+            e.decline(custom_message=custom_message)
+        enrolment.refresh_from_db()
         return DeclineEnrolmentMutation(enrolment=enrolment)
 
 
