@@ -11,6 +11,7 @@ from palvelutarjotin.consts import (
     ENROLMENT_NOT_STARTED_ERROR,
     GENERAL_ERROR,
     INCORRECT_GLOBAL_ID_ERROR,
+    INVALID_EMAIL_FORMAT_ERROR,
     INVALID_STUDY_GROUP_SIZE_ERROR,
     MAX_NEEDED_OCCURRENCES_REACHED_ERROR,
     MISSING_DEFAULT_TRANSLATION_ERROR,
@@ -28,6 +29,7 @@ from palvelutarjotin.exceptions import (
     EnrolmentNotEnoughCapacityError,
     EnrolmentNotStartedError,
     IncorrectGlobalIdError,
+    InvalidEmailFormatError,
     InvalidStudyGroupSizeError,
     MissingDefaultTranslationError,
     ObjectDoesNotExistError,
@@ -54,6 +56,7 @@ error_codes_palvelutarjotin = {
     EnrolmentClosedError: ENROLMENT_CLOSED_ERROR,
     EnrolmentMaxNeededOccurrenceReached: MAX_NEEDED_OCCURRENCES_REACHED_ERROR,
     InvalidStudyGroupSizeError: INVALID_STUDY_GROUP_SIZE_ERROR,
+    InvalidEmailFormatError: INVALID_EMAIL_FORMAT_ERROR,
 }
 
 sentry_ignored_errors = (

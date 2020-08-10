@@ -52,3 +52,7 @@ class EnrolmentClosedError(PalvelutarjotinGraphQLError):
 class InvalidStudyGroupSizeError(PalvelutarjotinGraphQLError):
     """Study group size greater than required max group size or smaller than min group
     size"""
+
+
+class InvalidEmailFormatError(PalvelutarjotinGraphQLError):
+    """Invalid email format error"""
