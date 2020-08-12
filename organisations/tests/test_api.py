@@ -5,7 +5,7 @@ from graphql_relay import to_global_id
 from organisations.factories import OrganisationFactory, PersonFactory
 
 from common.tests.utils import assert_match_error_code, assert_permission_denied
-from palvelutarjotin.consts import API_USAGE_ERROR
+from palvelutarjotin.consts import API_USAGE_ERROR, INVALID_EMAIL_FORMAT_ERROR
 
 
 @pytest.fixture(autouse=True)
@@ -339,11 +339,26 @@ def test_update_person_mutation_unauthorized(
     assert_permission_denied(executed)
 
 
-def test_update_person_mutation(snapshot, superuser_api_client, person):
+@pytest.mark.parametrize(
+    "email, is_valid",
+    [
+        ("firstlast@example.com", True),
+        ("INVALID_EMAIL", False),
+        ("", False),
+        (None, False),
+    ],
+)
+def test_update_person_mutation(
+    snapshot, superuser_api_client, person, email, is_valid
+):
     variables = deepcopy(UPDATE_PERSON_VARIABLES)
     variables["input"]["id"] = to_global_id("PersonNode", person.id)
+    variables["input"]["emailAddress"] = email
     executed = superuser_api_client.execute(UPDATE_PERSON_MUTATION, variables=variables)
-    snapshot.assert_match(executed)
+    if is_valid:
+        snapshot.assert_match(executed)
+    else:
+        assert_match_error_code(executed, INVALID_EMAIL_FORMAT_ERROR)
 
 
 def test_add_organisation_unauthorized(api_client, user_api_client, staff_api_client):
