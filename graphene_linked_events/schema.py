@@ -381,6 +381,7 @@ class Query:
 class EventMutationResponse(ObjectType):
     status_code = Int(required=True)
     body = Field(Event)
+    result_text = String()
 
 
 class IdObjectInput(InputObjectType):
@@ -493,7 +494,9 @@ class AddEventMutation(Mutation):
             p_event_data["linked_event_id"] = event_obj.id
             p_event_data["organisation_id"] = organisation.id
             PalvelutarjotinEvent.objects.create(**p_event_data)
-        response = EventMutationResponse(status_code=result.status_code, body=event_obj)
+        response = EventMutationResponse(
+            status_code=result.status_code, body=event_obj, result_text=result.text
+        )
         return AddEventMutation(response=response)
 
 
@@ -550,7 +553,9 @@ class UpdateEventMutation(Mutation):
         if result.status_code == 200 and p_event_data:
             update_object(p_event, p_event_data)
         response = EventMutationResponse(
-            status_code=result.status_code, body=json2obj(format_response(result))
+            status_code=result.status_code,
+            body=json2obj(format_response(result)),
+            result_text=result.text,
         )
         return UpdateEventMutation(response=response)
 
@@ -601,7 +606,9 @@ class DeleteEventMutation(Mutation):
         event_id = kwargs["event_id"]
         # TODO: proper validation if necessary
         result = api_client.delete("event", event_id)
-        response = EventMutationResponse(status_code=result.status_code, body=None)
+        response = EventMutationResponse(
+            status_code=result.status_code, body=None, result_text=result.text
+        )
         return DeleteEventMutation(response=response)
 
 
@@ -624,6 +631,7 @@ class UpdateImageMutationInput(UploadImageMutationInput):
 class ImageMutationResponse(ObjectType):
     status_code = Int(required=True)
     body = Field(Image)
+    result_text = String()
 
 
 class UploadImageMutation(Mutation):
@@ -640,7 +648,9 @@ class UploadImageMutation(Mutation):
             "image", body, files={"image": (image.name, image.file, image.content_type)}
         )
         image_obj = json2obj(format_response(result))
-        response = ImageMutationResponse(status_code=result.status_code, body=image_obj)
+        response = ImageMutationResponse(
+            status_code=result.status_code, body=image_obj, result_text=result.text
+        )
         return UploadImageMutation(response=response)
 
 
@@ -656,7 +666,9 @@ class UpdateImageMutation(Mutation):
         body = format_request(kwargs["image"])
         result = api_client.update("image", image_id, body)
         image_obj = json2obj(format_response(result))
-        response = ImageMutationResponse(status_code=result.status_code, body=image_obj)
+        response = ImageMutationResponse(
+            status_code=result.status_code, body=image_obj, result_text=result.text
+        )
         return UpdateImageMutation(response=response)
 
 
@@ -670,7 +682,9 @@ class DeleteImageMutation(Mutation):
     def mutate(root, info, **kwargs):
         image_id = kwargs["image_id"]
         result = api_client.delete("image", image_id)
-        response = ImageMutationResponse(status_code=result.status_code, body=None)
+        response = ImageMutationResponse(
+            status_code=result.status_code, body=None, result_text=result.text
+        )
         return DeleteImageMutation(response=response)
 
 
