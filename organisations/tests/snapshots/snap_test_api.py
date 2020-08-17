@@ -136,20 +136,6 @@ snapshots["test_my_profile_query 1"] = {
     }
 }
 
-snapshots["test_update_person_mutation 1"] = {
-    "data": {
-        "updatePerson": {
-            "person": {
-                "emailAddress": "travis89@davis-porter.com",
-                "language": "SV",
-                "name": "New name",
-                "organisations": {"edges": [{"node": {"name": "William Brewer"}}]},
-                "phoneNumber": "3202813072",
-            }
-        }
-    }
-}
-
 snapshots["test_add_organisation 1"] = {
     "data": {
         "addOrganisation": {
@@ -199,6 +185,20 @@ snapshots["test_create_my_profile 1"] = {
                 "name": "New name",
                 "organisations": {"edges": [{"node": {"name": "Brandon Johnson"}}]},
                 "phoneNumber": "",
+            }
+        }
+    }
+}
+
+snapshots["test_update_person_mutation[firstlast@example.com-True] 1"] = {
+    "data": {
+        "updatePerson": {
+            "person": {
+                "emailAddress": "firstlast@example.com",
+                "language": "SV",
+                "name": "New name",
+                "organisations": {"edges": [{"node": {"name": "William Brewer"}}]},
+                "phoneNumber": "3202813072",
             }
         }
     }

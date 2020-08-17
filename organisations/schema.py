@@ -1,5 +1,7 @@
 import graphene
 from django.contrib.auth import get_user_model
+from django.core.exceptions import ValidationError
+from django.core.validators import validate_email
 from django.db import transaction
 from graphene import InputObjectType, relay
 from graphene_django import DjangoConnectionField
@@ -8,7 +10,11 @@ from graphql_jwt.decorators import login_required, superuser_required
 from organisations.models import Organisation, Person
 
 from common.utils import get_node_id_from_global_id, LanguageEnum, update_object
-from palvelutarjotin.exceptions import ApiUsageError, ObjectDoesNotExistError
+from palvelutarjotin.exceptions import (
+    ApiUsageError,
+    InvalidEmailFormatError,
+    ObjectDoesNotExistError,
+)
 
 User = get_user_model()
 
@@ -40,8 +46,11 @@ class OrganisationNode(DjangoObjectType):
 
 
 def validate_person_data(kwargs):
-    # TODO: Add validation
-    pass
+    if "email_address" in kwargs:
+        try:
+            validate_email(kwargs["email_address"])
+        except ValidationError:
+            raise InvalidEmailFormatError("Invalid email format")
 
 
 class CreateMyProfileMutation(graphene.relay.ClientIDMutation):
