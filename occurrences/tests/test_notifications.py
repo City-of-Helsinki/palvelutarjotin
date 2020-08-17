@@ -113,3 +113,31 @@ def test_decline_enrolment_notification_email(
     enrolment.decline(custom_message="custom message")
     assert len(mail.outbox) == 1
     assert_mails_match_snapshot(snapshot)
+
+
+@pytest.mark.django_db
+def test_occurrence_enrolment_notifications_to_contact_person(
+    snapshot,
+    notification_template_occurrence_unenrolment_fi,
+    notification_template_occurrence_enrolment_fi,
+    notification_template_occurrence_unenrolment_en,
+    notification_template_occurrence_enrolment_en,
+    mock_get_event_data,
+    occurrence,
+    study_group,
+):
+    contact_person = PersonFactory(email_address="email_me@dommain.com")
+    Enrolment.objects.create(
+        study_group=study_group, occurrence=occurrence, person=contact_person
+    )
+    occurrence.study_groups.remove(study_group)
+    # Test notification language
+    en_study_group = StudyGroupFactory(
+        person=PersonFactory(language="en", email_address="do_not_email_me@domain.com")
+    )
+    Enrolment.objects.create(
+        study_group=en_study_group, occurrence=occurrence, person=contact_person
+    )
+    occurrence.study_groups.remove(en_study_group)
+    assert len(mail.outbox) == 4
+    assert_mails_match_snapshot(snapshot)

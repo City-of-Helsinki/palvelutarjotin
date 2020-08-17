@@ -10,6 +10,7 @@ from occurrences.utils import send_event_notifications_to_contact_person
 def send_enrolment_email(instance, created, **kwargs):
     if created:
         send_event_notifications_to_contact_person(
+            instance.person,
             instance.occurrence,
             instance.study_group,
             instance.notification_type,
@@ -22,6 +23,7 @@ def send_enrolment_email(instance, created, **kwargs):
 @receiver(post_delete, sender=Enrolment, dispatch_uid="send_unenrolment_email")
 def send_unenrolment_email(instance, **kwargs):
     send_event_notifications_to_contact_person(
+        instance.person,
         instance.occurrence,
         instance.study_group,
         instance.notification_type,
