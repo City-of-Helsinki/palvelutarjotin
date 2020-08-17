@@ -869,7 +869,7 @@ def test_enrol_invalid_group_size(snapshot, api_client, occurrence):
     assert_match_error_code(executed, INVALID_STUDY_GROUP_SIZE_ERROR)
 
 
-def test_enrol_full_occurrence(snapshot, api_client, occurrence):
+def test_enrol_full_occurrence(snapshot, api_client, occurrence, mock_get_event_data):
     study_group_15 = StudyGroupFactory(group_size=15)
     study_group_20 = StudyGroupFactory(group_size=20)
     # Current date froze on 2020-01-04:
@@ -886,6 +886,8 @@ def test_enrol_full_occurrence(snapshot, api_client, occurrence):
     )
 
     occurrence.study_groups.add(study_group_20)
+    # Approve the enrolment to reduce the remaining seat
+    Enrolment.objects.first().approve()
 
     variables = {
         "input": {
