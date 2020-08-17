@@ -439,6 +439,11 @@ class UpdateEventMutationInput(EventMutationInput):
     p_event = InputField(
         PalvelutarjotinEventInput, description="Palvelutarjotin event data",
     )
+    draft = Boolean(
+        description="Set to `true` to save event as draft version, when draft is true, "
+        "event data validation will be skipped",
+        default_value=False,
+    )
 
 
 class PublishEventMutationInput(EventMutationInput):
@@ -533,6 +538,11 @@ class UpdateEventMutation(Mutation):
             # If publisher id does not exist, LinkedEvent will decide the
             # publisher id which is the API key root publisher
             kwargs["event"]["publisher"] = organisation.publisher_id
+
+        if kwargs["event"].get("draft", False):
+            kwargs["event"][
+                "publication_status"
+            ] = PalvelutarjotinEvent.PUBLICATION_STATUS_DRAFT
 
         body = format_request(kwargs["event"])
         # TODO: proper validation if necessary
