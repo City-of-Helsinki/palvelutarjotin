@@ -689,6 +689,7 @@ CREATE_EVENT_VARIABLES = {
                 },
             }
         ],
+        "draft": True,
     }
 }
 
@@ -827,6 +828,7 @@ UPDATE_EVENT_VARIABLES = {
                 },
             }
         ],
+        "draft": True,
     }
 }
 
@@ -1052,16 +1054,15 @@ def test_publish_event_unauthorized(
     person,
 ):
     # Reuse update event variables
-    executed = api_client.execute(
-        PUBLISH_EVENT_MUTATION, variables=UPDATE_EVENT_VARIABLES
-    )
+    variables = deepcopy(UPDATE_EVENT_VARIABLES)
+    del variables["input"]["draft"]
+    executed = api_client.execute(PUBLISH_EVENT_MUTATION, variables=variables)
     assert_permission_denied(executed)
-    executed = user_api_client.execute(
-        PUBLISH_EVENT_MUTATION, variables=UPDATE_EVENT_VARIABLES
-    )
+    executed = user_api_client.execute(PUBLISH_EVENT_MUTATION, variables=variables)
     assert_permission_denied(executed)
 
     variables = deepcopy(UPDATE_EVENT_VARIABLES)
+    del variables["input"]["draft"]
     variables["input"]["organisationId"] = to_global_id(
         "OrganisationNode", organisation.id
     )
@@ -1091,6 +1092,7 @@ def test_publish_event(
 ):
     # Reuse update event variables
     variables = deepcopy(UPDATE_EVENT_VARIABLES)
+    del variables["input"]["draft"]
     variables["input"]["organisationId"] = to_global_id(
         "OrganisationNode", organisation.id
     )
