@@ -334,8 +334,8 @@ snapshots["test_enrol_occurrence 1"] = {
                     "notificationType": "EMAIL",
                     "occurrence": {
                         "amountOfSeats": 50,
-                        "remainingSeats": 35,
-                        "seatsTaken": 15,
+                        "remainingSeats": 50,
+                        "seatsTaken": 0,
                         "startTime": "2020-01-06T00:00:00+00:00",
                     },
                     "status": "PENDING",
@@ -701,8 +701,8 @@ snapshots["test_enrol_auto_acceptance_occurrence 1"] = {
                     "notificationType": "EMAIL",
                     "occurrence": {
                         "amountOfSeats": 50,
-                        "remainingSeats": 35,
-                        "seatsTaken": 15,
+                        "remainingSeats": 50,
+                        "seatsTaken": 0,
                         "startTime": "2020-01-06T00:00:00+00:00",
                     },
                     "status": "PENDING",
@@ -796,8 +796,8 @@ snapshots["test_update_enrolment 1"] = {
                 "notificationType": "SMS",
                 "occurrence": {
                     "amountOfSeats": 30,
-                    "remainingSeats": 4,
-                    "seatsTaken": 26,
+                    "remainingSeats": 30,
+                    "seatsTaken": 0,
                     "startTime": "2020-01-06T00:00:00+00:00",
                 },
                 "status": "PENDING",

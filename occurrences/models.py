@@ -151,7 +151,9 @@ class Occurrence(TimestampedModel):
     @property
     def seats_taken(self):
         return (
-            self.study_groups.aggregate(seats_taken=Sum("group_size"))["seats_taken"]
+            self.enrolments.filter(status=Enrolment.STATUS_APPROVED).aggregate(
+                seats_taken=Sum("study_group__group_size")
+            )["seats_taken"]
             or 0
         )
 
