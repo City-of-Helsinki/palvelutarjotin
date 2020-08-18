@@ -311,6 +311,7 @@ class Enrolment(models.Model):
     def approve(self, custom_message=None):
         self.set_status(self.STATUS_APPROVED)
         send_event_notifications_to_contact_person(
+            self.person,
             self.occurrence,
             self.study_group,
             self.notification_type,
@@ -323,6 +324,7 @@ class Enrolment(models.Model):
     def decline(self, custom_message=None):
         self.set_status(self.STATUS_DECLINED)
         send_event_notifications_to_contact_person(
+            self.person,
             self.occurrence,
             self.study_group,
             self.notification_type,

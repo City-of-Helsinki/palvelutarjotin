@@ -18,6 +18,7 @@ logger = logging.getLogger(__name__)
 
 
 def send_event_notifications_to_contact_person(
+    person,
     occurrence,
     study_group,
     notification_type,
@@ -25,6 +26,8 @@ def send_event_notifications_to_contact_person(
     notification_sms_template_id,
     **kwargs,
 ):
+    if not person:
+        person = study_group.person
     if NOTIFICATION_TYPE_EMAIL in notification_type:
         context = {
             "occurrence": occurrence,
@@ -33,7 +36,7 @@ def send_event_notifications_to_contact_person(
         }
         # TODO: Send notification based on user language
         send_notification(
-            study_group.person.email_address,
+            person.email_address,
             notification_template_id,
             language=study_group.person.language,
             context=context,
@@ -45,7 +48,7 @@ def send_event_notifications_to_contact_person(
             **kwargs,
         }
         destinations = [
-            study_group.person.phone_number,
+            person.phone_number,
         ]
         send_sms_notification(
             destinations,
