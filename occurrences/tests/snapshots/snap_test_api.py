@@ -750,11 +750,18 @@ snapshots["test_approve_enrolment_with_custom_message 2"] = [
 snapshots["test_approve_enrolment 2"] = [
     """no-reply@hel.ninja|['barbarafarrell@yahoo.com']|Enrolment approved FI|
         Event FI: Raija Malka & Kaija Saariaho: Blick
-        Extra event info: Plant traditional after born.
+        Extra event info: Anyone during approach herself remember put list.
         Study group: Last appear experience seven. Throw wrong party wall agency customer clear. Control as receive cup.
         Occurrence: 2020-01-06 00:00:00+00:00
         Person: barbarafarrell@yahoo.com
-"""
+""",
+    """no-reply@hel.ninja|['barbarafarrell@yahoo.com']|Enrolment approved FI|
+        Event FI: Raija Malka & Kaija Saariaho: Blick
+        Extra event info: Anyone during approach herself remember put list.
+        Study group: Last appear experience seven. Throw wrong party wall agency customer clear. Control as receive cup.
+        Occurrence: 2020-01-06 00:00:00+00:00
+        Person: barbarafarrell@yahoo.com
+""",
 ]
 
 snapshots["test_decline_enrolment 2"] = [
