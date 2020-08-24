@@ -1163,10 +1163,12 @@ def test_approve_enrolment(
     notification_template_enrolment_approved_fi,
 ):
     study_group_15 = StudyGroupFactory(group_size=15)
+    study_group_10 = StudyGroupFactory(group_size=10)
     # Current date froze on 2020-01-04:
     p_event_1 = PalvelutarjotinEventFactory(
         enrolment_start=datetime(2020, 1, 3, 0, 0, 0, tzinfo=timezone.now().tzinfo),
         enrolment_end_days=2,
+        needed_occurrences=2,
     )
     occurrence = OccurrenceFactory(
         start_time=datetime(2020, 1, 6, 0, 0, 0, tzinfo=timezone.now().tzinfo),
@@ -1176,17 +1178,37 @@ def test_approve_enrolment(
         amount_of_seats=50,
         auto_acceptance=False,
     )
+    occurrence_2 = OccurrenceFactory(
+        start_time=datetime(2020, 1, 6, 0, 0, 0, tzinfo=timezone.now().tzinfo),
+        p_event=p_event_1,
+        min_group_size=10,
+        max_group_size=20,
+        amount_of_seats=50,
+        auto_acceptance=False,
+    )
     occurrence.study_groups.add(study_group_15)
-    assert occurrence.study_groups.count() == 1
     enrolment = occurrence.enrolments.first()
+    occurrence_2.study_groups.add(study_group_15)
+    occurrence.study_groups.add(study_group_10)
+    occurrence_2.study_groups.add(study_group_10)
+
+    assert occurrence.study_groups.count() == 2
+    assert occurrence_2.study_groups.count() == 2
     assert enrolment.status == Enrolment.STATUS_PENDING
 
     variables = {"input": {"enrolmentId": to_global_id("EnrolmentNode", enrolment.id)}}
     staff_api_client.user.person.organisations.add(occurrence.p_event.organisation)
     executed = staff_api_client.execute(APPROVE_ENROLMENT_MUTATION, variables=variables)
     snapshot.assert_match(executed)
-    assert len(mail.outbox) == 1
+    assert len(mail.outbox) == 2
     assert_mails_match_snapshot(snapshot)
+    for e in study_group_15.enrolments.all():
+        # Check if related enrolments change
+        assert e.status == Enrolment.STATUS_APPROVED
+    for e in study_group_10.enrolments.all():
+        # Check if unrelated enrolments do not change
+        assert e.status == Enrolment.STATUS_PENDING
+
     executed = staff_api_client.execute(APPROVE_ENROLMENT_MUTATION, variables=variables)
     assert_match_error_code(executed, API_USAGE_ERROR)
 
@@ -1278,7 +1300,7 @@ def test_decline_enrolment(
     assert len(mail.outbox) == 2
     assert_mails_match_snapshot(snapshot)
     for e in study_group_15.enrolments.all():
-        # Check if related enrolments do not change
+        # Check if related enrolments change
         assert e.status == Enrolment.STATUS_DECLINED
     for e in study_group_10.enrolments.all():
         # Check if unrelated enrolments do not change

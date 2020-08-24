@@ -523,7 +523,15 @@ class ApproveEnrolmentMutation(graphene.relay.ClientIDMutation):
             info, kwargs["enrolment_id"], Enrolment
         )
         custom_message = kwargs.pop("custom_message", None)
-        enrolment.approve(custom_message=custom_message)
+
+        # Need to approve all related occurrences of the study group
+        enrolments = Enrolment.objects.filter(
+            occurrence__p_event=enrolment.occurrence.p_event,
+            study_group=enrolment.study_group,
+        )
+        for e in enrolments:
+            e.approve(custom_message=custom_message)
+        enrolment.refresh_from_db()
         return ApproveEnrolmentMutation(enrolment=enrolment)
 
 
