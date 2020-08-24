@@ -1,6 +1,9 @@
 from copy import deepcopy
+from datetime import timedelta
 
 import pytest
+from django.utils import timezone
+from graphene_linked_events.tests.mock_data import EVENTS_DATA
 from graphql_relay import to_global_id
 from occurrences.factories import OccurrenceFactory, PalvelutarjotinEventFactory
 from occurrences.models import PalvelutarjotinEvent
@@ -1109,4 +1112,48 @@ def test_publish_event(
     assert_match_error_code(executed, API_USAGE_ERROR)
     OccurrenceFactory(p_event=p_event)
     executed = staff_api_client.execute(PUBLISH_EVENT_MUTATION, variables=variables)
+    snapshot.assert_match(executed)
+
+
+GET_EVENTS_QUERY_WITH_OCCURRENCES = """
+query Events($organisationId: String){
+  events(organisationId: $organisationId){
+    meta {
+      count
+      next
+      previous
+    }
+    data{
+      id
+      internalId
+      pEvent{
+          nextOccurrenceDatetime
+          lastOccurrenceDatetime
+      }
+    }
+  }
+}
+"""
+
+
+def test_get_events_with_occurrences(
+    api_client, snapshot, mock_get_events_data, organisation
+):
+    for e in EVENTS_DATA["data"]:
+        p_event = PalvelutarjotinEventFactory(
+            linked_event_id=e["id"], organisation=organisation
+        )
+        OccurrenceFactory.create(
+            p_event=p_event, start_time=timezone.now() - timedelta(days=1)
+        )
+        OccurrenceFactory.create(
+            p_event=p_event, start_time=timezone.now() + timedelta(days=1)
+        )
+        OccurrenceFactory.create(
+            p_event=p_event, start_time=timezone.now() + timedelta(days=2)
+        )
+    executed = api_client.execute(
+        GET_EVENTS_QUERY_WITH_OCCURRENCES,
+        variables={"organisationId": to_global_id("OrganisationNode", organisation.id)},
+    )
     snapshot.assert_match(executed)

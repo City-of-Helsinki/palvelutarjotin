@@ -49,9 +49,28 @@ NotificationTypeEnum = graphene.Enum(
 
 
 class PalvelutarjotinEventNode(DjangoObjectType):
+    next_occurrence_datetime = graphene.DateTime()
+    last_occurrence_datetime = graphene.DateTime()
+
     class Meta:
         model = PalvelutarjotinEvent
         interfaces = (relay.Node,)
+
+    def resolve_next_occurrence_datetime(self, info, **kwargs):
+        try:
+            return (
+                self.occurrences.filter(start_time__gte=timezone.now())
+                .earliest("start_time")
+                .start_time
+            )
+        except Occurrence.DoesNotExist:
+            return None
+
+    def resolve_last_occurrence_datetime(self, info, **kwargs):
+        try:
+            return self.occurrences.latest("start_time").start_time
+        except Occurrence.DoesNotExist:
+            return None
 
 
 class PalvelutarjotinEventInput(InputObjectType):
