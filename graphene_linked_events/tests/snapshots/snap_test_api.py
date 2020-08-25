@@ -226,7 +226,7 @@ snapshots["test_get_event 1"] = {
             "offers": [{"isFree": False}],
             "provider": {"en": "Amos Rex", "fi": "Amos Rex", "sv": "Amos Rex"},
             "providerContactInfo": None,
-            "publicationStatus": None,
+            "publicationStatus": "public",
             "publisher": "ytj:0586977-6",
             "shortDescription": {
                 "en": "Visual artist Raija Malka and composer Kaija Saariaho will take over Amos Rex’s exhibition space in a new and experiential way next summer. ",

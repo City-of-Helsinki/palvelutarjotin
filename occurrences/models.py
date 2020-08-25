@@ -1,6 +1,6 @@
 from datetime import timedelta
 
-from django.db import models
+from django.db import models, transaction
 from django.db.models import Sum
 from django.utils.translation import ugettext_lazy as _
 from graphene_linked_events.utils import retrieve_linked_events_data
@@ -134,6 +134,7 @@ class Occurrence(TimestampedModel):
     languages = models.ManyToManyField(
         "Language", verbose_name=_("languages"), blank=True, related_name="occurrences"
     )
+    cancelled = models.BooleanField(verbose_name=_("cancelled"), default=False)
 
     class Meta:
         verbose_name = _("occurrence")
@@ -161,6 +162,23 @@ class Occurrence(TimestampedModel):
         return user.person.organisations.filter(
             id=self.p_event.organisation.id
         ).exists()
+
+    @transaction.atomic
+    def cancel(self, reason=None):
+        self.cancelled = True
+        self.save()
+        for e in self.enrolments.all():
+            e.set_status(Enrolment.STATUS_CANCELLED)
+            send_event_notifications_to_contact_person(
+                e.person,
+                self,
+                e.study_group,
+                e.notification_type,
+                NotificationTemplate.OCCURRENCE_CANCELLED,
+                NotificationTemplate.OCCURRENCE_CANCELLED_SMS,
+                event=e.occurrence.p_event.get_event_data(),
+                custom_message=reason,
+            )
 
 
 class VenueCustomData(TranslatableModel):

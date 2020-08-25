@@ -2,6 +2,7 @@ import graphene_linked_events.rest_client
 import pytest
 from graphene_linked_events.tests.mock_data import (
     CREATED_EVENT_DATA,
+    DRAFT_EVENT_DATA,
     EVENT_DATA,
     EVENTS_DATA,
     IMAGE_DATA,
@@ -28,6 +29,15 @@ def mock_get_event_data(monkeypatch):
         graphene_linked_events.rest_client.LinkedEventsApiClient,
         "retrieve",
         _get_mock_function(EVENT_DATA),
+    )
+
+
+@pytest.fixture
+def mock_get_draft_event_data(monkeypatch):
+    monkeypatch.setattr(
+        graphene_linked_events.rest_client.LinkedEventsApiClient,
+        "retrieve",
+        _get_mock_function(DRAFT_EVENT_DATA),
     )
 
 

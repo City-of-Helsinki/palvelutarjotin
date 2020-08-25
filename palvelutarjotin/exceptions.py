@@ -56,3 +56,7 @@ class InvalidStudyGroupSizeError(PalvelutarjotinGraphQLError):
 
 class InvalidEmailFormatError(PalvelutarjotinGraphQLError):
     """Invalid email format error"""
+
+
+class EnrolCancelledOccurrenceError(PalvelutarjotinGraphQLError):
+    """Enrol cancelled occurrence"""

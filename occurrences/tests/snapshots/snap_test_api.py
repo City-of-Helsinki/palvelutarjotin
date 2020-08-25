@@ -14,9 +14,12 @@ snapshots["test_study_groups_query 1"] = {
                     "node": {
                         "amountOfAdult": 5,
                         "extraNeeds": "Recently analysis season project executive.",
-                        "groupName": "Dream party door better performance race story. Beautiful if his their. Stuff election stay every.",
+                        "groupName": "Dream party door better performance race story. "
+                                     "Beautiful if his their. Stuff election stay "
+                                     "every.",
                         "groupSize": 860,
-                        "name": "Increase thank certainly again thought summer. Beyond than trial western.",
+                        "name": "Increase thank certainly again thought summer. "
+                                "Beyond than trial western.",
                         "occurrences": {"edges": []},
                         "person": {"name": "William Brewer"},
                         "studyLevel": "GRADE_6",
@@ -33,9 +36,11 @@ snapshots["test_study_group_query 1"] = {
         "studyGroup": {
             "amountOfAdult": 5,
             "extraNeeds": "Recently analysis season project executive.",
-            "groupName": "Dream party door better performance race story. Beautiful if his their. Stuff election stay every.",
+            "groupName": "Dream party door better performance race story. Beautiful "
+                         "if his their. Stuff election stay every.",
             "groupSize": 860,
-            "name": "Increase thank certainly again thought summer. Beyond than trial western.",
+            "name": "Increase thank certainly again thought summer. Beyond than trial"
+                    " western.",
             "occurrences": {"edges": []},
             "person": {"name": "William Brewer"},
             "studyLevel": "GRADE_6",
@@ -62,7 +67,8 @@ snapshots["test_occurrences_query 1"] = {
                             "duration": 120,
                             "enrolmentEndDays": 0,
                             "enrolmentStart": "2005-04-01T09:01:02+00:00",
-                            "linkedEventId": "Leg him president compare room hotel town.",
+                            "linkedEventId": "Leg him president compare room hotel "
+                                             "town.",
                             "neededOccurrences": 4,
                         },
                         "placeId": "Record card my. Sure sister return.",
@@ -95,7 +101,8 @@ snapshots["test_occurrence_query 1"] = {
                             "duration": 120,
                             "enrolmentEndDays": 0,
                             "enrolmentStart": "2005-04-01T09:01:02+00:00",
-                            "linkedEventId": "Leg him president compare room hotel town.",
+                            "linkedEventId": "Leg him president compare room hotel "
+                                             "town.",
                             "neededOccurrences": 4,
                         },
                         "placeId": "Record card my. Sure sister return.",
@@ -161,7 +168,8 @@ snapshots["test_update_occurrence 1"] = {
                     "duration": 77,
                     "enrolmentEndDays": 0,
                     "enrolmentStart": "1979-08-26T09:49:31+00:00",
-                    "linkedEventId": "Control as receive cup. Subject family around year.",
+                    "linkedEventId": "Control as receive cup. Subject family around "
+                                     "year.",
                     "neededOccurrences": 1,
                 },
                 "startTime": "2020-05-05T00:00:00+00:00",
@@ -193,13 +201,15 @@ snapshots["test_venues_query 1"] = {
             "edges": [
                 {
                     "node": {
-                        "description": "Serious listen police shake. Page box child care any concern.",
+                        "description": "Serious listen police shake. Page box child "
+                                       "care any concern.",
                         "hasClothingStorage": True,
                         "hasSnackEatingPlace": False,
                         "id": "mZHxy",
                         "translations": [
                             {
-                                "description": "Serious listen police shake. Page box child care any concern."
+                                "description": "Serious listen police shake. Page box "
+                                               "child care any concern."
                             }
                         ],
                     }
@@ -229,13 +239,15 @@ snapshots["test_update_venue_staff_user 1"] = {
 snapshots["test_venue_query 1"] = {
     "data": {
         "venue": {
-            "description": "Serious listen police shake. Page box child care any concern.",
+            "description": "Serious listen police shake. Page box child care any "
+                           "concern.",
             "hasClothingStorage": True,
             "hasSnackEatingPlace": False,
             "id": "mZHxy",
             "translations": [
                 {
-                    "description": "Serious listen police shake. Page box child care any concern."
+                    "description": "Serious listen police shake. Page box child care "
+                                   "any concern."
                 }
             ],
         }
@@ -364,7 +376,8 @@ snapshots["test_occurrences_filter_by_date 1"] = {
                             "duration": 172,
                             "enrolmentEndDays": 2,
                             "enrolmentStart": "2020-04-28T13:05:41+00:00",
-                            "linkedEventId": "Put matter benefit treat final. Father boy economy the.",
+                            "linkedEventId": "Put matter benefit treat final. Father "
+                                             "boy economy the.",
                             "neededOccurrences": 0,
                         },
                         "placeId": "Near increase process truth list pressure.",
@@ -397,7 +410,8 @@ snapshots["test_occurrences_filter_by_time 1"] = {
                             "duration": 120,
                             "enrolmentEndDays": 0,
                             "enrolmentStart": "2005-04-01T09:01:02+00:00",
-                            "linkedEventId": "Machine try lead behind everyone agency start.",
+                            "linkedEventId": "Machine try lead behind everyone agency"
+                                             " start.",
                             "neededOccurrences": 4,
                         },
                         "placeId": "Record card my. Sure sister return.",
@@ -487,7 +501,8 @@ snapshots["test_occurrences_filter_by_date 2"] = {
                             "duration": 172,
                             "enrolmentEndDays": 2,
                             "enrolmentStart": "2020-04-28T13:05:41+00:00",
-                            "linkedEventId": "Put matter benefit treat final. Father boy economy the.",
+                            "linkedEventId": "Put matter benefit treat final. Father "
+                                             "boy economy the.",
                             "neededOccurrences": 0,
                         },
                         "placeId": "Near increase process truth list pressure.",
@@ -511,7 +526,8 @@ snapshots["test_occurrences_filter_by_date 2"] = {
                             "duration": 194,
                             "enrolmentEndDays": 1,
                             "enrolmentStart": "2009-04-10T19:35:34+00:00",
-                            "linkedEventId": "Voice radio happen color scene. Create state rock only.",
+                            "linkedEventId": "Voice radio happen color scene. Create "
+                                             "state rock only.",
                             "neededOccurrences": 2,
                         },
                         "placeId": "Believe policy security score.",
@@ -544,7 +560,8 @@ snapshots["test_occurrences_filter_by_time 2"] = {
                             "duration": 33,
                             "enrolmentEndDays": 1,
                             "enrolmentStart": "1997-02-03T22:43:02+00:00",
-                            "linkedEventId": "Pressure unit toward movie by garden. Country past involve.",
+                            "linkedEventId": "Pressure unit toward movie by garden. "
+                                             "Country past involve.",
                             "neededOccurrences": 2,
                         },
                         "placeId": "Yard campaign former model reduce here natural.",
@@ -577,7 +594,8 @@ snapshots["test_occurrences_filter_by_time 3"] = {
                             "duration": 194,
                             "enrolmentEndDays": 1,
                             "enrolmentStart": "2009-04-10T19:35:34+00:00",
-                            "linkedEventId": "Voice radio happen color scene. Create state rock only.",
+                            "linkedEventId": "Voice radio happen color scene. Create "
+                                             "state rock only.",
                             "neededOccurrences": 2,
                         },
                         "placeId": "Believe policy security score.",
@@ -601,7 +619,8 @@ snapshots["test_occurrences_filter_by_time 3"] = {
                             "duration": 172,
                             "enrolmentEndDays": 2,
                             "enrolmentStart": "2020-04-28T13:05:41+00:00",
-                            "linkedEventId": "Put matter benefit treat final. Father boy economy the.",
+                            "linkedEventId": "Put matter benefit treat final. Father "
+                                             "boy economy the.",
                             "neededOccurrences": 0,
                         },
                         "placeId": "Near increase process truth list pressure.",
@@ -634,7 +653,8 @@ snapshots["test_occurrences_filter_by_time 4"] = {
                             "duration": 194,
                             "enrolmentEndDays": 1,
                             "enrolmentStart": "2009-04-10T19:35:34+00:00",
-                            "linkedEventId": "Voice radio happen color scene. Create state rock only.",
+                            "linkedEventId": "Voice radio happen color scene. Create "
+                                             "state rock only.",
                             "neededOccurrences": 2,
                         },
                         "placeId": "Believe policy security score.",
@@ -658,7 +678,8 @@ snapshots["test_occurrences_filter_by_time 4"] = {
                             "duration": 172,
                             "enrolmentEndDays": 2,
                             "enrolmentStart": "2020-04-28T13:05:41+00:00",
-                            "linkedEventId": "Put matter benefit treat final. Father boy economy the.",
+                            "linkedEventId": "Put matter benefit treat final. Father "
+                                             "boy economy the.",
                             "neededOccurrences": 0,
                         },
                         "placeId": "Near increase process truth list pressure.",
@@ -687,7 +708,8 @@ snapshots["test_unenrol_occurrence 1"] = {
                 "startTime": "2020-01-06T00:00:00+00:00",
             },
             "studyGroup": {
-                "name": "Last appear experience seven. Throw wrong party wall agency customer clear. Control as receive cup."
+                "name": "Last appear experience seven. Throw wrong party wall agency "
+                        "customer clear. Control as receive cup."
             },
         }
     }
@@ -740,7 +762,8 @@ snapshots["test_approve_enrolment_with_custom_message 2"] = [
     """no-reply@hel.ninja|['barbarafarrell@yahoo.com']|Enrolment approved FI|
         Event FI: Raija Malka & Kaija Saariaho: Blick
         Extra event info: Plant traditional after born.
-        Study group: Last appear experience seven. Throw wrong party wall agency customer clear. Control as receive cup.
+        Study group: Last appear experience seven. Throw wrong party wall agency 
+        customer clear. Control as receive cup.
         Occurrence: 2020-01-06 00:00:00+00:00
         Person: barbarafarrell@yahoo.com
         Custom message: custom message
@@ -751,14 +774,16 @@ snapshots["test_approve_enrolment 2"] = [
     """no-reply@hel.ninja|['barbarafarrell@yahoo.com']|Enrolment approved FI|
         Event FI: Raija Malka & Kaija Saariaho: Blick
         Extra event info: Anyone during approach herself remember put list.
-        Study group: Last appear experience seven. Throw wrong party wall agency customer clear. Control as receive cup.
+        Study group: Last appear experience seven. Throw wrong party wall agency 
+        customer clear. Control as receive cup.
         Occurrence: 2020-01-06 00:00:00+00:00
         Person: barbarafarrell@yahoo.com
 """,
     """no-reply@hel.ninja|['barbarafarrell@yahoo.com']|Enrolment approved FI|
         Event FI: Raija Malka & Kaija Saariaho: Blick
         Extra event info: Anyone during approach herself remember put list.
-        Study group: Last appear experience seven. Throw wrong party wall agency customer clear. Control as receive cup.
+        Study group: Last appear experience seven. Throw wrong party wall agency 
+        customer clear. Control as receive cup.
         Occurrence: 2020-01-06 00:00:00+00:00
         Person: barbarafarrell@yahoo.com
 """,
@@ -768,14 +793,16 @@ snapshots["test_decline_enrolment 2"] = [
     """no-reply@hel.ninja|['barbarafarrell@yahoo.com']|Enrolment declined FI|
         Event FI: Raija Malka & Kaija Saariaho: Blick
         Extra event info: Anyone during approach herself remember put list.
-        Study group: Last appear experience seven. Throw wrong party wall agency customer clear. Control as receive cup.
+        Study group: Last appear experience seven. Throw wrong party wall agency 
+        customer clear. Control as receive cup.
         Occurrence: 2020-01-06 00:00:00+00:00
         Person: barbarafarrell@yahoo.com
 """,
     """no-reply@hel.ninja|['barbarafarrell@yahoo.com']|Enrolment declined FI|
         Event FI: Raija Malka & Kaija Saariaho: Blick
         Extra event info: Anyone during approach herself remember put list.
-        Study group: Last appear experience seven. Throw wrong party wall agency customer clear. Control as receive cup.
+        Study group: Last appear experience seven. Throw wrong party wall agency 
+        customer clear. Control as receive cup.
         Occurrence: 2020-01-06 00:00:00+00:00
         Person: barbarafarrell@yahoo.com
 """,
@@ -789,7 +816,8 @@ snapshots["test_decline_enrolment_with_custom_message 2"] = [
     """no-reply@hel.ninja|['barbarafarrell@yahoo.com']|Enrolment declined FI|
         Event FI: Raija Malka & Kaija Saariaho: Blick
         Extra event info: Plant traditional after born.
-        Study group: Last appear experience seven. Throw wrong party wall agency customer clear. Control as receive cup.
+        Study group: Last appear experience seven. Throw wrong party wall agency 
+        customer clear. Control as receive cup.
         Occurrence: 2020-01-06 00:00:00+00:00
         Person: barbarafarrell@yahoo.com
         Custom message: custom message
@@ -849,4 +877,24 @@ snapshots["test_notification_template_query 1"] = {
             "template": {"type": "enrolment_approved"},
         }
     }
+}
+
+snapshots["test_delete_cancelled_occurrence 1"] = {
+    "data": {"deleteOccurrence": {"__typename": "DeleteOccurrenceMutationPayload"}}
+}
+
+snapshots["test_cancel_occurrence 1"] = {
+    "data": {"cancelOccurrence": {"occurrence": {"cancelled": True}}}
+}
+
+snapshots["test_approve_cancelled_occurrence_enrolment 1"] = {
+    "data": {"approveEnrolment": None},
+    "errors": [
+        {
+            "extensions": {"code": "ENROL_CANCELLED_OCCURRENCE_ERROR"},
+            "locations": [{"column": 3, "line": 3}],
+            "message": "Cannot approve enrolment to cancelled occurrence",
+            "path": ["approveEnrolment"],
+        }
+    ],
 }
