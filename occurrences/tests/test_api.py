@@ -1625,7 +1625,10 @@ query NotificationTemplate($type: String!, $language: Language!, $context:JSONSt
     customContextPreviewHtml
     customContextPreviewText
   }
+}
 """
+
+
 def test_notification_template_query_error(
     snapshot, api_client, notification_template_enrolment_approved_en
 ):
@@ -1676,6 +1679,7 @@ mutation cancelOccurrenceMutation($input: CancelOccurrenceMutationInput!){
     }
 }
 """
+
 
 def test_cancel_occurrence_unauthorized(
     api_client, user_api_client, staff_api_client, occurrence
