@@ -13,6 +13,7 @@ NOTIFICATION_TYPES = (
 class NotificationTemplate:
     OCCURRENCE_ENROLMENT = "occurrence_enrolment"
     OCCURRENCE_UNENROLMENT = "occurrence_unenrolment"
+    OCCURRENCE_CANCELLED = "occurrence_cancelled"
     ENROLMENT_APPROVED = "enrolment_approved"
     ENROLMENT_DECLINED = "enrolment_declined"
 
@@ -20,3 +21,4 @@ class NotificationTemplate:
     OCCURRENCE_UNENROLMENT_SMS = "occurrence_unenrolment_sms"
     ENROLMENT_APPROVED_SMS = "enrolment_approved_sms"
     ENROLMENT_DECLINED_SMS = "enrolment_declined_sms"
+    OCCURRENCE_CANCELLED_SMS = "occurrence_cancelled_sms"

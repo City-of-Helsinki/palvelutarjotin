@@ -31,6 +31,8 @@ from common.utils import (
     update_object_with_translations,
 )
 from palvelutarjotin.exceptions import (
+    ApiUsageError,
+    EnrolCancelledOccurrenceError,
     EnrolmentClosedError,
     EnrolmentMaxNeededOccurrenceReached,
     EnrolmentNotEnoughCapacityError,
@@ -265,8 +267,37 @@ class DeleteOccurrenceMutation(graphene.ClientIDMutation):
     @transaction.atomic
     def mutate_and_get_payload(cls, root, info, **kwargs):
         occurrence = get_editable_obj_from_global_id(info, kwargs.pop("id"), Occurrence)
+        linked_event_data = occurrence.p_event.get_event_data()
+        if (
+            linked_event_data.publication_status
+            == PalvelutarjotinEvent.PUBLICATION_STATUS_PUBLIC
+            and not occurrence.cancelled
+        ):
+            raise ApiUsageError(
+                "Cannot delete published occurrence. Event is "
+                "published or occurrence is not cancelled"
+            )
         occurrence.delete()
         return DeleteOccurrenceMutation()
+
+
+class CancelOccurrenceMutation(graphene.ClientIDMutation):
+    class Input:
+        id = graphene.GlobalID()
+        reason = graphene.String()
+
+    occurrence = graphene.Field(OccurrenceNode)
+
+    @classmethod
+    @staff_member_required
+    @transaction.atomic
+    def mutate_and_get_payload(cls, root, info, **kwargs):
+        occurrence = get_editable_obj_from_global_id(info, kwargs.pop("id"), Occurrence)
+        if occurrence.cancelled:
+            raise ApiUsageError("Occurrence is already cancelled")
+        occurrence.cancel(reason=kwargs.pop("reason", None))
+
+        return CancelOccurrenceMutation(occurrence)
 
 
 class AddVenueMutation(graphene.relay.ClientIDMutation):
@@ -338,6 +369,8 @@ class EnrolmentNode(DjangoObjectType):
 
 def validate_enrolment(study_group, occurrence, new_enrolment=True):
     # Expensive validation are sorted to bottom
+    if occurrence.cancelled:
+        raise EnrolCancelledOccurrenceError("Cannot enrol cancelled occurrence")
     if (
         study_group.group_size > occurrence.max_group_size
         or study_group.group_size < occurrence.min_group_size
@@ -356,7 +389,9 @@ def validate_enrolment(study_group, occurrence, new_enrolment=True):
     # Skip these validations when updating enrolment
     if new_enrolment:
         if (
-            study_group.occurrences.filter(p_event=occurrence.p_event).count()
+            study_group.occurrences.filter(
+                p_event=occurrence.p_event, cancelled=False
+            ).count()
             >= occurrence.p_event.needed_occurrences
         ):
             raise EnrolmentMaxNeededOccurrenceReached(
@@ -530,6 +565,10 @@ class ApproveEnrolmentMutation(graphene.relay.ClientIDMutation):
             study_group=enrolment.study_group,
         )
         for e in enrolments:
+            if e.occurrence.cancelled:
+                raise EnrolCancelledOccurrenceError(
+                    "Cannot approve enrolment to cancelled occurrence"
+                )
             e.approve(custom_message=custom_message)
         enrolment.refresh_from_db()
         return ApproveEnrolmentMutation(enrolment=enrolment)
@@ -691,6 +730,7 @@ class Mutation:
     add_occurrence = AddOccurrenceMutation.Field()
     update_occurrence = UpdateOccurrenceMutation.Field()
     delete_occurrence = DeleteOccurrenceMutation.Field()
+    cancel_occurrence = CancelOccurrenceMutation.Field()
 
     add_venue = AddVenueMutation.Field()
     update_venue = UpdateVenueMutation.Field()

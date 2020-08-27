@@ -141,3 +141,19 @@ def test_occurrence_enrolment_notifications_to_contact_person(
     occurrence.study_groups.remove(en_study_group)
     assert len(mail.outbox) == 4
     assert_mails_match_snapshot(snapshot)
+
+
+@pytest.mark.django_db
+def test_cancel_occurrence_notification(
+    snapshot,
+    occurrence,
+    mock_get_event_data,
+    notification_template_cancel_occurrence_en,
+    notification_template_cancel_occurrence_fi,
+):
+    study_groups = StudyGroupFactory.create_batch(3)
+    for s in study_groups:
+        Enrolment.objects.create(study_group=s, occurrence=occurrence)
+    occurrence.cancel(reason="Occurrence cancel reason")
+    assert len(mail.outbox) == 3
+    assert_mails_match_snapshot(snapshot)

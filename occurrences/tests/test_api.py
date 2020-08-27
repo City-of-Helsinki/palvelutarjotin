@@ -21,6 +21,7 @@ from common.tests.utils import (
 )
 from palvelutarjotin.consts import (
     API_USAGE_ERROR,
+    ENROL_CANCELLED_OCCURRENCE_ERROR,
     ENROLMENT_CLOSED_ERROR,
     ENROLMENT_NOT_STARTED_ERROR,
     INVALID_STUDY_GROUP_SIZE_ERROR,
@@ -400,7 +401,27 @@ def test_delete_occurrence_unauthorized(
     assert Occurrence.objects.count() == 1
 
 
-def test_delete_occurrence(snapshot, staff_api_client, occurrence):
+def test_delete_cancelled_occurrence(
+    snapshot, occurrence, staff_api_client, mock_get_event_data
+):
+    staff_api_client.user.person.organisations.add(occurrence.p_event.organisation)
+    executed = staff_api_client.execute(
+        DELETE_OCCURRENCE_MUTATION,
+        variables={"input": {"id": to_global_id("OccurrenceNode", occurrence.id)}},
+    )
+    assert_match_error_code(executed, API_USAGE_ERROR)
+    occurrence.cancelled = True
+    occurrence.save()
+    executed = staff_api_client.execute(
+        DELETE_OCCURRENCE_MUTATION,
+        variables={"input": {"id": to_global_id("OccurrenceNode", occurrence.id)}},
+    )
+    snapshot.assert_match(executed)
+
+
+def test_delete_occurrence(
+    snapshot, staff_api_client, occurrence, mock_get_draft_event_data
+):
     staff_api_client.user.person.organisations.add(occurrence.p_event.organisation)
     executed = staff_api_client.execute(
         DELETE_OCCURRENCE_MUTATION,
@@ -739,7 +760,7 @@ mutation enrolOccurrence($input: EnrolOccurrenceMutationInput!){
 """
 
 
-def test_enrol_not_started_occurrence(snapshot, api_client):
+def test_enrol_not_started_occurrence(api_client):
     # Current date froze on 2020-01-04:
     study_group = StudyGroupFactory(group_size=10)
     p_event_1 = PalvelutarjotinEventFactory(
@@ -777,7 +798,7 @@ def test_enrol_not_started_occurrence(snapshot, api_client):
     assert_match_error_code(executed, ENROLMENT_NOT_STARTED_ERROR)
 
 
-def test_enrol_past_occurrence(snapshot, api_client, occurrence):
+def test_enrol_past_occurrence(api_client, occurrence):
     # Current date froze on 2020-01-04:
     study_group = StudyGroupFactory(group_size=10)
     p_event_1 = PalvelutarjotinEventFactory(
@@ -813,7 +834,7 @@ def test_enrol_past_occurrence(snapshot, api_client, occurrence):
     assert_match_error_code(executed, ENROLMENT_CLOSED_ERROR)
 
 
-def test_enrol_invalid_group_size(snapshot, api_client, occurrence):
+def test_enrol_invalid_group_size(api_client, occurrence):
     study_group_21 = StudyGroupFactory(group_size=21)
     study_group_9 = StudyGroupFactory(group_size=9)
     # Current date froze on 2020-01-04:
@@ -869,7 +890,7 @@ def test_enrol_invalid_group_size(snapshot, api_client, occurrence):
     assert_match_error_code(executed, INVALID_STUDY_GROUP_SIZE_ERROR)
 
 
-def test_enrol_full_occurrence(snapshot, api_client, occurrence, mock_get_event_data):
+def test_enrol_full_occurrence(api_client, occurrence, mock_get_event_data):
     study_group_15 = StudyGroupFactory(group_size=15)
     study_group_20 = StudyGroupFactory(group_size=20)
     # Current date froze on 2020-01-04:
@@ -908,6 +929,32 @@ def test_enrol_full_occurrence(snapshot, api_client, occurrence, mock_get_event_
     }
     executed = api_client.execute(ENROL_OCCURRENCE_MUTATION, variables=variables)
     assert_match_error_code(executed, NOT_ENOUGH_CAPACITY_ERROR)
+
+
+def test_enrol_cancelled_occurrence(api_client, occurrence):
+    study_group = StudyGroupFactory(group_size=10)
+    occurrence.cancelled = True
+    occurrence.save()
+
+    variables = {
+        "input": {
+            "occurrenceIds": [to_global_id("OccurrenceNode", occurrence.id)],
+            "studyGroup": {
+                "person": {
+                    "id": to_global_id("PersonNode", study_group.person.id),
+                    "name": study_group.person.name,
+                    "emailAddress": study_group.person.email_address,
+                },
+                "name": "To be created group",
+                "groupSize": study_group.group_size,
+                "groupName": study_group.group_name,
+                "studyLevel": study_group.study_level.upper(),
+                "amountOfAdult": study_group.amount_of_adult,
+            },
+        }
+    }
+    executed = api_client.execute(ENROL_OCCURRENCE_MUTATION, variables=variables)
+    assert_match_error_code(executed, ENROL_CANCELLED_OCCURRENCE_ERROR)
 
 
 def test_enrol_occurrence(snapshot, api_client, mock_get_event_data):
@@ -1153,6 +1200,35 @@ mutation declineEnrolmentMutation($input: DeclineEnrolmentMutationInput!){
   }
 }
 """
+
+
+def test_approve_cancelled_occurrence_enrolment(snapshot, staff_api_client):
+    study_group = StudyGroupFactory(group_size=15)
+    # Current date froze on 2020-01-04:
+    p_event = PalvelutarjotinEventFactory(
+        enrolment_start=datetime(2020, 1, 3, 0, 0, 0, tzinfo=timezone.now().tzinfo),
+        enrolment_end_days=2,
+        needed_occurrences=2,
+    )
+    occurrence = OccurrenceFactory(
+        start_time=datetime(2020, 1, 6, 0, 0, 0, tzinfo=timezone.now().tzinfo),
+        p_event=p_event,
+        min_group_size=10,
+        max_group_size=20,
+        amount_of_seats=50,
+        auto_acceptance=False,
+    )
+
+    occurrence.study_groups.add(study_group)
+    occurrence.cancelled = True
+    occurrence.save()
+    enrolment = occurrence.enrolments.first()
+
+    variables = {"input": {"enrolmentId": to_global_id("EnrolmentNode", enrolment.id)}}
+    staff_api_client.user.person.organisations.add(occurrence.p_event.organisation)
+    executed = staff_api_client.execute(APPROVE_ENROLMENT_MUTATION, variables=variables)
+    snapshot.assert_match(executed)
+    assert_match_error_code(executed, ENROL_CANCELLED_OCCURRENCE_ERROR)
 
 
 def test_approve_enrolment(
@@ -1592,3 +1668,51 @@ def test_notification_template_query(
     }
     executed = api_client.execute(NOTIFICATION_TEMPLATE_QUERY, variables=variables)
     snapshot.assert_match(executed)
+
+
+CANCEL_OCCURRENCE_MUTATION = """
+mutation cancelOccurrenceMutation($input: CancelOccurrenceMutationInput!){
+    cancelOccurrence(input: $input){
+        occurrence{
+            cancelled
+        }
+    }
+}
+"""
+
+
+def test_cancel_occurrence_unauthorized(
+    api_client, user_api_client, staff_api_client, occurrence
+):
+    executed = api_client.execute(
+        CANCEL_OCCURRENCE_MUTATION,
+        variables={"input": {"id": to_global_id("OccurrenceNode", occurrence.id)}},
+    )
+    assert_permission_denied(executed)
+    executed = user_api_client.execute(
+        CANCEL_OCCURRENCE_MUTATION,
+        variables={"input": {"id": to_global_id("OccurrenceNode", occurrence.id)}},
+    )
+    assert_permission_denied(executed)
+    executed = staff_api_client.execute(
+        CANCEL_OCCURRENCE_MUTATION,
+        variables={"input": {"id": to_global_id("OccurrenceNode", occurrence.id)}},
+    )
+    assert_permission_denied(executed)
+
+
+def test_cancel_occurrence(snapshot, staff_api_client, occurrence):
+    assert not occurrence.cancelled
+    staff_api_client.user.person.organisations.add(occurrence.p_event.organisation)
+    executed = staff_api_client.execute(
+        CANCEL_OCCURRENCE_MUTATION,
+        variables={"input": {"id": to_global_id("OccurrenceNode", occurrence.id)}},
+    )
+    snapshot.assert_match(executed)
+    executed = staff_api_client.execute(
+        CANCEL_OCCURRENCE_MUTATION,
+        variables={"input": {"id": to_global_id("OccurrenceNode", occurrence.id)}},
+    )
+    for e in occurrence.enrolments.all():
+        assert e.status == Enrolment.STATUS_CANCELLED
+    assert_match_error_code(executed, API_USAGE_ERROR)

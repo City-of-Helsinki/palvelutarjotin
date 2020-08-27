@@ -19,6 +19,8 @@ TEMPLATES = [
     (NotificationTemplate.OCCURRENCE_UNENROLMENT_SMS, _("occurrence unenrolment sms")),
     (NotificationTemplate.ENROLMENT_APPROVED_SMS, _("enrolment approved sms")),
     (NotificationTemplate.ENROLMENT_DECLINED_SMS, _("enrolment declined sms")),
+    (NotificationTemplate.OCCURRENCE_CANCELLED, _("enrolment declined")),
+    (NotificationTemplate.OCCURRENCE_CANCELLED_SMS, _("enrolment declined sms")),
 ]
 for template in TEMPLATES:
     notifications.register(template[0], template[1])
@@ -69,6 +71,18 @@ dummy_context.update(
             "custom_message": "custom_message",
         },
         NotificationTemplate.ENROLMENT_DECLINED_SMS: {
+            "study_group": study_group,
+            "occurrence": occurrence,
+            "event": EVENT_DATA,
+            "custom_message": "custom_message",
+        },
+        NotificationTemplate.OCCURRENCE_CANCELLED: {
+            "study_group": study_group,
+            "occurrence": occurrence,
+            "event": EVENT_DATA,
+            "custom_message": "custom_message",
+        },
+        NotificationTemplate.OCCURRENCE_CANCELLED_SMS: {
             "study_group": study_group,
             "occurrence": occurrence,
             "event": EVENT_DATA,

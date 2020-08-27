@@ -738,46 +738,51 @@ snapshots["test_approve_enrolment_with_custom_message 1"] = {
 
 snapshots["test_approve_enrolment_with_custom_message 2"] = [
     """no-reply@hel.ninja|['barbarafarrell@yahoo.com']|Enrolment approved FI|
-        Event FI: Raija Malka & Kaija Saariaho: Blick
-        Extra event info: Plant traditional after born.
-        Study group: Last appear experience seven. Throw wrong party wall agency customer clear. Control as receive cup.
-        Occurrence: 2020-01-06 00:00:00+00:00
-        Person: barbarafarrell@yahoo.com
-        Custom message: custom message
+    Event FI: Raija Malka & Kaija Saariaho: Blick
+    Extra event info: Plant traditional after born.
+    Study group: Last appear experience seven. Throw wrong party wall agency customer clear. Control as receive cup.
+    Occurrence: 2020-01-06 00:00:00+00:00
+    Person: barbarafarrell@yahoo.com
+
+    Custom message: custom message
 """
 ]
 
 snapshots["test_approve_enrolment 2"] = [
     """no-reply@hel.ninja|['barbarafarrell@yahoo.com']|Enrolment approved FI|
-        Event FI: Raija Malka & Kaija Saariaho: Blick
-        Extra event info: Anyone during approach herself remember put list.
-        Study group: Last appear experience seven. Throw wrong party wall agency customer clear. Control as receive cup.
-        Occurrence: 2020-01-06 00:00:00+00:00
-        Person: barbarafarrell@yahoo.com
+    Event FI: Raija Malka & Kaija Saariaho: Blick
+    Extra event info: Anyone during approach herself remember put list.
+    Study group: Last appear experience seven. Throw wrong party wall agency customer clear. Control as receive cup.
+    Occurrence: 2020-01-06 00:00:00+00:00
+    Person: barbarafarrell@yahoo.com
+
 """,
     """no-reply@hel.ninja|['barbarafarrell@yahoo.com']|Enrolment approved FI|
-        Event FI: Raija Malka & Kaija Saariaho: Blick
-        Extra event info: Anyone during approach herself remember put list.
-        Study group: Last appear experience seven. Throw wrong party wall agency customer clear. Control as receive cup.
-        Occurrence: 2020-01-06 00:00:00+00:00
-        Person: barbarafarrell@yahoo.com
+    Event FI: Raija Malka & Kaija Saariaho: Blick
+    Extra event info: Anyone during approach herself remember put list.
+    Study group: Last appear experience seven. Throw wrong party wall agency customer clear. Control as receive cup.
+    Occurrence: 2020-01-06 00:00:00+00:00
+    Person: barbarafarrell@yahoo.com
+
 """,
 ]
 
 snapshots["test_decline_enrolment 2"] = [
     """no-reply@hel.ninja|['barbarafarrell@yahoo.com']|Enrolment declined FI|
-        Event FI: Raija Malka & Kaija Saariaho: Blick
-        Extra event info: Anyone during approach herself remember put list.
-        Study group: Last appear experience seven. Throw wrong party wall agency customer clear. Control as receive cup.
-        Occurrence: 2020-01-06 00:00:00+00:00
-        Person: barbarafarrell@yahoo.com
+    Event FI: Raija Malka & Kaija Saariaho: Blick
+    Extra event info: Anyone during approach herself remember put list.
+    Study group: Last appear experience seven. Throw wrong party wall agency customer clear. Control as receive cup.
+    Occurrence: 2020-01-06 00:00:00+00:00
+    Person: barbarafarrell@yahoo.com
+
 """,
     """no-reply@hel.ninja|['barbarafarrell@yahoo.com']|Enrolment declined FI|
-        Event FI: Raija Malka & Kaija Saariaho: Blick
-        Extra event info: Anyone during approach herself remember put list.
-        Study group: Last appear experience seven. Throw wrong party wall agency customer clear. Control as receive cup.
-        Occurrence: 2020-01-06 00:00:00+00:00
-        Person: barbarafarrell@yahoo.com
+    Event FI: Raija Malka & Kaija Saariaho: Blick
+    Extra event info: Anyone during approach herself remember put list.
+    Study group: Last appear experience seven. Throw wrong party wall agency customer clear. Control as receive cup.
+    Occurrence: 2020-01-06 00:00:00+00:00
+    Person: barbarafarrell@yahoo.com
+
 """,
 ]
 
@@ -787,12 +792,13 @@ snapshots["test_decline_enrolment_with_custom_message 1"] = {
 
 snapshots["test_decline_enrolment_with_custom_message 2"] = [
     """no-reply@hel.ninja|['barbarafarrell@yahoo.com']|Enrolment declined FI|
-        Event FI: Raija Malka & Kaija Saariaho: Blick
-        Extra event info: Plant traditional after born.
-        Study group: Last appear experience seven. Throw wrong party wall agency customer clear. Control as receive cup.
-        Occurrence: 2020-01-06 00:00:00+00:00
-        Person: barbarafarrell@yahoo.com
-        Custom message: custom message
+    Event FI: Raija Malka & Kaija Saariaho: Blick
+    Extra event info: Plant traditional after born.
+    Study group: Last appear experience seven. Throw wrong party wall agency customer clear. Control as receive cup.
+    Occurrence: 2020-01-06 00:00:00+00:00
+    Person: barbarafarrell@yahoo.com
+
+    Custom message: custom message
 """
 ]
 
@@ -828,25 +834,45 @@ snapshots["test_update_enrolment 1"] = {
 snapshots["test_notification_template_query 1"] = {
     "data": {
         "notificationTemplate": {
-            "customContextPreviewHtml": """
-            <p>
-            Event EN: Name in english
-            Extra event info: linked_event_id
-            Study group: group name
-            Occurrence: 2020-12-12
-            Person: email@me.com
-            Custom message: custom_message
-            </p>
-    """,
+            "customContextPreviewHtml": """<p>
+    Event EN: Name in english
+    Extra event info: linked_event_id
+    Study group: group name
+    Occurrence: 2020-12-12
+    Person: email@me.com
+
+    Custom message: custom_message
+</p>""",
             "customContextPreviewText": """
-        Event EN: Name in english
-        Extra event info: linked_event_id
-        Study group: group name
-        Occurrence: 2020-12-12
-        Person: email@me.com
-        Custom message: custom_message
+    Event EN: Name in english
+    Extra event info: linked_event_id
+    Study group: group name
+    Occurrence: 2020-12-12
+    Person: email@me.com
+
+    Custom message: custom_message
 """,
             "template": {"type": "enrolment_approved"},
         }
     }
+}
+
+snapshots["test_delete_cancelled_occurrence 1"] = {
+    "data": {"deleteOccurrence": {"__typename": "DeleteOccurrenceMutationPayload"}}
+}
+
+snapshots["test_cancel_occurrence 1"] = {
+    "data": {"cancelOccurrence": {"occurrence": {"cancelled": True}}}
+}
+
+snapshots["test_approve_cancelled_occurrence_enrolment 1"] = {
+    "data": {"approveEnrolment": None},
+    "errors": [
+        {
+            "extensions": {"code": "ENROL_CANCELLED_OCCURRENCE_ERROR"},
+            "locations": [{"column": 3, "line": 3}],
+            "message": "Cannot approve enrolment to cancelled occurrence",
+            "path": ["approveEnrolment"],
+        }
+    ],
 }
