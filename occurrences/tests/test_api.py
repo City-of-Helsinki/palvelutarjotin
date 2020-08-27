@@ -1538,3 +1538,57 @@ def test_occurrences_filter_by_upcoming(snapshot, api_client):
     executed = api_client.execute(OCCURRENCES_QUERY, variables={"upcoming": True})
     snapshot.assert_match(executed)
     assert len(executed["data"]["occurrences"]["edges"]) == 2
+
+
+NOTIFICATION_TEMPLATE_QUERY = """
+query NotificationTemplate($type: String!, $language: Language!, $context:JSONString!){
+  notificationTemplate(templateType: $type, language: $language, context: $context){
+    template{
+        type
+    }
+    customContextPreviewHtml
+    customContextPreviewText
+  }
+}
+"""
+
+
+def test_notification_template_query_error(
+    snapshot, api_client, notification_template_enrolment_approved_en
+):
+    variables = {
+        "type": "enrolment_approved",
+        "language": "EN",
+        "context": '{"event":{"name":{"fi":"This should be `en`"}},'
+        '"study_group":{'
+        '"name":"group name","person":{'
+        '"email_address":"email@me.com"}},"occurrence":{'
+        '"start_time":"2020-12-12","p_event":{'
+        '"linked_event_id":"linked_event_id"}},'
+        '"custom_message":"custom_message"}',
+    }
+
+    # Raise error because context var is invalid
+    executed = api_client.execute(NOTIFICATION_TEMPLATE_QUERY, variables=variables)
+    assert_match_error_code(executed, API_USAGE_ERROR)
+
+
+def test_notification_template_query(
+    snapshot,
+    api_client,
+    notification_template_enrolment_approved_en,
+    notification_template_enrolment_approved_fi,
+):
+    variables = {
+        "type": "enrolment_approved",
+        "language": "EN",
+        "context": '{"event":{"name":{"en":"Name in english"}},'
+        '"study_group":{'
+        '"name":"group name","person":{'
+        '"email_address":"email@me.com"}},"occurrence":{'
+        '"start_time":"2020-12-12","p_event":{'
+        '"linked_event_id":"linked_event_id"}},'
+        '"custom_message":"custom_message"}',
+    }
+    executed = api_client.execute(NOTIFICATION_TEMPLATE_QUERY, variables=variables)
+    snapshot.assert_match(executed)

@@ -232,6 +232,18 @@ def notification_template_enrolment_approved_en():
         Custom message: {{ custom_message }}
         {% endif %}
 """,
+        body_html="""
+            <p>
+            Event EN: {{ event.name.en }}
+            Extra event info: {{ occurrence.p_event.linked_event_id }}
+            Study group: {{ study_group.name }}
+            Occurrence: {{ occurrence.start_time }}
+            Person: {{ study_group.person.email_address}}
+            {% if custom_message %}
+            Custom message: {{ custom_message }}
+            {% endif %}
+            </p>
+    """,
     )
 
 
@@ -251,6 +263,18 @@ def notification_template_enrolment_approved_fi():
         Custom message: {{ custom_message }}
         {% endif %}
 """,
+        body_html="""
+            <p>
+            Event FI: {{ event.name.fi }}
+            Extra event info: {{ occurrence.p_event.linked_event_id }}
+            Study group: {{ study_group.name }}
+            Occurrence: {{ occurrence.start_time }}
+            Person: {{ study_group.person.email_address}}
+            {% if custom_message %}
+            Custom message: {{ custom_message }}
+            {% endif %}
+            </p>
+    """,
     )
 
 

@@ -824,3 +824,29 @@ snapshots["test_update_enrolment 1"] = {
         }
     }
 }
+
+snapshots["test_notification_template_query 1"] = {
+    "data": {
+        "notificationTemplate": {
+            "customContextPreviewHtml": """
+            <p>
+            Event EN: Name in english
+            Extra event info: linked_event_id
+            Study group: group name
+            Occurrence: 2020-12-12
+            Person: email@me.com
+            Custom message: custom_message
+            </p>
+    """,
+            "customContextPreviewText": """
+        Event EN: Name in english
+        Extra event info: linked_event_id
+        Study group: group name
+        Occurrence: 2020-12-12
+        Person: email@me.com
+        Custom message: custom_message
+""",
+            "template": {"type": "enrolment_approved"},
+        }
+    }
+}
