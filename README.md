@@ -3,12 +3,13 @@
 [![status](https://travis-ci.com/City-of-Helsinki/palvelutarjotin.svg)](https://github.com/City-of-Helsinki/palvelutarjotin)
 [![codecov](https://codecov.io/gh/City-of-Helsinki/palvelutarjotin/branch/develop/graph/badge.svg)](https://codecov.io/gh/City-of-Helsinki/palvelutarjotin)
 
+
 ## Environments
 Production environment:
 - TBA
 
 Testing environment:
-- TBA
+- https://palvelutarjotin-admin.test.kuva.hel.ninja/
 
 ## Development with Docker
 
@@ -42,6 +43,7 @@ Create user and database
 Allow user to create test database
 
     sudo -u postgres psql -c "ALTER USER palvelutarjotin CREATEDB;"
+    
 
 ### Daily running, Debugging
 
@@ -49,10 +51,35 @@ Allow user to create test database
 * Set the `DEBUG` environment variable to `1`.
 * Run `python manage.py migrate`
 * Run `python manage.py runserver localhost:8081`
-* The project is now running at [localhost:8081](http://localhost:8081) 
+* The project is now running at [localhost:8081](http://localhost:8081)
+
+### Configuration
+
+1. You must config Palvelutarjotin API to integrate with [LinkedEvent API](https://github.com/City-of-Helsinki
+/linkedevents)
+    
+    Add the following lines to your local `.env` 
+    ```python
+    LINKED_EVENTS_API_ROOT=<your_linked_event_api_url>
+    LINKED_EVENTS_API_KEY=<your_linked_event_api_key>
+    LINKED_EVENTS_DATA_SOURCE=<your_linked_event_data_source>
+    ```
+    If you are not using local Linked Event, as administrator to provide these information.
+    
+    If you installed LinkedEvent yourself, you can create API_KEY and DATA_SOURCE from your local LinkedEvent admin
+    interface (Checkout the how to setup local LinkedEvent [here](https://github.com/City-of-Helsinki/linkedevents#how-to-setup-your-local-development-environment))
+
+2. (Optional) To use the SMS notification functionality, you have to acquire the API_KEY from [Notification Service API
+](https://github.com/City-of-Helsinki/notification-service-api) then add these lines to your local `.env`
+
+    ```python
+    NOTIFICATION_SERVICE_API_TOKEN=your_api_key
+    NOTIFICATION_SERVICE_API_URL=notification_service_end_point
+    ```
+ 
 
 ## API Documentation
-TBA
+To view the API documentation, in DEBUG mode visit: http://localhost:8081/graphql and checkout the `Documentation Explorer` section
 
 ## Keeping Python requirements up to date
 
