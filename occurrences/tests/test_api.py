@@ -1617,7 +1617,8 @@ def test_occurrences_filter_by_upcoming(snapshot, api_client):
 
 
 NOTIFICATION_TEMPLATE_QUERY = """
-query NotificationTemplate($type: String!, $language: Language!, $context:JSONString!){
+query NotificationTemplate($type: NotificationTemplateType!, $language: Language!,
+$context:JSONString!){
   notificationTemplate(templateType: $type, language: $language, context: $context){
     template{
         type
@@ -1633,7 +1634,7 @@ def test_notification_template_query_error(
     snapshot, api_client, notification_template_enrolment_approved_en
 ):
     variables = {
-        "type": "enrolment_approved",
+        "type": "ENROLMENT_APPROVED",
         "language": "EN",
         "context": '{"event":{"name":{"fi":"This should be `en`"}},'
         '"study_group":{'
@@ -1656,7 +1657,7 @@ def test_notification_template_query(
     notification_template_enrolment_approved_fi,
 ):
     variables = {
-        "type": "enrolment_approved",
+        "type": "ENROLMENT_APPROVED",
         "language": "EN",
         "context": '{"event":{"name":{"en":"Name in english"}},'
         '"study_group":{'
