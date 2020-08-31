@@ -6,8 +6,9 @@ from django_ilmoitin.api.schema import (
     NotificationTemplateNode as IlmotinNotificationTemplateNode,
 )
 from django_ilmoitin.models import NotificationTemplate, NotificationTemplateException
+from django_ilmoitin.registry import notifications
 from django_ilmoitin.utils import render_notification_template
-from graphene import Field, JSONString, ObjectType, String
+from graphene import Field, JSONString, ObjectType
 
 from common.utils import LanguageEnum
 from palvelutarjotin.exceptions import ApiUsageError
@@ -28,6 +29,12 @@ class Mutation(
     pass
 
 
+NotificationTemplateTypeEnum = graphene.Enum(
+    "NotificationTemplateType",
+    [(l[0].upper(), l[0]) for l in notifications.registry.items()],
+)
+
+
 class Query(
     graphene_linked_events.schema.Query,
     organisations.schema.Query,
@@ -36,7 +43,7 @@ class Query(
 ):
     notification_template = Field(
         NotificationTemplateWithContext,
-        template_type=String(required=True),
+        template_type=NotificationTemplateTypeEnum(),
         context=JSONString(
             required=True,
             description="Json stringify value of context variables used in the "
