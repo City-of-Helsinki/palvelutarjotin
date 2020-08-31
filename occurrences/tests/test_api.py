@@ -143,6 +143,13 @@ query Occurrence($id: ID!){
         enrolmentStart
         linkedEventId
     }
+    linkedEvent{
+        name {
+           en
+           fi
+           sv
+        }
+    }
     startTime
     endTime
     studyGroups {
@@ -165,7 +172,10 @@ query Occurrence($id: ID!){
         }
       }
     }
-    languages
+    languages{
+      id
+      name
+    }
   }
 }
 """
@@ -297,9 +307,9 @@ def test_occurrences_query(snapshot, occurrence, api_client):
     snapshot.assert_match(executed)
 
 
-def test_occurrence_query(snapshot, occurrence, api_client):
+def test_occurrence_query(snapshot, occurrence, api_client, mock_get_event_data):
     executed = api_client.execute(
-        OCCURRENCES_QUERY,
+        OCCURRENCE_QUERY,
         variables={"id": to_global_id("OccurrenceNode", occurrence.id)},
     )
     snapshot.assert_match(executed)

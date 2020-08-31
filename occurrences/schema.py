@@ -5,9 +5,10 @@ from django.apps import apps
 from django.db import transaction
 from django.utils import timezone
 from django.utils.translation import get_language
-from graphene import InputObjectType, NonNull, relay
+from graphene import Field, InputObjectType, NonNull, relay
 from graphene_django import DjangoConnectionField, DjangoObjectType
 from graphene_django.filter import DjangoFilterConnectionField
+from graphene_linked_events.utils import api_client, format_response, json2obj
 from graphql_jwt.decorators import staff_member_required
 from occurrences.consts import NOTIFICATION_TYPES
 from occurrences.filters import OccurrenceFilter
@@ -138,6 +139,14 @@ class VenueNodeInput(InputObjectType):
 class OccurrenceNode(DjangoObjectType):
     remaining_seats = graphene.Int()
     seats_taken = graphene.Int()
+    linked_event = Field("graphene_linked_events.schema.Event")
+
+    def resolve_linked_event(self, info, **kwargs):
+        response = api_client.retrieve(
+            "event", self.p_event.linked_event_id, is_staff=info.context.user.is_staff
+        )
+        obj = json2obj(format_response(response))
+        return obj
 
     class Meta:
         model = Occurrence
