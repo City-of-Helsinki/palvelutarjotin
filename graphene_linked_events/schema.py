@@ -606,6 +606,12 @@ class DeleteEventMutation(Mutation):
         event_id = kwargs["event_id"]
         # TODO: proper validation if necessary
         result = api_client.delete("event", event_id)
+        if result.status_code == 204:
+            try:
+                p_event = PalvelutarjotinEvent.objects.get(linked_event_id=event_id)
+                p_event.delete()
+            except PalvelutarjotinEvent.DoesNotExist:
+                pass
         response = EventMutationResponse(
             status_code=result.status_code, body=None, result_text=result.text
         )

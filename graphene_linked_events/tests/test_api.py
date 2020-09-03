@@ -908,8 +908,11 @@ def test_delete_event_unauthorized(api_client, user_api_client):
 
 
 def test_delete_event(staff_api_client, snapshot, mock_delete_event_data):
+    PalvelutarjotinEventFactory(linked_event_id="qq:afy57kkxdm")
+    assert PalvelutarjotinEvent.objects.count() == 1
     executed = staff_api_client.execute(DELETE_EVENT_MUTATION)
     snapshot.assert_match(executed)
+    assert PalvelutarjotinEvent.objects.count() == 0
 
 
 GET_IMAGES_QUERY = """
