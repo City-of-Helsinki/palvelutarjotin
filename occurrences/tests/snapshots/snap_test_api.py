@@ -79,33 +79,35 @@ snapshots["test_occurrences_query 1"] = {
 
 snapshots["test_occurrence_query 1"] = {
     "data": {
-        "occurrences": {
-            "edges": [
-                {
-                    "node": {
-                        "amountOfSeats": 49,
-                        "autoAcceptance": False,
-                        "contactPersons": {"edges": []},
-                        "endTime": "2000-08-18T23:27:03+00:00",
-                        "maxGroupSize": 383,
-                        "minGroupSize": 341,
-                        "pEvent": {
-                            "contactEmail": "bdorsey@owens.org",
-                            "contactPhoneNumber": "972-701-1715x9102",
-                            "duration": 120,
-                            "enrolmentEndDays": 0,
-                            "enrolmentStart": "2005-04-01T09:01:02+00:00",
-                            "linkedEventId": "Leg him president compare room hotel town.",
-                            "neededOccurrences": 4,
-                        },
-                        "placeId": "Record card my. Sure sister return.",
-                        "remainingSeats": 49,
-                        "seatsTaken": 0,
-                        "startTime": "2013-12-12T04:57:19+00:00",
-                        "studyGroups": {"edges": []},
-                    }
+        "occurrence": {
+            "amountOfSeats": 49,
+            "autoAcceptance": False,
+            "contactPersons": {"edges": []},
+            "endTime": "2000-08-18T23:27:03+00:00",
+            "languages": [],
+            "linkedEvent": {
+                "name": {
+                    "en": "Raija Malka & Kaija Saariaho: Blick",
+                    "fi": "Raija Malka & Kaija Saariaho: Blick",
+                    "sv": "Raija Malka & Kaija Saariaho: Blick",
                 }
-            ]
+            },
+            "maxGroupSize": 383,
+            "minGroupSize": 341,
+            "pEvent": {
+                "contactEmail": "bdorsey@owens.org",
+                "contactPhoneNumber": "972-701-1715x9102",
+                "duration": 120,
+                "enrolmentEndDays": 0,
+                "enrolmentStart": "2005-04-01T09:01:02+00:00",
+                "linkedEventId": "Leg him president compare room hotel town.",
+                "neededOccurrences": 4,
+            },
+            "placeId": "Record card my. Sure sister return.",
+            "remainingSeats": 49,
+            "seatsTaken": 0,
+            "startTime": "2013-12-12T04:57:19+00:00",
+            "studyGroups": {"edges": []},
         }
     }
 }
