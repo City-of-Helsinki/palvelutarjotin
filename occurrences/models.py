@@ -2,6 +2,7 @@ from datetime import timedelta
 
 from django.db import models, transaction
 from django.db.models import Sum
+from django.utils.timezone import localtime
 from django.utils.translation import ugettext_lazy as _
 from graphene_linked_events.utils import retrieve_linked_events_data
 from occurrences.consts import (
@@ -179,6 +180,10 @@ class Occurrence(TimestampedModel):
                 event=e.occurrence.p_event.get_event_data(),
                 custom_message=reason,
             )
+
+    @property
+    def local_start_time(self):
+        return localtime(self.start_time)
 
 
 class VenueCustomData(TranslatableModel):
