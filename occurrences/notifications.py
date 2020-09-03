@@ -30,63 +30,24 @@ study_group = StudyGroupFactory.build(person=person)
 p_event = PalvelutarjotinEventFactory.build()
 occurrence = OccurrenceFactory.build(p_event=p_event)
 
+DEFAULT_DUMMY_CONTEXT = {
+    "preview_mode": False,
+    "study_group": study_group,
+    "occurrence": occurrence,
+    "event": EVENT_DATA,
+    "custom_message": "custom_message",
+}
 dummy_context.update(
     {
-        NotificationTemplate.OCCURRENCE_ENROLMENT: {
-            "study_group": study_group,
-            "occurrence": occurrence,
-            "event": EVENT_DATA,
-        },
-        NotificationTemplate.OCCURRENCE_ENROLMENT_SMS: {
-            "study_group": study_group,
-            "occurrence": occurrence,
-            "event": EVENT_DATA,
-        },
-        NotificationTemplate.OCCURRENCE_UNENROLMENT: {
-            "study_group": study_group,
-            "occurrence": occurrence,
-            "event": EVENT_DATA,
-        },
-        NotificationTemplate.OCCURRENCE_UNENROLMENT_SMS: {
-            "study_group": study_group,
-            "occurrence": occurrence,
-            "event": EVENT_DATA,
-        },
-        NotificationTemplate.ENROLMENT_APPROVED: {
-            "study_group": study_group,
-            "occurrence": occurrence,
-            "event": EVENT_DATA,
-            "custom_message": "custom_message",
-        },
-        NotificationTemplate.ENROLMENT_APPROVED_SMS: {
-            "study_group": study_group,
-            "occurrence": occurrence,
-            "event": EVENT_DATA,
-            "custom_message": "custom_message",
-        },
-        NotificationTemplate.ENROLMENT_DECLINED: {
-            "study_group": study_group,
-            "occurrence": occurrence,
-            "event": EVENT_DATA,
-            "custom_message": "custom_message",
-        },
-        NotificationTemplate.ENROLMENT_DECLINED_SMS: {
-            "study_group": study_group,
-            "occurrence": occurrence,
-            "event": EVENT_DATA,
-            "custom_message": "custom_message",
-        },
-        NotificationTemplate.OCCURRENCE_CANCELLED: {
-            "study_group": study_group,
-            "occurrence": occurrence,
-            "event": EVENT_DATA,
-            "custom_message": "custom_message",
-        },
-        NotificationTemplate.OCCURRENCE_CANCELLED_SMS: {
-            "study_group": study_group,
-            "occurrence": occurrence,
-            "event": EVENT_DATA,
-            "custom_message": "custom_message",
-        },
+        NotificationTemplate.OCCURRENCE_ENROLMENT: DEFAULT_DUMMY_CONTEXT,
+        NotificationTemplate.OCCURRENCE_ENROLMENT_SMS: DEFAULT_DUMMY_CONTEXT,
+        NotificationTemplate.OCCURRENCE_UNENROLMENT: DEFAULT_DUMMY_CONTEXT,
+        NotificationTemplate.OCCURRENCE_UNENROLMENT_SMS: DEFAULT_DUMMY_CONTEXT,
+        NotificationTemplate.ENROLMENT_APPROVED: DEFAULT_DUMMY_CONTEXT,
+        NotificationTemplate.ENROLMENT_APPROVED_SMS: DEFAULT_DUMMY_CONTEXT,
+        NotificationTemplate.ENROLMENT_DECLINED: DEFAULT_DUMMY_CONTEXT,
+        NotificationTemplate.ENROLMENT_DECLINED_SMS: DEFAULT_DUMMY_CONTEXT,
+        NotificationTemplate.OCCURRENCE_CANCELLED: DEFAULT_DUMMY_CONTEXT,
+        NotificationTemplate.OCCURRENCE_CANCELLED_SMS: DEFAULT_DUMMY_CONTEXT,
     }
 )

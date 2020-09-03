@@ -32,6 +32,7 @@ def send_event_notifications_to_contact_person(
         context = {
             "occurrence": occurrence,
             "study_group": study_group,
+            "preview_mode": False,
             **kwargs,
         }
         # TODO: Send notification based on user language
@@ -45,6 +46,7 @@ def send_event_notifications_to_contact_person(
         context = {
             "occurrence": occurrence,
             "study_group": study_group,
+            "preview_mode": False,
             **kwargs,
         }
         destinations = [
