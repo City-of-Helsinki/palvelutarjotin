@@ -70,7 +70,9 @@ class PalvelutarjotinEvent(TimestampedModel):
         return f"{self.id} {self.linked_event_id}"
 
     def get_event_data(self):
-        return retrieve_linked_events_data("event", self.linked_event_id)
+        # We need query event location as well
+        params = {"include": "location"}
+        return retrieve_linked_events_data("event", self.linked_event_id, params=params)
 
     def is_editable_by_user(self, user):
         if self.organisation:

@@ -271,7 +271,56 @@ EVENTS_DATA = {
 
 EVENT_DATA = {
     "id": "helsinki:afxp6tv4xa",
-    "location": {"@id": "https://api.hel.fi/linkedevents/v1/place/tprek:55959/"},
+    "location": {
+        "id": "tprek:15321",
+        "divisions": [
+            {
+                "type": "muni",
+                "ocd_id": "ocd-division/country:fi/kunta:espoo",
+                "municipality": None,
+                "name": {"fi": "Espoo", "sv": "Esbo"},
+            }
+        ],
+        "created_time": None,
+        "last_modified_time": "2019-10-04T12:33:26.019395Z",
+        "custom_data": None,
+        "email": "kirjasto.entresse@espoo.fi",
+        "contact_type": None,
+        "address_region": None,
+        "postal_code": "02770",
+        "post_office_box_num": None,
+        "address_country": None,
+        "deleted": False,
+        "has_upcoming_events": False,
+        "n_events": 5438,
+        "image": 47931,
+        "data_source": "tprek",
+        "publisher": "ahjo:u021600",
+        "parent": None,
+        "replaced_by": None,
+        "position": {"type": "Point", "coordinates": [24.657864, 60.203636]},
+        "telephone": {"fi": "+358 9 8165 3776"},
+        "name": {
+            "fi": "Entressen kirjasto",
+            "sv": "Entressebiblioteket",
+            "en": "Entresse Library",
+        },
+        "street_address": {
+            "fi": "Siltakatu 11",
+            "sv": "Brogatan 11",
+            "en": "Siltakatu 11",
+        },
+        "address_locality": {"fi": "Espoo", "sv": "Esbo", "en": "Espoo"},
+        "info_url": {
+            "fi": "http://www.helmet.fi/entressenkirjasto",
+            "sv": "http://www.helmet.fi/entressebibliotek",
+            "en": "http://www.helmet.fi/entressebibliotek",
+        },
+        "description": None,
+        "@id": "https://api.hel.fi/linkedevents-test/v1/place/tprek:15321/",
+        "@context": "http://schema.org",
+        "@type": "Place",
+    },
     "keywords": [
         {"@id": "https://api.hel.fi/linkedevents/v1/keyword/helfi:12/"},
         {"@id": "https://api.hel.fi/linkedevents/v1/keyword/yso:p5121/"},

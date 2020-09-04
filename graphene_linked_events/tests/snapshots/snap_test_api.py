@@ -216,7 +216,7 @@ snapshots["test_get_event 1"] = {
             "lastModifiedTime": "2020-05-05T09:24:58.569334Z",
             "localizationExtraInfo": None,
             "location": {
-                "internalId": "https://api.hel.fi/linkedevents/v1/place/tprek:55959/"
+                "internalId": "https://api.hel.fi/linkedevents-test/v1/place/tprek:15321/"
             },
             "name": {
                 "en": "Raija Malka & Kaija Saariaho: Blick",
