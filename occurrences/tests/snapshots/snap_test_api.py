@@ -743,7 +743,7 @@ snapshots["test_approve_enrolment_with_custom_message 2"] = [
     Event FI: Raija Malka & Kaija Saariaho: Blick
     Extra event info: Plant traditional after born.
     Study group: Last appear experience seven. Throw wrong party wall agency customer clear. Control as receive cup.
-    Occurrence: 2020-01-06 00:00:00+00:00
+    Occurrence: 06.01.2020 02.00
     Person: barbarafarrell@yahoo.com
 
     Custom message: custom message
@@ -755,7 +755,7 @@ snapshots["test_approve_enrolment 2"] = [
     Event FI: Raija Malka & Kaija Saariaho: Blick
     Extra event info: Anyone during approach herself remember put list.
     Study group: Last appear experience seven. Throw wrong party wall agency customer clear. Control as receive cup.
-    Occurrence: 2020-01-06 00:00:00+00:00
+    Occurrence: 06.01.2020 02.00
     Person: barbarafarrell@yahoo.com
 
 """,
@@ -763,7 +763,7 @@ snapshots["test_approve_enrolment 2"] = [
     Event FI: Raija Malka & Kaija Saariaho: Blick
     Extra event info: Anyone during approach herself remember put list.
     Study group: Last appear experience seven. Throw wrong party wall agency customer clear. Control as receive cup.
-    Occurrence: 2020-01-06 00:00:00+00:00
+    Occurrence: 06.01.2020 02.00
     Person: barbarafarrell@yahoo.com
 
 """,
@@ -774,7 +774,7 @@ snapshots["test_decline_enrolment 2"] = [
     Event FI: Raija Malka & Kaija Saariaho: Blick
     Extra event info: Anyone during approach herself remember put list.
     Study group: Last appear experience seven. Throw wrong party wall agency customer clear. Control as receive cup.
-    Occurrence: 2020-01-06 00:00:00+00:00
+    Occurrence: 06.01.2020 02.00
     Person: barbarafarrell@yahoo.com
 
 """,
@@ -782,7 +782,7 @@ snapshots["test_decline_enrolment 2"] = [
     Event FI: Raija Malka & Kaija Saariaho: Blick
     Extra event info: Anyone during approach herself remember put list.
     Study group: Last appear experience seven. Throw wrong party wall agency customer clear. Control as receive cup.
-    Occurrence: 2020-01-06 00:00:00+00:00
+    Occurrence: 06.01.2020 02.00
     Person: barbarafarrell@yahoo.com
 
 """,
@@ -797,7 +797,7 @@ snapshots["test_decline_enrolment_with_custom_message 2"] = [
     Event FI: Raija Malka & Kaija Saariaho: Blick
     Extra event info: Plant traditional after born.
     Study group: Last appear experience seven. Throw wrong party wall agency customer clear. Control as receive cup.
-    Occurrence: 2020-01-06 00:00:00+00:00
+    Occurrence: 06.01.2020 02.00
     Person: barbarafarrell@yahoo.com
 
     Custom message: custom message

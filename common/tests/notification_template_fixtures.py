@@ -7,7 +7,11 @@ DEFAULT_NOTIFICATION_BODY_TEXT_FI = """
     Event FI: {{ event.name.fi }}
     Extra event info: {{ occurrence.p_event.linked_event_id }}
     Study group: {{ study_group.name }}
+    {% if preview_mode %}
     Occurrence: {{ occurrence.start_time }}
+    {% else %}
+    Occurrence: {{ occurrence.local_start_time.strftime('%d.%m.%Y %H.%M') }}
+    {% endif%}
     Person: {{ study_group.person.email_address}}
 """
 
@@ -28,7 +32,11 @@ DEFAULT_NOTIFICATION_BODY_TEXT_EN = """
     Event EN: {{ event.name.en }}
     Extra event info: {{ occurrence.p_event.linked_event_id }}
     Study group: {{ study_group.name }}
+    {% if preview_mode %}
     Occurrence: {{ occurrence.start_time }}
+    {% else %}
+    Occurrence: {{ occurrence.local_start_time.strftime('%d.%m.%Y %H.%M') }}
+    {% endif%}
     Person: {{ study_group.person.email_address}}
 """
 

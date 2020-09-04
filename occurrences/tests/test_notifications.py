@@ -1,9 +1,11 @@
+from datetime import datetime
 from unittest.mock import patch
 
 import pytest
+import pytz
 from django.core import mail
 from occurrences.consts import NOTIFICATION_TYPE_ALL, NOTIFICATION_TYPE_SMS
-from occurrences.factories import StudyGroupFactory
+from occurrences.factories import OccurrenceFactory, StudyGroupFactory
 from occurrences.models import Enrolment
 from organisations.factories import PersonFactory
 
@@ -156,4 +158,23 @@ def test_cancel_occurrence_notification(
         Enrolment.objects.create(study_group=s, occurrence=occurrence)
     occurrence.cancel(reason="Occurrence cancel reason")
     assert len(mail.outbox) == 3
+    assert_mails_match_snapshot(snapshot)
+
+
+@pytest.mark.parametrize(
+    "tz", [pytz.timezone("Europe/Helsinki"), pytz.utc, pytz.timezone("US/Eastern")],
+)
+@pytest.mark.django_db
+def test_local_time_notification(
+    tz,
+    snapshot,
+    mock_get_event_data,
+    notification_template_occurrence_enrolment_en,
+    notification_template_occurrence_enrolment_fi,
+    study_group,
+):
+    dt = datetime.now()
+    occurrence = OccurrenceFactory(start_time=dt.astimezone(tz))
+    Enrolment.objects.create(study_group=study_group, occurrence=occurrence)
+    # Different timezone should result same localtime in email
     assert_mails_match_snapshot(snapshot)
