@@ -3,6 +3,7 @@ from datetime import timedelta
 import graphene
 import requests
 from django.apps import apps
+from django.conf import settings
 from django.db import transaction
 from django.utils import timezone
 from django.utils.translation import get_language
@@ -42,11 +43,6 @@ from palvelutarjotin.exceptions import (
     EnrolmentNotStartedError,
     InvalidStudyGroupSizeError,
     ObjectDoesNotExistError,
-)
-from palvelutarjotin.settings import (
-    CAPTCHA_ENABLED,
-    RECAPTCHA_SECRET_KEY,
-    RECAPTCHA_VALIDATION_URL,
 )
 
 VenueTranslation = apps.get_model("occurrences", "VenueCustomDataTranslation")
@@ -440,19 +436,21 @@ class StudyGroupInput(InputObjectType):
 
 
 def verify_captcha(key):
-    secret_key = RECAPTCHA_SECRET_KEY
-    verify_url = RECAPTCHA_VALIDATION_URL
+    if not key:
+        raise CaptchaValidationFailedError("Missing captcha verification data")
+    secret_key = settings.RECAPTCHA_SECRET_KEY
+    verify_url = settings.RECAPTCHA_VALIDATION_URL
 
     # captcha verification
     data = {"response": key, "secret": secret_key}
-    resp = requests.post(verify_url, data=data)
+    resp = requests.post(verify_url, data=data, timeout=5)
     result_json = resp.json()
 
     if result_json.get("success"):
         return True
     else:
         raise CaptchaValidationFailedError(
-            f"Captcha verification failed: " f"{result_json.get('error-codes')}"
+            f"Captcha verification failed: {result_json.get('error-codes')}"
         )
 
 
@@ -467,15 +465,19 @@ class EnrolOccurrenceMutation(graphene.relay.ClientIDMutation):
             description="Leave blank if the contact person is "
             "the same with group contact person"
         )
-        captcha_key = graphene.String(required=CAPTCHA_ENABLED)
+        captcha_key = graphene.String(
+            description="The user response token provided "
+            "by the reCAPTCHA client-side "
+            "integration",
+        )
 
     enrolments = graphene.List(EnrolmentNode)
 
     @classmethod
     @transaction.atomic
     def mutate_and_get_payload(cls, root, info, **kwargs):
-        if CAPTCHA_ENABLED:
-            verify_captcha(kwargs.get("captcha_key"))
+        if settings.CAPTCHA_ENABLED:
+            verify_captcha(kwargs.pop("captcha_key", None))
         occurrence_gids = kwargs.pop("occurrence_ids")
         study_group = _create_study_group(kwargs.pop("study_group"))
         contact_person_data = kwargs.pop("person", None)

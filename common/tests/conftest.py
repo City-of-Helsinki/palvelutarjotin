@@ -20,6 +20,7 @@ from palvelutarjotin.views import SentryGraphQLView
 
 @pytest.fixture(autouse=True)
 def setup_test_environment(settings):
+    settings.CAPTCHA_ENABLED = False
     factory.random.reseed_random("777")
     with freeze_time("2020-01-04"):
         yield

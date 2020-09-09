@@ -885,14 +885,23 @@ snapshots["test_cancel_occurrence 1"] = {
     "data": {"cancelOccurrence": {"occurrence": {"cancelled": True}}}
 }
 
-snapshots["test_approve_cancelled_occurrence_enrolment 1"] = {
-    "data": {"approveEnrolment": None},
-    "errors": [
-        {
-            "extensions": {"code": "ENROL_CANCELLED_OCCURRENCE_ERROR"},
-            "locations": [{"column": 3, "line": 3}],
-            "message": "Cannot approve enrolment to cancelled occurrence",
-            "path": ["approveEnrolment"],
+snapshots["test_enrol_occurrence_with_captcha 1"] = {
+    "data": {
+        "enrolOccurrence": {
+            "enrolments": [
+                {
+                    "notificationType": "EMAIL",
+                    "occurrence": {
+                        "amountOfSeats": 50,
+                        "remainingSeats": 35,
+                        "seatsApproved": 0,
+                        "seatsTaken": 15,
+                        "startTime": "2020-01-06T00:00:00+00:00",
+                    },
+                    "status": "PENDING",
+                    "studyGroup": {"name": "To be created group"},
+                }
+            ]
         }
-    ],
+    }
 }
