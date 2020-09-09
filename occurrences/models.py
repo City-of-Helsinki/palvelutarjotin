@@ -1,7 +1,7 @@
 from datetime import timedelta
 
 from django.db import models, transaction
-from django.db.models import Sum
+from django.db.models import Q, Sum
 from django.utils.timezone import localtime
 from django.utils.translation import ugettext_lazy as _
 from graphene_linked_events.utils import retrieve_linked_events_data
@@ -153,11 +153,20 @@ class Occurrence(TimestampedModel):
             self.languages.add(l)
 
     @property
-    def seats_taken(self):
+    def seats_approved(self):
         return (
             self.enrolments.filter(status=Enrolment.STATUS_APPROVED).aggregate(
                 seats_taken=Sum("study_group__group_size")
             )["seats_taken"]
+            or 0
+        )
+
+    @property
+    def seats_taken(self):
+        return (
+            self.enrolments.filter(
+                Q(status=Enrolment.STATUS_APPROVED) | Q(status=Enrolment.STATUS_PENDING)
+            ).aggregate(seats_taken=Sum("study_group__group_size"))["seats_taken"]
             or 0
         )
 

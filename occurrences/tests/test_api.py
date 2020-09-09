@@ -96,6 +96,7 @@ query Occurrences($upcoming: Boolean, $date: Date, $time: Time){
         amountOfSeats
         remainingSeats
         seatsTaken
+        seatsApproved
         autoAcceptance
         pEvent{
             contactEmail
@@ -162,6 +163,7 @@ query Occurrence($id: ID!){
     amountOfSeats
     remainingSeats
     seatsTaken
+    seatsApproved
     autoAcceptance
     minGroupSize
     maxGroupSize
@@ -759,6 +761,7 @@ mutation enrolOccurrence($input: EnrolOccurrenceMutationInput!){
       occurrence{
         startTime
         seatsTaken
+        seatsApproved
         remainingSeats
         amountOfSeats
       }
@@ -1099,6 +1102,7 @@ mutation unenrolOccurrence($input: UnenrolOccurrenceMutationInput!){
     occurrence{
        startTime
        seatsTaken
+       seatsApproved
        remainingSeats
        amountOfSeats
     }
@@ -1455,6 +1459,7 @@ mutation updateEnrolmentMutation($input: UpdateEnrolmentMutationInput!){
       occurrence{
         startTime
         seatsTaken
+        seatsApproved
         remainingSeats
         amountOfSeats
       }
