@@ -60,3 +60,7 @@ class InvalidEmailFormatError(PalvelutarjotinGraphQLError):
 
 class EnrolCancelledOccurrenceError(PalvelutarjotinGraphQLError):
     """Enrol cancelled occurrence"""
+
+
+class CaptchaValidationFailedError(PalvelutarjotinGraphQLError):
+    """Captcha validation failed"""
