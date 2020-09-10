@@ -190,6 +190,7 @@ class Occurrence(TimestampedModel):
                 NotificationTemplate.OCCURRENCE_CANCELLED_SMS,
                 event=e.occurrence.p_event.get_event_data(),
                 custom_message=reason,
+                enrolment=e,
             )
 
     @property
@@ -353,6 +354,7 @@ class Enrolment(models.Model):
             NotificationTemplate.ENROLMENT_APPROVED_SMS,
             event=self.occurrence.p_event.get_event_data(),
             custom_message=custom_message,
+            enrolment=self,
         )
 
     def decline(self, custom_message=None):
@@ -366,4 +368,5 @@ class Enrolment(models.Model):
             NotificationTemplate.ENROLMENT_DECLINED_SMS,
             event=self.occurrence.p_event.get_event_data(),
             custom_message=custom_message,
+            enrolment=self,
         )

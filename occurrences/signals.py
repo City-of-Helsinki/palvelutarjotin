@@ -17,6 +17,7 @@ def send_enrolment_email(instance, created, **kwargs):
             NotificationTemplate.OCCURRENCE_ENROLMENT,
             NotificationTemplate.OCCURRENCE_ENROLMENT_SMS,
             event=instance.occurrence.p_event.get_event_data(),
+            enrolment=instance,
         )
 
 
@@ -30,6 +31,7 @@ def send_unenrolment_email(instance, **kwargs):
         NotificationTemplate.OCCURRENCE_UNENROLMENT,
         NotificationTemplate.OCCURRENCE_UNENROLMENT_SMS,
         event=instance.occurrence.p_event.get_event_data(),
+        enrolment=instance,
     )
 
 
