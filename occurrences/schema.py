@@ -22,7 +22,7 @@ from occurrences.models import (
     StudyGroup,
     VenueCustomData,
 )
-from organisations.models import Person
+from organisations.models import Organisation, Person
 from organisations.schema import PersonNodeInput
 
 from common.utils import (
@@ -377,6 +377,7 @@ class EnrolmentNode(DjangoObjectType):
 
     class Meta:
         model = Enrolment
+        filter_fields = ["status"]
         interfaces = (relay.Node,)
 
 
@@ -722,6 +723,25 @@ class Query:
 
     enrolments = DjangoConnectionField(EnrolmentNode)
     enrolment = relay.Node.Field(EnrolmentNode)
+
+    enrolment_summary = DjangoConnectionField(
+        EnrolmentNode,
+        organisation_id=graphene.ID(required=True),
+        status=graphene.String(),
+    )
+
+    @staticmethod
+    def resolve_enrolment_summary(parent, info, **kwargs):
+        try:
+            organisation = get_obj_from_global_id(
+                info, kwargs["organisation_id"], Organisation
+            )
+        except ObjectDoesNotExistError:
+            return None
+        qs = Enrolment.objects.filter(occurrence__p_event__organisation=organisation)
+        if kwargs.get("status"):
+            qs = qs.filter(status=kwargs["status"])
+        return qs
 
 
 def _create_study_group(study_group_data):
