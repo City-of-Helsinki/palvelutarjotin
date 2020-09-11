@@ -1,5 +1,6 @@
 import graphene_linked_events.rest_client
 import pytest
+import requests
 from graphene_linked_events.tests.mock_data import (
     CREATED_EVENT_DATA,
     DRAFT_EVENT_DATA,
@@ -11,6 +12,7 @@ from graphene_linked_events.tests.mock_data import (
     KEYWORDS_DATA,
     PLACE_DATA,
     PLACES_DATA,
+    RECAPTCHA_DATA,
     UPDATE_EVENT_DATA,
 )
 from graphene_linked_events.tests.utils import MockResponse
@@ -164,4 +166,11 @@ def mock_update_image_data(monkeypatch):
         graphene_linked_events.rest_client.LinkedEventsApiClient,
         "update",
         _get_mock_function(IMAGE_DATA),
+    )
+
+
+@pytest.fixture
+def mock_recaptcha_data(monkeypatch):
+    monkeypatch.setattr(
+        requests, "post", _get_mock_function(RECAPTCHA_DATA),
     )

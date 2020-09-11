@@ -6,6 +6,7 @@ from graphql_jwt.exceptions import PermissionDenied as JwtPermissionDenied
 from palvelutarjotin.consts import (
     ALREADY_JOINED_EVENT_ERROR,
     API_USAGE_ERROR,
+    CAPTCHA_VALIDATION_FAILED_ERROR,
     DATA_VALIDATION_ERROR,
     ENROL_CANCELLED_OCCURRENCE_ERROR,
     ENROLMENT_CLOSED_ERROR,
@@ -24,6 +25,7 @@ from palvelutarjotin.consts import (
 from palvelutarjotin.exceptions import (
     AlreadyJoinedEventError,
     ApiUsageError,
+    CaptchaValidationFailedError,
     DataValidationError,
     EnrolCancelledOccurrenceError,
     EnrolmentClosedError,
@@ -60,6 +62,7 @@ error_codes_palvelutarjotin = {
     EnrolmentMaxNeededOccurrenceReached: MAX_NEEDED_OCCURRENCES_REACHED_ERROR,
     InvalidStudyGroupSizeError: INVALID_STUDY_GROUP_SIZE_ERROR,
     InvalidEmailFormatError: INVALID_EMAIL_FORMAT_ERROR,
+    CaptchaValidationFailedError: CAPTCHA_VALIDATION_FAILED_ERROR,
 }
 
 sentry_ignored_errors = (

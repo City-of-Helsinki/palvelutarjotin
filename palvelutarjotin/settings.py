@@ -62,6 +62,8 @@ env = environ.Env(
     LINKED_EVENTS_DATA_SOURCE=(str, "palvelutarjotin"),
     NOTIFICATION_SERVICE_API_TOKEN=(str, ""),
     NOTIFICATION_SERVICE_API_URL=(str, "https://notification-service.hel.fi/v1/"),
+    CAPTCHA_ENABLED=(bool, False),
+    RECAPTCHA_SECRET_KEY=(str, ""),
 )
 
 if os.path.exists(env_file):
@@ -246,6 +248,10 @@ LOGGING = {
     "handlers": {"console": {"class": "logging.StreamHandler"}},
     "loggers": {"django": {"handlers": ["console"], "level": "ERROR"}},
 }
+
+CAPTCHA_ENABLED = env.bool("CAPTCHA_ENABLED")
+RECAPTCHA_SECRET_KEY = env.str("RECAPTCHA_SECRET_KEY")
+RECAPTCHA_VALIDATION_URL = "https://www.google.com/recaptcha/api/siteverify"
 
 # local_settings.py can be used to override environment-specific settings
 # like database and email that differ between development and production.

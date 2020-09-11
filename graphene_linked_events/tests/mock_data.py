@@ -976,3 +976,8 @@ IMAGE_DATA = {
     "@context": "http://schema.org",
     "@type": "ImageObject",
 }
+
+RECAPTCHA_DATA = {
+    "success": True,
+    "challenge_ts": "2020-09-09",
+}

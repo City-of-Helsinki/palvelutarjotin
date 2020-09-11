@@ -21,6 +21,7 @@ from common.tests.utils import (
 )
 from palvelutarjotin.consts import (
     API_USAGE_ERROR,
+    CAPTCHA_VALIDATION_FAILED_ERROR,
     ENROL_CANCELLED_OCCURRENCE_ERROR,
     ENROLMENT_CLOSED_ERROR,
     ENROLMENT_NOT_STARTED_ERROR,
@@ -1006,6 +1007,48 @@ def test_enrol_occurrence(snapshot, api_client, mock_get_event_data):
     snapshot.assert_match(executed)
 
 
+def test_enrol_occurrence_with_captcha(
+    snapshot, api_client, mock_get_event_data, settings, mock_recaptcha_data
+):
+    settings.CAPTCHA_ENABLED = True
+    study_group_15 = StudyGroupFactory(group_size=15)
+    # Current date froze on 2020-01-04:
+    p_event_1 = PalvelutarjotinEventFactory(
+        enrolment_start=datetime(2020, 1, 3, 0, 0, 0, tzinfo=timezone.now().tzinfo),
+        enrolment_end_days=2,
+    )
+    occurrence = OccurrenceFactory(
+        start_time=datetime(2020, 1, 6, 0, 0, 0, tzinfo=timezone.now().tzinfo),
+        p_event=p_event_1,
+        min_group_size=10,
+        max_group_size=20,
+        amount_of_seats=50,
+    )
+
+    variables = {
+        "input": {
+            "occurrenceIds": [to_global_id("OccurrenceNode", occurrence.id)],
+            "studyGroup": {
+                "person": {
+                    "id": to_global_id("PersonNode", study_group_15.person.id),
+                    "name": study_group_15.person.name,
+                    "emailAddress": study_group_15.person.email_address,
+                },
+                "name": "To be created group",
+                "groupSize": study_group_15.group_size,
+                "groupName": study_group_15.group_name,
+                "studyLevel": study_group_15.study_level.upper(),
+                "amountOfAdult": study_group_15.amount_of_adult,
+            },
+        }
+    }
+    executed = api_client.execute(ENROL_OCCURRENCE_MUTATION, variables=variables)
+    assert_match_error_code(executed, CAPTCHA_VALIDATION_FAILED_ERROR)
+    variables["input"]["captchaKey"] = "captcha_key"
+    executed = api_client.execute(ENROL_OCCURRENCE_MUTATION, variables=variables)
+    snapshot.assert_match(executed)
+
+
 def test_enrol_auto_acceptance_occurrence(snapshot, api_client, mock_get_event_data):
     study_group_15 = StudyGroupFactory(group_size=15)
     # Current date froze on 2020-01-04:
@@ -1241,7 +1284,6 @@ def test_approve_cancelled_occurrence_enrolment(snapshot, staff_api_client):
     variables = {"input": {"enrolmentId": to_global_id("EnrolmentNode", enrolment.id)}}
     staff_api_client.user.person.organisations.add(occurrence.p_event.organisation)
     executed = staff_api_client.execute(APPROVE_ENROLMENT_MUTATION, variables=variables)
-    snapshot.assert_match(executed)
     assert_match_error_code(executed, ENROL_CANCELLED_OCCURRENCE_ERROR)
 
 
