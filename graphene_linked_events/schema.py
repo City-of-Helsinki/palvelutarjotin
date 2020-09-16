@@ -249,7 +249,7 @@ class Query:
         keywords=List(String),
         keyword_not=List(String),
         language=String(),
-        locations=String(),
+        location=String(),
         page=Int(),
         page_size=Int(),
         publisher=ID(),
