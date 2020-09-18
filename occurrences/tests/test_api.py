@@ -7,6 +7,7 @@ from django.utils import timezone
 from graphql_relay import to_global_id
 from occurrences.consts import NOTIFICATION_TYPE_EMAIL
 from occurrences.factories import (
+    EnrolmentFactory,
     OccurrenceFactory,
     PalvelutarjotinEventFactory,
     StudyGroupFactory,
@@ -1774,3 +1775,69 @@ def test_cancel_occurrence(snapshot, staff_api_client, occurrence):
     for e in occurrence.enrolments.all():
         assert e.status == Enrolment.STATUS_CANCELLED
     assert_match_error_code(executed, API_USAGE_ERROR)
+
+
+ENROLMENTS_SUMMARY_QUERY = """
+query enrolmentSummary($organisationId: ID!, $status: EnrolmentStatus){
+  enrolmentSummary(organisationId: $organisationId, status:$status){
+    count
+    edges{
+      node{
+        status
+      }
+    }
+  }
+}
+"""
+
+
+def test_enrolments_summary_unauthorized(
+    snapshot, api_client, user_api_client, staff_api_client, organisation
+):
+    organisation_gid = to_global_id("OrganisationNode", organisation.id)
+    executed = api_client.execute(
+        ENROLMENTS_SUMMARY_QUERY, variables={"organisationId": organisation_gid}
+    )
+    assert_permission_denied(executed)
+
+    executed = user_api_client.execute(
+        ENROLMENTS_SUMMARY_QUERY, variables={"organisationId": organisation_gid}
+    )
+    assert_permission_denied(executed)
+
+    # assert organisation not in staff_api_client.user.person.organisations
+    executed = staff_api_client.execute(
+        ENROLMENTS_SUMMARY_QUERY, variables={"organisationId": organisation_gid}
+    )
+    assert_permission_denied(executed)
+
+
+def test_enrolments_summary(
+    snapshot, staff_api_client, occurrence, mock_get_event_data
+):
+    organisation_gid = to_global_id(
+        "OrganisationNode", occurrence.p_event.organisation.id
+    )
+    EnrolmentFactory(occurrence=occurrence)
+    EnrolmentFactory(
+        occurrence=occurrence, status=Enrolment.STATUS_APPROVED,
+    )
+    EnrolmentFactory(
+        occurrence=occurrence, status=Enrolment.STATUS_DECLINED,
+    )
+    EnrolmentFactory(
+        occurrence=occurrence, status=Enrolment.STATUS_CANCELLED,
+    )
+
+    assert Enrolment.objects.count() == 4
+    staff_api_client.user.person.organisations.add(occurrence.p_event.organisation)
+    executed = staff_api_client.execute(
+        ENROLMENTS_SUMMARY_QUERY, variables={"organisationId": organisation_gid}
+    )
+    snapshot.assert_match(executed)
+    for status, _ in Enrolment.STATUSES:
+        executed = staff_api_client.execute(
+            ENROLMENTS_SUMMARY_QUERY,
+            variables={"organisationId": organisation_gid, "status": status.upper()},
+        )
+        snapshot.assert_match(executed)

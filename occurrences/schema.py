@@ -7,7 +7,7 @@ from django.conf import settings
 from django.db import transaction
 from django.utils import timezone
 from django.utils.translation import get_language
-from graphene import Field, InputObjectType, NonNull, relay
+from graphene import Connection, Field, InputObjectType, NonNull, relay
 from graphene_django import DjangoConnectionField, DjangoObjectType
 from graphene_django.filter import DjangoFilterConnectionField
 from graphene_linked_events.utils import api_client, format_response, json2obj
@@ -22,7 +22,7 @@ from occurrences.models import (
     StudyGroup,
     VenueCustomData,
 )
-from organisations.models import Person
+from organisations.models import Organisation, Person
 from organisations.schema import PersonNodeInput
 
 from common.utils import (
@@ -51,6 +51,10 @@ StudyLevelEnum = graphene.Enum(
 )
 NotificationTypeEnum = graphene.Enum(
     "NotificationType", [(t[0].upper(), t[0]) for t in NOTIFICATION_TYPES]
+)
+
+EnrolmentStatusEnum = graphene.Enum(
+    "EnrolmentStatus", [(s[0].upper(), s[0]) for s in Enrolment.STATUSES]
 )
 
 
@@ -372,12 +376,25 @@ class DeleteVenueMutation(graphene.relay.ClientIDMutation):
         return DeleteVenueMutation()
 
 
+class EnrolmentConnectionWithCount(Connection):
+    class Meta:
+        abstract = True
+
+    count = graphene.Int()
+
+    def resolve_count(root, info, **kwargs):
+        return root.length
+
+
 class EnrolmentNode(DjangoObjectType):
     notification_type = NotificationTypeEnum()
+    status = EnrolmentStatusEnum()
 
     class Meta:
         model = Enrolment
+        filter_fields = ["status"]
         interfaces = (relay.Node,)
+        connection_class = EnrolmentConnectionWithCount
 
 
 def validate_enrolment(study_group, occurrence, new_enrolment=True):
@@ -722,6 +739,25 @@ class Query:
 
     enrolments = DjangoConnectionField(EnrolmentNode)
     enrolment = relay.Node.Field(EnrolmentNode)
+
+    enrolment_summary = DjangoConnectionField(
+        EnrolmentNode,
+        organisation_id=graphene.ID(required=True),
+        status=EnrolmentStatusEnum(),
+    )
+
+    @staff_member_required
+    def resolve_enrolment_summary(self, info, **kwargs):
+        try:
+            organisation = get_editable_obj_from_global_id(
+                info, kwargs["organisation_id"], Organisation
+            )
+        except ObjectDoesNotExistError:
+            return None
+        qs = Enrolment.objects.filter(occurrence__p_event__organisation=organisation)
+        if kwargs.get("status"):
+            qs = qs.filter(status=kwargs["status"])
+        return qs
 
 
 def _create_study_group(study_group_data):

@@ -905,3 +905,41 @@ snapshots["test_enrol_occurrence_with_captcha 1"] = {
         }
     }
 }
+
+snapshots["test_enrolments_summary 1"] = {
+    "data": {
+        "enrolmentSummary": {
+            "count": 4,
+            "edges": [
+                {"node": {"status": "CANCELLED"}},
+                {"node": {"status": "DECLINED"}},
+                {"node": {"status": "APPROVED"}},
+                {"node": {"status": "PENDING"}},
+            ],
+        }
+    }
+}
+
+snapshots["test_enrolments_summary 2"] = {
+    "data": {
+        "enrolmentSummary": {"count": 1, "edges": [{"node": {"status": "APPROVED"}}]}
+    }
+}
+
+snapshots["test_enrolments_summary 3"] = {
+    "data": {
+        "enrolmentSummary": {"count": 1, "edges": [{"node": {"status": "PENDING"}}]}
+    }
+}
+
+snapshots["test_enrolments_summary 4"] = {
+    "data": {
+        "enrolmentSummary": {"count": 1, "edges": [{"node": {"status": "CANCELLED"}}]}
+    }
+}
+
+snapshots["test_enrolments_summary 5"] = {
+    "data": {
+        "enrolmentSummary": {"count": 1, "edges": [{"node": {"status": "DECLINED"}}]}
+    }
+}
