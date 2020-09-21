@@ -217,9 +217,12 @@ class AddOccurrenceMutation(graphene.relay.ClientIDMutation):
         validate_occurrence_data(kwargs)
         contact_persons = kwargs.pop("contact_persons", None)
         languages = kwargs.pop("languages", None)
-        kwargs["p_event_id"] = get_editable_obj_from_global_id(
+        p_event = get_editable_obj_from_global_id(
             info, kwargs["p_event_id"], PalvelutarjotinEvent
-        ).id
+        )
+        if p_event.is_published():
+            raise ApiUsageError("Cannot add occurrence to published event")
+        kwargs["p_event_id"] = p_event.id
         occurrence = Occurrence.objects.create(**kwargs)
 
         if contact_persons:
@@ -261,10 +264,14 @@ class UpdateOccurrenceMutation(graphene.relay.ClientIDMutation):
         occurrence = get_editable_obj_from_global_id(info, kwargs.pop("id"), Occurrence)
         contact_persons = kwargs.pop("contact_persons", None)
         languages = kwargs.pop("languages", None)
-        kwargs["p_event_id"] = get_editable_obj_from_global_id(
-            info, kwargs["p_event_id"], PalvelutarjotinEvent
-        ).id
-
+        p_event = occurrence.p_event
+        if kwargs.get("p_event_id"):
+            p_event = get_editable_obj_from_global_id(
+                info, kwargs["p_event_id"], PalvelutarjotinEvent
+            )
+            kwargs["p_event_id"] = p_event.id
+        if p_event.is_published():
+            raise ApiUsageError("Cannot update occurrence of published event")
         update_object(occurrence, kwargs)
         # Nested update
         if contact_persons:
@@ -284,12 +291,7 @@ class DeleteOccurrenceMutation(graphene.ClientIDMutation):
     @transaction.atomic
     def mutate_and_get_payload(cls, root, info, **kwargs):
         occurrence = get_editable_obj_from_global_id(info, kwargs.pop("id"), Occurrence)
-        linked_event_data = occurrence.p_event.get_event_data()
-        if (
-            linked_event_data.publication_status
-            == PalvelutarjotinEvent.PUBLICATION_STATUS_PUBLIC
-            and not occurrence.cancelled
-        ):
+        if occurrence.p_event.is_published() and not occurrence.cancelled:
             raise ApiUsageError(
                 "Cannot delete published occurrence. Event is "
                 "published or occurrence is not cancelled"
