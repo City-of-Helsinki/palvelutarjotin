@@ -69,10 +69,12 @@ class PalvelutarjotinEvent(TimestampedModel):
     def __str__(self):
         return f"{self.id} {self.linked_event_id}"
 
-    def get_event_data(self):
+    def get_event_data(self, is_staff=False):
         # We need query event location as well
         params = {"include": "location"}
-        return retrieve_linked_events_data("event", self.linked_event_id, params=params)
+        return retrieve_linked_events_data(
+            "event", self.linked_event_id, params=params, is_staff=is_staff
+        )
 
     def is_editable_by_user(self, user):
         if self.organisation:
@@ -81,7 +83,7 @@ class PalvelutarjotinEvent(TimestampedModel):
 
     def is_published(self):
         return (
-            self.get_event_data().publication_status
+            self.get_event_data(is_staff=True).publication_status
             == PalvelutarjotinEvent.PUBLICATION_STATUS_PUBLIC
         )
 
