@@ -340,7 +340,30 @@ def test_add_occurrence_unauthorized(
     assert_permission_denied(executed)
 
 
-def test_add_occurrence(snapshot, staff_api_client, organisation, person):
+def test_add_occurrence_to_published_event(
+    staff_api_client, organisation, person, mock_get_event_data
+):
+    variables = deepcopy(ADD_OCCURRENCE_VARIABLES)
+    p_event = PalvelutarjotinEventFactory(organisation=organisation)
+    variables["input"]["pEventId"] = to_global_id(
+        "PalvelutarjotinEventNode", p_event.id
+    )
+    # Add one more pre-made contact person to the variable
+    variables["input"]["contactPersons"].append(
+        {
+            "id": to_global_id("PersonNode", person.id),
+            "emailAddress": person.email_address,
+            "name": person.name,
+        }
+    )
+    staff_api_client.user.person.organisations.add(organisation)
+    executed = staff_api_client.execute(ADD_OCCURRENCE_MUTATION, variables=variables)
+    assert_match_error_code(executed, API_USAGE_ERROR)
+
+
+def test_add_occurrence(
+    snapshot, staff_api_client, organisation, person, mock_get_draft_event_data
+):
     variables = deepcopy(ADD_OCCURRENCE_VARIABLES)
     p_event = PalvelutarjotinEventFactory(organisation=organisation)
     variables["input"]["pEventId"] = to_global_id(
@@ -374,7 +397,36 @@ def test_update_occurrence_unauthorized(
     assert_permission_denied(executed)
 
 
-def test_update_occurrence(snapshot, staff_api_client, organisation, person):
+def test_update_occurrence_of_published_event(
+    staff_api_client, organisation, person, mock_get_event_data
+):
+    variables = deepcopy(UPDATE_OCCURRENCE_VARIABLES)
+    occurrence = OccurrenceFactory(
+        contact_persons=[person], p_event__organisation=organisation
+    )
+    p_event = PalvelutarjotinEventFactory(organisation=organisation)
+    variables["input"]["id"] = to_global_id("OccurrenceNode", occurrence.id)
+    # Change p_event
+    variables["input"]["pEventId"] = to_global_id(
+        "PalvelutarjotinEventNode", p_event.id
+    )
+    # Change contact person, remove old one
+    new_person = PersonFactory()
+    variables["input"]["contactPersons"] = [
+        {
+            "id": to_global_id("PersonNode", new_person.id),
+            "emailAddress": new_person.email_address,
+            "name": new_person.name,
+        },
+    ]
+    staff_api_client.user.person.organisations.add(organisation)
+    executed = staff_api_client.execute(UPDATE_OCCURRENCE_MUTATION, variables=variables)
+    assert_match_error_code(executed, API_USAGE_ERROR)
+
+
+def test_update_occurrence(
+    snapshot, staff_api_client, organisation, person, mock_get_draft_event_data
+):
     variables = deepcopy(UPDATE_OCCURRENCE_VARIABLES)
     occurrence = OccurrenceFactory(
         contact_persons=[person], p_event__organisation=organisation

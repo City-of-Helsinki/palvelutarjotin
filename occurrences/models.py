@@ -79,6 +79,12 @@ class PalvelutarjotinEvent(TimestampedModel):
             return user.person.organisations.filter(id=self.organisation.id).exists()
         return True
 
+    def is_published(self):
+        return (
+            self.get_event_data().publication_status
+            == PalvelutarjotinEvent.PUBLICATION_STATUS_PUBLIC
+        )
+
     def get_end_time_from_occurrences(self):
         # Return the latest time that teacher can enrol to the event
         try:
