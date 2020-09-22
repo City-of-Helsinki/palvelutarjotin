@@ -27,6 +27,8 @@ def format_request(request):
     return json.dumps(request).replace("internal_", "@")
 
 
-def retrieve_linked_events_data(resource, resource_id, params=None):
-    response = api_client.retrieve(resource, resource_id, params=params)
+def retrieve_linked_events_data(resource, resource_id, params=None, is_staff=False):
+    response = api_client.retrieve(
+        resource, resource_id, params=params, is_staff=is_staff
+    )
     return json2obj(format_response(response))
