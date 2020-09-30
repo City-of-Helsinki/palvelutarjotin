@@ -1,4 +1,4 @@
-# Palvelutarjotin API
+# Beta Kultus API
 
 [![status](https://travis-ci.com/City-of-Helsinki/palvelutarjotin.svg)](https://github.com/City-of-Helsinki/palvelutarjotin)
 [![codecov](https://codecov.io/gh/City-of-Helsinki/palvelutarjotin/branch/develop/graph/badge.svg)](https://codecov.io/gh/City-of-Helsinki/palvelutarjotin)
@@ -55,7 +55,7 @@ Allow user to create test database
 
 ### Configuration
 
-1. You must config Palvelutarjotin API to integrate with [LinkedEvent API](https://github.com/City-of-Helsinki
+1. You must config Beta Kultus API to integrate with [LinkedEvent API](https://github.com/City-of-Helsinki
 /linkedevents)
     
     Add the following lines to your local `.env` 

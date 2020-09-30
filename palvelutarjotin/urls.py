@@ -9,9 +9,7 @@ from helusers.admin_site import admin
 from common.utils import get_api_version
 from palvelutarjotin.views import SentryGraphQLView
 
-admin.site.index_title = " ".join(
-    [ugettext("Palvelutarjotin backend"), get_api_version()]
-)
+admin.site.index_title = " ".join([ugettext("Beta Kultus API"), get_api_version()])
 
 urlpatterns = [
     path("admin/", admin.site.urls),
