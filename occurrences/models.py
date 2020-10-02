@@ -152,7 +152,7 @@ class Occurrence(TimestampedModel):
         verbose_name_plural = _("occurrences")
 
     def __str__(self):
-        return f"{self.id} {self.place_id}"
+        return f"{self.p_event.linked_event_id} {self.start_time}" f" {self.place_id}"
 
     def add_languages(self, languages):
         self.languages.clear()
@@ -338,7 +338,7 @@ class Enrolment(models.Model):
         ]
 
     def __str__(self):
-        return f"{self.id} {self.occurrence} {self.study_group}"
+        return f"{self.id} {self.occurrence.start_time} {self.study_group.name}"
 
     def is_editable_by_user(self, user):
         return user.person.organisations.filter(
