@@ -140,3 +140,31 @@ snapshots["test_local_time_notification[tz2] 1"] = [
     Occurrence: 04.01.2020 00.00
     Person: stephanieskinner@gmail.com"""
 ]
+
+snapshots["test_only_send_approved_notification[False] 1"] = [
+    """no-reply@hel.ninja|['stephanieskinner@gmail.com']|Occurrence enrolment FI|
+    Event FI: Raija Malka & Kaija Saariaho: Blick
+    Extra event info: Country actually generation five training thought price gas.
+    Study group: Increase thank certainly again thought summer. Beyond than trial western.
+    Occurrence: 11.06.2014 11.14
+    Person: stephanieskinner@gmail.com""",
+    """no-reply@hel.ninja|['stephanieskinner@gmail.com']|Enrolment approved FI|
+    Event FI: Raija Malka & Kaija Saariaho: Blick
+    Extra event info: Country actually generation five training thought price gas.
+    Study group: Increase thank certainly again thought summer. Beyond than trial western.
+    Occurrence: 11.06.2014 11.14
+    Person: stephanieskinner@gmail.com
+
+""",
+]
+
+snapshots["test_only_send_approved_notification[True] 1"] = [
+    """no-reply@hel.ninja|['stephanieskinner@gmail.com']|Enrolment approved FI|
+    Event FI: Raija Malka & Kaija Saariaho: Blick
+    Extra event info: Country actually generation five training thought price gas.
+    Study group: Increase thank certainly again thought summer. Beyond than trial western.
+    Occurrence: 11.06.2014 11.14
+    Person: stephanieskinner@gmail.com
+
+"""
+]
