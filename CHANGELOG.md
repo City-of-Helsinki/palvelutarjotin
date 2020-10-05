@@ -1,7 +1,7 @@
 <!-- REMINDER: While updating changelog, also remember to update
-the version in kukkuu/__init.py__ -->
+the version in palvelutarjotin/__init.py__ -->
 
-## 0.1.0 - 2 Oct 2020
+## [0.1.0] - 2 Oct 2020
 ### Added
 - Tunnistamo authentication
 - Provider APIs:

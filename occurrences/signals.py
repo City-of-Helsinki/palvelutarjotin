@@ -8,7 +8,9 @@ from occurrences.utils import send_event_notifications_to_contact_person
 
 @receiver(post_save, sender=Enrolment, dispatch_uid="send_enrolment_email")
 def send_enrolment_email(instance, created, **kwargs):
-    if created:
+    # Do not sent enrolment received notification if the occurrence auto accept the
+    # enrolment, instead only send enrolment approved notification
+    if created and not instance.occurrence.auto_acceptance:
         send_event_notifications_to_contact_person(
             instance.person,
             instance.occurrence,
