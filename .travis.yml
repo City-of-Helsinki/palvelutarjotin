@@ -1,0 +1,28 @@
+branches: {only: [master, develop]}
+sudo: false
+language: python
+python: 3.7
+cache: pip
+
+addons:
+  postgresql: "10"
+  apt:
+    packages:
+    - postgresql-10
+    - postgresql-client-10
+
+matrix:
+  include:
+    - name: Unit tests
+      env: DATABASE_URL=postgres:///palvelutarjotin SECRET_KEY=topsecret123
+      services: [postgresql]
+      install: pip install -r requirements.txt -r requirements-dev.txt
+      script: pytest -ra -vv --doctest-modules --cov=.
+      after_success: pip install codecov && codecov
+
+    - name: Style
+      install: pip install -r requirements.txt -r requirements-dev.txt
+      script:
+        - black --check .
+        - flake8
+        - isort -c

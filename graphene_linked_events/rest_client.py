@@ -1,0 +1,96 @@
+import requests
+
+
+class LinkedEventsApiClient(object):
+    def __init__(self, config) -> None:
+        self.root = config["ROOT"]
+        self.api_key = config["API_KEY"]
+        super().__init__()
+
+    def get_actions(self, resource=None):
+        url = self.root + resource
+        return {
+            "list": {"method": "GET", "url": url + "/"},
+            "create": {"method": "POST", "url": url + "/"},
+            "retrieve": {"method": "GET", "url": url + "/{}/"},
+            "update": {"method": "PUT", "url": url + "/{}/"},
+            "delete": {"method": "DELETE", "url": url + "/{}/"},
+            "search": {"method": "GET", "url": self.root + "search/"},
+            "upload": {"method": "POST", "url": url + "/"},
+        }
+
+    def retrieve(self, resource, id, params=None, is_staff=False):
+        actions = self.get_actions(resource)
+
+        if is_staff:
+            headers = {"apikey": self.api_key}
+            return requests.request(
+                actions["retrieve"]["method"],
+                actions["retrieve"]["url"].format(id),
+                params=params,
+                headers=headers,
+            )
+        return requests.request(
+            actions["retrieve"]["method"],
+            actions["retrieve"]["url"].format(id),
+            params=params,
+        )
+
+    def list(self, resource, filter_list=None, is_staff=False):
+        actions = self.get_actions(resource)
+        filter_params = filter_list
+        if is_staff:
+            headers = {"apikey": self.api_key}
+            return requests.request(
+                actions["list"]["method"],
+                actions["list"]["url"],
+                params=filter_params,
+                headers=headers,
+            )
+        return requests.request(
+            actions["list"]["method"], actions["list"]["url"], params=filter_params
+        )
+
+    def create(self, resource, body):
+        actions = self.get_actions(resource)
+        headers = {"apikey": self.api_key, "Content-Type": "application/json"}
+        return requests.request(
+            actions["create"]["method"],
+            actions["create"]["url"],
+            data=body,
+            headers=headers,
+        )
+
+    def update(self, resource, id, body):
+        actions = self.get_actions(resource)
+        headers = {"apikey": self.api_key, "Content-Type": "application/json"}
+        return requests.request(
+            actions["update"]["method"],
+            actions["update"]["url"].format(id),
+            data=body,
+            headers=headers,
+        )
+
+    def delete(self, resource, id):
+        actions = self.get_actions(resource)
+        headers = {"apikey": self.api_key, "Content-Type": "application/json"}
+        return requests.request(
+            actions["delete"]["method"],
+            actions["delete"]["url"].format(id),
+            headers=headers,
+        )
+
+    # Special action to full-text search generic resources
+    def search(self, search_params):
+        action = self.get_actions()["search"]
+        response = requests.request(
+            action["method"], action["url"], params=search_params
+        )
+        return response
+
+    def upload(self, resource, body, files):
+        action = self.get_actions(resource)["upload"]
+        headers = {"apikey": self.api_key}
+        return requests.request(
+            action["method"], action["url"], data=body, files=files, headers=headers
+        )

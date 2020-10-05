@@ -1,0 +1,39 @@
+version: '3.7'
+services:
+    postgres:
+        image: postgres:10
+        restart: on-failure
+        environment:
+            POSTGRES_USER: palvelutarjotin
+            POSTGRES_PASSWORD: palvelutarjotin
+            POSTGRES_DB: palvelutarjotin
+        ports:
+            - 5434:5432
+        volumes:
+          - pgdata:/var/lib/postgresql/data
+        container_name: palvelutarjotin-db
+
+    django:
+        build:
+            context: .
+            target: development
+        env_file:
+            - docker-compose.env.yaml
+        environment:
+            DATABASE_URL: postgres://palvelutarjotin:palvelutarjotin@palvelutarjotin-db/palvelutarjotin
+            DATABASE_HOST: palvelutarjotin-db.helsinki
+        volumes:
+            - .:/app
+        ports:
+            - 8081:8081
+        depends_on:
+            - postgres
+        container_name: palvelutarjotin-backend
+
+volumes:
+    pgdata:
+        driver: local
+
+networks:
+    default:
+        name: helsinki

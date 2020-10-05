@@ -1,0 +1,13 @@
+Django
+django-cors-headers
+django-environ
+django-graphql-jwt
+django-helusers
+django-ilmoitin[graphql_api]
+django-filter
+django-axes
+factory-boy
+graphene-django
+graphene-file-upload
+psycopg2
+sentry-sdk
