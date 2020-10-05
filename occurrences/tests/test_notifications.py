@@ -178,3 +178,26 @@ def test_local_time_notification(
     Enrolment.objects.create(study_group=study_group, occurrence=occurrence)
     # Different timezone should result same localtime in email
     assert_mails_match_snapshot(snapshot)
+
+
+@pytest.mark.parametrize(
+    "auto_acceptance", [True, False],
+)
+@pytest.mark.django_db
+def test_only_send_approved_notification(
+    auto_acceptance,
+    snapshot,
+    mock_get_event_data,
+    notification_template_occurrence_enrolment_en,
+    notification_template_enrolment_approved_en,
+    notification_template_occurrence_enrolment_fi,
+    notification_template_enrolment_approved_fi,
+    study_group,
+):
+    occurrence = OccurrenceFactory(auto_acceptance=auto_acceptance)
+    enrol = Enrolment.objects.create(study_group=study_group, occurrence=occurrence)
+    assert len(mail.outbox) == (0 if auto_acceptance else 1)
+    # Fake auto approval because it can only be triggered from approve mutation
+    enrol.approve()
+    assert len(mail.outbox) == (1 if auto_acceptance else 2)
+    assert_mails_match_snapshot(snapshot)
