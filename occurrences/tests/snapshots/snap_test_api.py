@@ -129,7 +129,7 @@ snapshots["test_add_occurrence 1"] = {
                     {"id": "en", "name": "English"},
                     {"id": "sv", "name": "Swedish"},
                 ],
-                "maxGroupSize": 20,
+                "maxGroupSize": None,
                 "minGroupSize": 10,
                 "pEvent": {
                     "contactEmail": "jgilbert@baker-johnston.org",
@@ -157,7 +157,7 @@ snapshots["test_update_occurrence 1"] = {
                     {"id": "en", "name": "English"},
                     {"id": "sv", "name": "Swedish"},
                 ],
-                "maxGroupSize": 20,
+                "maxGroupSize": 88,
                 "minGroupSize": 10,
                 "pEvent": {
                     "contactEmail": "mlong@gmail.com",
