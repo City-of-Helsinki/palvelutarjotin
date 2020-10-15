@@ -81,6 +81,7 @@ class VenueCustomDataFactory(factory.django.DjangoModelFactory):
     description = factory.Faker("text", max_nb_chars=100)
     has_clothing_storage = factory.Faker("boolean")
     has_snack_eating_place = factory.Faker("boolean")
+    outdoor_activity = factory.Faker("boolean")
 
     class Meta:
         model = VenueCustomData

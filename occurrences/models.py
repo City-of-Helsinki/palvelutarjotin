@@ -220,6 +220,9 @@ class VenueCustomData(TranslatableModel):
     has_snack_eating_place = models.BooleanField(
         default=False, verbose_name=_("has snack eating place")
     )
+    outdoor_activity = models.BooleanField(
+        default=False, verbose_name=_("outdoor activity")
+    )
 
     class Meta:
         verbose_name = _("venue custom data")

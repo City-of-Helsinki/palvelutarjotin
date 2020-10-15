@@ -509,6 +509,7 @@ query Venues {
         }
         hasClothingStorage
         hasSnackEatingPlace
+        outdoorActivity
       }
     }
   }
@@ -525,6 +526,7 @@ query venue($id:ID!){
     }
     hasClothingStorage
     hasSnackEatingPlace
+    outdoorActivity
   }
 }
 """
@@ -540,6 +542,7 @@ mutation AddVenue($input: AddVenueMutationInput!) {
         }
         hasClothingStorage
         hasSnackEatingPlace
+        outdoorActivity
     }
   }
 }
@@ -554,6 +557,7 @@ ADD_VENUE_VARIABLES = {
         ],
         "hasClothingStorage": True,
         "hasSnackEatingPlace": True,
+        "outdoorActivity": True,
     }
 }
 
@@ -568,6 +572,7 @@ mutation updateVenue($input: UpdateVenueMutationInput!) {
         }
         hasClothingStorage
         hasSnackEatingPlace
+        outdoorActivity
     }
   }
 }
@@ -582,6 +587,7 @@ UPDATE_VENUE_VARIABLES = {
         ],
         "hasClothingStorage": True,
         "hasSnackEatingPlace": True,
+        "outdoorActivity": True,
     }
 }
 
