@@ -182,6 +182,7 @@ snapshots["test_add_venue_staff_user 1"] = {
                 "hasClothingStorage": True,
                 "hasSnackEatingPlace": True,
                 "id": "place_id",
+                "outdoorActivity": True,
                 "translations": [
                     {"description": "Venue description in EN"},
                     {"description": "Venue description in FI"},
@@ -201,6 +202,7 @@ snapshots["test_venues_query 1"] = {
                         "hasClothingStorage": True,
                         "hasSnackEatingPlace": False,
                         "id": "mZHxy",
+                        "outdoorActivity": True,
                         "translations": [
                             {
                                 "description": "Serious listen police shake. Page box child care any concern."
@@ -221,6 +223,7 @@ snapshots["test_update_venue_staff_user 1"] = {
                 "hasClothingStorage": True,
                 "hasSnackEatingPlace": True,
                 "id": "OnQtr",
+                "outdoorActivity": True,
                 "translations": [
                     {"description": "Venue description in EN"},
                     {"description": "Venue description"},
@@ -237,6 +240,7 @@ snapshots["test_venue_query 1"] = {
             "hasClothingStorage": True,
             "hasSnackEatingPlace": False,
             "id": "mZHxy",
+            "outdoorActivity": True,
             "translations": [
                 {
                     "description": "Serious listen police shake. Page box child care any concern."

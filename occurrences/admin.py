@@ -50,7 +50,12 @@ class EnrolmentAdmin(admin.ModelAdmin):
 
 @admin.register(VenueCustomData)
 class VenueCustomDataAdmin(TranslatableAdmin):
-    list_display = ("place_id", "has_clothing_storage", "has_snack_eating_place")
+    list_display = (
+        "place_id",
+        "has_clothing_storage",
+        "has_snack_eating_place",
+        "outdoor_activity",
+    )
 
 
 @admin.register(PalvelutarjotinEvent)
