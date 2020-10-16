@@ -756,6 +756,7 @@ snapshots["test_update_event 1"] = {
                     "location": {"id": None},
                     "offers": [{"isFree": False}],
                     "pEvent": {
+                        "autoAcceptance": True,
                         "contactEmail": "contact@email.me",
                         "contactPerson": {"name": "Jason Berg"},
                         "contactPhoneNumber": "123123",
@@ -848,6 +849,36 @@ snapshots["test_update_image 1"] = {
     }
 }
 
+snapshots["test_get_events_with_occurrences 1"] = {
+    "data": {
+        "events": {
+            "data": [
+                {
+                    "id": "helsinki:afy6ikna3u",
+                    "internalId": "https://api.hel.fi/linkedevents/v1/event/helsinki:afy6ikna3u/",
+                    "pEvent": {
+                        "lastOccurrenceDatetime": "2020-01-06T00:00:00+00:00",
+                        "nextOccurrenceDatetime": "2020-01-05T00:00:00+00:00",
+                    },
+                },
+                {
+                    "id": "helsinki:afxp6tv4xa",
+                    "internalId": "https://api.hel.fi/linkedevents/v1/event/helsinki:afxp6tv4xa/",
+                    "pEvent": {
+                        "lastOccurrenceDatetime": "2020-01-06T00:00:00+00:00",
+                        "nextOccurrenceDatetime": "2020-01-05T00:00:00+00:00",
+                    },
+                },
+            ],
+            "meta": {
+                "count": 151775,
+                "next": "https://api.hel.fi/linkedevents/v1/event/?page=2",
+                "previous": None,
+            },
+        }
+    }
+}
+
 snapshots["test_create_event 1"] = {
     "data": {
         "addEventMutation": {
@@ -860,6 +891,7 @@ snapshots["test_create_event 1"] = {
                     "location": {"id": None},
                     "offers": [{"isFree": False}],
                     "pEvent": {
+                        "autoAcceptance": True,
                         "contactEmail": "contact@email.me",
                         "contactPerson": {"name": "Jason Berg"},
                         "contactPhoneNumber": "123123",
@@ -895,36 +927,6 @@ snapshots["test_publish_event 1"] = {
                 },
                 "statusCode": 200,
             }
-        }
-    }
-}
-
-snapshots["test_get_events_with_occurrences 1"] = {
-    "data": {
-        "events": {
-            "data": [
-                {
-                    "id": "helsinki:afy6ikna3u",
-                    "internalId": "https://api.hel.fi/linkedevents/v1/event/helsinki:afy6ikna3u/",
-                    "pEvent": {
-                        "lastOccurrenceDatetime": "2020-01-06T00:00:00+00:00",
-                        "nextOccurrenceDatetime": "2020-01-05T00:00:00+00:00",
-                    },
-                },
-                {
-                    "id": "helsinki:afxp6tv4xa",
-                    "internalId": "https://api.hel.fi/linkedevents/v1/event/helsinki:afxp6tv4xa/",
-                    "pEvent": {
-                        "lastOccurrenceDatetime": "2020-01-06T00:00:00+00:00",
-                        "nextOccurrenceDatetime": "2020-01-05T00:00:00+00:00",
-                    },
-                },
-            ],
-            "meta": {
-                "count": 151775,
-                "next": "https://api.hel.fi/linkedevents/v1/event/?page=2",
-                "previous": None,
-            },
         }
     }
 }

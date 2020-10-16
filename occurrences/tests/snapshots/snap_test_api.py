@@ -51,12 +51,12 @@ snapshots["test_occurrences_query 1"] = {
                 {
                     "node": {
                         "amountOfSeats": 49,
-                        "autoAcceptance": False,
                         "contactPersons": {"edges": []},
                         "endTime": "2000-08-18T23:27:03+00:00",
                         "maxGroupSize": 383,
                         "minGroupSize": 341,
                         "pEvent": {
+                            "autoAcceptance": False,
                             "contactEmail": "bdorsey@owens.org",
                             "contactPhoneNumber": "972-701-1715x9102",
                             "duration": 120,
@@ -82,7 +82,6 @@ snapshots["test_occurrence_query 1"] = {
     "data": {
         "occurrence": {
             "amountOfSeats": 49,
-            "autoAcceptance": False,
             "contactPersons": {"edges": []},
             "endTime": "2000-08-18T23:27:03+00:00",
             "languages": [],
@@ -96,6 +95,7 @@ snapshots["test_occurrence_query 1"] = {
             "maxGroupSize": 383,
             "minGroupSize": 341,
             "pEvent": {
+                "autoAcceptance": False,
                 "contactEmail": "bdorsey@owens.org",
                 "contactPhoneNumber": "972-701-1715x9102",
                 "duration": 120,
@@ -132,6 +132,7 @@ snapshots["test_add_occurrence 1"] = {
                 "maxGroupSize": None,
                 "minGroupSize": 10,
                 "pEvent": {
+                    "autoAcceptance": True,
                     "contactEmail": "jgilbert@baker-johnston.org",
                     "contactPhoneNumber": "+1-614-494-8118x845",
                     "duration": 81,
@@ -150,7 +151,7 @@ snapshots["test_update_occurrence 1"] = {
     "data": {
         "updateOccurrence": {
             "occurrence": {
-                "contactPersons": {"edges": [{"node": {"name": "Aaron Little"}}]},
+                "contactPersons": {"edges": [{"node": {"name": "Sandra Hall"}}]},
                 "endTime": "2020-05-05T00:00:00+00:00",
                 "languages": [
                     {"id": "fi", "name": "Finnish"},
@@ -343,11 +344,11 @@ snapshots["test_enrol_occurrence 1"] = {
                     "occurrence": {
                         "amountOfSeats": 50,
                         "remainingSeats": 35,
-                        "seatsApproved": 0,
+                        "seatsApproved": 15,
                         "seatsTaken": 15,
                         "startTime": "2020-01-06T00:00:00+00:00",
                     },
-                    "status": "PENDING",
+                    "status": "APPROVED",
                     "studyGroup": {"name": "To be created group"},
                 }
             ]
@@ -362,12 +363,12 @@ snapshots["test_occurrences_filter_by_date 1"] = {
                 {
                     "node": {
                         "amountOfSeats": 50,
-                        "autoAcceptance": True,
                         "contactPersons": {"edges": []},
                         "endTime": "2013-05-12T21:58:38+00:00",
                         "maxGroupSize": 605,
                         "minGroupSize": 263,
                         "pEvent": {
+                            "autoAcceptance": True,
                             "contactEmail": "jvelasquez@hotmail.com",
                             "contactPhoneNumber": "071-988-5777x942",
                             "duration": 172,
@@ -396,12 +397,12 @@ snapshots["test_occurrences_filter_by_time 1"] = {
                 {
                     "node": {
                         "amountOfSeats": 49,
-                        "autoAcceptance": False,
                         "contactPersons": {"edges": []},
                         "endTime": "2013-12-12T04:57:19+00:00",
                         "maxGroupSize": 383,
                         "minGroupSize": 341,
                         "pEvent": {
+                            "autoAcceptance": False,
                             "contactEmail": "bdorsey@owens.org",
                             "contactPhoneNumber": "972-701-1715x9102",
                             "duration": 120,
@@ -429,13 +430,13 @@ snapshots["test_occurrences_filter_by_upcoming 1"] = {
             "edges": [
                 {
                     "node": {
-                        "amountOfSeats": 17,
-                        "autoAcceptance": True,
+                        "amountOfSeats": 33,
                         "contactPersons": {"edges": []},
-                        "endTime": "2001-02-23T20:07:07+00:00",
-                        "maxGroupSize": 777,
-                        "minGroupSize": 399,
+                        "endTime": "2011-05-08T04:35:51+00:00",
+                        "maxGroupSize": 527,
+                        "minGroupSize": 631,
                         "pEvent": {
+                            "autoAcceptance": True,
                             "contactEmail": "stephanieskinner@gmail.com",
                             "contactPhoneNumber": "777.671.2406x75064",
                             "duration": 170,
@@ -444,8 +445,8 @@ snapshots["test_occurrences_filter_by_upcoming 1"] = {
                             "linkedEventId": "Record card my. Sure sister return.",
                             "neededOccurrences": 5,
                         },
-                        "placeId": "Daughter order stay sign discover.",
-                        "remainingSeats": 17,
+                        "placeId": "From daughter order stay sign discover eight.",
+                        "remainingSeats": 33,
                         "seatsApproved": 0,
                         "seatsTaken": 0,
                         "startTime": "2020-01-06T00:00:00+00:00",
@@ -454,13 +455,13 @@ snapshots["test_occurrences_filter_by_upcoming 1"] = {
                 },
                 {
                     "node": {
-                        "amountOfSeats": 21,
-                        "autoAcceptance": False,
+                        "amountOfSeats": 24,
                         "contactPersons": {"edges": []},
-                        "endTime": "1996-02-20T13:49:25+00:00",
-                        "maxGroupSize": 84,
-                        "minGroupSize": 838,
+                        "endTime": "1975-08-12T12:08:34+00:00",
+                        "maxGroupSize": 838,
+                        "minGroupSize": 847,
                         "pEvent": {
+                            "autoAcceptance": True,
                             "contactEmail": "stephanieskinner@gmail.com",
                             "contactPhoneNumber": "777.671.2406x75064",
                             "duration": 170,
@@ -469,8 +470,8 @@ snapshots["test_occurrences_filter_by_upcoming 1"] = {
                             "linkedEventId": "Record card my. Sure sister return.",
                             "neededOccurrences": 5,
                         },
-                        "placeId": "Able process base sing according.",
-                        "remainingSeats": 21,
+                        "placeId": "Subject town range.",
+                        "remainingSeats": 24,
                         "seatsApproved": 0,
                         "seatsTaken": 0,
                         "startTime": "2020-01-07T00:00:00+00:00",
@@ -489,12 +490,12 @@ snapshots["test_occurrences_filter_by_date 2"] = {
                 {
                     "node": {
                         "amountOfSeats": 50,
-                        "autoAcceptance": True,
                         "contactPersons": {"edges": []},
                         "endTime": "2013-05-12T21:58:38+00:00",
                         "maxGroupSize": 605,
                         "minGroupSize": 263,
                         "pEvent": {
+                            "autoAcceptance": True,
                             "contactEmail": "jvelasquez@hotmail.com",
                             "contactPhoneNumber": "071-988-5777x942",
                             "duration": 172,
@@ -514,12 +515,12 @@ snapshots["test_occurrences_filter_by_date 2"] = {
                 {
                     "node": {
                         "amountOfSeats": 32,
-                        "autoAcceptance": True,
                         "contactPersons": {"edges": []},
                         "endTime": "2013-06-04T19:09:17+00:00",
                         "maxGroupSize": 342,
                         "minGroupSize": 669,
                         "pEvent": {
+                            "autoAcceptance": True,
                             "contactEmail": "lfriedman@yahoo.com",
                             "contactPhoneNumber": "339-471-3127x06051",
                             "duration": 194,
@@ -548,12 +549,12 @@ snapshots["test_occurrences_filter_by_time 2"] = {
                 {
                     "node": {
                         "amountOfSeats": 33,
-                        "autoAcceptance": True,
                         "contactPersons": {"edges": []},
                         "endTime": "1975-11-21T02:09:38+00:00",
                         "maxGroupSize": 400,
                         "minGroupSize": 226,
                         "pEvent": {
+                            "autoAcceptance": True,
                             "contactEmail": "mbrown@gmail.com",
                             "contactPhoneNumber": "+1-300-846-5476",
                             "duration": 33,
@@ -582,12 +583,12 @@ snapshots["test_occurrences_filter_by_time 3"] = {
                 {
                     "node": {
                         "amountOfSeats": 32,
-                        "autoAcceptance": True,
                         "contactPersons": {"edges": []},
                         "endTime": "2013-06-04T19:09:17+00:00",
                         "maxGroupSize": 342,
                         "minGroupSize": 669,
                         "pEvent": {
+                            "autoAcceptance": True,
                             "contactEmail": "lfriedman@yahoo.com",
                             "contactPhoneNumber": "339-471-3127x06051",
                             "duration": 194,
@@ -607,12 +608,12 @@ snapshots["test_occurrences_filter_by_time 3"] = {
                 {
                     "node": {
                         "amountOfSeats": 50,
-                        "autoAcceptance": True,
                         "contactPersons": {"edges": []},
                         "endTime": "2013-05-12T21:58:38+00:00",
                         "maxGroupSize": 605,
                         "minGroupSize": 263,
                         "pEvent": {
+                            "autoAcceptance": True,
                             "contactEmail": "jvelasquez@hotmail.com",
                             "contactPhoneNumber": "071-988-5777x942",
                             "duration": 172,
@@ -641,12 +642,12 @@ snapshots["test_occurrences_filter_by_time 4"] = {
                 {
                     "node": {
                         "amountOfSeats": 32,
-                        "autoAcceptance": True,
                         "contactPersons": {"edges": []},
                         "endTime": "2013-06-04T19:09:17+00:00",
                         "maxGroupSize": 342,
                         "minGroupSize": 669,
                         "pEvent": {
+                            "autoAcceptance": True,
                             "contactEmail": "lfriedman@yahoo.com",
                             "contactPhoneNumber": "339-471-3127x06051",
                             "duration": 194,
@@ -666,12 +667,12 @@ snapshots["test_occurrences_filter_by_time 4"] = {
                 {
                     "node": {
                         "amountOfSeats": 50,
-                        "autoAcceptance": True,
                         "contactPersons": {"edges": []},
                         "endTime": "2013-05-12T21:58:38+00:00",
                         "maxGroupSize": 605,
                         "minGroupSize": 263,
                         "pEvent": {
+                            "autoAcceptance": True,
                             "contactEmail": "jvelasquez@hotmail.com",
                             "contactPhoneNumber": "071-988-5777x942",
                             "duration": 172,
@@ -710,39 +711,6 @@ snapshots["test_unenrol_occurrence 1"] = {
             "studyGroup": {
                 "name": "Last appear experience seven. Throw wrong party wall agency customer clear. Control as receive cup."
             },
-        }
-    }
-}
-
-snapshots["test_enrol_auto_acceptance_occurrence 1"] = {
-    "data": {
-        "enrolOccurrence": {
-            "enrolments": [
-                {
-                    "notificationType": "EMAIL",
-                    "occurrence": {
-                        "amountOfSeats": 50,
-                        "remainingSeats": 35,
-                        "seatsApproved": 0,
-                        "seatsTaken": 15,
-                        "startTime": "2020-01-06T00:00:00+00:00",
-                    },
-                    "status": "PENDING",
-                    "studyGroup": {"name": "To be created group"},
-                },
-                {
-                    "notificationType": "EMAIL",
-                    "occurrence": {
-                        "amountOfSeats": 50,
-                        "remainingSeats": 35,
-                        "seatsApproved": 15,
-                        "seatsTaken": 15,
-                        "startTime": "2020-01-06T00:00:00+00:00",
-                    },
-                    "status": "APPROVED",
-                    "studyGroup": {"name": "To be created group"},
-                },
-            ]
         }
     }
 }
@@ -898,11 +866,11 @@ snapshots["test_enrol_occurrence_with_captcha 1"] = {
                     "occurrence": {
                         "amountOfSeats": 50,
                         "remainingSeats": 35,
-                        "seatsApproved": 0,
+                        "seatsApproved": 15,
                         "seatsTaken": 15,
                         "startTime": "2020-01-06T00:00:00+00:00",
                     },
-                    "status": "PENDING",
+                    "status": "APPROVED",
                     "studyGroup": {"name": "To be created group"},
                 }
             ]
@@ -945,5 +913,47 @@ snapshots["test_enrolments_summary 4"] = {
 snapshots["test_enrolments_summary 5"] = {
     "data": {
         "enrolmentSummary": {"count": 1, "edges": [{"node": {"status": "DECLINED"}}]}
+    }
+}
+
+snapshots["test_enrol_auto_acceptance_occurrence 1"] = {
+    "data": {
+        "enrolOccurrence": {
+            "enrolments": [
+                {
+                    "notificationType": "EMAIL",
+                    "occurrence": {
+                        "amountOfSeats": 50,
+                        "remainingSeats": 35,
+                        "seatsApproved": 0,
+                        "seatsTaken": 15,
+                        "startTime": "2020-01-06T00:00:00+00:00",
+                    },
+                    "status": "PENDING",
+                    "studyGroup": {"name": "To be created group"},
+                }
+            ]
+        }
+    }
+}
+
+snapshots["test_enrol_auto_acceptance_occurrence 2"] = {
+    "data": {
+        "enrolOccurrence": {
+            "enrolments": [
+                {
+                    "notificationType": "EMAIL",
+                    "occurrence": {
+                        "amountOfSeats": 50,
+                        "remainingSeats": 35,
+                        "seatsApproved": 15,
+                        "seatsTaken": 15,
+                        "startTime": "2020-01-06T00:00:00+00:00",
+                    },
+                    "status": "APPROVED",
+                    "studyGroup": {"name": "To be created group"},
+                }
+            ]
+        }
     }
 }

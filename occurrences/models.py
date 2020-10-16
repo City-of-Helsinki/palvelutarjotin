@@ -61,6 +61,9 @@ class PalvelutarjotinEvent(TimestampedModel):
     contact_email = models.EmailField(
         max_length=255, verbose_name=_("contact email"), blank=True
     )
+    auto_acceptance = models.BooleanField(
+        default=False, verbose_name=_("auto acceptance")
+    )
 
     class Meta:
         verbose_name = _("palvelutarjotin event")
@@ -139,9 +142,6 @@ class Occurrence(TimestampedModel):
         blank=True,
     )
     place_id = models.CharField(max_length=255, verbose_name=_("place id"), blank=True)
-    auto_acceptance = models.BooleanField(
-        default=False, verbose_name=_("auto acceptance")
-    )
     amount_of_seats = models.PositiveSmallIntegerField(
         default=0, verbose_name=_("amount of seats")
     )

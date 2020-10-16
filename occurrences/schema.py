@@ -91,6 +91,7 @@ class PalvelutarjotinEventInput(InputObjectType):
     contact_person_id = graphene.ID()
     contact_phone_number = graphene.String()
     contact_email = graphene.String()
+    auto_acceptance = graphene.Boolean()
 
 
 class StudyGroupNode(DjangoObjectType):
@@ -204,7 +205,6 @@ class AddOccurrenceMutation(graphene.relay.ClientIDMutation):
         end_time = graphene.DateTime(required=True)
         contact_persons = graphene.List(PersonNodeInput)
         p_event_id = graphene.ID(required=True)
-        auto_acceptance = graphene.Boolean(required=True)
         amount_of_seats = graphene.Int(required=True)
         languages = NonNull(graphene.List(OccurrenceLanguageInput))
 
@@ -248,7 +248,6 @@ class UpdateOccurrenceMutation(graphene.relay.ClientIDMutation):
             "missing contact persons will be removed during mutation",
         )
         p_event_id = graphene.ID()
-        auto_acceptance = graphene.Boolean()
         amount_of_seats = graphene.Int()
         languages = NonNull(
             graphene.List(OccurrenceLanguageInput),
@@ -522,7 +521,7 @@ class EnrolOccurrenceMutation(graphene.relay.ClientIDMutation):
                 study_group=study_group, occurrence=occurrence, person=person, **kwargs
             )
 
-            if occurrence.auto_acceptance:
+            if occurrence.p_event.auto_acceptance:
                 enrolment.approve()
             enrolments.append(enrolment)
 

@@ -651,6 +651,7 @@ mutation addEvent($input: AddEventMutationInput!){
           organisation{
               name
           }
+          autoAcceptance
         }
       }
     }
@@ -669,6 +670,7 @@ CREATE_EVENT_VARIABLES = {
             "contactPersonId": "",
             "contactPhoneNumber": "123123",
             "contactEmail": "contact@email.me",
+            "autoAcceptance": True,
         },
         "name": {"fi": "testaus"},
         "startTime": "2020-05-05",
@@ -790,6 +792,7 @@ mutation addEvent($input: UpdateEventMutationInput!){
           contactPerson{
               name
           }
+          autoAcceptance
         }
       }
     }
@@ -808,6 +811,7 @@ UPDATE_EVENT_VARIABLES = {
             "neededOccurrences": 1,
             "contactPhoneNumber": "123123",
             "contactEmail": "contact@email.me",
+            "autoAcceptance": True,
         },
         "name": {"fi": "testaus"},
         "startTime": "2020-05-07",
