@@ -24,7 +24,6 @@ class StudyGroupAdmin(admin.ModelAdmin):
 class OccurrenceAdmin(admin.ModelAdmin):
     list_display = (
         "p_event",
-        "auto_acceptance",
         "start_time",
         "end_time",
         "amount_of_seats",
