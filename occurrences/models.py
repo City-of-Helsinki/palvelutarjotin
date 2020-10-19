@@ -117,8 +117,12 @@ class Occurrence(TimestampedModel):
         blank=True,
         null=True,
     )
-    min_group_size = models.PositiveSmallIntegerField(verbose_name=_("min group size"))
-    max_group_size = models.PositiveSmallIntegerField(verbose_name=_("max group size"))
+    min_group_size = models.PositiveSmallIntegerField(
+        verbose_name=_("min group size"), blank=True, null=True
+    )
+    max_group_size = models.PositiveSmallIntegerField(
+        verbose_name=_("max group size"), blank=True, null=True
+    )
     start_time = models.DateTimeField(verbose_name=_("start time"))
     end_time = models.DateTimeField(verbose_name=_("end time"))
     contact_persons = models.ManyToManyField(

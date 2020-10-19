@@ -198,8 +198,8 @@ class OccurrenceLanguageInput(InputObjectType):
 class AddOccurrenceMutation(graphene.relay.ClientIDMutation):
     class Input:
         place_id = graphene.String()
-        min_group_size = graphene.Int(required=True)
-        max_group_size = graphene.Int(required=True)
+        min_group_size = graphene.Int()
+        max_group_size = graphene.Int()
         start_time = graphene.DateTime(required=True)
         end_time = graphene.DateTime(required=True)
         contact_persons = graphene.List(PersonNodeInput)
@@ -406,8 +406,9 @@ def validate_enrolment(study_group, occurrence, new_enrolment=True):
     if occurrence.cancelled:
         raise EnrolCancelledOccurrenceError("Cannot enrol cancelled occurrence")
     if (
-        study_group.group_size > occurrence.max_group_size
-        or study_group.group_size < occurrence.min_group_size
+        occurrence.max_group_size and study_group.group_size > occurrence.max_group_size
+    ) or (
+        occurrence.min_group_size and study_group.group_size < occurrence.min_group_size
     ):
         raise InvalidStudyGroupSizeError(
             "Study group size not match occurrence group size"

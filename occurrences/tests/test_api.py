@@ -221,7 +221,6 @@ ADD_OCCURRENCE_VARIABLES = {
     "input": {
         "placeId": "place_id",
         "minGroupSize": 10,
-        "maxGroupSize": 20,
         "startTime": "2020-05-05T00:00:00+00",
         "endTime": "2020-05-05T00:00:00+00",
         "contactPersons": [
@@ -271,7 +270,6 @@ UPDATE_OCCURRENCE_VARIABLES = {
     "input": {
         "placeId": "place_id",
         "minGroupSize": 10,
-        "maxGroupSize": 20,
         "startTime": "2020-05-05T00:00:00+00",
         "endTime": "2020-05-05T00:00:00+00",
         "contactPersons": [
