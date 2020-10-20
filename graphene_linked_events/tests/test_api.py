@@ -645,7 +645,6 @@ mutation addEvent($input: AddEventMutationInput!){
           }
           enrolmentEndDays
           enrolmentStart
-          duration
           neededOccurrences
           linkedEventId
           organisation{
@@ -665,7 +664,6 @@ CREATE_EVENT_VARIABLES = {
         "pEvent": {
             "enrolmentStart": "2020-06-06T16:40:48+00:00",
             "enrolmentEndDays": 2,
-            "duration": 60,
             "neededOccurrences": 1,
             "contactPersonId": "",
             "contactPhoneNumber": "123123",
@@ -783,7 +781,6 @@ mutation addEvent($input: UpdateEventMutationInput!){
           contactPhoneNumber
           enrolmentEndDays
           enrolmentStart
-          duration
           neededOccurrences
           linkedEventId
           organisation{
@@ -807,7 +804,6 @@ UPDATE_EVENT_VARIABLES = {
         "pEvent": {
             "enrolmentStart": "2020-06-06T16:40:48+00:00",
             "enrolmentEndDays": 2,
-            "duration": 60,
             "neededOccurrences": 1,
             "contactPhoneNumber": "123123",
             "contactEmail": "contact@email.me",

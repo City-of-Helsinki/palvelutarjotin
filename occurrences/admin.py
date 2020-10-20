@@ -64,7 +64,6 @@ class PalvelutarjotinEventAdmin(admin.ModelAdmin):
         "organisation",
         "occurrences_count",
         "enrolment_start",
-        "duration",
         "enrolment_end_days",
         "needed_occurrences",
         "contact_email",

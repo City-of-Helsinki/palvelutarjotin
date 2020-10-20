@@ -102,7 +102,6 @@ query Occurrences($upcoming: Boolean, $date: Date, $time: Time){
         pEvent{
             contactEmail
             contactPhoneNumber
-            duration
             neededOccurrences
             enrolmentEndDays
             enrolmentStart
@@ -140,7 +139,6 @@ query Occurrence($id: ID!){
     pEvent{
         contactEmail
         contactPhoneNumber
-        duration
         neededOccurrences
         enrolmentEndDays
         enrolmentStart
@@ -202,7 +200,6 @@ ADD_OCCURRENCE_MUTATION = """
           pEvent{
             contactEmail
             contactPhoneNumber
-            duration
             neededOccurrences
             enrolmentEndDays
             enrolmentStart
@@ -251,7 +248,6 @@ mutation updateOccurrence($input: UpdateOccurrenceMutationInput!){
       pEvent{
         contactEmail
         contactPhoneNumber
-        duration
         neededOccurrences
         enrolmentEndDays
         enrolmentStart
@@ -1111,7 +1107,6 @@ def test_enrol_auto_acceptance_occurrence(snapshot, api_client, mock_get_event_d
     p_event_1 = PalvelutarjotinEventFactory(
         enrolment_start=datetime(2020, 1, 3, 0, 0, 0, tzinfo=timezone.now().tzinfo),
         enrolment_end_days=2,
-        auto_acceptance=False,
     )
     auto_accept_p_event = PalvelutarjotinEventFactory(
         enrolment_start=datetime(2020, 1, 3, 0, 0, 0, tzinfo=timezone.now().tzinfo),
@@ -1345,7 +1340,6 @@ def test_approve_cancelled_occurrence_enrolment(snapshot, staff_api_client):
         enrolment_start=datetime(2020, 1, 3, 0, 0, 0, tzinfo=timezone.now().tzinfo),
         enrolment_end_days=2,
         needed_occurrences=2,
-        auto_acceptance=False,
     )
     occurrence = OccurrenceFactory(
         start_time=datetime(2020, 1, 6, 0, 0, 0, tzinfo=timezone.now().tzinfo),
@@ -1380,7 +1374,6 @@ def test_approve_enrolment(
         enrolment_start=datetime(2020, 1, 3, 0, 0, 0, tzinfo=timezone.now().tzinfo),
         enrolment_end_days=2,
         needed_occurrences=2,
-        auto_acceptance=False,
     )
     occurrence = OccurrenceFactory(
         start_time=datetime(2020, 1, 6, 0, 0, 0, tzinfo=timezone.now().tzinfo),
@@ -1435,7 +1428,6 @@ def test_approve_enrolment_with_custom_message(
     p_event_1 = PalvelutarjotinEventFactory(
         enrolment_start=datetime(2020, 1, 3, 0, 0, 0, tzinfo=timezone.now().tzinfo),
         enrolment_end_days=2,
-        auto_acceptance=False,
     )
     occurrence = OccurrenceFactory(
         start_time=datetime(2020, 1, 6, 0, 0, 0, tzinfo=timezone.now().tzinfo),
@@ -1476,7 +1468,6 @@ def test_decline_enrolment(
         enrolment_start=datetime(2020, 1, 3, 0, 0, 0, tzinfo=timezone.now().tzinfo),
         enrolment_end_days=2,
         needed_occurrences=2,
-        auto_acceptance=False,
     )
     occurrence = OccurrenceFactory(
         start_time=datetime(2020, 1, 6, 0, 0, 0, tzinfo=timezone.now().tzinfo),
@@ -1531,7 +1522,6 @@ def test_decline_enrolment_with_custom_message(
     p_event_1 = PalvelutarjotinEventFactory(
         enrolment_start=datetime(2020, 1, 3, 0, 0, 0, tzinfo=timezone.now().tzinfo),
         enrolment_end_days=2,
-        auto_acceptance=False,
     )
     occurrence = OccurrenceFactory(
         start_time=datetime(2020, 1, 6, 0, 0, 0, tzinfo=timezone.now().tzinfo),
@@ -1596,7 +1586,6 @@ def test_update_enrolment_unauthorized(api_client, user_api_client):
     p_event_1 = PalvelutarjotinEventFactory(
         enrolment_start=datetime(2020, 1, 3, 0, 0, 0, tzinfo=timezone.now().tzinfo),
         enrolment_end_days=2,
-        auto_acceptance=False,
     )
     occurrence = OccurrenceFactory(
         start_time=datetime(2020, 1, 6, 0, 0, 0, tzinfo=timezone.now().tzinfo),
@@ -1625,7 +1614,6 @@ def test_update_enrolment(snapshot, staff_api_client):
         enrolment_start=datetime(2020, 1, 3, 0, 0, 0, tzinfo=timezone.now().tzinfo),
         enrolment_end_days=2,
         needed_occurrences=2,
-        auto_acceptance=False,
     )
     occurrence_1 = OccurrenceFactory(
         start_time=datetime(2020, 1, 6, 0, 0, 0, tzinfo=timezone.now().tzinfo),

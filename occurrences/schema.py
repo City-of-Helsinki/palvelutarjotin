@@ -86,7 +86,6 @@ class PalvelutarjotinEventNode(DjangoObjectType):
 class PalvelutarjotinEventInput(InputObjectType):
     enrolment_start = graphene.DateTime()
     enrolment_end_days = graphene.Int()
-    duration = graphene.Int(required=True)
     needed_occurrences = graphene.Int(required=True)
     contact_person_id = graphene.ID()
     contact_phone_number = graphene.String()
