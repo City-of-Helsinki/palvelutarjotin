@@ -35,7 +35,6 @@ class PalvelutarjotinEvent(TimestampedModel):
     enrolment_end_days = models.PositiveSmallIntegerField(
         verbose_name=_("enrolment end days"), blank=True, null=True
     )
-    duration = models.PositiveSmallIntegerField(verbose_name=_("duration"))
     needed_occurrences = models.PositiveSmallIntegerField(
         verbose_name=_("needed occurrence"), default=1
     )

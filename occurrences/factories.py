@@ -16,13 +16,11 @@ class PalvelutarjotinEventFactory(factory.django.DjangoModelFactory):
         "date_time", tzinfo=pytz.timezone("Europe/Helsinki"),
     )
     enrolment_end_days = factory.Faker("random_int", max=2)
-    duration = factory.Faker("random_int", max=300)
     needed_occurrences = factory.Faker("random_int", max=10)
     contact_phone_number = factory.Faker("phone_number")
     contact_email = factory.Faker("email")
     organisation = factory.SubFactory(OrganisationFactory)
     contact_person = factory.SubFactory(PersonFactory)
-    auto_acceptance = factory.Faker("boolean")
 
     class Meta:
         model = PalvelutarjotinEvent
