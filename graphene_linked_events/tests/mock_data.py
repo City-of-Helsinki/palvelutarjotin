@@ -981,3 +981,40 @@ RECAPTCHA_DATA = {
     "success": True,
     "challenge_ts": "2020-09-09",
 }
+
+KEYWORD_SET_DATA = {
+    "id": "qq:kultus:categories",
+    "keywords": [
+        {
+            "id": "yso:p27033",
+            "alt_labels": ["vändagen", "Valentindagen"],
+            "created_time": "2020-05-04T08:51:38.338194Z",
+            "last_modified_time": "2020-05-04T08:51:38.338221Z",
+            "aggregate": False,
+            "deprecated": False,
+            "n_events": 0,
+            "image": None,
+            "data_source": "yso",
+            "publisher": "hy:kansalliskirjasto",
+            "replaced_by": None,
+            "name": {
+                "en": "Valentine's Day",
+                "sv": "alla hjärtans dag",
+                "fi": "ystävänpäivä",
+            },
+            "@id": "http://localhost:8080/v1/keyword/yso:p27033/",
+            "@context": "http://schema.org",
+            "@type": "Keyword",
+        }
+    ],
+    "usage": "any",
+    "created_time": "2020-11-02T13:58:41.872984Z",
+    "last_modified_time": "2020-11-02T13:58:41.873016Z",
+    "image": None,
+    "data_source": "qq",
+    "organization": None,
+    "name": {"en": "Kultus Categories"},
+    "@id": "http://localhost:8080/v1/keyword_set/qq:kultus:categories/",
+    "@context": "http://schema.org",
+    "@type": "KeywordSet",
+}

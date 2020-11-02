@@ -9,6 +9,7 @@ from graphene_linked_events.tests.mock_data import (
     IMAGE_DATA,
     IMAGES_DATA,
     KEYWORD_DATA,
+    KEYWORD_SET_DATA,
     KEYWORDS_DATA,
     PLACE_DATA,
     PLACES_DATA,
@@ -173,4 +174,13 @@ def mock_update_image_data(monkeypatch):
 def mock_recaptcha_data(monkeypatch):
     monkeypatch.setattr(
         requests, "post", _get_mock_function(RECAPTCHA_DATA),
+    )
+
+
+@pytest.fixture
+def mock_get_keyword_set_data(monkeypatch):
+    monkeypatch.setattr(
+        graphene_linked_events.rest_client.LinkedEventsApiClient,
+        "retrieve",
+        _get_mock_function(KEYWORD_SET_DATA),
     )
