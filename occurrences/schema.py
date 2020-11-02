@@ -144,9 +144,9 @@ class VenueNodeInput(InputObjectType):
 
 
 class OccurrenceNode(DjangoObjectType):
-    remaining_seats = graphene.Int()
-    seats_taken = graphene.Int()
-    seats_approved = graphene.Int()
+    remaining_seats = graphene.Int(required=True)
+    seats_taken = graphene.Int(required=True)
+    seats_approved = graphene.Int(required=True)
     linked_event = Field("graphene_linked_events.schema.Event")
 
     def resolve_linked_event(self, info, **kwargs):
