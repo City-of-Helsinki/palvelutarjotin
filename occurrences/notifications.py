@@ -22,6 +22,7 @@ TEMPLATES = [
     (NotificationTemplate.ENROLMENT_DECLINED_SMS, _("enrolment declined sms")),
     (NotificationTemplate.OCCURRENCE_CANCELLED, _("occurrence cancelled")),
     (NotificationTemplate.OCCURRENCE_CANCELLED_SMS, _("occurrence cancelled sms")),
+    (NotificationTemplate.ENROLMENT_SUMMARY_REPORT, _("Enrolments summary report")),
 ]
 for template in TEMPLATES:
     notifications.register(template[0], template[1])
@@ -52,5 +53,10 @@ dummy_context.update(
         NotificationTemplate.ENROLMENT_DECLINED_SMS: DEFAULT_DUMMY_CONTEXT,
         NotificationTemplate.OCCURRENCE_CANCELLED: DEFAULT_DUMMY_CONTEXT,
         NotificationTemplate.OCCURRENCE_CANCELLED_SMS: DEFAULT_DUMMY_CONTEXT,
+        NotificationTemplate.ENROLMENT_SUMMARY_REPORT: {
+            "report": [
+                {"event": EVENT_DATA, "p_event": p_event, "enrolments": [enrolment]}
+            ]
+        },
     }
 )

@@ -4,7 +4,9 @@ from django.db import models, transaction
 from django.db.models import Q, Sum
 from django.utils.timezone import localtime
 from django.utils.translation import ugettext_lazy as _
+from django_ilmoitin.utils import send_notification
 from graphene_linked_events.utils import retrieve_linked_events_data
+from graphql_relay import to_global_id
 from occurrences.consts import (
     NOTIFICATION_TYPE_EMAIL,
     NOTIFICATION_TYPES,
@@ -14,6 +16,7 @@ from occurrences.utils import send_event_notifications_to_contact_person
 from parler.models import TranslatedFields
 
 from common.models import TimestampedModel, TranslatableModel
+from palvelutarjotin import settings
 from palvelutarjotin.exceptions import ApiUsageError
 
 
@@ -96,6 +99,18 @@ class PalvelutarjotinEvent(TimestampedModel):
         except Occurrence.DoesNotExist:
             raise ValueError("Palvelutarjotin event has no occurrence")
         return last_occurrence.start_time - timedelta(days=self.enrolment_end_days)
+
+    def get_link_to_provider_ui(self, language=settings.LANGUAGE_CODE):
+        return (
+            f"{settings.KULTUS_PROVIDER_UI_BASE_URL}{language}/events/"
+            f"{self.linked_event_id}"
+        )
+
+    def get_link_to_teacher_ui(self, language=settings.LANGUAGE_CODE):
+        return (
+            f"{settings.KULTUS_TEACHER_UI_BASE_URL}{language}/events/"
+            f"{self.linked_event_id}"
+        )
 
 
 class Language(models.Model):
@@ -208,6 +223,13 @@ class Occurrence(TimestampedModel):
     def local_start_time(self):
         return localtime(self.start_time)
 
+    def get_link_to_provider_ui(self, language=settings.LANGUAGE_CODE):
+        global_id = to_global_id("OccurrenceNode", self.id)
+        return (
+            f"{settings.KULTUS_PROVIDER_UI_BASE_URL}{language}/events/"
+            f"{self.p_event.linked_event_id}/occurrences/{global_id}"
+        )
+
 
 class VenueCustomData(TranslatableModel):
     # Primary reference to LinkedEvent place_id
@@ -289,6 +311,49 @@ class StudyGroup(TimestampedModel):
         return f"{self.id} {self.name}"
 
 
+class EnrolmentQuerySet(models.QuerySet):
+    def send_enrolment_summary_report_to_providers(self):
+        reports = {}
+        group_by_email = {}
+        for enrolment in self:
+            # Group by contact_email address:
+            group_by_email.setdefault(
+                enrolment.occurrence.p_event.contact_email, []
+            ).append(enrolment)
+        for email, enrolments in group_by_email.items():
+            reports[email] = {}
+            for enrolment in enrolments:
+                """
+                [
+                    ...
+                    # 1 report per provider email address
+                    {
+                        "<p_event_obj1>": [<pending_enrolment_obj_1>,
+                        <pending_enrolment_obj_2>, ...]
+                    }
+                    ...
+                ]
+                """
+                reports[email].setdefault(enrolment.occurrence.p_event, []).append(
+                    enrolment
+                )
+        # Now send
+        for address, report in reports.items():
+            context_report = []
+            for p_event, enrolments in report.items():
+                context_report.append(
+                    {
+                        "event": p_event.get_event_data(),
+                        "p_event": p_event,
+                        "enrolments": enrolments,
+                    }
+                )
+            context = {"report": context_report}
+            send_notification(
+                address, NotificationTemplate.ENROLMENT_SUMMARY_REPORT, context
+            )
+
+
 class Enrolment(models.Model):
     STATUS_APPROVED = "approved"
     STATUS_PENDING = "pending"
@@ -333,6 +398,7 @@ class Enrolment(models.Model):
         verbose_name=_("status"),
         max_length=255,
     )
+    objects = EnrolmentQuerySet.as_manager()
 
     class Meta:
         verbose_name = _("enrolment")

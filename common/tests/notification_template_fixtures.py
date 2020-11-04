@@ -194,3 +194,34 @@ def notification_template_cancel_occurrence_en():
         subject="Occurrence cancelled EN",
         body_text=NOTIFICATION_WITH_CUSTOM_MESSAGE_TEXT_EN,
     )
+
+
+@pytest.fixture
+def notification_template_enrolment_summary_report_fi():
+    return create_notification_template_in_language(
+        NotificationTemplate.ENROLMENT_SUMMARY_REPORT,
+        "fi",
+        subject="Enrolment approved FI",
+        body_text="""
+        {% for item in report %}
+            There are total {{ item.enrolments | length}} pending enrolments
+            {{ item.event.name.fi }}
+            Event link: {{ item.p_event.get_link_to_provider_ui() }}
+            {% for enrolment in item.enrolments %}
+                Link to occurrence #{{enrolment.occurrence.id}}: {{
+                enrolment.occurrence.get_link_to_provider_ui()}}
+            {% endfor %}
+        {% endfor %}
+        """,
+        body_html="""
+        {% for item in report %}
+            There are total {{ item.enrolments | length}} }} pending enrolments
+            {{ item.event.name.fi }}
+            Event link: {{ item.p_event.get_link_to_provider_ui() }}
+            {% for enrolment in item.enrolments %}
+                Link to occurrence #{{enrolment.occurrence.id}}: {{
+                enrolment.occurrence.get_link_to_provider_ui()}}
+            {% endfor %}
+        {% endfor %}
+        """,
+    )

@@ -52,6 +52,8 @@ staging:
     K8S_SECRET_KEYWORD_SET_CATEGORY_ID: "$GL_QA_KEYWORD_SET_CATEGORY_ID"
     K8S_SECRET_KEYWORD_SET_ADDITIONAL_CRITERIA_ID: "$GL_QA_KEYWORD_SET_ADDITIONAL_CRITERIA_ID"
     K8S_SECRET_KEYWORD_SET_TARGET_GROUP_ID: "$GL_QA_KEYWORD_SET_TARGET_GROUP_ID"
+    K8S_SECRET_KULTUS_PROVIDER_UI_BASE_URL: "https://palvelutarjotin-admin.test.kuva.hel.ninja/"
+    K8S_SECRET_KULTUS_TEACHER_UI_BASE_URL: "https://palvelutarjotin.test.kuva.hel.ninja/"
 
 production:
   # It is highly discouraged to define own triggering rules in production. Don't do it.

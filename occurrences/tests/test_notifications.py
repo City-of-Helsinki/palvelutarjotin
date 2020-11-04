@@ -5,7 +5,7 @@ import pytest
 import pytz
 from django.core import mail
 from occurrences.consts import NOTIFICATION_TYPE_ALL, NOTIFICATION_TYPE_SMS
-from occurrences.factories import OccurrenceFactory, StudyGroupFactory
+from occurrences.factories import EnrolmentFactory, OccurrenceFactory, StudyGroupFactory
 from occurrences.models import Enrolment
 from organisations.factories import PersonFactory
 
@@ -200,4 +200,16 @@ def test_only_send_approved_notification(
     # Fake auto approval because it can only be triggered from approve mutation
     enrol.approve()
     assert len(mail.outbox) == (1 if auto_acceptance else 2)
+    assert_mails_match_snapshot(snapshot)
+
+
+@pytest.mark.django_db
+def test_send_enrolment_summary_report(
+    snapshot, mock_get_event_data, notification_template_enrolment_summary_report_fi,
+):
+    EnrolmentFactory.create(status=Enrolment.STATUS_PENDING)
+    Enrolment.objects.filter(
+        status=Enrolment.STATUS_PENDING
+    ).send_enrolment_summary_report_to_providers()
+    assert len(mail.outbox) == 1
     assert_mails_match_snapshot(snapshot)
