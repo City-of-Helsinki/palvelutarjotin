@@ -64,6 +64,9 @@ env = environ.Env(
     NOTIFICATION_SERVICE_API_URL=(str, "https://notification-service.hel.fi/v1/"),
     CAPTCHA_ENABLED=(bool, False),
     RECAPTCHA_SECRET_KEY=(str, ""),
+    KEYWORD_SET_CATEGORY_ID=(str, "kultus:categories"),
+    KEYWORD_SET_TARGET_GROUP_ID=(str, "kultus:target_groups"),
+    KEYWORD_SET_ADDITIONAL_CRITERIA_ID=(str, "kultus:additional_criteria"),
 )
 
 if os.path.exists(env_file):
@@ -252,6 +255,12 @@ LOGGING = {
 CAPTCHA_ENABLED = env.bool("CAPTCHA_ENABLED")
 RECAPTCHA_SECRET_KEY = env.str("RECAPTCHA_SECRET_KEY")
 RECAPTCHA_VALIDATION_URL = "https://www.google.com/recaptcha/api/siteverify"
+
+KEYWORD_SET_ID_MAPPING = {
+    "CATEGORY": env.str("KEYWORD_SET_CATEGORY_ID"),
+    "ADDITIONAL_CRITERIA": env.str("KEYWORD_SET_ADDITIONAL_CRITERIA_ID"),
+    "TARGET_GROUP": env.str("KEYWORD_SET_TARGET_GROUP_ID"),
+}
 
 # local_settings.py can be used to override environment-specific settings
 # like database and email that differ between development and production.

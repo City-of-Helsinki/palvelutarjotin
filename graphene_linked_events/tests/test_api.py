@@ -10,6 +10,7 @@ from occurrences.models import PalvelutarjotinEvent
 
 from common.tests.utils import assert_match_error_code, assert_permission_denied
 from palvelutarjotin.consts import API_USAGE_ERROR
+from palvelutarjotin.settings import KEYWORD_SET_ID_MAPPING
 
 
 @pytest.fixture(autouse=True)
@@ -1236,3 +1237,30 @@ def test_get_events_with_occurrences(
         variables={"organisationId": to_global_id("OrganisationNode", organisation.id)},
     )
     snapshot.assert_match(executed)
+
+
+GET_KEYWORD_SET_QUERY = """
+query getKeywordSet($setType: KeywordSetType!){
+  keywordSet(setType: $setType){
+    id
+    internalId
+    keywords{
+      name {
+        fi
+        sv
+        en
+      }
+      id
+      internalId
+    }
+  }
+}
+"""
+
+
+def test_get_keyword_set(api_client, snapshot, mock_get_keyword_set_data):
+    for set_type in KEYWORD_SET_ID_MAPPING:
+        executed = api_client.execute(
+            GET_KEYWORD_SET_QUERY, variables={"setType": set_type}
+        )
+        snapshot.assert_match(executed)
