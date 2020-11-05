@@ -1066,9 +1066,6 @@ def test_publish_event_unauthorized(
     assert_permission_denied(executed)
     executed = user_api_client.execute(PUBLISH_EVENT_MUTATION, variables=variables)
     assert_permission_denied(executed)
-
-    variables = deepcopy(UPDATE_EVENT_VARIABLES)
-    del variables["input"]["draft"]
     variables["input"]["organisationId"] = to_global_id(
         "OrganisationNode", organisation.id
     )
@@ -1115,6 +1112,85 @@ def test_publish_event(
     assert_match_error_code(executed, API_USAGE_ERROR)
     OccurrenceFactory(p_event=p_event)
     executed = staff_api_client.execute(PUBLISH_EVENT_MUTATION, variables=variables)
+    snapshot.assert_match(executed)
+
+
+UNPUBLISH_EVENT_MUTATION = """
+mutation unpublishEvent($input: PublishEventMutationInput!){
+  unpublishEventMutation(event: $input){
+    response{
+      statusCode
+      body {
+        id
+        startTime
+        endTime
+        publicationStatus
+      }
+    }
+  }
+}
+"""
+
+
+def test_unpublish_event_unauthorized(
+    snapshot,
+    api_client,
+    user_api_client,
+    staff_api_client,
+    mock_update_event_data,
+    organisation,
+    person,
+):
+    # Reuse update event variables
+    variables = deepcopy(UPDATE_EVENT_VARIABLES)
+    del variables["input"]["draft"]
+    executed = api_client.execute(UNPUBLISH_EVENT_MUTATION, variables=variables)
+    assert_permission_denied(executed)
+    executed = user_api_client.execute(UNPUBLISH_EVENT_MUTATION, variables=variables)
+    assert_permission_denied(executed)
+
+    variables["input"]["organisationId"] = to_global_id(
+        "OrganisationNode", organisation.id
+    )
+    variables["input"]["pEvent"]["contactPersonId"] = to_global_id(
+        "PersonNode", person.id
+    )
+    p_event = PalvelutarjotinEventFactory(
+        linked_event_id=UPDATE_EVENT_VARIABLES["input"]["id"], organisation=organisation
+    )
+    OccurrenceFactory(p_event=p_event)
+    executed = staff_api_client.execute(UNPUBLISH_EVENT_MUTATION, variables=variables)
+    assert_permission_denied(executed)
+    # Still contact person doesn't belong to organisation
+    staff_api_client.user.person.organisations.add(organisation)
+    executed = staff_api_client.execute(UNPUBLISH_EVENT_MUTATION, variables=variables)
+    assert_permission_denied(executed)
+
+
+def test_unpublish_event(
+    snapshot,
+    api_client,
+    staff_api_client,
+    mock_update_event_data,
+    organisation,
+    person,
+):
+    # Reuse update event variables
+    variables = deepcopy(UPDATE_EVENT_VARIABLES)
+    del variables["input"]["draft"]
+    variables["input"]["organisationId"] = to_global_id(
+        "OrganisationNode", organisation.id
+    )
+    variables["input"]["pEvent"]["contactPersonId"] = to_global_id(
+        "PersonNode", person.id
+    )
+    PalvelutarjotinEventFactory(
+        linked_event_id=UPDATE_EVENT_VARIABLES["input"]["id"], organisation=organisation
+    )
+    staff_api_client.user.person.organisations.add(organisation)
+    person.organisations.add(organisation)
+    executed = staff_api_client.execute(UNPUBLISH_EVENT_MUTATION, variables=variables)
+    # Mock data might not reflect correct publication status
     snapshot.assert_match(executed)
 
 
