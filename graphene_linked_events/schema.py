@@ -21,6 +21,7 @@ from graphene_linked_events.utils import (
     api_client,
     format_request,
     format_response,
+    get_keyword_set_by_id,
     json2obj,
 )
 from graphql_jwt.decorators import staff_member_required
@@ -38,6 +39,7 @@ from common.utils import (
     get_obj_from_global_id,
     update_object,
 )
+from palvelutarjotin import settings
 from palvelutarjotin.exceptions import ApiUsageError, ObjectDoesNotExistError
 from palvelutarjotin.settings import KEYWORD_SET_ID_MAPPING, LINKED_EVENTS_API_CONFIG
 
@@ -168,6 +170,15 @@ class ExtensionCourse(ObjectType):
     remaining_attendee_capacity = Int()
 
 
+def _get_event_keyword_sets(event, keyword_set_id):
+    kw_set = get_keyword_set_by_id(keyword_set_id)
+    return [
+        kw
+        for kw in kw_set.keywords
+        if kw.id in list(map(lambda x: x.id, event.keywords))
+    ]
+
+
 class Event(IdObject):
     id = String(required=True)
     location = Field(Place, required=True)
@@ -198,6 +209,18 @@ class Event(IdObject):
     p_event = Field(PalvelutarjotinEventNode, required=True)
     venue = Field(VenueNode)
     publication_status = String()
+    categories = NonNull(
+        List(NonNull(Keyword)),
+        description="Only use this field in single event query for "
+        "best performance. This field only work if "
+        "`keywords` is included in the query argument",
+    )
+    additional_criteria = NonNull(
+        List(NonNull(Keyword)),
+        description="Only use this field in single event query for "
+        "best performance. This field only work if "
+        "`keywords` is included in the query argument",
+    )
 
     def resolve_p_event(self, info, **kwargs):
         try:
@@ -212,6 +235,16 @@ class Event(IdObject):
             except VenueCustomData.DoesNotExist:
                 pass
         return None
+
+    def resolve_categories(self, info, **kwargs):
+        return _get_event_keyword_sets(
+            self, settings.KEYWORD_SET_ID_MAPPING["CATEGORY"]
+        )
+
+    def resolve_additional_criteria(self, info, **kwargs):
+        return _get_event_keyword_sets(
+            self, settings.KEYWORD_SET_ID_MAPPING["ADDITIONAL_CRITERIA"]
+        )
 
 
 class Meta(ObjectType):

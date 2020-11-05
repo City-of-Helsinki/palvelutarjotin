@@ -322,10 +322,22 @@ EVENT_DATA = {
         "@type": "Place",
     },
     "keywords": [
-        {"@id": "https://api.hel.fi/linkedevents/v1/keyword/helfi:12/"},
-        {"@id": "https://api.hel.fi/linkedevents/v1/keyword/yso:p5121/"},
-        {"@id": "https://api.hel.fi/linkedevents/v1/keyword/yso:p6889/"},
-        {"@id": "https://api.hel.fi/linkedevents/v1/keyword/yso:p1808/"},
+        {
+            "@id": "https://api.hel.fi/linkedevents/v1/keyword/helfi:12/",
+            "id": "helfi:12",
+        },
+        {
+            "@id": "https://api.hel.fi/linkedevents/v1/keyword/yso:p5121/",
+            "id": "yso:p5121",
+        },
+        {
+            "@id": "https://api.hel.fi/linkedevents/v1/keyword/yso:p6889/",
+            "id": "yso:p6889",
+        },
+        {
+            "@id": "https://api.hel.fi/linkedevents/v1/keyword/yso:p1808/",
+            "id": "yso:p1808",
+        },
     ],
     "super_event": None,
     "event_status": "EventPostponed",
@@ -983,10 +995,10 @@ RECAPTCHA_DATA = {
 }
 
 KEYWORD_SET_DATA = {
-    "id": "qq:kultus:categories",
+    "id": "kultus:categories",
     "keywords": [
         {
-            "id": "yso:p27033",
+            "id": "helfi:12",
             "alt_labels": ["vändagen", "Valentindagen"],
             "created_time": "2020-05-04T08:51:38.338194Z",
             "last_modified_time": "2020-05-04T08:51:38.338221Z",

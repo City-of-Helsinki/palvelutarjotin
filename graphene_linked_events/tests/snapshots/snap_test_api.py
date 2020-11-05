@@ -178,9 +178,11 @@ snapshots["test_get_events 1"] = {
 snapshots["test_get_event 1"] = {
     "data": {
         "event": {
+            "additionalCriteria": [{"id": "helfi:12"}],
             "audience": [],
             "audienceMaxAge": None,
             "audienceMinAge": None,
+            "categories": [{"id": "helfi:12"}],
             "createdTime": "2019-12-13T12:49:40.545273Z",
             "customData": None,
             "dataSource": "helsinki",
@@ -948,11 +950,11 @@ snapshots["test_unpublish_event 1"] = {
 snapshots["test_get_keyword_set 1"] = {
     "data": {
         "keywordSet": {
-            "id": "qq:kultus:categories",
+            "id": "kultus:categories",
             "internalId": "http://localhost:8080/v1/keyword_set/qq:kultus:categories/",
             "keywords": [
                 {
-                    "id": "yso:p27033",
+                    "id": "helfi:12",
                     "internalId": "http://localhost:8080/v1/keyword/yso:p27033/",
                     "name": {
                         "en": "Valentine's Day",
@@ -968,11 +970,11 @@ snapshots["test_get_keyword_set 1"] = {
 snapshots["test_get_keyword_set 2"] = {
     "data": {
         "keywordSet": {
-            "id": "qq:kultus:categories",
+            "id": "kultus:categories",
             "internalId": "http://localhost:8080/v1/keyword_set/qq:kultus:categories/",
             "keywords": [
                 {
-                    "id": "yso:p27033",
+                    "id": "helfi:12",
                     "internalId": "http://localhost:8080/v1/keyword/yso:p27033/",
                     "name": {
                         "en": "Valentine's Day",
@@ -988,11 +990,11 @@ snapshots["test_get_keyword_set 2"] = {
 snapshots["test_get_keyword_set 3"] = {
     "data": {
         "keywordSet": {
-            "id": "qq:kultus:categories",
+            "id": "kultus:categories",
             "internalId": "http://localhost:8080/v1/keyword_set/qq:kultus:categories/",
             "keywords": [
                 {
-                    "id": "yso:p27033",
+                    "id": "helfi:12",
                     "internalId": "http://localhost:8080/v1/keyword/yso:p27033/",
                     "name": {
                         "en": "Valentine's Day",
