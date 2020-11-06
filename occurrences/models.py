@@ -2,6 +2,7 @@ from datetime import timedelta
 
 from django.db import models, transaction
 from django.db.models import Q, Sum
+from django.utils import timezone
 from django.utils.timezone import localtime
 from django.utils.translation import ugettext_lazy as _
 from django_ilmoitin.utils import send_notification
@@ -230,6 +231,15 @@ class Occurrence(TimestampedModel):
             f"{self.p_event.linked_event_id}/occurrences/{global_id}"
         )
 
+    def pending_enrolments(self):
+        return self.enrolments.filter(status=Enrolment.STATUS_PENDING)
+
+    def new_enrolments(self, days=1):
+        return self.enrolments.filter(
+            status=Enrolment.STATUS_APPROVED,
+            enrolment_time__gte=timezone.now() - timedelta(days=days),
+        )
+
 
 class VenueCustomData(TranslatableModel):
     # Primary reference to LinkedEvent place_id
@@ -312,43 +322,52 @@ class StudyGroup(TimestampedModel):
 
 
 class EnrolmentQuerySet(models.QuerySet):
-    def send_enrolment_summary_report_to_providers(self):
+    def send_enrolment_summary_report_to_providers(self, days=1):
         reports = {}
-        group_by_email = {}
-        for enrolment in self:
+        # Query all pending enrolments and
+        # any new auto accepted enrolments during the last `days`
+        enrolments = self.filter(
+            Q(
+                enrolment_time__gte=(timezone.now() - timedelta(days=days)),
+                status=Enrolment.STATUS_APPROVED,
+                occurrence__p_event__auto_acceptance=True,
+            )
+            | Q(status=Enrolment.STATUS_PENDING)
+        ).select_related("occurrence", "occurrence__p_event")
+        p_events = (
+            PalvelutarjotinEvent.objects.filter(occurrences__enrolments__in=enrolments)
+            .prefetch_related("occurrences__enrolments")
+            .distinct()
+        )
+
+        for p_event in p_events:
             # Group by contact_email address:
-            group_by_email.setdefault(
-                enrolment.occurrence.p_event.contact_email, []
-            ).append(enrolment)
-        for email, enrolments in group_by_email.items():
-            reports[email] = {}
-            for enrolment in enrolments:
-                """
-                [
-                    ...
-                    # 1 report per provider email address
-                    {
-                        "<p_event_obj1>": [<pending_enrolment_obj_1>,
-                        <pending_enrolment_obj_2>, ...]
-                    }
-                    ...
-                ]
-                """
-                reports[email].setdefault(enrolment.occurrence.p_event, []).append(
-                    enrolment
-                )
-        # Now send
+            reports.setdefault(p_event.contact_email, []).append(p_event)
+
         for address, report in reports.items():
             context_report = []
-            for p_event, enrolments in report.items():
+            for p_event in report:
                 context_report.append(
                     {
                         "event": p_event.get_event_data(),
                         "p_event": p_event,
-                        "enrolments": enrolments,
+                        "occurrences": p_event.occurrences.filter(
+                            enrolments__in=enrolments
+                        ).distinct(),
                     }
                 )
-            context = {"report": context_report}
+
+            context = {
+                "report": context_report,
+                "total_pending_enrolments": enrolments.filter(
+                    occurrence__p_event__contact_email=address,
+                    status=Enrolment.STATUS_PENDING,
+                ).count(),
+                "total_new_enrolments": enrolments.filter(
+                    occurrence__p_event__contact_email=address,
+                    status=Enrolment.STATUS_APPROVED,
+                ).count(),
+            }
             send_notification(
                 address, NotificationTemplate.ENROLMENT_SUMMARY_REPORT, context
             )

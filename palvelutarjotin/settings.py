@@ -68,7 +68,8 @@ env = environ.Env(
     KEYWORD_SET_TARGET_GROUP_ID=(str, "kultus:target_groups"),
     KEYWORD_SET_ADDITIONAL_CRITERIA_ID=(str, "kultus:additional_criteria"),
     KULTUS_PROVIDER_UI_BASE_URL=(str, "https://provider.kultus.fi/"),
-    KULTUS_TEACHER_UI_BASE_URL=(str, "https://beta.kultus.fi/")
+    KULTUS_TEACHER_UI_BASE_URL=(str, "https://beta.kultus.fi/"),
+    ENABLE_SUMMARY_REPORT=(bool, False),
 )
 
 if os.path.exists(env_file):
@@ -260,6 +261,7 @@ LOGGING = {
 CAPTCHA_ENABLED = env.bool("CAPTCHA_ENABLED")
 RECAPTCHA_SECRET_KEY = env.str("RECAPTCHA_SECRET_KEY")
 RECAPTCHA_VALIDATION_URL = "https://www.google.com/recaptcha/api/siteverify"
+ENABLE_SUMMARY_REPORT = env.bool("ENABLE_SUMMARY_REPORT")
 
 KEYWORD_SET_ID_MAPPING = {
     "CATEGORY": env.str("KEYWORD_SET_CATEGORY_ID"),

@@ -55,8 +55,10 @@ dummy_context.update(
         NotificationTemplate.OCCURRENCE_CANCELLED_SMS: DEFAULT_DUMMY_CONTEXT,
         NotificationTemplate.ENROLMENT_SUMMARY_REPORT: {
             "report": [
-                {"event": EVENT_DATA, "p_event": p_event, "enrolments": [enrolment]}
-            ]
+                {"event": EVENT_DATA, "p_event": p_event, "occurrences": [occurrence]}
+            ],
+            "total_pending_enrolments": 1,
+            "total_new_enrolments": 2,
         },
     }
 )

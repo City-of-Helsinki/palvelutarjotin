@@ -203,24 +203,23 @@ def notification_template_enrolment_summary_report_fi():
         "fi",
         subject="Enrolment approved FI",
         body_text="""
+        Total pending enrolments: {{ total_pending_enrolments }}
+        Total new accepted enrolments: {{ total_new_enrolments }}
         {% for item in report %}
-            There are total {{ item.enrolments | length}} pending enrolments
-            {{ item.event.name.fi }}
+            Event name: {{ item.event.name.fi }}
             Event link: {{ item.p_event.get_link_to_provider_ui() }}
-            {% for enrolment in item.enrolments %}
-                Link to occurrence #{{enrolment.occurrence.id}}: {{
-                enrolment.occurrence.get_link_to_provider_ui()}}
-            {% endfor %}
-        {% endfor %}
-        """,
-        body_html="""
-        {% for item in report %}
-            There are total {{ item.enrolments | length}} }} pending enrolments
-            {{ item.event.name.fi }}
-            Event link: {{ item.p_event.get_link_to_provider_ui() }}
-            {% for enrolment in item.enrolments %}
-                Link to occurrence #{{enrolment.occurrence.id}}: {{
-                enrolment.occurrence.get_link_to_provider_ui()}}
+            {% for occurrence in item.occurrences %}
+                {% if item.p_event.auto_acceptance %}
+                    Occurrence: #{{occurrence.start_time}} ({{
+                    occurrence.new_enrolments() |
+                    length }} new enrolments)
+                {% else %}
+                    Occurrence: #{{occurrence.start_time}} ({{
+                    occurrence.pending_enrolments() |
+                    length }} pending)
+                {%endif %}
+                    Link to occurrence: {{
+                    occurrence.get_link_to_provider_ui()}}
             {% endfor %}
         {% endfor %}
         """,
