@@ -1,11 +1,17 @@
-from datetime import datetime
+from datetime import datetime, timedelta
 from unittest.mock import patch
 
 import pytest
 import pytz
 from django.core import mail
+from django.utils import timezone
 from occurrences.consts import NOTIFICATION_TYPE_ALL, NOTIFICATION_TYPE_SMS
-from occurrences.factories import OccurrenceFactory, StudyGroupFactory
+from occurrences.factories import (
+    EnrolmentFactory,
+    OccurrenceFactory,
+    PalvelutarjotinEventFactory,
+    StudyGroupFactory,
+)
 from occurrences.models import Enrolment
 from organisations.factories import PersonFactory
 
@@ -200,4 +206,52 @@ def test_only_send_approved_notification(
     # Fake auto approval because it can only be triggered from approve mutation
     enrol.approve()
     assert len(mail.outbox) == (1 if auto_acceptance else 2)
+    assert_mails_match_snapshot(snapshot)
+
+
+@pytest.mark.django_db
+def test_send_enrolment_summary_report(
+    snapshot, mock_get_event_data, notification_template_enrolment_summary_report_fi,
+):
+    p_event_1 = PalvelutarjotinEventFactory.create()
+    occurrence_1_1 = OccurrenceFactory.create(p_event=p_event_1)
+    occurrence_1_2 = OccurrenceFactory.create(p_event=p_event_1)
+    occurrence_1_3 = OccurrenceFactory.create(p_event=p_event_1)
+
+    EnrolmentFactory.create(status=Enrolment.STATUS_APPROVED, occurrence=occurrence_1_1)
+    EnrolmentFactory.create_batch(
+        3, status=Enrolment.STATUS_PENDING, occurrence=occurrence_1_1
+    )
+    EnrolmentFactory.create(status=Enrolment.STATUS_PENDING, occurrence=occurrence_1_2)
+    EnrolmentFactory.create(
+        status=Enrolment.STATUS_CANCELLED, occurrence=occurrence_1_3
+    )
+
+    p_event_2 = PalvelutarjotinEventFactory.create()
+    occurrence_2_1 = OccurrenceFactory.create(p_event=p_event_2)
+    occurrence_2_2 = OccurrenceFactory.create(p_event=p_event_2)
+
+    EnrolmentFactory.create(status=Enrolment.STATUS_PENDING, occurrence=occurrence_2_1)
+    EnrolmentFactory.create(status=Enrolment.STATUS_PENDING, occurrence=occurrence_2_2)
+
+    # Event with same contact person with event 2
+    p_event_3 = PalvelutarjotinEventFactory.create(
+        contact_email=p_event_2.contact_email
+    )
+    occurrence_3_1 = OccurrenceFactory.create(p_event=p_event_3)
+    EnrolmentFactory.create(status=Enrolment.STATUS_PENDING, occurrence=occurrence_3_1)
+
+    # Event with auto_acceptance is True
+    p_event_4 = PalvelutarjotinEventFactory.create(
+        auto_acceptance=True, contact_email=p_event_2.contact_email
+    )
+    occurrence_4_1 = OccurrenceFactory.create(p_event=p_event_4)
+    EnrolmentFactory.create(status=Enrolment.STATUS_APPROVED, occurrence=occurrence_4_1)
+    old_enrolment = EnrolmentFactory.create(
+        status=Enrolment.STATUS_APPROVED, occurrence=occurrence_4_1
+    )
+    old_enrolment.enrolment_time = timezone.now() - timedelta(days=10)
+    old_enrolment.save()
+    Enrolment.objects.send_enrolment_summary_report_to_providers()
+    assert len(mail.outbox) == 2
     assert_mails_match_snapshot(snapshot)

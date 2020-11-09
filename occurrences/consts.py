@@ -16,6 +16,7 @@ class NotificationTemplate:
     OCCURRENCE_CANCELLED = "occurrence_cancelled"
     ENROLMENT_APPROVED = "enrolment_approved"
     ENROLMENT_DECLINED = "enrolment_declined"
+    ENROLMENT_SUMMARY_REPORT = "enrolment_summary_report"
 
     OCCURRENCE_ENROLMENT_SMS = "occurrence_enrolment_sms"
     OCCURRENCE_UNENROLMENT_SMS = "occurrence_unenrolment_sms"

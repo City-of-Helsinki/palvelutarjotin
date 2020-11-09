@@ -11,7 +11,7 @@ from organisations.factories import OrganisationFactory, PersonFactory
 
 
 class PalvelutarjotinEventFactory(factory.django.DjangoModelFactory):
-    linked_event_id = factory.Faker("text", max_nb_chars=64)
+    linked_event_id = factory.Faker("pystr", max_chars=5)
     enrolment_start = factory.Faker(
         "date_time", tzinfo=pytz.timezone("Europe/Helsinki"),
     )

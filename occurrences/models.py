@@ -2,9 +2,12 @@ from datetime import timedelta
 
 from django.db import models, transaction
 from django.db.models import Q, Sum
+from django.utils import timezone
 from django.utils.timezone import localtime
 from django.utils.translation import ugettext_lazy as _
+from django_ilmoitin.utils import send_notification
 from graphene_linked_events.utils import retrieve_linked_events_data
+from graphql_relay import to_global_id
 from occurrences.consts import (
     NOTIFICATION_TYPE_EMAIL,
     NOTIFICATION_TYPES,
@@ -14,6 +17,7 @@ from occurrences.utils import send_event_notifications_to_contact_person
 from parler.models import TranslatedFields
 
 from common.models import TimestampedModel, TranslatableModel
+from palvelutarjotin import settings
 from palvelutarjotin.exceptions import ApiUsageError
 
 
@@ -96,6 +100,18 @@ class PalvelutarjotinEvent(TimestampedModel):
         except Occurrence.DoesNotExist:
             raise ValueError("Palvelutarjotin event has no occurrence")
         return last_occurrence.start_time - timedelta(days=self.enrolment_end_days)
+
+    def get_link_to_provider_ui(self, language=settings.LANGUAGE_CODE):
+        return (
+            f"{settings.KULTUS_PROVIDER_UI_BASE_URL}{language}/events/"
+            f"{self.linked_event_id}"
+        )
+
+    def get_link_to_teacher_ui(self, language=settings.LANGUAGE_CODE):
+        return (
+            f"{settings.KULTUS_TEACHER_UI_BASE_URL}{language}/events/"
+            f"{self.linked_event_id}"
+        )
 
 
 class Language(models.Model):
@@ -208,6 +224,22 @@ class Occurrence(TimestampedModel):
     def local_start_time(self):
         return localtime(self.start_time)
 
+    def get_link_to_provider_ui(self, language=settings.LANGUAGE_CODE):
+        global_id = to_global_id("OccurrenceNode", self.id)
+        return (
+            f"{settings.KULTUS_PROVIDER_UI_BASE_URL}{language}/events/"
+            f"{self.p_event.linked_event_id}/occurrences/{global_id}"
+        )
+
+    def pending_enrolments(self):
+        return self.enrolments.filter(status=Enrolment.STATUS_PENDING)
+
+    def new_enrolments(self, days=1):
+        return self.enrolments.filter(
+            status=Enrolment.STATUS_APPROVED,
+            enrolment_time__gte=timezone.now() - timedelta(days=days),
+        )
+
 
 class VenueCustomData(TranslatableModel):
     # Primary reference to LinkedEvent place_id
@@ -289,6 +321,58 @@ class StudyGroup(TimestampedModel):
         return f"{self.id} {self.name}"
 
 
+class EnrolmentQuerySet(models.QuerySet):
+    def send_enrolment_summary_report_to_providers(self, days=1):
+        reports = {}
+        # Query all pending enrolments and
+        # any new auto accepted enrolments during the last `days`
+        enrolments = self.filter(
+            Q(
+                enrolment_time__gte=(timezone.now() - timedelta(days=days)),
+                status=Enrolment.STATUS_APPROVED,
+                occurrence__p_event__auto_acceptance=True,
+            )
+            | Q(status=Enrolment.STATUS_PENDING)
+        ).select_related("occurrence", "occurrence__p_event")
+        p_events = (
+            PalvelutarjotinEvent.objects.filter(occurrences__enrolments__in=enrolments)
+            .prefetch_related("occurrences__enrolments")
+            .distinct()
+        )
+
+        for p_event in p_events:
+            # Group by contact_email address:
+            reports.setdefault(p_event.contact_email, []).append(p_event)
+
+        for address, report in reports.items():
+            context_report = []
+            for p_event in report:
+                context_report.append(
+                    {
+                        "event": p_event.get_event_data(),
+                        "p_event": p_event,
+                        "occurrences": p_event.occurrences.filter(
+                            enrolments__in=enrolments
+                        ).distinct(),
+                    }
+                )
+
+            context = {
+                "report": context_report,
+                "total_pending_enrolments": enrolments.filter(
+                    occurrence__p_event__contact_email=address,
+                    status=Enrolment.STATUS_PENDING,
+                ).count(),
+                "total_new_enrolments": enrolments.filter(
+                    occurrence__p_event__contact_email=address,
+                    status=Enrolment.STATUS_APPROVED,
+                ).count(),
+            }
+            send_notification(
+                address, NotificationTemplate.ENROLMENT_SUMMARY_REPORT, context
+            )
+
+
 class Enrolment(models.Model):
     STATUS_APPROVED = "approved"
     STATUS_PENDING = "pending"
@@ -333,6 +417,7 @@ class Enrolment(models.Model):
         verbose_name=_("status"),
         max_length=255,
     )
+    objects = EnrolmentQuerySet.as_manager()
 
     class Meta:
         verbose_name = _("enrolment")
