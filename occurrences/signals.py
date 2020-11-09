@@ -10,7 +10,7 @@ from occurrences.utils import send_event_notifications_to_contact_person
 def send_enrolment_email(instance, created, **kwargs):
     # Do not sent enrolment received notification if the occurrence auto accept the
     # enrolment, instead only send enrolment approved notification
-    if created and not instance.occurrence.auto_acceptance:
+    if created and not instance.occurrence.p_event.auto_acceptance:
         send_event_notifications_to_contact_person(
             instance.person,
             instance.occurrence,

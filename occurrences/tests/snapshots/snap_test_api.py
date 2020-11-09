@@ -50,23 +50,22 @@ snapshots["test_occurrences_query 1"] = {
             "edges": [
                 {
                     "node": {
-                        "amountOfSeats": 49,
-                        "autoAcceptance": False,
+                        "amountOfSeats": 17,
                         "contactPersons": {"edges": []},
                         "endTime": "2000-08-18T23:27:03+00:00",
                         "maxGroupSize": 383,
                         "minGroupSize": 341,
                         "pEvent": {
-                            "contactEmail": "bdorsey@owens.org",
-                            "contactPhoneNumber": "972-701-1715x9102",
-                            "duration": 120,
+                            "autoAcceptance": False,
+                            "contactEmail": "ksmith@dorsey.com",
+                            "contactPhoneNumber": "697.270.1171",
                             "enrolmentEndDays": 0,
                             "enrolmentStart": "2005-04-01T09:01:02+00:00",
                             "linkedEventId": "Leg him president compare room hotel town.",
-                            "neededOccurrences": 4,
+                            "neededOccurrences": 3,
                         },
                         "placeId": "Record card my. Sure sister return.",
-                        "remainingSeats": 49,
+                        "remainingSeats": 17,
                         "seatsApproved": 0,
                         "seatsTaken": 0,
                         "startTime": "2013-12-12T04:57:19+00:00",
@@ -81,8 +80,7 @@ snapshots["test_occurrences_query 1"] = {
 snapshots["test_occurrence_query 1"] = {
     "data": {
         "occurrence": {
-            "amountOfSeats": 49,
-            "autoAcceptance": False,
+            "amountOfSeats": 17,
             "contactPersons": {"edges": []},
             "endTime": "2000-08-18T23:27:03+00:00",
             "languages": [],
@@ -96,16 +94,16 @@ snapshots["test_occurrence_query 1"] = {
             "maxGroupSize": 383,
             "minGroupSize": 341,
             "pEvent": {
-                "contactEmail": "bdorsey@owens.org",
-                "contactPhoneNumber": "972-701-1715x9102",
-                "duration": 120,
+                "autoAcceptance": False,
+                "contactEmail": "ksmith@dorsey.com",
+                "contactPhoneNumber": "697.270.1171",
                 "enrolmentEndDays": 0,
                 "enrolmentStart": "2005-04-01T09:01:02+00:00",
                 "linkedEventId": "Leg him president compare room hotel town.",
-                "neededOccurrences": 4,
+                "neededOccurrences": 3,
             },
             "placeId": "Record card my. Sure sister return.",
-            "remainingSeats": 49,
+            "remainingSeats": 17,
             "seatsApproved": 0,
             "seatsTaken": 0,
             "startTime": "2013-12-12T04:57:19+00:00",
@@ -129,16 +127,16 @@ snapshots["test_add_occurrence 1"] = {
                     {"id": "en", "name": "English"},
                     {"id": "sv", "name": "Swedish"},
                 ],
-                "maxGroupSize": 20,
+                "maxGroupSize": None,
                 "minGroupSize": 10,
                 "pEvent": {
-                    "contactEmail": "jgilbert@baker-johnston.org",
-                    "contactPhoneNumber": "+1-614-494-8118x845",
-                    "duration": 81,
+                    "autoAcceptance": False,
+                    "contactEmail": "kingmonica@hall.com",
+                    "contactPhoneNumber": "661-449-4811x88452",
                     "enrolmentEndDays": 0,
                     "enrolmentStart": "1978-12-17T12:06:21+00:00",
                     "linkedEventId": "Respond improve office table.",
-                    "neededOccurrences": 6,
+                    "neededOccurrences": 2,
                 },
                 "startTime": "2020-05-05T00:00:00+00:00",
             }
@@ -150,23 +148,22 @@ snapshots["test_update_occurrence 1"] = {
     "data": {
         "updateOccurrence": {
             "occurrence": {
-                "contactPersons": {"edges": [{"node": {"name": "Aaron Little"}}]},
+                "contactPersons": {"edges": [{"node": {"name": "Michael Hooper"}}]},
                 "endTime": "2020-05-05T00:00:00+00:00",
                 "languages": [
                     {"id": "fi", "name": "Finnish"},
                     {"id": "en", "name": "English"},
                     {"id": "sv", "name": "Swedish"},
                 ],
-                "maxGroupSize": 20,
+                "maxGroupSize": 88,
                 "minGroupSize": 10,
                 "pEvent": {
-                    "contactEmail": "mlong@gmail.com",
-                    "contactPhoneNumber": "+1-316-804-2405x485",
-                    "duration": 77,
-                    "enrolmentEndDays": 0,
-                    "enrolmentStart": "1979-08-26T09:49:31+00:00",
-                    "linkedEventId": "Control as receive cup. Subject family around year.",
-                    "neededOccurrences": 1,
+                    "contactEmail": "hbrown@hotmail.com",
+                    "contactPhoneNumber": "001-901-323-2131",
+                    "enrolmentEndDays": 2,
+                    "enrolmentStart": "2020-01-01T02:17:13+00:00",
+                    "linkedEventId": "Event lay yes policy data control as receive.",
+                    "neededOccurrences": 2,
                 },
                 "startTime": "2020-05-05T00:00:00+00:00",
             }
@@ -182,6 +179,7 @@ snapshots["test_add_venue_staff_user 1"] = {
                 "hasClothingStorage": True,
                 "hasSnackEatingPlace": True,
                 "id": "place_id",
+                "outdoorActivity": True,
                 "translations": [
                     {"description": "Venue description in EN"},
                     {"description": "Venue description in FI"},
@@ -201,6 +199,7 @@ snapshots["test_venues_query 1"] = {
                         "hasClothingStorage": True,
                         "hasSnackEatingPlace": False,
                         "id": "mZHxy",
+                        "outdoorActivity": True,
                         "translations": [
                             {
                                 "description": "Serious listen police shake. Page box child care any concern."
@@ -221,6 +220,7 @@ snapshots["test_update_venue_staff_user 1"] = {
                 "hasClothingStorage": True,
                 "hasSnackEatingPlace": True,
                 "id": "OnQtr",
+                "outdoorActivity": True,
                 "translations": [
                     {"description": "Venue description in EN"},
                     {"description": "Venue description"},
@@ -237,6 +237,7 @@ snapshots["test_venue_query 1"] = {
             "hasClothingStorage": True,
             "hasSnackEatingPlace": False,
             "id": "mZHxy",
+            "outdoorActivity": True,
             "translations": [
                 {
                     "description": "Serious listen police shake. Page box child care any concern."
@@ -277,10 +278,10 @@ snapshots["test_add_study_group 2"] = {
                 "groupSize": 20,
                 "name": "Sample study group name",
                 "person": {
-                    "emailAddress": "smithmichael@gmail.com",
+                    "emailAddress": "acarroll@hotmail.com",
                     "language": "FI",
-                    "name": "Rebekah Johnson",
-                    "phoneNumber": "(719)885-7779x42677",
+                    "name": "Kathryn Davis",
+                    "phoneNumber": "001-452-419-4754x396",
                 },
                 "studyLevel": "GRADE_1",
             }
@@ -357,23 +358,22 @@ snapshots["test_occurrences_filter_by_date 1"] = {
             "edges": [
                 {
                     "node": {
-                        "amountOfSeats": 50,
-                        "autoAcceptance": True,
+                        "amountOfSeats": 27,
                         "contactPersons": {"edges": []},
-                        "endTime": "2013-05-12T21:58:38+00:00",
-                        "maxGroupSize": 605,
-                        "minGroupSize": 263,
+                        "endTime": "1986-04-11T14:17:11+00:00",
+                        "maxGroupSize": 562,
+                        "minGroupSize": 348,
                         "pEvent": {
-                            "contactEmail": "jvelasquez@hotmail.com",
-                            "contactPhoneNumber": "071-988-5777x942",
-                            "duration": 172,
-                            "enrolmentEndDays": 2,
-                            "enrolmentStart": "2020-04-28T13:05:41+00:00",
-                            "linkedEventId": "Put matter benefit treat final. Father boy economy the.",
-                            "neededOccurrences": 0,
+                            "autoAcceptance": False,
+                            "contactEmail": "josejohnston@hotmail.com",
+                            "contactPhoneNumber": "481.188.4524x194",
+                            "enrolmentEndDays": 1,
+                            "enrolmentStart": "1976-08-19T04:27:47+00:00",
+                            "linkedEventId": "Party door better performance race story.",
+                            "neededOccurrences": 4,
                         },
-                        "placeId": "Near increase process truth list pressure.",
-                        "remainingSeats": 50,
+                        "placeId": "Service wonder everything pay parent theory.",
+                        "remainingSeats": 27,
                         "seatsApproved": 0,
                         "seatsTaken": 0,
                         "startTime": "2020-01-02T00:00:00+00:00",
@@ -391,23 +391,22 @@ snapshots["test_occurrences_filter_by_time 1"] = {
             "edges": [
                 {
                     "node": {
-                        "amountOfSeats": 49,
-                        "autoAcceptance": False,
+                        "amountOfSeats": 17,
                         "contactPersons": {"edges": []},
                         "endTime": "2013-12-12T04:57:19+00:00",
                         "maxGroupSize": 383,
                         "minGroupSize": 341,
                         "pEvent": {
-                            "contactEmail": "bdorsey@owens.org",
-                            "contactPhoneNumber": "972-701-1715x9102",
-                            "duration": 120,
+                            "autoAcceptance": False,
+                            "contactEmail": "ksmith@dorsey.com",
+                            "contactPhoneNumber": "697.270.1171",
                             "enrolmentEndDays": 0,
                             "enrolmentStart": "2005-04-01T09:01:02+00:00",
                             "linkedEventId": "Machine try lead behind everyone agency start.",
-                            "neededOccurrences": 4,
+                            "neededOccurrences": 3,
                         },
                         "placeId": "Record card my. Sure sister return.",
-                        "remainingSeats": 49,
+                        "remainingSeats": 17,
                         "seatsApproved": 0,
                         "seatsTaken": 0,
                         "startTime": "2020-01-01T10:00:00+00:00",
@@ -425,23 +424,22 @@ snapshots["test_occurrences_filter_by_upcoming 1"] = {
             "edges": [
                 {
                     "node": {
-                        "amountOfSeats": 17,
-                        "autoAcceptance": True,
+                        "amountOfSeats": 24,
                         "contactPersons": {"edges": []},
-                        "endTime": "2001-02-23T20:07:07+00:00",
-                        "maxGroupSize": 777,
-                        "minGroupSize": 399,
+                        "endTime": "2020-06-10T21:03:38+00:00",
+                        "maxGroupSize": 272,
+                        "minGroupSize": 926,
                         "pEvent": {
+                            "autoAcceptance": False,
                             "contactEmail": "stephanieskinner@gmail.com",
-                            "contactPhoneNumber": "777.671.2406x75064",
-                            "duration": 170,
+                            "contactPhoneNumber": "001-777-671-2406x75064",
                             "enrolmentEndDays": 1,
                             "enrolmentStart": "2020-01-05T00:00:00+00:00",
                             "linkedEventId": "Record card my. Sure sister return.",
                             "neededOccurrences": 5,
                         },
-                        "placeId": "Daughter order stay sign discover.",
-                        "remainingSeats": 17,
+                        "placeId": "Evening southern would according strong recently.",
+                        "remainingSeats": 24,
                         "seatsApproved": 0,
                         "seatsTaken": 0,
                         "startTime": "2020-01-06T00:00:00+00:00",
@@ -450,23 +448,22 @@ snapshots["test_occurrences_filter_by_upcoming 1"] = {
                 },
                 {
                     "node": {
-                        "amountOfSeats": 21,
-                        "autoAcceptance": False,
+                        "amountOfSeats": 28,
                         "contactPersons": {"edges": []},
                         "endTime": "1996-02-20T13:49:25+00:00",
                         "maxGroupSize": 84,
                         "minGroupSize": 838,
                         "pEvent": {
+                            "autoAcceptance": False,
                             "contactEmail": "stephanieskinner@gmail.com",
-                            "contactPhoneNumber": "777.671.2406x75064",
-                            "duration": 170,
+                            "contactPhoneNumber": "001-777-671-2406x75064",
                             "enrolmentEndDays": 1,
                             "enrolmentStart": "2020-01-05T00:00:00+00:00",
                             "linkedEventId": "Record card my. Sure sister return.",
                             "neededOccurrences": 5,
                         },
                         "placeId": "Able process base sing according.",
-                        "remainingSeats": 21,
+                        "remainingSeats": 28,
                         "seatsApproved": 0,
                         "seatsTaken": 0,
                         "startTime": "2020-01-07T00:00:00+00:00",
@@ -484,23 +481,22 @@ snapshots["test_occurrences_filter_by_date 2"] = {
             "edges": [
                 {
                     "node": {
-                        "amountOfSeats": 50,
-                        "autoAcceptance": True,
+                        "amountOfSeats": 27,
                         "contactPersons": {"edges": []},
-                        "endTime": "2013-05-12T21:58:38+00:00",
-                        "maxGroupSize": 605,
-                        "minGroupSize": 263,
+                        "endTime": "1986-04-11T14:17:11+00:00",
+                        "maxGroupSize": 562,
+                        "minGroupSize": 348,
                         "pEvent": {
-                            "contactEmail": "jvelasquez@hotmail.com",
-                            "contactPhoneNumber": "071-988-5777x942",
-                            "duration": 172,
-                            "enrolmentEndDays": 2,
-                            "enrolmentStart": "2020-04-28T13:05:41+00:00",
-                            "linkedEventId": "Put matter benefit treat final. Father boy economy the.",
-                            "neededOccurrences": 0,
+                            "autoAcceptance": False,
+                            "contactEmail": "josejohnston@hotmail.com",
+                            "contactPhoneNumber": "481.188.4524x194",
+                            "enrolmentEndDays": 1,
+                            "enrolmentStart": "1976-08-19T04:27:47+00:00",
+                            "linkedEventId": "Party door better performance race story.",
+                            "neededOccurrences": 4,
                         },
-                        "placeId": "Near increase process truth list pressure.",
-                        "remainingSeats": 50,
+                        "placeId": "Service wonder everything pay parent theory.",
+                        "remainingSeats": 27,
                         "seatsApproved": 0,
                         "seatsTaken": 0,
                         "startTime": "2020-01-02T00:00:00+00:00",
@@ -509,23 +505,22 @@ snapshots["test_occurrences_filter_by_date 2"] = {
                 },
                 {
                     "node": {
-                        "amountOfSeats": 32,
-                        "autoAcceptance": True,
+                        "amountOfSeats": 39,
                         "contactPersons": {"edges": []},
-                        "endTime": "2013-06-04T19:09:17+00:00",
-                        "maxGroupSize": 342,
-                        "minGroupSize": 669,
+                        "endTime": "1978-07-26T12:24:03+00:00",
+                        "maxGroupSize": 588,
+                        "minGroupSize": 752,
                         "pEvent": {
-                            "contactEmail": "lfriedman@yahoo.com",
-                            "contactPhoneNumber": "339-471-3127x06051",
-                            "duration": 194,
-                            "enrolmentEndDays": 1,
-                            "enrolmentStart": "2009-04-10T19:35:34+00:00",
-                            "linkedEventId": "Voice radio happen color scene. Create state rock only.",
-                            "neededOccurrences": 2,
+                            "autoAcceptance": False,
+                            "contactEmail": "clarkjulia@yahoo.com",
+                            "contactPhoneNumber": "001-548-526-2319x59911",
+                            "enrolmentEndDays": 0,
+                            "enrolmentStart": "1990-06-24T03:04:24+00:00",
+                            "linkedEventId": "Person the probably deep center develop character situation.",
+                            "neededOccurrences": 10,
                         },
-                        "placeId": "Believe policy security score.",
-                        "remainingSeats": 32,
+                        "placeId": "Event lay yes policy data control as receive.",
+                        "remainingSeats": 39,
                         "seatsApproved": 0,
                         "seatsTaken": 0,
                         "startTime": "2020-01-02T00:00:00+00:00",
@@ -543,23 +538,22 @@ snapshots["test_occurrences_filter_by_time 2"] = {
             "edges": [
                 {
                     "node": {
-                        "amountOfSeats": 33,
-                        "autoAcceptance": True,
+                        "amountOfSeats": 26,
                         "contactPersons": {"edges": []},
-                        "endTime": "1975-11-21T02:09:38+00:00",
-                        "maxGroupSize": 400,
-                        "minGroupSize": 226,
+                        "endTime": "1994-08-09T11:57:00+00:00",
+                        "maxGroupSize": 563,
+                        "minGroupSize": 536,
                         "pEvent": {
-                            "contactEmail": "mbrown@gmail.com",
-                            "contactPhoneNumber": "+1-300-846-5476",
-                            "duration": 33,
-                            "enrolmentEndDays": 1,
-                            "enrolmentStart": "1997-02-03T22:43:02+00:00",
-                            "linkedEventId": "Pressure unit toward movie by garden. Country past involve.",
-                            "neededOccurrences": 2,
+                            "autoAcceptance": False,
+                            "contactEmail": "russell25@dennis-sanders.biz",
+                            "contactPhoneNumber": "333-616-3658x82540",
+                            "enrolmentEndDays": 0,
+                            "enrolmentStart": "1995-10-31T14:54:06+00:00",
+                            "linkedEventId": "Two born land military first.",
+                            "neededOccurrences": 8,
                         },
-                        "placeId": "Yard campaign former model reduce here natural.",
-                        "remainingSeats": 33,
+                        "placeId": "Financial generation man process white.",
+                        "remainingSeats": 26,
                         "seatsApproved": 0,
                         "seatsTaken": 0,
                         "startTime": "2020-01-02T12:00:00+00:00",
@@ -577,23 +571,22 @@ snapshots["test_occurrences_filter_by_time 3"] = {
             "edges": [
                 {
                     "node": {
-                        "amountOfSeats": 32,
-                        "autoAcceptance": True,
+                        "amountOfSeats": 39,
                         "contactPersons": {"edges": []},
-                        "endTime": "2013-06-04T19:09:17+00:00",
-                        "maxGroupSize": 342,
-                        "minGroupSize": 669,
+                        "endTime": "1978-07-26T12:24:03+00:00",
+                        "maxGroupSize": 588,
+                        "minGroupSize": 752,
                         "pEvent": {
-                            "contactEmail": "lfriedman@yahoo.com",
-                            "contactPhoneNumber": "339-471-3127x06051",
-                            "duration": 194,
-                            "enrolmentEndDays": 1,
-                            "enrolmentStart": "2009-04-10T19:35:34+00:00",
-                            "linkedEventId": "Voice radio happen color scene. Create state rock only.",
-                            "neededOccurrences": 2,
+                            "autoAcceptance": False,
+                            "contactEmail": "clarkjulia@yahoo.com",
+                            "contactPhoneNumber": "001-548-526-2319x59911",
+                            "enrolmentEndDays": 0,
+                            "enrolmentStart": "1990-06-24T03:04:24+00:00",
+                            "linkedEventId": "Person the probably deep center develop character situation.",
+                            "neededOccurrences": 10,
                         },
-                        "placeId": "Believe policy security score.",
-                        "remainingSeats": 32,
+                        "placeId": "Event lay yes policy data control as receive.",
+                        "remainingSeats": 39,
                         "seatsApproved": 0,
                         "seatsTaken": 0,
                         "startTime": "2020-01-01T11:00:00+00:00",
@@ -602,23 +595,22 @@ snapshots["test_occurrences_filter_by_time 3"] = {
                 },
                 {
                     "node": {
-                        "amountOfSeats": 50,
-                        "autoAcceptance": True,
+                        "amountOfSeats": 27,
                         "contactPersons": {"edges": []},
-                        "endTime": "2013-05-12T21:58:38+00:00",
-                        "maxGroupSize": 605,
-                        "minGroupSize": 263,
+                        "endTime": "1986-04-11T14:17:11+00:00",
+                        "maxGroupSize": 562,
+                        "minGroupSize": 348,
                         "pEvent": {
-                            "contactEmail": "jvelasquez@hotmail.com",
-                            "contactPhoneNumber": "071-988-5777x942",
-                            "duration": 172,
-                            "enrolmentEndDays": 2,
-                            "enrolmentStart": "2020-04-28T13:05:41+00:00",
-                            "linkedEventId": "Put matter benefit treat final. Father boy economy the.",
-                            "neededOccurrences": 0,
+                            "autoAcceptance": False,
+                            "contactEmail": "josejohnston@hotmail.com",
+                            "contactPhoneNumber": "481.188.4524x194",
+                            "enrolmentEndDays": 1,
+                            "enrolmentStart": "1976-08-19T04:27:47+00:00",
+                            "linkedEventId": "Party door better performance race story.",
+                            "neededOccurrences": 4,
                         },
-                        "placeId": "Near increase process truth list pressure.",
-                        "remainingSeats": 50,
+                        "placeId": "Service wonder everything pay parent theory.",
+                        "remainingSeats": 27,
                         "seatsApproved": 0,
                         "seatsTaken": 0,
                         "startTime": "2020-01-02T11:00:00+00:00",
@@ -636,23 +628,22 @@ snapshots["test_occurrences_filter_by_time 4"] = {
             "edges": [
                 {
                     "node": {
-                        "amountOfSeats": 32,
-                        "autoAcceptance": True,
+                        "amountOfSeats": 39,
                         "contactPersons": {"edges": []},
-                        "endTime": "2013-06-04T19:09:17+00:00",
-                        "maxGroupSize": 342,
-                        "minGroupSize": 669,
+                        "endTime": "1978-07-26T12:24:03+00:00",
+                        "maxGroupSize": 588,
+                        "minGroupSize": 752,
                         "pEvent": {
-                            "contactEmail": "lfriedman@yahoo.com",
-                            "contactPhoneNumber": "339-471-3127x06051",
-                            "duration": 194,
-                            "enrolmentEndDays": 1,
-                            "enrolmentStart": "2009-04-10T19:35:34+00:00",
-                            "linkedEventId": "Voice radio happen color scene. Create state rock only.",
-                            "neededOccurrences": 2,
+                            "autoAcceptance": False,
+                            "contactEmail": "clarkjulia@yahoo.com",
+                            "contactPhoneNumber": "001-548-526-2319x59911",
+                            "enrolmentEndDays": 0,
+                            "enrolmentStart": "1990-06-24T03:04:24+00:00",
+                            "linkedEventId": "Person the probably deep center develop character situation.",
+                            "neededOccurrences": 10,
                         },
-                        "placeId": "Believe policy security score.",
-                        "remainingSeats": 32,
+                        "placeId": "Event lay yes policy data control as receive.",
+                        "remainingSeats": 39,
                         "seatsApproved": 0,
                         "seatsTaken": 0,
                         "startTime": "2020-01-01T11:00:00+00:00",
@@ -661,23 +652,22 @@ snapshots["test_occurrences_filter_by_time 4"] = {
                 },
                 {
                     "node": {
-                        "amountOfSeats": 50,
-                        "autoAcceptance": True,
+                        "amountOfSeats": 27,
                         "contactPersons": {"edges": []},
-                        "endTime": "2013-05-12T21:58:38+00:00",
-                        "maxGroupSize": 605,
-                        "minGroupSize": 263,
+                        "endTime": "1986-04-11T14:17:11+00:00",
+                        "maxGroupSize": 562,
+                        "minGroupSize": 348,
                         "pEvent": {
-                            "contactEmail": "jvelasquez@hotmail.com",
-                            "contactPhoneNumber": "071-988-5777x942",
-                            "duration": 172,
-                            "enrolmentEndDays": 2,
-                            "enrolmentStart": "2020-04-28T13:05:41+00:00",
-                            "linkedEventId": "Put matter benefit treat final. Father boy economy the.",
-                            "neededOccurrences": 0,
+                            "autoAcceptance": False,
+                            "contactEmail": "josejohnston@hotmail.com",
+                            "contactPhoneNumber": "481.188.4524x194",
+                            "enrolmentEndDays": 1,
+                            "enrolmentStart": "1976-08-19T04:27:47+00:00",
+                            "linkedEventId": "Party door better performance race story.",
+                            "neededOccurrences": 4,
                         },
-                        "placeId": "Near increase process truth list pressure.",
-                        "remainingSeats": 50,
+                        "placeId": "Service wonder everything pay parent theory.",
+                        "remainingSeats": 27,
                         "seatsApproved": 0,
                         "seatsTaken": 0,
                         "startTime": "2020-01-02T11:00:00+00:00",
@@ -706,39 +696,6 @@ snapshots["test_unenrol_occurrence 1"] = {
             "studyGroup": {
                 "name": "Last appear experience seven. Throw wrong party wall agency customer clear. Control as receive cup."
             },
-        }
-    }
-}
-
-snapshots["test_enrol_auto_acceptance_occurrence 1"] = {
-    "data": {
-        "enrolOccurrence": {
-            "enrolments": [
-                {
-                    "notificationType": "EMAIL",
-                    "occurrence": {
-                        "amountOfSeats": 50,
-                        "remainingSeats": 35,
-                        "seatsApproved": 0,
-                        "seatsTaken": 15,
-                        "startTime": "2020-01-06T00:00:00+00:00",
-                    },
-                    "status": "PENDING",
-                    "studyGroup": {"name": "To be created group"},
-                },
-                {
-                    "notificationType": "EMAIL",
-                    "occurrence": {
-                        "amountOfSeats": 50,
-                        "remainingSeats": 35,
-                        "seatsApproved": 15,
-                        "seatsTaken": 15,
-                        "startTime": "2020-01-06T00:00:00+00:00",
-                    },
-                    "status": "APPROVED",
-                    "studyGroup": {"name": "To be created group"},
-                },
-            ]
         }
     }
 }
@@ -941,5 +898,47 @@ snapshots["test_enrolments_summary 4"] = {
 snapshots["test_enrolments_summary 5"] = {
     "data": {
         "enrolmentSummary": {"count": 1, "edges": [{"node": {"status": "DECLINED"}}]}
+    }
+}
+
+snapshots["test_enrol_auto_acceptance_occurrence 1"] = {
+    "data": {
+        "enrolOccurrence": {
+            "enrolments": [
+                {
+                    "notificationType": "EMAIL",
+                    "occurrence": {
+                        "amountOfSeats": 50,
+                        "remainingSeats": 35,
+                        "seatsApproved": 0,
+                        "seatsTaken": 15,
+                        "startTime": "2020-01-06T00:00:00+00:00",
+                    },
+                    "status": "PENDING",
+                    "studyGroup": {"name": "To be created group"},
+                }
+            ]
+        }
+    }
+}
+
+snapshots["test_enrol_auto_acceptance_occurrence 2"] = {
+    "data": {
+        "enrolOccurrence": {
+            "enrolments": [
+                {
+                    "notificationType": "EMAIL",
+                    "occurrence": {
+                        "amountOfSeats": 50,
+                        "remainingSeats": 35,
+                        "seatsApproved": 15,
+                        "seatsTaken": 15,
+                        "startTime": "2020-01-06T00:00:00+00:00",
+                    },
+                    "status": "APPROVED",
+                    "studyGroup": {"name": "To be created group"},
+                }
+            ]
+        }
     }
 }

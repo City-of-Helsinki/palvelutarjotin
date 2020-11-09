@@ -6,10 +6,10 @@
 
 ## Environments
 Production environment:
-- TBA
+- https://api.hel.fi/kultus-beta/graphql
 
 Testing environment:
-- https://palvelutarjotin-admin.test.kuva.hel.ninja/
+- https://palvelutarjotin-api.test.kuva.hel.ninja/graphql
 
 ## Development with Docker
 
@@ -64,7 +64,7 @@ Allow user to create test database
     LINKED_EVENTS_API_KEY=<your_linked_event_api_key>
     LINKED_EVENTS_DATA_SOURCE=<your_linked_event_data_source>
     ```
-    If you are not using local Linked Event, as administrator to provide these information.
+    If you are not using local Linked Event, contact LinkedEvent team to provide these information.
     
     If you installed LinkedEvent yourself, you can create API_KEY and DATA_SOURCE from your local LinkedEvent admin
     interface (Checkout the how to setup local LinkedEvent [here](https://github.com/City-of-Helsinki/linkedevents#how-to-setup-your-local-development-environment))

@@ -10,6 +10,7 @@ from occurrences.models import PalvelutarjotinEvent
 
 from common.tests.utils import assert_match_error_code, assert_permission_denied
 from palvelutarjotin.consts import API_USAGE_ERROR
+from palvelutarjotin.settings import KEYWORD_SET_ID_MAPPING
 
 
 @pytest.fixture(autouse=True)
@@ -645,12 +646,12 @@ mutation addEvent($input: AddEventMutationInput!){
           }
           enrolmentEndDays
           enrolmentStart
-          duration
           neededOccurrences
           linkedEventId
           organisation{
               name
           }
+          autoAcceptance
         }
       }
     }
@@ -664,11 +665,11 @@ CREATE_EVENT_VARIABLES = {
         "pEvent": {
             "enrolmentStart": "2020-06-06T16:40:48+00:00",
             "enrolmentEndDays": 2,
-            "duration": 60,
             "neededOccurrences": 1,
             "contactPersonId": "",
             "contactPhoneNumber": "123123",
             "contactEmail": "contact@email.me",
+            "autoAcceptance": True,
         },
         "name": {"fi": "testaus"},
         "startTime": "2020-05-05",
@@ -781,7 +782,6 @@ mutation addEvent($input: UpdateEventMutationInput!){
           contactPhoneNumber
           enrolmentEndDays
           enrolmentStart
-          duration
           neededOccurrences
           linkedEventId
           organisation{
@@ -790,6 +790,7 @@ mutation addEvent($input: UpdateEventMutationInput!){
           contactPerson{
               name
           }
+          autoAcceptance
         }
       }
     }
@@ -804,10 +805,10 @@ UPDATE_EVENT_VARIABLES = {
         "pEvent": {
             "enrolmentStart": "2020-06-06T16:40:48+00:00",
             "enrolmentEndDays": 2,
-            "duration": 60,
             "neededOccurrences": 1,
             "contactPhoneNumber": "123123",
             "contactEmail": "contact@email.me",
+            "autoAcceptance": True,
         },
         "name": {"fi": "testaus"},
         "startTime": "2020-05-07",
@@ -1066,9 +1067,6 @@ def test_publish_event_unauthorized(
     assert_permission_denied(executed)
     executed = user_api_client.execute(PUBLISH_EVENT_MUTATION, variables=variables)
     assert_permission_denied(executed)
-
-    variables = deepcopy(UPDATE_EVENT_VARIABLES)
-    del variables["input"]["draft"]
     variables["input"]["organisationId"] = to_global_id(
         "OrganisationNode", organisation.id
     )
@@ -1118,6 +1116,85 @@ def test_publish_event(
     snapshot.assert_match(executed)
 
 
+UNPUBLISH_EVENT_MUTATION = """
+mutation unpublishEvent($input: PublishEventMutationInput!){
+  unpublishEventMutation(event: $input){
+    response{
+      statusCode
+      body {
+        id
+        startTime
+        endTime
+        publicationStatus
+      }
+    }
+  }
+}
+"""
+
+
+def test_unpublish_event_unauthorized(
+    snapshot,
+    api_client,
+    user_api_client,
+    staff_api_client,
+    mock_update_event_data,
+    organisation,
+    person,
+):
+    # Reuse update event variables
+    variables = deepcopy(UPDATE_EVENT_VARIABLES)
+    del variables["input"]["draft"]
+    executed = api_client.execute(UNPUBLISH_EVENT_MUTATION, variables=variables)
+    assert_permission_denied(executed)
+    executed = user_api_client.execute(UNPUBLISH_EVENT_MUTATION, variables=variables)
+    assert_permission_denied(executed)
+
+    variables["input"]["organisationId"] = to_global_id(
+        "OrganisationNode", organisation.id
+    )
+    variables["input"]["pEvent"]["contactPersonId"] = to_global_id(
+        "PersonNode", person.id
+    )
+    p_event = PalvelutarjotinEventFactory(
+        linked_event_id=UPDATE_EVENT_VARIABLES["input"]["id"], organisation=organisation
+    )
+    OccurrenceFactory(p_event=p_event)
+    executed = staff_api_client.execute(UNPUBLISH_EVENT_MUTATION, variables=variables)
+    assert_permission_denied(executed)
+    # Still contact person doesn't belong to organisation
+    staff_api_client.user.person.organisations.add(organisation)
+    executed = staff_api_client.execute(UNPUBLISH_EVENT_MUTATION, variables=variables)
+    assert_permission_denied(executed)
+
+
+def test_unpublish_event(
+    snapshot,
+    api_client,
+    staff_api_client,
+    mock_update_event_data,
+    organisation,
+    person,
+):
+    # Reuse update event variables
+    variables = deepcopy(UPDATE_EVENT_VARIABLES)
+    del variables["input"]["draft"]
+    variables["input"]["organisationId"] = to_global_id(
+        "OrganisationNode", organisation.id
+    )
+    variables["input"]["pEvent"]["contactPersonId"] = to_global_id(
+        "PersonNode", person.id
+    )
+    PalvelutarjotinEventFactory(
+        linked_event_id=UPDATE_EVENT_VARIABLES["input"]["id"], organisation=organisation
+    )
+    staff_api_client.user.person.organisations.add(organisation)
+    person.organisations.add(organisation)
+    executed = staff_api_client.execute(UNPUBLISH_EVENT_MUTATION, variables=variables)
+    # Mock data might not reflect correct publication status
+    snapshot.assert_match(executed)
+
+
 GET_EVENTS_QUERY_WITH_OCCURRENCES = """
 query Events($organisationId: String){
   events(organisationId: $organisationId){
@@ -1160,3 +1237,30 @@ def test_get_events_with_occurrences(
         variables={"organisationId": to_global_id("OrganisationNode", organisation.id)},
     )
     snapshot.assert_match(executed)
+
+
+GET_KEYWORD_SET_QUERY = """
+query getKeywordSet($setType: KeywordSetType!){
+  keywordSet(setType: $setType){
+    id
+    internalId
+    keywords{
+      name {
+        fi
+        sv
+        en
+      }
+      id
+      internalId
+    }
+  }
+}
+"""
+
+
+def test_get_keyword_set(api_client, snapshot, mock_get_keyword_set_data):
+    for set_type in KEYWORD_SET_ID_MAPPING:
+        executed = api_client.execute(
+            GET_KEYWORD_SET_QUERY, variables={"setType": set_type}
+        )
+        snapshot.assert_match(executed)

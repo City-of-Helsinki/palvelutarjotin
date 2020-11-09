@@ -86,11 +86,11 @@ class PalvelutarjotinEventNode(DjangoObjectType):
 class PalvelutarjotinEventInput(InputObjectType):
     enrolment_start = graphene.DateTime()
     enrolment_end_days = graphene.Int()
-    duration = graphene.Int(required=True)
     needed_occurrences = graphene.Int(required=True)
     contact_person_id = graphene.ID()
     contact_phone_number = graphene.String()
     contact_email = graphene.String()
+    auto_acceptance = graphene.Boolean()
 
 
 class StudyGroupNode(DjangoObjectType):
@@ -144,9 +144,9 @@ class VenueNodeInput(InputObjectType):
 
 
 class OccurrenceNode(DjangoObjectType):
-    remaining_seats = graphene.Int()
-    seats_taken = graphene.Int()
-    seats_approved = graphene.Int()
+    remaining_seats = graphene.Int(required=True)
+    seats_taken = graphene.Int(required=True)
+    seats_approved = graphene.Int(required=True)
     linked_event = Field("graphene_linked_events.schema.Event")
 
     def resolve_linked_event(self, info, **kwargs):
@@ -198,13 +198,12 @@ class OccurrenceLanguageInput(InputObjectType):
 class AddOccurrenceMutation(graphene.relay.ClientIDMutation):
     class Input:
         place_id = graphene.String()
-        min_group_size = graphene.Int(required=True)
-        max_group_size = graphene.Int(required=True)
+        min_group_size = graphene.Int()
+        max_group_size = graphene.Int()
         start_time = graphene.DateTime(required=True)
         end_time = graphene.DateTime(required=True)
         contact_persons = graphene.List(PersonNodeInput)
         p_event_id = graphene.ID(required=True)
-        auto_acceptance = graphene.Boolean(required=True)
         amount_of_seats = graphene.Int(required=True)
         languages = NonNull(graphene.List(OccurrenceLanguageInput))
 
@@ -248,7 +247,6 @@ class UpdateOccurrenceMutation(graphene.relay.ClientIDMutation):
             "missing contact persons will be removed during mutation",
         )
         p_event_id = graphene.ID()
-        auto_acceptance = graphene.Boolean()
         amount_of_seats = graphene.Int()
         languages = NonNull(
             graphene.List(OccurrenceLanguageInput),
@@ -325,6 +323,7 @@ class AddVenueMutation(graphene.relay.ClientIDMutation):
         translations = graphene.List(VenueTranslationsInput)
         has_clothing_storage = graphene.Boolean(required=True)
         has_snack_eating_place = graphene.Boolean(required=True)
+        outdoor_activity = graphene.Boolean(required=True)
 
     venue = graphene.Field(VenueNode)
 
@@ -346,6 +345,7 @@ class UpdateVenueMutation(graphene.relay.ClientIDMutation):
         translations = graphene.List(VenueTranslationsInput)
         has_clothing_storage = graphene.Boolean()
         has_snack_eating_place = graphene.Boolean()
+        outdoor_activity = graphene.Boolean()
 
     venue = graphene.Field(VenueNode)
 
@@ -404,8 +404,9 @@ def validate_enrolment(study_group, occurrence, new_enrolment=True):
     if occurrence.cancelled:
         raise EnrolCancelledOccurrenceError("Cannot enrol cancelled occurrence")
     if (
-        study_group.group_size > occurrence.max_group_size
-        or study_group.group_size < occurrence.min_group_size
+        occurrence.max_group_size and study_group.group_size > occurrence.max_group_size
+    ) or (
+        occurrence.min_group_size and study_group.group_size < occurrence.min_group_size
     ):
         raise InvalidStudyGroupSizeError(
             "Study group size not match occurrence group size"
@@ -519,7 +520,7 @@ class EnrolOccurrenceMutation(graphene.relay.ClientIDMutation):
                 study_group=study_group, occurrence=occurrence, person=person, **kwargs
             )
 
-            if occurrence.auto_acceptance:
+            if occurrence.p_event.auto_acceptance:
                 enrolment.approve()
             enrolments.append(enrolment)
 

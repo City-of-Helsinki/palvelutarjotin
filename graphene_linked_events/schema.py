@@ -39,11 +39,15 @@ from common.utils import (
     update_object,
 )
 from palvelutarjotin.exceptions import ApiUsageError, ObjectDoesNotExistError
-from palvelutarjotin.settings import LINKED_EVENTS_API_CONFIG
+from palvelutarjotin.settings import KEYWORD_SET_ID_MAPPING, LINKED_EVENTS_API_CONFIG
 
 PublicationStatusEnum = Enum(
     "PublicationStatus",
     [(s[0].upper(), s[0]) for s in PalvelutarjotinEvent.PUBLICATION_STATUSES],
+)
+
+KeywordSetEnum = Enum(
+    "KeywordSetType", [(s.upper(), s) for s in KEYWORD_SET_ID_MAPPING.keys()]
 )
 
 
@@ -122,6 +126,12 @@ class Keyword(IdObject):
     image = Int()
     data_source = String()
     publisher = ID()
+    name = Field(LocalisedObject)
+
+
+class KeywordSet(IdObject):
+    usage = String()
+    keywords = NonNull(List(NonNull(Keyword)))
     name = Field(LocalisedObject)
 
 
@@ -292,6 +302,8 @@ class Query:
     )
     keyword = Field(Keyword, id=ID(required=True))
 
+    keyword_set = Field(KeywordSet, set_type=KeywordSetEnum(required=True))
+
     # TODO: Add support for start-end filter
     events_search = Field(
         EventSearchListResponse, input=String(required=True), include=List(String)
@@ -353,6 +365,15 @@ class Query:
     @staticmethod
     def resolve_keywords(parent, info, **kwargs):
         response = api_client.list("keyword", filter_list=kwargs)
+        return json2obj(format_response(response))
+
+    @staticmethod
+    def resolve_keyword_set(parent, info, **kwargs):
+        set_type = kwargs["set_type"]
+        keyword_set_id = KEYWORD_SET_ID_MAPPING.get(set_type)
+        response = api_client.retrieve(
+            "keyword_set", keyword_set_id, params={"include": "keywords"}
+        )
         return json2obj(format_response(response))
 
     @staticmethod
@@ -595,6 +616,26 @@ class PublishEventMutation(UpdateEventMutation):
         return PublishEventMutation(response=response)
 
 
+class UnpublishEventMutation(UpdateEventMutation):
+    class Arguments:
+        event = PublishEventMutationInput()
+
+    response = Field(EventMutationResponse)
+
+    @staff_member_required
+    @transaction.atomic
+    def mutate(root, info, **kwargs):
+        try:
+            kwargs["event"].update(
+                {"publication_status": PalvelutarjotinEvent.PUBLICATION_STATUS_DRAFT}
+            )
+        except PalvelutarjotinEvent.DoesNotExist as e:
+            raise ObjectDoesNotExistError(e)
+        # Unpublish event is actually update event, reuse UpdateEventMutation
+        response = UpdateEventMutation.mutate(root, info, **kwargs).response
+        return UnpublishEventMutation(response=response)
+
+
 class DeleteEventMutation(Mutation):
     class Arguments:
         event_id = String(required=True)
@@ -701,6 +742,7 @@ class Mutation:
         description="Using this mutation will update event publication status and "
         "also set the `start_time`, `end_time` of linkedEvent"
     )
+    unpublish_event_mutation = UnpublishEventMutation.Field()
     delete_event_mutation = DeleteEventMutation.Field()
 
     upload_image_mutation = UploadImageMutation.Field()

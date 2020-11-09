@@ -24,7 +24,6 @@ class StudyGroupAdmin(admin.ModelAdmin):
 class OccurrenceAdmin(admin.ModelAdmin):
     list_display = (
         "p_event",
-        "auto_acceptance",
         "start_time",
         "end_time",
         "amount_of_seats",
@@ -50,7 +49,12 @@ class EnrolmentAdmin(admin.ModelAdmin):
 
 @admin.register(VenueCustomData)
 class VenueCustomDataAdmin(TranslatableAdmin):
-    list_display = ("place_id", "has_clothing_storage", "has_snack_eating_place")
+    list_display = (
+        "place_id",
+        "has_clothing_storage",
+        "has_snack_eating_place",
+        "outdoor_activity",
+    )
 
 
 @admin.register(PalvelutarjotinEvent)
@@ -60,7 +64,6 @@ class PalvelutarjotinEventAdmin(admin.ModelAdmin):
         "organisation",
         "occurrences_count",
         "enrolment_start",
-        "duration",
         "enrolment_end_days",
         "needed_occurrences",
         "contact_email",

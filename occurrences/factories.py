@@ -16,7 +16,6 @@ class PalvelutarjotinEventFactory(factory.django.DjangoModelFactory):
         "date_time", tzinfo=pytz.timezone("Europe/Helsinki"),
     )
     enrolment_end_days = factory.Faker("random_int", max=2)
-    duration = factory.Faker("random_int", max=300)
     needed_occurrences = factory.Faker("random_int", max=10)
     contact_phone_number = factory.Faker("phone_number")
     contact_email = factory.Faker("email")
@@ -34,7 +33,6 @@ class OccurrenceFactory(factory.django.DjangoModelFactory):
     start_time = factory.Faker("date_time", tzinfo=pytz.timezone("Europe/Helsinki"))
     end_time = factory.Faker("date_time", tzinfo=pytz.timezone("Europe/Helsinki"))
     p_event = factory.SubFactory(PalvelutarjotinEventFactory)
-    auto_acceptance = factory.Faker("boolean")
     amount_of_seats = factory.Faker("random_int", max=50)
 
     class Meta:
@@ -81,6 +79,7 @@ class VenueCustomDataFactory(factory.django.DjangoModelFactory):
     description = factory.Faker("text", max_nb_chars=100)
     has_clothing_storage = factory.Faker("boolean")
     has_snack_eating_place = factory.Faker("boolean")
+    outdoor_activity = factory.Faker("boolean")
 
     class Meta:
         model = VenueCustomData

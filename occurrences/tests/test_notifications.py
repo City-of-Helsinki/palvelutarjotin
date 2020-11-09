@@ -194,7 +194,7 @@ def test_only_send_approved_notification(
     notification_template_enrolment_approved_fi,
     study_group,
 ):
-    occurrence = OccurrenceFactory(auto_acceptance=auto_acceptance)
+    occurrence = OccurrenceFactory(p_event__auto_acceptance=auto_acceptance)
     enrol = Enrolment.objects.create(study_group=study_group, occurrence=occurrence)
     assert len(mail.outbox) == (0 if auto_acceptance else 1)
     # Fake auto approval because it can only be triggered from approve mutation

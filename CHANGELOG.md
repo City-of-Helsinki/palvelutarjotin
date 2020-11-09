@@ -1,6 +1,21 @@
 <!-- REMINDER: While updating changelog, also remember to update
 the version in palvelutarjotin/__init.py__ -->
 
+
+## [0.2.0] - 9 Nov 2020
+### Added
+- API to query keyword sets
+- Provider API: Unpublish event API
+- Added `outdoor_activity` to p_event
+### Updated
+- Remove duration field from occurrence
+- Move `auto_acceptance` from occurrence to p_event
+- `min_group_size` and `max_group_size` now become optional in occurrence
+- Update README.md
+- Make occurrence `seat_taken` and `seat_approved` not-nullable in the GraphQL API 
+### Fixed 
+- Fixed email header in email template
+
 ## [0.1.0] - 2 Oct 2020
 ### Added
 - Tunnistamo authentication
@@ -23,5 +38,6 @@ the version in palvelutarjotin/__init.py__ -->
     - Filtering published event by name/location/time...
     
 [Unreleased]: https://github.com/City-of-Helsinki/palvelutarjotin/compare/release-v0.1.0...HEAD
+[0.2.0]: https://github.com/City-of-Helsinki/palvelutarjotin/compare/release-v0.1.0...v0.2.0
 [0.1.0]: https://github.com/City-of-Helsinki/palvelutarjotin/releases/tag/release-v0.1.0
 

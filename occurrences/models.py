@@ -35,7 +35,6 @@ class PalvelutarjotinEvent(TimestampedModel):
     enrolment_end_days = models.PositiveSmallIntegerField(
         verbose_name=_("enrolment end days"), blank=True, null=True
     )
-    duration = models.PositiveSmallIntegerField(verbose_name=_("duration"))
     needed_occurrences = models.PositiveSmallIntegerField(
         verbose_name=_("needed occurrence"), default=1
     )
@@ -60,6 +59,9 @@ class PalvelutarjotinEvent(TimestampedModel):
     )
     contact_email = models.EmailField(
         max_length=255, verbose_name=_("contact email"), blank=True
+    )
+    auto_acceptance = models.BooleanField(
+        default=False, verbose_name=_("auto acceptance")
     )
 
     class Meta:
@@ -117,8 +119,12 @@ class Occurrence(TimestampedModel):
         blank=True,
         null=True,
     )
-    min_group_size = models.PositiveSmallIntegerField(verbose_name=_("min group size"))
-    max_group_size = models.PositiveSmallIntegerField(verbose_name=_("max group size"))
+    min_group_size = models.PositiveSmallIntegerField(
+        verbose_name=_("min group size"), blank=True, null=True
+    )
+    max_group_size = models.PositiveSmallIntegerField(
+        verbose_name=_("max group size"), blank=True, null=True
+    )
     start_time = models.DateTimeField(verbose_name=_("start time"))
     end_time = models.DateTimeField(verbose_name=_("end time"))
     contact_persons = models.ManyToManyField(
@@ -135,9 +141,6 @@ class Occurrence(TimestampedModel):
         blank=True,
     )
     place_id = models.CharField(max_length=255, verbose_name=_("place id"), blank=True)
-    auto_acceptance = models.BooleanField(
-        default=False, verbose_name=_("auto acceptance")
-    )
     amount_of_seats = models.PositiveSmallIntegerField(
         default=0, verbose_name=_("amount of seats")
     )
@@ -219,6 +222,9 @@ class VenueCustomData(TranslatableModel):
     )
     has_snack_eating_place = models.BooleanField(
         default=False, verbose_name=_("has snack eating place")
+    )
+    outdoor_activity = models.BooleanField(
+        default=False, verbose_name=_("outdoor activity")
     )
 
     class Meta:

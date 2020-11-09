@@ -756,10 +756,10 @@ snapshots["test_update_event 1"] = {
                     "location": {"id": None},
                     "offers": [{"isFree": False}],
                     "pEvent": {
+                        "autoAcceptance": True,
                         "contactEmail": "contact@email.me",
                         "contactPerson": {"name": "Jason Berg"},
                         "contactPhoneNumber": "123123",
-                        "duration": 60,
                         "enrolmentEndDays": 2,
                         "enrolmentStart": "2020-06-06T16:40:48+00:00",
                         "linkedEventId": "qq:afy6aghr2y",
@@ -848,6 +848,36 @@ snapshots["test_update_image 1"] = {
     }
 }
 
+snapshots["test_get_events_with_occurrences 1"] = {
+    "data": {
+        "events": {
+            "data": [
+                {
+                    "id": "helsinki:afy6ikna3u",
+                    "internalId": "https://api.hel.fi/linkedevents/v1/event/helsinki:afy6ikna3u/",
+                    "pEvent": {
+                        "lastOccurrenceDatetime": "2020-01-06T00:00:00+00:00",
+                        "nextOccurrenceDatetime": "2020-01-05T00:00:00+00:00",
+                    },
+                },
+                {
+                    "id": "helsinki:afxp6tv4xa",
+                    "internalId": "https://api.hel.fi/linkedevents/v1/event/helsinki:afxp6tv4xa/",
+                    "pEvent": {
+                        "lastOccurrenceDatetime": "2020-01-06T00:00:00+00:00",
+                        "nextOccurrenceDatetime": "2020-01-05T00:00:00+00:00",
+                    },
+                },
+            ],
+            "meta": {
+                "count": 151775,
+                "next": "https://api.hel.fi/linkedevents/v1/event/?page=2",
+                "previous": None,
+            },
+        }
+    }
+}
+
 snapshots["test_create_event 1"] = {
     "data": {
         "addEventMutation": {
@@ -860,10 +890,10 @@ snapshots["test_create_event 1"] = {
                     "location": {"id": None},
                     "offers": [{"isFree": False}],
                     "pEvent": {
+                        "autoAcceptance": True,
                         "contactEmail": "contact@email.me",
                         "contactPerson": {"name": "Jason Berg"},
                         "contactPhoneNumber": "123123",
-                        "duration": 60,
                         "enrolmentEndDays": 2,
                         "enrolmentStart": "2020-06-06T16:40:48+00:00",
                         "linkedEventId": "qq:afy6aghr2y",
@@ -899,32 +929,78 @@ snapshots["test_publish_event 1"] = {
     }
 }
 
-snapshots["test_get_events_with_occurrences 1"] = {
+snapshots["test_unpublish_event 1"] = {
     "data": {
-        "events": {
-            "data": [
-                {
-                    "id": "helsinki:afy6ikna3u",
-                    "internalId": "https://api.hel.fi/linkedevents/v1/event/helsinki:afy6ikna3u/",
-                    "pEvent": {
-                        "lastOccurrenceDatetime": "2020-01-06T00:00:00+00:00",
-                        "nextOccurrenceDatetime": "2020-01-05T00:00:00+00:00",
-                    },
+        "unpublishEventMutation": {
+            "response": {
+                "body": {
+                    "endTime": None,
+                    "id": "qq:afy6aghr2y",
+                    "publicationStatus": "public",
+                    "startTime": "2020-05-07",
                 },
+                "statusCode": 200,
+            }
+        }
+    }
+}
+
+snapshots["test_get_keyword_set 1"] = {
+    "data": {
+        "keywordSet": {
+            "id": "qq:kultus:categories",
+            "internalId": "http://localhost:8080/v1/keyword_set/qq:kultus:categories/",
+            "keywords": [
                 {
-                    "id": "helsinki:afxp6tv4xa",
-                    "internalId": "https://api.hel.fi/linkedevents/v1/event/helsinki:afxp6tv4xa/",
-                    "pEvent": {
-                        "lastOccurrenceDatetime": "2020-01-06T00:00:00+00:00",
-                        "nextOccurrenceDatetime": "2020-01-05T00:00:00+00:00",
+                    "id": "yso:p27033",
+                    "internalId": "http://localhost:8080/v1/keyword/yso:p27033/",
+                    "name": {
+                        "en": "Valentine's Day",
+                        "fi": "ystävänpäivä",
+                        "sv": "alla hjärtans dag",
                     },
-                },
+                }
             ],
-            "meta": {
-                "count": 151775,
-                "next": "https://api.hel.fi/linkedevents/v1/event/?page=2",
-                "previous": None,
-            },
+        }
+    }
+}
+
+snapshots["test_get_keyword_set 2"] = {
+    "data": {
+        "keywordSet": {
+            "id": "qq:kultus:categories",
+            "internalId": "http://localhost:8080/v1/keyword_set/qq:kultus:categories/",
+            "keywords": [
+                {
+                    "id": "yso:p27033",
+                    "internalId": "http://localhost:8080/v1/keyword/yso:p27033/",
+                    "name": {
+                        "en": "Valentine's Day",
+                        "fi": "ystävänpäivä",
+                        "sv": "alla hjärtans dag",
+                    },
+                }
+            ],
+        }
+    }
+}
+
+snapshots["test_get_keyword_set 3"] = {
+    "data": {
+        "keywordSet": {
+            "id": "qq:kultus:categories",
+            "internalId": "http://localhost:8080/v1/keyword_set/qq:kultus:categories/",
+            "keywords": [
+                {
+                    "id": "yso:p27033",
+                    "internalId": "http://localhost:8080/v1/keyword/yso:p27033/",
+                    "name": {
+                        "en": "Valentine's Day",
+                        "fi": "ystävänpäivä",
+                        "sv": "alla hjärtans dag",
+                    },
+                }
+            ],
         }
     }
 }

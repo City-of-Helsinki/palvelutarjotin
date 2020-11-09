@@ -99,15 +99,14 @@ query Occurrences($upcoming: Boolean, $date: Date, $time: Time){
         remainingSeats
         seatsTaken
         seatsApproved
-        autoAcceptance
         pEvent{
             contactEmail
             contactPhoneNumber
-            duration
             neededOccurrences
             enrolmentEndDays
             enrolmentStart
             linkedEventId
+            autoAcceptance
         }
         startTime
         endTime
@@ -140,11 +139,11 @@ query Occurrence($id: ID!){
     pEvent{
         contactEmail
         contactPhoneNumber
-        duration
         neededOccurrences
         enrolmentEndDays
         enrolmentStart
         linkedEventId
+        autoAcceptance
     }
     linkedEvent{
         name {
@@ -166,7 +165,6 @@ query Occurrence($id: ID!){
     remainingSeats
     seatsTaken
     seatsApproved
-    autoAcceptance
     minGroupSize
     maxGroupSize
     contactPersons {
@@ -202,11 +200,11 @@ ADD_OCCURRENCE_MUTATION = """
           pEvent{
             contactEmail
             contactPhoneNumber
-            duration
             neededOccurrences
             enrolmentEndDays
             enrolmentStart
             linkedEventId
+            autoAcceptance
           }
           languages{
             id
@@ -221,7 +219,6 @@ ADD_OCCURRENCE_VARIABLES = {
     "input": {
         "placeId": "place_id",
         "minGroupSize": 10,
-        "maxGroupSize": 20,
         "startTime": "2020-05-05T00:00:00+00",
         "endTime": "2020-05-05T00:00:00+00",
         "contactPersons": [
@@ -229,7 +226,6 @@ ADD_OCCURRENCE_VARIABLES = {
         ],
         "pEventId": "",
         "amountOfSeats": 40,
-        "autoAcceptance": True,
         "languages": [{"id": "EN"}, {"id": "SV"}],
     }
 }
@@ -252,7 +248,6 @@ mutation updateOccurrence($input: UpdateOccurrenceMutationInput!){
       pEvent{
         contactEmail
         contactPhoneNumber
-        duration
         neededOccurrences
         enrolmentEndDays
         enrolmentStart
@@ -271,7 +266,6 @@ UPDATE_OCCURRENCE_VARIABLES = {
     "input": {
         "placeId": "place_id",
         "minGroupSize": 10,
-        "maxGroupSize": 20,
         "startTime": "2020-05-05T00:00:00+00",
         "endTime": "2020-05-05T00:00:00+00",
         "contactPersons": [
@@ -279,7 +273,6 @@ UPDATE_OCCURRENCE_VARIABLES = {
         ],
         "pEventId": "",
         "amountOfSeats": 40,
-        "autoAcceptance": True,
         "languages": [{"id": "FI"}, {"id": "EN"}, {"id": "SV"}],
     }
 }
@@ -509,6 +502,7 @@ query Venues {
         }
         hasClothingStorage
         hasSnackEatingPlace
+        outdoorActivity
       }
     }
   }
@@ -525,6 +519,7 @@ query venue($id:ID!){
     }
     hasClothingStorage
     hasSnackEatingPlace
+    outdoorActivity
   }
 }
 """
@@ -540,6 +535,7 @@ mutation AddVenue($input: AddVenueMutationInput!) {
         }
         hasClothingStorage
         hasSnackEatingPlace
+        outdoorActivity
     }
   }
 }
@@ -554,6 +550,7 @@ ADD_VENUE_VARIABLES = {
         ],
         "hasClothingStorage": True,
         "hasSnackEatingPlace": True,
+        "outdoorActivity": True,
     }
 }
 
@@ -568,6 +565,7 @@ mutation updateVenue($input: UpdateVenueMutationInput!) {
         }
         hasClothingStorage
         hasSnackEatingPlace
+        outdoorActivity
     }
   }
 }
@@ -582,6 +580,7 @@ UPDATE_VENUE_VARIABLES = {
         ],
         "hasClothingStorage": True,
         "hasSnackEatingPlace": True,
+        "outdoorActivity": True,
     }
 }
 
@@ -1109,28 +1108,50 @@ def test_enrol_auto_acceptance_occurrence(snapshot, api_client, mock_get_event_d
         enrolment_start=datetime(2020, 1, 3, 0, 0, 0, tzinfo=timezone.now().tzinfo),
         enrolment_end_days=2,
     )
+    auto_accept_p_event = PalvelutarjotinEventFactory(
+        enrolment_start=datetime(2020, 1, 3, 0, 0, 0, tzinfo=timezone.now().tzinfo),
+        enrolment_end_days=2,
+        auto_acceptance=True,
+    )
     occurrence = OccurrenceFactory(
         start_time=datetime(2020, 1, 6, 0, 0, 0, tzinfo=timezone.now().tzinfo),
         p_event=p_event_1,
         min_group_size=10,
         max_group_size=20,
         amount_of_seats=50,
-        auto_acceptance=False,
     )
 
     auto_accept_occurrence = OccurrenceFactory(
         start_time=datetime(2020, 1, 6, 0, 0, 0, tzinfo=timezone.now().tzinfo),
-        p_event=p_event_1,
+        p_event=auto_accept_p_event,
         min_group_size=10,
         max_group_size=20,
         amount_of_seats=50,
-        auto_acceptance=True,
     )
 
     variables = {
         "input": {
+            "occurrenceIds": [to_global_id("OccurrenceNode", occurrence.id)],
+            "studyGroup": {
+                "person": {
+                    "id": to_global_id("PersonNode", study_group_15.person.id),
+                    "name": study_group_15.person.name,
+                    "emailAddress": study_group_15.person.email_address,
+                },
+                "name": "To be created group",
+                "groupSize": study_group_15.group_size,
+                "groupName": study_group_15.group_name,
+                "studyLevel": study_group_15.study_level.upper(),
+                "amountOfAdult": study_group_15.amount_of_adult,
+            },
+        }
+    }
+    executed = api_client.execute(ENROL_OCCURRENCE_MUTATION, variables=variables)
+    snapshot.assert_match(executed)
+
+    variables = {
+        "input": {
             "occurrenceIds": [
-                to_global_id("OccurrenceNode", occurrence.id),
                 to_global_id("OccurrenceNode", auto_accept_occurrence.id),
             ],
             "studyGroup": {
@@ -1326,7 +1347,6 @@ def test_approve_cancelled_occurrence_enrolment(snapshot, staff_api_client):
         min_group_size=10,
         max_group_size=20,
         amount_of_seats=50,
-        auto_acceptance=False,
     )
 
     occurrence.study_groups.add(study_group)
@@ -1361,7 +1381,6 @@ def test_approve_enrolment(
         min_group_size=10,
         max_group_size=20,
         amount_of_seats=50,
-        auto_acceptance=False,
     )
     occurrence_2 = OccurrenceFactory(
         start_time=datetime(2020, 1, 6, 0, 0, 0, tzinfo=timezone.now().tzinfo),
@@ -1369,7 +1388,6 @@ def test_approve_enrolment(
         min_group_size=10,
         max_group_size=20,
         amount_of_seats=50,
-        auto_acceptance=False,
     )
     occurrence.study_groups.add(study_group_15)
     enrolment = occurrence.enrolments.first()
@@ -1417,7 +1435,6 @@ def test_approve_enrolment_with_custom_message(
         min_group_size=10,
         max_group_size=20,
         amount_of_seats=50,
-        auto_acceptance=False,
     )
     occurrence.study_groups.add(study_group_15)
     assert occurrence.study_groups.count() == 1
@@ -1458,7 +1475,6 @@ def test_decline_enrolment(
         min_group_size=10,
         max_group_size=20,
         amount_of_seats=50,
-        auto_acceptance=False,
     )
     occurrence_2 = OccurrenceFactory(
         start_time=datetime(2020, 1, 6, 0, 0, 0, tzinfo=timezone.now().tzinfo),
@@ -1466,7 +1482,6 @@ def test_decline_enrolment(
         min_group_size=10,
         max_group_size=20,
         amount_of_seats=50,
-        auto_acceptance=False,
     )
     occurrence.study_groups.add(study_group_15)
     enrolment = occurrence.enrolments.first()
@@ -1514,7 +1529,6 @@ def test_decline_enrolment_with_custom_message(
         min_group_size=10,
         max_group_size=20,
         amount_of_seats=50,
-        auto_acceptance=False,
     )
     occurrence.study_groups.add(study_group_15)
     assert occurrence.study_groups.count() == 1
@@ -1579,7 +1593,6 @@ def test_update_enrolment_unauthorized(api_client, user_api_client):
         min_group_size=10,
         max_group_size=20,
         amount_of_seats=50,
-        auto_acceptance=False,
     )
     occurrence.study_groups.add(study_group_15)
     assert Enrolment.objects.count() == 1
@@ -1608,7 +1621,6 @@ def test_update_enrolment(snapshot, staff_api_client):
         min_group_size=10,
         max_group_size=20,
         amount_of_seats=30,
-        auto_acceptance=False,
     )
     occurrence_2 = OccurrenceFactory(
         start_time=datetime(2020, 1, 6, 0, 0, 0, tzinfo=timezone.now().tzinfo),
@@ -1616,7 +1628,6 @@ def test_update_enrolment(snapshot, staff_api_client):
         min_group_size=10,
         max_group_size=20,
         amount_of_seats=30,
-        auto_acceptance=False,
     )
     occurrence_1.study_groups.add(study_group_15)
     staff_api_client.user.person.organisations.add(occurrence_1.p_event.organisation)
