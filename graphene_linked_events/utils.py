@@ -32,3 +32,8 @@ def retrieve_linked_events_data(resource, resource_id, params=None, is_staff=Fal
         resource, resource_id, params=params, is_staff=is_staff
     )
     return json2obj(format_response(response))
+
+
+def get_keyword_set_by_id(keyword_set_id):
+    params = {"include": "keywords"}
+    return retrieve_linked_events_data("keyword_set", keyword_set_id, params=params,)
