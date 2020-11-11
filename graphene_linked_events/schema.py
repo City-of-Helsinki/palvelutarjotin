@@ -284,12 +284,13 @@ class ImageListResponse(Response):
 class Query:
     events = Field(
         EventListResponse,
-        divisions=List(String),
+        division=List(String),
         end=String(),
         include=List(String),
         in_language=String(),
         is_free=Boolean(),
-        keywords=List(String),
+        keyword=List(String),
+        keyword_and=List(String),
         keyword_not=List(String),
         language=String(),
         location=String(),
@@ -375,6 +376,12 @@ class Query:
             # If no organisation id specified, return all events from
             # palvelutarjotin data source
             kwargs["data_source"] = LINKED_EVENTS_API_CONFIG["DATA_SOURCE"]
+        # Some arguments in LinkedEvent are not fully supported in graphene arguments
+        if kwargs.get("keyword_and"):
+            kwargs["keyword_AND"] = kwargs.pop("keyword_and")
+        if kwargs.get("keyword_not"):
+            kwargs["keyword!"] = kwargs.pop("keyword_not")
+
         response = api_client.list(
             "event", filter_list=kwargs, is_staff=info.context.user.is_staff
         )
