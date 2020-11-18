@@ -21,24 +21,24 @@ class LinkedEventsApiClient(object):
 
     def retrieve(self, resource, id, params=None, is_staff=False):
         actions = self.get_actions(resource)
-
+        formatted_params = self.convert_to_string_param(params)
         if is_staff:
             headers = {"apikey": self.api_key}
             return requests.request(
                 actions["retrieve"]["method"],
                 actions["retrieve"]["url"].format(id),
-                params=params,
+                params=formatted_params,
                 headers=headers,
             )
         return requests.request(
             actions["retrieve"]["method"],
             actions["retrieve"]["url"].format(id),
-            params=params,
+            params=formatted_params,
         )
 
     def list(self, resource, filter_list=None, is_staff=False):
         actions = self.get_actions(resource)
-        filter_params = filter_list
+        filter_params = self.convert_to_string_param(filter_list)
         if is_staff:
             headers = {"apikey": self.api_key}
             return requests.request(
@@ -81,7 +81,8 @@ class LinkedEventsApiClient(object):
         )
 
     # Special action to full-text search generic resources
-    def search(self, search_params):
+    def search(self, params):
+        search_params = self.convert_to_string_param(params)
         action = self.get_actions()["search"]
         response = requests.request(
             action["method"], action["url"], params=search_params
@@ -94,3 +95,11 @@ class LinkedEventsApiClient(object):
         return requests.request(
             action["method"], action["url"], data=body, files=files, headers=headers
         )
+
+    @staticmethod
+    def convert_to_string_param(params):
+        for k, v in params.items():
+            if type(v) == list:
+                list_to_string = ",".join(v)
+                params[k] = list_to_string
+        return params
