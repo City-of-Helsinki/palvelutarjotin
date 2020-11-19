@@ -348,18 +348,12 @@ class Query:
 
     @staticmethod
     def resolve_event(parent, info, **kwargs):
-        if kwargs.get("include"):
-            params = {"include": ",".join(kwargs["include"])}
-            response = api_client.retrieve(
-                "event",
-                kwargs["id"],
-                params=params,
-                is_staff=info.context.user.is_staff,
-            )
-        else:
-            response = api_client.retrieve(
-                "event", kwargs["id"], is_staff=info.context.user.is_staff
-            )
+        response = api_client.retrieve(
+            "event",
+            kwargs["id"],
+            params=kwargs.get("include"),
+            is_staff=info.context.user.is_staff,
+        )
         obj = json2obj(format_response(response))
         return obj
 
