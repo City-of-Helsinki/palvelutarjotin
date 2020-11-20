@@ -23,6 +23,7 @@ from common.tests.utils import (
 from palvelutarjotin.consts import (
     API_USAGE_ERROR,
     CAPTCHA_VALIDATION_FAILED_ERROR,
+    DATA_VALIDATION_ERROR,
     ENROL_CANCELLED_OCCURRENCE_ERROR,
     ENROLMENT_CLOSED_ERROR,
     ENROLMENT_NOT_STARTED_ERROR,
@@ -220,7 +221,7 @@ ADD_OCCURRENCE_VARIABLES = {
         "placeId": "place_id",
         "minGroupSize": 10,
         "startTime": "2020-05-05T00:00:00+00",
-        "endTime": "2020-05-05T00:00:00+00",
+        "endTime": "2020-05-06T00:00:00+00",
         "contactPersons": [
             {"name": "New name", "emailAddress": "newname@email.address"},
         ],
@@ -267,7 +268,7 @@ UPDATE_OCCURRENCE_VARIABLES = {
         "placeId": "place_id",
         "minGroupSize": 10,
         "startTime": "2020-05-05T00:00:00+00",
-        "endTime": "2020-05-05T00:00:00+00",
+        "endTime": "2020-05-06T00:00:00+00",
         "contactPersons": [
             {"id": "", "name": "New name", "emailAddress": "newname@email.address"},
         ],
@@ -373,6 +374,10 @@ def test_add_occurrence(
     staff_api_client.user.person.organisations.add(organisation)
     executed = staff_api_client.execute(ADD_OCCURRENCE_MUTATION, variables=variables)
     snapshot.assert_match(executed)
+    # test validation
+    variables["input"]["endTime"] = variables["input"]["startTime"]
+    executed = staff_api_client.execute(ADD_OCCURRENCE_MUTATION, variables=variables)
+    assert_match_error_code(executed, DATA_VALIDATION_ERROR)
 
 
 def test_update_occurrence_unauthorized(
@@ -442,6 +447,10 @@ def test_update_occurrence(
     staff_api_client.user.person.organisations.add(organisation)
     executed = staff_api_client.execute(UPDATE_OCCURRENCE_MUTATION, variables=variables)
     snapshot.assert_match(executed)
+    # test validation
+    variables["input"]["endTime"] = variables["input"].pop("startTime")
+    executed = staff_api_client.execute(UPDATE_OCCURRENCE_MUTATION, variables=variables)
+    assert_match_error_code(executed, DATA_VALIDATION_ERROR)
 
 
 def test_delete_occurrence_unauthorized(

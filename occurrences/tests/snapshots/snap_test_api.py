@@ -122,7 +122,7 @@ snapshots["test_add_occurrence 1"] = {
                         {"node": {"name": "New name"}},
                     ]
                 },
-                "endTime": "2020-05-05T00:00:00+00:00",
+                "endTime": "2020-05-06T00:00:00+00:00",
                 "languages": [
                     {"id": "en", "name": "English"},
                     {"id": "sv", "name": "Swedish"},
@@ -149,7 +149,7 @@ snapshots["test_update_occurrence 1"] = {
         "updateOccurrence": {
             "occurrence": {
                 "contactPersons": {"edges": [{"node": {"name": "Aaron Burton"}}]},
-                "endTime": "2020-05-05T00:00:00+00:00",
+                "endTime": "2020-05-06T00:00:00+00:00",
                 "languages": [
                     {"id": "fi", "name": "Finnish"},
                     {"id": "en", "name": "English"},

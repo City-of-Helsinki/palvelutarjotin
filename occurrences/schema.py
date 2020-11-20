@@ -36,6 +36,7 @@ from common.utils import (
 from palvelutarjotin.exceptions import (
     ApiUsageError,
     CaptchaValidationFailedError,
+    DataValidationError,
     EnrolCancelledOccurrenceError,
     EnrolmentClosedError,
     EnrolmentMaxNeededOccurrenceReached,
@@ -169,9 +170,19 @@ class OccurrenceNode(DjangoObjectType):
         return self.amount_of_seats - self.seats_taken
 
 
-def validate_occurrence_data(kwargs):
-    # TODO: Validate place_id, languages ...
-    pass
+def validate_occurrence_data(kwargs, updated_obj=None):
+    end_time = (
+        kwargs.get("end_time", updated_obj.end_time)
+        if updated_obj
+        else kwargs["end_time"]
+    )
+    start_time = (
+        kwargs.get("start_time", updated_obj.start_time)
+        if updated_obj
+        else kwargs["start_time"]
+    )
+    if end_time <= start_time:
+        raise DataValidationError("End time must be after start time")
 
 
 @transaction.atomic
@@ -260,6 +271,7 @@ class UpdateOccurrenceMutation(graphene.relay.ClientIDMutation):
     @transaction.atomic
     def mutate_and_get_payload(cls, root, info, **kwargs):
         occurrence = get_editable_obj_from_global_id(info, kwargs.pop("id"), Occurrence)
+        validate_occurrence_data(kwargs, occurrence)
         contact_persons = kwargs.pop("contact_persons", None)
         languages = kwargs.pop("languages", None)
         p_event = occurrence.p_event
