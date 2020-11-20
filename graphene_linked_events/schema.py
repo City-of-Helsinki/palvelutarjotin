@@ -350,8 +350,8 @@ class Query:
     def resolve_event(parent, info, **kwargs):
         response = api_client.retrieve(
             "event",
-            kwargs["id"],
-            params=kwargs.get("include"),
+            kwargs.pop("id"),
+            params=kwargs,
             is_staff=info.context.user.is_staff,
         )
         obj = json2obj(format_response(response))
