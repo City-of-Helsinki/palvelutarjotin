@@ -64,3 +64,7 @@ class EnrolCancelledOccurrenceError(PalvelutarjotinGraphQLError):
 
 class CaptchaValidationFailedError(PalvelutarjotinGraphQLError):
     """Captcha validation failed"""
+
+
+class UploadImageSizeExceededError(PalvelutarjotinGraphQLError):
+    """Uploaded image size larger than settings.MAX_UPLOAD_SIZE"""
