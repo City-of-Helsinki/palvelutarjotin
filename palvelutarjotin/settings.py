@@ -269,6 +269,8 @@ KEYWORD_SET_ID_MAPPING = {
     "TARGET_GROUP": env.str("KEYWORD_SET_TARGET_GROUP_ID"),
 }
 
+MAX_UPLOAD_SIZE = 2621440  # 2MB
+
 # local_settings.py can be used to override environment-specific settings
 # like database and email that differ between development and production.
 local_settings_path = os.path.join(checkout_dir(), "local_settings.py")

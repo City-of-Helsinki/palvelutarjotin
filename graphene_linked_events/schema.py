@@ -40,7 +40,11 @@ from common.utils import (
     update_object,
 )
 from palvelutarjotin import settings
-from palvelutarjotin.exceptions import ApiUsageError, ObjectDoesNotExistError
+from palvelutarjotin.exceptions import (
+    ApiUsageError,
+    ObjectDoesNotExistError,
+    UploadImageSizeExceededError,
+)
 from palvelutarjotin.settings import KEYWORD_SET_ID_MAPPING, LINKED_EVENTS_API_CONFIG
 
 PublicationStatusEnum = Enum(
@@ -715,6 +719,13 @@ class ImageMutationResponse(ObjectType):
     result_text = String()
 
 
+def _validate_image_upload(image):
+    if image.size > settings.MAX_UPLOAD_SIZE:
+        raise UploadImageSizeExceededError(
+            f"Upload file size cannot be greater than {settings.MAX_UPLOAD_SIZE} bytes"
+        )
+
+
 class UploadImageMutation(Mutation):
     class Arguments:
         image = UploadImageMutationInput()
@@ -724,6 +735,7 @@ class UploadImageMutation(Mutation):
     @staff_member_required
     def mutate(root, info, **kwargs):
         image = kwargs["image"].pop("image")
+        _validate_image_upload(image)
         body = kwargs["image"]
         result = api_client.upload(
             "image", body, files={"image": (image.name, image.file, image.content_type)}
