@@ -98,6 +98,8 @@ class LinkedEventsApiClient(object):
 
     @staticmethod
     def convert_to_string_param(params):
+        if not params:
+            return None
         for k, v in params.items():
             if type(v) == list:
                 list_to_string = ",".join(v)
