@@ -254,14 +254,16 @@ class UpdateOccurrenceMutation(graphene.relay.ClientIDMutation):
         end_time = graphene.DateTime()
         contact_persons = graphene.List(
             PersonNodeInput,
-            description="Should include all contact persons of the occurrence, "
-            "missing contact persons will be removed during mutation",
+            description="Should include all contact "
+            "persons of the occurrence, "
+            "missing contact persons will be "
+            "removed during mutation",
         )
         p_event_id = graphene.ID()
         amount_of_seats = graphene.Int()
         languages = NonNull(
             graphene.List(OccurrenceLanguageInput),
-            description="If present, should include all languages of the occurrence",
+            description="If present, should include all languages of " "the occurrence",
         )
 
     occurrence = graphene.Field(OccurrenceNode)
@@ -442,7 +444,12 @@ def validate_enrolment(study_group, occurrence, new_enrolment=True):
             raise EnrolmentMaxNeededOccurrenceReached(
                 "Number of enroled occurrences greater than needed occurrences"
             )
-        if occurrence.seats_taken + study_group.group_size > occurrence.amount_of_seats:
+        group_size = (
+            1
+            if occurrence.seat_type == Occurrence.OCCURRENCE_SEAT_TYPE_ENROLMENT_COUNT
+            else study_group.group_size
+        )
+        if occurrence.seats_taken + group_size > occurrence.amount_of_seats:
             raise EnrolmentNotEnoughCapacityError(
                 "Not enough space for this study group"
             )
@@ -456,7 +463,8 @@ def validate_enrolment(study_group, occurrence, new_enrolment=True):
 class StudyGroupInput(InputObjectType):
     person = NonNull(
         PersonNodeInput,
-        description="If person input doesn't include person id, a new person "
+        description="If person input doesn't include person id, "
+        "a new person "
         "object will be created",
     )
     name = graphene.String()
@@ -675,7 +683,8 @@ class AddStudyGroupMutation(graphene.relay.ClientIDMutation):
     class Input:
         person = NonNull(
             PersonNodeInput,
-            description="If person input doesn't include person id, a new person "
+            description="If person input doesn't include person id, "
+            "a new person "
             "object will be created",
         )
         name = graphene.String()
