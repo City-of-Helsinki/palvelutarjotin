@@ -67,7 +67,7 @@ def send_sms_notification(
         language = settings.LANGUAGES[0][0]
     if not settings.NOTIFICATION_SERVICE_API_URL:
         logger.warning(
-            "Notification sms service settings is missing, not sending any" "SMS"
+            "Notification sms service settings is missing, not sending any SMS"
         )
         return
     if context is None:

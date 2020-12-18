@@ -100,6 +100,7 @@ query Occurrences($upcoming: Boolean, $date: Date, $time: Time){
         remainingSeats
         seatsTaken
         seatsApproved
+        seatType
         pEvent{
             contactEmail
             contactPhoneNumber
@@ -826,6 +827,7 @@ mutation enrolOccurrence($input: EnrolOccurrenceMutationInput!){
         seatsApproved
         remainingSeats
         amountOfSeats
+        seatType
       }
       notificationType
       status
@@ -965,7 +967,7 @@ def test_enrol_invalid_group_size(api_client, occurrence):
     assert_match_error_code(executed, INVALID_STUDY_GROUP_SIZE_ERROR)
 
 
-def test_enrol_full_occurrence(api_client, occurrence, mock_get_event_data):
+def test_enrol_full_children_occurrence(api_client, occurrence, mock_get_event_data):
     study_group_15 = StudyGroupFactory(group_size=15)
     study_group_20 = StudyGroupFactory(group_size=20)
     # Current date froze on 2020-01-04:
@@ -982,6 +984,50 @@ def test_enrol_full_occurrence(api_client, occurrence, mock_get_event_data):
     )
 
     occurrence.study_groups.add(study_group_20)
+    # Approve the enrolment to reduce the remaining seat
+    Enrolment.objects.first().approve()
+
+    variables = {
+        "input": {
+            "occurrenceIds": [to_global_id("OccurrenceNode", occurrence.id)],
+            "studyGroup": {
+                "person": {
+                    "id": to_global_id("PersonNode", study_group_15.person.id),
+                    "name": study_group_15.person.name,
+                    "emailAddress": study_group_15.person.email_address,
+                },
+                "name": "To be created group",
+                "groupSize": study_group_15.group_size,
+                "groupName": study_group_15.group_name,
+                "studyLevel": study_group_15.study_level.upper(),
+                "amountOfAdult": study_group_15.amount_of_adult,
+            },
+        }
+    }
+    executed = api_client.execute(ENROL_OCCURRENCE_MUTATION, variables=variables)
+    assert_match_error_code(executed, NOT_ENOUGH_CAPACITY_ERROR)
+
+
+def test_enrol_full_enrolment_occurrence(api_client, occurrence, mock_get_event_data):
+    study_group_15 = StudyGroupFactory(group_size=15)
+    study_group_100 = StudyGroupFactory(group_size=100)
+    study_group_20 = StudyGroupFactory(group_size=20)
+    # Current date froze on 2020-01-04:
+    p_event_1 = PalvelutarjotinEventFactory(
+        enrolment_start=datetime(2020, 1, 3, 0, 0, 0, tzinfo=timezone.now().tzinfo),
+        enrolment_end_days=2,
+    )
+    occurrence = OccurrenceFactory(
+        start_time=datetime(2020, 1, 6, 0, 0, 0, tzinfo=timezone.now().tzinfo),
+        p_event=p_event_1,
+        min_group_size=10,
+        max_group_size=101,
+        amount_of_seats=2,
+        seat_type=Occurrence.OCCURRENCE_SEAT_TYPE_ENROLMENT_COUNT,
+    )
+
+    occurrence.study_groups.add(study_group_20)
+    occurrence.study_groups.add(study_group_100)
     # Approve the enrolment to reduce the remaining seat
     Enrolment.objects.first().approve()
 
@@ -1047,9 +1093,21 @@ def test_enrol_occurrence(snapshot, api_client, mock_get_event_data):
         amount_of_seats=50,
     )
 
+    occurrence_2 = OccurrenceFactory(
+        start_time=datetime(2020, 1, 6, 0, 0, 0, tzinfo=timezone.now().tzinfo),
+        p_event=p_event_1,
+        min_group_size=10,
+        max_group_size=20,
+        amount_of_seats=2,
+        seat_type=Occurrence.OCCURRENCE_SEAT_TYPE_ENROLMENT_COUNT,
+    )
+
     variables = {
         "input": {
-            "occurrenceIds": [to_global_id("OccurrenceNode", occurrence.id)],
+            "occurrenceIds": [
+                to_global_id("OccurrenceNode", occurrence.id),
+                to_global_id("OccurrenceNode", occurrence_2.id),
+            ],
             "studyGroup": {
                 "person": {
                     "id": to_global_id("PersonNode", study_group_15.person.id),

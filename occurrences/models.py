@@ -173,7 +173,10 @@ class Occurrence(TimestampedModel):
     )
     cancelled = models.BooleanField(verbose_name=_("cancelled"), default=False)
     seat_type = models.CharField(
-        max_length=64, verbose_name=_("seat type"), choices=OCCURRENCE_SEAT_TYPES
+        max_length=64,
+        verbose_name=_("seat type"),
+        choices=OCCURRENCE_SEAT_TYPES,
+        default=OCCURRENCE_SEAT_TYPE_CHILDREN_COUNT,
     )
 
     class Meta:

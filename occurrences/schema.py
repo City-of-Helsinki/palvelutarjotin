@@ -58,6 +58,10 @@ EnrolmentStatusEnum = graphene.Enum(
     "EnrolmentStatus", [(s[0].upper(), s[0]) for s in Enrolment.STATUSES]
 )
 
+OccurrenceSeatTypeEnum = graphene.Enum(
+    "SeatType", [(t[0].upper(), t[0]) for t in Occurrence.OCCURRENCE_SEAT_TYPES]
+)
+
 
 class PalvelutarjotinEventNode(DjangoObjectType):
     next_occurrence_datetime = graphene.DateTime()
@@ -117,8 +121,7 @@ class VenueTranslationsInput(InputObjectType):
 
 class VenueNode(DjangoObjectType):
     description = graphene.String(
-        description="Translated field in the language "
-        "defined in request "
+        description="Translated field in the language defined in request "
         "ACCEPT-LANGUAGE header "
     )
     id = graphene.ID(
@@ -216,6 +219,7 @@ class AddOccurrenceMutation(graphene.relay.ClientIDMutation):
         contact_persons = graphene.List(PersonNodeInput)
         p_event_id = graphene.ID(required=True)
         amount_of_seats = graphene.Int(required=True)
+        seat_type = OccurrenceSeatTypeEnum()
         languages = NonNull(graphene.List(OccurrenceLanguageInput))
 
     occurrence = graphene.Field(OccurrenceNode)
@@ -254,17 +258,16 @@ class UpdateOccurrenceMutation(graphene.relay.ClientIDMutation):
         end_time = graphene.DateTime()
         contact_persons = graphene.List(
             PersonNodeInput,
-            description="Should include all contact "
-            "persons of the occurrence, "
-            "missing contact persons will be "
-            "removed during mutation",
+            description="Should include all contact persons of the occurrence, "
+            "missing contact persons will be removed during mutation",
         )
         p_event_id = graphene.ID()
         amount_of_seats = graphene.Int()
         languages = NonNull(
             graphene.List(OccurrenceLanguageInput),
-            description="If present, should include all languages of " "the occurrence",
+            description="If present, should include all languages of the occurrence",
         )
+        seat_type = OccurrenceSeatTypeEnum()
 
     occurrence = graphene.Field(OccurrenceNode)
 
@@ -683,8 +686,7 @@ class AddStudyGroupMutation(graphene.relay.ClientIDMutation):
     class Input:
         person = NonNull(
             PersonNodeInput,
-            description="If person input doesn't include person id, "
-            "a new person "
+            description="If person input doesn't include person id, a new person "
             "object will be created",
         )
         name = graphene.String()
