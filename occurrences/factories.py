@@ -34,6 +34,7 @@ class OccurrenceFactory(factory.django.DjangoModelFactory):
     end_time = factory.Faker("date_time", tzinfo=pytz.timezone("Europe/Helsinki"))
     p_event = factory.SubFactory(PalvelutarjotinEventFactory)
     amount_of_seats = factory.Faker("random_int", max=50)
+    seat_type = Occurrence.OCCURRENCE_SEAT_TYPE_CHILDREN_COUNT
 
     class Meta:
         model = Occurrence

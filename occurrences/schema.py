@@ -58,6 +58,10 @@ EnrolmentStatusEnum = graphene.Enum(
     "EnrolmentStatus", [(s[0].upper(), s[0]) for s in Enrolment.STATUSES]
 )
 
+OccurrenceSeatTypeEnum = graphene.Enum(
+    "SeatType", [(t[0].upper(), t[0]) for t in Occurrence.OCCURRENCE_SEAT_TYPES]
+)
+
 
 class PalvelutarjotinEventNode(DjangoObjectType):
     next_occurrence_datetime = graphene.DateTime()
@@ -117,8 +121,7 @@ class VenueTranslationsInput(InputObjectType):
 
 class VenueNode(DjangoObjectType):
     description = graphene.String(
-        description="Translated field in the language "
-        "defined in request "
+        description="Translated field in the language defined in request "
         "ACCEPT-LANGUAGE header "
     )
     id = graphene.ID(
@@ -216,6 +219,7 @@ class AddOccurrenceMutation(graphene.relay.ClientIDMutation):
         contact_persons = graphene.List(PersonNodeInput)
         p_event_id = graphene.ID(required=True)
         amount_of_seats = graphene.Int(required=True)
+        seat_type = OccurrenceSeatTypeEnum()
         languages = NonNull(graphene.List(OccurrenceLanguageInput))
 
     occurrence = graphene.Field(OccurrenceNode)
@@ -263,6 +267,7 @@ class UpdateOccurrenceMutation(graphene.relay.ClientIDMutation):
             graphene.List(OccurrenceLanguageInput),
             description="If present, should include all languages of the occurrence",
         )
+        seat_type = OccurrenceSeatTypeEnum()
 
     occurrence = graphene.Field(OccurrenceNode)
 
@@ -442,7 +447,12 @@ def validate_enrolment(study_group, occurrence, new_enrolment=True):
             raise EnrolmentMaxNeededOccurrenceReached(
                 "Number of enroled occurrences greater than needed occurrences"
             )
-        if occurrence.seats_taken + study_group.group_size > occurrence.amount_of_seats:
+        group_size = (
+            1
+            if occurrence.seat_type == Occurrence.OCCURRENCE_SEAT_TYPE_ENROLMENT_COUNT
+            else study_group.group_size
+        )
+        if occurrence.seats_taken + group_size > occurrence.amount_of_seats:
             raise EnrolmentNotEnoughCapacityError(
                 "Not enough space for this study group"
             )
@@ -456,7 +466,8 @@ def validate_enrolment(study_group, occurrence, new_enrolment=True):
 class StudyGroupInput(InputObjectType):
     person = NonNull(
         PersonNodeInput,
-        description="If person input doesn't include person id, a new person "
+        description="If person input doesn't include person id, "
+        "a new person "
         "object will be created",
     )
     name = graphene.String()

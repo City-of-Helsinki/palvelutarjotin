@@ -127,6 +127,13 @@ class Language(models.Model):
 
 
 class Occurrence(TimestampedModel):
+    OCCURRENCE_SEAT_TYPE_CHILDREN_COUNT = "children_count"
+    OCCURRENCE_SEAT_TYPE_ENROLMENT_COUNT = "enrolment_count"
+
+    OCCURRENCE_SEAT_TYPES = (
+        (OCCURRENCE_SEAT_TYPE_CHILDREN_COUNT, _("children count")),
+        (OCCURRENCE_SEAT_TYPE_ENROLMENT_COUNT, _("enrolment count")),
+    )
     p_event = models.ForeignKey(
         PalvelutarjotinEvent,
         verbose_name=_("palvelutarjotin event"),
@@ -165,6 +172,12 @@ class Occurrence(TimestampedModel):
         "Language", verbose_name=_("languages"), blank=True, related_name="occurrences"
     )
     cancelled = models.BooleanField(verbose_name=_("cancelled"), default=False)
+    seat_type = models.CharField(
+        max_length=64,
+        verbose_name=_("seat type"),
+        choices=OCCURRENCE_SEAT_TYPES,
+        default=OCCURRENCE_SEAT_TYPE_CHILDREN_COUNT,
+    )
 
     class Meta:
         verbose_name = _("occurrence")
@@ -181,21 +194,27 @@ class Occurrence(TimestampedModel):
 
     @property
     def seats_approved(self):
-        return (
-            self.enrolments.filter(status=Enrolment.STATUS_APPROVED).aggregate(
-                seats_taken=Sum("study_group__group_size")
-            )["seats_taken"]
-            or 0
-        )
+        qs = self.enrolments.filter(status=Enrolment.STATUS_APPROVED)
+        if self.seat_type == self.OCCURRENCE_SEAT_TYPE_CHILDREN_COUNT:
+            return (
+                qs.aggregate(seats_taken=Sum("study_group__group_size"))["seats_taken"]
+                or 0
+            )
+        else:
+            return qs.count()
 
     @property
     def seats_taken(self):
-        return (
-            self.enrolments.filter(
-                Q(status=Enrolment.STATUS_APPROVED) | Q(status=Enrolment.STATUS_PENDING)
-            ).aggregate(seats_taken=Sum("study_group__group_size"))["seats_taken"]
-            or 0
+        qs = self.enrolments.filter(
+            Q(status=Enrolment.STATUS_APPROVED) | Q(status=Enrolment.STATUS_PENDING)
         )
+        if self.seat_type == self.OCCURRENCE_SEAT_TYPE_CHILDREN_COUNT:
+            return (
+                qs.aggregate(seats_taken=Sum("study_group__group_size"))["seats_taken"]
+                or 0
+            )
+        else:
+            return qs.count()
 
     def is_editable_by_user(self, user):
         return user.person.organisations.filter(
