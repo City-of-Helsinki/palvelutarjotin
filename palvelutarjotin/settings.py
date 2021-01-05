@@ -70,6 +70,8 @@ env = environ.Env(
     KULTUS_PROVIDER_UI_BASE_URL=(str, "https://provider.kultus.fi/"),
     KULTUS_TEACHER_UI_BASE_URL=(str, "https://beta.kultus.fi/"),
     ENABLE_SUMMARY_REPORT=(bool, False),
+    CHILDREN_KEYWORD_ID=(str, "yso:p4354"),
+    SHOW_EXTERNAL_EVENTS=(bool, True),
 )
 
 if os.path.exists(env_file):
@@ -248,6 +250,11 @@ LINKED_EVENTS_API_CONFIG = {
     "DATA_SOURCE": env.str("LINKED_EVENTS_DATA_SOURCE"),
 }
 
+# Id of keyword `Children` in LinkedEvent, used to filter non-native children event from
+# LinkedEvent
+LINKED_EVENTS_CHILDREN_KEYWORD_ID = env.str("CHILDREN_KEYWORD_ID")
+LINKED_EVENTS_DAYTIME = 15
+
 AXES_FAILURE_LIMIT = 5
 AXES_COOLOFF_TIME = 1  # hour after locked out, user will be able to attempt login
 
@@ -262,6 +269,7 @@ CAPTCHA_ENABLED = env.bool("CAPTCHA_ENABLED")
 RECAPTCHA_SECRET_KEY = env.str("RECAPTCHA_SECRET_KEY")
 RECAPTCHA_VALIDATION_URL = "https://www.google.com/recaptcha/api/siteverify"
 ENABLE_SUMMARY_REPORT = env.bool("ENABLE_SUMMARY_REPORT")
+SHOW_EXTERNAL_EVENTS = env.bool("SHOW_EXTERNAL_EVENTS")
 
 KEYWORD_SET_ID_MAPPING = {
     "CATEGORY": env.str("KEYWORD_SET_CATEGORY_ID"),

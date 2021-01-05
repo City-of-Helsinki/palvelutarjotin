@@ -210,7 +210,10 @@ class Event(IdObject):
     info_url = Field(LocalisedObject)
     provider_contact_info = String()
     description = Field(LocalisedObject, required=True)
-    p_event = Field(PalvelutarjotinEventNode, required=True)
+    p_event = Field(
+        PalvelutarjotinEventNode,
+        description="If the event is not from Kultus, p_event will be null",
+    )
     venue = Field(VenueNode)
     publication_status = String()
     categories = NonNull(
@@ -283,6 +286,19 @@ class PlaceSearchListResponse(Response):
 
 class ImageListResponse(Response):
     data = NonNull(List(NonNull(Image)))
+
+
+def _prepare_teacher_ui_query(kwargs):
+    # Should also search for events in linkedEvent which meet the following conditions:
+    # - Daytime event (before 3PM)
+    if not kwargs.get("starts_before"):
+        kwargs["starts_before"] = settings.LINKED_EVENTS_DAYTIME
+    # - Has `lapset` keyword
+    kwargs.setdefault("keyword", []).append(settings.LINKED_EVENTS_CHILDREN_KEYWORD_ID)
+    # - Free (unless user doesn't want to find free events)
+    if not kwargs.get("is_free"):
+        kwargs["is_free"] = True
+    return kwargs
 
 
 class Query:
@@ -365,15 +381,18 @@ class Query:
     def resolve_events(parent, info, **kwargs):
         organisation_global_id = kwargs.pop("organisation_id", None)
         if organisation_global_id:
-            # Filter events by organisation id
+            # Filter events by organisation id, this should a query from Provider UI
             organisation = get_obj_from_global_id(
                 info, organisation_global_id, Organisation
             )
             kwargs["publisher"] = organisation.publisher_id
         else:
-            # If no organisation id specified, return all events from
-            # palvelutarjotin data source
-            kwargs["data_source"] = LINKED_EVENTS_API_CONFIG["DATA_SOURCE"]
+            if settings.SHOW_EXTERNAL_EVENTS:
+                kwargs = _prepare_teacher_ui_query(kwargs)
+            else:
+                # If no organisation id specified and SHOW EXTERNAL EVENTS is off
+                # return all events from Kultus data source
+                kwargs["data_source"] = LINKED_EVENTS_API_CONFIG["DATA_SOURCE"]
         # Some arguments in LinkedEvent are not fully supported in graphene arguments
         if kwargs.get("keyword_and"):
             kwargs["keyword_AND"] = kwargs.pop("keyword_and")
@@ -705,7 +724,8 @@ class UploadImageMutationInput(InputObjectType):
     photographer_name = String()
     image = Upload(
         description="Following GraphQL file upload specs here: "
-        "https://github.com/jaydenseric/graphql-multipart-request-spec"
+        "https://github.com/jaydenseric/graphql-multipart"
+        "-request-spec"
     )
 
 
