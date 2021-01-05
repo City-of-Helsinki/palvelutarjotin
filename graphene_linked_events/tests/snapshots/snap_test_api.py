@@ -1006,3 +1006,15 @@ snapshots["test_get_keyword_set 3"] = {
         }
     }
 }
+
+snapshots["test_get_external_events_query_param 1"] = {
+    "is_free": True,
+    "keyword": ["yso:p4354"],
+    "starts_before": 15,
+}
+
+snapshots["test_get_external_events_query_param 2"] = {
+    "is_free": False,
+    "keyword": ["user_selected_keyword_id", "yso:p4354"],
+    "starts_before": 4,
+}

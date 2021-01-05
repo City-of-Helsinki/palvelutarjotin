@@ -71,7 +71,6 @@ env = environ.Env(
     KULTUS_TEACHER_UI_BASE_URL=(str, "https://beta.kultus.fi/"),
     ENABLE_SUMMARY_REPORT=(bool, False),
     CHILDREN_KEYWORD_ID=(str, "yso:p4354"),
-    SHOW_EXTERNAL_EVENTS=(bool, True),
 )
 
 if os.path.exists(env_file):
@@ -269,7 +268,6 @@ CAPTCHA_ENABLED = env.bool("CAPTCHA_ENABLED")
 RECAPTCHA_SECRET_KEY = env.str("RECAPTCHA_SECRET_KEY")
 RECAPTCHA_VALIDATION_URL = "https://www.google.com/recaptcha/api/siteverify"
 ENABLE_SUMMARY_REPORT = env.bool("ENABLE_SUMMARY_REPORT")
-SHOW_EXTERNAL_EVENTS = env.bool("SHOW_EXTERNAL_EVENTS")
 
 KEYWORD_SET_ID_MAPPING = {
     "CATEGORY": env.str("KEYWORD_SET_CATEGORY_ID"),

@@ -45,7 +45,7 @@ from palvelutarjotin.exceptions import (
     ObjectDoesNotExistError,
     UploadImageSizeExceededError,
 )
-from palvelutarjotin.settings import KEYWORD_SET_ID_MAPPING, LINKED_EVENTS_API_CONFIG
+from palvelutarjotin.settings import KEYWORD_SET_ID_MAPPING
 
 PublicationStatusEnum = Enum(
     "PublicationStatus",
@@ -290,13 +290,13 @@ class ImageListResponse(Response):
 
 def _prepare_teacher_ui_query(kwargs):
     # Should also search for events in linkedEvent which meet the following conditions:
-    # - Daytime event (before 3PM)
+    # - Daytime event (before 3PM) - unless user specifies this explicitly
     if not kwargs.get("starts_before"):
         kwargs["starts_before"] = settings.LINKED_EVENTS_DAYTIME
     # - Has `lapset` keyword
     kwargs.setdefault("keyword", []).append(settings.LINKED_EVENTS_CHILDREN_KEYWORD_ID)
-    # - Free (unless user doesn't want to find free events)
-    if not kwargs.get("is_free"):
+    # - Free (unless user specifies this explicitly)
+    if kwargs.get("is_free") is None:
         kwargs["is_free"] = True
     return kwargs
 
@@ -387,12 +387,7 @@ class Query:
             )
             kwargs["publisher"] = organisation.publisher_id
         else:
-            if settings.SHOW_EXTERNAL_EVENTS:
-                kwargs = _prepare_teacher_ui_query(kwargs)
-            else:
-                # If no organisation id specified and SHOW EXTERNAL EVENTS is off
-                # return all events from Kultus data source
-                kwargs["data_source"] = LINKED_EVENTS_API_CONFIG["DATA_SOURCE"]
+            kwargs = _prepare_teacher_ui_query(kwargs)
         # Some arguments in LinkedEvent are not fully supported in graphene arguments
         if kwargs.get("keyword_and"):
             kwargs["keyword_AND"] = kwargs.pop("keyword_and")

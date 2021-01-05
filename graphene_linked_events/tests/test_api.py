@@ -4,6 +4,7 @@ from datetime import timedelta
 import graphene_linked_events
 import pytest
 from django.utils import timezone
+from graphene_linked_events.schema import _prepare_teacher_ui_query
 from graphene_linked_events.tests.mock_data import (
     EVENT_DATA,
     EVENTS_DATA,
@@ -1291,3 +1292,14 @@ def test_get_keyword_set(api_client, snapshot, mock_get_keyword_set_data):
             GET_KEYWORD_SET_QUERY, variables={"setType": set_type}
         )
         snapshot.assert_match(executed)
+
+
+def test_get_external_events_query_param(snapshot):
+    kwargs = {}
+    snapshot.assert_match(_prepare_teacher_ui_query(kwargs))
+    kwargs = {
+        "starts_before": 4,
+        "is_free": False,
+        "keyword": ["user_selected_keyword_id"],
+    }
+    snapshot.assert_match(_prepare_teacher_ui_query(kwargs))
