@@ -197,7 +197,11 @@ class Occurrence(TimestampedModel):
         qs = self.enrolments.filter(status=Enrolment.STATUS_APPROVED)
         if self.seat_type == self.OCCURRENCE_SEAT_TYPE_CHILDREN_COUNT:
             return (
-                qs.aggregate(seats_taken=Sum("study_group__group_size"))["seats_taken"]
+                qs.aggregate(
+                    seats_taken=Sum(
+                        F("study_group__group_size") + F("study_group__amount_of_adult")
+                    )
+                )["seats_taken"]
                 or 0
             )
         else:

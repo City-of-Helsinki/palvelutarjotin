@@ -6,7 +6,7 @@ from occurrences.factories import (
     PalvelutarjotinEventFactory,
     StudyGroupFactory,
 )
-from occurrences.models import Occurrence, PalvelutarjotinEvent, StudyGroup
+from occurrences.models import Enrolment, Occurrence, PalvelutarjotinEvent, StudyGroup
 from organisations.models import Organisation, Person
 
 User = get_user_model()
@@ -46,9 +46,22 @@ def test_enrolment_creation(mock_get_event_data):
 
 @pytest.mark.django_db
 def test_occurrence_seat_taken():
-    EnrolmentFactory()
-    occurrence = Occurrence.objects.all()[0]
-    study_group = occurrence.study_groups.all()[0]
+    enrolment = EnrolmentFactory()
+    occurrence = enrolment.occurrence
+    study_group = enrolment.study_group
+    assert occurrence.seats_taken > 0
     assert (
         occurrence.seats_taken == study_group.group_size + study_group.amount_of_adult
+    )
+
+
+@pytest.mark.django_db
+def test_occurrence_seat_approved():
+    enrolment = EnrolmentFactory(status=Enrolment.STATUS_APPROVED)
+    occurrence = enrolment.occurrence
+    study_group = enrolment.study_group
+    assert occurrence.seats_approved > 0
+    assert (
+        occurrence.seats_approved
+        == study_group.group_size + study_group.amount_of_adult
     )

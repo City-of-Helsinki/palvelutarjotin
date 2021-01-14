@@ -961,7 +961,7 @@ snapshots["test_enrol_auto_acceptance_occurrence 2"] = {
                         "amountOfSeats": 50,
                         "remainingSeats": 30,
                         "seatType": "CHILDREN_COUNT",
-                        "seatsApproved": 15,
+                        "seatsApproved": 20,
                         "seatsTaken": 20,
                         "startTime": "2020-01-06T00:00:00+00:00",
                     },
