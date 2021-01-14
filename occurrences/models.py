@@ -1,7 +1,7 @@
 from datetime import timedelta
 
 from django.db import models, transaction
-from django.db.models import Q, Sum
+from django.db.models import Q, F, Sum
 from django.utils import timezone
 from django.utils.timezone import localtime
 from django.utils.translation import ugettext_lazy as _
@@ -210,7 +210,11 @@ class Occurrence(TimestampedModel):
         )
         if self.seat_type == self.OCCURRENCE_SEAT_TYPE_CHILDREN_COUNT:
             return (
-                qs.aggregate(seats_taken=Sum("study_group__group_size"))["seats_taken"]
+                qs.aggregate(
+                    seats_taken=Sum(
+                        F("study_group__group_size") + F("study_group__amount_of_adult")
+                    )
+                )["seats_taken"]
                 or 0
             )
         else:

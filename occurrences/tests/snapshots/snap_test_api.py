@@ -4,6 +4,7 @@ from __future__ import unicode_literals
 
 from snapshottest import Snapshot
 
+
 snapshots = Snapshot()
 
 snapshots["test_study_groups_query 1"] = {
@@ -340,10 +341,10 @@ snapshots["test_enrol_occurrence 1"] = {
                     "notificationType": "EMAIL",
                     "occurrence": {
                         "amountOfSeats": 50,
-                        "remainingSeats": 35,
+                        "remainingSeats": 30,
                         "seatType": "CHILDREN_COUNT",
                         "seatsApproved": 0,
-                        "seatsTaken": 15,
+                        "seatsTaken": 20,
                         "startTime": "2020-01-06T00:00:00+00:00",
                     },
                     "status": "PENDING",
@@ -810,10 +811,10 @@ snapshots["test_update_enrolment 1"] = {
             "enrolment": {
                 "notificationType": "SMS",
                 "occurrence": {
-                    "amountOfSeats": 30,
-                    "remainingSeats": 4,
+                    "amountOfSeats": 35,
+                    "remainingSeats": 1,
                     "seatsApproved": 0,
-                    "seatsTaken": 26,
+                    "seatsTaken": 34,
                     "startTime": "2020-01-06T00:00:00+00:00",
                 },
                 "status": "PENDING",
@@ -876,10 +877,10 @@ snapshots["test_enrol_occurrence_with_captcha 1"] = {
                     "notificationType": "EMAIL",
                     "occurrence": {
                         "amountOfSeats": 50,
-                        "remainingSeats": 35,
+                        "remainingSeats": 30,
                         "seatType": "CHILDREN_COUNT",
                         "seatsApproved": 0,
-                        "seatsTaken": 15,
+                        "seatsTaken": 20,
                         "startTime": "2020-01-06T00:00:00+00:00",
                     },
                     "status": "PENDING",
@@ -936,10 +937,10 @@ snapshots["test_enrol_auto_acceptance_occurrence 1"] = {
                     "notificationType": "EMAIL",
                     "occurrence": {
                         "amountOfSeats": 50,
-                        "remainingSeats": 35,
+                        "remainingSeats": 30,
                         "seatType": "CHILDREN_COUNT",
                         "seatsApproved": 0,
-                        "seatsTaken": 15,
+                        "seatsTaken": 20,
                         "startTime": "2020-01-06T00:00:00+00:00",
                     },
                     "status": "PENDING",
@@ -958,10 +959,10 @@ snapshots["test_enrol_auto_acceptance_occurrence 2"] = {
                     "notificationType": "EMAIL",
                     "occurrence": {
                         "amountOfSeats": 50,
-                        "remainingSeats": 35,
+                        "remainingSeats": 30,
                         "seatType": "CHILDREN_COUNT",
                         "seatsApproved": 15,
-                        "seatsTaken": 15,
+                        "seatsTaken": 20,
                         "startTime": "2020-01-06T00:00:00+00:00",
                     },
                     "status": "APPROVED",

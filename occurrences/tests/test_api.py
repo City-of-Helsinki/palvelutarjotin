@@ -1687,14 +1687,14 @@ def test_update_enrolment(snapshot, staff_api_client):
         p_event=p_event_1,
         min_group_size=10,
         max_group_size=20,
-        amount_of_seats=30,
+        amount_of_seats=35,
     )
     occurrence_2 = OccurrenceFactory(
         start_time=datetime(2020, 1, 6, 0, 0, 0, tzinfo=timezone.now().tzinfo),
         p_event=p_event_1,
         min_group_size=10,
         max_group_size=20,
-        amount_of_seats=30,
+        amount_of_seats=35,
     )
     occurrence_1.study_groups.add(study_group_15)
     staff_api_client.user.person.organisations.add(occurrence_1.p_event.organisation)
