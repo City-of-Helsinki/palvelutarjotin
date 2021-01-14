@@ -4,6 +4,7 @@ from occurrences.models import (
     Occurrence,
     PalvelutarjotinEvent,
     StudyGroup,
+    StudyLevel,
     VenueCustomData,
 )
 from parler.admin import TranslatableAdmin
@@ -18,6 +19,12 @@ class StudyGroupAdmin(admin.ModelAdmin):
     list_display = ("name", "created_at", "group_size")
     exclude = ("id",)
     inlines = (OccurrenceInline,)
+
+
+@admin.register(StudyLevel)
+class StudyLevelAdmin(admin.ModelAdmin):
+    list_display = ("id", "label", "level")
+    ordering = ("level",)
 
 
 @admin.register(Occurrence)

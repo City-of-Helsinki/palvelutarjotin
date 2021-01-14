@@ -27,3 +27,36 @@ class NotificationTemplate:
     ENROLMENT_CANCELLATION_SMS = "enrolment_cancellation_sms"
     ENROLMENT_CANCELLED_SMS = "enrolment_cancelled_sms"
     OCCURRENCE_CANCELLED_SMS = "occurrence_cancelled_sms"
+
+
+class StudyGroupStudyLevels:
+    """
+    2021-01-14: Study levels were migrated from StudyGroup model's CharField to a new StudyLevel model / tabel in task PT-686.
+    """
+
+    STUDY_LEVEL_PRESCHOOL = "preschool"
+    STUDY_LEVEL_GRADE_1 = "grade_1"
+    STUDY_LEVEL_GRADE_2 = "grade_2"
+    STUDY_LEVEL_GRADE_3 = "grade_3"
+    STUDY_LEVEL_GRADE_4 = "grade_4"
+    STUDY_LEVEL_GRADE_5 = "grade_5"
+    STUDY_LEVEL_GRADE_6 = "grade_6"
+    STUDY_LEVEL_GRADE_7 = "grade_7"
+    STUDY_LEVEL_GRADE_8 = "grade_8"
+    STUDY_LEVEL_GRADE_9 = "grade_9"
+    STUDY_LEVEL_GRADE_10 = "grade_10"
+    STUDY_LEVEL_SECONDARY = "secondary"
+    STUDY_LEVELS = (
+        (STUDY_LEVEL_PRESCHOOL, _("preschool")),
+        (STUDY_LEVEL_GRADE_1, _("first grade")),
+        (STUDY_LEVEL_GRADE_2, _("second grade")),
+        (STUDY_LEVEL_GRADE_3, _("third grade")),
+        (STUDY_LEVEL_GRADE_4, _("fourth grade")),
+        (STUDY_LEVEL_GRADE_5, _("fifth grade")),
+        (STUDY_LEVEL_GRADE_6, _("sixth grade")),
+        (STUDY_LEVEL_GRADE_7, _("seventh grade")),
+        (STUDY_LEVEL_GRADE_8, _("eighth grade")),
+        (STUDY_LEVEL_GRADE_9, _("ninth grade")),
+        (STUDY_LEVEL_GRADE_10, _("tenth grade")),
+        (STUDY_LEVEL_SECONDARY, _("secondary")),
+    )

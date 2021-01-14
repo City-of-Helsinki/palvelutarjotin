@@ -20,6 +20,7 @@ from occurrences.models import (
     Occurrence,
     PalvelutarjotinEvent,
     StudyGroup,
+    StudyLevel,
     VenueCustomData,
 )
 from organisations.models import Organisation, Person
@@ -50,9 +51,7 @@ from palvelutarjotin.exceptions import (
 )
 
 VenueTranslation = apps.get_model("occurrences", "VenueCustomDataTranslation")
-StudyLevelEnum = graphene.Enum(
-    "StudyLevel", [(l[0].upper(), l[0]) for l in StudyGroup.STUDY_LEVELS]
-)
+
 NotificationTypeEnum = graphene.Enum(
     "NotificationType", [(t[0].upper(), t[0]) for t in NOTIFICATION_TYPES]
 )
@@ -102,8 +101,23 @@ class PalvelutarjotinEventInput(InputObjectType):
     mandatory_additional_information = graphene.Boolean()
 
 
+class StudyLevelType(DjangoObjectType):
+    class Meta:
+        model = StudyLevel
+        fields = "__all__"
+
+
+class StudyLevelInput(InputObjectType):
+    id = graphene.ID(required=True)
+    label = graphene.String(
+        description="Translated field in the language defined in request "
+        "ACCEPT-LANGUAGE header "
+    )
+    level = graphene.Int(required=True)
+
+
 class StudyGroupNode(DjangoObjectType):
-    study_level = StudyLevelEnum()
+    study_levels = graphene.List(StudyLevelType)
 
     class Meta:
         model = StudyGroup
@@ -488,7 +502,7 @@ class StudyGroupInput(InputObjectType):
     group_name = graphene.String()
     extra_needs = graphene.String()
     amount_of_adult = graphene.Int()
-    study_level = StudyLevelEnum()
+    study_levels = graphene.List(StudyLevelInput)
 
 
 def verify_captcha(key):
@@ -707,7 +721,7 @@ class AddStudyGroupMutation(graphene.relay.ClientIDMutation):
         group_name = graphene.String()
         extra_needs = graphene.String()
         amount_of_adult = graphene.Int()
-        study_level = StudyLevelEnum()
+        study_levels = graphene.List(StudyLevelInput)
 
     study_group = graphene.Field(StudyGroupNode)
 
@@ -727,7 +741,7 @@ class UpdateStudyGroupMutation(graphene.relay.ClientIDMutation):
         group_name = graphene.String()
         extra_needs = graphene.String()
         amount_of_adult = graphene.Int()
-        study_level = StudyLevelEnum()
+        study_levels = graphene.List(StudyLevelInput)
 
     study_group = graphene.Field(StudyGroupNode)
 

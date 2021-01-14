@@ -5,9 +5,11 @@ from occurrences.models import (
     Occurrence,
     PalvelutarjotinEvent,
     StudyGroup,
+    StudyLevel,
     VenueCustomData,
 )
 from organisations.factories import OrganisationFactory, PersonFactory
+from .consts import StudyGroupStudyLevels
 
 
 class PalvelutarjotinEventFactory(factory.django.DjangoModelFactory):
@@ -51,6 +53,18 @@ class OccurrenceFactory(factory.django.DjangoModelFactory):
                 self.contact_persons.add(person)
 
 
+class StudyLevelFactory(factory.django.DjangoModelFactory):
+    id = factory.Faker(
+        "random_element",
+        elements=[study_level[0] for study_level in StudyGroupStudyLevels.STUDY_LEVELS],
+    )
+    name = factory.Faker("text", max_nb_chars=20)
+    level = factory.Faker("random_int", min=0, max=15)
+
+    class Meta:
+        model = StudyLevel
+
+
 class StudyGroupFactory(factory.django.DjangoModelFactory):
     person = factory.SubFactory(PersonFactory)
     name = factory.Faker("text", max_nb_chars=100)
@@ -58,9 +72,17 @@ class StudyGroupFactory(factory.django.DjangoModelFactory):
     extra_needs = factory.Faker("text", max_nb_chars=100)
     group_name = factory.Faker("text", max_nb_chars=100)
     amount_of_adult = factory.Faker("random_int", max=10)
-    study_level = factory.Faker(
-        "random_element", elements=[l[0] for l in StudyGroup.STUDY_LEVELS]
-    )
+
+    @factory.post_generation
+    def study_levels(self, create, extracted, **kwargs):
+        if not create:
+            # Simple build, do nothing.
+            return
+
+        if extracted:
+            # A list of organisations were passed in, use them
+            for study_level in extracted:
+                self.study_levels.add(study_level)
 
     class Meta:
         model = StudyGroup
