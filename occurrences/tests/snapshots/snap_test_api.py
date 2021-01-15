@@ -19,7 +19,7 @@ snapshots["test_study_groups_query 1"] = {
                         "name": "Increase thank certainly again thought summer. Beyond than trial western.",
                         "occurrences": {"edges": []},
                         "person": {"name": "William Brewer"},
-                        "studyLevel": "GRADE_6",
+                        "studyLevels": {"edges": []},
                         "updatedAt": "2020-01-04T00:00:00+00:00",
                     }
                 }
@@ -38,7 +38,7 @@ snapshots["test_study_group_query 1"] = {
             "name": "Increase thank certainly again thought summer. Beyond than trial western.",
             "occurrences": {"edges": []},
             "person": {"name": "William Brewer"},
-            "studyLevel": "GRADE_6",
+            "studyLevels": {"edges": []},
             "updatedAt": "2020-01-04T00:00:00+00:00",
         }
     }
@@ -267,7 +267,21 @@ snapshots["test_add_study_group 1"] = {
                     "name": "Name",
                     "phoneNumber": "123123",
                 },
-                "studyLevel": "GRADE_1",
+                "studyLevels": {
+                    "edges": [
+                        {
+                            "node": {
+                                "id": "U3R1ZHlMZXZlbE5vZGU6Z3JhZGVfMQ==",
+                                "label": None,
+                                "level": 10,
+                                "originalId": "grade_1",
+                                "translations": [
+                                    {"label": "first grade", "languageCode": "EN"}
+                                ],
+                            }
+                        }
+                    ]
+                },
             }
         }
     }
@@ -288,7 +302,21 @@ snapshots["test_add_study_group 2"] = {
                     "name": "Brandon Sullivan",
                     "phoneNumber": "144-948-1188x4524",
                 },
-                "studyLevel": "GRADE_1",
+                "studyLevels": {
+                    "edges": [
+                        {
+                            "node": {
+                                "id": "U3R1ZHlMZXZlbE5vZGU6Z3JhZGVfMQ==",
+                                "label": None,
+                                "level": 10,
+                                "originalId": "grade_1",
+                                "translations": [
+                                    {"label": "first grade", "languageCode": "EN"}
+                                ],
+                            }
+                        }
+                    ]
+                },
             }
         }
     }
@@ -309,7 +337,21 @@ snapshots["test_update_study_group_staff_user 1"] = {
                     "name": "Name",
                     "phoneNumber": "123123",
                 },
-                "studyLevel": "GRADE_2",
+                "studyLevels": {
+                    "edges": [
+                        {
+                            "node": {
+                                "id": "U3R1ZHlMZXZlbE5vZGU6Z3JhZGVfMg==",
+                                "label": None,
+                                "level": 20,
+                                "originalId": "grade_2",
+                                "translations": [
+                                    {"label": "second grade", "languageCode": "EN"}
+                                ],
+                            }
+                        }
+                    ]
+                },
             }
         }
     }
@@ -330,7 +372,21 @@ snapshots["test_update_study_group_staff_user 2"] = {
                     "name": "Jason Berg",
                     "phoneNumber": "011-715-9102",
                 },
-                "studyLevel": "GRADE_2",
+                "studyLevels": {
+                    "edges": [
+                        {
+                            "node": {
+                                "id": "U3R1ZHlMZXZlbE5vZGU6Z3JhZGVfMg==",
+                                "label": None,
+                                "level": 20,
+                                "originalId": "grade_2",
+                                "translations": [
+                                    {"label": "second grade", "languageCode": "EN"}
+                                ],
+                            }
+                        }
+                    ]
+                },
             }
         }
     }
@@ -756,7 +812,7 @@ snapshots["test_approve_enrolment_with_custom_message 1"] = {
 snapshots["test_approve_enrolment_with_custom_message 2"] = [
     """no-reply@hel.ninja|['barbarafarrell@yahoo.com']|Enrolment approved FI|
     Event FI: Raija Malka & Kaija Saariaho: Blick
-    Extra event info: VGVbf
+    Extra event info: LVGVb
     Study group: Last appear experience seven. Throw wrong party wall agency customer clear. Control as receive cup.
     Occurrence: 06.01.2020 02.00
     Person: barbarafarrell@yahoo.com
@@ -768,7 +824,7 @@ snapshots["test_approve_enrolment_with_custom_message 2"] = [
 snapshots["test_approve_enrolment 2"] = [
     """no-reply@hel.ninja|['barbarafarrell@yahoo.com']|Enrolment approved FI|
     Event FI: Raija Malka & Kaija Saariaho: Blick
-    Extra event info: yamQt
+    Extra event info: NGFIo
     Study group: Last appear experience seven. Throw wrong party wall agency customer clear. Control as receive cup.
     Occurrence: 06.01.2020 02.00
     Person: barbarafarrell@yahoo.com
@@ -776,7 +832,7 @@ snapshots["test_approve_enrolment 2"] = [
 """,
     """no-reply@hel.ninja|['barbarafarrell@yahoo.com']|Enrolment approved FI|
     Event FI: Raija Malka & Kaija Saariaho: Blick
-    Extra event info: yamQt
+    Extra event info: NGFIo
     Study group: Last appear experience seven. Throw wrong party wall agency customer clear. Control as receive cup.
     Occurrence: 06.01.2020 02.00
     Person: barbarafarrell@yahoo.com
@@ -787,7 +843,7 @@ snapshots["test_approve_enrolment 2"] = [
 snapshots["test_decline_enrolment 2"] = [
     """no-reply@hel.ninja|['barbarafarrell@yahoo.com']|Enrolment declined FI|
     Event FI: Raija Malka & Kaija Saariaho: Blick
-    Extra event info: yamQt
+    Extra event info: NGFIo
     Study group: Last appear experience seven. Throw wrong party wall agency customer clear. Control as receive cup.
     Occurrence: 06.01.2020 02.00
     Person: barbarafarrell@yahoo.com
@@ -795,7 +851,7 @@ snapshots["test_decline_enrolment 2"] = [
 """,
     """no-reply@hel.ninja|['barbarafarrell@yahoo.com']|Enrolment declined FI|
     Event FI: Raija Malka & Kaija Saariaho: Blick
-    Extra event info: yamQt
+    Extra event info: NGFIo
     Study group: Last appear experience seven. Throw wrong party wall agency customer clear. Control as receive cup.
     Occurrence: 06.01.2020 02.00
     Person: barbarafarrell@yahoo.com
@@ -810,7 +866,7 @@ snapshots["test_decline_enrolment_with_custom_message 1"] = {
 snapshots["test_decline_enrolment_with_custom_message 2"] = [
     """no-reply@hel.ninja|['barbarafarrell@yahoo.com']|Enrolment declined FI|
     Event FI: Raija Malka & Kaija Saariaho: Blick
-    Extra event info: VGVbf
+    Extra event info: LVGVb
     Study group: Last appear experience seven. Throw wrong party wall agency customer clear. Control as receive cup.
     Occurrence: 06.01.2020 02.00
     Person: barbarafarrell@yahoo.com

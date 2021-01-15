@@ -12,18 +12,15 @@ def init_study_levels(apps, schema_editor):
     """
     Initialize all current possible study_levels to a new StudyLevel table.
 
-    All existing study_level values were listed in the model's constant, 
+    All existing study_level values were listed in the model's constant,
     which is now moved to occurrences.consts.StudyGroupStudyLevels.
     """
 
     translation.activate("en")
     for level in range(len(StudyGroupStudyLevels.STUDY_LEVELS)):
         id, en_label = StudyGroupStudyLevels.STUDY_LEVELS[level]
-        study_level = NewStudyLevel(
-            id=id,
-            level=level
-            * 10,  # Multiply by 10, so it's easier to add new levels between existing ones.
-        )
+        # Multiply by 10, so it's easier to add new levels between existing ones.
+        study_level = NewStudyLevel(id=id, level=level * 10,)
         study_level.label = en_label
         study_level.save()
 
@@ -40,7 +37,7 @@ def clear_study_levels(apps, schema_editor):
 def link_study_levels(apps, schema_editor):
     """
     Make a m2m-link from a StudyGroup instance to a StudyLevel instance.
-    The old field and value still exists in isntance.study_level. 
+    The old field and value still exists in isntance.study_level.
     It now needs to be converted to a link to StudyLevel -table.
     """
 
@@ -65,8 +62,8 @@ def link_study_levels(apps, schema_editor):
 
 def reverse_link_study_levels(apps, schema_editor):
     """
-    Reverse function for link_study_levels: Reads all links between StudyGroups and StudyLevels
-    and populates a study_level field.
+    Reverse function for link_study_levels: Reads all links between
+    StudyGroups and StudyLevels and populates a study_level field.
     """
 
     StudyLevel = apps.get_model("occurrences", "StudyLevel")
@@ -78,12 +75,13 @@ class Migration(migrations.Migration):
     atomic = False
 
     dependencies = [
-        ("occurrences", "0021_study_level"),
+        ("occurrences", "0022_study_level"),
     ]
 
     operations = [
         # Run study_levels initialization when all the structure is created.
         migrations.RunPython(init_study_levels, reverse_code=clear_study_levels),
-        # Run the linking between study groups and study levels when all the study levels has been created
+        # Run the linking between study groups and study levels when
+        # all the study levels has been created
         migrations.RunPython(link_study_levels, reverse_code=reverse_link_study_levels),
     ]

@@ -6,7 +6,7 @@ from django.db import migrations
 class Migration(migrations.Migration):
 
     dependencies = [
-        ("occurrences", "0022_study_level_data"),
+        ("occurrences", "0023_study_level_data"),
     ]
 
     operations = [

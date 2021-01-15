@@ -8,7 +8,7 @@ import parler.models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ("occurrences", "0020_occurrence_seat_type"),
+        ("occurrences", "0021_palvelutarjotinevent_mandatory_additional_information"),
     ]
 
     operations = [

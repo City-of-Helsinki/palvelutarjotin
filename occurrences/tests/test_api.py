@@ -54,7 +54,20 @@ query StudyGroups{
         groupSize
         groupName
         amountOfAdult
-        studyLevel
+        studyLevels {
+            edges {
+                node {
+                    id
+                    originalId
+                    label
+                    level
+                    translations {
+                        languageCode
+                        label
+                    }
+                }
+            }
+        }
         extraNeeds
         occurrences {
           edges {
@@ -80,7 +93,20 @@ query StudyGroup($id: ID!){
     groupSize
     groupName
     amountOfAdult
-    studyLevel
+    studyLevels {
+        edges {
+            node {
+                id
+                originalId
+                label
+                level
+                translations {
+                    languageCode
+                    label
+                }
+            }
+        }
+    }
     extraNeeds
     occurrences {
       edges {
@@ -693,7 +719,20 @@ mutation addStudyGroup($input: AddStudyGroupMutationInput!){
       groupSize
       groupName
       amountOfAdult
-      studyLevel
+      studyLevels {
+        edges {
+            node {
+                id
+                originalId
+                label
+                level
+                translations {
+                    languageCode
+                    label
+                }
+            }
+        }
+      }
       extraNeeds
     }
   }
@@ -711,7 +750,7 @@ ADD_STUDY_GROUP_VARIABLES = {
         "name": "Sample study group name",
         "groupSize": 20,
         "amountOfAdult": 1,
-        "studyLevel": "GRADE_1",
+        "studyLevels": [{"originalId": "GRADE_1"}],
         "groupName": "Sample group name",
         "extraNeeds": "Extra needs",
     }
@@ -743,7 +782,20 @@ mutation updateStudyGroup($input: UpdateStudyGroupMutationInput!){
       groupSize
       groupName
       amountOfAdult
-      studyLevel
+      studyLevels {
+        edges {
+            node {
+                id
+                originalId
+                label
+                level
+                translations {
+                    languageCode
+                    label
+                }
+            }
+        }
+      }
       extraNeeds
     }
   }
@@ -761,7 +813,7 @@ UPDATE_STUDY_GROUP_VARIABLES = {
         "name": "Sample study group name",
         "groupSize": 20,
         "amountOfAdult": 2,
-        "studyLevel": "GRADE_2",
+        "studyLevels": [{"originalId": "GRADE_2"}],
         "groupName": "Sample group name",
         "extraNeeds": "Extra needs",
     }
@@ -873,7 +925,9 @@ def test_enrol_not_started_occurrence(api_client):
                 "name": "To be created group",
                 "groupSize": study_group.group_size,
                 "groupName": study_group.group_name,
-                "studyLevel": study_group.study_level.upper(),
+                "studyLevels": [
+                    {"id": sl.id.upper()} for sl in study_group.study_levels.all()
+                ],
                 "amountOfAdult": study_group.amount_of_adult,
             },
         }
@@ -909,7 +963,9 @@ def test_enrol_past_occurrence(api_client, occurrence):
                 "name": "To be created group",
                 "groupSize": study_group.group_size,
                 "groupName": study_group.group_name,
-                "studyLevel": study_group.study_level.upper(),
+                "studyLevels": [
+                    {"id": sl.id.upper()} for sl in study_group.study_levels.all()
+                ],
                 "amountOfAdult": study_group.amount_of_adult,
             },
         }
@@ -945,7 +1001,7 @@ def test_enrol_invalid_group_size(api_client, occurrence):
                 "name": "To be created group",
                 "groupSize": study_group_21.group_size,
                 "groupName": study_group_21.group_name,
-                "studyLevel": study_group_21.study_level.upper(),
+                "studyLevels": [sl.upper() for sl in study_group_21.study_levels.all()],
                 "amountOfAdult": study_group_21.amount_of_adult,
             },
         }
@@ -965,7 +1021,7 @@ def test_enrol_invalid_group_size(api_client, occurrence):
                 "name": "To be created group",
                 "groupSize": study_group_9.group_size,
                 "groupName": study_group_9.group_name,
-                "studyLevel": study_group_9.study_level.upper(),
+                "studyLevels": [sl.upper() for sl in study_group_9.study_levels.all()],
                 "amountOfAdult": study_group_9.amount_of_adult,
             },
         }
@@ -1006,7 +1062,7 @@ def test_enrol_full_children_occurrence(api_client, occurrence, mock_get_event_d
                 "name": "To be created group",
                 "groupSize": study_group_15.group_size,
                 "groupName": study_group_15.group_name,
-                "studyLevel": study_group_15.study_level.upper(),
+                "studyLevels": [sl.upper() for sl in study_group_15.study_levels.all()],
                 "amountOfAdult": study_group_15.amount_of_adult,
             },
         }
@@ -1050,7 +1106,7 @@ def test_enrol_full_enrolment_occurrence(api_client, occurrence, mock_get_event_
                 "name": "To be created group",
                 "groupSize": study_group_15.group_size,
                 "groupName": study_group_15.group_name,
-                "studyLevel": study_group_15.study_level.upper(),
+                "studyLevels": [sl.upper() for sl in study_group_15.study_levels.all()],
                 "amountOfAdult": study_group_15.amount_of_adult,
             },
         }
@@ -1076,7 +1132,9 @@ def test_enrol_cancelled_occurrence(api_client, occurrence):
                 "name": "To be created group",
                 "groupSize": study_group.group_size,
                 "groupName": study_group.group_name,
-                "studyLevel": study_group.study_level.upper(),
+                "studyLevels": [
+                    {"id": sl.id.upper()} for sl in study_group.study_levels.all()
+                ],
                 "amountOfAdult": study_group.amount_of_adult,
             },
         }
@@ -1153,7 +1211,7 @@ def test_enrol_occurrence(snapshot, api_client, mock_get_event_data):
                 "name": "To be created group",
                 "groupSize": study_group_15.group_size,
                 "groupName": study_group_15.group_name,
-                "studyLevel": study_group_15.study_level.upper(),
+                "studyLevels": [sl.upper() for sl in study_group_15.study_levels.all()],
                 "amountOfAdult": study_group_15.amount_of_adult,
             },
         }
@@ -1192,7 +1250,7 @@ def test_enrol_occurrence_with_captcha(
                 "name": "To be created group",
                 "groupSize": study_group_15.group_size,
                 "groupName": study_group_15.group_name,
-                "studyLevel": study_group_15.study_level.upper(),
+                "studyLevels": [sl.upper() for sl in study_group_15.study_levels.all()],
                 "amountOfAdult": study_group_15.amount_of_adult,
             },
         }
@@ -1244,7 +1302,7 @@ def test_enrol_auto_acceptance_occurrence(snapshot, api_client, mock_get_event_d
                 "name": "To be created group",
                 "groupSize": study_group_15.group_size,
                 "groupName": study_group_15.group_name,
-                "studyLevel": study_group_15.study_level.upper(),
+                "studyLevels": [sl.upper() for sl in study_group_15.study_levels.all()],
                 "amountOfAdult": study_group_15.amount_of_adult,
             },
         }
@@ -1266,7 +1324,7 @@ def test_enrol_auto_acceptance_occurrence(snapshot, api_client, mock_get_event_d
                 "name": "To be created group",
                 "groupSize": study_group_15.group_size,
                 "groupName": study_group_15.group_name,
-                "studyLevel": study_group_15.study_level.upper(),
+                "studyLevels": [sl.upper() for sl in study_group_15.study_levels.all()],
                 "amountOfAdult": study_group_15.amount_of_adult,
             },
         }
@@ -1307,7 +1365,7 @@ def test_enrol_max_needed_occurrences(snapshot, api_client, mock_get_event_data)
                 "name": "To be created group",
                 "groupSize": study_group_15.group_size,
                 "groupName": study_group_15.group_name,
-                "studyLevel": study_group_15.study_level.upper(),
+                "studyLevels": [sl.upper() for sl in study_group_15.study_levels.all()],
                 "amountOfAdult": study_group_15.amount_of_adult,
             },
         }
@@ -1752,7 +1810,7 @@ def test_update_enrolment(snapshot, staff_api_client):
                 "name": "Updated name",
                 "groupSize": 16,
                 "groupName": "Updated study group name",
-                "studyLevel": study_group_15.study_level.upper(),
+                "studyLevels": [sl.upper() for sl in study_group_15.study_levels.all()],
                 "amountOfAdult": 3,
             },
         }
