@@ -922,7 +922,7 @@ def test_enrol_invalid_group_size(api_client, occurrence):
     occurrence = OccurrenceFactory(
         start_time=datetime(2020, 1, 6, 0, 0, 0, tzinfo=timezone.now().tzinfo),
         p_event=p_event_1,
-        min_group_size=10,
+        min_group_size=16,
         max_group_size=20,
     )
 

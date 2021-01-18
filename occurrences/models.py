@@ -347,6 +347,16 @@ class StudyGroup(TimestampedModel):
     def __str__(self):
         return f"{self.id} {self.name}"
 
+    def group_size_with_adults(self):
+        """
+        Sum an amount of adults to a size of group.
+        """
+        if self.group_size:
+            return self.group_size + (
+                self.amount_of_adult if self.amount_of_adult is not None else 0
+            )
+        return None
+
 
 class EnrolmentQuerySet(models.QuerySet):
     def send_enrolment_summary_report_to_providers(self, days=1):

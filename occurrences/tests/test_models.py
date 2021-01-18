@@ -45,6 +45,14 @@ def test_enrolment_creation(mock_get_event_data):
 
 
 @pytest.mark.django_db
+def test_study_group_size_with_adults():
+    study_group1 = StudyGroupFactory(group_size=10, amount_of_adult=2)
+    study_group2 = StudyGroupFactory(group_size=10, amount_of_adult=0)
+    assert study_group1.group_size_with_adults() == 12
+    assert study_group2.group_size_with_adults() == 10
+
+
+@pytest.mark.django_db
 def test_occurrence_seat_taken():
     enrolment = EnrolmentFactory()
     occurrence = enrolment.occurrence
