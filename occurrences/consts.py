@@ -31,7 +31,9 @@ class NotificationTemplate:
 
 class StudyGroupStudyLevels:
     """
-    2021-01-14: Study levels were migrated from StudyGroup model's CharField to a new StudyLevel model / tabel in task PT-686.
+    2021-01-14: Study levels were migrated from
+    StudyGroup model's CharField to a new StudyLevel
+    model / tabel in task PT-686.
     """
 
     STUDY_LEVEL_PRESCHOOL = "preschool"

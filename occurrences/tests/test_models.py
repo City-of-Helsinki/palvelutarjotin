@@ -1,12 +1,11 @@
 import pytest
 from django.contrib.auth import get_user_model
-from occurrences.factories import (
-    EnrolmentFactory,
-    OccurrenceFactory,
-    PalvelutarjotinEventFactory,
-    StudyGroupFactory,
-)
-from occurrences.models import Enrolment, Occurrence, PalvelutarjotinEvent, StudyGroup
+from occurrences.factories import (EnrolmentFactory, OccurrenceFactory,
+                                   PalvelutarjotinEventFactory, StudyGroupFactory,
+                                   StudyLevelFactory, )
+from occurrences.models import Occurrence, PalvelutarjotinEvent, StudyGroup, \
+    StudyLevel, \
+    Enrolment
 from organisations.models import Organisation, Person
 from verification_token.models import VerificationToken
 
@@ -27,6 +26,21 @@ def test_study_group_creation():
     assert StudyGroup.objects.count() == 1
     assert Person.objects.count() == 1
     assert User.objects.count() == 1
+
+
+@pytest.mark.django_db
+def test_study_level_creation():
+    assert StudyLevel.objects.count() == 12
+    StudyLevelFactory()
+    assert StudyLevel.objects.count() == 13
+
+
+@pytest.mark.django_db
+def test_study_level_creation_via_study_group():
+    assert StudyLevel.objects.count() == 12
+    StudyGroupFactory(study_levels=(StudyLevelFactory(),))
+    assert StudyGroup.objects.count() == 1
+    assert StudyLevel.objects.count() == 13
 
 
 @pytest.mark.django_db
@@ -103,8 +117,8 @@ def test_occurrence_seat_taken():
     study_group = enrolment.study_group
     assert occurrence.seats_taken > 0
     assert (
-        occurrence.seats_taken == study_group.group_size + study_group.amount_of_adult
-    )
+            occurrence.seats_taken == study_group.group_size +
+            study_group.amount_of_adult)
 
 
 @pytest.mark.django_db
@@ -114,6 +128,4 @@ def test_occurrence_seat_approved():
     study_group = enrolment.study_group
     assert occurrence.seats_approved > 0
     assert (
-        occurrence.seats_approved
-        == study_group.group_size + study_group.amount_of_adult
-    )
+            occurrence.seats_approved == study_group.group_size + study_group.amount_of_adult)

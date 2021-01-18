@@ -110,13 +110,8 @@ class StudyLevelTranslationType(DjangoObjectType):
         exclude = ("id", "master")
 
 
-class StudyLevelTranslationsInput(InputObjectType):
-    language_code = LanguageEnum(required=True)
-
-
 class StudyLevelNode(DjangoObjectType):
-    # NOTE: Should the originalId have a better name?
-    originalId = graphene.String(source="pk")
+    id = graphene.ID(source="pk", required=True)
     label = graphene.String(
         description="Translated field in the language defined in request "
         "ACCEPT-LANGUAGE header "
@@ -131,18 +126,6 @@ class StudyLevelNode(DjangoObjectType):
     def get_queryset(cls, queryset, info):
         lang = get_language()
         return queryset.language(lang)
-
-    @classmethod
-    def get_node(cls, info, id):
-        return super().get_node(info, id)
-
-
-class StudyLevelInput(InputObjectType):
-    # FIXME: study_level id needs to be consistent, so it needs a fix asap.
-    id = graphene.String(required=False)
-    originalId = graphene.String(required=True)
-    translations = graphene.List(StudyLevelTranslationsInput)
-    level = graphene.Int()
 
 
 class StudyGroupNode(DjangoObjectType):
@@ -529,7 +512,7 @@ class StudyGroupInput(InputObjectType):
     group_name = graphene.String()
     extra_needs = graphene.String()
     amount_of_adult = graphene.Int()
-    study_levels = graphene.List(StudyLevelInput)
+    study_levels = graphene.List(graphene.String)
 
 
 def verify_captcha(key):
@@ -748,7 +731,7 @@ class AddStudyGroupMutation(graphene.relay.ClientIDMutation):
         group_name = graphene.String()
         extra_needs = graphene.String()
         amount_of_adult = graphene.Int()
-        study_levels = graphene.List(StudyLevelInput)
+        study_levels = graphene.List(graphene.String)
 
     study_group = graphene.Field(StudyGroupNode)
 
@@ -768,7 +751,7 @@ class UpdateStudyGroupMutation(graphene.relay.ClientIDMutation):
         group_name = graphene.String()
         extra_needs = graphene.String()
         amount_of_adult = graphene.Int()
-        study_levels = graphene.List(StudyLevelInput)
+        study_levels = graphene.List(graphene.String)
 
     study_group = graphene.Field(StudyGroupNode)
 
@@ -945,7 +928,7 @@ def _update_study_group(study_group_data, study_group_obj=None):
 
 def _get_or_create_contact_person(contact_person_data):
     """
-    If a contact person id is given,  
+    If a contact person id is given,
     get a contact person with a given non-assignable id
     or else, create a contact person with a given data.
     """
@@ -962,24 +945,18 @@ def _get_or_create_contact_person(contact_person_data):
     return person
 
 
-def _get_study_levels(study_levels_data):
+def _get_study_levels(study_level_ids):
     """
-    If an id is given for an instance in a list of study levels, 
-    get a list of study level instances.
+    Get a list of study level instances by using a list of study_level_ids.
     NOTE: Creation not is not allowed.
     """
     result = []
-    for study_level_data in study_levels_data:
-        if study_level_data.get("originalId") or study_level_data.get("id"):
-            # FIXME: study_level id needs to be consistent, so it needs a fix asap.
-            study_level_id = study_level_data.get("originalId").lower()
-            if not study_level_id and study_level_data.get("id"):
-                get_node_id_from_global_id(study_level_data.get("id"), "StudyLevelNode")
-            try:
-                study_level = StudyLevel.objects.get(id=study_level_id)
-                result.append(study_level)
-            except StudyLevel.DoesNotExist as e:
-                raise ObjectDoesNotExistError(e)
+    for study_level_id in study_level_ids:
+        try:
+            study_level = StudyLevel.objects.get(id=study_level_id.lower())
+            result.append(study_level)
+        except StudyLevel.DoesNotExist as e:
+            raise ObjectDoesNotExistError(e)
     return result
 
 

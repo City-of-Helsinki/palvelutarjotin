@@ -8,6 +8,7 @@ from occurrences.factories import (
     OccurrenceFactory,
     PalvelutarjotinEventFactory,
     StudyGroupFactory,
+    StudyLevelFactory,
     VenueCustomDataFactory,
 )
 from organisations.factories import OrganisationFactory, PersonFactory, UserFactory
@@ -72,6 +73,11 @@ def organisation():
 @pytest.fixture
 def study_group():
     return StudyGroupFactory()
+
+
+@pytest.fixture
+def study_level():
+    return StudyLevelFactory()
 
 
 @pytest.fixture

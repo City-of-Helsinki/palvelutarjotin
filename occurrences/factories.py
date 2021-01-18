@@ -9,7 +9,6 @@ from occurrences.models import (
     VenueCustomData,
 )
 from organisations.factories import OrganisationFactory, PersonFactory
-from .consts import StudyGroupStudyLevels
 
 
 class PalvelutarjotinEventFactory(factory.django.DjangoModelFactory):
@@ -54,11 +53,7 @@ class OccurrenceFactory(factory.django.DjangoModelFactory):
 
 
 class StudyLevelFactory(factory.django.DjangoModelFactory):
-    id = factory.Faker(
-        "random_element",
-        elements=[study_level[0] for study_level in StudyGroupStudyLevels.STUDY_LEVELS],
-    )
-    name = factory.Faker("text", max_nb_chars=20)
+    label = factory.Faker("text", max_nb_chars=20)
     level = factory.Faker("random_int", min=0, max=15)
 
     class Meta:

@@ -19,7 +19,13 @@ class Migration(migrations.Migration):
                     "id",
                     models.CharField(max_length=255, primary_key=True, serialize=False),
                 ),
-                ("level", models.PositiveIntegerField(verbose_name="level")),
+                (
+                    "level",
+                    models.PositiveIntegerField(
+                        help_text="Used to make a hierarchy between study levels.",
+                        verbose_name="level",
+                    ),
+                ),
             ],
             options={
                 "ordering": ["level"],

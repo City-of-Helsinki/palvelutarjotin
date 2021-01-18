@@ -12,7 +12,13 @@ from occurrences.factories import (
     PalvelutarjotinEventFactory,
     StudyGroupFactory,
 )
-from occurrences.models import Enrolment, Occurrence, StudyGroup, VenueCustomData
+from occurrences.models import (
+    Enrolment,
+    Occurrence,
+    StudyGroup,
+    StudyLevel,
+    VenueCustomData,
+)
 from organisations.factories import PersonFactory
 from verification_token.models import VerificationToken
 
@@ -41,6 +47,39 @@ def autouse_db(db):
     pass
 
 
+STUDY_LEVELS_QUERY = """
+    query StudyLevels{
+        studyLevels {
+            edges {
+                node {
+                    id
+                    label
+                    level
+                    translations {
+                        languageCode
+                        label
+                    }
+                }
+            }
+        }
+    }
+"""
+
+STUDY_LEVEL_QUERY = """
+    query StudyLevel($id: ID!){
+        studyLevel(id: $id){
+                    id
+                    label
+                    level
+                    translations {
+                        languageCode
+                        label
+                    }
+                }
+        }
+    }
+"""
+
 STUDY_GROUPS_QUERY = """
 query StudyGroups{
   studyGroups{
@@ -58,7 +97,6 @@ query StudyGroups{
             edges {
                 node {
                     id
-                    originalId
                     label
                     level
                     translations {
@@ -97,7 +135,6 @@ query StudyGroup($id: ID!){
         edges {
             node {
                 id
-                originalId
                 label
                 level
                 translations {
@@ -319,6 +356,16 @@ mutation DeleteOccurrence($input: DeleteOccurrenceMutationInput!) {
   }
 }
 """
+
+
+def test_study_levels_query(snapshot, api_client):
+    executed = api_client.execute(STUDY_LEVELS_QUERY)
+    snapshot.assert_match(executed)
+
+
+def test_study_level_query(snapshot, study_level, api_client):
+    executed = api_client.execute(STUDY_LEVEL_QUERY, variables={"id": study_level.id},)
+    snapshot.assert_match(executed)
 
 
 def test_study_groups_query(snapshot, study_group, api_client):
@@ -723,7 +770,6 @@ mutation addStudyGroup($input: AddStudyGroupMutationInput!){
         edges {
             node {
                 id
-                originalId
                 label
                 level
                 translations {
@@ -750,7 +796,7 @@ ADD_STUDY_GROUP_VARIABLES = {
         "name": "Sample study group name",
         "groupSize": 20,
         "amountOfAdult": 1,
-        "studyLevels": [{"originalId": "GRADE_1"}],
+        "studyLevels": ["GRADE_1"],
         "groupName": "Sample group name",
         "extraNeeds": "Extra needs",
     }
@@ -786,7 +832,6 @@ mutation updateStudyGroup($input: UpdateStudyGroupMutationInput!){
         edges {
             node {
                 id
-                originalId
                 label
                 level
                 translations {
@@ -813,7 +858,7 @@ UPDATE_STUDY_GROUP_VARIABLES = {
         "name": "Sample study group name",
         "groupSize": 20,
         "amountOfAdult": 2,
-        "studyLevels": [{"originalId": "GRADE_2"}],
+        "studyLevels": ["GRADE_2"],
         "groupName": "Sample group name",
         "extraNeeds": "Extra needs",
     }
@@ -925,9 +970,7 @@ def test_enrol_not_started_occurrence(api_client):
                 "name": "To be created group",
                 "groupSize": study_group.group_size,
                 "groupName": study_group.group_name,
-                "studyLevels": [
-                    {"id": sl.id.upper()} for sl in study_group.study_levels.all()
-                ],
+                "studyLevels": [sl.id.upper() for sl in StudyLevel.objects.all()],
                 "amountOfAdult": study_group.amount_of_adult,
             },
         }
@@ -963,9 +1006,7 @@ def test_enrol_past_occurrence(api_client, occurrence):
                 "name": "To be created group",
                 "groupSize": study_group.group_size,
                 "groupName": study_group.group_name,
-                "studyLevels": [
-                    {"id": sl.id.upper()} for sl in study_group.study_levels.all()
-                ],
+                "studyLevels": [sl.id.upper() for sl in StudyLevel.objects.all()],
                 "amountOfAdult": study_group.amount_of_adult,
             },
         }
@@ -1132,9 +1173,7 @@ def test_enrol_cancelled_occurrence(api_client, occurrence):
                 "name": "To be created group",
                 "groupSize": study_group.group_size,
                 "groupName": study_group.group_name,
-                "studyLevels": [
-                    {"id": sl.id.upper()} for sl in study_group.study_levels.all()
-                ],
+                "studyLevels": [sl.id.upper() for sl in StudyLevel.objects.all()],
                 "amountOfAdult": study_group.amount_of_adult,
             },
         }

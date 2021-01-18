@@ -313,8 +313,8 @@ class StudyLevel(TranslatableModel):
         label=models.CharField(max_length=255, verbose_name=_("label"))
     )  # Labels can have custom language translations.
     level = models.PositiveIntegerField(
-        _("level")
-    )  # Level is used make a hierarchy between different StudyLevel instances. The bigger, the better.
+        _("level"), help_text=_("Used to make a hierarchy between study levels.")
+    )  # Level is used make a hierarchy between different StudyLevel instances.
 
     class Meta:
         verbose_name = _("study level")
