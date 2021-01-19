@@ -11,6 +11,7 @@ from occurrences.factories import (
     VenueCustomDataFactory,
 )
 from organisations.factories import OrganisationFactory, PersonFactory, UserFactory
+from verification_token.factories import EnrolmentVerificationTokenFactory
 
 from common.tests.json_fixtures import *  # noqa
 from common.tests.notification_template_fixtures import *  # noqa
@@ -86,6 +87,11 @@ def p_event():
 @pytest.fixture
 def venue():
     return VenueCustomDataFactory()
+
+
+@pytest.fixture
+def enrolment_verification_token():
+    return EnrolmentVerificationTokenFactory()
 
 
 def _create_api_client_with_user(user):

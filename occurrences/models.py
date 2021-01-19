@@ -1,5 +1,6 @@
 from datetime import timedelta
 
+from django.contrib.contenttypes.fields import GenericRelation
 from django.db import models, transaction
 from django.db.models import F, Q, Sum
 from django.utils import timezone
@@ -15,6 +16,7 @@ from occurrences.consts import (
 )
 from occurrences.utils import send_event_notifications_to_contact_person
 from parler.models import TranslatedFields
+from verification_token.models import VerificationToken
 
 from common.models import TimestampedModel, TranslatableModel
 from palvelutarjotin import settings
@@ -458,6 +460,9 @@ class Enrolment(models.Model):
         verbose_name=_("status"),
         max_length=255,
     )
+    verification_tokens = GenericRelation(
+        VerificationToken, related_query_name="enrolment"
+    )
     objects = EnrolmentQuerySet.as_manager()
 
     class Meta:
@@ -509,4 +514,12 @@ class Enrolment(models.Model):
             event=self.occurrence.p_event.get_event_data(),
             custom_message=custom_message,
             enrolment=self,
+        )
+
+    def create_cancellation_token(self):
+        """
+        Create a cancellation verification token for an enrolment.
+        """
+        return VerificationToken.objects.create_token(
+            self, self.person.user, VerificationToken.VERIFICATION_TYPE_CANCELLATION
         )
