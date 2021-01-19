@@ -45,6 +45,17 @@ def test_enrolment_creation(mock_get_event_data):
 
 
 @pytest.mark.django_db
+def test_enrolment_create_cancellation_token():
+    enrolment = EnrolmentFactory()
+    user = enrolment.person.user
+    token = enrolment.create_cancellation_token()
+    assert token.user == user
+    assert token.key is not None
+    assert token.content_object.__class__ == Enrolment
+    assert token.content_object.id is not None
+
+
+@pytest.mark.django_db
 def test_study_group_size_with_adults():
     study_group1 = StudyGroupFactory(group_size=10, amount_of_adult=2)
     study_group2 = StudyGroupFactory(group_size=10, amount_of_adult=0)
