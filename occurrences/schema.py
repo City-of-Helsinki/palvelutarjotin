@@ -43,6 +43,7 @@ from palvelutarjotin.exceptions import (
     EnrolmentNotEnoughCapacityError,
     EnrolmentNotStartedError,
     InvalidStudyGroupSizeError,
+    MissingMantatoryInformationError,
     ObjectDoesNotExistError,
 )
 
@@ -419,6 +420,13 @@ class EnrolmentNode(DjangoObjectType):
 
 def validate_enrolment(study_group, occurrence, new_enrolment=True):
     # Expensive validation are sorted to bottom
+    if (
+        occurrence.p_event.mandatory_additional_information
+        and not study_group.extra_needs
+    ):
+        raise MissingMantatoryInformationError(
+            "This event requires additional information of study group"
+        )
     if occurrence.cancelled:
         raise EnrolCancelledOccurrenceError("Cannot enrol cancelled occurrence")
     if (

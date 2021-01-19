@@ -68,3 +68,8 @@ class CaptchaValidationFailedError(PalvelutarjotinGraphQLError):
 
 class UploadImageSizeExceededError(PalvelutarjotinGraphQLError):
     """Uploaded image size larger than settings.MAX_UPLOAD_SIZE"""
+
+
+class MissingMantatoryInformationError(PalvelutarjotinGraphQLError):
+    """When pEvent.mantatory_additional_information is True,
+    study_group.extra_needs is required in the mutation"""
