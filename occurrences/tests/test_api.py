@@ -109,6 +109,7 @@ query Occurrences($upcoming: Boolean, $date: Date, $time: Time){
             enrolmentStart
             linkedEventId
             autoAcceptance
+            mandatoryAdditionalInformation
         }
         startTime
         endTime
@@ -146,6 +147,7 @@ query Occurrence($id: ID!){
         enrolmentStart
         linkedEventId
         autoAcceptance
+        mandatoryAdditionalInformation
     }
     linkedEvent{
         name {
@@ -207,6 +209,7 @@ ADD_OCCURRENCE_MUTATION = """
             enrolmentStart
             linkedEventId
             autoAcceptance
+            mandatoryAdditionalInformation
           }
           languages{
             id
@@ -254,6 +257,7 @@ mutation updateOccurrence($input: UpdateOccurrenceMutationInput!){
         enrolmentEndDays
         enrolmentStart
         linkedEventId
+        mandatoryAdditionalInformation
       }
       languages{
         id

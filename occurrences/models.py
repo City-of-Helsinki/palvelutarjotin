@@ -1,7 +1,7 @@
 from datetime import timedelta
 
 from django.db import models, transaction
-from django.db.models import Q, F, Sum
+from django.db.models import F, Q, Sum
 from django.utils import timezone
 from django.utils.timezone import localtime
 from django.utils.translation import ugettext_lazy as _
@@ -66,6 +66,10 @@ class PalvelutarjotinEvent(TimestampedModel):
     )
     auto_acceptance = models.BooleanField(
         default=False, verbose_name=_("auto acceptance")
+    )
+
+    mandatory_additional_information = models.BooleanField(
+        default=False, verbose_name=_("mandatory additional information")
     )
 
     class Meta:

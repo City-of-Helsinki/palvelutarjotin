@@ -679,6 +679,7 @@ mutation addEvent($input: AddEventMutationInput!){
               name
           }
           autoAcceptance
+          mandatoryAdditionalInformation
         }
       }
     }
@@ -697,6 +698,7 @@ CREATE_EVENT_VARIABLES = {
             "contactPhoneNumber": "123123",
             "contactEmail": "contact@email.me",
             "autoAcceptance": True,
+            "mandatoryAdditionalInformation": True,
         },
         "name": {"fi": "testaus"},
         "startTime": "2020-05-05",
@@ -836,6 +838,7 @@ UPDATE_EVENT_VARIABLES = {
             "contactPhoneNumber": "123123",
             "contactEmail": "contact@email.me",
             "autoAcceptance": True,
+            "mandatoryAdditionalInformation": True,
         },
         "name": {"fi": "testaus"},
         "startTime": "2020-05-07",

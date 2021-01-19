@@ -96,6 +96,7 @@ class PalvelutarjotinEventInput(InputObjectType):
     contact_phone_number = graphene.String()
     contact_email = graphene.String()
     auto_acceptance = graphene.Boolean()
+    mandatory_additional_information = graphene.Boolean()
 
 
 class StudyGroupNode(DjangoObjectType):
