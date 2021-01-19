@@ -1,17 +1,17 @@
-version: '3.7'
+version: "3.7"
 services:
-    postgres:
+    kultus-db:
         image: postgres:10
         restart: on-failure
         environment:
-            POSTGRES_USER: palvelutarjotin
-            POSTGRES_PASSWORD: palvelutarjotin
-            POSTGRES_DB: palvelutarjotin
+            POSTGRES_USER: kultus
+            POSTGRES_PASSWORD: kultus
+            POSTGRES_DB: kultus
         ports:
-            - 5434:5432
+            - ${DB_PORT:-5434}:5432
         volumes:
-          - pgdata:/var/lib/postgresql/data
-        container_name: palvelutarjotin-db
+            - pgdata:/var/lib/postgresql/data
+        container_name: kultus-db
 
     django:
         build:
@@ -20,15 +20,15 @@ services:
         env_file:
             - docker-compose.env.yaml
         environment:
-            DATABASE_URL: postgres://palvelutarjotin:palvelutarjotin@palvelutarjotin-db/palvelutarjotin
-            DATABASE_HOST: palvelutarjotin-db.helsinki
+            DATABASE_URL: postgres://kultus:kultus@kultus-db/kultus
+            DATABASE_HOST: kultus-db.helsinki
         volumes:
             - .:/app
         ports:
             - 8081:8081
         depends_on:
-            - postgres
-        container_name: palvelutarjotin-backend
+            - kultus-db
+        container_name: kultus-backend
 
 volumes:
     pgdata:
