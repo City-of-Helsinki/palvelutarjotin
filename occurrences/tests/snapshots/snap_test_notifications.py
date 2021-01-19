@@ -4,6 +4,7 @@ from __future__ import unicode_literals
 
 from snapshottest import Snapshot
 
+
 snapshots = Snapshot()
 
 snapshots["test_approve_enrolment_notification_email 1"] = [
@@ -176,9 +177,9 @@ snapshots["test_send_enrolment_summary_report 1"] = [
             Event name: Raija Malka & Kaija Saariaho: Blick
             Event link: https://provider.kultus.fi/fi/events/aAVEa
                     Occurrence: #1996-02-20 13:49:25+00:00 (3 pending)
-                    Link to occurrence: https://provider.kultus.fi/fi/events/aAVEa/occurrences/T2NjdXJyZW5jZU5vZGU6Nzk=
+                    Link to occurrence: https://provider.kultus.fi/fi/events/aAVEa/occurrences/T2NjdXJyZW5jZU5vZGU6ODE=
                     Occurrence: #2001-02-23 20:07:07+00:00 (1 pending)
-                    Link to occurrence: https://provider.kultus.fi/fi/events/aAVEa/occurrences/T2NjdXJyZW5jZU5vZGU6ODA=
+                    Link to occurrence: https://provider.kultus.fi/fi/events/aAVEa/occurrences/T2NjdXJyZW5jZU5vZGU6ODI=
         """,
     """no-reply@hel.ninja|['uromero@hotmail.com']|Enrolment approved FI|
         Total pending enrolments: 3
@@ -186,16 +187,16 @@ snapshots["test_send_enrolment_summary_report 1"] = [
             Event name: Raija Malka & Kaija Saariaho: Blick
             Event link: https://provider.kultus.fi/fi/events/eZjav
                     Occurrence: #1990-02-18 00:22:21+00:00 (1 pending)
-                    Link to occurrence: https://provider.kultus.fi/fi/events/eZjav/occurrences/T2NjdXJyZW5jZU5vZGU6ODI=
+                    Link to occurrence: https://provider.kultus.fi/fi/events/eZjav/occurrences/T2NjdXJyZW5jZU5vZGU6ODQ=
                     Occurrence: #2019-08-09 04:27:48+00:00 (1 pending)
-                    Link to occurrence: https://provider.kultus.fi/fi/events/eZjav/occurrences/T2NjdXJyZW5jZU5vZGU6ODM=
+                    Link to occurrence: https://provider.kultus.fi/fi/events/eZjav/occurrences/T2NjdXJyZW5jZU5vZGU6ODU=
             Event name: Raija Malka & Kaija Saariaho: Blick
             Event link: https://provider.kultus.fi/fi/events/ZAHQM
                     Occurrence: #1992-06-11 21:36:20+00:00 (1 pending)
-                    Link to occurrence: https://provider.kultus.fi/fi/events/ZAHQM/occurrences/T2NjdXJyZW5jZU5vZGU6ODQ=
+                    Link to occurrence: https://provider.kultus.fi/fi/events/ZAHQM/occurrences/T2NjdXJyZW5jZU5vZGU6ODY=
             Event name: Raija Malka & Kaija Saariaho: Blick
             Event link: https://provider.kultus.fi/fi/events/tCbRR
                     Occurrence: #1976-03-14 10:36:26+00:00 (1 new enrolments)
-                    Link to occurrence: https://provider.kultus.fi/fi/events/tCbRR/occurrences/T2NjdXJyZW5jZU5vZGU6ODU=
+                    Link to occurrence: https://provider.kultus.fi/fi/events/tCbRR/occurrences/T2NjdXJyZW5jZU5vZGU6ODc=
         """,
 ]

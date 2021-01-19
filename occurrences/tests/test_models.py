@@ -6,7 +6,7 @@ from occurrences.factories import (
     PalvelutarjotinEventFactory,
     StudyGroupFactory,
 )
-from occurrences.models import Occurrence, PalvelutarjotinEvent, StudyGroup
+from occurrences.models import Enrolment, Occurrence, PalvelutarjotinEvent, StudyGroup
 from organisations.models import Organisation, Person
 
 User = get_user_model()
@@ -42,3 +42,34 @@ def test_enrolment_creation(mock_get_event_data):
     EnrolmentFactory()
     assert Occurrence.objects.count() == 1
     assert StudyGroup.objects.count() == 1
+
+
+@pytest.mark.django_db
+def test_study_group_size_with_adults():
+    study_group1 = StudyGroupFactory(group_size=10, amount_of_adult=2)
+    study_group2 = StudyGroupFactory(group_size=10, amount_of_adult=0)
+    assert study_group1.group_size_with_adults() == 12
+    assert study_group2.group_size_with_adults() == 10
+
+
+@pytest.mark.django_db
+def test_occurrence_seat_taken():
+    enrolment = EnrolmentFactory()
+    occurrence = enrolment.occurrence
+    study_group = enrolment.study_group
+    assert occurrence.seats_taken > 0
+    assert (
+        occurrence.seats_taken == study_group.group_size + study_group.amount_of_adult
+    )
+
+
+@pytest.mark.django_db
+def test_occurrence_seat_approved():
+    enrolment = EnrolmentFactory(status=Enrolment.STATUS_APPROVED)
+    occurrence = enrolment.occurrence
+    study_group = enrolment.study_group
+    assert occurrence.seats_approved > 0
+    assert (
+        occurrence.seats_approved
+        == study_group.group_size + study_group.amount_of_adult
+    )
