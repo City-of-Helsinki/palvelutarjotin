@@ -842,7 +842,7 @@ class Query:
     study_group = relay.Node.Field(StudyGroupNode)
 
     study_levels = DjangoConnectionField(StudyLevelNode)
-    study_level = relay.Node.Field(StudyLevelNode)
+    study_level = graphene.Field(StudyLevelNode, id=graphene.ID(required=True))
 
     venues = DjangoConnectionField(VenueNode)
     venue = graphene.Field(VenueNode, id=graphene.ID(required=True))
@@ -861,6 +861,13 @@ class Query:
         try:
             return VenueCustomData.objects.get(pk=kwargs.pop("id"))
         except VenueCustomData.DoesNotExist:
+            return None
+
+    @staticmethod
+    def resolve_study_level(parent, info, **kwargs):
+        try:
+            return StudyLevel.objects.get(pk=kwargs.pop("id"))
+        except StudyLevel.DoesNotExist:
             return None
 
     enrolments = DjangoConnectionField(EnrolmentNode)

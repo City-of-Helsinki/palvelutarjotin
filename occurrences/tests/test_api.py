@@ -68,14 +68,13 @@ STUDY_LEVELS_QUERY = """
 STUDY_LEVEL_QUERY = """
     query StudyLevel($id: ID!){
         studyLevel(id: $id){
-                    id
-                    label
-                    level
-                    translations {
-                        languageCode
-                        label
-                    }
-                }
+            id
+            label
+            level
+            translations {
+                languageCode
+                label
+            }
         }
     }
 """
@@ -363,7 +362,8 @@ def test_study_levels_query(snapshot, api_client):
     snapshot.assert_match(executed)
 
 
-def test_study_level_query(snapshot, study_level, api_client):
+def test_study_level_query(snapshot, api_client):
+    study_level = StudyLevel.objects.first()
     executed = api_client.execute(STUDY_LEVEL_QUERY, variables={"id": study_level.id},)
     snapshot.assert_match(executed)
 

@@ -1187,16 +1187,12 @@ snapshots["test_study_levels_query 1"] = {
 }
 
 snapshots["test_study_level_query 1"] = {
-    "errors": [
-        {
-            "extensions": {"code": "GENERAL_ERROR"},
-            "locations": [{"column": 5, "line": 13}],
-            "message": """Syntax Error GraphQL (13:5) Unexpected }
-
-12:         }
-13:     }
-        ^
-""",
+    "data": {
+        "studyLevel": {
+            "id": "preschool",
+            "label": None,
+            "level": 0,
+            "translations": [{"label": "preschool", "languageCode": "EN"}],
         }
-    ]
+    }
 }
