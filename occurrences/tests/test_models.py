@@ -56,6 +56,16 @@ def test_enrolment_create_cancellation_token():
 
 
 @pytest.mark.django_db
+def test_enrolment_create_cancellation_url():
+    enrolment = EnrolmentFactory()
+    cancellation_url = enrolment.create_cancellation_url()
+    token = enrolment.verification_tokens.all()[0]
+    assert token.key is not None and token.key != ""
+    assert token.key in cancellation_url
+    assert cancellation_url.startswith(("http://", "https://",))
+
+
+@pytest.mark.django_db
 def test_study_group_size_with_adults():
     study_group1 = StudyGroupFactory(group_size=10, amount_of_adult=2)
     study_group2 = StudyGroupFactory(group_size=10, amount_of_adult=0)

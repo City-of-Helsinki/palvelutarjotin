@@ -70,6 +70,7 @@ env = environ.Env(
     KULTUS_PROVIDER_UI_BASE_URL=(str, "https://provider.kultus.fi/"),
     KULTUS_TEACHER_UI_BASE_URL=(str, "https://beta.kultus.fi/"),
     ENABLE_SUMMARY_REPORT=(bool, False),
+    VERIFICATION_TOKEN_VALID_MINUTES=(int, 15),
 )
 
 if os.path.exists(env_file):
@@ -279,3 +280,10 @@ if os.path.exists(local_settings_path):
     with open(local_settings_path) as fp:
         code = compile(fp.read(), local_settings_path, "exec")
     exec(code, globals(), locals())
+
+
+VERIFICATION_TOKEN_URL_MAPPING = {
+    "occurrences.enrolment": {
+        "CANCELLATION": f"{KULTUS_TEACHER_UI_BASE_URL}/cancel_enrolment_url/"
+    }
+}
