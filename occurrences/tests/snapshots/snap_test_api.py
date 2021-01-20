@@ -4,7 +4,6 @@ from __future__ import unicode_literals
 
 from snapshottest import Snapshot
 
-
 snapshots = Snapshot()
 
 snapshots["test_study_groups_query 1"] = {
@@ -969,6 +968,20 @@ snapshots["test_enrol_auto_acceptance_occurrence 2"] = {
                     "studyGroup": {"name": "To be created group"},
                 }
             ]
+        }
+    }
+}
+
+snapshots["test_cancel_enrolment_query 1"] = {
+    "data": {
+        "cancellingEnrolment": {
+            "enrolmentTime": "2020-01-04T00:00:00+00:00",
+            "occurrence": {"seatsTaken": 354},
+            "status": "PENDING",
+            "studyGroup": {
+                "groupSize": 345,
+                "name": "Dream party door better performance race story. Beautiful if his their. Stuff election stay every.",
+            },
         }
     }
 }

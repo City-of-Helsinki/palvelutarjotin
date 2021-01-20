@@ -271,6 +271,11 @@ KEYWORD_SET_ID_MAPPING = {
     "TARGET_GROUP": env.str("KEYWORD_SET_TARGET_GROUP_ID"),
 }
 
+VERIFICATION_TOKEN_URL_MAPPING = {
+    "occurrences.enrolment.CANCELLATION": f"{KULTUS_TEACHER_UI_BASE_URL}"
+    + "{lang}/enrolments/cancel/{unique_id}"
+}
+
 MAX_UPLOAD_SIZE = 2621440  # 2MB
 
 # local_settings.py can be used to override environment-specific settings
@@ -280,10 +285,3 @@ if os.path.exists(local_settings_path):
     with open(local_settings_path) as fp:
         code = compile(fp.read(), local_settings_path, "exec")
     exec(code, globals(), locals())
-
-
-VERIFICATION_TOKEN_URL_MAPPING = {
-    "occurrences.enrolment": {
-        "CANCELLATION": f"{KULTUS_TEACHER_UI_BASE_URL}/cancel_enrolment_url/"
-    }
-}

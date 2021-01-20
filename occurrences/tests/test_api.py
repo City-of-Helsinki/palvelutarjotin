@@ -1971,3 +1971,28 @@ def test_enrolments_summary(
             variables={"organisationId": organisation_gid, "status": status.upper()},
         )
         snapshot.assert_match(executed)
+
+
+CANCEL_ENROLMENT_QUERY = """
+query cancellingEnrolment($id: ID!){
+    cancellingEnrolment(id: $id){
+        enrolmentTime
+        status
+        occurrence{
+            seatsTaken
+        }
+        studyGroup{
+            name
+            groupSize
+        }
+    }
+}
+"""
+
+
+def test_cancel_enrolment_query(snapshot, api_client, occurrence, study_group):
+    enrolment = EnrolmentFactory(occurrence=occurrence, study_group=study_group)
+    executed = api_client.execute(
+        CANCEL_ENROLMENT_QUERY, variables={"id": enrolment.get_unique_id()}
+    )
+    snapshot.assert_match(executed)
