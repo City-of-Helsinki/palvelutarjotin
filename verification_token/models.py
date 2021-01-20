@@ -12,6 +12,33 @@ from palvelutarjotin import settings
 
 
 class VerificationTokenManager(models.Manager):
+    def deactivate_token(self, obj_or_class, key=None, verification_type=None):
+        """
+        Deactivate a token. Key parameters is used and must be given
+        when using a model class instead of model instance.
+        """
+        self.filter_active_tokens(obj_or_class, key, verification_type).update(
+            is_active=False
+        )
+
+    def deactivate_and_create_token(
+        self,
+        obj,
+        user,
+        verification_type,
+        expiry_days=None,
+        deactivate_all_types_of_token=False,
+    ):
+        """
+        Deactivate old tokens (of a type) and create a new one.
+        """
+        if deactivate_all_types_of_token:
+            self.deactivate_token(obj, verification_type=None)
+        else:
+            self.deactivate_token(obj, verification_type=verification_type)
+
+        return self.create_token(obj, user, verification_type, expiry_days)
+
     def create_token(self, obj, user, verification_type, email=None, expiry_days=None):
 
         key = self.model.generate_key()
@@ -36,6 +63,26 @@ class VerificationTokenManager(models.Manager):
             key=key,
             expiry_date=expiry_date,
         )
+
+    def filter_active_tokens(self, obj_or_class, key=None, verification_type=None):
+        """
+        Filter active tokens given for a class (of an instance).
+        """
+        qs = self.filter(
+            is_active=True,
+            content_type=ContentType.objects.get_for_model(obj_or_class),
+        )
+
+        if verification_type:
+            qs = qs.filter(verification_type=verification_type)
+
+        # If the given parameter is a model instance, use it in query
+        if isinstance(obj_or_class, models.Model):
+            qs = qs.filter(object_id=obj_or_class.pk)
+
+        # If the given parameter is a class and not an instance of it,
+        # use the key parameter in a query
+        return qs.filter(key=key) if key else qs
 
 
 class VerificationToken(models.Model):
