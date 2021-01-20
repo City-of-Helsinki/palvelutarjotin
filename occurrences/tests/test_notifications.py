@@ -101,6 +101,11 @@ def test_approve_enrolment_notification_email(
     enrolment = Enrolment.objects.create(
         study_group=study_group, occurrence=occurrence,
     )
+    p_event = occurrence.p_event
+    # To test the cancel link generated only if event only requires 1 occurrence per
+    # enrolment
+    p_event.needed_occurrences = 1
+    p_event.save()
     enrolment.approve(custom_message="custom message")
     assert len(mail.outbox) == 1
     assert_mails_match_snapshot(snapshot)

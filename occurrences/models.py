@@ -19,6 +19,7 @@ from parler.models import TranslatedFields
 from verification_token.models import VerificationToken
 
 from common.models import TimestampedModel, TranslatableModel
+from common.utils import get_node_id_from_global_id
 from palvelutarjotin import settings
 from palvelutarjotin.exceptions import ApiUsageError
 
@@ -415,6 +416,12 @@ class EnrolmentQuerySet(models.QuerySet):
                 address, NotificationTemplate.ENROLMENT_SUMMARY_REPORT, context
             )
 
+    def get_by_unique_id(self, unique_id):
+        compound_id = get_node_id_from_global_id(unique_id, "EnrolmentNode")
+        # Discard timestamp
+        enrolment_id, _ = compound_id.split("_")
+        return self.get(id=enrolment_id)
+
 
 class Enrolment(models.Model):
     STATUS_APPROVED = "approved"
@@ -538,8 +545,18 @@ class Enrolment(models.Model):
         )
 
         return "{context_path}{token_key}".format(
-            context_path=settings.VERIFICATION_TOKEN_URL_MAPPING.get(
-                "occurrences.enrolment"
-            ).get("CANCELLATION"),
-            token_key=cancellation_token.key,
+            context_path=self.get_link_to_cancel_ui(), token_key=cancellation_token.key
+        )
+
+    def get_link_to_cancel_ui(self, language=settings.LANGUAGE_CODE):
+        return settings.VERIFICATION_TOKEN_URL_MAPPING[
+            "occurrences.enrolment.CANCELLATION"
+        ].format(lang=language, unique_id=self.get_unique_id())
+
+    def get_unique_id(self):
+        # Unique id is the base64 encoded of enrolment_id and enrolment timestamp
+        # Added object timestamp so it'll be harder to guess, otherwise any one can
+        # build the unique id after reading this
+        return to_global_id(
+            "EnrolmentNode", "_".join([str(self.id), str(self.enrolment_time)])
         )

@@ -767,6 +767,15 @@ class Query:
     venues = DjangoConnectionField(VenueNode)
     venue = graphene.Field(VenueNode, id=graphene.ID(required=True))
 
+    cancelling_enrolment = graphene.Field(EnrolmentNode, id=graphene.ID(required=True))
+
+    @staticmethod
+    def resolve_cancelling_enrolment(parent, info, **kwargs):
+        try:
+            return Enrolment.objects.get_by_unique_id(kwargs["id"])
+        except Enrolment.DoesNotExist:
+            return None
+
     @staticmethod
     def resolve_venue(parent, info, **kwargs):
         try:
