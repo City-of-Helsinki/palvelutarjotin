@@ -15,7 +15,7 @@ class VerificationTokenFactory(factory.django.DjangoModelFactory):
     user = factory.SubFactory(UserFactory)
     key = VerificationToken.generate_key()
     expiry_date = factory.Faker(
-        "future_datetime", end_date="+13d", tzinfo=pytz.timezone("Europe/Helsinki")
+        "future_datetime", end_date="+15m", tzinfo=pytz.timezone("Europe/Helsinki")
     )
     is_active = True
 

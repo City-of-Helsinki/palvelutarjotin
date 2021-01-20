@@ -523,3 +523,23 @@ class Enrolment(models.Model):
         return VerificationToken.objects.create_token(
             self, self.person.user, VerificationToken.VERIFICATION_TYPE_CANCELLATION
         )
+
+    def create_cancellation_url(self):
+        """
+        Create an URL that can be used to cancel enrolment.
+        URL needs an cancellation token, so one will be created
+        and any active cancellation tokens related to enrolment
+        will be set in_active.
+        """
+        cancellation_token = VerificationToken.objects.deactivate_and_create_token(
+            self,
+            self.person.user,
+            verification_type=VerificationToken.VERIFICATION_TYPE_CANCELLATION,
+        )
+
+        return "{context_path}{token_key}".format(
+            context_path=settings.VERIFICATION_TOKEN_URL_MAPPING.get(
+                "occurrences.enrolment"
+            ).get("CANCELLATION"),
+            token_key=cancellation_token.key,
+        )

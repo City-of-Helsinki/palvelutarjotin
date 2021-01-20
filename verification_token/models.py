@@ -12,45 +12,46 @@ from palvelutarjotin import settings
 
 
 class VerificationTokenManager(models.Manager):
-    def deactivate_token(self, obj_or_class, key=None, verification_type=None):
+    def deactivate_token(
+        self, obj_or_class, key=None, verification_type=None, user=None
+    ):
         """
         Deactivate a token. Key parameters is used and must be given
         when using a model class instead of model instance.
         """
-        self.filter_active_tokens(obj_or_class, key, verification_type).update(
-            is_active=False
-        )
+        qs = self.filter_active_tokens(obj_or_class, key, verification_type, user)
+        qs.update(is_active=False)
 
     def deactivate_and_create_token(
         self,
         obj,
         user,
         verification_type,
-        expiry_days=None,
-        deactivate_all_types_of_token=False,
+        expiry_minutes=getattr(settings, "VERIFICATION_TOKEN_VALID_MINUTES", 15),
     ):
         """
         Deactivate old tokens (of a type) and create a new one.
         """
-        if deactivate_all_types_of_token:
-            self.deactivate_token(obj, verification_type=None)
-        else:
-            self.deactivate_token(obj, verification_type=verification_type)
+        self.deactivate_token(obj, verification_type=verification_type, user=user)
+        return self.create_token(obj, user, verification_type, expiry_minutes)
 
-        return self.create_token(obj, user, verification_type, expiry_days)
-
-    def create_token(self, obj, user, verification_type, email=None, expiry_days=None):
+    def create_token(
+        self,
+        obj,
+        user,
+        verification_type,
+        email=None,
+        expiry_minutes=getattr(settings, "VERIFICATION_TOKEN_VALID_MINUTES", 15),
+    ):
 
         key = self.model.generate_key()
 
-        if expiry_days is None:  # can be False
-            expiry_days = getattr(settings, "VERIFICATION_TOKEN_VALID_DAYS", 14)
-
-        if expiry_days:
-            expiry_date = timezone.now() + timedelta(days=expiry_days)
+        if expiry_minutes:
+            expiry_date = timezone.now() + timedelta(minutes=expiry_minutes)
         else:
             expiry_date = None
 
+        # If there is no given email, use the user's email
         if email is None and user is not None:
             email = user.email
 
@@ -64,7 +65,9 @@ class VerificationTokenManager(models.Manager):
             expiry_date=expiry_date,
         )
 
-    def filter_active_tokens(self, obj_or_class, key=None, verification_type=None):
+    def filter_active_tokens(
+        self, obj_or_class, key=None, verification_type=None, user=None
+    ):
         """
         Filter active tokens given for a class (of an instance).
         """
@@ -75,6 +78,9 @@ class VerificationTokenManager(models.Manager):
 
         if verification_type:
             qs = qs.filter(verification_type=verification_type)
+
+        if user:
+            qs = qs.filter(user=user)
 
         # If the given parameter is a model instance, use it in query
         if isinstance(obj_or_class, models.Model):
@@ -114,9 +120,6 @@ class VerificationToken(models.Model):
     is_active = models.BooleanField(null=False, blank=False, default=True)
 
     objects = VerificationTokenManager()
-
-    def __unicode__(self):
-        return self.key
 
     @classmethod
     def generate_key(cls):
