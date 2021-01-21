@@ -58,16 +58,18 @@ Allow user to create test database
 1. You must config Beta Kultus API to integrate with [LinkedEvent API](https://github.com/City-of-Helsinki
 /linkedevents)
     
-    Add the following lines to your local `.env` 
+    Add the following lines to your local `.env` (`.env.example` can be used as an example).
     ```python
-    LINKED_EVENTS_API_ROOT=<your_linked_event_api_url>
-    LINKED_EVENTS_API_KEY=<your_linked_event_api_key>
-    LINKED_EVENTS_DATA_SOURCE=<your_linked_event_data_source>
+    LINKED_EVENTS_API_ROOT=<your_linked_event_api_url>          # e.g. http://localhost:8000/v1/
+    LINKED_EVENTS_API_KEY=<your_linked_event_api_key>           # a value from an Api key -field in a LinkedEvent data source.
+    LINKED_EVENTS_DATA_SOURCE=<your_linked_event_data_source>   # e.g. local-kultus
     ```
     If you are not using local Linked Event, contact LinkedEvent team to provide these information.
     
     If you installed LinkedEvent yourself, you can create API_KEY and DATA_SOURCE from your local LinkedEvent admin
-    interface (Checkout the how to setup local LinkedEvent [here](https://github.com/City-of-Helsinki/linkedevents#how-to-setup-your-local-development-environment))
+    interface (Checkout the how to setup local LinkedEvent [here](https://github.com/City-of-Helsinki/linkedevents#how-to-setup-your-local-development-environment)). 
+
+    To be able to manage events, a LinkedEvent user should be linked to a person instance and a LinkedEvent organisation should be added to the Kultus (can be done via admin -app). Organisation's publisher id needs to match one in LinkedEvents and a person needs to be linked to that organisation.
 
 2. (Optional) To use the SMS notification functionality, you have to acquire the API_KEY from [Notification Service API
 ](https://github.com/City-of-Helsinki/notification-service-api) then add these lines to your local `.env`

@@ -1,7 +1,7 @@
 from datetime import timedelta
 
 from django.db import models, transaction
-from django.db.models import Q, Sum
+from django.db.models import Q, F, Sum
 from django.utils import timezone
 from django.utils.timezone import localtime
 from django.utils.translation import ugettext_lazy as _
@@ -197,7 +197,11 @@ class Occurrence(TimestampedModel):
         qs = self.enrolments.filter(status=Enrolment.STATUS_APPROVED)
         if self.seat_type == self.OCCURRENCE_SEAT_TYPE_CHILDREN_COUNT:
             return (
-                qs.aggregate(seats_taken=Sum("study_group__group_size"))["seats_taken"]
+                qs.aggregate(
+                    seats_taken=Sum(
+                        F("study_group__group_size") + F("study_group__amount_of_adult")
+                    )
+                )["seats_taken"]
                 or 0
             )
         else:
@@ -210,7 +214,11 @@ class Occurrence(TimestampedModel):
         )
         if self.seat_type == self.OCCURRENCE_SEAT_TYPE_CHILDREN_COUNT:
             return (
-                qs.aggregate(seats_taken=Sum("study_group__group_size"))["seats_taken"]
+                qs.aggregate(
+                    seats_taken=Sum(
+                        F("study_group__group_size") + F("study_group__amount_of_adult")
+                    )
+                )["seats_taken"]
                 or 0
             )
         else:
@@ -338,6 +346,16 @@ class StudyGroup(TimestampedModel):
 
     def __str__(self):
         return f"{self.id} {self.name}"
+
+    def group_size_with_adults(self):
+        """
+        Sum an amount of adults to a size of group.
+        """
+        if self.group_size:
+            return self.group_size + (
+                self.amount_of_adult if self.amount_of_adult is not None else 0
+            )
+        return None
 
 
 class EnrolmentQuerySet(models.QuerySet):

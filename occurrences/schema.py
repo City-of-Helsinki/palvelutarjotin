@@ -421,9 +421,11 @@ def validate_enrolment(study_group, occurrence, new_enrolment=True):
     if occurrence.cancelled:
         raise EnrolCancelledOccurrenceError("Cannot enrol cancelled occurrence")
     if (
-        occurrence.max_group_size and study_group.group_size > occurrence.max_group_size
+        occurrence.max_group_size
+        and study_group.group_size_with_adults() > occurrence.max_group_size
     ) or (
-        occurrence.min_group_size and study_group.group_size < occurrence.min_group_size
+        occurrence.min_group_size
+        and study_group.group_size_with_adults() < occurrence.min_group_size
     ):
         raise InvalidStudyGroupSizeError(
             "Study group size not match occurrence group size"
@@ -445,12 +447,12 @@ def validate_enrolment(study_group, occurrence, new_enrolment=True):
             >= occurrence.p_event.needed_occurrences
         ):
             raise EnrolmentMaxNeededOccurrenceReached(
-                "Number of enroled occurrences greater than needed occurrences"
+                "Number of enrolled occurrences is greater than the needed occurrences"
             )
         group_size = (
             1
             if occurrence.seat_type == Occurrence.OCCURRENCE_SEAT_TYPE_ENROLMENT_COUNT
-            else study_group.group_size
+            else study_group.group_size_with_adults()
         )
         if occurrence.seats_taken + group_size > occurrence.amount_of_seats:
             raise EnrolmentNotEnoughCapacityError(
