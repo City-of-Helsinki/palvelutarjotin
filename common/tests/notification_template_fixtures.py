@@ -181,6 +181,46 @@ def notification_template_enrolment_declined_fi():
 
 
 @pytest.fixture
+def notification_template_enrolment_cancellation_confirmation_en():
+    return create_notification_template_in_language(
+        NotificationTemplate.ENROLMENT_CANCELLATION,
+        "en",
+        subject="Enrolment cancellation confirmation EN",
+        body_text=NOTIFICATION_WITH_CUSTOM_MESSAGE_TEXT_EN,
+    )
+
+
+@pytest.fixture
+def notification_template_enrolment_cancellation_confirmation_fi():
+    return create_notification_template_in_language(
+        NotificationTemplate.ENROLMENT_CANCELLATION,
+        "fi",
+        subject="Enrolment cancellation confirmation FI",
+        body_text=NOTIFICATION_WITH_CUSTOM_MESSAGE_TEXT_FI,
+    )
+
+
+@pytest.fixture
+def notification_template_enrolment_cancelled_en():
+    return create_notification_template_in_language(
+        NotificationTemplate.ENROLMENT_CANCELLED,
+        "en",
+        subject="Enrolment cancelled EN",
+        body_text=NOTIFICATION_WITH_CUSTOM_MESSAGE_TEXT_EN,
+    )
+
+
+@pytest.fixture
+def notification_template_enrolment_cancelled_fi():
+    return create_notification_template_in_language(
+        NotificationTemplate.ENROLMENT_CANCELLED,
+        "fi",
+        subject="Enrolment cancelled FI",
+        body_text=NOTIFICATION_WITH_CUSTOM_MESSAGE_TEXT_FI,
+    )
+
+
+@pytest.fixture
 def notification_template_cancel_occurrence_fi():
     return create_notification_template_in_language(
         NotificationTemplate.OCCURRENCE_CANCELLED,

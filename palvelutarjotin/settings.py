@@ -273,7 +273,9 @@ KEYWORD_SET_ID_MAPPING = {
 
 VERIFICATION_TOKEN_URL_MAPPING = {
     "occurrences.enrolment.CANCELLATION": f"{KULTUS_TEACHER_UI_BASE_URL}"
-    + "{lang}/enrolments/cancel/{unique_id}"
+    + "{lang}/enrolments/cancel/{unique_id}",
+    "occurrences.enrolment.CANCELLATION.confirmation": f"{KULTUS_TEACHER_UI_BASE_URL}"
+    + "{lang}/enrolments/cancel/{unique_id}?token={token}",
 }
 
 MAX_UPLOAD_SIZE = 2621440  # 2MB

@@ -133,6 +133,21 @@ def test_verification_token_create_token_with_manager():
 
 
 @pytest.mark.django_db
+def test_verification_token_deactivate_and_create_token():
+    enrolment = EnrolmentFactory()
+    user = enrolment.person.user
+    token1 = VerificationToken.objects.create_token(
+        enrolment, user, VerificationToken.VERIFICATION_TYPE_CANCELLATION
+    )
+    assert VerificationToken.objects.get(pk=token1.pk).is_active is True
+    token2 = VerificationToken.objects.deactivate_and_create_token(
+        enrolment, user, VerificationToken.VERIFICATION_TYPE_CANCELLATION
+    )
+    assert VerificationToken.objects.get(pk=token1.pk).is_active is False
+    assert VerificationToken.objects.get(pk=token2.pk).is_active is True
+
+
+@pytest.mark.django_db
 def test_clean_invalid_tokens_defaults():
     EnrolmentVerificationTokenFactory(is_active=True)
     EnrolmentVerificationTokenFactory(is_active=False)

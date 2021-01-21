@@ -8,6 +8,7 @@ from occurrences.factories import (
 )
 from occurrences.models import Enrolment, Occurrence, PalvelutarjotinEvent, StudyGroup
 from organisations.models import Organisation, Person
+from verification_token.models import VerificationToken
 
 User = get_user_model()
 
@@ -56,13 +57,35 @@ def test_enrolment_create_cancellation_token():
 
 
 @pytest.mark.django_db
-def test_enrolment_create_cancellation_url():
+def test_enrolment_create_cancellation_token_with_deactivation():
     enrolment = EnrolmentFactory()
-    cancellation_url = enrolment.create_cancellation_url()
-    token = enrolment.verification_tokens.all()[0]
+    enrolment.create_cancellation_token()
+    VerificationToken.objects.count() == 1
+    token2 = enrolment.create_cancellation_token(deactivate_existing=True)
+    VerificationToken.objects.count() == 1
+    VerificationToken.objects.filter(pk=token2.pk).exists()
+
+
+@pytest.mark.django_db
+def test_enrolment_get_cancellation_url():
+    enrolment = EnrolmentFactory()
+    token = enrolment.create_cancellation_token()
+    cancellation_url = enrolment.get_cancellation_url()
     assert token.key is not None and token.key != ""
     assert token.key in cancellation_url
     assert cancellation_url.startswith(("http://", "https://",))
+    # test with a given token
+    cancellation_url = enrolment.get_cancellation_url(cancellation_token=token)
+    assert token.key in cancellation_url
+
+
+@pytest.mark.django_db
+def test_enrolment_cancel_deactivates_tokens():
+    enrolment = EnrolmentFactory()
+    enrolment.create_cancellation_token()
+    assert VerificationToken.objects.filter(is_active=True).count() == 1
+    enrolment.cancel()
+    assert VerificationToken.objects.filter(is_active=True).count() == 0
 
 
 @pytest.mark.django_db

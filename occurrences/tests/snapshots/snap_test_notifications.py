@@ -14,7 +14,7 @@ snapshots["test_approve_enrolment_notification_email 1"] = [
     Occurrence: 12.12.2013 06.37
     Person: williamsronald@hotmail.com
     Click this link to cancel the enrolment:
-    https://beta.kultus.fi/fi/enrolments/cancel/RW5yb2xtZW50Tm9kZTo0NF8yMDIwLTAxLTA0IDAwOjAwOjAwKzAwOjAw
+    https://beta.kultus.fi/fi/enrolments/cancel/RW5yb2xtZW50Tm9kZTo0Nl8yMDIwLTAxLTA0IDAwOjAwOjAwKzAwOjAw
 
     Custom message: custom message
 """
@@ -186,9 +186,9 @@ snapshots["test_send_enrolment_summary_report 1"] = [
             Event name: Raija Malka & Kaija Saariaho: Blick
             Event link: https://provider.kultus.fi/fi/events/aAVEa
                     Occurrence: #1996-02-20 13:49:25+00:00 (3 pending)
-                    Link to occurrence: https://provider.kultus.fi/fi/events/aAVEa/occurrences/T2NjdXJyZW5jZU5vZGU6ODQ=
+                    Link to occurrence: https://provider.kultus.fi/fi/events/aAVEa/occurrences/T2NjdXJyZW5jZU5vZGU6ODg=
                     Occurrence: #2001-02-23 20:07:07+00:00 (1 pending)
-                    Link to occurrence: https://provider.kultus.fi/fi/events/aAVEa/occurrences/T2NjdXJyZW5jZU5vZGU6ODU=
+                    Link to occurrence: https://provider.kultus.fi/fi/events/aAVEa/occurrences/T2NjdXJyZW5jZU5vZGU6ODk=
         """,
     """no-reply@hel.ninja|['uromero@hotmail.com']|Enrolment approved FI|
         Total pending enrolments: 3
@@ -196,16 +196,40 @@ snapshots["test_send_enrolment_summary_report 1"] = [
             Event name: Raija Malka & Kaija Saariaho: Blick
             Event link: https://provider.kultus.fi/fi/events/eZjav
                     Occurrence: #1990-02-18 00:22:21+00:00 (1 pending)
-                    Link to occurrence: https://provider.kultus.fi/fi/events/eZjav/occurrences/T2NjdXJyZW5jZU5vZGU6ODc=
+                    Link to occurrence: https://provider.kultus.fi/fi/events/eZjav/occurrences/T2NjdXJyZW5jZU5vZGU6OTE=
                     Occurrence: #2019-08-09 04:27:48+00:00 (1 pending)
-                    Link to occurrence: https://provider.kultus.fi/fi/events/eZjav/occurrences/T2NjdXJyZW5jZU5vZGU6ODg=
+                    Link to occurrence: https://provider.kultus.fi/fi/events/eZjav/occurrences/T2NjdXJyZW5jZU5vZGU6OTI=
             Event name: Raija Malka & Kaija Saariaho: Blick
             Event link: https://provider.kultus.fi/fi/events/ZAHQM
                     Occurrence: #1992-06-11 21:36:20+00:00 (1 pending)
-                    Link to occurrence: https://provider.kultus.fi/fi/events/ZAHQM/occurrences/T2NjdXJyZW5jZU5vZGU6ODk=
+                    Link to occurrence: https://provider.kultus.fi/fi/events/ZAHQM/occurrences/T2NjdXJyZW5jZU5vZGU6OTM=
             Event name: Raija Malka & Kaija Saariaho: Blick
             Event link: https://provider.kultus.fi/fi/events/tCbRR
                     Occurrence: #1976-03-14 10:36:26+00:00 (1 new enrolments)
-                    Link to occurrence: https://provider.kultus.fi/fi/events/tCbRR/occurrences/T2NjdXJyZW5jZU5vZGU6OTA=
+                    Link to occurrence: https://provider.kultus.fi/fi/events/tCbRR/occurrences/T2NjdXJyZW5jZU5vZGU6OTQ=
         """,
+]
+
+snapshots["test_cancel_enrolment_notification_email 1"] = [
+    """no-reply@hel.ninja|['williamsronald@hotmail.com']|Enrolment cancellation confirmation FI|
+    Event FI: Raija Malka & Kaija Saariaho: Blick
+    Extra event info: zVxeo
+    Study group: Dream party door better performance race story. Beautiful if his their. Stuff election stay every.
+    Occurrence: 12.12.2013 06.37
+    Person: williamsronald@hotmail.com
+
+    Custom message: custom message
+"""
+]
+
+snapshots["test_cancelled_enrolment_notification_email 1"] = [
+    """no-reply@hel.ninja|['email_me@dommain.com']|Enrolment cancelled FI|
+    Event FI: Raija Malka & Kaija Saariaho: Blick
+    Extra event info: zVxeo
+    Study group: Dream party door better performance race story. Beautiful if his their. Stuff election stay every.
+    Occurrence: 12.12.2013 06.37
+    Person: williamsronald@hotmail.com
+
+    Custom message: custom message
+"""
 ]

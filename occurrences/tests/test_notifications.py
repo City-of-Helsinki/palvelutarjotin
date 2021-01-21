@@ -129,6 +129,41 @@ def test_decline_enrolment_notification_email(
 
 
 @pytest.mark.django_db
+def test_cancel_enrolment_notification_email(
+    mock_get_event_data,
+    notification_template_enrolment_cancellation_confirmation_en,
+    notification_template_enrolment_cancellation_confirmation_fi,
+    snapshot,
+    occurrence,
+    study_group,
+):
+    enrolment = Enrolment.objects.create(
+        study_group=study_group, occurrence=occurrence,
+    )
+    enrolment.ask_cancel_confirmation(custom_message="custom message")
+    assert len(mail.outbox) == 1
+    assert_mails_match_snapshot(snapshot)
+
+
+@pytest.mark.django_db
+def test_cancelled_enrolment_notification_email(
+    mock_get_event_data,
+    notification_template_enrolment_cancelled_en,
+    notification_template_enrolment_cancelled_fi,
+    snapshot,
+    occurrence,
+    study_group,
+):
+    person = PersonFactory(email_address="email_me@dommain.com")
+    enrolment = Enrolment.objects.create(
+        study_group=study_group, occurrence=occurrence, person=person
+    )
+    enrolment.cancel(custom_message="custom message")
+    assert len(mail.outbox) == 1
+    assert_mails_match_snapshot(snapshot)
+
+
+@pytest.mark.django_db
 def test_occurrence_enrolment_notifications_to_contact_person(
     snapshot,
     notification_template_occurrence_unenrolment_fi,

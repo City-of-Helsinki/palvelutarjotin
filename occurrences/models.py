@@ -523,35 +523,42 @@ class Enrolment(models.Model):
             enrolment=self,
         )
 
-    def create_cancellation_token(self):
-        """
-        Create a cancellation verification token for an enrolment.
-        """
-        return VerificationToken.objects.create_token(
-            self, self.person.user, VerificationToken.VERIFICATION_TYPE_CANCELLATION
+    def ask_cancel_confirmation(self, custom_message=None):
+        send_event_notifications_to_contact_person(
+            self.person,
+            self.occurrence,
+            self.study_group,
+            self.notification_type,
+            NotificationTemplate.ENROLMENT_CANCELLATION,
+            NotificationTemplate.ENROLMENT_CANCELLATION_SMS,
+            event=self.occurrence.p_event.get_event_data(),
+            custom_message=custom_message,
+            enrolment=self,
         )
 
-    def create_cancellation_url(self):
+    def cancel(self, custom_message=None):
         """
-        Create an URL that can be used to cancel enrolment.
-        URL needs an cancellation token, so one will be created
-        and any active cancellation tokens related to enrolment
-        will be set in_active.
+        Deactivate the used cancellation tokens and
+        notify about successful cancellation.
         """
-        cancellation_token = VerificationToken.objects.deactivate_and_create_token(
-            self,
-            self.person.user,
-            verification_type=VerificationToken.VERIFICATION_TYPE_CANCELLATION,
-        )
 
-        return "{context_path}{token_key}".format(
-            context_path=self.get_link_to_cancel_ui(), token_key=cancellation_token.key
-        )
+        # Deactivate active cancellation tokens
+        self.get_active_verification_tokens(
+            verification_type=VerificationToken.VERIFICATION_TYPE_CANCELLATION
+        ).update(is_active=False)
 
-    def get_link_to_cancel_ui(self, language=settings.LANGUAGE_CODE):
-        return settings.VERIFICATION_TOKEN_URL_MAPPING[
-            "occurrences.enrolment.CANCELLATION"
-        ].format(lang=language, unique_id=self.get_unique_id())
+        # Notify with email and sms
+        send_event_notifications_to_contact_person(
+            self.person,
+            self.occurrence,
+            self.study_group,
+            self.notification_type,
+            NotificationTemplate.ENROLMENT_CANCELLED,
+            NotificationTemplate.ENROLMENT_CANCELLED_SMS,
+            event=self.occurrence.p_event.get_event_data(),
+            custom_message=custom_message,
+            enrolment=self,
+        )
 
     def get_unique_id(self):
         # Unique id is the base64 encoded of enrolment_id and enrolment timestamp
@@ -559,4 +566,54 @@ class Enrolment(models.Model):
         # build the unique id after reading this
         return to_global_id(
             "EnrolmentNode", "_".join([str(self.id), str(self.enrolment_time)])
+        )
+
+    def get_link_to_cancel_ui(self, language=settings.LANGUAGE_CODE):
+        return settings.VERIFICATION_TOKEN_URL_MAPPING[
+            "occurrences.enrolment.CANCELLATION"
+        ].format(lang=language, unique_id=self.get_unique_id())
+
+    def get_active_verification_tokens(self, verification_type=None):
+        """ Filter active verification tokens """
+
+        return VerificationToken.objects.filter_active_tokens(
+            self, verification_type=verification_type, user=self.person.user
+        )
+
+    def get_cancellation_url(
+        self, language=settings.LANGUAGE_CODE, cancellation_token=None
+    ):
+        """
+        Get a cancellation (confirmation) url.
+        If the cancellation token is not given as a parameter,
+        it will be fetched from the database.
+        """
+        if not cancellation_token:
+            cancellation_token = self.get_active_verification_tokens(
+                verification_type=VerificationToken.VERIFICATION_TYPE_CANCELLATION
+            )[0]
+
+        token = (
+            cancellation_token.key
+            if isinstance(cancellation_token, VerificationToken)
+            else cancellation_token
+        )
+
+        return settings.VERIFICATION_TOKEN_URL_MAPPING[
+            "occurrences.enrolment.CANCELLATION.confirmation"
+        ].format(lang=language, unique_id=self.get_unique_id(), token=token)
+
+    def create_cancellation_token(self, deactivate_existing=False):
+        """
+        Create a cancellation verification token for an enrolment.
+        """
+        if deactivate_existing:
+            return VerificationToken.objects.deactivate_and_create_token(
+                self,
+                self.person.user,
+                verification_type=VerificationToken.VERIFICATION_TYPE_CANCELLATION,
+            )
+
+        return VerificationToken.objects.create_token(
+            self, self.person.user, VerificationToken.VERIFICATION_TYPE_CANCELLATION
         )
