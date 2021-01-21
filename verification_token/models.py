@@ -5,6 +5,7 @@ from django.contrib.auth import get_user_model
 from django.contrib.contenttypes.fields import GenericForeignKey
 from django.contrib.contenttypes.models import ContentType
 from django.db import models
+from django.db.models import Q
 from django.utils import timezone
 from django.utils.translation import ugettext_lazy as _
 
@@ -89,6 +90,19 @@ class VerificationTokenManager(models.Manager):
         # If the given parameter is a class and not an instance of it,
         # use the key parameter in a query
         return qs.filter(key=key) if key else qs
+
+    def clean_invalid_tokens(self, clean_inactive=True, clean_expired=True):
+        """
+        Clean inactive and expired tokens.
+        """
+        if clean_inactive and clean_expired:
+            self.filter(
+                Q(is_active=False) | Q(expiry_date__lte=timezone.now())
+            ).delete()
+        elif clean_inactive:
+            self.filter(is_active=False).delete()
+        elif clean_expired:
+            self.filter(expiry_date__lte=timezone.now()).delete()
 
 
 class VerificationToken(models.Model):

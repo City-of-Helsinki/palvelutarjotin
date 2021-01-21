@@ -130,3 +130,45 @@ def test_verification_token_create_token_with_manager():
         enrolment, user, VerificationToken.VERIFICATION_TYPE_CANCELLATION, email=email
     )
     assert token2.email == email
+
+
+@pytest.mark.django_db
+def test_clean_invalid_tokens_defaults():
+    EnrolmentVerificationTokenFactory(is_active=True)
+    EnrolmentVerificationTokenFactory(is_active=False)
+    EnrolmentVerificationTokenFactory(
+        expiry_date=timezone.now() - timedelta(minutes=10)
+    )
+    assert VerificationToken.objects.count() == 3
+    VerificationToken.objects.clean_invalid_tokens()
+    assert VerificationToken.objects.count() == 1
+
+
+@pytest.mark.django_db
+def test_clean_invalid_tokens_inactive():
+    EnrolmentVerificationTokenFactory(is_active=True)
+    EnrolmentVerificationTokenFactory(is_active=False)
+    expired_token = EnrolmentVerificationTokenFactory(
+        expiry_date=timezone.now() - timedelta(minutes=10)
+    )
+    assert VerificationToken.objects.count() == 3
+    VerificationToken.objects.clean_invalid_tokens(
+        clean_inactive=True, clean_expired=False
+    )
+    assert VerificationToken.objects.count() == 2
+    assert VerificationToken.objects.filter(pk=expired_token.pk).exists()
+
+
+@pytest.mark.django_db
+def test_clean_invalid_tokens_expired():
+    EnrolmentVerificationTokenFactory(is_active=True)
+    inactive_token = EnrolmentVerificationTokenFactory(is_active=False)
+    EnrolmentVerificationTokenFactory(
+        expiry_date=timezone.now() - timedelta(minutes=10)
+    )
+    assert VerificationToken.objects.count() == 3
+    VerificationToken.objects.clean_invalid_tokens(
+        clean_inactive=False, clean_expired=True
+    )
+    assert VerificationToken.objects.count() == 2
+    assert VerificationToken.objects.filter(pk=inactive_token.pk).exists()
