@@ -24,6 +24,7 @@ from occurrences.models import (
 )
 from organisations.models import Organisation, Person
 from organisations.schema import PersonNodeInput
+from verification_token.models import VerificationToken
 
 from common.utils import (
     get_editable_obj_from_global_id,
@@ -44,7 +45,8 @@ from palvelutarjotin.exceptions import (
     EnrolmentNotStartedError,
     InvalidStudyGroupSizeError,
     MissingMantatoryInformationError,
-    ObjectDoesNotExistError,
+    InvalidTokenError,
+    ObjectDoesNotExistError
 )
 
 VenueTranslation = apps.get_model("occurrences", "VenueCustomDataTranslation")
@@ -755,6 +757,56 @@ class DeleteStudyGroupMutation(graphene.relay.ClientIDMutation):
             raise ObjectDoesNotExistError(e)
         study_group.delete()
         return DeleteStudyGroupMutation()
+
+
+class CancelEnrolmentMutation(graphene.relay.ClientIDMutation):
+    class Input:
+        unique_id = graphene.ID(required=True)
+        token = graphene.String(
+            description="Need to be included to actually cancel the enrolment,"
+            "without this token, BE only initiate the"
+            "cancellation process by sending a confirmation "
+            "email to teacher"
+        )
+
+    enrolment = graphene.Field(EnrolmentNode)
+
+    @classmethod
+    @transaction.atomic
+    def mutate_and_get_payload(cls, root, info, **kwargs):
+        unique_id = kwargs["unique_id"]
+        token = kwargs.get("token")
+        try:
+            enrolment = Enrolment.objects.get_by_unique_id(unique_id)
+        except Enrolment.DoesNotExist as e:
+            raise ObjectDoesNotExistError(e)
+
+        if enrolment.status == enrolment.STATUS_CANCELLED:
+            raise ApiUsageError(
+                f"Enrolment status is already set to {enrolment.status}"
+            )
+        if not token:
+            # Start cancellation process, sending email including token
+            if not enrolment.get_active_verification_tokens(
+                verification_type=VerificationToken.VERIFICATION_TYPE_CANCELLATION
+            ).exists():
+                enrolment.create_cancellation_token()
+            enrolment.ask_cancel_confirmation()
+        else:
+            # Finish cancellation process, change enrolment status
+            _verify_enrolment_token(enrolment, token)
+            enrolment.cancel()
+
+        return enrolment
+
+
+def _verify_enrolment_token(enrolment, token):
+    try:
+        token_obj = VerificationToken.objects.get(key=token)
+    except VerificationToken.DoesNotExist as e:
+        raise ObjectDoesNotExistError(e)
+    if token_obj.content_object != enrolment or not token_obj.is_valid():
+        raise InvalidTokenError("Token is invalid or expired")
 
 
 class Query:

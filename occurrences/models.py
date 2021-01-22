@@ -542,6 +542,7 @@ class Enrolment(models.Model):
         notify about successful cancellation.
         """
 
+        self.set_status(self.STATUS_CANCELLED)
         # Deactivate active cancellation tokens
         self.get_active_verification_tokens(
             verification_type=VerificationToken.VERIFICATION_TYPE_CANCELLATION

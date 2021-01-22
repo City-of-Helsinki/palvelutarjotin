@@ -137,9 +137,7 @@ def test_cancel_enrolment_notification_email(
     occurrence,
     study_group,
 ):
-    enrolment = Enrolment.objects.create(
-        study_group=study_group, occurrence=occurrence,
-    )
+    enrolment = Enrolment.objects.create(study_group=study_group, occurrence=occurrence)
     enrolment.ask_cancel_confirmation(custom_message="custom message")
     assert len(mail.outbox) == 1
     assert_mails_match_snapshot(snapshot)
