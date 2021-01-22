@@ -418,9 +418,8 @@ class EnrolmentQuerySet(models.QuerySet):
 
     def get_by_unique_id(self, unique_id):
         compound_id = get_node_id_from_global_id(unique_id, "EnrolmentNode")
-        # Discard timestamp
-        enrolment_id, _ = compound_id.split("_")
-        return self.get(id=enrolment_id)
+        enrolment_id, ts = compound_id.split("_")
+        return self.get(id=enrolment_id, enrolment_time=ts)
 
 
 class Enrolment(models.Model):

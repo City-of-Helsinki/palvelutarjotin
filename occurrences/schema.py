@@ -44,9 +44,9 @@ from palvelutarjotin.exceptions import (
     EnrolmentNotEnoughCapacityError,
     EnrolmentNotStartedError,
     InvalidStudyGroupSizeError,
-    MissingMantatoryInformationError,
     InvalidTokenError,
-    ObjectDoesNotExistError
+    MissingMantatoryInformationError,
+    ObjectDoesNotExistError,
 )
 
 VenueTranslation = apps.get_model("occurrences", "VenueCustomDataTranslation")
@@ -781,30 +781,31 @@ class CancelEnrolmentMutation(graphene.relay.ClientIDMutation):
         except Enrolment.DoesNotExist as e:
             raise ObjectDoesNotExistError(e)
 
+        if enrolment.occurrence.p_event.needed_occurrences > 1:
+            raise ApiUsageError("Cannot cancel multiple-occurrence enrolment")
         if enrolment.status == enrolment.STATUS_CANCELLED:
             raise ApiUsageError(
                 f"Enrolment status is already set to {enrolment.status}"
             )
+
         if not token:
-            # Start cancellation process, sending email including token
-            if not enrolment.get_active_verification_tokens(
-                verification_type=VerificationToken.VERIFICATION_TYPE_CANCELLATION
-            ).exists():
-                enrolment.create_cancellation_token()
+            # Start cancellation process, sending email including token, deactivate
+            # old token
+            enrolment.create_cancellation_token(deactivate_existing=True)
             enrolment.ask_cancel_confirmation()
         else:
             # Finish cancellation process, change enrolment status
             _verify_enrolment_token(enrolment, token)
             enrolment.cancel()
 
-        return enrolment
+        return CancelEnrolmentMutation(enrolment=enrolment)
 
 
 def _verify_enrolment_token(enrolment, token):
     try:
         token_obj = VerificationToken.objects.get(key=token)
-    except VerificationToken.DoesNotExist as e:
-        raise ObjectDoesNotExistError(e)
+    except VerificationToken.DoesNotExist:
+        raise InvalidTokenError("Token is invalid or expired")
     if token_obj.content_object != enrolment or not token_obj.is_valid():
         raise InvalidTokenError("Token is invalid or expired")
 
@@ -924,3 +925,5 @@ class Mutation:
     update_enrolment = UpdateEnrolmentMutation.Field()
     approve_enrolment = ApproveEnrolmentMutation.Field()
     decline_enrolment = DeclineEnrolmentMutation.Field()
+
+    cancel_enrolment = CancelEnrolmentMutation.Field()

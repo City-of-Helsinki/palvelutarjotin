@@ -77,4 +77,3 @@ class MissingMantatoryInformationError(PalvelutarjotinGraphQLError):
 
 class InvalidTokenError(PalvelutarjotinGraphQLError):
     """Invalid verification token or token expired"""
-

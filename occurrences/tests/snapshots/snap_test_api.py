@@ -1000,3 +1000,11 @@ snapshots["test_cancel_enrolment_query 1"] = {
         }
     }
 }
+
+snapshots["test_ask_for_cancelled_confirmation_mutation 1"] = {
+    "data": {"cancelEnrolment": {"enrolment": {"status": "PENDING"}}}
+}
+
+snapshots["test_cancel_enrolment_mutation 1"] = {
+    "data": {"cancelEnrolment": {"enrolment": {"status": "CANCELLED"}}}
+}
