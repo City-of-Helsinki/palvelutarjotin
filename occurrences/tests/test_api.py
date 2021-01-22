@@ -29,6 +29,7 @@ from palvelutarjotin.consts import (
     ENROLMENT_NOT_STARTED_ERROR,
     INVALID_STUDY_GROUP_SIZE_ERROR,
     MAX_NEEDED_OCCURRENCES_REACHED_ERROR,
+    MISSING_MANDATORY_INFORMATION_ERROR,
     NOT_ENOUGH_CAPACITY_ERROR,
 )
 
@@ -109,6 +110,7 @@ query Occurrences($upcoming: Boolean, $date: Date, $time: Time){
             enrolmentStart
             linkedEventId
             autoAcceptance
+            mandatoryAdditionalInformation
         }
         startTime
         endTime
@@ -146,6 +148,7 @@ query Occurrence($id: ID!){
         enrolmentStart
         linkedEventId
         autoAcceptance
+        mandatoryAdditionalInformation
     }
     linkedEvent{
         name {
@@ -207,6 +210,7 @@ ADD_OCCURRENCE_MUTATION = """
             enrolmentStart
             linkedEventId
             autoAcceptance
+            mandatoryAdditionalInformation
           }
           languages{
             id
@@ -254,6 +258,7 @@ mutation updateOccurrence($input: UpdateOccurrenceMutationInput!){
         enrolmentEndDays
         enrolmentStart
         linkedEventId
+        mandatoryAdditionalInformation
       }
       languages{
         id
@@ -1076,6 +1081,35 @@ def test_enrol_cancelled_occurrence(api_client, occurrence):
     }
     executed = api_client.execute(ENROL_OCCURRENCE_MUTATION, variables=variables)
     assert_match_error_code(executed, ENROL_CANCELLED_OCCURRENCE_ERROR)
+
+
+def test_enrol_occurrence_without_required_information(api_client, occurrence):
+    study_group = StudyGroupFactory(group_size=10, extra_needs="")
+    p_event = occurrence.p_event
+    p_event.mandatory_additional_information = True
+    p_event.save()
+
+    assert study_group.extra_needs == ""
+
+    variables = {
+        "input": {
+            "occurrenceIds": [to_global_id("OccurrenceNode", occurrence.id)],
+            "studyGroup": {
+                "person": {
+                    "id": to_global_id("PersonNode", study_group.person.id),
+                    "name": study_group.person.name,
+                    "emailAddress": study_group.person.email_address,
+                },
+                "name": "To be created group",
+                "groupSize": study_group.group_size,
+                "groupName": study_group.group_name,
+                "studyLevel": study_group.study_level.upper(),
+                "amountOfAdult": study_group.amount_of_adult,
+            },
+        }
+    }
+    executed = api_client.execute(ENROL_OCCURRENCE_MUTATION, variables=variables)
+    assert_match_error_code(executed, MISSING_MANDATORY_INFORMATION_ERROR)
 
 
 def test_enrol_occurrence(snapshot, api_client, mock_get_event_data):
