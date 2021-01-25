@@ -70,6 +70,7 @@ env = environ.Env(
     KULTUS_PROVIDER_UI_BASE_URL=(str, "https://provider.kultus.fi/"),
     KULTUS_TEACHER_UI_BASE_URL=(str, "https://beta.kultus.fi/"),
     ENABLE_SUMMARY_REPORT=(bool, False),
+    VERIFICATION_TOKEN_VALID_MINUTES=(int, 15),
 )
 
 if os.path.exists(env_file):
@@ -175,6 +176,7 @@ INSTALLED_APPS = [
     "utils",
     "organisations",
     "occurrences",
+    "verification_token",
 ]
 
 MIDDLEWARE = [
@@ -267,6 +269,13 @@ KEYWORD_SET_ID_MAPPING = {
     "CATEGORY": env.str("KEYWORD_SET_CATEGORY_ID"),
     "ADDITIONAL_CRITERIA": env.str("KEYWORD_SET_ADDITIONAL_CRITERIA_ID"),
     "TARGET_GROUP": env.str("KEYWORD_SET_TARGET_GROUP_ID"),
+}
+
+VERIFICATION_TOKEN_URL_MAPPING = {
+    "occurrences.enrolment.CANCELLATION": f"{KULTUS_TEACHER_UI_BASE_URL}"
+    + "{lang}/enrolments/cancel/{unique_id}",
+    "occurrences.enrolment.CANCELLATION.confirmation": f"{KULTUS_TEACHER_UI_BASE_URL}"
+    + "{lang}/enrolments/cancel/{unique_id}?token={token}",
 }
 
 MAX_UPLOAD_SIZE = 2621440  # 2MB

@@ -15,6 +15,7 @@ from palvelutarjotin.consts import (
     INCORRECT_GLOBAL_ID_ERROR,
     INVALID_EMAIL_FORMAT_ERROR,
     INVALID_STUDY_GROUP_SIZE_ERROR,
+    INVALID_TOKEN_ERROR,
     MAX_NEEDED_OCCURRENCES_REACHED_ERROR,
     MISSING_DEFAULT_TRANSLATION_ERROR,
     MISSING_MANDATORY_INFORMATION_ERROR,
@@ -37,6 +38,7 @@ from palvelutarjotin.exceptions import (
     IncorrectGlobalIdError,
     InvalidEmailFormatError,
     InvalidStudyGroupSizeError,
+    InvalidTokenError,
     MissingDefaultTranslationError,
     MissingMantatoryInformationError,
     ObjectDoesNotExistError,
@@ -69,6 +71,7 @@ error_codes_palvelutarjotin = {
     CaptchaValidationFailedError: CAPTCHA_VALIDATION_FAILED_ERROR,
     UploadImageSizeExceededError: UPLOAD_IMAGE_SIZE_EXCEEDED_ERROR,
     MissingMantatoryInformationError: MISSING_MANDATORY_INFORMATION_ERROR,
+    InvalidTokenError: INVALID_TOKEN_ERROR,
 }
 
 sentry_ignored_errors = (

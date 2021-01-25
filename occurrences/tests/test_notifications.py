@@ -101,6 +101,11 @@ def test_approve_enrolment_notification_email(
     enrolment = Enrolment.objects.create(
         study_group=study_group, occurrence=occurrence,
     )
+    p_event = occurrence.p_event
+    # To test the cancel link generated only if event only requires 1 occurrence per
+    # enrolment
+    p_event.needed_occurrences = 1
+    p_event.save()
     enrolment.approve(custom_message="custom message")
     assert len(mail.outbox) == 1
     assert_mails_match_snapshot(snapshot)
@@ -119,6 +124,39 @@ def test_decline_enrolment_notification_email(
         study_group=study_group, occurrence=occurrence,
     )
     enrolment.decline(custom_message="custom message")
+    assert len(mail.outbox) == 1
+    assert_mails_match_snapshot(snapshot)
+
+
+@pytest.mark.django_db
+def test_cancel_enrolment_notification_email(
+    mock_get_event_data,
+    notification_template_enrolment_cancellation_confirmation_en,
+    notification_template_enrolment_cancellation_confirmation_fi,
+    snapshot,
+    occurrence,
+    study_group,
+):
+    enrolment = Enrolment.objects.create(study_group=study_group, occurrence=occurrence)
+    enrolment.ask_cancel_confirmation(custom_message="custom message")
+    assert len(mail.outbox) == 1
+    assert_mails_match_snapshot(snapshot)
+
+
+@pytest.mark.django_db
+def test_cancelled_enrolment_notification_email(
+    mock_get_event_data,
+    notification_template_enrolment_cancelled_en,
+    notification_template_enrolment_cancelled_fi,
+    snapshot,
+    occurrence,
+    study_group,
+):
+    person = PersonFactory(email_address="email_me@dommain.com")
+    enrolment = Enrolment.objects.create(
+        study_group=study_group, occurrence=occurrence, person=person
+    )
+    enrolment.cancel(custom_message="custom message")
     assert len(mail.outbox) == 1
     assert_mails_match_snapshot(snapshot)
 

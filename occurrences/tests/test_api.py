@@ -1,5 +1,5 @@
 from copy import deepcopy
-from datetime import datetime
+from datetime import datetime, timedelta
 
 import pytest
 from django.core import mail
@@ -14,6 +14,7 @@ from occurrences.factories import (
 )
 from occurrences.models import Enrolment, Occurrence, StudyGroup, VenueCustomData
 from organisations.factories import PersonFactory
+from verification_token.models import VerificationToken
 
 from common.tests.utils import (
     assert_mails_match_snapshot,
@@ -28,6 +29,7 @@ from palvelutarjotin.consts import (
     ENROLMENT_CLOSED_ERROR,
     ENROLMENT_NOT_STARTED_ERROR,
     INVALID_STUDY_GROUP_SIZE_ERROR,
+    INVALID_TOKEN_ERROR,
     MAX_NEEDED_OCCURRENCES_REACHED_ERROR,
     MISSING_MANDATORY_INFORMATION_ERROR,
     NOT_ENOUGH_CAPACITY_ERROR,
@@ -2005,3 +2007,161 @@ def test_enrolments_summary(
             variables={"organisationId": organisation_gid, "status": status.upper()},
         )
         snapshot.assert_match(executed)
+
+
+CANCEL_ENROLMENT_QUERY = """
+query cancellingEnrolment($id: ID!){
+    cancellingEnrolment(id: $id){
+        enrolmentTime
+        status
+        occurrence{
+            seatsTaken
+        }
+        studyGroup{
+            name
+            groupSize
+        }
+    }
+}
+"""
+
+
+def test_cancel_enrolment_query(snapshot, api_client, occurrence, study_group):
+    enrolment = EnrolmentFactory(occurrence=occurrence, study_group=study_group)
+    executed = api_client.execute(
+        CANCEL_ENROLMENT_QUERY, variables={"id": enrolment.get_unique_id()}
+    )
+    snapshot.assert_match(executed)
+
+
+CANCEL_ENROLMENT_MUTATION = """
+    mutation cancelEnrolmentMutation($input: CancelEnrolmentMutationInput!){
+        cancelEnrolment(input: $input){
+            enrolment{
+                status
+            }
+        }
+    }
+"""
+
+
+def test_ask_for_cancelled_confirmation_mutation_error(
+    snapshot, api_client, study_group
+):
+    occurrence = OccurrenceFactory(p_event__needed_occurrences=1)
+    occurrence_2 = OccurrenceFactory(p_event__needed_occurrences=2)
+
+    enrolment = EnrolmentFactory(occurrence=occurrence, study_group=study_group)
+    enrolment_2 = EnrolmentFactory(occurrence=occurrence_2, study_group=study_group)
+
+    enrolment.set_status(Enrolment.STATUS_CANCELLED)
+    executed = api_client.execute(
+        CANCEL_ENROLMENT_MUTATION,
+        variables={"input": {"uniqueId": enrolment.get_unique_id()}},
+    )
+
+    # Enrolment already cancelled
+    assert_match_error_code(executed, API_USAGE_ERROR)
+
+    executed = api_client.execute(
+        CANCEL_ENROLMENT_MUTATION,
+        variables={"input": {"uniqueId": enrolment_2.get_unique_id()}},
+    )
+
+    # Cannot cancel multi-occurrences enrolment
+    assert_match_error_code(executed, API_USAGE_ERROR)
+
+
+def test_ask_for_cancelled_confirmation_mutation(snapshot, api_client, study_group):
+    occurrence = OccurrenceFactory(p_event__needed_occurrences=1)
+
+    enrolment = EnrolmentFactory(occurrence=occurrence, study_group=study_group)
+    assert enrolment.verification_tokens.count() == 0
+    executed = api_client.execute(
+        CANCEL_ENROLMENT_MUTATION,
+        variables={"input": {"uniqueId": enrolment.get_unique_id()}},
+    )
+
+    snapshot.assert_match(executed)
+
+    token_qs = enrolment.get_active_verification_tokens(
+        verification_type=VerificationToken.VERIFICATION_TYPE_CANCELLATION
+    )
+    assert token_qs.count() == 1
+    token = token_qs[0]
+    api_client.execute(
+        CANCEL_ENROLMENT_MUTATION,
+        variables={"input": {"uniqueId": enrolment.get_unique_id()}},
+    )
+
+    # Verify if token changed
+    enrolment.refresh_from_db()
+    new_token = enrolment.get_active_verification_tokens(
+        verification_type=VerificationToken.VERIFICATION_TYPE_CANCELLATION
+    )[0]
+    assert not token.id == new_token.id
+
+
+def test_cancel_enrolment_mutation_invalid_token(snapshot, api_client, study_group):
+    occurrence = OccurrenceFactory(p_event__needed_occurrences=1)
+
+    enrolment = EnrolmentFactory(occurrence=occurrence, study_group=study_group)
+
+    # Token does not exist
+    invalid_token_key = "invalid_token_key"
+    executed = api_client.execute(
+        CANCEL_ENROLMENT_MUTATION,
+        variables={
+            "input": {"uniqueId": enrolment.get_unique_id(), "token": invalid_token_key}
+        },
+    )
+    assert_match_error_code(executed, INVALID_TOKEN_ERROR)
+
+    invalid_token_key = EnrolmentFactory().create_cancellation_token().key
+    executed = api_client.execute(
+        CANCEL_ENROLMENT_MUTATION,
+        variables={
+            "input": {"uniqueId": enrolment.get_unique_id(), "token": invalid_token_key}
+        },
+    )
+    assert_match_error_code(executed, INVALID_TOKEN_ERROR)
+
+    token = enrolment.create_cancellation_token()
+    # Expired token
+    token.expiry_date = timezone.now() - timedelta(days=1)
+    token.save()
+    assert token.is_active
+    executed = api_client.execute(
+        CANCEL_ENROLMENT_MUTATION,
+        variables={
+            "input": {"uniqueId": enrolment.get_unique_id(), "token": token.key}
+        },
+    )
+    assert_match_error_code(executed, INVALID_TOKEN_ERROR)
+
+    # Deactivated token
+    token.expiry_date = timezone.now() + timedelta(days=1)
+    token.is_active = False
+    token.save()
+    executed = api_client.execute(
+        CANCEL_ENROLMENT_MUTATION,
+        variables={
+            "input": {"uniqueId": enrolment.get_unique_id(), "token": token.key}
+        },
+    )
+    assert_match_error_code(executed, INVALID_TOKEN_ERROR)
+
+
+def test_cancel_enrolment_mutation(snapshot, api_client, study_group):
+    occurrence = OccurrenceFactory(p_event__needed_occurrences=1)
+
+    enrolment = EnrolmentFactory(occurrence=occurrence, study_group=study_group)
+
+    token = enrolment.create_cancellation_token()
+    executed = api_client.execute(
+        CANCEL_ENROLMENT_MUTATION,
+        variables={
+            "input": {"uniqueId": enrolment.get_unique_id(), "token": token.key}
+        },
+    )
+    snapshot.assert_match(executed)
