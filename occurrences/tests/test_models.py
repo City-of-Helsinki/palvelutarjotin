@@ -73,12 +73,7 @@ def test_enrolment_get_cancellation_url():
     cancellation_url = enrolment.get_cancellation_url()
     assert token.key is not None and token.key != ""
     assert token.key in cancellation_url
-    assert cancellation_url.startswith(
-        (
-            "http://",
-            "https://",
-        )
-    )
+    assert cancellation_url.startswith(("http://", "https://",))
     # test with a given token
     cancellation_url = enrolment.get_cancellation_url(cancellation_token=token)
     assert token.key in cancellation_url

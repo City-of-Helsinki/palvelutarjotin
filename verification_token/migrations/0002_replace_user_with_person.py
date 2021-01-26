@@ -12,10 +12,7 @@ class Migration(migrations.Migration):
     ]
 
     operations = [
-        migrations.RemoveField(
-            model_name="verificationtoken",
-            name="user",
-        ),
+        migrations.RemoveField(model_name="verificationtoken", name="user",),
         migrations.AddField(
             model_name="verificationtoken",
             name="person",
