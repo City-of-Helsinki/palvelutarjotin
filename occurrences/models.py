@@ -577,7 +577,7 @@ class Enrolment(models.Model):
         """ Filter active verification tokens """
 
         return VerificationToken.objects.filter_active_tokens(
-            self, verification_type=verification_type, user=self.person.user
+            self, verification_type=verification_type, person=self.person
         )
 
     def get_cancellation_url(
@@ -610,10 +610,10 @@ class Enrolment(models.Model):
         if deactivate_existing:
             return VerificationToken.objects.deactivate_and_create_token(
                 self,
-                self.person.user,
+                self.person,
                 verification_type=VerificationToken.VERIFICATION_TYPE_CANCELLATION,
             )
 
         return VerificationToken.objects.create_token(
-            self, self.person.user, VerificationToken.VERIFICATION_TYPE_CANCELLATION
+            self, self.person, VerificationToken.VERIFICATION_TYPE_CANCELLATION
         )

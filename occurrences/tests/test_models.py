@@ -48,9 +48,9 @@ def test_enrolment_creation(mock_get_event_data):
 @pytest.mark.django_db
 def test_enrolment_create_cancellation_token():
     enrolment = EnrolmentFactory()
-    user = enrolment.person.user
+    person = enrolment.person
     token = enrolment.create_cancellation_token()
-    assert token.user == user
+    assert token.person == person
     assert token.key is not None
     assert token.content_object.__class__ == Enrolment
     assert token.content_object.id is not None
@@ -73,7 +73,12 @@ def test_enrolment_get_cancellation_url():
     cancellation_url = enrolment.get_cancellation_url()
     assert token.key is not None and token.key != ""
     assert token.key in cancellation_url
-    assert cancellation_url.startswith(("http://", "https://",))
+    assert cancellation_url.startswith(
+        (
+            "http://",
+            "https://",
+        )
+    )
     # test with a given token
     cancellation_url = enrolment.get_cancellation_url(cancellation_token=token)
     assert token.key in cancellation_url

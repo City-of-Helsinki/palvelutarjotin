@@ -1,45 +1,45 @@
 from datetime import timedelta
 from secrets import token_urlsafe
 
-from django.contrib.auth import get_user_model
 from django.contrib.contenttypes.fields import GenericForeignKey
 from django.contrib.contenttypes.models import ContentType
 from django.db import models
 from django.db.models import Q
 from django.utils import timezone
 from django.utils.translation import ugettext_lazy as _
+from organisations.models import Person
 
 from palvelutarjotin import settings
 
 
 class VerificationTokenManager(models.Manager):
     def deactivate_token(
-        self, obj_or_class, key=None, verification_type=None, user=None
+        self, obj_or_class, key=None, verification_type=None, person=None
     ):
         """
         Deactivate a token. Key parameters is used and must be given
         when using a model class instead of model instance.
         """
-        qs = self.filter_active_tokens(obj_or_class, key, verification_type, user)
+        qs = self.filter_active_tokens(obj_or_class, key, verification_type, person)
         qs.update(is_active=False)
 
     def deactivate_and_create_token(
         self,
         obj,
-        user,
+        person,
         verification_type,
         expiry_minutes=getattr(settings, "VERIFICATION_TOKEN_VALID_MINUTES", 15),
     ):
         """
         Deactivate old tokens (of a type) and create a new one.
         """
-        self.deactivate_token(obj, verification_type=verification_type, user=user)
-        return self.create_token(obj, user, verification_type, expiry_minutes)
+        self.deactivate_token(obj, verification_type=verification_type, person=person)
+        return self.create_token(obj, person, verification_type, expiry_minutes)
 
     def create_token(
         self,
         obj,
-        user,
+        person,
         verification_type,
         email=None,
         expiry_minutes=getattr(settings, "VERIFICATION_TOKEN_VALID_MINUTES", 15),
@@ -52,14 +52,14 @@ class VerificationTokenManager(models.Manager):
         else:
             expiry_date = None
 
-        # If there is no given email, use the user's email
-        if email is None and user is not None:
-            email = user.email
+        # If there is no given email, use the person's email
+        if email is None and person is not None:
+            email = person.email_address
 
         return self.create(
             content_type=ContentType.objects.get_for_model(obj.__class__),
             object_id=obj.id,
-            user=user,
+            person=person,
             verification_type=verification_type,
             email=email,
             key=key,
@@ -67,7 +67,7 @@ class VerificationTokenManager(models.Manager):
         )
 
     def filter_active_tokens(
-        self, obj_or_class, key=None, verification_type=None, user=None
+        self, obj_or_class, key=None, verification_type=None, person=None
     ):
         """
         Filter active tokens given for a class (of an instance).
@@ -80,8 +80,8 @@ class VerificationTokenManager(models.Manager):
         if verification_type:
             qs = qs.filter(verification_type=verification_type)
 
-        if user:
-            qs = qs.filter(user=user)
+        if person:
+            qs = qs.filter(person=person)
 
         # If the given parameter is a model instance, use it in query
         if isinstance(obj_or_class, models.Model):
@@ -114,7 +114,7 @@ class VerificationToken(models.Model):
     ]
 
     created_at = models.DateTimeField(verbose_name=_("created at"), auto_now_add=True)
-    user = models.ForeignKey(get_user_model(), on_delete=models.CASCADE)
+    person = models.ForeignKey(Person, null=True, on_delete=models.CASCADE)
     content_type = models.ForeignKey(ContentType, on_delete=models.CASCADE)
     # NOTE: TextField object_id might have some issues with postgre (so far so good):
     # - https://code.djangoproject.com/ticket/16055
