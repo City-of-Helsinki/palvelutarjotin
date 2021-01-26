@@ -3,11 +3,13 @@ from django.contrib import admin
 from .models import VerificationToken
 
 
-def verification_token_username(obj):
-    return obj.user.username
+def verification_token_person_name(obj):
+    if obj.person is not None:
+        return obj.person.name
+    return "-"
 
 
-verification_token_username.short_description = "Username"
+verification_token_person_name.short_description = "Name"
 
 
 @admin.register(VerificationToken)
@@ -18,7 +20,7 @@ class VerificationTokenAdmin(admin.ModelAdmin):
         "verification_type",
         "content_type",
         "object_id",
-        verification_token_username,
+        verification_token_person_name,
         "email",
         "created_at",
         "expiry_date",
@@ -34,7 +36,7 @@ class VerificationTokenAdmin(admin.ModelAdmin):
         "key__exact",
         "content_type__model__exact",
         "object_id__exact",
-        "user__username__exact",
+        "person__name__exact",
         "email__exact",
     )
     ordering = (

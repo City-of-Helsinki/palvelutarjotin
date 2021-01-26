@@ -1,14 +1,11 @@
 from datetime import timedelta
 
 import pytest
-from django.contrib.auth import get_user_model
 from django.utils import timezone
 from occurrences.factories import EnrolmentFactory
 from occurrences.models import Enrolment
 from verification_token.factories import EnrolmentVerificationTokenFactory
 from verification_token.models import VerificationToken
-
-User = get_user_model()
 
 
 @pytest.mark.django_db
@@ -63,11 +60,11 @@ def test_verification_token_filter_active_tokens():
         )
         == 1
     )
-    # Test with a user
+    # Test with a person
     assert (
         len(
             VerificationToken.objects.filter_active_tokens(
-                token2.content_object, user=token2.user
+                token2.content_object, person=token2.person
             )
         )
         == 1
@@ -88,15 +85,19 @@ def test_verification_token_deactivation():
     token2 = VerificationToken.objects.get(pk=token2.id)
     assert token2.is_active is False
 
-    # Test with user
+    # Test with person
     token3 = EnrolmentVerificationTokenFactory(is_active=True)
-    VerificationToken.objects.deactivate_token(token3.content_object, user=token3.user)
+    VerificationToken.objects.deactivate_token(
+        token3.content_object, person=token3.person
+    )
     token3 = VerificationToken.objects.get(pk=token3.id)
     assert token3.is_active is False
 
-    # Test with wrong user
+    # Test with wrong person
     token4 = EnrolmentVerificationTokenFactory(is_active=True)
-    VerificationToken.objects.deactivate_token(token4.content_object, user=token3.user)
+    VerificationToken.objects.deactivate_token(
+        token4.content_object, person=token3.person
+    )
     token4 = VerificationToken.objects.get(pk=token4.id)
     assert token4.is_active is True
 
@@ -105,7 +106,7 @@ def test_verification_token_deactivation():
     VerificationToken.objects.deactivate_token(
         token5.content_object,
         verification_type=token5.verification_type,
-        user=token5.user,
+        person=token5.person,
     )
     token5 = VerificationToken.objects.get(pk=token5.id)
     assert token5.is_active is False
@@ -114,20 +115,20 @@ def test_verification_token_deactivation():
 @pytest.mark.django_db
 def test_verification_token_create_token_with_manager():
     enrolment = EnrolmentFactory()
-    user = enrolment.person.user
+    person = enrolment.person
     email = "adsf@asdf.com"
 
     token1 = VerificationToken.objects.create_token(
-        enrolment, user, VerificationToken.VERIFICATION_TYPE_CANCELLATION
+        enrolment, person, VerificationToken.VERIFICATION_TYPE_CANCELLATION
     )
     assert token1.key is not None
     assert token1.content_object == enrolment
-    assert token1.user == user
+    assert token1.person == person
     assert token1.verification_type == VerificationToken.VERIFICATION_TYPE_CANCELLATION
-    assert token1.email == user.email
+    assert token1.email == person.email_address
 
     token2 = VerificationToken.objects.create_token(
-        enrolment, user, VerificationToken.VERIFICATION_TYPE_CANCELLATION, email=email
+        enrolment, person, VerificationToken.VERIFICATION_TYPE_CANCELLATION, email=email
     )
     assert token2.email == email
 
@@ -135,13 +136,13 @@ def test_verification_token_create_token_with_manager():
 @pytest.mark.django_db
 def test_verification_token_deactivate_and_create_token():
     enrolment = EnrolmentFactory()
-    user = enrolment.person.user
+    person = enrolment.person
     token1 = VerificationToken.objects.create_token(
-        enrolment, user, VerificationToken.VERIFICATION_TYPE_CANCELLATION
+        enrolment, person, VerificationToken.VERIFICATION_TYPE_CANCELLATION
     )
     assert VerificationToken.objects.get(pk=token1.pk).is_active is True
     token2 = VerificationToken.objects.deactivate_and_create_token(
-        enrolment, user, VerificationToken.VERIFICATION_TYPE_CANCELLATION
+        enrolment, person, VerificationToken.VERIFICATION_TYPE_CANCELLATION
     )
     assert VerificationToken.objects.get(pk=token1.pk).is_active is False
     assert VerificationToken.objects.get(pk=token2.pk).is_active is True

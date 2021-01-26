@@ -48,9 +48,9 @@ def test_enrolment_creation(mock_get_event_data):
 @pytest.mark.django_db
 def test_enrolment_create_cancellation_token():
     enrolment = EnrolmentFactory()
-    user = enrolment.person.user
+    person = enrolment.person
     token = enrolment.create_cancellation_token()
-    assert token.user == user
+    assert token.person == person
     assert token.key is not None
     assert token.content_object.__class__ == Enrolment
     assert token.content_object.id is not None
