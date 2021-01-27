@@ -3,6 +3,7 @@ on:
   push:
     branches:
       - develop
+  workflow_dispatch:
 
 env:
   CONTAINER_REGISTRY: ghcr.io
