@@ -1087,7 +1087,7 @@ def test_enrol_full_children_occurrence(api_client, occurrence, mock_get_event_d
         amount_of_seats=34,
     )
 
-    occurrence.study_groups.add(study_group_20)
+    EnrolmentFactory(occurrence=occurrence, study_group=study_group_20)
     # Approve the enrolment to reduce the remaining seat
     Enrolment.objects.first().approve()
 
@@ -1130,8 +1130,8 @@ def test_enrol_full_enrolment_occurrence(api_client, occurrence, mock_get_event_
         seat_type=Occurrence.OCCURRENCE_SEAT_TYPE_ENROLMENT_COUNT,
     )
 
-    occurrence.study_groups.add(study_group_20)
-    occurrence.study_groups.add(study_group_100)
+    EnrolmentFactory(occurrence=occurrence, study_group=study_group_20)
+    EnrolmentFactory(occurrence=occurrence, study_group=study_group_100)
     # Approve the enrolment to reduce the remaining seat
     Enrolment.objects.first().approve()
 
@@ -1447,7 +1447,7 @@ def test_unenrol_occurrence_unauthorized(
         max_group_size=20,
         amount_of_seats=50,
     )
-    occurrence.study_groups.add(study_group_15)
+    EnrolmentFactory(occurrence=occurrence, study_group=study_group_15)
     assert occurrence.study_groups.count() == 1
 
     variables = {
@@ -1490,8 +1490,8 @@ def test_unenrol_occurrence(snapshot, staff_api_client, mock_get_event_data):
         max_group_size=20,
         amount_of_seats=50,
     )
-    occurrence.study_groups.add(study_group_15)
-    occurrence_2.study_groups.add(study_group_15)
+    EnrolmentFactory(occurrence=occurrence, study_group=study_group_15)
+    EnrolmentFactory(occurrence=occurrence_2, study_group=study_group_15)
     assert occurrence.study_groups.count() == 1
     assert occurrence_2.study_groups.count() == 1
     assert study_group_15.occurrences.count() == 2
@@ -1549,7 +1549,7 @@ def test_approve_cancelled_occurrence_enrolment(snapshot, staff_api_client):
         amount_of_seats=50,
     )
 
-    occurrence.study_groups.add(study_group)
+    EnrolmentFactory(occurrence=occurrence, study_group=study_group)
     occurrence.cancelled = True
     occurrence.save()
     enrolment = occurrence.enrolments.first()
@@ -1589,11 +1589,23 @@ def test_approve_enrolment(
         max_group_size=20,
         amount_of_seats=50,
     )
-    occurrence.study_groups.add(study_group_15)
+    EnrolmentFactory(
+        occurrence=occurrence, study_group=study_group_15, person=study_group_15.person
+    )
     enrolment = occurrence.enrolments.first()
-    occurrence_2.study_groups.add(study_group_15)
-    occurrence.study_groups.add(study_group_10)
-    occurrence_2.study_groups.add(study_group_10)
+    EnrolmentFactory(
+        occurrence=occurrence_2,
+        study_group=study_group_15,
+        person=study_group_15.person,
+    )
+    EnrolmentFactory(
+        occurrence=occurrence, study_group=study_group_10, person=study_group_10.person
+    )
+    EnrolmentFactory(
+        occurrence=occurrence_2,
+        study_group=study_group_10,
+        person=study_group_10.person,
+    )
 
     assert occurrence.study_groups.count() == 2
     assert occurrence_2.study_groups.count() == 2
@@ -1636,7 +1648,9 @@ def test_approve_enrolment_with_custom_message(
         max_group_size=20,
         amount_of_seats=50,
     )
-    occurrence.study_groups.add(study_group_15)
+    EnrolmentFactory(
+        occurrence=occurrence, study_group=study_group_15, person=study_group_15.person
+    )
     assert occurrence.study_groups.count() == 1
     enrolment = occurrence.enrolments.first()
     assert enrolment.status == Enrolment.STATUS_PENDING
@@ -1683,11 +1697,23 @@ def test_decline_enrolment(
         max_group_size=20,
         amount_of_seats=50,
     )
-    occurrence.study_groups.add(study_group_15)
+    EnrolmentFactory(
+        occurrence=occurrence, study_group=study_group_15, person=study_group_15.person
+    )
     enrolment = occurrence.enrolments.first()
-    occurrence_2.study_groups.add(study_group_15)
-    occurrence.study_groups.add(study_group_10)
-    occurrence_2.study_groups.add(study_group_10)
+    EnrolmentFactory(
+        occurrence=occurrence_2,
+        study_group=study_group_15,
+        person=study_group_15.person,
+    )
+    EnrolmentFactory(
+        occurrence=occurrence, study_group=study_group_10, person=study_group_10.person
+    )
+    EnrolmentFactory(
+        occurrence=occurrence_2,
+        study_group=study_group_10,
+        person=study_group_10.person,
+    )
 
     assert occurrence.study_groups.count() == 2
     assert occurrence_2.study_groups.count() == 2
@@ -1730,7 +1756,9 @@ def test_decline_enrolment_with_custom_message(
         max_group_size=20,
         amount_of_seats=50,
     )
-    occurrence.study_groups.add(study_group_15)
+    EnrolmentFactory(
+        occurrence=occurrence, study_group=study_group_15, person=study_group_15.person
+    )
     assert occurrence.study_groups.count() == 1
     enrolment = occurrence.enrolments.first()
     assert enrolment.status == Enrolment.STATUS_PENDING
@@ -1794,7 +1822,7 @@ def test_update_enrolment_unauthorized(api_client, user_api_client):
         max_group_size=20,
         amount_of_seats=50,
     )
-    occurrence.study_groups.add(study_group_15)
+    EnrolmentFactory(occurrence=occurrence, study_group=study_group_15)
     assert Enrolment.objects.count() == 1
     enrolment = Enrolment.objects.first()
     variables = {"input": {"enrolmentId": to_global_id("EnrolmentNode", enrolment.id)}}
@@ -1829,12 +1857,12 @@ def test_update_enrolment(snapshot, staff_api_client):
         max_group_size=20,
         amount_of_seats=35,
     )
-    occurrence_1.study_groups.add(study_group_15)
+    EnrolmentFactory(occurrence=occurrence_1, study_group=study_group_15)
     staff_api_client.user.person.organisations.add(occurrence_1.p_event.organisation)
     enrolment = Enrolment.objects.first()
-    occurrence_2.study_groups.add(study_group_15)
-    occurrence_1.study_groups.add(study_group_10)
-    occurrence_2.study_groups.add(study_group_10)
+    EnrolmentFactory(occurrence=occurrence_2, study_group=study_group_15)
+    EnrolmentFactory(occurrence=occurrence_1, study_group=study_group_10)
+    EnrolmentFactory(occurrence=occurrence_2, study_group=study_group_10)
     assert Enrolment.objects.count() == 4
     variables = {
         "input": {

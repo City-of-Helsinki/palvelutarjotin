@@ -14,7 +14,7 @@ from occurrences.consts import (
     NOTIFICATION_TYPES,
     NotificationTemplate,
 )
-from occurrences.utils import send_event_notifications_to_contact_person
+from occurrences.utils import send_event_notifications_to_person
 from parler.models import TranslatedFields
 from verification_token.models import VerificationToken
 
@@ -246,16 +246,10 @@ class Occurrence(TimestampedModel):
         self.save()
         for e in self.enrolments.all():
             e.set_status(Enrolment.STATUS_CANCELLED)
-            send_event_notifications_to_contact_person(
-                e.person,
-                self,
-                e.study_group,
-                e.notification_type,
+            e.send_event_notifications_to_contact_people(
                 NotificationTemplate.OCCURRENCE_CANCELLED,
                 NotificationTemplate.OCCURRENCE_CANCELLED_SMS,
-                event=e.occurrence.p_event.get_event_data(),
                 custom_message=reason,
-                enrolment=e,
             )
 
     @property
@@ -498,45 +492,46 @@ class Enrolment(models.Model):
         self.status = status
         self.save()
 
+    def send_event_notifications_to_contact_people(
+        self, notification_template_id, notification_template_id_sms, custom_message
+    ):
+        contact_people = [self.person]
+        if self.person != self.study_group.person:
+            contact_people.append(self.study_group.person)
+        for p in contact_people:
+            send_event_notifications_to_person(
+                p,
+                self.occurrence,
+                self.study_group,
+                self.notification_type,
+                notification_template_id,
+                notification_template_id_sms,
+                event=self.occurrence.p_event.get_event_data(),
+                custom_message=custom_message,
+                enrolment=self,
+            )
+
     def approve(self, custom_message=None):
         self.set_status(self.STATUS_APPROVED)
-        send_event_notifications_to_contact_person(
-            self.person,
-            self.occurrence,
-            self.study_group,
-            self.notification_type,
+        self.send_event_notifications_to_contact_people(
             NotificationTemplate.ENROLMENT_APPROVED,
             NotificationTemplate.ENROLMENT_APPROVED_SMS,
-            event=self.occurrence.p_event.get_event_data(),
             custom_message=custom_message,
-            enrolment=self,
         )
 
     def decline(self, custom_message=None):
         self.set_status(self.STATUS_DECLINED)
-        send_event_notifications_to_contact_person(
-            self.person,
-            self.occurrence,
-            self.study_group,
-            self.notification_type,
+        self.send_event_notifications_to_contact_people(
             NotificationTemplate.ENROLMENT_DECLINED,
             NotificationTemplate.ENROLMENT_DECLINED_SMS,
-            event=self.occurrence.p_event.get_event_data(),
             custom_message=custom_message,
-            enrolment=self,
         )
 
     def ask_cancel_confirmation(self, custom_message=None):
-        send_event_notifications_to_contact_person(
-            self.person,
-            self.occurrence,
-            self.study_group,
-            self.notification_type,
+        self.send_event_notifications_to_contact_people(
             NotificationTemplate.ENROLMENT_CANCELLATION,
             NotificationTemplate.ENROLMENT_CANCELLATION_SMS,
-            event=self.occurrence.p_event.get_event_data(),
             custom_message=custom_message,
-            enrolment=self,
         )
 
     def cancel(self, custom_message=None):
@@ -552,16 +547,10 @@ class Enrolment(models.Model):
         ).update(is_active=False)
 
         # Notify with email and sms
-        send_event_notifications_to_contact_person(
-            self.person,
-            self.occurrence,
-            self.study_group,
-            self.notification_type,
+        self.send_event_notifications_to_contact_people(
             NotificationTemplate.ENROLMENT_CANCELLED,
             NotificationTemplate.ENROLMENT_CANCELLED_SMS,
-            event=self.occurrence.p_event.get_event_data(),
             custom_message=custom_message,
-            enrolment=self,
         )
 
     def get_unique_id(self):
