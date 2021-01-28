@@ -12,7 +12,7 @@ DEFAULT_NOTIFICATION_BODY_TEXT_FI = """
     {% else %}
     Occurrence: {{ occurrence.local_start_time.strftime('%d.%m.%Y %H.%M') }}
     {% endif%}
-    Person: {{ study_group.person.email_address}}
+    Person: {{ person.email_address}}
     {% if occurrence.p_event.needed_occurrences == 1 %}
     Click this link to cancel the enrolment:
     {{ enrolment.get_link_to_cancel_ui()}}

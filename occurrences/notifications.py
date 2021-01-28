@@ -39,6 +39,7 @@ enrolment = EnrolmentFactory.build()
 
 DEFAULT_DUMMY_CONTEXT = {
     "preview_mode": False,
+    "person": person,
     "study_group": study_group,
     "occurrence": occurrence,
     "event": EVENT_DATA,
