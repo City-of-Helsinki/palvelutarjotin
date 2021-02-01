@@ -9,7 +9,7 @@ from verification_token.models import VerificationToken
 
 
 @pytest.mark.django_db
-def test_enrolment_verification_token_creation():
+def test_enrolment_verification_token_creation(mock_get_event_data):
     verification_token = EnrolmentVerificationTokenFactory()
     assert VerificationToken.objects.count() == 1
     assert verification_token.content_object.__class__ == Enrolment
@@ -31,7 +31,7 @@ def test_verification_token_is_valid():
 
 
 @pytest.mark.django_db
-def test_verification_token_filter_active_tokens():
+def test_verification_token_filter_active_tokens(mock_get_event_data):
     token1 = EnrolmentVerificationTokenFactory(is_active=False)
     token2 = EnrolmentVerificationTokenFactory(is_active=True)
     token3 = EnrolmentVerificationTokenFactory(is_active=True, key="123")

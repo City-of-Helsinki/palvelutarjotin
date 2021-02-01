@@ -1202,7 +1202,7 @@ def test_enrol_occurrence_without_required_information(api_client, occurrence):
                 "name": "To be created group",
                 "groupSize": study_group.group_size,
                 "groupName": study_group.group_name,
-                "studyLevel": study_group.study_level.upper(),
+                "studyLevels": [sl.id.upper() for sl in StudyLevel.objects.all()],
                 "amountOfAdult": study_group.amount_of_adult,
             },
         }

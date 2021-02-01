@@ -812,6 +812,8 @@ snapshots["test_approve_enrolment_with_custom_message 2"] = [
     Study group: Last appear experience seven. Throw wrong party wall agency customer clear. Control as receive cup.
     Occurrence: 06.01.2020 02.00
     Person: barbarafarrell@yahoo.com
+    Click this link to cancel the enrolment:
+    https://beta.kultus.fi/fi/enrolments/cancel/RW5yb2xtZW50Tm9kZToxOV8yMDIwLTAxLTA0IDAwOjAwOjAwKzAwOjAw
 
     Custom message: custom message
 """
@@ -866,6 +868,8 @@ snapshots["test_decline_enrolment_with_custom_message 2"] = [
     Study group: Last appear experience seven. Throw wrong party wall agency customer clear. Control as receive cup.
     Occurrence: 06.01.2020 02.00
     Person: barbarafarrell@yahoo.com
+    Click this link to cancel the enrolment:
+    https://beta.kultus.fi/fi/enrolments/cancel/RW5yb2xtZW50Tm9kZToyNF8yMDIwLTAxLTA0IDAwOjAwOjAwKzAwOjAw
 
     Custom message: custom message
 """

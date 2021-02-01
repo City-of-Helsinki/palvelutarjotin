@@ -1,11 +1,19 @@
 import pytest
 from django.contrib.auth import get_user_model
-from occurrences.factories import (EnrolmentFactory, OccurrenceFactory,
-                                   PalvelutarjotinEventFactory, StudyGroupFactory,
-                                   StudyLevelFactory, )
-from occurrences.models import Occurrence, PalvelutarjotinEvent, StudyGroup, \
-    StudyLevel, \
-    Enrolment
+from occurrences.factories import (
+    EnrolmentFactory,
+    OccurrenceFactory,
+    PalvelutarjotinEventFactory,
+    StudyGroupFactory,
+    StudyLevelFactory,
+)
+from occurrences.models import (
+    Enrolment,
+    Occurrence,
+    PalvelutarjotinEvent,
+    StudyGroup,
+    StudyLevel,
+)
 from organisations.models import Organisation, Person
 from verification_token.models import VerificationToken
 
@@ -94,7 +102,7 @@ def test_enrolment_get_cancellation_url():
 
 
 @pytest.mark.django_db
-def test_enrolment_cancel_deactivates_tokens():
+def test_enrolment_cancel_deactivates_tokens(mock_get_event_data):
     enrolment = EnrolmentFactory()
     enrolment.create_cancellation_token()
     assert VerificationToken.objects.filter(is_active=True).count() == 1
@@ -117,8 +125,8 @@ def test_occurrence_seat_taken():
     study_group = enrolment.study_group
     assert occurrence.seats_taken > 0
     assert (
-            occurrence.seats_taken == study_group.group_size +
-            study_group.amount_of_adult)
+        occurrence.seats_taken == study_group.group_size + study_group.amount_of_adult
+    )
 
 
 @pytest.mark.django_db
@@ -128,4 +136,6 @@ def test_occurrence_seat_approved():
     study_group = enrolment.study_group
     assert occurrence.seats_approved > 0
     assert (
-            occurrence.seats_approved == study_group.group_size + study_group.amount_of_adult)
+        occurrence.seats_approved
+        == study_group.group_size + study_group.amount_of_adult
+    )

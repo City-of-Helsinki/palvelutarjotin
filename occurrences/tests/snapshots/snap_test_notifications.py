@@ -98,7 +98,8 @@ snapshots["test_only_send_approved_notification[False] 1"] = [
     Extra event info: XxEpr
     Study group: Increase thank certainly again thought summer. Beyond than trial western.
     Occurrence: 29.06.2001 12.45
-    Person: stephanieskinner@gmail.com""",
+    Person: stephanieskinner@gmail.com
+""",
     """no-reply@hel.ninja|['stephanieskinner@gmail.com']|Enrolment approved FI|
     Event FI: Raija Malka & Kaija Saariaho: Blick
     Extra event info: XxEpr
@@ -195,17 +196,17 @@ snapshots["test_send_enrolment_summary_report 1"] = [
             Event name: Raija Malka & Kaija Saariaho: Blick
             Event link: https://provider.kultus.fi/fi/events/SLZLM
                     Occurrence: #2017-06-11 11:22:16+00:00 (1 pending)
-                    Link to occurrence: https://provider.kultus.fi/fi/events/SLZLM/occurrences/T2NjdXJyZW5jZU5vZGU6ODQ=
+                    Link to occurrence: https://provider.kultus.fi/fi/events/SLZLM/occurrences/T2NjdXJyZW5jZU5vZGU6OTg=
                     Occurrence: #1985-06-24 16:15:35+00:00 (1 pending)
-                    Link to occurrence: https://provider.kultus.fi/fi/events/SLZLM/occurrences/T2NjdXJyZW5jZU5vZGU6ODU=
+                    Link to occurrence: https://provider.kultus.fi/fi/events/SLZLM/occurrences/T2NjdXJyZW5jZU5vZGU6OTk=
             Event name: Raija Malka & Kaija Saariaho: Blick
             Event link: https://provider.kultus.fi/fi/events/Gqqvl
                     Occurrence: #1992-03-09 01:25:06+00:00 (1 pending)
-                    Link to occurrence: https://provider.kultus.fi/fi/events/Gqqvl/occurrences/T2NjdXJyZW5jZU5vZGU6ODY=
+                    Link to occurrence: https://provider.kultus.fi/fi/events/Gqqvl/occurrences/T2NjdXJyZW5jZU5vZGU6MTAw
             Event name: Raija Malka & Kaija Saariaho: Blick
             Event link: https://provider.kultus.fi/fi/events/VjQsm
                     Occurrence: #2010-09-28 05:44:35+00:00 (1 new enrolments)
-                    Link to occurrence: https://provider.kultus.fi/fi/events/VjQsm/occurrences/T2NjdXJyZW5jZU5vZGU6ODc=
+                    Link to occurrence: https://provider.kultus.fi/fi/events/VjQsm/occurrences/T2NjdXJyZW5jZU5vZGU6MTAx
         """,
 ]
 
