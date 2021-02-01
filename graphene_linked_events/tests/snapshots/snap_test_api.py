@@ -765,8 +765,10 @@ snapshots["test_update_event 1"] = {
                         "enrolmentEndDays": 2,
                         "enrolmentStart": "2020-06-06T16:40:48+00:00",
                         "linkedEventId": "qq:afy6aghr2y",
+                        "mandatoryAdditionalInformation": True,
                         "neededOccurrences": 1,
                         "organisation": {"name": "Deborah Cardenas"},
+                        "paymentInstruction": "Payment instruction",
                     },
                     "shortDescription": {
                         "en": "short desc en",
@@ -902,6 +904,7 @@ snapshots["test_create_event 1"] = {
                         "mandatoryAdditionalInformation": True,
                         "neededOccurrences": 1,
                         "organisation": {"name": "Deborah Cardenas"},
+                        "paymentInstruction": "Payment instruction",
                     },
                     "shortDescription": {
                         "en": "short desc en",
