@@ -558,6 +558,11 @@ class EnrolOccurrenceMutation(graphene.relay.ClientIDMutation):
     def mutate_and_get_payload(cls, root, info, **kwargs):
         if settings.CAPTCHA_ENABLED:
             verify_captcha(kwargs.pop("captcha_key", None))
+        else:
+            # UI will always send the captcha,
+            # and if it is not removed,
+            # it will raise an error.
+            kwargs.pop("captcha_key", None)
         occurrence_gids = kwargs.pop("occurrence_ids")
         study_group = _create_study_group(kwargs.pop("study_group"))
         contact_person_data = kwargs.pop("person", None)
