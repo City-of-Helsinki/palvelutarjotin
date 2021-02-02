@@ -19,7 +19,7 @@ snapshots["test_study_groups_query 1"] = {
                         "name": "Increase thank certainly again thought summer. Beyond than trial western.",
                         "occurrences": {"edges": []},
                         "person": {"name": "William Brewer"},
-                        "studyLevel": "GRADE_6",
+                        "studyLevels": {"edges": []},
                         "updatedAt": "2020-01-04T00:00:00+00:00",
                     }
                 }
@@ -38,7 +38,7 @@ snapshots["test_study_group_query 1"] = {
             "name": "Increase thank certainly again thought summer. Beyond than trial western.",
             "occurrences": {"edges": []},
             "person": {"name": "William Brewer"},
-            "studyLevel": "GRADE_6",
+            "studyLevels": {"edges": []},
             "updatedAt": "2020-01-04T00:00:00+00:00",
         }
     }
@@ -267,7 +267,20 @@ snapshots["test_add_study_group 1"] = {
                     "name": "Name",
                     "phoneNumber": "123123",
                 },
-                "studyLevel": "GRADE_1",
+                "studyLevels": {
+                    "edges": [
+                        {
+                            "node": {
+                                "id": "grade_1",
+                                "label": None,
+                                "level": 10,
+                                "translations": [
+                                    {"label": "first grade", "languageCode": "EN"}
+                                ],
+                            }
+                        }
+                    ]
+                },
             }
         }
     }
@@ -288,7 +301,20 @@ snapshots["test_add_study_group 2"] = {
                     "name": "Brandon Sullivan",
                     "phoneNumber": "144-948-1188x4524",
                 },
-                "studyLevel": "GRADE_1",
+                "studyLevels": {
+                    "edges": [
+                        {
+                            "node": {
+                                "id": "grade_1",
+                                "label": None,
+                                "level": 10,
+                                "translations": [
+                                    {"label": "first grade", "languageCode": "EN"}
+                                ],
+                            }
+                        }
+                    ]
+                },
             }
         }
     }
@@ -309,7 +335,20 @@ snapshots["test_update_study_group_staff_user 1"] = {
                     "name": "Name",
                     "phoneNumber": "123123",
                 },
-                "studyLevel": "GRADE_2",
+                "studyLevels": {
+                    "edges": [
+                        {
+                            "node": {
+                                "id": "grade_2",
+                                "label": None,
+                                "level": 20,
+                                "translations": [
+                                    {"label": "second grade", "languageCode": "EN"}
+                                ],
+                            }
+                        }
+                    ]
+                },
             }
         }
     }
@@ -330,7 +369,20 @@ snapshots["test_update_study_group_staff_user 2"] = {
                     "name": "Jason Berg",
                     "phoneNumber": "011-715-9102",
                 },
-                "studyLevel": "GRADE_2",
+                "studyLevels": {
+                    "edges": [
+                        {
+                            "node": {
+                                "id": "grade_2",
+                                "label": None,
+                                "level": 20,
+                                "translations": [
+                                    {"label": "second grade", "languageCode": "EN"}
+                                ],
+                            }
+                        }
+                    ]
+                },
             }
         }
     }
@@ -756,10 +808,12 @@ snapshots["test_approve_enrolment_with_custom_message 1"] = {
 snapshots["test_approve_enrolment_with_custom_message 2"] = [
     """no-reply@hel.ninja|['barbarafarrell@yahoo.com']|Enrolment approved FI|
     Event FI: Raija Malka & Kaija Saariaho: Blick
-    Extra event info: VGVbf
+    Extra event info: LVGVb
     Study group: Last appear experience seven. Throw wrong party wall agency customer clear. Control as receive cup.
     Occurrence: 06.01.2020 02.00
     Person: barbarafarrell@yahoo.com
+    Click this link to cancel the enrolment:
+    https://beta.kultus.fi/fi/enrolments/cancel/RW5yb2xtZW50Tm9kZToxOV8yMDIwLTAxLTA0IDAwOjAwOjAwKzAwOjAw
 
     Custom message: custom message
 """
@@ -768,7 +822,7 @@ snapshots["test_approve_enrolment_with_custom_message 2"] = [
 snapshots["test_approve_enrolment 2"] = [
     """no-reply@hel.ninja|['barbarafarrell@yahoo.com']|Enrolment approved FI|
     Event FI: Raija Malka & Kaija Saariaho: Blick
-    Extra event info: yamQt
+    Extra event info: NGFIo
     Study group: Last appear experience seven. Throw wrong party wall agency customer clear. Control as receive cup.
     Occurrence: 06.01.2020 02.00
     Person: barbarafarrell@yahoo.com
@@ -776,7 +830,7 @@ snapshots["test_approve_enrolment 2"] = [
 """,
     """no-reply@hel.ninja|['barbarafarrell@yahoo.com']|Enrolment approved FI|
     Event FI: Raija Malka & Kaija Saariaho: Blick
-    Extra event info: yamQt
+    Extra event info: NGFIo
     Study group: Last appear experience seven. Throw wrong party wall agency customer clear. Control as receive cup.
     Occurrence: 06.01.2020 02.00
     Person: barbarafarrell@yahoo.com
@@ -787,7 +841,7 @@ snapshots["test_approve_enrolment 2"] = [
 snapshots["test_decline_enrolment 2"] = [
     """no-reply@hel.ninja|['barbarafarrell@yahoo.com']|Enrolment declined FI|
     Event FI: Raija Malka & Kaija Saariaho: Blick
-    Extra event info: yamQt
+    Extra event info: NGFIo
     Study group: Last appear experience seven. Throw wrong party wall agency customer clear. Control as receive cup.
     Occurrence: 06.01.2020 02.00
     Person: barbarafarrell@yahoo.com
@@ -795,7 +849,7 @@ snapshots["test_decline_enrolment 2"] = [
 """,
     """no-reply@hel.ninja|['barbarafarrell@yahoo.com']|Enrolment declined FI|
     Event FI: Raija Malka & Kaija Saariaho: Blick
-    Extra event info: yamQt
+    Extra event info: NGFIo
     Study group: Last appear experience seven. Throw wrong party wall agency customer clear. Control as receive cup.
     Occurrence: 06.01.2020 02.00
     Person: barbarafarrell@yahoo.com
@@ -810,10 +864,12 @@ snapshots["test_decline_enrolment_with_custom_message 1"] = {
 snapshots["test_decline_enrolment_with_custom_message 2"] = [
     """no-reply@hel.ninja|['barbarafarrell@yahoo.com']|Enrolment declined FI|
     Event FI: Raija Malka & Kaija Saariaho: Blick
-    Extra event info: VGVbf
+    Extra event info: LVGVb
     Study group: Last appear experience seven. Throw wrong party wall agency customer clear. Control as receive cup.
     Occurrence: 06.01.2020 02.00
     Person: barbarafarrell@yahoo.com
+    Click this link to cancel the enrolment:
+    https://beta.kultus.fi/fi/enrolments/cancel/RW5yb2xtZW50Tm9kZToyNF8yMDIwLTAxLTA0IDAwOjAwOjAwKzAwOjAw
 
     Custom message: custom message
 """
@@ -1007,4 +1063,140 @@ snapshots["test_ask_for_cancelled_confirmation_mutation 1"] = {
 
 snapshots["test_cancel_enrolment_mutation 1"] = {
     "data": {"cancelEnrolment": {"enrolment": {"status": "CANCELLED"}}}
+}
+
+snapshots["test_study_levels_query 1"] = {
+    "data": {
+        "studyLevels": {
+            "edges": [
+                {
+                    "node": {
+                        "id": "preschool",
+                        "label": None,
+                        "level": 0,
+                        "translations": [{"label": "preschool", "languageCode": "EN"}],
+                    }
+                },
+                {
+                    "node": {
+                        "id": "grade_1",
+                        "label": None,
+                        "level": 10,
+                        "translations": [
+                            {"label": "first grade", "languageCode": "EN"}
+                        ],
+                    }
+                },
+                {
+                    "node": {
+                        "id": "grade_2",
+                        "label": None,
+                        "level": 20,
+                        "translations": [
+                            {"label": "second grade", "languageCode": "EN"}
+                        ],
+                    }
+                },
+                {
+                    "node": {
+                        "id": "grade_3",
+                        "label": None,
+                        "level": 30,
+                        "translations": [
+                            {"label": "third grade", "languageCode": "EN"}
+                        ],
+                    }
+                },
+                {
+                    "node": {
+                        "id": "grade_4",
+                        "label": None,
+                        "level": 40,
+                        "translations": [
+                            {"label": "fourth grade", "languageCode": "EN"}
+                        ],
+                    }
+                },
+                {
+                    "node": {
+                        "id": "grade_5",
+                        "label": None,
+                        "level": 50,
+                        "translations": [
+                            {"label": "fifth grade", "languageCode": "EN"}
+                        ],
+                    }
+                },
+                {
+                    "node": {
+                        "id": "grade_6",
+                        "label": None,
+                        "level": 60,
+                        "translations": [
+                            {"label": "sixth grade", "languageCode": "EN"}
+                        ],
+                    }
+                },
+                {
+                    "node": {
+                        "id": "grade_7",
+                        "label": None,
+                        "level": 70,
+                        "translations": [
+                            {"label": "seventh grade", "languageCode": "EN"}
+                        ],
+                    }
+                },
+                {
+                    "node": {
+                        "id": "grade_8",
+                        "label": None,
+                        "level": 80,
+                        "translations": [
+                            {"label": "eighth grade", "languageCode": "EN"}
+                        ],
+                    }
+                },
+                {
+                    "node": {
+                        "id": "grade_9",
+                        "label": None,
+                        "level": 90,
+                        "translations": [
+                            {"label": "ninth grade", "languageCode": "EN"}
+                        ],
+                    }
+                },
+                {
+                    "node": {
+                        "id": "grade_10",
+                        "label": None,
+                        "level": 100,
+                        "translations": [
+                            {"label": "tenth grade", "languageCode": "EN"}
+                        ],
+                    }
+                },
+                {
+                    "node": {
+                        "id": "secondary",
+                        "label": None,
+                        "level": 110,
+                        "translations": [{"label": "secondary", "languageCode": "EN"}],
+                    }
+                },
+            ]
+        }
+    }
+}
+
+snapshots["test_study_level_query 1"] = {
+    "data": {
+        "studyLevel": {
+            "id": "preschool",
+            "label": None,
+            "level": 0,
+            "translations": [{"label": "preschool", "languageCode": "EN"}],
+        }
+    }
 }

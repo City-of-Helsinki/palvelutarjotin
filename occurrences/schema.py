@@ -20,6 +20,7 @@ from occurrences.models import (
     Occurrence,
     PalvelutarjotinEvent,
     StudyGroup,
+    StudyLevel,
     VenueCustomData,
 )
 from organisations.models import Organisation, Person
@@ -49,10 +50,9 @@ from palvelutarjotin.exceptions import (
     ObjectDoesNotExistError,
 )
 
+StudyLevelTranslation = apps.get_model("occurrences", "StudyLevelTranslation")
 VenueTranslation = apps.get_model("occurrences", "VenueCustomDataTranslation")
-StudyLevelEnum = graphene.Enum(
-    "StudyLevel", [(l[0].upper(), l[0]) for l in StudyGroup.STUDY_LEVELS]
-)
+
 NotificationTypeEnum = graphene.Enum(
     "NotificationType", [(t[0].upper(), t[0]) for t in NOTIFICATION_TYPES]
 )
@@ -102,9 +102,33 @@ class PalvelutarjotinEventInput(InputObjectType):
     mandatory_additional_information = graphene.Boolean()
 
 
-class StudyGroupNode(DjangoObjectType):
-    study_level = StudyLevelEnum()
+class StudyLevelTranslationType(DjangoObjectType):
+    language_code = LanguageEnum(required=True)
 
+    class Meta:
+        model = StudyLevelTranslation
+        exclude = ("id", "master")
+
+
+class StudyLevelNode(DjangoObjectType):
+    id = graphene.ID(source="pk", required=True)
+    label = graphene.String(
+        description="Translated field in the language defined in request "
+        "ACCEPT-LANGUAGE header "
+    )
+
+    class Meta:
+        model = StudyLevel
+        interfaces = (relay.Node,)
+        exclude = ("study_groups",)
+
+    @classmethod
+    def get_queryset(cls, queryset, info):
+        lang = get_language()
+        return queryset.language(lang)
+
+
+class StudyGroupNode(DjangoObjectType):
     class Meta:
         model = StudyGroup
         interfaces = (relay.Node,)
@@ -488,7 +512,7 @@ class StudyGroupInput(InputObjectType):
     group_name = graphene.String()
     extra_needs = graphene.String()
     amount_of_adult = graphene.Int()
-    study_level = StudyLevelEnum()
+    study_levels = graphene.List(graphene.String)
 
 
 def verify_captcha(key):
@@ -707,7 +731,7 @@ class AddStudyGroupMutation(graphene.relay.ClientIDMutation):
         group_name = graphene.String()
         extra_needs = graphene.String()
         amount_of_adult = graphene.Int()
-        study_level = StudyLevelEnum()
+        study_levels = graphene.List(graphene.String)
 
     study_group = graphene.Field(StudyGroupNode)
 
@@ -727,7 +751,7 @@ class UpdateStudyGroupMutation(graphene.relay.ClientIDMutation):
         group_name = graphene.String()
         extra_needs = graphene.String()
         amount_of_adult = graphene.Int()
-        study_level = StudyLevelEnum()
+        study_levels = graphene.List(graphene.String)
 
     study_group = graphene.Field(StudyGroupNode)
 
@@ -817,6 +841,9 @@ class Query:
     study_groups = DjangoConnectionField(StudyGroupNode)
     study_group = relay.Node.Field(StudyGroupNode)
 
+    study_levels = DjangoConnectionField(StudyLevelNode)
+    study_level = graphene.Field(StudyLevelNode, id=graphene.ID(required=True))
+
     venues = DjangoConnectionField(VenueNode)
     venue = graphene.Field(VenueNode, id=graphene.ID(required=True))
 
@@ -834,6 +861,13 @@ class Query:
         try:
             return VenueCustomData.objects.get(pk=kwargs.pop("id"))
         except VenueCustomData.DoesNotExist:
+            return None
+
+    @staticmethod
+    def resolve_study_level(parent, info, **kwargs):
+        try:
+            return StudyLevel.objects.get(pk=kwargs.pop("id"))
+        except StudyLevel.DoesNotExist:
             return None
 
     enrolments = DjangoConnectionField(EnrolmentNode)
@@ -860,10 +894,15 @@ class Query:
 
 
 def _create_study_group(study_group_data):
+    study_levels_data = study_group_data.pop("study_levels")
+
     person_data = study_group_data.pop("person")
     person = _get_or_create_contact_person(person_data)
     study_group_data["person_id"] = person.id
+
     study_group = StudyGroup.objects.create(**study_group_data)
+    study_group.study_levels.set(_get_study_levels(study_levels_data))
+
     return study_group
 
 
@@ -878,15 +917,28 @@ def _update_study_group(study_group_data, study_group_obj=None):
         except StudyGroup.DoesNotExist as e:
             raise ObjectDoesNotExistError(e)
 
+    # Handle a person
     person_data = study_group_data.pop("person", None)
     if person_data:
         person = _get_or_create_contact_person(person_data)
         study_group_data["person_id"] = person.id
+
+    # Handle study levels
+    study_levels_data = study_group_data.pop("study_levels", None)
+    if study_levels_data:
+        study_group_obj.study_levels.set(_get_study_levels(study_levels_data))
+
+    # update the populated object
     update_object(study_group_obj, study_group_data)
     return study_group_obj
 
 
 def _get_or_create_contact_person(contact_person_data):
+    """
+    If a contact person id is given,
+    get a contact person with a given non-assignable id
+    or else, create a contact person with a given data.
+    """
     if contact_person_data.get("id"):
         person_id = get_node_id_from_global_id(
             contact_person_data.get("id"), "PersonNode"
@@ -898,6 +950,21 @@ def _get_or_create_contact_person(contact_person_data):
     else:
         person = Person.objects.create(**contact_person_data)
     return person
+
+
+def _get_study_levels(study_level_ids):
+    """
+    Get a list of study level instances by using a list of study_level_ids.
+    NOTE: Creation not is not allowed.
+    """
+    result = []
+    for study_level_id in study_level_ids:
+        try:
+            study_level = StudyLevel.objects.get(id=study_level_id.lower())
+            result.append(study_level)
+        except StudyLevel.DoesNotExist as e:
+            raise ObjectDoesNotExistError(e)
+    return result
 
 
 class Mutation:

@@ -5,8 +5,15 @@ from occurrences.factories import (
     OccurrenceFactory,
     PalvelutarjotinEventFactory,
     StudyGroupFactory,
+    StudyLevelFactory,
 )
-from occurrences.models import Enrolment, Occurrence, PalvelutarjotinEvent, StudyGroup
+from occurrences.models import (
+    Enrolment,
+    Occurrence,
+    PalvelutarjotinEvent,
+    StudyGroup,
+    StudyLevel,
+)
 from organisations.models import Organisation, Person
 from verification_token.models import VerificationToken
 
@@ -27,6 +34,21 @@ def test_study_group_creation():
     assert StudyGroup.objects.count() == 1
     assert Person.objects.count() == 1
     assert User.objects.count() == 1
+
+
+@pytest.mark.django_db
+def test_study_level_creation():
+    assert StudyLevel.objects.count() == 12
+    StudyLevelFactory()
+    assert StudyLevel.objects.count() == 13
+
+
+@pytest.mark.django_db
+def test_study_level_creation_via_study_group():
+    assert StudyLevel.objects.count() == 12
+    StudyGroupFactory(study_levels=(StudyLevelFactory(),))
+    assert StudyGroup.objects.count() == 1
+    assert StudyLevel.objects.count() == 13
 
 
 @pytest.mark.django_db
@@ -80,7 +102,7 @@ def test_enrolment_get_cancellation_url():
 
 
 @pytest.mark.django_db
-def test_enrolment_cancel_deactivates_tokens():
+def test_enrolment_cancel_deactivates_tokens(mock_get_event_data):
     enrolment = EnrolmentFactory()
     enrolment.create_cancellation_token()
     assert VerificationToken.objects.filter(is_active=True).count() == 1
