@@ -75,6 +75,10 @@ class PalvelutarjotinEvent(TimestampedModel):
         default=False, verbose_name=_("mandatory additional information")
     )
 
+    payment_instruction = models.TextField(
+        blank=True, verbose_name=_("payment instruction")
+    )
+
     class Meta:
         verbose_name = _("palvelutarjotin event")
         verbose_name_plural = _("palvelutarjotin events")
