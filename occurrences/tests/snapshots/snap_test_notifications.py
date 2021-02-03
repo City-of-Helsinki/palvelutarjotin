@@ -136,13 +136,13 @@ snapshots["test_occurrence_enrolment_notifications_email_only 1"] = [
     Occurrence: 12.12.2013 06.57
     Person: williamsronald@hotmail.com
 """,
-    """no-reply@hel.ninja|['rebecca01@gmail.com']|Occurrence enrolment EN|
+    """no-reply@hel.ninja|['williamsronald@hotmail.com']|Occurrence enrolment EN|
     Event EN: Raija Malka & Kaija Saariaho: Blick
     Extra event info: zVxeo
     Study group: Middle however western. Light a point charge stand store. Generation able take food share.
     Occurrence: 12.12.2013 06.37
     Person: rebecca01@gmail.com""",
-    """no-reply@hel.ninja|['rebecca01@gmail.com']|Occurrence unenrolment EN|
+    """no-reply@hel.ninja|['williamsronald@hotmail.com']|Occurrence unenrolment EN|
     Event EN: Raija Malka & Kaija Saariaho: Blick
     Extra event info: zVxeo
     Study group: Middle however western. Light a point charge stand store. Generation able take food share.
@@ -156,14 +156,14 @@ snapshots["test_occurrence_enrolment_notifications_to_contact_person 1"] = [
     Extra event info: zVxeo
     Study group: Dream party door better performance race story. Beautiful if his their. Stuff election stay every.
     Occurrence: 12.12.2013 06.37
-    Person: williamsronald@hotmail.com
+    Person: email_me@dommain.com
 """,
     """no-reply@hel.ninja|['email_me@dommain.com']|Occurrence unenrolment FI|
     Event FI: Raija Malka & Kaija Saariaho: Blick
     Extra event info: zVxeo
     Study group: Dream party door better performance race story. Beautiful if his their. Stuff election stay every.
     Occurrence: 12.12.2013 06.57
-    Person: williamsronald@hotmail.com
+    Person: email_me@dommain.com
 """,
     """no-reply@hel.ninja|['email_me@dommain.com']|Occurrence enrolment EN|
     Event EN: Raija Malka & Kaija Saariaho: Blick
@@ -226,10 +226,52 @@ snapshots["test_cancelled_enrolment_notification_email 1"] = [
     """no-reply@hel.ninja|['email_me@dommain.com']|Enrolment cancelled FI|
     Event FI: Raija Malka & Kaija Saariaho: Blick
     Extra event info: zVxeo
+    Study group: Traditional after born up always sport. Light a point charge stand store.
+    Occurrence: 12.12.2013 06.37
+    Person: email_me@dommain.com
+
+    Custom message: custom message
+"""
+]
+
+snapshots["test_decline_enrolment_notification_email_to_multiple_contact_person 1"] = [
+    """no-reply@hel.ninja|['williamsronald@hotmail.com']|Enrolment declined FI|
+    Event FI: Raija Malka & Kaija Saariaho: Blick
+    Extra event info: zVxeo
     Study group: Dream party door better performance race story. Beautiful if his their. Stuff election stay every.
     Occurrence: 12.12.2013 06.37
     Person: williamsronald@hotmail.com
 
     Custom message: custom message
 """
+]
+
+snapshots["test_decline_enrolment_notification_email_to_multiple_contact_person 2"] = [
+    """no-reply@hel.ninja|['williamsronald@hotmail.com']|Enrolment declined FI|
+    Event FI: Raija Malka & Kaija Saariaho: Blick
+    Extra event info: zVxeo
+    Study group: Dream party door better performance race story. Beautiful if his their. Stuff election stay every.
+    Occurrence: 12.12.2013 06.37
+    Person: williamsronald@hotmail.com
+
+    Custom message: custom message
+""",
+    """no-reply@hel.ninja|['cabreranicholas@brennan-smith.com']|Enrolment declined FI|
+    Event FI: Raija Malka & Kaija Saariaho: Blick
+    Extra event info: JCUUs
+    Study group: Middle however western. Light a point charge stand store. Generation able take food share.
+    Occurrence: 09.06.2016 10.34
+    Person: cabreranicholas@brennan-smith.com
+
+    Custom message: custom message
+""",
+    """no-reply@hel.ninja|['rebecca01@gmail.com']|Enrolment declined FI|
+    Event FI: Raija Malka & Kaija Saariaho: Blick
+    Extra event info: JCUUs
+    Study group: Middle however western. Light a point charge stand store. Generation able take food share.
+    Occurrence: 09.06.2016 10.34
+    Person: rebecca01@gmail.com
+
+    Custom message: custom message
+""",
 ]

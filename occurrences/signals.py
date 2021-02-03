@@ -3,7 +3,7 @@ from django.db.models.signals import post_delete, post_save
 from django.dispatch import receiver
 from occurrences.consts import NotificationTemplate
 from occurrences.models import Enrolment
-from occurrences.utils import send_event_notifications_to_contact_person
+from occurrences.utils import send_event_notifications_to_person
 
 
 @receiver(post_save, sender=Enrolment, dispatch_uid="send_enrolment_email")
@@ -11,7 +11,7 @@ def send_enrolment_email(instance, created, **kwargs):
     # Do not sent enrolment received notification if the occurrence auto accept the
     # enrolment, instead only send enrolment approved notification
     if created and not instance.occurrence.p_event.auto_acceptance:
-        send_event_notifications_to_contact_person(
+        send_event_notifications_to_person(
             instance.person,
             instance.occurrence,
             instance.study_group,
@@ -25,7 +25,7 @@ def send_enrolment_email(instance, created, **kwargs):
 
 @receiver(post_delete, sender=Enrolment, dispatch_uid="send_unenrolment_email")
 def send_unenrolment_email(instance, **kwargs):
-    send_event_notifications_to_contact_person(
+    send_event_notifications_to_person(
         instance.person,
         instance.occurrence,
         instance.study_group,
