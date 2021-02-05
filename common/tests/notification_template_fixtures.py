@@ -12,7 +12,11 @@ DEFAULT_NOTIFICATION_BODY_TEXT_FI = """
     {% else %}
     Occurrence: {{ occurrence.local_start_time.strftime('%d.%m.%Y %H.%M') }}
     {% endif%}
-    Person: {{ study_group.person.email_address}}
+    Person: {{ person.email_address}}
+    {% if occurrence.p_event.needed_occurrences == 1 %}
+    Click this link to cancel the enrolment:
+    {{ enrolment.get_link_to_cancel_ui()}}
+    {% endif %}
 """
 
 NOTIFICATION_WITH_CUSTOM_MESSAGE_TEXT_FI = (
@@ -177,6 +181,46 @@ def notification_template_enrolment_declined_fi():
 
 
 @pytest.fixture
+def notification_template_enrolment_cancellation_confirmation_en():
+    return create_notification_template_in_language(
+        NotificationTemplate.ENROLMENT_CANCELLATION,
+        "en",
+        subject="Enrolment cancellation confirmation EN",
+        body_text=NOTIFICATION_WITH_CUSTOM_MESSAGE_TEXT_EN,
+    )
+
+
+@pytest.fixture
+def notification_template_enrolment_cancellation_confirmation_fi():
+    return create_notification_template_in_language(
+        NotificationTemplate.ENROLMENT_CANCELLATION,
+        "fi",
+        subject="Enrolment cancellation confirmation FI",
+        body_text=NOTIFICATION_WITH_CUSTOM_MESSAGE_TEXT_FI,
+    )
+
+
+@pytest.fixture
+def notification_template_enrolment_cancelled_en():
+    return create_notification_template_in_language(
+        NotificationTemplate.ENROLMENT_CANCELLED,
+        "en",
+        subject="Enrolment cancelled EN",
+        body_text=NOTIFICATION_WITH_CUSTOM_MESSAGE_TEXT_EN,
+    )
+
+
+@pytest.fixture
+def notification_template_enrolment_cancelled_fi():
+    return create_notification_template_in_language(
+        NotificationTemplate.ENROLMENT_CANCELLED,
+        "fi",
+        subject="Enrolment cancelled FI",
+        body_text=NOTIFICATION_WITH_CUSTOM_MESSAGE_TEXT_FI,
+    )
+
+
+@pytest.fixture
 def notification_template_cancel_occurrence_fi():
     return create_notification_template_in_language(
         NotificationTemplate.OCCURRENCE_CANCELLED,
@@ -193,4 +237,34 @@ def notification_template_cancel_occurrence_en():
         "fi",
         subject="Occurrence cancelled EN",
         body_text=NOTIFICATION_WITH_CUSTOM_MESSAGE_TEXT_EN,
+    )
+
+
+@pytest.fixture
+def notification_template_enrolment_summary_report_fi():
+    return create_notification_template_in_language(
+        NotificationTemplate.ENROLMENT_SUMMARY_REPORT,
+        "fi",
+        subject="Enrolment approved FI",
+        body_text="""
+        Total pending enrolments: {{ total_pending_enrolments }}
+        Total new accepted enrolments: {{ total_new_enrolments }}
+        {% for item in report %}
+            Event name: {{ item.event.name.fi }}
+            Event link: {{ item.p_event.get_link_to_provider_ui() }}
+            {% for occurrence in item.occurrences %}
+                {% if item.p_event.auto_acceptance %}
+                    Occurrence: #{{occurrence.start_time}} ({{
+                    occurrence.new_enrolments() |
+                    length }} new enrolments)
+                {% else %}
+                    Occurrence: #{{occurrence.start_time}} ({{
+                    occurrence.pending_enrolments() |
+                    length }} pending)
+                {%endif %}
+                    Link to occurrence: {{
+                    occurrence.get_link_to_provider_ui()}}
+            {% endfor %}
+        {% endfor %}
+        """,
     )

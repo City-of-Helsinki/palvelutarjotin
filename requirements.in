@@ -9,5 +9,5 @@ django-axes
 factory-boy
 graphene-django
 graphene-file-upload
-psycopg2
+psycopg2-binary
 sentry-sdk

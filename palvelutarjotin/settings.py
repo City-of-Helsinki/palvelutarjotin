@@ -67,6 +67,10 @@ env = environ.Env(
     KEYWORD_SET_CATEGORY_ID=(str, "kultus:categories"),
     KEYWORD_SET_TARGET_GROUP_ID=(str, "kultus:target_groups"),
     KEYWORD_SET_ADDITIONAL_CRITERIA_ID=(str, "kultus:additional_criteria"),
+    KULTUS_PROVIDER_UI_BASE_URL=(str, "https://provider.kultus.fi/"),
+    KULTUS_TEACHER_UI_BASE_URL=(str, "https://beta.kultus.fi/"),
+    ENABLE_SUMMARY_REPORT=(bool, False),
+    VERIFICATION_TOKEN_VALID_MINUTES=(int, 15),
 )
 
 if os.path.exists(env_file):
@@ -124,6 +128,9 @@ STATIC_ROOT = env("STATIC_ROOT")
 MEDIA_URL = env.str("MEDIA_URL")
 STATIC_URL = env.str("STATIC_URL")
 
+KULTUS_PROVIDER_UI_BASE_URL = env.str("KULTUS_PROVIDER_UI_BASE_URL")
+KULTUS_TEACHER_UI_BASE_URL = env.str("KULTUS_TEACHER_UI_BASE_URL")
+
 # For staging env, we use Google Cloud Storage
 DEFAULT_FILE_STORAGE = env("DEFAULT_FILE_STORAGE")
 if DEFAULT_FILE_STORAGE == "storages.backends.gcloud.GoogleCloudStorage":
@@ -169,6 +176,7 @@ INSTALLED_APPS = [
     "utils",
     "organisations",
     "occurrences",
+    "verification_token",
 ]
 
 MIDDLEWARE = [
@@ -255,12 +263,22 @@ LOGGING = {
 CAPTCHA_ENABLED = env.bool("CAPTCHA_ENABLED")
 RECAPTCHA_SECRET_KEY = env.str("RECAPTCHA_SECRET_KEY")
 RECAPTCHA_VALIDATION_URL = "https://www.google.com/recaptcha/api/siteverify"
+ENABLE_SUMMARY_REPORT = env.bool("ENABLE_SUMMARY_REPORT")
 
 KEYWORD_SET_ID_MAPPING = {
     "CATEGORY": env.str("KEYWORD_SET_CATEGORY_ID"),
     "ADDITIONAL_CRITERIA": env.str("KEYWORD_SET_ADDITIONAL_CRITERIA_ID"),
     "TARGET_GROUP": env.str("KEYWORD_SET_TARGET_GROUP_ID"),
 }
+
+VERIFICATION_TOKEN_URL_MAPPING = {
+    "occurrences.enrolment.CANCELLATION": f"{KULTUS_TEACHER_UI_BASE_URL}"
+    + "{lang}/enrolments/cancel/{unique_id}",
+    "occurrences.enrolment.CANCELLATION.confirmation": f"{KULTUS_TEACHER_UI_BASE_URL}"
+    + "{lang}/enrolments/cancel/{unique_id}?token={token}",
+}
+
+MAX_UPLOAD_SIZE = 2621440  # 2MB
 
 # local_settings.py can be used to override environment-specific settings
 # like database and email that differ between development and production.

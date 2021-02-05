@@ -19,7 +19,7 @@ snapshots["test_study_groups_query 1"] = {
                         "name": "Increase thank certainly again thought summer. Beyond than trial western.",
                         "occurrences": {"edges": []},
                         "person": {"name": "William Brewer"},
-                        "studyLevel": "GRADE_6",
+                        "studyLevels": {"edges": []},
                         "updatedAt": "2020-01-04T00:00:00+00:00",
                     }
                 }
@@ -38,7 +38,7 @@ snapshots["test_study_group_query 1"] = {
             "name": "Increase thank certainly again thought summer. Beyond than trial western.",
             "occurrences": {"edges": []},
             "person": {"name": "William Brewer"},
-            "studyLevel": "GRADE_6",
+            "studyLevels": {"edges": []},
             "updatedAt": "2020-01-04T00:00:00+00:00",
         }
     }
@@ -50,22 +50,24 @@ snapshots["test_occurrences_query 1"] = {
             "edges": [
                 {
                     "node": {
-                        "amountOfSeats": 17,
+                        "amountOfSeats": 5,
                         "contactPersons": {"edges": []},
                         "endTime": "2000-08-18T23:27:03+00:00",
                         "maxGroupSize": 383,
                         "minGroupSize": 341,
                         "pEvent": {
                             "autoAcceptance": False,
-                            "contactEmail": "ksmith@dorsey.com",
-                            "contactPhoneNumber": "697.270.1171",
-                            "enrolmentEndDays": 0,
-                            "enrolmentStart": "2005-04-01T09:01:02+00:00",
-                            "linkedEventId": "Leg him president compare room hotel town.",
-                            "neededOccurrences": 3,
+                            "contactEmail": "smithpaige@hotmail.com",
+                            "contactPhoneNumber": "+1-064-976-3803x4669",
+                            "enrolmentEndDays": 1,
+                            "enrolmentStart": "1971-08-19T21:08:32+00:00",
+                            "linkedEventId": "zVxeo",
+                            "mandatoryAdditionalInformation": False,
+                            "neededOccurrences": 7,
                         },
                         "placeId": "Record card my. Sure sister return.",
-                        "remainingSeats": 17,
+                        "remainingSeats": 5,
+                        "seatType": "CHILDREN_COUNT",
                         "seatsApproved": 0,
                         "seatsTaken": 0,
                         "startTime": "2013-12-12T04:57:19+00:00",
@@ -80,7 +82,7 @@ snapshots["test_occurrences_query 1"] = {
 snapshots["test_occurrence_query 1"] = {
     "data": {
         "occurrence": {
-            "amountOfSeats": 17,
+            "amountOfSeats": 5,
             "contactPersons": {"edges": []},
             "endTime": "2000-08-18T23:27:03+00:00",
             "languages": [],
@@ -95,15 +97,16 @@ snapshots["test_occurrence_query 1"] = {
             "minGroupSize": 341,
             "pEvent": {
                 "autoAcceptance": False,
-                "contactEmail": "ksmith@dorsey.com",
-                "contactPhoneNumber": "697.270.1171",
-                "enrolmentEndDays": 0,
-                "enrolmentStart": "2005-04-01T09:01:02+00:00",
-                "linkedEventId": "Leg him president compare room hotel town.",
-                "neededOccurrences": 3,
+                "contactEmail": "smithpaige@hotmail.com",
+                "contactPhoneNumber": "+1-064-976-3803x4669",
+                "enrolmentEndDays": 1,
+                "enrolmentStart": "1971-08-19T21:08:32+00:00",
+                "linkedEventId": "zVxeo",
+                "mandatoryAdditionalInformation": False,
+                "neededOccurrences": 7,
             },
             "placeId": "Record card my. Sure sister return.",
-            "remainingSeats": 17,
+            "remainingSeats": 5,
             "seatsApproved": 0,
             "seatsTaken": 0,
             "startTime": "2013-12-12T04:57:19+00:00",
@@ -122,7 +125,7 @@ snapshots["test_add_occurrence 1"] = {
                         {"node": {"name": "New name"}},
                     ]
                 },
-                "endTime": "2020-05-05T00:00:00+00:00",
+                "endTime": "2020-05-06T00:00:00+00:00",
                 "languages": [
                     {"id": "en", "name": "English"},
                     {"id": "sv", "name": "Swedish"},
@@ -131,12 +134,13 @@ snapshots["test_add_occurrence 1"] = {
                 "minGroupSize": 10,
                 "pEvent": {
                     "autoAcceptance": False,
-                    "contactEmail": "kingmonica@hall.com",
-                    "contactPhoneNumber": "661-449-4811x88452",
-                    "enrolmentEndDays": 0,
-                    "enrolmentStart": "1978-12-17T12:06:21+00:00",
-                    "linkedEventId": "Respond improve office table.",
-                    "neededOccurrences": 2,
+                    "contactEmail": "colin84@yahoo.com",
+                    "contactPhoneNumber": "179.621.2666x14494",
+                    "enrolmentEndDays": 1,
+                    "enrolmentStart": "1986-04-11T14:17:11+00:00",
+                    "linkedEventId": "fcwOr",
+                    "mandatoryAdditionalInformation": False,
+                    "neededOccurrences": 9,
                 },
                 "startTime": "2020-05-05T00:00:00+00:00",
             }
@@ -148,8 +152,8 @@ snapshots["test_update_occurrence 1"] = {
     "data": {
         "updateOccurrence": {
             "occurrence": {
-                "contactPersons": {"edges": [{"node": {"name": "Michael Hooper"}}]},
-                "endTime": "2020-05-05T00:00:00+00:00",
+                "contactPersons": {"edges": [{"node": {"name": "Aaron Burton"}}]},
+                "endTime": "2020-05-06T00:00:00+00:00",
                 "languages": [
                     {"id": "fi", "name": "Finnish"},
                     {"id": "en", "name": "English"},
@@ -158,12 +162,13 @@ snapshots["test_update_occurrence 1"] = {
                 "maxGroupSize": 88,
                 "minGroupSize": 10,
                 "pEvent": {
-                    "contactEmail": "hbrown@hotmail.com",
-                    "contactPhoneNumber": "001-901-323-2131",
-                    "enrolmentEndDays": 2,
-                    "enrolmentStart": "2020-01-01T02:17:13+00:00",
-                    "linkedEventId": "Event lay yes policy data control as receive.",
-                    "neededOccurrences": 2,
+                    "contactEmail": "jonesmichael@navarro-morton.net",
+                    "contactPhoneNumber": "3232221713",
+                    "enrolmentEndDays": 1,
+                    "enrolmentStart": "2011-10-01T03:22:55+00:00",
+                    "linkedEventId": "oNLUZ",
+                    "mandatoryAdditionalInformation": False,
+                    "neededOccurrences": 7,
                 },
                 "startTime": "2020-05-05T00:00:00+00:00",
             }
@@ -262,7 +267,20 @@ snapshots["test_add_study_group 1"] = {
                     "name": "Name",
                     "phoneNumber": "123123",
                 },
-                "studyLevel": "GRADE_1",
+                "studyLevels": {
+                    "edges": [
+                        {
+                            "node": {
+                                "id": "grade_1",
+                                "label": None,
+                                "level": 10,
+                                "translations": [
+                                    {"label": "first grade", "languageCode": "EN"}
+                                ],
+                            }
+                        }
+                    ]
+                },
             }
         }
     }
@@ -278,12 +296,25 @@ snapshots["test_add_study_group 2"] = {
                 "groupSize": 20,
                 "name": "Sample study group name",
                 "person": {
-                    "emailAddress": "acarroll@hotmail.com",
+                    "emailAddress": "hannah75@gmail.com",
                     "language": "FI",
-                    "name": "Kathryn Davis",
-                    "phoneNumber": "001-452-419-4754x396",
+                    "name": "Brandon Sullivan",
+                    "phoneNumber": "144-948-1188x4524",
                 },
-                "studyLevel": "GRADE_1",
+                "studyLevels": {
+                    "edges": [
+                        {
+                            "node": {
+                                "id": "grade_1",
+                                "label": None,
+                                "level": 10,
+                                "translations": [
+                                    {"label": "first grade", "languageCode": "EN"}
+                                ],
+                            }
+                        }
+                    ]
+                },
             }
         }
     }
@@ -304,7 +335,20 @@ snapshots["test_update_study_group_staff_user 1"] = {
                     "name": "Name",
                     "phoneNumber": "123123",
                 },
-                "studyLevel": "GRADE_2",
+                "studyLevels": {
+                    "edges": [
+                        {
+                            "node": {
+                                "id": "grade_2",
+                                "label": None,
+                                "level": 20,
+                                "translations": [
+                                    {"label": "second grade", "languageCode": "EN"}
+                                ],
+                            }
+                        }
+                    ]
+                },
             }
         }
     }
@@ -325,7 +369,20 @@ snapshots["test_update_study_group_staff_user 2"] = {
                     "name": "Jason Berg",
                     "phoneNumber": "011-715-9102",
                 },
-                "studyLevel": "GRADE_2",
+                "studyLevels": {
+                    "edges": [
+                        {
+                            "node": {
+                                "id": "grade_2",
+                                "label": None,
+                                "level": 20,
+                                "translations": [
+                                    {"label": "second grade", "languageCode": "EN"}
+                                ],
+                            }
+                        }
+                    ]
+                },
             }
         }
     }
@@ -339,14 +396,28 @@ snapshots["test_enrol_occurrence 1"] = {
                     "notificationType": "EMAIL",
                     "occurrence": {
                         "amountOfSeats": 50,
-                        "remainingSeats": 35,
+                        "remainingSeats": 30,
+                        "seatType": "CHILDREN_COUNT",
                         "seatsApproved": 0,
-                        "seatsTaken": 15,
+                        "seatsTaken": 20,
                         "startTime": "2020-01-06T00:00:00+00:00",
                     },
                     "status": "PENDING",
                     "studyGroup": {"name": "To be created group"},
-                }
+                },
+                {
+                    "notificationType": "EMAIL",
+                    "occurrence": {
+                        "amountOfSeats": 2,
+                        "remainingSeats": 1,
+                        "seatType": "ENROLMENT_COUNT",
+                        "seatsApproved": 0,
+                        "seatsTaken": 1,
+                        "startTime": "2020-01-06T00:00:00+00:00",
+                    },
+                    "status": "PENDING",
+                    "studyGroup": {"name": "To be created group"},
+                },
             ]
         }
     }
@@ -358,22 +429,24 @@ snapshots["test_occurrences_filter_by_date 1"] = {
             "edges": [
                 {
                     "node": {
-                        "amountOfSeats": 27,
+                        "amountOfSeats": 32,
                         "contactPersons": {"edges": []},
-                        "endTime": "1986-04-11T14:17:11+00:00",
-                        "maxGroupSize": 562,
-                        "minGroupSize": 348,
+                        "endTime": "2001-02-23T20:07:07+00:00",
+                        "maxGroupSize": 777,
+                        "minGroupSize": 399,
                         "pEvent": {
                             "autoAcceptance": False,
-                            "contactEmail": "josejohnston@hotmail.com",
-                            "contactPhoneNumber": "481.188.4524x194",
+                            "contactEmail": "stricklandpatrick@combs.com",
+                            "contactPhoneNumber": "106.695.8369x31796",
                             "enrolmentEndDays": 1,
-                            "enrolmentStart": "1976-08-19T04:27:47+00:00",
-                            "linkedEventId": "Party door better performance race story.",
-                            "neededOccurrences": 4,
+                            "enrolmentStart": "1993-11-15T08:45:06+00:00",
+                            "linkedEventId": "ZoGFT",
+                            "mandatoryAdditionalInformation": False,
+                            "neededOccurrences": 6,
                         },
-                        "placeId": "Service wonder everything pay parent theory.",
-                        "remainingSeats": 27,
+                        "placeId": "Later evening southern would according strong.",
+                        "remainingSeats": 32,
+                        "seatType": "CHILDREN_COUNT",
                         "seatsApproved": 0,
                         "seatsTaken": 0,
                         "startTime": "2020-01-02T00:00:00+00:00",
@@ -391,22 +464,24 @@ snapshots["test_occurrences_filter_by_time 1"] = {
             "edges": [
                 {
                     "node": {
-                        "amountOfSeats": 17,
+                        "amountOfSeats": 5,
                         "contactPersons": {"edges": []},
                         "endTime": "2013-12-12T04:57:19+00:00",
                         "maxGroupSize": 383,
                         "minGroupSize": 341,
                         "pEvent": {
                             "autoAcceptance": False,
-                            "contactEmail": "ksmith@dorsey.com",
-                            "contactPhoneNumber": "697.270.1171",
-                            "enrolmentEndDays": 0,
-                            "enrolmentStart": "2005-04-01T09:01:02+00:00",
-                            "linkedEventId": "Machine try lead behind everyone agency start.",
-                            "neededOccurrences": 3,
+                            "contactEmail": "bthomas@charles.com",
+                            "contactPhoneNumber": "750-649-7638x0346",
+                            "enrolmentEndDays": 2,
+                            "enrolmentStart": "1988-11-29T04:01:36+00:00",
+                            "linkedEventId": "OzVxe",
+                            "mandatoryAdditionalInformation": False,
+                            "neededOccurrences": 0,
                         },
                         "placeId": "Record card my. Sure sister return.",
-                        "remainingSeats": 17,
+                        "remainingSeats": 5,
+                        "seatType": "CHILDREN_COUNT",
                         "seatsApproved": 0,
                         "seatsTaken": 0,
                         "startTime": "2020-01-01T10:00:00+00:00",
@@ -424,22 +499,24 @@ snapshots["test_occurrences_filter_by_upcoming 1"] = {
             "edges": [
                 {
                     "node": {
-                        "amountOfSeats": 24,
+                        "amountOfSeats": 47,
                         "contactPersons": {"edges": []},
-                        "endTime": "2020-06-10T21:03:38+00:00",
-                        "maxGroupSize": 272,
-                        "minGroupSize": 926,
+                        "endTime": "2015-05-17T15:09:08+00:00",
+                        "maxGroupSize": 761,
+                        "minGroupSize": 932,
                         "pEvent": {
                             "autoAcceptance": False,
-                            "contactEmail": "stephanieskinner@gmail.com",
-                            "contactPhoneNumber": "001-777-671-2406x75064",
+                            "contactEmail": "codyramirez@gmail.com",
+                            "contactPhoneNumber": "+1-333-457-7355x777",
                             "enrolmentEndDays": 1,
                             "enrolmentStart": "2020-01-05T00:00:00+00:00",
-                            "linkedEventId": "Record card my. Sure sister return.",
-                            "neededOccurrences": 5,
+                            "linkedEventId": "aAVEa",
+                            "mandatoryAdditionalInformation": False,
+                            "neededOccurrences": 6,
                         },
-                        "placeId": "Evening southern would according strong recently.",
-                        "remainingSeats": 24,
+                        "placeId": "Watch media do concern sit enter. Himself from daughter order.",
+                        "remainingSeats": 47,
+                        "seatType": "CHILDREN_COUNT",
                         "seatsApproved": 0,
                         "seatsTaken": 0,
                         "startTime": "2020-01-06T00:00:00+00:00",
@@ -448,22 +525,24 @@ snapshots["test_occurrences_filter_by_upcoming 1"] = {
                 },
                 {
                     "node": {
-                        "amountOfSeats": 28,
+                        "amountOfSeats": 0,
                         "contactPersons": {"edges": []},
-                        "endTime": "1996-02-20T13:49:25+00:00",
-                        "maxGroupSize": 84,
-                        "minGroupSize": 838,
+                        "endTime": "2008-06-07T05:04:58+00:00",
+                        "maxGroupSize": 796,
+                        "minGroupSize": 700,
                         "pEvent": {
                             "autoAcceptance": False,
-                            "contactEmail": "stephanieskinner@gmail.com",
-                            "contactPhoneNumber": "001-777-671-2406x75064",
+                            "contactEmail": "codyramirez@gmail.com",
+                            "contactPhoneNumber": "+1-333-457-7355x777",
                             "enrolmentEndDays": 1,
                             "enrolmentStart": "2020-01-05T00:00:00+00:00",
-                            "linkedEventId": "Record card my. Sure sister return.",
-                            "neededOccurrences": 5,
+                            "linkedEventId": "aAVEa",
+                            "mandatoryAdditionalInformation": False,
+                            "neededOccurrences": 6,
                         },
-                        "placeId": "Able process base sing according.",
-                        "remainingSeats": 28,
+                        "placeId": "Newspaper force newspaper business himself exist.",
+                        "remainingSeats": 0,
+                        "seatType": "CHILDREN_COUNT",
                         "seatsApproved": 0,
                         "seatsTaken": 0,
                         "startTime": "2020-01-07T00:00:00+00:00",
@@ -481,22 +560,24 @@ snapshots["test_occurrences_filter_by_date 2"] = {
             "edges": [
                 {
                     "node": {
-                        "amountOfSeats": 27,
+                        "amountOfSeats": 32,
                         "contactPersons": {"edges": []},
-                        "endTime": "1986-04-11T14:17:11+00:00",
-                        "maxGroupSize": 562,
-                        "minGroupSize": 348,
+                        "endTime": "2001-02-23T20:07:07+00:00",
+                        "maxGroupSize": 777,
+                        "minGroupSize": 399,
                         "pEvent": {
                             "autoAcceptance": False,
-                            "contactEmail": "josejohnston@hotmail.com",
-                            "contactPhoneNumber": "481.188.4524x194",
+                            "contactEmail": "stricklandpatrick@combs.com",
+                            "contactPhoneNumber": "106.695.8369x31796",
                             "enrolmentEndDays": 1,
-                            "enrolmentStart": "1976-08-19T04:27:47+00:00",
-                            "linkedEventId": "Party door better performance race story.",
-                            "neededOccurrences": 4,
+                            "enrolmentStart": "1993-11-15T08:45:06+00:00",
+                            "linkedEventId": "ZoGFT",
+                            "mandatoryAdditionalInformation": False,
+                            "neededOccurrences": 6,
                         },
-                        "placeId": "Service wonder everything pay parent theory.",
-                        "remainingSeats": 27,
+                        "placeId": "Later evening southern would according strong.",
+                        "remainingSeats": 32,
+                        "seatType": "CHILDREN_COUNT",
                         "seatsApproved": 0,
                         "seatsTaken": 0,
                         "startTime": "2020-01-02T00:00:00+00:00",
@@ -505,22 +586,24 @@ snapshots["test_occurrences_filter_by_date 2"] = {
                 },
                 {
                     "node": {
-                        "amountOfSeats": 39,
+                        "amountOfSeats": 24,
                         "contactPersons": {"edges": []},
-                        "endTime": "1978-07-26T12:24:03+00:00",
-                        "maxGroupSize": 588,
-                        "minGroupSize": 752,
+                        "endTime": "2000-02-02T08:29:39+00:00",
+                        "maxGroupSize": 64,
+                        "minGroupSize": 136,
                         "pEvent": {
                             "autoAcceptance": False,
-                            "contactEmail": "clarkjulia@yahoo.com",
-                            "contactPhoneNumber": "001-548-526-2319x59911",
-                            "enrolmentEndDays": 0,
-                            "enrolmentStart": "1990-06-24T03:04:24+00:00",
-                            "linkedEventId": "Person the probably deep center develop character situation.",
-                            "neededOccurrences": 10,
+                            "contactEmail": "patricia05@campbell-luna.com",
+                            "contactPhoneNumber": "+1-299-013-2321x3168",
+                            "enrolmentEndDays": 2,
+                            "enrolmentStart": "1973-12-22T08:50:45+00:00",
+                            "linkedEventId": "KkSRp",
+                            "mandatoryAdditionalInformation": False,
+                            "neededOccurrences": 9,
                         },
-                        "placeId": "Event lay yes policy data control as receive.",
-                        "remainingSeats": 39,
+                        "placeId": "Wrong when lead involve sport.",
+                        "remainingSeats": 24,
+                        "seatType": "CHILDREN_COUNT",
                         "seatsApproved": 0,
                         "seatsTaken": 0,
                         "startTime": "2020-01-02T00:00:00+00:00",
@@ -538,22 +621,24 @@ snapshots["test_occurrences_filter_by_time 2"] = {
             "edges": [
                 {
                     "node": {
-                        "amountOfSeats": 26,
+                        "amountOfSeats": 27,
                         "contactPersons": {"edges": []},
-                        "endTime": "1994-08-09T11:57:00+00:00",
-                        "maxGroupSize": 563,
-                        "minGroupSize": 536,
+                        "endTime": "2015-09-20T23:57:56+00:00",
+                        "maxGroupSize": 225,
+                        "minGroupSize": 551,
                         "pEvent": {
                             "autoAcceptance": False,
-                            "contactEmail": "russell25@dennis-sanders.biz",
-                            "contactPhoneNumber": "333-616-3658x82540",
-                            "enrolmentEndDays": 0,
-                            "enrolmentStart": "1995-10-31T14:54:06+00:00",
-                            "linkedEventId": "Two born land military first.",
-                            "neededOccurrences": 8,
+                            "contactEmail": "alicehobbs@cole.com",
+                            "contactPhoneNumber": "778-840-8746x609",
+                            "enrolmentEndDays": 1,
+                            "enrolmentStart": "1983-10-25T22:51:16+00:00",
+                            "linkedEventId": "dgihp",
+                            "mandatoryAdditionalInformation": False,
+                            "neededOccurrences": 5,
                         },
-                        "placeId": "Financial generation man process white.",
-                        "remainingSeats": 26,
+                        "placeId": "Dog five traditional late majority of generation.",
+                        "remainingSeats": 27,
+                        "seatType": "CHILDREN_COUNT",
                         "seatsApproved": 0,
                         "seatsTaken": 0,
                         "startTime": "2020-01-02T12:00:00+00:00",
@@ -571,22 +656,24 @@ snapshots["test_occurrences_filter_by_time 3"] = {
             "edges": [
                 {
                     "node": {
-                        "amountOfSeats": 39,
+                        "amountOfSeats": 24,
                         "contactPersons": {"edges": []},
-                        "endTime": "1978-07-26T12:24:03+00:00",
-                        "maxGroupSize": 588,
-                        "minGroupSize": 752,
+                        "endTime": "2000-02-02T08:29:39+00:00",
+                        "maxGroupSize": 64,
+                        "minGroupSize": 136,
                         "pEvent": {
                             "autoAcceptance": False,
-                            "contactEmail": "clarkjulia@yahoo.com",
-                            "contactPhoneNumber": "001-548-526-2319x59911",
-                            "enrolmentEndDays": 0,
-                            "enrolmentStart": "1990-06-24T03:04:24+00:00",
-                            "linkedEventId": "Person the probably deep center develop character situation.",
-                            "neededOccurrences": 10,
+                            "contactEmail": "patricia05@campbell-luna.com",
+                            "contactPhoneNumber": "+1-299-013-2321x3168",
+                            "enrolmentEndDays": 2,
+                            "enrolmentStart": "1973-12-22T08:50:45+00:00",
+                            "linkedEventId": "KkSRp",
+                            "mandatoryAdditionalInformation": False,
+                            "neededOccurrences": 9,
                         },
-                        "placeId": "Event lay yes policy data control as receive.",
-                        "remainingSeats": 39,
+                        "placeId": "Wrong when lead involve sport.",
+                        "remainingSeats": 24,
+                        "seatType": "CHILDREN_COUNT",
                         "seatsApproved": 0,
                         "seatsTaken": 0,
                         "startTime": "2020-01-01T11:00:00+00:00",
@@ -595,22 +682,24 @@ snapshots["test_occurrences_filter_by_time 3"] = {
                 },
                 {
                     "node": {
-                        "amountOfSeats": 27,
+                        "amountOfSeats": 32,
                         "contactPersons": {"edges": []},
-                        "endTime": "1986-04-11T14:17:11+00:00",
-                        "maxGroupSize": 562,
-                        "minGroupSize": 348,
+                        "endTime": "2001-02-23T20:07:07+00:00",
+                        "maxGroupSize": 777,
+                        "minGroupSize": 399,
                         "pEvent": {
                             "autoAcceptance": False,
-                            "contactEmail": "josejohnston@hotmail.com",
-                            "contactPhoneNumber": "481.188.4524x194",
+                            "contactEmail": "stricklandpatrick@combs.com",
+                            "contactPhoneNumber": "106.695.8369x31796",
                             "enrolmentEndDays": 1,
-                            "enrolmentStart": "1976-08-19T04:27:47+00:00",
-                            "linkedEventId": "Party door better performance race story.",
-                            "neededOccurrences": 4,
+                            "enrolmentStart": "1993-11-15T08:45:06+00:00",
+                            "linkedEventId": "ZoGFT",
+                            "mandatoryAdditionalInformation": False,
+                            "neededOccurrences": 6,
                         },
-                        "placeId": "Service wonder everything pay parent theory.",
-                        "remainingSeats": 27,
+                        "placeId": "Later evening southern would according strong.",
+                        "remainingSeats": 32,
+                        "seatType": "CHILDREN_COUNT",
                         "seatsApproved": 0,
                         "seatsTaken": 0,
                         "startTime": "2020-01-02T11:00:00+00:00",
@@ -628,22 +717,24 @@ snapshots["test_occurrences_filter_by_time 4"] = {
             "edges": [
                 {
                     "node": {
-                        "amountOfSeats": 39,
+                        "amountOfSeats": 24,
                         "contactPersons": {"edges": []},
-                        "endTime": "1978-07-26T12:24:03+00:00",
-                        "maxGroupSize": 588,
-                        "minGroupSize": 752,
+                        "endTime": "2000-02-02T08:29:39+00:00",
+                        "maxGroupSize": 64,
+                        "minGroupSize": 136,
                         "pEvent": {
                             "autoAcceptance": False,
-                            "contactEmail": "clarkjulia@yahoo.com",
-                            "contactPhoneNumber": "001-548-526-2319x59911",
-                            "enrolmentEndDays": 0,
-                            "enrolmentStart": "1990-06-24T03:04:24+00:00",
-                            "linkedEventId": "Person the probably deep center develop character situation.",
-                            "neededOccurrences": 10,
+                            "contactEmail": "patricia05@campbell-luna.com",
+                            "contactPhoneNumber": "+1-299-013-2321x3168",
+                            "enrolmentEndDays": 2,
+                            "enrolmentStart": "1973-12-22T08:50:45+00:00",
+                            "linkedEventId": "KkSRp",
+                            "mandatoryAdditionalInformation": False,
+                            "neededOccurrences": 9,
                         },
-                        "placeId": "Event lay yes policy data control as receive.",
-                        "remainingSeats": 39,
+                        "placeId": "Wrong when lead involve sport.",
+                        "remainingSeats": 24,
+                        "seatType": "CHILDREN_COUNT",
                         "seatsApproved": 0,
                         "seatsTaken": 0,
                         "startTime": "2020-01-01T11:00:00+00:00",
@@ -652,22 +743,24 @@ snapshots["test_occurrences_filter_by_time 4"] = {
                 },
                 {
                     "node": {
-                        "amountOfSeats": 27,
+                        "amountOfSeats": 32,
                         "contactPersons": {"edges": []},
-                        "endTime": "1986-04-11T14:17:11+00:00",
-                        "maxGroupSize": 562,
-                        "minGroupSize": 348,
+                        "endTime": "2001-02-23T20:07:07+00:00",
+                        "maxGroupSize": 777,
+                        "minGroupSize": 399,
                         "pEvent": {
                             "autoAcceptance": False,
-                            "contactEmail": "josejohnston@hotmail.com",
-                            "contactPhoneNumber": "481.188.4524x194",
+                            "contactEmail": "stricklandpatrick@combs.com",
+                            "contactPhoneNumber": "106.695.8369x31796",
                             "enrolmentEndDays": 1,
-                            "enrolmentStart": "1976-08-19T04:27:47+00:00",
-                            "linkedEventId": "Party door better performance race story.",
-                            "neededOccurrences": 4,
+                            "enrolmentStart": "1993-11-15T08:45:06+00:00",
+                            "linkedEventId": "ZoGFT",
+                            "mandatoryAdditionalInformation": False,
+                            "neededOccurrences": 6,
                         },
-                        "placeId": "Service wonder everything pay parent theory.",
-                        "remainingSeats": 27,
+                        "placeId": "Later evening southern would according strong.",
+                        "remainingSeats": 32,
+                        "seatType": "CHILDREN_COUNT",
                         "seatsApproved": 0,
                         "seatsTaken": 0,
                         "startTime": "2020-01-02T11:00:00+00:00",
@@ -715,10 +808,12 @@ snapshots["test_approve_enrolment_with_custom_message 1"] = {
 snapshots["test_approve_enrolment_with_custom_message 2"] = [
     """no-reply@hel.ninja|['barbarafarrell@yahoo.com']|Enrolment approved FI|
     Event FI: Raija Malka & Kaija Saariaho: Blick
-    Extra event info: Plant traditional after born.
+    Extra event info: LVGVb
     Study group: Last appear experience seven. Throw wrong party wall agency customer clear. Control as receive cup.
     Occurrence: 06.01.2020 02.00
     Person: barbarafarrell@yahoo.com
+    Click this link to cancel the enrolment:
+    https://beta.kultus.fi/fi/enrolments/cancel/RW5yb2xtZW50Tm9kZToxOV8yMDIwLTAxLTA0IDAwOjAwOjAwKzAwOjAw
 
     Custom message: custom message
 """
@@ -727,7 +822,7 @@ snapshots["test_approve_enrolment_with_custom_message 2"] = [
 snapshots["test_approve_enrolment 2"] = [
     """no-reply@hel.ninja|['barbarafarrell@yahoo.com']|Enrolment approved FI|
     Event FI: Raija Malka & Kaija Saariaho: Blick
-    Extra event info: Anyone during approach herself remember put list.
+    Extra event info: NGFIo
     Study group: Last appear experience seven. Throw wrong party wall agency customer clear. Control as receive cup.
     Occurrence: 06.01.2020 02.00
     Person: barbarafarrell@yahoo.com
@@ -735,7 +830,7 @@ snapshots["test_approve_enrolment 2"] = [
 """,
     """no-reply@hel.ninja|['barbarafarrell@yahoo.com']|Enrolment approved FI|
     Event FI: Raija Malka & Kaija Saariaho: Blick
-    Extra event info: Anyone during approach herself remember put list.
+    Extra event info: NGFIo
     Study group: Last appear experience seven. Throw wrong party wall agency customer clear. Control as receive cup.
     Occurrence: 06.01.2020 02.00
     Person: barbarafarrell@yahoo.com
@@ -746,7 +841,7 @@ snapshots["test_approve_enrolment 2"] = [
 snapshots["test_decline_enrolment 2"] = [
     """no-reply@hel.ninja|['barbarafarrell@yahoo.com']|Enrolment declined FI|
     Event FI: Raija Malka & Kaija Saariaho: Blick
-    Extra event info: Anyone during approach herself remember put list.
+    Extra event info: NGFIo
     Study group: Last appear experience seven. Throw wrong party wall agency customer clear. Control as receive cup.
     Occurrence: 06.01.2020 02.00
     Person: barbarafarrell@yahoo.com
@@ -754,7 +849,7 @@ snapshots["test_decline_enrolment 2"] = [
 """,
     """no-reply@hel.ninja|['barbarafarrell@yahoo.com']|Enrolment declined FI|
     Event FI: Raija Malka & Kaija Saariaho: Blick
-    Extra event info: Anyone during approach herself remember put list.
+    Extra event info: NGFIo
     Study group: Last appear experience seven. Throw wrong party wall agency customer clear. Control as receive cup.
     Occurrence: 06.01.2020 02.00
     Person: barbarafarrell@yahoo.com
@@ -769,10 +864,12 @@ snapshots["test_decline_enrolment_with_custom_message 1"] = {
 snapshots["test_decline_enrolment_with_custom_message 2"] = [
     """no-reply@hel.ninja|['barbarafarrell@yahoo.com']|Enrolment declined FI|
     Event FI: Raija Malka & Kaija Saariaho: Blick
-    Extra event info: Plant traditional after born.
+    Extra event info: LVGVb
     Study group: Last appear experience seven. Throw wrong party wall agency customer clear. Control as receive cup.
     Occurrence: 06.01.2020 02.00
     Person: barbarafarrell@yahoo.com
+    Click this link to cancel the enrolment:
+    https://beta.kultus.fi/fi/enrolments/cancel/RW5yb2xtZW50Tm9kZToyNF8yMDIwLTAxLTA0IDAwOjAwOjAwKzAwOjAw
 
     Custom message: custom message
 """
@@ -784,10 +881,10 @@ snapshots["test_update_enrolment 1"] = {
             "enrolment": {
                 "notificationType": "SMS",
                 "occurrence": {
-                    "amountOfSeats": 30,
-                    "remainingSeats": 4,
+                    "amountOfSeats": 35,
+                    "remainingSeats": 1,
                     "seatsApproved": 0,
-                    "seatsTaken": 26,
+                    "seatsTaken": 34,
                     "startTime": "2020-01-06T00:00:00+00:00",
                 },
                 "status": "PENDING",
@@ -850,9 +947,10 @@ snapshots["test_enrol_occurrence_with_captcha 1"] = {
                     "notificationType": "EMAIL",
                     "occurrence": {
                         "amountOfSeats": 50,
-                        "remainingSeats": 35,
+                        "remainingSeats": 30,
+                        "seatType": "CHILDREN_COUNT",
                         "seatsApproved": 0,
-                        "seatsTaken": 15,
+                        "seatsTaken": 20,
                         "startTime": "2020-01-06T00:00:00+00:00",
                     },
                     "status": "PENDING",
@@ -909,9 +1007,10 @@ snapshots["test_enrol_auto_acceptance_occurrence 1"] = {
                     "notificationType": "EMAIL",
                     "occurrence": {
                         "amountOfSeats": 50,
-                        "remainingSeats": 35,
+                        "remainingSeats": 30,
+                        "seatType": "CHILDREN_COUNT",
                         "seatsApproved": 0,
-                        "seatsTaken": 15,
+                        "seatsTaken": 20,
                         "startTime": "2020-01-06T00:00:00+00:00",
                     },
                     "status": "PENDING",
@@ -930,15 +1029,174 @@ snapshots["test_enrol_auto_acceptance_occurrence 2"] = {
                     "notificationType": "EMAIL",
                     "occurrence": {
                         "amountOfSeats": 50,
-                        "remainingSeats": 35,
-                        "seatsApproved": 15,
-                        "seatsTaken": 15,
+                        "remainingSeats": 30,
+                        "seatType": "CHILDREN_COUNT",
+                        "seatsApproved": 20,
+                        "seatsTaken": 20,
                         "startTime": "2020-01-06T00:00:00+00:00",
                     },
                     "status": "APPROVED",
                     "studyGroup": {"name": "To be created group"},
                 }
             ]
+        }
+    }
+}
+
+snapshots["test_cancel_enrolment_query 1"] = {
+    "data": {
+        "cancellingEnrolment": {
+            "enrolmentTime": "2020-01-04T00:00:00+00:00",
+            "occurrence": {"seatsTaken": 354},
+            "status": "PENDING",
+            "studyGroup": {
+                "groupSize": 345,
+                "name": "Dream party door better performance race story. Beautiful if his their. Stuff election stay every.",
+            },
+        }
+    }
+}
+
+snapshots["test_ask_for_cancelled_confirmation_mutation 1"] = {
+    "data": {"cancelEnrolment": {"enrolment": {"status": "PENDING"}}}
+}
+
+snapshots["test_cancel_enrolment_mutation 1"] = {
+    "data": {"cancelEnrolment": {"enrolment": {"status": "CANCELLED"}}}
+}
+
+snapshots["test_study_levels_query 1"] = {
+    "data": {
+        "studyLevels": {
+            "edges": [
+                {
+                    "node": {
+                        "id": "preschool",
+                        "label": None,
+                        "level": 0,
+                        "translations": [{"label": "preschool", "languageCode": "EN"}],
+                    }
+                },
+                {
+                    "node": {
+                        "id": "grade_1",
+                        "label": None,
+                        "level": 10,
+                        "translations": [
+                            {"label": "first grade", "languageCode": "EN"}
+                        ],
+                    }
+                },
+                {
+                    "node": {
+                        "id": "grade_2",
+                        "label": None,
+                        "level": 20,
+                        "translations": [
+                            {"label": "second grade", "languageCode": "EN"}
+                        ],
+                    }
+                },
+                {
+                    "node": {
+                        "id": "grade_3",
+                        "label": None,
+                        "level": 30,
+                        "translations": [
+                            {"label": "third grade", "languageCode": "EN"}
+                        ],
+                    }
+                },
+                {
+                    "node": {
+                        "id": "grade_4",
+                        "label": None,
+                        "level": 40,
+                        "translations": [
+                            {"label": "fourth grade", "languageCode": "EN"}
+                        ],
+                    }
+                },
+                {
+                    "node": {
+                        "id": "grade_5",
+                        "label": None,
+                        "level": 50,
+                        "translations": [
+                            {"label": "fifth grade", "languageCode": "EN"}
+                        ],
+                    }
+                },
+                {
+                    "node": {
+                        "id": "grade_6",
+                        "label": None,
+                        "level": 60,
+                        "translations": [
+                            {"label": "sixth grade", "languageCode": "EN"}
+                        ],
+                    }
+                },
+                {
+                    "node": {
+                        "id": "grade_7",
+                        "label": None,
+                        "level": 70,
+                        "translations": [
+                            {"label": "seventh grade", "languageCode": "EN"}
+                        ],
+                    }
+                },
+                {
+                    "node": {
+                        "id": "grade_8",
+                        "label": None,
+                        "level": 80,
+                        "translations": [
+                            {"label": "eighth grade", "languageCode": "EN"}
+                        ],
+                    }
+                },
+                {
+                    "node": {
+                        "id": "grade_9",
+                        "label": None,
+                        "level": 90,
+                        "translations": [
+                            {"label": "ninth grade", "languageCode": "EN"}
+                        ],
+                    }
+                },
+                {
+                    "node": {
+                        "id": "grade_10",
+                        "label": None,
+                        "level": 100,
+                        "translations": [
+                            {"label": "tenth grade", "languageCode": "EN"}
+                        ],
+                    }
+                },
+                {
+                    "node": {
+                        "id": "secondary",
+                        "label": None,
+                        "level": 110,
+                        "translations": [{"label": "secondary", "languageCode": "EN"}],
+                    }
+                },
+            ]
+        }
+    }
+}
+
+snapshots["test_study_level_query 1"] = {
+    "data": {
+        "studyLevel": {
+            "id": "preschool",
+            "label": None,
+            "level": 0,
+            "translations": [{"label": "preschool", "languageCode": "EN"}],
         }
     }
 }

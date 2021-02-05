@@ -36,7 +36,7 @@ jinja2==2.10.3            # via django-ilmoitin
 lockfile==0.12.2          # via django-mailer
 markupsafe==1.1.1         # via jinja2
 promise==2.2.1            # via graphene-django, graphql-core, graphql-relay
-psycopg2==2.8.4           # via -r requirements.in
+psycopg2-binary==2.8.6    # via -r requirements.in
 pyasn1==0.4.7             # via rsa
 pycryptodomex==3.9.0      # via pyjwkest
 pyjwkest==1.4.2           # via drf-oidc-auth

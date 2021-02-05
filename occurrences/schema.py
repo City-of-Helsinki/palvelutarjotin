@@ -20,10 +20,12 @@ from occurrences.models import (
     Occurrence,
     PalvelutarjotinEvent,
     StudyGroup,
+    StudyLevel,
     VenueCustomData,
 )
 from organisations.models import Organisation, Person
 from organisations.schema import PersonNodeInput
+from verification_token.models import VerificationToken
 
 from common.utils import (
     get_editable_obj_from_global_id,
@@ -36,25 +38,31 @@ from common.utils import (
 from palvelutarjotin.exceptions import (
     ApiUsageError,
     CaptchaValidationFailedError,
+    DataValidationError,
     EnrolCancelledOccurrenceError,
     EnrolmentClosedError,
     EnrolmentMaxNeededOccurrenceReached,
     EnrolmentNotEnoughCapacityError,
     EnrolmentNotStartedError,
     InvalidStudyGroupSizeError,
+    InvalidTokenError,
+    MissingMantatoryInformationError,
     ObjectDoesNotExistError,
 )
 
+StudyLevelTranslation = apps.get_model("occurrences", "StudyLevelTranslation")
 VenueTranslation = apps.get_model("occurrences", "VenueCustomDataTranslation")
-StudyLevelEnum = graphene.Enum(
-    "StudyLevel", [(l[0].upper(), l[0]) for l in StudyGroup.STUDY_LEVELS]
-)
+
 NotificationTypeEnum = graphene.Enum(
     "NotificationType", [(t[0].upper(), t[0]) for t in NOTIFICATION_TYPES]
 )
 
 EnrolmentStatusEnum = graphene.Enum(
     "EnrolmentStatus", [(s[0].upper(), s[0]) for s in Enrolment.STATUSES]
+)
+
+OccurrenceSeatTypeEnum = graphene.Enum(
+    "SeatType", [(t[0].upper(), t[0]) for t in Occurrence.OCCURRENCE_SEAT_TYPES]
 )
 
 
@@ -91,11 +99,37 @@ class PalvelutarjotinEventInput(InputObjectType):
     contact_phone_number = graphene.String()
     contact_email = graphene.String()
     auto_acceptance = graphene.Boolean()
+    mandatory_additional_information = graphene.Boolean()
+    payment_instruction = graphene.String()
+
+
+class StudyLevelTranslationType(DjangoObjectType):
+    language_code = LanguageEnum(required=True)
+
+    class Meta:
+        model = StudyLevelTranslation
+        exclude = ("id", "master")
+
+
+class StudyLevelNode(DjangoObjectType):
+    id = graphene.ID(source="pk", required=True)
+    label = graphene.String(
+        description="Translated field in the language defined in request "
+        "ACCEPT-LANGUAGE header "
+    )
+
+    class Meta:
+        model = StudyLevel
+        interfaces = (relay.Node,)
+        exclude = ("study_groups",)
+
+    @classmethod
+    def get_queryset(cls, queryset, info):
+        lang = get_language()
+        return queryset.language(lang)
 
 
 class StudyGroupNode(DjangoObjectType):
-    study_level = StudyLevelEnum()
-
     class Meta:
         model = StudyGroup
         interfaces = (relay.Node,)
@@ -116,8 +150,7 @@ class VenueTranslationsInput(InputObjectType):
 
 class VenueNode(DjangoObjectType):
     description = graphene.String(
-        description="Translated field in the language "
-        "defined in request "
+        description="Translated field in the language defined in request "
         "ACCEPT-LANGUAGE header "
     )
     id = graphene.ID(
@@ -169,9 +202,19 @@ class OccurrenceNode(DjangoObjectType):
         return self.amount_of_seats - self.seats_taken
 
 
-def validate_occurrence_data(kwargs):
-    # TODO: Validate place_id, languages ...
-    pass
+def validate_occurrence_data(kwargs, updated_obj=None):
+    end_time = (
+        kwargs.get("end_time", updated_obj.end_time)
+        if updated_obj
+        else kwargs["end_time"]
+    )
+    start_time = (
+        kwargs.get("start_time", updated_obj.start_time)
+        if updated_obj
+        else kwargs["start_time"]
+    )
+    if end_time <= start_time:
+        raise DataValidationError("End time must be after start time")
 
 
 @transaction.atomic
@@ -205,6 +248,7 @@ class AddOccurrenceMutation(graphene.relay.ClientIDMutation):
         contact_persons = graphene.List(PersonNodeInput)
         p_event_id = graphene.ID(required=True)
         amount_of_seats = graphene.Int(required=True)
+        seat_type = OccurrenceSeatTypeEnum()
         languages = NonNull(graphene.List(OccurrenceLanguageInput))
 
     occurrence = graphene.Field(OccurrenceNode)
@@ -252,6 +296,7 @@ class UpdateOccurrenceMutation(graphene.relay.ClientIDMutation):
             graphene.List(OccurrenceLanguageInput),
             description="If present, should include all languages of the occurrence",
         )
+        seat_type = OccurrenceSeatTypeEnum()
 
     occurrence = graphene.Field(OccurrenceNode)
 
@@ -260,6 +305,7 @@ class UpdateOccurrenceMutation(graphene.relay.ClientIDMutation):
     @transaction.atomic
     def mutate_and_get_payload(cls, root, info, **kwargs):
         occurrence = get_editable_obj_from_global_id(info, kwargs.pop("id"), Occurrence)
+        validate_occurrence_data(kwargs, occurrence)
         contact_persons = kwargs.pop("contact_persons", None)
         languages = kwargs.pop("languages", None)
         p_event = occurrence.p_event
@@ -401,12 +447,21 @@ class EnrolmentNode(DjangoObjectType):
 
 def validate_enrolment(study_group, occurrence, new_enrolment=True):
     # Expensive validation are sorted to bottom
+    if (
+        occurrence.p_event.mandatory_additional_information
+        and not study_group.extra_needs
+    ):
+        raise MissingMantatoryInformationError(
+            "This event requires additional information of study group"
+        )
     if occurrence.cancelled:
         raise EnrolCancelledOccurrenceError("Cannot enrol cancelled occurrence")
     if (
-        occurrence.max_group_size and study_group.group_size > occurrence.max_group_size
+        occurrence.max_group_size
+        and study_group.group_size_with_adults() > occurrence.max_group_size
     ) or (
-        occurrence.min_group_size and study_group.group_size < occurrence.min_group_size
+        occurrence.min_group_size
+        and study_group.group_size_with_adults() < occurrence.min_group_size
     ):
         raise InvalidStudyGroupSizeError(
             "Study group size not match occurrence group size"
@@ -428,9 +483,14 @@ def validate_enrolment(study_group, occurrence, new_enrolment=True):
             >= occurrence.p_event.needed_occurrences
         ):
             raise EnrolmentMaxNeededOccurrenceReached(
-                "Number of enroled occurrences greater than needed occurrences"
+                "Number of enrolled occurrences is greater than the needed occurrences"
             )
-        if occurrence.seats_taken + study_group.group_size > occurrence.amount_of_seats:
+        group_size = (
+            1
+            if occurrence.seat_type == Occurrence.OCCURRENCE_SEAT_TYPE_ENROLMENT_COUNT
+            else study_group.group_size_with_adults()
+        )
+        if occurrence.seats_taken + group_size > occurrence.amount_of_seats:
             raise EnrolmentNotEnoughCapacityError(
                 "Not enough space for this study group"
             )
@@ -444,7 +504,8 @@ def validate_enrolment(study_group, occurrence, new_enrolment=True):
 class StudyGroupInput(InputObjectType):
     person = NonNull(
         PersonNodeInput,
-        description="If person input doesn't include person id, a new person "
+        description="If person input doesn't include person id, "
+        "a new person "
         "object will be created",
     )
     name = graphene.String()
@@ -452,7 +513,7 @@ class StudyGroupInput(InputObjectType):
     group_name = graphene.String()
     extra_needs = graphene.String()
     amount_of_adult = graphene.Int()
-    study_level = StudyLevelEnum()
+    study_levels = graphene.List(graphene.String)
 
 
 def verify_captcha(key):
@@ -498,6 +559,11 @@ class EnrolOccurrenceMutation(graphene.relay.ClientIDMutation):
     def mutate_and_get_payload(cls, root, info, **kwargs):
         if settings.CAPTCHA_ENABLED:
             verify_captcha(kwargs.pop("captcha_key", None))
+        else:
+            # UI will always send the captcha,
+            # and if it is not removed,
+            # it will raise an error.
+            kwargs.pop("captcha_key", None)
         occurrence_gids = kwargs.pop("occurrence_ids")
         study_group = _create_study_group(kwargs.pop("study_group"))
         contact_person_data = kwargs.pop("person", None)
@@ -671,7 +737,7 @@ class AddStudyGroupMutation(graphene.relay.ClientIDMutation):
         group_name = graphene.String()
         extra_needs = graphene.String()
         amount_of_adult = graphene.Int()
-        study_level = StudyLevelEnum()
+        study_levels = graphene.List(graphene.String)
 
     study_group = graphene.Field(StudyGroupNode)
 
@@ -691,7 +757,7 @@ class UpdateStudyGroupMutation(graphene.relay.ClientIDMutation):
         group_name = graphene.String()
         extra_needs = graphene.String()
         amount_of_adult = graphene.Int()
-        study_level = StudyLevelEnum()
+        study_levels = graphene.List(graphene.String)
 
     study_group = graphene.Field(StudyGroupNode)
 
@@ -723,6 +789,57 @@ class DeleteStudyGroupMutation(graphene.relay.ClientIDMutation):
         return DeleteStudyGroupMutation()
 
 
+class CancelEnrolmentMutation(graphene.relay.ClientIDMutation):
+    class Input:
+        unique_id = graphene.ID(required=True)
+        token = graphene.String(
+            description="Need to be included to actually cancel the enrolment,"
+            "without this token, BE only initiate the"
+            "cancellation process by sending a confirmation "
+            "email to teacher"
+        )
+
+    enrolment = graphene.Field(EnrolmentNode)
+
+    @classmethod
+    @transaction.atomic
+    def mutate_and_get_payload(cls, root, info, **kwargs):
+        unique_id = kwargs["unique_id"]
+        token = kwargs.get("token")
+        try:
+            enrolment = Enrolment.objects.get_by_unique_id(unique_id)
+        except Enrolment.DoesNotExist as e:
+            raise ObjectDoesNotExistError(e)
+
+        if enrolment.occurrence.p_event.needed_occurrences > 1:
+            raise ApiUsageError("Cannot cancel multiple-occurrence enrolment")
+        if enrolment.status == enrolment.STATUS_CANCELLED:
+            raise ApiUsageError(
+                f"Enrolment status is already set to {enrolment.status}"
+            )
+
+        if not token:
+            # Start cancellation process, sending email including token, deactivate
+            # old token
+            enrolment.create_cancellation_token(deactivate_existing=True)
+            enrolment.ask_cancel_confirmation()
+        else:
+            # Finish cancellation process, change enrolment status
+            _verify_enrolment_token(enrolment, token)
+            enrolment.cancel()
+
+        return CancelEnrolmentMutation(enrolment=enrolment)
+
+
+def _verify_enrolment_token(enrolment, token):
+    try:
+        token_obj = VerificationToken.objects.get(key=token)
+    except VerificationToken.DoesNotExist:
+        raise InvalidTokenError("Token is invalid or expired")
+    if token_obj.content_object != enrolment or not token_obj.is_valid():
+        raise InvalidTokenError("Token is invalid or expired")
+
+
 class Query:
     occurrences = DjangoFilterConnectionField(OccurrenceNode)
     occurrence = relay.Node.Field(OccurrenceNode)
@@ -730,14 +847,33 @@ class Query:
     study_groups = DjangoConnectionField(StudyGroupNode)
     study_group = relay.Node.Field(StudyGroupNode)
 
+    study_levels = DjangoConnectionField(StudyLevelNode)
+    study_level = graphene.Field(StudyLevelNode, id=graphene.ID(required=True))
+
     venues = DjangoConnectionField(VenueNode)
     venue = graphene.Field(VenueNode, id=graphene.ID(required=True))
+
+    cancelling_enrolment = graphene.Field(EnrolmentNode, id=graphene.ID(required=True))
+
+    @staticmethod
+    def resolve_cancelling_enrolment(parent, info, **kwargs):
+        try:
+            return Enrolment.objects.get_by_unique_id(kwargs["id"])
+        except Enrolment.DoesNotExist:
+            return None
 
     @staticmethod
     def resolve_venue(parent, info, **kwargs):
         try:
             return VenueCustomData.objects.get(pk=kwargs.pop("id"))
         except VenueCustomData.DoesNotExist:
+            return None
+
+    @staticmethod
+    def resolve_study_level(parent, info, **kwargs):
+        try:
+            return StudyLevel.objects.get(pk=kwargs.pop("id"))
+        except StudyLevel.DoesNotExist:
             return None
 
     enrolments = DjangoConnectionField(EnrolmentNode)
@@ -764,10 +900,15 @@ class Query:
 
 
 def _create_study_group(study_group_data):
+    study_levels_data = study_group_data.pop("study_levels")
+
     person_data = study_group_data.pop("person")
     person = _get_or_create_contact_person(person_data)
     study_group_data["person_id"] = person.id
+
     study_group = StudyGroup.objects.create(**study_group_data)
+    study_group.study_levels.set(_get_study_levels(study_levels_data))
+
     return study_group
 
 
@@ -782,15 +923,28 @@ def _update_study_group(study_group_data, study_group_obj=None):
         except StudyGroup.DoesNotExist as e:
             raise ObjectDoesNotExistError(e)
 
+    # Handle a person
     person_data = study_group_data.pop("person", None)
     if person_data:
         person = _get_or_create_contact_person(person_data)
         study_group_data["person_id"] = person.id
+
+    # Handle study levels
+    study_levels_data = study_group_data.pop("study_levels", None)
+    if study_levels_data:
+        study_group_obj.study_levels.set(_get_study_levels(study_levels_data))
+
+    # update the populated object
     update_object(study_group_obj, study_group_data)
     return study_group_obj
 
 
 def _get_or_create_contact_person(contact_person_data):
+    """
+    If a contact person id is given,
+    get a contact person with a given non-assignable id
+    or else, create a contact person with a given data.
+    """
     if contact_person_data.get("id"):
         person_id = get_node_id_from_global_id(
             contact_person_data.get("id"), "PersonNode"
@@ -802,6 +956,21 @@ def _get_or_create_contact_person(contact_person_data):
     else:
         person = Person.objects.create(**contact_person_data)
     return person
+
+
+def _get_study_levels(study_level_ids):
+    """
+    Get a list of study level instances by using a list of study_level_ids.
+    NOTE: Creation not is not allowed.
+    """
+    result = []
+    for study_level_id in study_level_ids:
+        try:
+            study_level = StudyLevel.objects.get(id=study_level_id.lower())
+            result.append(study_level)
+        except StudyLevel.DoesNotExist as e:
+            raise ObjectDoesNotExistError(e)
+    return result
 
 
 class Mutation:
@@ -829,3 +998,5 @@ class Mutation:
     update_enrolment = UpdateEnrolmentMutation.Field()
     approve_enrolment = ApproveEnrolmentMutation.Field()
     decline_enrolment = DeclineEnrolmentMutation.Field()
+
+    cancel_enrolment = CancelEnrolmentMutation.Field()

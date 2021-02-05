@@ -1,5 +1,5 @@
 from copy import deepcopy
-from datetime import datetime
+from datetime import datetime, timedelta
 
 import pytest
 from django.core import mail
@@ -12,8 +12,15 @@ from occurrences.factories import (
     PalvelutarjotinEventFactory,
     StudyGroupFactory,
 )
-from occurrences.models import Enrolment, Occurrence, StudyGroup, VenueCustomData
+from occurrences.models import (
+    Enrolment,
+    Occurrence,
+    StudyGroup,
+    StudyLevel,
+    VenueCustomData,
+)
 from organisations.factories import PersonFactory
+from verification_token.models import VerificationToken
 
 from common.tests.utils import (
     assert_mails_match_snapshot,
@@ -23,11 +30,14 @@ from common.tests.utils import (
 from palvelutarjotin.consts import (
     API_USAGE_ERROR,
     CAPTCHA_VALIDATION_FAILED_ERROR,
+    DATA_VALIDATION_ERROR,
     ENROL_CANCELLED_OCCURRENCE_ERROR,
     ENROLMENT_CLOSED_ERROR,
     ENROLMENT_NOT_STARTED_ERROR,
     INVALID_STUDY_GROUP_SIZE_ERROR,
+    INVALID_TOKEN_ERROR,
     MAX_NEEDED_OCCURRENCES_REACHED_ERROR,
+    MISSING_MANDATORY_INFORMATION_ERROR,
     NOT_ENOUGH_CAPACITY_ERROR,
 )
 
@@ -36,6 +46,38 @@ from palvelutarjotin.consts import (
 def autouse_db(db):
     pass
 
+
+STUDY_LEVELS_QUERY = """
+    query StudyLevels{
+        studyLevels {
+            edges {
+                node {
+                    id
+                    label
+                    level
+                    translations {
+                        languageCode
+                        label
+                    }
+                }
+            }
+        }
+    }
+"""
+
+STUDY_LEVEL_QUERY = """
+    query StudyLevel($id: ID!){
+        studyLevel(id: $id){
+            id
+            label
+            level
+            translations {
+                languageCode
+                label
+            }
+        }
+    }
+"""
 
 STUDY_GROUPS_QUERY = """
 query StudyGroups{
@@ -50,7 +92,19 @@ query StudyGroups{
         groupSize
         groupName
         amountOfAdult
-        studyLevel
+        studyLevels {
+            edges {
+                node {
+                    id
+                    label
+                    level
+                    translations {
+                        languageCode
+                        label
+                    }
+                }
+            }
+        }
         extraNeeds
         occurrences {
           edges {
@@ -76,7 +130,19 @@ query StudyGroup($id: ID!){
     groupSize
     groupName
     amountOfAdult
-    studyLevel
+    studyLevels {
+        edges {
+            node {
+                id
+                label
+                level
+                translations {
+                    languageCode
+                    label
+                }
+            }
+        }
+    }
     extraNeeds
     occurrences {
       edges {
@@ -99,6 +165,7 @@ query Occurrences($upcoming: Boolean, $date: Date, $time: Time){
         remainingSeats
         seatsTaken
         seatsApproved
+        seatType
         pEvent{
             contactEmail
             contactPhoneNumber
@@ -107,6 +174,7 @@ query Occurrences($upcoming: Boolean, $date: Date, $time: Time){
             enrolmentStart
             linkedEventId
             autoAcceptance
+            mandatoryAdditionalInformation
         }
         startTime
         endTime
@@ -144,6 +212,7 @@ query Occurrence($id: ID!){
         enrolmentStart
         linkedEventId
         autoAcceptance
+        mandatoryAdditionalInformation
     }
     linkedEvent{
         name {
@@ -205,6 +274,7 @@ ADD_OCCURRENCE_MUTATION = """
             enrolmentStart
             linkedEventId
             autoAcceptance
+            mandatoryAdditionalInformation
           }
           languages{
             id
@@ -220,7 +290,7 @@ ADD_OCCURRENCE_VARIABLES = {
         "placeId": "place_id",
         "minGroupSize": 10,
         "startTime": "2020-05-05T00:00:00+00",
-        "endTime": "2020-05-05T00:00:00+00",
+        "endTime": "2020-05-06T00:00:00+00",
         "contactPersons": [
             {"name": "New name", "emailAddress": "newname@email.address"},
         ],
@@ -252,6 +322,7 @@ mutation updateOccurrence($input: UpdateOccurrenceMutationInput!){
         enrolmentEndDays
         enrolmentStart
         linkedEventId
+        mandatoryAdditionalInformation
       }
       languages{
         id
@@ -267,7 +338,7 @@ UPDATE_OCCURRENCE_VARIABLES = {
         "placeId": "place_id",
         "minGroupSize": 10,
         "startTime": "2020-05-05T00:00:00+00",
-        "endTime": "2020-05-05T00:00:00+00",
+        "endTime": "2020-05-06T00:00:00+00",
         "contactPersons": [
             {"id": "", "name": "New name", "emailAddress": "newname@email.address"},
         ],
@@ -284,6 +355,17 @@ mutation DeleteOccurrence($input: DeleteOccurrenceMutationInput!) {
   }
 }
 """
+
+
+def test_study_levels_query(snapshot, api_client):
+    executed = api_client.execute(STUDY_LEVELS_QUERY)
+    snapshot.assert_match(executed)
+
+
+def test_study_level_query(snapshot, api_client):
+    study_level = StudyLevel.objects.first()
+    executed = api_client.execute(STUDY_LEVEL_QUERY, variables={"id": study_level.id},)
+    snapshot.assert_match(executed)
 
 
 def test_study_groups_query(snapshot, study_group, api_client):
@@ -373,6 +455,10 @@ def test_add_occurrence(
     staff_api_client.user.person.organisations.add(organisation)
     executed = staff_api_client.execute(ADD_OCCURRENCE_MUTATION, variables=variables)
     snapshot.assert_match(executed)
+    # test validation
+    variables["input"]["endTime"] = variables["input"]["startTime"]
+    executed = staff_api_client.execute(ADD_OCCURRENCE_MUTATION, variables=variables)
+    assert_match_error_code(executed, DATA_VALIDATION_ERROR)
 
 
 def test_update_occurrence_unauthorized(
@@ -442,6 +528,10 @@ def test_update_occurrence(
     staff_api_client.user.person.organisations.add(organisation)
     executed = staff_api_client.execute(UPDATE_OCCURRENCE_MUTATION, variables=variables)
     snapshot.assert_match(executed)
+    # test validation
+    variables["input"]["endTime"] = variables["input"].pop("startTime")
+    executed = staff_api_client.execute(UPDATE_OCCURRENCE_MUTATION, variables=variables)
+    assert_match_error_code(executed, DATA_VALIDATION_ERROR)
 
 
 def test_delete_occurrence_unauthorized(
@@ -676,7 +766,19 @@ mutation addStudyGroup($input: AddStudyGroupMutationInput!){
       groupSize
       groupName
       amountOfAdult
-      studyLevel
+      studyLevels {
+        edges {
+            node {
+                id
+                label
+                level
+                translations {
+                    languageCode
+                    label
+                }
+            }
+        }
+      }
       extraNeeds
     }
   }
@@ -694,7 +796,7 @@ ADD_STUDY_GROUP_VARIABLES = {
         "name": "Sample study group name",
         "groupSize": 20,
         "amountOfAdult": 1,
-        "studyLevel": "GRADE_1",
+        "studyLevels": ["GRADE_1"],
         "groupName": "Sample group name",
         "extraNeeds": "Extra needs",
     }
@@ -726,7 +828,19 @@ mutation updateStudyGroup($input: UpdateStudyGroupMutationInput!){
       groupSize
       groupName
       amountOfAdult
-      studyLevel
+      studyLevels {
+        edges {
+            node {
+                id
+                label
+                level
+                translations {
+                    languageCode
+                    label
+                }
+            }
+        }
+      }
       extraNeeds
     }
   }
@@ -744,7 +858,7 @@ UPDATE_STUDY_GROUP_VARIABLES = {
         "name": "Sample study group name",
         "groupSize": 20,
         "amountOfAdult": 2,
-        "studyLevel": "GRADE_2",
+        "studyLevels": ["GRADE_2"],
         "groupName": "Sample group name",
         "extraNeeds": "Extra needs",
     }
@@ -817,6 +931,7 @@ mutation enrolOccurrence($input: EnrolOccurrenceMutationInput!){
         seatsApproved
         remainingSeats
         amountOfSeats
+        seatType
       }
       notificationType
       status
@@ -855,7 +970,7 @@ def test_enrol_not_started_occurrence(api_client):
                 "name": "To be created group",
                 "groupSize": study_group.group_size,
                 "groupName": study_group.group_name,
-                "studyLevel": study_group.study_level.upper(),
+                "studyLevels": [sl.id.upper() for sl in StudyLevel.objects.all()],
                 "amountOfAdult": study_group.amount_of_adult,
             },
         }
@@ -891,7 +1006,7 @@ def test_enrol_past_occurrence(api_client, occurrence):
                 "name": "To be created group",
                 "groupSize": study_group.group_size,
                 "groupName": study_group.group_name,
-                "studyLevel": study_group.study_level.upper(),
+                "studyLevels": [sl.id.upper() for sl in StudyLevel.objects.all()],
                 "amountOfAdult": study_group.amount_of_adult,
             },
         }
@@ -911,7 +1026,7 @@ def test_enrol_invalid_group_size(api_client, occurrence):
     occurrence = OccurrenceFactory(
         start_time=datetime(2020, 1, 6, 0, 0, 0, tzinfo=timezone.now().tzinfo),
         p_event=p_event_1,
-        min_group_size=10,
+        min_group_size=16,
         max_group_size=20,
     )
 
@@ -927,7 +1042,7 @@ def test_enrol_invalid_group_size(api_client, occurrence):
                 "name": "To be created group",
                 "groupSize": study_group_21.group_size,
                 "groupName": study_group_21.group_name,
-                "studyLevel": study_group_21.study_level.upper(),
+                "studyLevels": [sl.upper() for sl in study_group_21.study_levels.all()],
                 "amountOfAdult": study_group_21.amount_of_adult,
             },
         }
@@ -947,7 +1062,7 @@ def test_enrol_invalid_group_size(api_client, occurrence):
                 "name": "To be created group",
                 "groupSize": study_group_9.group_size,
                 "groupName": study_group_9.group_name,
-                "studyLevel": study_group_9.study_level.upper(),
+                "studyLevels": [sl.upper() for sl in study_group_9.study_levels.all()],
                 "amountOfAdult": study_group_9.amount_of_adult,
             },
         }
@@ -956,7 +1071,7 @@ def test_enrol_invalid_group_size(api_client, occurrence):
     assert_match_error_code(executed, INVALID_STUDY_GROUP_SIZE_ERROR)
 
 
-def test_enrol_full_occurrence(api_client, occurrence, mock_get_event_data):
+def test_enrol_full_children_occurrence(api_client, occurrence, mock_get_event_data):
     study_group_15 = StudyGroupFactory(group_size=15)
     study_group_20 = StudyGroupFactory(group_size=20)
     # Current date froze on 2020-01-04:
@@ -972,7 +1087,7 @@ def test_enrol_full_occurrence(api_client, occurrence, mock_get_event_data):
         amount_of_seats=34,
     )
 
-    occurrence.study_groups.add(study_group_20)
+    EnrolmentFactory(occurrence=occurrence, study_group=study_group_20)
     # Approve the enrolment to reduce the remaining seat
     Enrolment.objects.first().approve()
 
@@ -988,7 +1103,51 @@ def test_enrol_full_occurrence(api_client, occurrence, mock_get_event_data):
                 "name": "To be created group",
                 "groupSize": study_group_15.group_size,
                 "groupName": study_group_15.group_name,
-                "studyLevel": study_group_15.study_level.upper(),
+                "studyLevels": [sl.upper() for sl in study_group_15.study_levels.all()],
+                "amountOfAdult": study_group_15.amount_of_adult,
+            },
+        }
+    }
+    executed = api_client.execute(ENROL_OCCURRENCE_MUTATION, variables=variables)
+    assert_match_error_code(executed, NOT_ENOUGH_CAPACITY_ERROR)
+
+
+def test_enrol_full_enrolment_occurrence(api_client, occurrence, mock_get_event_data):
+    study_group_15 = StudyGroupFactory(group_size=15)
+    study_group_100 = StudyGroupFactory(group_size=100)
+    study_group_20 = StudyGroupFactory(group_size=20)
+    # Current date froze on 2020-01-04:
+    p_event_1 = PalvelutarjotinEventFactory(
+        enrolment_start=datetime(2020, 1, 3, 0, 0, 0, tzinfo=timezone.now().tzinfo),
+        enrolment_end_days=2,
+    )
+    occurrence = OccurrenceFactory(
+        start_time=datetime(2020, 1, 6, 0, 0, 0, tzinfo=timezone.now().tzinfo),
+        p_event=p_event_1,
+        min_group_size=10,
+        max_group_size=101,
+        amount_of_seats=2,
+        seat_type=Occurrence.OCCURRENCE_SEAT_TYPE_ENROLMENT_COUNT,
+    )
+
+    EnrolmentFactory(occurrence=occurrence, study_group=study_group_20)
+    EnrolmentFactory(occurrence=occurrence, study_group=study_group_100)
+    # Approve the enrolment to reduce the remaining seat
+    Enrolment.objects.first().approve()
+
+    variables = {
+        "input": {
+            "occurrenceIds": [to_global_id("OccurrenceNode", occurrence.id)],
+            "studyGroup": {
+                "person": {
+                    "id": to_global_id("PersonNode", study_group_15.person.id),
+                    "name": study_group_15.person.name,
+                    "emailAddress": study_group_15.person.email_address,
+                },
+                "name": "To be created group",
+                "groupSize": study_group_15.group_size,
+                "groupName": study_group_15.group_name,
+                "studyLevels": [sl.upper() for sl in study_group_15.study_levels.all()],
                 "amountOfAdult": study_group_15.amount_of_adult,
             },
         }
@@ -1014,13 +1173,42 @@ def test_enrol_cancelled_occurrence(api_client, occurrence):
                 "name": "To be created group",
                 "groupSize": study_group.group_size,
                 "groupName": study_group.group_name,
-                "studyLevel": study_group.study_level.upper(),
+                "studyLevels": [sl.id.upper() for sl in StudyLevel.objects.all()],
                 "amountOfAdult": study_group.amount_of_adult,
             },
         }
     }
     executed = api_client.execute(ENROL_OCCURRENCE_MUTATION, variables=variables)
     assert_match_error_code(executed, ENROL_CANCELLED_OCCURRENCE_ERROR)
+
+
+def test_enrol_occurrence_without_required_information(api_client, occurrence):
+    study_group = StudyGroupFactory(group_size=10, extra_needs="")
+    p_event = occurrence.p_event
+    p_event.mandatory_additional_information = True
+    p_event.save()
+
+    assert study_group.extra_needs == ""
+
+    variables = {
+        "input": {
+            "occurrenceIds": [to_global_id("OccurrenceNode", occurrence.id)],
+            "studyGroup": {
+                "person": {
+                    "id": to_global_id("PersonNode", study_group.person.id),
+                    "name": study_group.person.name,
+                    "emailAddress": study_group.person.email_address,
+                },
+                "name": "To be created group",
+                "groupSize": study_group.group_size,
+                "groupName": study_group.group_name,
+                "studyLevels": [sl.id.upper() for sl in StudyLevel.objects.all()],
+                "amountOfAdult": study_group.amount_of_adult,
+            },
+        }
+    }
+    executed = api_client.execute(ENROL_OCCURRENCE_MUTATION, variables=variables)
+    assert_match_error_code(executed, MISSING_MANDATORY_INFORMATION_ERROR)
 
 
 def test_enrol_occurrence(snapshot, api_client, mock_get_event_data):
@@ -1038,9 +1226,21 @@ def test_enrol_occurrence(snapshot, api_client, mock_get_event_data):
         amount_of_seats=50,
     )
 
+    occurrence_2 = OccurrenceFactory(
+        start_time=datetime(2020, 1, 6, 0, 0, 0, tzinfo=timezone.now().tzinfo),
+        p_event=p_event_1,
+        min_group_size=10,
+        max_group_size=20,
+        amount_of_seats=2,
+        seat_type=Occurrence.OCCURRENCE_SEAT_TYPE_ENROLMENT_COUNT,
+    )
+
     variables = {
         "input": {
-            "occurrenceIds": [to_global_id("OccurrenceNode", occurrence.id)],
+            "occurrenceIds": [
+                to_global_id("OccurrenceNode", occurrence.id),
+                to_global_id("OccurrenceNode", occurrence_2.id),
+            ],
             "studyGroup": {
                 "person": {
                     "id": to_global_id("PersonNode", study_group_15.person.id),
@@ -1050,7 +1250,7 @@ def test_enrol_occurrence(snapshot, api_client, mock_get_event_data):
                 "name": "To be created group",
                 "groupSize": study_group_15.group_size,
                 "groupName": study_group_15.group_name,
-                "studyLevel": study_group_15.study_level.upper(),
+                "studyLevels": [sl.upper() for sl in study_group_15.study_levels.all()],
                 "amountOfAdult": study_group_15.amount_of_adult,
             },
         }
@@ -1089,7 +1289,7 @@ def test_enrol_occurrence_with_captcha(
                 "name": "To be created group",
                 "groupSize": study_group_15.group_size,
                 "groupName": study_group_15.group_name,
-                "studyLevel": study_group_15.study_level.upper(),
+                "studyLevels": [sl.upper() for sl in study_group_15.study_levels.all()],
                 "amountOfAdult": study_group_15.amount_of_adult,
             },
         }
@@ -1141,7 +1341,7 @@ def test_enrol_auto_acceptance_occurrence(snapshot, api_client, mock_get_event_d
                 "name": "To be created group",
                 "groupSize": study_group_15.group_size,
                 "groupName": study_group_15.group_name,
-                "studyLevel": study_group_15.study_level.upper(),
+                "studyLevels": [sl.upper() for sl in study_group_15.study_levels.all()],
                 "amountOfAdult": study_group_15.amount_of_adult,
             },
         }
@@ -1163,7 +1363,7 @@ def test_enrol_auto_acceptance_occurrence(snapshot, api_client, mock_get_event_d
                 "name": "To be created group",
                 "groupSize": study_group_15.group_size,
                 "groupName": study_group_15.group_name,
-                "studyLevel": study_group_15.study_level.upper(),
+                "studyLevels": [sl.upper() for sl in study_group_15.study_levels.all()],
                 "amountOfAdult": study_group_15.amount_of_adult,
             },
         }
@@ -1204,7 +1404,7 @@ def test_enrol_max_needed_occurrences(snapshot, api_client, mock_get_event_data)
                 "name": "To be created group",
                 "groupSize": study_group_15.group_size,
                 "groupName": study_group_15.group_name,
-                "studyLevel": study_group_15.study_level.upper(),
+                "studyLevels": [sl.upper() for sl in study_group_15.study_levels.all()],
                 "amountOfAdult": study_group_15.amount_of_adult,
             },
         }
@@ -1247,7 +1447,7 @@ def test_unenrol_occurrence_unauthorized(
         max_group_size=20,
         amount_of_seats=50,
     )
-    occurrence.study_groups.add(study_group_15)
+    EnrolmentFactory(occurrence=occurrence, study_group=study_group_15)
     assert occurrence.study_groups.count() == 1
 
     variables = {
@@ -1290,8 +1490,8 @@ def test_unenrol_occurrence(snapshot, staff_api_client, mock_get_event_data):
         max_group_size=20,
         amount_of_seats=50,
     )
-    occurrence.study_groups.add(study_group_15)
-    occurrence_2.study_groups.add(study_group_15)
+    EnrolmentFactory(occurrence=occurrence, study_group=study_group_15)
+    EnrolmentFactory(occurrence=occurrence_2, study_group=study_group_15)
     assert occurrence.study_groups.count() == 1
     assert occurrence_2.study_groups.count() == 1
     assert study_group_15.occurrences.count() == 2
@@ -1349,7 +1549,7 @@ def test_approve_cancelled_occurrence_enrolment(snapshot, staff_api_client):
         amount_of_seats=50,
     )
 
-    occurrence.study_groups.add(study_group)
+    EnrolmentFactory(occurrence=occurrence, study_group=study_group)
     occurrence.cancelled = True
     occurrence.save()
     enrolment = occurrence.enrolments.first()
@@ -1389,11 +1589,23 @@ def test_approve_enrolment(
         max_group_size=20,
         amount_of_seats=50,
     )
-    occurrence.study_groups.add(study_group_15)
+    EnrolmentFactory(
+        occurrence=occurrence, study_group=study_group_15, person=study_group_15.person
+    )
     enrolment = occurrence.enrolments.first()
-    occurrence_2.study_groups.add(study_group_15)
-    occurrence.study_groups.add(study_group_10)
-    occurrence_2.study_groups.add(study_group_10)
+    EnrolmentFactory(
+        occurrence=occurrence_2,
+        study_group=study_group_15,
+        person=study_group_15.person,
+    )
+    EnrolmentFactory(
+        occurrence=occurrence, study_group=study_group_10, person=study_group_10.person
+    )
+    EnrolmentFactory(
+        occurrence=occurrence_2,
+        study_group=study_group_10,
+        person=study_group_10.person,
+    )
 
     assert occurrence.study_groups.count() == 2
     assert occurrence_2.study_groups.count() == 2
@@ -1436,7 +1648,9 @@ def test_approve_enrolment_with_custom_message(
         max_group_size=20,
         amount_of_seats=50,
     )
-    occurrence.study_groups.add(study_group_15)
+    EnrolmentFactory(
+        occurrence=occurrence, study_group=study_group_15, person=study_group_15.person
+    )
     assert occurrence.study_groups.count() == 1
     enrolment = occurrence.enrolments.first()
     assert enrolment.status == Enrolment.STATUS_PENDING
@@ -1483,11 +1697,23 @@ def test_decline_enrolment(
         max_group_size=20,
         amount_of_seats=50,
     )
-    occurrence.study_groups.add(study_group_15)
+    EnrolmentFactory(
+        occurrence=occurrence, study_group=study_group_15, person=study_group_15.person
+    )
     enrolment = occurrence.enrolments.first()
-    occurrence_2.study_groups.add(study_group_15)
-    occurrence.study_groups.add(study_group_10)
-    occurrence_2.study_groups.add(study_group_10)
+    EnrolmentFactory(
+        occurrence=occurrence_2,
+        study_group=study_group_15,
+        person=study_group_15.person,
+    )
+    EnrolmentFactory(
+        occurrence=occurrence, study_group=study_group_10, person=study_group_10.person
+    )
+    EnrolmentFactory(
+        occurrence=occurrence_2,
+        study_group=study_group_10,
+        person=study_group_10.person,
+    )
 
     assert occurrence.study_groups.count() == 2
     assert occurrence_2.study_groups.count() == 2
@@ -1530,7 +1756,9 @@ def test_decline_enrolment_with_custom_message(
         max_group_size=20,
         amount_of_seats=50,
     )
-    occurrence.study_groups.add(study_group_15)
+    EnrolmentFactory(
+        occurrence=occurrence, study_group=study_group_15, person=study_group_15.person
+    )
     assert occurrence.study_groups.count() == 1
     enrolment = occurrence.enrolments.first()
     assert enrolment.status == Enrolment.STATUS_PENDING
@@ -1594,7 +1822,7 @@ def test_update_enrolment_unauthorized(api_client, user_api_client):
         max_group_size=20,
         amount_of_seats=50,
     )
-    occurrence.study_groups.add(study_group_15)
+    EnrolmentFactory(occurrence=occurrence, study_group=study_group_15)
     assert Enrolment.objects.count() == 1
     enrolment = Enrolment.objects.first()
     variables = {"input": {"enrolmentId": to_global_id("EnrolmentNode", enrolment.id)}}
@@ -1620,21 +1848,21 @@ def test_update_enrolment(snapshot, staff_api_client):
         p_event=p_event_1,
         min_group_size=10,
         max_group_size=20,
-        amount_of_seats=30,
+        amount_of_seats=35,
     )
     occurrence_2 = OccurrenceFactory(
         start_time=datetime(2020, 1, 6, 0, 0, 0, tzinfo=timezone.now().tzinfo),
         p_event=p_event_1,
         min_group_size=10,
         max_group_size=20,
-        amount_of_seats=30,
+        amount_of_seats=35,
     )
-    occurrence_1.study_groups.add(study_group_15)
+    EnrolmentFactory(occurrence=occurrence_1, study_group=study_group_15)
     staff_api_client.user.person.organisations.add(occurrence_1.p_event.organisation)
     enrolment = Enrolment.objects.first()
-    occurrence_2.study_groups.add(study_group_15)
-    occurrence_1.study_groups.add(study_group_10)
-    occurrence_2.study_groups.add(study_group_10)
+    EnrolmentFactory(occurrence=occurrence_2, study_group=study_group_15)
+    EnrolmentFactory(occurrence=occurrence_1, study_group=study_group_10)
+    EnrolmentFactory(occurrence=occurrence_2, study_group=study_group_10)
     assert Enrolment.objects.count() == 4
     variables = {
         "input": {
@@ -1649,7 +1877,7 @@ def test_update_enrolment(snapshot, staff_api_client):
                 "name": "Updated name",
                 "groupSize": 16,
                 "groupName": "Updated study group name",
-                "studyLevel": study_group_15.study_level.upper(),
+                "studyLevels": [sl.upper() for sl in study_group_15.study_levels.all()],
                 "amountOfAdult": 3,
             },
         }
@@ -1904,3 +2132,161 @@ def test_enrolments_summary(
             variables={"organisationId": organisation_gid, "status": status.upper()},
         )
         snapshot.assert_match(executed)
+
+
+CANCEL_ENROLMENT_QUERY = """
+query cancellingEnrolment($id: ID!){
+    cancellingEnrolment(id: $id){
+        enrolmentTime
+        status
+        occurrence{
+            seatsTaken
+        }
+        studyGroup{
+            name
+            groupSize
+        }
+    }
+}
+"""
+
+
+def test_cancel_enrolment_query(snapshot, api_client, occurrence, study_group):
+    enrolment = EnrolmentFactory(occurrence=occurrence, study_group=study_group)
+    executed = api_client.execute(
+        CANCEL_ENROLMENT_QUERY, variables={"id": enrolment.get_unique_id()}
+    )
+    snapshot.assert_match(executed)
+
+
+CANCEL_ENROLMENT_MUTATION = """
+    mutation cancelEnrolmentMutation($input: CancelEnrolmentMutationInput!){
+        cancelEnrolment(input: $input){
+            enrolment{
+                status
+            }
+        }
+    }
+"""
+
+
+def test_ask_for_cancelled_confirmation_mutation_error(
+    snapshot, api_client, study_group
+):
+    occurrence = OccurrenceFactory(p_event__needed_occurrences=1)
+    occurrence_2 = OccurrenceFactory(p_event__needed_occurrences=2)
+
+    enrolment = EnrolmentFactory(occurrence=occurrence, study_group=study_group)
+    enrolment_2 = EnrolmentFactory(occurrence=occurrence_2, study_group=study_group)
+
+    enrolment.set_status(Enrolment.STATUS_CANCELLED)
+    executed = api_client.execute(
+        CANCEL_ENROLMENT_MUTATION,
+        variables={"input": {"uniqueId": enrolment.get_unique_id()}},
+    )
+
+    # Enrolment already cancelled
+    assert_match_error_code(executed, API_USAGE_ERROR)
+
+    executed = api_client.execute(
+        CANCEL_ENROLMENT_MUTATION,
+        variables={"input": {"uniqueId": enrolment_2.get_unique_id()}},
+    )
+
+    # Cannot cancel multi-occurrences enrolment
+    assert_match_error_code(executed, API_USAGE_ERROR)
+
+
+def test_ask_for_cancelled_confirmation_mutation(snapshot, api_client, study_group):
+    occurrence = OccurrenceFactory(p_event__needed_occurrences=1)
+
+    enrolment = EnrolmentFactory(occurrence=occurrence, study_group=study_group)
+    assert enrolment.verification_tokens.count() == 0
+    executed = api_client.execute(
+        CANCEL_ENROLMENT_MUTATION,
+        variables={"input": {"uniqueId": enrolment.get_unique_id()}},
+    )
+
+    snapshot.assert_match(executed)
+
+    token_qs = enrolment.get_active_verification_tokens(
+        verification_type=VerificationToken.VERIFICATION_TYPE_CANCELLATION
+    )
+    assert token_qs.count() == 1
+    token = token_qs[0]
+    api_client.execute(
+        CANCEL_ENROLMENT_MUTATION,
+        variables={"input": {"uniqueId": enrolment.get_unique_id()}},
+    )
+
+    # Verify if token changed
+    enrolment.refresh_from_db()
+    new_token = enrolment.get_active_verification_tokens(
+        verification_type=VerificationToken.VERIFICATION_TYPE_CANCELLATION
+    )[0]
+    assert not token.id == new_token.id
+
+
+def test_cancel_enrolment_mutation_invalid_token(snapshot, api_client, study_group):
+    occurrence = OccurrenceFactory(p_event__needed_occurrences=1)
+
+    enrolment = EnrolmentFactory(occurrence=occurrence, study_group=study_group)
+
+    # Token does not exist
+    invalid_token_key = "invalid_token_key"
+    executed = api_client.execute(
+        CANCEL_ENROLMENT_MUTATION,
+        variables={
+            "input": {"uniqueId": enrolment.get_unique_id(), "token": invalid_token_key}
+        },
+    )
+    assert_match_error_code(executed, INVALID_TOKEN_ERROR)
+
+    invalid_token_key = EnrolmentFactory().create_cancellation_token().key
+    executed = api_client.execute(
+        CANCEL_ENROLMENT_MUTATION,
+        variables={
+            "input": {"uniqueId": enrolment.get_unique_id(), "token": invalid_token_key}
+        },
+    )
+    assert_match_error_code(executed, INVALID_TOKEN_ERROR)
+
+    token = enrolment.create_cancellation_token()
+    # Expired token
+    token.expiry_date = timezone.now() - timedelta(days=1)
+    token.save()
+    assert token.is_active
+    executed = api_client.execute(
+        CANCEL_ENROLMENT_MUTATION,
+        variables={
+            "input": {"uniqueId": enrolment.get_unique_id(), "token": token.key}
+        },
+    )
+    assert_match_error_code(executed, INVALID_TOKEN_ERROR)
+
+    # Deactivated token
+    token.expiry_date = timezone.now() + timedelta(days=1)
+    token.is_active = False
+    token.save()
+    executed = api_client.execute(
+        CANCEL_ENROLMENT_MUTATION,
+        variables={
+            "input": {"uniqueId": enrolment.get_unique_id(), "token": token.key}
+        },
+    )
+    assert_match_error_code(executed, INVALID_TOKEN_ERROR)
+
+
+def test_cancel_enrolment_mutation(snapshot, api_client, study_group):
+    occurrence = OccurrenceFactory(p_event__needed_occurrences=1)
+
+    enrolment = EnrolmentFactory(occurrence=occurrence, study_group=study_group)
+
+    token = enrolment.create_cancellation_token()
+    executed = api_client.execute(
+        CANCEL_ENROLMENT_MUTATION,
+        variables={
+            "input": {"uniqueId": enrolment.get_unique_id(), "token": token.key}
+        },
+    )
+    snapshot.assert_match(executed)

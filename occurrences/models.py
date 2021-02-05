@@ -1,19 +1,26 @@
 from datetime import timedelta
 
+from django.contrib.contenttypes.fields import GenericRelation
 from django.db import models, transaction
-from django.db.models import Q, Sum
+from django.db.models import F, Q, Sum
+from django.utils import timezone
 from django.utils.timezone import localtime
 from django.utils.translation import ugettext_lazy as _
+from django_ilmoitin.utils import send_notification
 from graphene_linked_events.utils import retrieve_linked_events_data
+from graphql_relay import to_global_id
 from occurrences.consts import (
     NOTIFICATION_TYPE_EMAIL,
     NOTIFICATION_TYPES,
     NotificationTemplate,
 )
-from occurrences.utils import send_event_notifications_to_contact_person
+from occurrences.utils import send_event_notifications_to_person
 from parler.models import TranslatedFields
+from verification_token.models import VerificationToken
 
 from common.models import TimestampedModel, TranslatableModel
+from common.utils import get_node_id_from_global_id
+from palvelutarjotin import settings
 from palvelutarjotin.exceptions import ApiUsageError
 
 
@@ -64,6 +71,14 @@ class PalvelutarjotinEvent(TimestampedModel):
         default=False, verbose_name=_("auto acceptance")
     )
 
+    mandatory_additional_information = models.BooleanField(
+        default=False, verbose_name=_("mandatory additional information")
+    )
+
+    payment_instruction = models.TextField(
+        blank=True, verbose_name=_("payment instruction")
+    )
+
     class Meta:
         verbose_name = _("palvelutarjotin event")
         verbose_name_plural = _("palvelutarjotin events")
@@ -97,6 +112,18 @@ class PalvelutarjotinEvent(TimestampedModel):
             raise ValueError("Palvelutarjotin event has no occurrence")
         return last_occurrence.start_time - timedelta(days=self.enrolment_end_days)
 
+    def get_link_to_provider_ui(self, language=settings.LANGUAGE_CODE):
+        return (
+            f"{settings.KULTUS_PROVIDER_UI_BASE_URL}{language}/events/"
+            f"{self.linked_event_id}"
+        )
+
+    def get_link_to_teacher_ui(self, language=settings.LANGUAGE_CODE):
+        return (
+            f"{settings.KULTUS_TEACHER_UI_BASE_URL}{language}/events/"
+            f"{self.linked_event_id}"
+        )
+
 
 class Language(models.Model):
     id = models.CharField(max_length=10, primary_key=True)
@@ -111,6 +138,13 @@ class Language(models.Model):
 
 
 class Occurrence(TimestampedModel):
+    OCCURRENCE_SEAT_TYPE_CHILDREN_COUNT = "children_count"
+    OCCURRENCE_SEAT_TYPE_ENROLMENT_COUNT = "enrolment_count"
+
+    OCCURRENCE_SEAT_TYPES = (
+        (OCCURRENCE_SEAT_TYPE_CHILDREN_COUNT, _("children count")),
+        (OCCURRENCE_SEAT_TYPE_ENROLMENT_COUNT, _("enrolment count")),
+    )
     p_event = models.ForeignKey(
         PalvelutarjotinEvent,
         verbose_name=_("palvelutarjotin event"),
@@ -149,6 +183,12 @@ class Occurrence(TimestampedModel):
         "Language", verbose_name=_("languages"), blank=True, related_name="occurrences"
     )
     cancelled = models.BooleanField(verbose_name=_("cancelled"), default=False)
+    seat_type = models.CharField(
+        max_length=64,
+        verbose_name=_("seat type"),
+        choices=OCCURRENCE_SEAT_TYPES,
+        default=OCCURRENCE_SEAT_TYPE_CHILDREN_COUNT,
+    )
 
     class Meta:
         verbose_name = _("occurrence")
@@ -165,21 +205,35 @@ class Occurrence(TimestampedModel):
 
     @property
     def seats_approved(self):
-        return (
-            self.enrolments.filter(status=Enrolment.STATUS_APPROVED).aggregate(
-                seats_taken=Sum("study_group__group_size")
-            )["seats_taken"]
-            or 0
-        )
+        qs = self.enrolments.filter(status=Enrolment.STATUS_APPROVED)
+        if self.seat_type == self.OCCURRENCE_SEAT_TYPE_CHILDREN_COUNT:
+            return (
+                qs.aggregate(
+                    seats_taken=Sum(
+                        F("study_group__group_size") + F("study_group__amount_of_adult")
+                    )
+                )["seats_taken"]
+                or 0
+            )
+        else:
+            return qs.count()
 
     @property
     def seats_taken(self):
-        return (
-            self.enrolments.filter(
-                Q(status=Enrolment.STATUS_APPROVED) | Q(status=Enrolment.STATUS_PENDING)
-            ).aggregate(seats_taken=Sum("study_group__group_size"))["seats_taken"]
-            or 0
+        qs = self.enrolments.filter(
+            Q(status=Enrolment.STATUS_APPROVED) | Q(status=Enrolment.STATUS_PENDING)
         )
+        if self.seat_type == self.OCCURRENCE_SEAT_TYPE_CHILDREN_COUNT:
+            return (
+                qs.aggregate(
+                    seats_taken=Sum(
+                        F("study_group__group_size") + F("study_group__amount_of_adult")
+                    )
+                )["seats_taken"]
+                or 0
+            )
+        else:
+            return qs.count()
 
     def is_editable_by_user(self, user):
         return user.person.organisations.filter(
@@ -192,21 +246,31 @@ class Occurrence(TimestampedModel):
         self.save()
         for e in self.enrolments.all():
             e.set_status(Enrolment.STATUS_CANCELLED)
-            send_event_notifications_to_contact_person(
-                e.person,
-                self,
-                e.study_group,
-                e.notification_type,
+            e.send_event_notifications_to_contact_people(
                 NotificationTemplate.OCCURRENCE_CANCELLED,
                 NotificationTemplate.OCCURRENCE_CANCELLED_SMS,
-                event=e.occurrence.p_event.get_event_data(),
                 custom_message=reason,
-                enrolment=e,
             )
 
     @property
     def local_start_time(self):
         return localtime(self.start_time)
+
+    def get_link_to_provider_ui(self, language=settings.LANGUAGE_CODE):
+        global_id = to_global_id("OccurrenceNode", self.id)
+        return (
+            f"{settings.KULTUS_PROVIDER_UI_BASE_URL}{language}/events/"
+            f"{self.p_event.linked_event_id}/occurrences/{global_id}"
+        )
+
+    def pending_enrolments(self):
+        return self.enrolments.filter(status=Enrolment.STATUS_PENDING)
+
+    def new_enrolments(self, days=1):
+        return self.enrolments.filter(
+            status=Enrolment.STATUS_APPROVED,
+            enrolment_time__gte=timezone.now() - timedelta(days=days),
+        )
 
 
 class VenueCustomData(TranslatableModel):
@@ -235,33 +299,31 @@ class VenueCustomData(TranslatableModel):
         return f"{self.place_id}"
 
 
+class StudyLevel(TranslatableModel):
+    """
+    The Study Level is intended to be a hierarchical list of teaching degrees.
+    """
+
+    id = models.CharField(
+        max_length=255, primary_key=True
+    )  # PT-678 needs migration for 255 chars.
+    translations = TranslatedFields(
+        label=models.CharField(max_length=255, verbose_name=_("label"))
+    )  # Labels can have custom language translations.
+    level = models.PositiveIntegerField(
+        _("level"), help_text=_("Used to make a hierarchy between study levels.")
+    )  # Level is used make a hierarchy between different StudyLevel instances.
+
+    class Meta:
+        verbose_name = _("study level")
+        verbose_name_plural = _("study levels")
+        ordering = ["level"]
+
+    def __str__(self):
+        return f"{self.id}"
+
+
 class StudyGroup(TimestampedModel):
-    STUDY_LEVEL_PRESCHOOL = "preschool"
-    STUDY_LEVEL_GRADE_1 = "grade_1"
-    STUDY_LEVEL_GRADE_2 = "grade_2"
-    STUDY_LEVEL_GRADE_3 = "grade_3"
-    STUDY_LEVEL_GRADE_4 = "grade_4"
-    STUDY_LEVEL_GRADE_5 = "grade_5"
-    STUDY_LEVEL_GRADE_6 = "grade_6"
-    STUDY_LEVEL_GRADE_7 = "grade_7"
-    STUDY_LEVEL_GRADE_8 = "grade_8"
-    STUDY_LEVEL_GRADE_9 = "grade_9"
-    STUDY_LEVEL_GRADE_10 = "grade_10"
-    STUDY_LEVEL_SECONDARY = "secondary"
-    STUDY_LEVELS = (
-        (STUDY_LEVEL_PRESCHOOL, _("preschool")),
-        (STUDY_LEVEL_GRADE_1, _("first grade")),
-        (STUDY_LEVEL_GRADE_2, _("second grade")),
-        (STUDY_LEVEL_GRADE_3, _("third grade")),
-        (STUDY_LEVEL_GRADE_4, _("fourth grade")),
-        (STUDY_LEVEL_GRADE_5, _("fifth grade")),
-        (STUDY_LEVEL_GRADE_6, _("sixth grade")),
-        (STUDY_LEVEL_GRADE_7, _("seventh grade")),
-        (STUDY_LEVEL_GRADE_8, _("eighth grade")),
-        (STUDY_LEVEL_GRADE_9, _("ninth grade")),
-        (STUDY_LEVEL_GRADE_10, _("tenth grade")),
-        (STUDY_LEVEL_SECONDARY, _("secondary")),
-    )
     person = models.ForeignKey(
         "organisations.Person", verbose_name=_("person"), on_delete=models.PROTECT
     )
@@ -273,9 +335,11 @@ class StudyGroup(TimestampedModel):
     group_name = models.CharField(
         max_length=255, blank=True, verbose_name=_("group name")
     )
-
-    study_level = models.CharField(
-        max_length=255, blank=True, verbose_name=_("study level"), choices=STUDY_LEVELS
+    study_levels = models.ManyToManyField(
+        StudyLevel,
+        verbose_name=_("study levels"),
+        blank=True,
+        related_name="study_groups",
     )
     extra_needs = models.CharField(max_length=1000, blank=True, verbose_name=_("name"))
 
@@ -287,6 +351,73 @@ class StudyGroup(TimestampedModel):
 
     def __str__(self):
         return f"{self.id} {self.name}"
+
+    def group_size_with_adults(self):
+        """
+        Sum an amount of adults to a size of group.
+        """
+        if self.group_size:
+            return self.group_size + (
+                self.amount_of_adult if self.amount_of_adult is not None else 0
+            )
+        return None
+
+
+class EnrolmentQuerySet(models.QuerySet):
+    def send_enrolment_summary_report_to_providers(self, days=1):
+        reports = {}
+        # Query all pending enrolments and
+        # any new auto accepted enrolments during the last `days`
+        enrolments = self.filter(
+            Q(
+                enrolment_time__gte=(timezone.now() - timedelta(days=days)),
+                status=Enrolment.STATUS_APPROVED,
+                occurrence__p_event__auto_acceptance=True,
+            )
+            | Q(status=Enrolment.STATUS_PENDING)
+        ).select_related("occurrence", "occurrence__p_event")
+        p_events = (
+            PalvelutarjotinEvent.objects.filter(occurrences__enrolments__in=enrolments)
+            .prefetch_related("occurrences__enrolments")
+            .distinct()
+        )
+
+        for p_event in p_events:
+            # Group by contact_email address:
+            reports.setdefault(p_event.contact_email, []).append(p_event)
+
+        for address, report in reports.items():
+            context_report = []
+            for p_event in report:
+                context_report.append(
+                    {
+                        "event": p_event.get_event_data(),
+                        "p_event": p_event,
+                        "occurrences": p_event.occurrences.filter(
+                            enrolments__in=enrolments
+                        ).distinct(),
+                    }
+                )
+
+            context = {
+                "report": context_report,
+                "total_pending_enrolments": enrolments.filter(
+                    occurrence__p_event__contact_email=address,
+                    status=Enrolment.STATUS_PENDING,
+                ).count(),
+                "total_new_enrolments": enrolments.filter(
+                    occurrence__p_event__contact_email=address,
+                    status=Enrolment.STATUS_APPROVED,
+                ).count(),
+            }
+            send_notification(
+                address, NotificationTemplate.ENROLMENT_SUMMARY_REPORT, context
+            )
+
+    def get_by_unique_id(self, unique_id):
+        compound_id = get_node_id_from_global_id(unique_id, "EnrolmentNode")
+        enrolment_id, ts = compound_id.split("_")
+        return self.get(id=enrolment_id, enrolment_time=ts)
 
 
 class Enrolment(models.Model):
@@ -333,6 +464,10 @@ class Enrolment(models.Model):
         verbose_name=_("status"),
         max_length=255,
     )
+    verification_tokens = GenericRelation(
+        VerificationToken, related_query_name="enrolment"
+    )
+    objects = EnrolmentQuerySet.as_manager()
 
     class Meta:
         verbose_name = _("enrolment")
@@ -357,30 +492,121 @@ class Enrolment(models.Model):
         self.status = status
         self.save()
 
+    def send_event_notifications_to_contact_people(
+        self, notification_template_id, notification_template_id_sms, custom_message
+    ):
+        contact_people = [self.person]
+        if self.person != self.study_group.person:
+            contact_people.append(self.study_group.person)
+        for p in contact_people:
+            send_event_notifications_to_person(
+                p,
+                self.occurrence,
+                self.study_group,
+                self.notification_type,
+                notification_template_id,
+                notification_template_id_sms,
+                event=self.occurrence.p_event.get_event_data(),
+                custom_message=custom_message,
+                enrolment=self,
+            )
+
     def approve(self, custom_message=None):
         self.set_status(self.STATUS_APPROVED)
-        send_event_notifications_to_contact_person(
-            self.person,
-            self.occurrence,
-            self.study_group,
-            self.notification_type,
+        self.send_event_notifications_to_contact_people(
             NotificationTemplate.ENROLMENT_APPROVED,
             NotificationTemplate.ENROLMENT_APPROVED_SMS,
-            event=self.occurrence.p_event.get_event_data(),
             custom_message=custom_message,
-            enrolment=self,
         )
 
     def decline(self, custom_message=None):
         self.set_status(self.STATUS_DECLINED)
-        send_event_notifications_to_contact_person(
-            self.person,
-            self.occurrence,
-            self.study_group,
-            self.notification_type,
+        self.send_event_notifications_to_contact_people(
             NotificationTemplate.ENROLMENT_DECLINED,
             NotificationTemplate.ENROLMENT_DECLINED_SMS,
-            event=self.occurrence.p_event.get_event_data(),
             custom_message=custom_message,
-            enrolment=self,
+        )
+
+    def ask_cancel_confirmation(self, custom_message=None):
+        self.send_event_notifications_to_contact_people(
+            NotificationTemplate.ENROLMENT_CANCELLATION,
+            NotificationTemplate.ENROLMENT_CANCELLATION_SMS,
+            custom_message=custom_message,
+        )
+
+    def cancel(self, custom_message=None):
+        """
+        Deactivate the used cancellation tokens and
+        notify about successful cancellation.
+        """
+
+        self.set_status(self.STATUS_CANCELLED)
+        # Deactivate active cancellation tokens
+        self.get_active_verification_tokens(
+            verification_type=VerificationToken.VERIFICATION_TYPE_CANCELLATION
+        ).update(is_active=False)
+
+        # Notify with email and sms
+        self.send_event_notifications_to_contact_people(
+            NotificationTemplate.ENROLMENT_CANCELLED,
+            NotificationTemplate.ENROLMENT_CANCELLED_SMS,
+            custom_message=custom_message,
+        )
+
+    def get_unique_id(self):
+        # Unique id is the base64 encoded of enrolment_id and enrolment timestamp
+        # Added object timestamp so it'll be harder to guess, otherwise any one can
+        # build the unique id after reading this
+        return to_global_id(
+            "EnrolmentNode", "_".join([str(self.id), str(self.enrolment_time)])
+        )
+
+    def get_link_to_cancel_ui(self, language=settings.LANGUAGE_CODE):
+        return settings.VERIFICATION_TOKEN_URL_MAPPING[
+            "occurrences.enrolment.CANCELLATION"
+        ].format(lang=language, unique_id=self.get_unique_id())
+
+    def get_active_verification_tokens(self, verification_type=None):
+        """ Filter active verification tokens """
+
+        return VerificationToken.objects.filter_active_tokens(
+            self, verification_type=verification_type, person=self.person
+        )
+
+    def get_cancellation_url(
+        self, language=settings.LANGUAGE_CODE, cancellation_token=None
+    ):
+        """
+        Get a cancellation (confirmation) url.
+        If the cancellation token is not given as a parameter,
+        it will be fetched from the database.
+        """
+        if not cancellation_token:
+            cancellation_token = self.get_active_verification_tokens(
+                verification_type=VerificationToken.VERIFICATION_TYPE_CANCELLATION
+            )[0]
+
+        token = (
+            cancellation_token.key
+            if isinstance(cancellation_token, VerificationToken)
+            else cancellation_token
+        )
+
+        return settings.VERIFICATION_TOKEN_URL_MAPPING[
+            "occurrences.enrolment.CANCELLATION.confirmation"
+        ].format(lang=language, unique_id=self.get_unique_id(), token=token)
+
+    def create_cancellation_token(self, deactivate_existing=False):
+        """
+        Create a cancellation verification token for an enrolment.
+        """
+        if deactivate_existing:
+            return VerificationToken.objects.deactivate_and_create_token(
+                self,
+                self.person,
+                verification_type=VerificationToken.VERIFICATION_TYPE_CANCELLATION,
+            )
+
+        return VerificationToken.objects.create_token(
+            self, self.person, VerificationToken.VERIFICATION_TYPE_CANCELLATION
         )

@@ -17,7 +17,7 @@ notification_service = NotificationService(
 logger = logging.getLogger(__name__)
 
 
-def send_event_notifications_to_contact_person(
+def send_event_notifications_to_person(
     person,
     occurrence,
     study_group,
@@ -26,10 +26,9 @@ def send_event_notifications_to_contact_person(
     notification_sms_template_id,
     **kwargs,
 ):
-    if not person:
-        person = study_group.person
     if NOTIFICATION_TYPE_EMAIL in notification_type:
         context = {
+            "person": person,
             "occurrence": occurrence,
             "study_group": study_group,
             "preview_mode": False,
@@ -42,8 +41,9 @@ def send_event_notifications_to_contact_person(
             language=study_group.person.language,
             context=context,
         )
-    if NOTIFICATION_TYPE_SMS in notification_type:
+    if NOTIFICATION_TYPE_SMS in notification_type and person.phone_number:
         context = {
+            "person": person,
             "occurrence": occurrence,
             "study_group": study_group,
             "preview_mode": False,
@@ -67,7 +67,7 @@ def send_sms_notification(
         language = settings.LANGUAGES[0][0]
     if not settings.NOTIFICATION_SERVICE_API_URL:
         logger.warning(
-            "Notification sms service settings is missing, not sending any" "SMS"
+            "Notification sms service settings is missing, not sending any SMS"
         )
         return
     if context is None:

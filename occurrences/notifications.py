@@ -16,12 +16,17 @@ TEMPLATES = [
     (NotificationTemplate.OCCURRENCE_UNENROLMENT, _("occurrence unenrolment")),
     (NotificationTemplate.ENROLMENT_APPROVED, _("enrolment approved")),
     (NotificationTemplate.ENROLMENT_DECLINED, _("enrolment declined")),
+    (NotificationTemplate.ENROLMENT_CANCELLATION, _("enrolment cancellation")),
+    (NotificationTemplate.ENROLMENT_CANCELLED, _("enrolment cancelled")),
     (NotificationTemplate.OCCURRENCE_ENROLMENT_SMS, _("occurrence enrolment sms")),
     (NotificationTemplate.OCCURRENCE_UNENROLMENT_SMS, _("occurrence unenrolment sms")),
     (NotificationTemplate.ENROLMENT_APPROVED_SMS, _("enrolment approved sms")),
     (NotificationTemplate.ENROLMENT_DECLINED_SMS, _("enrolment declined sms")),
+    (NotificationTemplate.ENROLMENT_CANCELLATION_SMS, _("enrolment cancellation sms")),
+    (NotificationTemplate.ENROLMENT_CANCELLED_SMS, _("enrolment cancelled sms")),
     (NotificationTemplate.OCCURRENCE_CANCELLED, _("occurrence cancelled")),
     (NotificationTemplate.OCCURRENCE_CANCELLED_SMS, _("occurrence cancelled sms")),
+    (NotificationTemplate.ENROLMENT_SUMMARY_REPORT, _("Enrolments summary report")),
 ]
 for template in TEMPLATES:
     notifications.register(template[0], template[1])
@@ -34,6 +39,7 @@ enrolment = EnrolmentFactory.build()
 
 DEFAULT_DUMMY_CONTEXT = {
     "preview_mode": False,
+    "person": person,
     "study_group": study_group,
     "occurrence": occurrence,
     "event": EVENT_DATA,
@@ -50,7 +56,18 @@ dummy_context.update(
         NotificationTemplate.ENROLMENT_APPROVED_SMS: DEFAULT_DUMMY_CONTEXT,
         NotificationTemplate.ENROLMENT_DECLINED: DEFAULT_DUMMY_CONTEXT,
         NotificationTemplate.ENROLMENT_DECLINED_SMS: DEFAULT_DUMMY_CONTEXT,
+        NotificationTemplate.ENROLMENT_CANCELLATION: DEFAULT_DUMMY_CONTEXT,
+        NotificationTemplate.ENROLMENT_CANCELLATION_SMS: DEFAULT_DUMMY_CONTEXT,
+        NotificationTemplate.ENROLMENT_CANCELLED: DEFAULT_DUMMY_CONTEXT,
+        NotificationTemplate.ENROLMENT_CANCELLED_SMS: DEFAULT_DUMMY_CONTEXT,
         NotificationTemplate.OCCURRENCE_CANCELLED: DEFAULT_DUMMY_CONTEXT,
         NotificationTemplate.OCCURRENCE_CANCELLED_SMS: DEFAULT_DUMMY_CONTEXT,
+        NotificationTemplate.ENROLMENT_SUMMARY_REPORT: {
+            "report": [
+                {"event": EVENT_DATA, "p_event": p_event, "occurrences": [occurrence]}
+            ],
+            "total_pending_enrolments": 1,
+            "total_new_enrolments": 2,
+        },
     }
 )

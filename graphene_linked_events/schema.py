@@ -21,6 +21,7 @@ from graphene_linked_events.utils import (
     api_client,
     format_request,
     format_response,
+    get_keyword_set_by_id,
     json2obj,
 )
 from graphql_jwt.decorators import staff_member_required
@@ -38,7 +39,12 @@ from common.utils import (
     get_obj_from_global_id,
     update_object,
 )
-from palvelutarjotin.exceptions import ApiUsageError, ObjectDoesNotExistError
+from palvelutarjotin import settings
+from palvelutarjotin.exceptions import (
+    ApiUsageError,
+    ObjectDoesNotExistError,
+    UploadImageSizeExceededError,
+)
 from palvelutarjotin.settings import KEYWORD_SET_ID_MAPPING, LINKED_EVENTS_API_CONFIG
 
 PublicationStatusEnum = Enum(
@@ -168,6 +174,15 @@ class ExtensionCourse(ObjectType):
     remaining_attendee_capacity = Int()
 
 
+def _get_event_keyword_sets(event, keyword_set_id):
+    kw_set = get_keyword_set_by_id(keyword_set_id)
+    return [
+        kw
+        for kw in kw_set.keywords
+        if kw.id in list(map(lambda x: x.id, event.keywords))
+    ]
+
+
 class Event(IdObject):
     id = String(required=True)
     location = Field(Place, required=True)
@@ -198,6 +213,18 @@ class Event(IdObject):
     p_event = Field(PalvelutarjotinEventNode, required=True)
     venue = Field(VenueNode)
     publication_status = String()
+    categories = NonNull(
+        List(NonNull(Keyword)),
+        description="Only use this field in single event query for "
+        "best performance. This field only work if "
+        "`keywords` is included in the query argument",
+    )
+    additional_criteria = NonNull(
+        List(NonNull(Keyword)),
+        description="Only use this field in single event query for "
+        "best performance. This field only work if "
+        "`keywords` is included in the query argument",
+    )
 
     def resolve_p_event(self, info, **kwargs):
         try:
@@ -212,6 +239,16 @@ class Event(IdObject):
             except VenueCustomData.DoesNotExist:
                 pass
         return None
+
+    def resolve_categories(self, info, **kwargs):
+        return _get_event_keyword_sets(
+            self, settings.KEYWORD_SET_ID_MAPPING["CATEGORY"]
+        )
+
+    def resolve_additional_criteria(self, info, **kwargs):
+        return _get_event_keyword_sets(
+            self, settings.KEYWORD_SET_ID_MAPPING["ADDITIONAL_CRITERIA"]
+        )
 
 
 class Meta(ObjectType):
@@ -251,12 +288,13 @@ class ImageListResponse(Response):
 class Query:
     events = Field(
         EventListResponse,
-        divisions=List(String),
+        division=List(String),
         end=String(),
         include=List(String),
         in_language=String(),
         is_free=Boolean(),
-        keywords=List(String),
+        keyword=List(String),
+        keyword_and=List(String),
         keyword_not=List(String),
         language=String(),
         location=String(),
@@ -314,18 +352,12 @@ class Query:
 
     @staticmethod
     def resolve_event(parent, info, **kwargs):
-        if kwargs.get("include"):
-            params = {"include": ",".join(kwargs["include"])}
-            response = api_client.retrieve(
-                "event",
-                kwargs["id"],
-                params=params,
-                is_staff=info.context.user.is_staff,
-            )
-        else:
-            response = api_client.retrieve(
-                "event", kwargs["id"], is_staff=info.context.user.is_staff
-            )
+        response = api_client.retrieve(
+            "event",
+            kwargs.pop("id"),
+            params=kwargs,
+            is_staff=info.context.user.is_staff,
+        )
         obj = json2obj(format_response(response))
         return obj
 
@@ -342,6 +374,12 @@ class Query:
             # If no organisation id specified, return all events from
             # palvelutarjotin data source
             kwargs["data_source"] = LINKED_EVENTS_API_CONFIG["DATA_SOURCE"]
+        # Some arguments in LinkedEvent are not fully supported in graphene arguments
+        if kwargs.get("keyword_and"):
+            kwargs["keyword_AND"] = kwargs.pop("keyword_and")
+        if kwargs.get("keyword_not"):
+            kwargs["keyword!"] = kwargs.pop("keyword_not")
+
         response = api_client.list(
             "event", filter_list=kwargs, is_staff=info.context.user.is_staff
         )
@@ -681,6 +719,13 @@ class ImageMutationResponse(ObjectType):
     result_text = String()
 
 
+def _validate_image_upload(image):
+    if image.size > settings.MAX_UPLOAD_SIZE:
+        raise UploadImageSizeExceededError(
+            f"Upload file size cannot be greater than {settings.MAX_UPLOAD_SIZE} bytes"
+        )
+
+
 class UploadImageMutation(Mutation):
     class Arguments:
         image = UploadImageMutationInput()
@@ -690,6 +735,7 @@ class UploadImageMutation(Mutation):
     @staff_member_required
     def mutate(root, info, **kwargs):
         image = kwargs["image"].pop("image")
+        _validate_image_upload(image)
         body = kwargs["image"]
         result = api_client.upload(
             "image", body, files={"image": (image.name, image.file, image.content_type)}
