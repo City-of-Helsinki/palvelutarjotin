@@ -2,7 +2,7 @@ name: Build & Staging
 on:
   push:
     branches:
-      - develop
+      - master
   workflow_dispatch:
 
 env:
@@ -73,3 +73,55 @@ jobs:
           K8S_SECRET_DATABASE_DB: ${{ secrets.K8S_SECRET_DATABASE_DB_STAGING }}
           K8S_SECRET_DATABASE_USERNAME: ${{ secrets.K8S_SECRET_DATABASE_USERNAME_STAGING }}
           K8S_SECRET_DATABASE_PASSWORD: ${{ secrets.K8S_SECRET_DATABASE_PASSWORD_STAGING }}
+
+      - name: Deploy Send Mail Cronjob
+        uses: City-of-Helsinki/setup-cronjob-action@main
+        with:
+          image_repository: ghcr.io/city-of-helsinki/${{ github.event.repository.name }}
+          image_tag:  ${{ github.sha }}
+          secret_name: "project-staging-palvelutarjotin-secret"
+          name: "send-mail"
+          kubeconfig_raw: ${{ secrets.KUBECONFIG_RAW_STAGING}}
+          target_namespace: ${{ secrets.K8S_NAMESPACE_STAGING }}
+          schedule: '* * * * *' # once per 1 minute
+          command: "{/app/manage.py}"
+          args: "{send_mail}"
+
+      - name: Deploy Retry Deferred Mail Cronjob
+        uses: City-of-Helsinki/setup-cronjob-action@main
+        with:
+          image_repository: ghcr.io/city-of-helsinki/${{ github.event.repository.name }}
+          image_tag:  ${{ github.sha }}
+          secret_name: "project-staging-palvelutarjotin-secret"
+          name: "retry-deferred"
+          kubeconfig_raw: ${{ secrets.KUBECONFIG_RAW_STAGING}}
+          target_namespace: ${{ secrets.K8S_NAMESPACE_STAGING }}
+          schedule: '*/20 * * * *' # once per 20 minutes
+          command: "{/app/manage.py}"
+          args: "{retry_deferred}"
+
+      - name: Deploy Send Enrolment Summary Email Cronjob
+        uses: City-of-Helsinki/setup-cronjob-action@main
+        with:
+          image_repository: ghcr.io/city-of-helsinki/${{ github.event.repository.name }}
+          image_tag:  ${{ github.sha }}
+          secret_name: "project-staging-palvelutarjotin-secret"
+          name: "send-enrolment-summary"
+          kubeconfig_raw: ${{ secrets.KUBECONFIG_RAW_STAGING}}
+          target_namespace: ${{ secrets.K8S_NAMESPACE_STAGING }}
+          schedule: '0 8 * * *' # every day 8 AM
+          command: "{/app/manage.py}"
+          args: "{send_enrolment_summary}"
+
+      - name: Deploy Clean Invalid Token Cronjob
+        uses: City-of-Helsinki/setup-cronjob-action@main
+        with:
+          image_repository: ghcr.io/city-of-helsinki/${{ github.event.repository.name }}
+          image_tag:  ${{ github.sha }}
+          secret_name: "project-staging-palvelutarjotin-secret"
+          name: "clean-invalid-tokens"
+          kubeconfig_raw: ${{ secrets.KUBECONFIG_RAW_STAGING}}
+          target_namespace: ${{ secrets.K8S_NAMESPACE_STAGING }}
+          schedule: '0 8 * * *' # every day 8 AM
+          command: "{/app/manage.py}"
+          args: "{clean_invalid_tokens}"
