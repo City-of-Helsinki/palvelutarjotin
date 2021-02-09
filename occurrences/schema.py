@@ -100,7 +100,6 @@ class PalvelutarjotinEventInput(InputObjectType):
     contact_email = graphene.String()
     auto_acceptance = graphene.Boolean()
     mandatory_additional_information = graphene.Boolean()
-    payment_instruction = graphene.String()
 
 
 class StudyLevelTranslationType(DjangoObjectType):

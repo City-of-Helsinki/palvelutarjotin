@@ -768,7 +768,6 @@ snapshots["test_update_event 1"] = {
                         "mandatoryAdditionalInformation": True,
                         "neededOccurrences": 1,
                         "organisation": {"name": "Deborah Cardenas"},
-                        "paymentInstruction": "Payment instruction",
                     },
                     "shortDescription": {
                         "en": "short desc en",
@@ -904,7 +903,6 @@ snapshots["test_create_event 1"] = {
                         "mandatoryAdditionalInformation": True,
                         "neededOccurrences": 1,
                         "organisation": {"name": "Deborah Cardenas"},
-                        "paymentInstruction": "Payment instruction",
                     },
                     "shortDescription": {
                         "en": "short desc en",

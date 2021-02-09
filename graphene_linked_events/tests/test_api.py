@@ -680,7 +680,6 @@ mutation addEvent($input: AddEventMutationInput!){
           }
           autoAcceptance
           mandatoryAdditionalInformation
-          paymentInstruction
         }
       }
     }
@@ -700,7 +699,6 @@ CREATE_EVENT_VARIABLES = {
             "contactEmail": "contact@email.me",
             "autoAcceptance": True,
             "mandatoryAdditionalInformation": True,
-            "paymentInstruction": "Payment instruction",
         },
         "name": {"fi": "testaus"},
         "startTime": "2020-05-05",
@@ -823,7 +821,6 @@ mutation addEvent($input: UpdateEventMutationInput!){
           }
           autoAcceptance
           mandatoryAdditionalInformation
-          paymentInstruction
         }
       }
     }
@@ -843,7 +840,6 @@ UPDATE_EVENT_VARIABLES = {
             "contactEmail": "contact@email.me",
             "autoAcceptance": True,
             "mandatoryAdditionalInformation": True,
-            "paymentInstruction": "Payment instruction",
         },
         "name": {"fi": "testaus"},
         "startTime": "2020-05-07",
