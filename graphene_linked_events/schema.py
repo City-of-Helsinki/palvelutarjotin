@@ -226,6 +226,13 @@ class Event(IdObject):
         "`keywords` is included in the query argument",
     )
 
+    activities = NonNull(
+        List(NonNull(Keyword)),
+        description="Only use this field in single event query for "
+        "best performance. This field only work if "
+        "`keywords` is included in the query argument",
+    )
+
     def resolve_p_event(self, info, **kwargs):
         try:
             return PalvelutarjotinEvent.objects.get(linked_event_id=self.id)
@@ -246,8 +253,14 @@ class Event(IdObject):
         )
 
     def resolve_additional_criteria(self, info, **kwargs):
+        # FIXME: Remove this after client switched to use activities
         return _get_event_keyword_sets(
             self, settings.KEYWORD_SET_ID_MAPPING["ADDITIONAL_CRITERIA"]
+        )
+
+    def resolve_activities(self, info, **kwargs):
+        return _get_event_keyword_sets(
+            self, settings.KEYWORD_SET_ID_MAPPING["ACTIVITIES"]
         )
 
 
