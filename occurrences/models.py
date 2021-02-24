@@ -352,11 +352,7 @@ class StudyGroup(TimestampedModel):
         """
         Sum an amount of adults to a size of group.
         """
-        if self.group_size:
-            return self.group_size + (
-                self.amount_of_adult if self.amount_of_adult is not None else 0
-            )
-        return None
+        return self.group_size + self.amount_of_adult
 
 
 class EnrolmentQuerySet(models.QuerySet):
