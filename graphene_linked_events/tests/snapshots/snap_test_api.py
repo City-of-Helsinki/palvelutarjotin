@@ -178,6 +178,7 @@ snapshots["test_get_events 1"] = {
 snapshots["test_get_event 1"] = {
     "data": {
         "event": {
+            "activities": [{"id": "helfi:12"}],
             "additionalCriteria": [{"id": "helfi:12"}],
             "audience": [],
             "audienceMaxAge": None,
@@ -990,6 +991,26 @@ snapshots["test_get_keyword_set 2"] = {
 }
 
 snapshots["test_get_keyword_set 3"] = {
+    "data": {
+        "keywordSet": {
+            "id": "kultus:categories",
+            "internalId": "http://localhost:8080/v1/keyword_set/qq:kultus:categories/",
+            "keywords": [
+                {
+                    "id": "helfi:12",
+                    "internalId": "http://localhost:8080/v1/keyword/yso:p27033/",
+                    "name": {
+                        "en": "Valentine's Day",
+                        "fi": "ystävänpäivä",
+                        "sv": "alla hjärtans dag",
+                    },
+                }
+            ],
+        }
+    }
+}
+
+snapshots["test_get_keyword_set 4"] = {
     "data": {
         "keywordSet": {
             "id": "kultus:categories",

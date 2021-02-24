@@ -67,6 +67,7 @@ env = environ.Env(
     KEYWORD_SET_CATEGORY_ID=(str, "kultus:categories"),
     KEYWORD_SET_TARGET_GROUP_ID=(str, "kultus:target_groups"),
     KEYWORD_SET_ADDITIONAL_CRITERIA_ID=(str, "kultus:additional_criteria"),
+    KEYWORD_SET_ACTIVITIES_ID=(str, "kultus:additional_criteria"),
     KULTUS_PROVIDER_UI_BASE_URL=(str, "https://provider.kultus.fi/"),
     KULTUS_TEACHER_UI_BASE_URL=(str, "https://beta.kultus.fi/"),
     ENABLE_SUMMARY_REPORT=(bool, False),
@@ -268,6 +269,7 @@ ENABLE_SUMMARY_REPORT = env.bool("ENABLE_SUMMARY_REPORT")
 KEYWORD_SET_ID_MAPPING = {
     "CATEGORY": env.str("KEYWORD_SET_CATEGORY_ID"),
     "ADDITIONAL_CRITERIA": env.str("KEYWORD_SET_ADDITIONAL_CRITERIA_ID"),
+    "ACTIVITIES": env.str("KEYWORD_SET_ACTIVITIES_ID"),
     "TARGET_GROUP": env.str("KEYWORD_SET_TARGET_GROUP_ID"),
 }
 

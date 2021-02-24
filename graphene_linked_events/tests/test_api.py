@@ -215,6 +215,9 @@ query Event{
       additionalCriteria{
         id
       }
+      activities{
+        id
+      }
   }
 }
 """
