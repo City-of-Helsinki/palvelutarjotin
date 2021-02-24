@@ -111,11 +111,17 @@ def test_enrolment_cancel_deactivates_tokens(mock_get_event_data):
 
 
 @pytest.mark.django_db
-def test_study_group_size_with_adults():
-    study_group1 = StudyGroupFactory(group_size=10, amount_of_adult=2)
-    study_group2 = StudyGroupFactory(group_size=10, amount_of_adult=0)
-    assert study_group1.group_size_with_adults() == 12
-    assert study_group2.group_size_with_adults() == 10
+@pytest.mark.parametrize(
+    "group_size,amount_of_adult,result",
+    [(10, 2, 12), (10, 0, 10), (0, 10, 10), (0, 0, 0)],
+)
+def test_study_group_size_with_adults(group_size, amount_of_adult, result):
+    assert (
+        StudyGroupFactory(
+            group_size=group_size, amount_of_adult=amount_of_adult
+        ).group_size_with_adults()
+        == result
+    )
 
 
 @pytest.mark.django_db
