@@ -235,7 +235,9 @@ class Event(IdObject):
 
     def resolve_p_event(self, info, **kwargs):
         try:
-            return PalvelutarjotinEvent.objects.get(linked_event_id=self.id)
+            return PalvelutarjotinEvent.objects.prefetch_related("occurrences").get(
+                linked_event_id=self.id
+            )
         except PalvelutarjotinEvent.DoesNotExist:
             return None
 

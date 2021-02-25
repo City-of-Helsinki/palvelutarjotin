@@ -32,7 +32,7 @@ class PalvelutarjotinEvent(TimestampedModel):
         (PUBLICATION_STATUS_DRAFT, _("draft")),
     )
     linked_event_id = models.CharField(
-        max_length=255, verbose_name=_("linked event id")
+        max_length=255, verbose_name=_("linked event id"), unique=True
     )
     enrolment_start = models.DateTimeField(
         verbose_name=_("enrolment start"), blank=True, null=True
