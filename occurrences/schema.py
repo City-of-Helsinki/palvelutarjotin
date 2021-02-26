@@ -369,6 +369,10 @@ class AddVenueMutation(graphene.relay.ClientIDMutation):
         has_clothing_storage = graphene.Boolean(required=True)
         has_snack_eating_place = graphene.Boolean(required=True)
         outdoor_activity = graphene.Boolean(required=True)
+        has_toilet_nearby = graphene.Boolean(required=True)
+        has_area_for_group_work = graphene.Boolean(required=True)
+        has_indoor_playing_area = graphene.Boolean(required=True)
+        has_outdoor_playing_area = graphene.Boolean(required=True)
 
     venue = graphene.Field(VenueNode)
 
@@ -391,6 +395,10 @@ class UpdateVenueMutation(graphene.relay.ClientIDMutation):
         has_clothing_storage = graphene.Boolean()
         has_snack_eating_place = graphene.Boolean()
         outdoor_activity = graphene.Boolean()
+        has_toilet_nearby = graphene.Boolean()
+        has_area_for_group_work = graphene.Boolean()
+        has_indoor_playing_area = graphene.Boolean()
+        has_outdoor_playing_area = graphene.Boolean()
 
     venue = graphene.Field(VenueNode)
 

@@ -181,8 +181,12 @@ snapshots["test_add_venue_staff_user 1"] = {
         "addVenue": {
             "venue": {
                 "description": "Venue description in FI",
+                "hasAreaForGroupWork": True,
                 "hasClothingStorage": True,
+                "hasIndoorPlayingArea": True,
+                "hasOutdoorPlayingArea": True,
                 "hasSnackEatingPlace": True,
+                "hasToiletNearby": True,
                 "id": "place_id",
                 "outdoorActivity": True,
                 "translations": [
@@ -201,8 +205,12 @@ snapshots["test_venues_query 1"] = {
                 {
                     "node": {
                         "description": "Serious listen police shake. Page box child care any concern.",
+                        "hasAreaForGroupWork": False,
                         "hasClothingStorage": True,
+                        "hasIndoorPlayingArea": False,
+                        "hasOutdoorPlayingArea": False,
                         "hasSnackEatingPlace": False,
+                        "hasToiletNearby": False,
                         "id": "mZHxy",
                         "outdoorActivity": True,
                         "translations": [
@@ -222,8 +230,12 @@ snapshots["test_update_venue_staff_user 1"] = {
         "updateVenue": {
             "venue": {
                 "description": "Venue description",
+                "hasAreaForGroupWork": True,
                 "hasClothingStorage": True,
+                "hasIndoorPlayingArea": True,
+                "hasOutdoorPlayingArea": True,
                 "hasSnackEatingPlace": True,
+                "hasToiletNearby": True,
                 "id": "OnQtr",
                 "outdoorActivity": True,
                 "translations": [
@@ -239,8 +251,12 @@ snapshots["test_venue_query 1"] = {
     "data": {
         "venue": {
             "description": "Serious listen police shake. Page box child care any concern.",
+            "hasAreaForGroupWork": False,
             "hasClothingStorage": True,
+            "hasIndoorPlayingArea": False,
+            "hasOutdoorPlayingArea": False,
             "hasSnackEatingPlace": False,
+            "hasToiletNearby": False,
             "id": "mZHxy",
             "outdoorActivity": True,
             "translations": [

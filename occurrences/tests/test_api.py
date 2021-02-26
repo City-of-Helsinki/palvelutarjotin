@@ -593,6 +593,10 @@ query Venues {
         hasClothingStorage
         hasSnackEatingPlace
         outdoorActivity
+        hasToiletNearby
+        hasAreaForGroupWork
+        hasIndoorPlayingArea
+        hasOutdoorPlayingArea
       }
     }
   }
@@ -610,6 +614,10 @@ query venue($id:ID!){
     hasClothingStorage
     hasSnackEatingPlace
     outdoorActivity
+    hasToiletNearby
+    hasAreaForGroupWork
+    hasIndoorPlayingArea
+    hasOutdoorPlayingArea
   }
 }
 """
@@ -626,6 +634,10 @@ mutation AddVenue($input: AddVenueMutationInput!) {
         hasClothingStorage
         hasSnackEatingPlace
         outdoorActivity
+        hasToiletNearby
+        hasAreaForGroupWork
+        hasIndoorPlayingArea
+        hasOutdoorPlayingArea
     }
   }
 }
@@ -641,6 +653,10 @@ ADD_VENUE_VARIABLES = {
         "hasClothingStorage": True,
         "hasSnackEatingPlace": True,
         "outdoorActivity": True,
+        "hasToiletNearby": True,
+        "hasAreaForGroupWork": True,
+        "hasIndoorPlayingArea": True,
+        "hasOutdoorPlayingArea": True,
     }
 }
 
@@ -656,6 +672,10 @@ mutation updateVenue($input: UpdateVenueMutationInput!) {
         hasClothingStorage
         hasSnackEatingPlace
         outdoorActivity
+        hasToiletNearby
+        hasAreaForGroupWork
+        hasIndoorPlayingArea
+        hasOutdoorPlayingArea
     }
   }
 }
@@ -671,6 +691,10 @@ UPDATE_VENUE_VARIABLES = {
         "hasClothingStorage": True,
         "hasSnackEatingPlace": True,
         "outdoorActivity": True,
+        "hasToiletNearby": True,
+        "hasAreaForGroupWork": True,
+        "hasIndoorPlayingArea": True,
+        "hasOutdoorPlayingArea": True,
     }
 }
 
