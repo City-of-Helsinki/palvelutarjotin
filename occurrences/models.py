@@ -286,6 +286,18 @@ class VenueCustomData(TranslatableModel):
     outdoor_activity = models.BooleanField(
         default=False, verbose_name=_("outdoor activity")
     )
+    has_toilet_nearby = models.BooleanField(
+        default=False, verbose_name=_("has toilet nearby")
+    )
+    has_area_for_group_work = models.BooleanField(
+        default=False, verbose_name=_("has area for group work")
+    )
+    has_indoor_playing_area = models.BooleanField(
+        default=False, verbose_name=_("has indoor playing area")
+    )
+    has_outdoor_playing_area = models.BooleanField(
+        default=False, verbose_name=_("has outdoor playing area")
+    )
 
     class Meta:
         verbose_name = _("venue custom data")
