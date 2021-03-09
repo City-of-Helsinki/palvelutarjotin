@@ -85,7 +85,7 @@ snapshots["test_occurrence_query 1"] = {
             "amountOfSeats": 5,
             "contactPersons": {"edges": []},
             "endTime": "2000-08-18T23:27:03+00:00",
-            "languages": [],
+            "languages": {"edges": []},
             "linkedEvent": {
                 "name": {
                     "en": "Raija Malka & Kaija Saariaho: Blick",
@@ -126,10 +126,15 @@ snapshots["test_add_occurrence 1"] = {
                     ]
                 },
                 "endTime": "2020-05-06T00:00:00+00:00",
-                "languages": [
-                    {"id": "en", "name": "English"},
-                    {"id": "sv", "name": "Swedish"},
-                ],
+                "languages": {
+                    "edges": [
+                        {"node": {"id": "ru", "name": "Russia"}},
+                        {"node": {"id": "sv", "name": "Swedish"}},
+                        {"node": {"id": "ar", "name": "Arabic"}},
+                        {"node": {"id": "en", "name": "English"}},
+                        {"node": {"id": "zh_hans", "name": "Chinese"}},
+                    ]
+                },
                 "maxGroupSize": None,
                 "minGroupSize": 10,
                 "pEvent": {
@@ -154,11 +159,13 @@ snapshots["test_update_occurrence 1"] = {
             "occurrence": {
                 "contactPersons": {"edges": [{"node": {"name": "Aaron Burton"}}]},
                 "endTime": "2020-05-06T00:00:00+00:00",
-                "languages": [
-                    {"id": "fi", "name": "Finnish"},
-                    {"id": "en", "name": "English"},
-                    {"id": "sv", "name": "Swedish"},
-                ],
+                "languages": {
+                    "edges": [
+                        {"node": {"id": "en", "name": "English"}},
+                        {"node": {"id": "sv", "name": "Swedish"}},
+                        {"node": {"id": "fi", "name": "Finnish"}},
+                    ]
+                },
                 "maxGroupSize": 88,
                 "minGroupSize": 10,
                 "pEvent": {

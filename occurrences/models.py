@@ -193,12 +193,6 @@ class Occurrence(TimestampedModel):
     def __str__(self):
         return f"{self.p_event.linked_event_id} {self.start_time}" f" {self.place_id}"
 
-    def add_languages(self, languages):
-        self.languages.clear()
-        for lang in languages:
-            l, _ = Language.objects.get_or_create(id=lang["id"])
-            self.languages.add(l)
-
     @property
     def seats_approved(self):
         qs = self.enrolments.filter(status=Enrolment.STATUS_APPROVED)

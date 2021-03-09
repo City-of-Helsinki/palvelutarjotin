@@ -244,8 +244,12 @@ query Occurrence($id: ID!){
       }
     }
     languages{
-      id
-      name
+        edges {
+            node {
+                id
+                name
+            }
+        }
     }
   }
 }
@@ -277,8 +281,12 @@ ADD_OCCURRENCE_MUTATION = """
             mandatoryAdditionalInformation
           }
           languages{
-            id
-            name
+            edges {
+              node {
+                id
+                name
+              }
+            }
           }
         }
       }
@@ -296,7 +304,13 @@ ADD_OCCURRENCE_VARIABLES = {
         ],
         "pEventId": "",
         "amountOfSeats": 40,
-        "languages": [{"id": "EN"}, {"id": "SV"}],
+        "languages": [
+            {"id": "EN"},
+            {"id": "sv"},
+            {"id": "AR"},
+            {"id": "RU"},
+            {"id": "zh_hans"},
+        ],
     }
 }
 
@@ -325,8 +339,12 @@ mutation updateOccurrence($input: UpdateOccurrenceMutationInput!){
         mandatoryAdditionalInformation
       }
       languages{
-        id
-        name
+        edges {
+          node {
+            id
+            name
+          }
+        }
       }
     }
   }
