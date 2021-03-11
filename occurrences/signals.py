@@ -1,9 +1,44 @@
+import json
+from typing import List
+
 from anymail.signals import pre_send
-from django.db.models.signals import post_delete, post_save
+from django.db import transaction
+from django.db.models.signals import m2m_changed, post_delete, post_save
 from django.dispatch import receiver
+from graphene_linked_events.utils import api_client
 from occurrences.consts import NotificationTemplate
-from occurrences.models import Enrolment
+from occurrences.models import Enrolment, Occurrence, PalvelutarjotinEvent
 from occurrences.utils import send_event_notifications_to_person
+
+from palvelutarjotin.exceptions import ApiUsageError
+
+
+def send_event_languages_update(
+    p_event: PalvelutarjotinEvent, event_language_ids: List[str]
+) -> None:
+    """
+    Update event languages to LinkedEvents.
+    """
+
+    # FIXME: This is a needless call if LE would not need a full event data.
+    # Since the LE needs at least all the required fields when an event is updated,
+    # we first need to fetch the current event object.
+    event_obj = json.loads(
+        api_client.retrieve("event", p_event.linked_event_id, is_staff=True).text
+    )
+
+    # Updated languages
+    in_language_body = [
+        {"@id": "/v1/language/{language}/".format(language=language)}
+        for language in event_language_ids
+    ]
+    event_obj.__setitem__("in_language", in_language_body)
+
+    # Call API to update event
+    result = api_client.update("event", p_event.linked_event_id, json.dumps(event_obj))
+
+    if result.status_code != 200:
+        raise ApiUsageError("Cannot update occurrences languages to the event")
 
 
 @receiver(post_save, sender=Enrolment, dispatch_uid="send_enrolment_email")
@@ -43,3 +78,40 @@ def remove_message_id(sender, message, **kwargs):
     # ESP in order to avoid the message being identified as spam by some strict
     # filters.
     message.extra_headers.pop("Message-ID", None)
+
+
+@receiver([m2m_changed], sender=Occurrence.languages.through)
+@transaction.atomic
+def update_event_languages(sender, instance, action, pk_set, **kwargs):
+    """
+    When occurrence languages updates,
+    the languages should be synced to LinkedEvents Event languages.
+
+    NOTE: This will be called once by remove actions and once by additions.
+    """
+    # When languages are cleared, an empty list can be sent
+    if action == "post_clear":
+        send_event_languages_update(instance.p_event, [])
+        return
+
+    # Ignore other actions than post actions
+    elif action not in ("post_add", "post_remove"):
+        return
+
+    # Current languages set to an event.
+    # Note that on post_delete, the object will no longer be in the database.
+    event_language_ids = [
+        language.id
+        for language in instance.p_event.get_event_languages_from_occurrence()
+    ]
+
+    # If a removed language still exists on other occurrence,
+    # avoid sending a redundant update,
+    # which doesn't actualyl change anything.
+    if action == "post_remove" and all(
+        language in event_language_ids for language in pk_set
+    ):
+        return
+
+    # Send the updated languages to LinkedEvent
+    send_event_languages_update(instance.p_event, event_language_ids)

@@ -24,6 +24,18 @@ from palvelutarjotin import settings
 from palvelutarjotin.exceptions import ApiUsageError
 
 
+class Language(models.Model):
+    id = models.CharField(max_length=10, primary_key=True)
+    name = models.CharField(verbose_name=_("name"), max_length=20)
+
+    def __str__(self):
+        return self.name
+
+    class Meta:
+        verbose_name = _("language")
+        verbose_name_plural = _("languages")
+
+
 class PalvelutarjotinEvent(TimestampedModel):
     PUBLICATION_STATUS_PUBLIC = "public"
     PUBLICATION_STATUS_DRAFT = "draft"
@@ -120,17 +132,16 @@ class PalvelutarjotinEvent(TimestampedModel):
             f"{self.linked_event_id}"
         )
 
-
-class Language(models.Model):
-    id = models.CharField(max_length=10, primary_key=True)
-    name = models.CharField(verbose_name=_("name"), max_length=20)
-
-    def __str__(self):
-        return self.name
-
-    class Meta:
-        verbose_name = _("language")
-        verbose_name_plural = _("languages")
+    def get_event_languages_from_occurrence(self):
+        return list(
+            set(
+                [
+                    language
+                    for occurrence in self.occurrences.all()
+                    for language in occurrence.languages.all()
+                ]
+            )
+        )
 
 
 class Occurrence(TimestampedModel):

@@ -128,11 +128,11 @@ snapshots["test_add_occurrence 1"] = {
                 "endTime": "2020-05-06T00:00:00+00:00",
                 "languages": {
                     "edges": [
-                        {"node": {"id": "ru", "name": "Russia"}},
-                        {"node": {"id": "sv", "name": "Swedish"}},
+                        {"node": {"id": "zh_hans", "name": "Chinese"}},
                         {"node": {"id": "ar", "name": "Arabic"}},
                         {"node": {"id": "en", "name": "English"}},
-                        {"node": {"id": "zh_hans", "name": "Chinese"}},
+                        {"node": {"id": "ru", "name": "Russia"}},
+                        {"node": {"id": "sv", "name": "Swedish"}},
                     ]
                 },
                 "maxGroupSize": None,
@@ -161,9 +161,9 @@ snapshots["test_update_occurrence 1"] = {
                 "endTime": "2020-05-06T00:00:00+00:00",
                 "languages": {
                     "edges": [
+                        {"node": {"id": "fi", "name": "Finnish"}},
                         {"node": {"id": "en", "name": "English"}},
                         {"node": {"id": "sv", "name": "Swedish"}},
-                        {"node": {"id": "fi", "name": "Finnish"}},
                     ]
                 },
                 "maxGroupSize": 88,

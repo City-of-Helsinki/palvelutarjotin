@@ -455,7 +455,12 @@ def test_add_occurrence_to_published_event(
 
 
 def test_add_occurrence(
-    snapshot, staff_api_client, organisation, person, mock_get_draft_event_data
+    snapshot,
+    staff_api_client,
+    organisation,
+    person,
+    mock_get_draft_event_data,
+    mock_update_event_data,
 ):
     variables = deepcopy(ADD_OCCURRENCE_VARIABLES)
     p_event = PalvelutarjotinEventFactory(organisation=organisation)
@@ -522,7 +527,12 @@ def test_update_occurrence_of_published_event(
 
 
 def test_update_occurrence(
-    snapshot, staff_api_client, organisation, person, mock_get_draft_event_data
+    snapshot,
+    staff_api_client,
+    organisation,
+    person,
+    mock_get_draft_event_data,
+    mock_update_event_data,
 ):
     variables = deepcopy(UPDATE_OCCURRENCE_VARIABLES)
     occurrence = OccurrenceFactory(

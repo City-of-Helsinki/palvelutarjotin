@@ -2,6 +2,7 @@ import pytest
 from django.contrib.auth import get_user_model
 from occurrences.factories import (
     EnrolmentFactory,
+    LanguageFactory,
     OccurrenceFactory,
     PalvelutarjotinEventFactory,
     StudyGroupFactory,
@@ -145,3 +146,18 @@ def test_occurrence_seat_approved():
         occurrence.seats_approved
         == study_group.group_size + study_group.amount_of_adult
     )
+
+
+@pytest.mark.django_db
+def test_get_event_languages_from_occurrence(mock_update_event_data):
+    lng1 = LanguageFactory()
+    lng2 = LanguageFactory()
+    lng3 = LanguageFactory()
+    lng4 = LanguageFactory()
+    p_event = PalvelutarjotinEventFactory()
+    OccurrenceFactory(p_event=p_event, languages=[lng1, lng2])
+    OccurrenceFactory(p_event=p_event, languages=[lng2, lng3])
+    OccurrenceFactory(p_event=p_event, languages=[lng4])
+    assert set(p_event.get_event_languages_from_occurrence()) - set(
+        [lng1, lng2, lng3, lng4]
+    ) == set([])
