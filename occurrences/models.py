@@ -34,6 +34,10 @@ class Language(models.Model):
     class Meta:
         verbose_name = _("language")
         verbose_name_plural = _("languages")
+        ordering = (
+            "name",
+            "id",
+        )
 
 
 class PalvelutarjotinEvent(TimestampedModel):

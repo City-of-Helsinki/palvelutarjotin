@@ -22,6 +22,14 @@ class Migration(migrations.Migration):
     ]
 
     operations = [
+        migrations.AlterModelOptions(
+            name="language",
+            options={
+                "ordering": ("name", "id"),
+                "verbose_name": "language",
+                "verbose_name_plural": "languages",
+            },
+        ),
         migrations.RunPython(
             add_new_languages, reverse_code=reverse_language_additions
         ),
