@@ -89,13 +89,9 @@ def update_event_languages(sender, instance, action, pk_set, **kwargs):
 
     NOTE: This will be called once by remove actions and once by additions.
     """
-    # When languages are cleared, an empty list can be sent
-    if action == "post_clear":
-        send_event_languages_update(instance.p_event, [])
-        return
 
     # Ignore other actions than post actions
-    elif action not in ("post_add", "post_remove"):
+    if action not in ["post_clear", "post_remove", "post_add"]:
         return
 
     # Current languages set to an event.
@@ -113,5 +109,23 @@ def update_event_languages(sender, instance, action, pk_set, **kwargs):
     ):
         return
 
+    # Send the updated languages to LinkedEvent
+    send_event_languages_update(instance.p_event, event_language_ids)
+
+
+@receiver([post_delete], sender=Occurrence)
+@transaction.atomic
+def update_event_languages_on_occurrence_delete(sender, instance, **kwargs):
+    """
+    When an occurrence is deleted,
+    the remaining occurrences languages should be synced to LinkedEvents
+    Event languages.
+    """
+    # Current languages set to an event.
+    # Note that on post_delete, the object will no longer be in the database.
+    event_language_ids = [
+        language.id
+        for language in instance.p_event.get_event_languages_from_occurrence()
+    ]
     # Send the updated languages to LinkedEvent
     send_event_languages_update(instance.p_event, event_language_ids)

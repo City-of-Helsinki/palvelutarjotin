@@ -47,6 +47,39 @@ def autouse_db(db):
     pass
 
 
+LANGUAGES_QUERY = """
+    query Languages{
+        languages {
+            edges {
+                node {
+                    id
+                    name
+                }
+            }
+        }
+    }
+"""
+
+LANGUAGE_QUERY = """
+    query Language($id: ID!){
+        language(id: $id) {
+            id
+            name
+        }
+    }
+"""
+
+
+def test_languagess_query(snapshot, language, api_client):
+    executed = api_client.execute(LANGUAGES_QUERY)
+    snapshot.assert_match(executed)
+
+
+def test_language_query(snapshot, language, api_client):
+    executed = api_client.execute(LANGUAGE_QUERY, variables={"id": language.id},)
+    snapshot.assert_match(executed)
+
+
 STUDY_LEVELS_QUERY = """
     query StudyLevels{
         studyLevels {
@@ -579,7 +612,7 @@ def test_delete_occurrence_unauthorized(
 
 
 def test_delete_cancelled_occurrence(
-    snapshot, occurrence, staff_api_client, mock_get_event_data
+    snapshot, occurrence, staff_api_client, mock_get_event_data, mock_update_event_data
 ):
     staff_api_client.user.person.organisations.add(occurrence.p_event.organisation)
     executed = staff_api_client.execute(
@@ -597,7 +630,11 @@ def test_delete_cancelled_occurrence(
 
 
 def test_delete_occurrence(
-    snapshot, staff_api_client, occurrence, mock_get_draft_event_data
+    snapshot,
+    staff_api_client,
+    occurrence,
+    mock_get_draft_event_data,
+    mock_update_event_data,
 ):
     staff_api_client.user.person.organisations.add(occurrence.p_event.organisation)
     executed = staff_api_client.execute(

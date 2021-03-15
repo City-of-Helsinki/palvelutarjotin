@@ -5,6 +5,7 @@ from django.test import RequestFactory
 from freezegun import freeze_time
 from graphene.test import Client
 from occurrences.factories import (
+    LanguageFactory,
     OccurrenceFactory,
     PalvelutarjotinEventFactory,
     StudyGroupFactory,
@@ -92,6 +93,11 @@ def venue():
 @pytest.fixture
 def enrolment_verification_token():
     return EnrolmentVerificationTokenFactory()
+
+
+@pytest.fixture
+def language():
+    return LanguageFactory()
 
 
 def _create_api_client_with_user(user):

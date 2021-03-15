@@ -137,15 +137,9 @@ class PalvelutarjotinEvent(TimestampedModel):
         )
 
     def get_event_languages_from_occurrence(self):
-        return list(
-            set(
-                [
-                    language
-                    for occurrence in self.occurrences.all()
-                    for language in occurrence.languages.all()
-                ]
-            )
-        )
+        return Language.objects.filter(
+            occurrences__in=self.occurrences.all()
+        ).distinct()
 
 
 class Occurrence(TimestampedModel):

@@ -10,6 +10,7 @@ from occurrences.factories import (
 )
 from occurrences.models import (
     Enrolment,
+    Language,
     Occurrence,
     PalvelutarjotinEvent,
     StudyGroup,
@@ -150,10 +151,7 @@ def test_occurrence_seat_approved():
 
 @pytest.mark.django_db
 def test_get_event_languages_from_occurrence(mock_update_event_data):
-    lng1 = LanguageFactory()
-    lng2 = LanguageFactory()
-    lng3 = LanguageFactory()
-    lng4 = LanguageFactory()
+    lng1, lng2, lng3, lng4 = LanguageFactory.create_batch(4)
     p_event = PalvelutarjotinEventFactory()
     OccurrenceFactory(p_event=p_event, languages=[lng1, lng2])
     OccurrenceFactory(p_event=p_event, languages=[lng2, lng3])
@@ -161,3 +159,12 @@ def test_get_event_languages_from_occurrence(mock_update_event_data):
     assert set(p_event.get_event_languages_from_occurrence()) - set(
         [lng1, lng2, lng3, lng4]
     ) == set([])
+
+
+@pytest.mark.django_db
+def test_languages_are_sorted_by_name_and_id():
+    languages = LanguageFactory.create_batch(size=10)
+    Language.objects.count() == 10
+    [l for l in Language.objects.all()] == sorted(
+        languages, key=lambda x: (x.name, x.id)
+    )

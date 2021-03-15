@@ -1223,3 +1223,23 @@ snapshots["test_study_level_query 1"] = {
         }
     }
 }
+
+snapshots["test_language_query 1"] = {
+    "data": {"language": {"id": "aAVEavNlmo", "name": "Guy site late eat."}}
+}
+
+snapshots["test_languagess_query 1"] = {
+    "data": {
+        "languages": {
+            "edges": [
+                {"node": {"id": "ar", "name": "Arabic"}},
+                {"node": {"id": "zh_hans", "name": "Chinese"}},
+                {"node": {"id": "en", "name": "English"}},
+                {"node": {"id": "fi", "name": "Finnish"}},
+                {"node": {"id": "aAVEavNlmo", "name": "Guy site late eat."}},
+                {"node": {"id": "ru", "name": "Russia"}},
+                {"node": {"id": "sv", "name": "Swedish"}},
+            ]
+        }
+    }
+}
