@@ -85,7 +85,7 @@ snapshots["test_occurrence_query 1"] = {
             "amountOfSeats": 5,
             "contactPersons": {"edges": []},
             "endTime": "2000-08-18T23:27:03+00:00",
-            "languages": [],
+            "languages": {"edges": []},
             "linkedEvent": {
                 "name": {
                     "en": "Raija Malka & Kaija Saariaho: Blick",
@@ -126,10 +126,15 @@ snapshots["test_add_occurrence 1"] = {
                     ]
                 },
                 "endTime": "2020-05-06T00:00:00+00:00",
-                "languages": [
-                    {"id": "en", "name": "English"},
-                    {"id": "sv", "name": "Swedish"},
-                ],
+                "languages": {
+                    "edges": [
+                        {"node": {"id": "ar", "name": "Arabic"}},
+                        {"node": {"id": "zh_hans", "name": "Chinese"}},
+                        {"node": {"id": "en", "name": "English"}},
+                        {"node": {"id": "ru", "name": "Russia"}},
+                        {"node": {"id": "sv", "name": "Swedish"}},
+                    ]
+                },
                 "maxGroupSize": None,
                 "minGroupSize": 10,
                 "pEvent": {
@@ -154,11 +159,13 @@ snapshots["test_update_occurrence 1"] = {
             "occurrence": {
                 "contactPersons": {"edges": [{"node": {"name": "Aaron Burton"}}]},
                 "endTime": "2020-05-06T00:00:00+00:00",
-                "languages": [
-                    {"id": "fi", "name": "Finnish"},
-                    {"id": "en", "name": "English"},
-                    {"id": "sv", "name": "Swedish"},
-                ],
+                "languages": {
+                    "edges": [
+                        {"node": {"id": "en", "name": "English"}},
+                        {"node": {"id": "fi", "name": "Finnish"}},
+                        {"node": {"id": "sv", "name": "Swedish"}},
+                    ]
+                },
                 "maxGroupSize": 88,
                 "minGroupSize": 10,
                 "pEvent": {
@@ -1213,6 +1220,26 @@ snapshots["test_study_level_query 1"] = {
             "label": None,
             "level": 0,
             "translations": [{"label": "preschool", "languageCode": "EN"}],
+        }
+    }
+}
+
+snapshots["test_language_query 1"] = {
+    "data": {"language": {"id": "aAVEavNlmo", "name": "Guy site late eat."}}
+}
+
+snapshots["test_languagess_query 1"] = {
+    "data": {
+        "languages": {
+            "edges": [
+                {"node": {"id": "ar", "name": "Arabic"}},
+                {"node": {"id": "zh_hans", "name": "Chinese"}},
+                {"node": {"id": "en", "name": "English"}},
+                {"node": {"id": "fi", "name": "Finnish"}},
+                {"node": {"id": "aAVEavNlmo", "name": "Guy site late eat."}},
+                {"node": {"id": "ru", "name": "Russia"}},
+                {"node": {"id": "sv", "name": "Swedish"}},
+            ]
         }
     }
 }

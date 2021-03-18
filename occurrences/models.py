@@ -24,6 +24,22 @@ from palvelutarjotin import settings
 from palvelutarjotin.exceptions import ApiUsageError
 
 
+class Language(models.Model):
+    id = models.CharField(max_length=10, primary_key=True)
+    name = models.CharField(verbose_name=_("name"), max_length=20)
+
+    def __str__(self):
+        return self.name
+
+    class Meta:
+        verbose_name = _("language")
+        verbose_name_plural = _("languages")
+        ordering = (
+            "name",
+            "id",
+        )
+
+
 class PalvelutarjotinEvent(TimestampedModel):
     PUBLICATION_STATUS_PUBLIC = "public"
     PUBLICATION_STATUS_DRAFT = "draft"
@@ -120,17 +136,10 @@ class PalvelutarjotinEvent(TimestampedModel):
             f"{self.linked_event_id}"
         )
 
-
-class Language(models.Model):
-    id = models.CharField(max_length=10, primary_key=True)
-    name = models.CharField(verbose_name=_("name"), max_length=20)
-
-    def __str__(self):
-        return self.name
-
-    class Meta:
-        verbose_name = _("language")
-        verbose_name_plural = _("languages")
+    def get_event_languages_from_occurrence(self):
+        return Language.objects.filter(
+            occurrences__in=self.occurrences.all()
+        ).distinct()
 
 
 class Occurrence(TimestampedModel):
@@ -192,12 +201,6 @@ class Occurrence(TimestampedModel):
 
     def __str__(self):
         return f"{self.p_event.linked_event_id} {self.start_time}" f" {self.place_id}"
-
-    def add_languages(self, languages):
-        self.languages.clear()
-        for lang in languages:
-            l, _ = Language.objects.get_or_create(id=lang["id"])
-            self.languages.add(l)
 
     @property
     def seats_approved(self):

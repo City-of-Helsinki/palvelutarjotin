@@ -1,4 +1,5 @@
 from datetime import timedelta
+from typing import List
 
 import graphene
 import requests
@@ -228,13 +229,18 @@ def add_contact_persons_to_object(info, contact_persons, obj):
         obj.contact_persons.add(person)
 
 
-class LanguageType(DjangoObjectType):
+class LanguageNode(DjangoObjectType):
+
+    id = graphene.ID(source="pk", required=True)
+
     class Meta:
         model = Language
+        exclude = ("occurrences",)
+        interfaces = (relay.Node,)
 
 
-class OccurrenceLanguageInput(InputObjectType):
-    id = LanguageEnum(required=True)
+class LanguageInput(InputObjectType):
+    id = graphene.String()
 
 
 class AddOccurrenceMutation(graphene.relay.ClientIDMutation):
@@ -248,7 +254,7 @@ class AddOccurrenceMutation(graphene.relay.ClientIDMutation):
         p_event_id = graphene.ID(required=True)
         amount_of_seats = graphene.Int(required=True)
         seat_type = OccurrenceSeatTypeEnum()
-        languages = NonNull(graphene.List(OccurrenceLanguageInput))
+        languages = NonNull(graphene.List(LanguageInput))
 
     occurrence = graphene.Field(OccurrenceNode)
 
@@ -271,7 +277,9 @@ class AddOccurrenceMutation(graphene.relay.ClientIDMutation):
             add_contact_persons_to_object(info, contact_persons, occurrence)
 
         if languages:
-            occurrence.add_languages(languages)
+            occurrence.languages.set(
+                _get_instance_list(Language, map(lambda x: x.id.lower(), languages))
+            )
 
         return AddOccurrenceMutation(occurrence=occurrence)
 
@@ -292,7 +300,7 @@ class UpdateOccurrenceMutation(graphene.relay.ClientIDMutation):
         p_event_id = graphene.ID()
         amount_of_seats = graphene.Int()
         languages = NonNull(
-            graphene.List(OccurrenceLanguageInput),
+            graphene.List(LanguageInput),
             description="If present, should include all languages of the occurrence",
         )
         seat_type = OccurrenceSeatTypeEnum()
@@ -320,7 +328,9 @@ class UpdateOccurrenceMutation(graphene.relay.ClientIDMutation):
         if contact_persons:
             add_contact_persons_to_object(info, contact_persons, occurrence)
         if languages:
-            occurrence.add_languages(languages)
+            occurrence.languages.set(
+                _get_instance_list(Language, map(lambda x: x.id.lower(), languages))
+            )
 
         return UpdateOccurrenceMutation(occurrence=occurrence)
 
@@ -862,6 +872,16 @@ class Query:
 
     cancelling_enrolment = graphene.Field(EnrolmentNode, id=graphene.ID(required=True))
 
+    languages = DjangoConnectionField(LanguageNode)
+    language = graphene.Field(LanguageNode, id=graphene.ID(required=True))
+
+    @staticmethod
+    def resolve_language(parent, info, **kwargs):
+        try:
+            return Language.objects.get(pk=kwargs["id"])
+        except Language.DoesNotExist:
+            return None
+
     @staticmethod
     def resolve_cancelling_enrolment(parent, info, **kwargs):
         try:
@@ -914,7 +934,9 @@ def _create_study_group(study_group_data):
     study_group_data["person_id"] = person.id
 
     study_group = StudyGroup.objects.create(**study_group_data)
-    study_group.study_levels.set(_get_study_levels(study_levels_data))
+    study_group.study_levels.set(
+        _get_instance_list(StudyLevel, map(lambda x: x.lower(), study_levels_data))
+    )
 
     return study_group
 
@@ -939,7 +961,9 @@ def _update_study_group(study_group_data, study_group_obj=None):
     # Handle study levels
     study_levels_data = study_group_data.pop("study_levels", None)
     if study_levels_data:
-        study_group_obj.study_levels.set(_get_study_levels(study_levels_data))
+        study_group_obj.study_levels.set(
+            _get_instance_list(StudyLevel, map(lambda x: x.lower(), study_levels_data))
+        )
 
     # update the populated object
     update_object(study_group_obj, study_group_data)
@@ -965,17 +989,14 @@ def _get_or_create_contact_person(contact_person_data):
     return person
 
 
-def _get_study_levels(study_level_ids):
-    """
-    Get a list of study level instances by using a list of study_level_ids.
-    NOTE: Creation not is not allowed.
-    """
+def _get_instance_list(ModelClass, instance_pks: List[str]):
+
     result = []
-    for study_level_id in study_level_ids:
+    for instance_pk in instance_pks:
         try:
-            study_level = StudyLevel.objects.get(id=study_level_id.lower())
-            result.append(study_level)
-        except StudyLevel.DoesNotExist as e:
+            instance = ModelClass.objects.get(pk=instance_pk)
+            result.append(instance)
+        except ModelClass.DoesNotExist as e:
             raise ObjectDoesNotExistError(e)
     return result
 

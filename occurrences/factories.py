@@ -2,6 +2,7 @@ import factory
 import pytz
 from occurrences.models import (
     Enrolment,
+    Language,
     Occurrence,
     PalvelutarjotinEvent,
     StudyGroup,
@@ -9,6 +10,14 @@ from occurrences.models import (
     VenueCustomData,
 )
 from organisations.factories import OrganisationFactory, PersonFactory
+
+
+class LanguageFactory(factory.django.DjangoModelFactory):
+    id = factory.Faker("pystr", max_chars=10)
+    name = factory.Faker("text", max_nb_chars=20)
+
+    class Meta:
+        model = Language
 
 
 class PalvelutarjotinEventFactory(factory.django.DjangoModelFactory):
@@ -50,6 +59,17 @@ class OccurrenceFactory(factory.django.DjangoModelFactory):
             # A list of organisations were passed in, use them
             for person in extracted:
                 self.contact_persons.add(person)
+
+    @factory.post_generation
+    def languages(self, create, extracted, **kwargs):
+        if not create:
+            # Simple build, do nothing.
+            return
+
+        if extracted:
+            # A list of organisations were passed in, use them
+            for language in extracted:
+                self.languages.add(language)
 
 
 class StudyLevelFactory(factory.django.DjangoModelFactory):
