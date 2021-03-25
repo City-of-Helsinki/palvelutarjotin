@@ -1,5 +1,6 @@
 import pytest
 from django.contrib.auth import get_user_model
+from occurrences.consts import StudyGroupStudyLevels
 from occurrences.factories import (
     EnrolmentFactory,
     LanguageFactory,
@@ -40,17 +41,17 @@ def test_study_group_creation():
 
 @pytest.mark.django_db
 def test_study_level_creation():
-    assert StudyLevel.objects.count() == 12
+    assert StudyLevel.objects.count() == len(StudyGroupStudyLevels.STUDY_LEVELS)
     StudyLevelFactory()
-    assert StudyLevel.objects.count() == 13
+    assert StudyLevel.objects.count() == len(StudyGroupStudyLevels.STUDY_LEVELS) + 1
 
 
 @pytest.mark.django_db
 def test_study_level_creation_via_study_group():
-    assert StudyLevel.objects.count() == 12
+    assert StudyLevel.objects.count() == len(StudyGroupStudyLevels.STUDY_LEVELS)
     StudyGroupFactory(study_levels=(StudyLevelFactory(),))
     assert StudyGroup.objects.count() == 1
-    assert StudyLevel.objects.count() == 13
+    assert StudyLevel.objects.count() == len(StudyGroupStudyLevels.STUDY_LEVELS) + 1
 
 
 @pytest.mark.django_db
