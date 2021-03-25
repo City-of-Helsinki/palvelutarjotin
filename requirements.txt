@@ -88,7 +88,7 @@ graphql-relay==2.0.0
     #   graphene
 idna==2.8
     # via requests
-jinja2==2.10.3
+jinja2==2.11.3
     # via django-ilmoitin
 lockfile==0.12.2
     # via django-mailer
