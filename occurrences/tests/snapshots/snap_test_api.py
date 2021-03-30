@@ -296,7 +296,7 @@ snapshots["test_add_study_group 1"] = {
                             "node": {
                                 "id": "grade_1",
                                 "label": None,
-                                "level": 10,
+                                "level": 3,
                                 "translations": [
                                     {"label": "first grade", "languageCode": "EN"}
                                 ],
@@ -330,7 +330,7 @@ snapshots["test_add_study_group 2"] = {
                             "node": {
                                 "id": "grade_1",
                                 "label": None,
-                                "level": 10,
+                                "level": 3,
                                 "translations": [
                                     {"label": "first grade", "languageCode": "EN"}
                                 ],
@@ -364,7 +364,7 @@ snapshots["test_update_study_group_staff_user 1"] = {
                             "node": {
                                 "id": "grade_2",
                                 "label": None,
-                                "level": 20,
+                                "level": 4,
                                 "translations": [
                                     {"label": "second grade", "languageCode": "EN"}
                                 ],
@@ -398,7 +398,7 @@ snapshots["test_update_study_group_staff_user 2"] = {
                             "node": {
                                 "id": "grade_2",
                                 "label": None,
-                                "level": 20,
+                                "level": 4,
                                 "translations": [
                                     {"label": "second grade", "languageCode": "EN"}
                                 ],
@@ -1094,9 +1094,25 @@ snapshots["test_study_levels_query 1"] = {
             "edges": [
                 {
                     "node": {
-                        "id": "preschool",
+                        "id": "age_0_2",
                         "label": None,
                         "level": 0,
+                        "translations": [{"label": "age 0-2", "languageCode": "EN"}],
+                    }
+                },
+                {
+                    "node": {
+                        "id": "age_3_4",
+                        "label": None,
+                        "level": 1,
+                        "translations": [{"label": "age 3-4", "languageCode": "EN"}],
+                    }
+                },
+                {
+                    "node": {
+                        "id": "preschool",
+                        "label": None,
+                        "level": 2,
                         "translations": [{"label": "preschool", "languageCode": "EN"}],
                     }
                 },
@@ -1104,7 +1120,7 @@ snapshots["test_study_levels_query 1"] = {
                     "node": {
                         "id": "grade_1",
                         "label": None,
-                        "level": 10,
+                        "level": 3,
                         "translations": [
                             {"label": "first grade", "languageCode": "EN"}
                         ],
@@ -1114,7 +1130,7 @@ snapshots["test_study_levels_query 1"] = {
                     "node": {
                         "id": "grade_2",
                         "label": None,
-                        "level": 20,
+                        "level": 4,
                         "translations": [
                             {"label": "second grade", "languageCode": "EN"}
                         ],
@@ -1124,7 +1140,7 @@ snapshots["test_study_levels_query 1"] = {
                     "node": {
                         "id": "grade_3",
                         "label": None,
-                        "level": 30,
+                        "level": 5,
                         "translations": [
                             {"label": "third grade", "languageCode": "EN"}
                         ],
@@ -1134,7 +1150,7 @@ snapshots["test_study_levels_query 1"] = {
                     "node": {
                         "id": "grade_4",
                         "label": None,
-                        "level": 40,
+                        "level": 6,
                         "translations": [
                             {"label": "fourth grade", "languageCode": "EN"}
                         ],
@@ -1144,7 +1160,7 @@ snapshots["test_study_levels_query 1"] = {
                     "node": {
                         "id": "grade_5",
                         "label": None,
-                        "level": 50,
+                        "level": 7,
                         "translations": [
                             {"label": "fifth grade", "languageCode": "EN"}
                         ],
@@ -1154,7 +1170,7 @@ snapshots["test_study_levels_query 1"] = {
                     "node": {
                         "id": "grade_6",
                         "label": None,
-                        "level": 60,
+                        "level": 8,
                         "translations": [
                             {"label": "sixth grade", "languageCode": "EN"}
                         ],
@@ -1164,7 +1180,7 @@ snapshots["test_study_levels_query 1"] = {
                     "node": {
                         "id": "grade_7",
                         "label": None,
-                        "level": 70,
+                        "level": 9,
                         "translations": [
                             {"label": "seventh grade", "languageCode": "EN"}
                         ],
@@ -1174,7 +1190,7 @@ snapshots["test_study_levels_query 1"] = {
                     "node": {
                         "id": "grade_8",
                         "label": None,
-                        "level": 80,
+                        "level": 10,
                         "translations": [
                             {"label": "eighth grade", "languageCode": "EN"}
                         ],
@@ -1184,7 +1200,7 @@ snapshots["test_study_levels_query 1"] = {
                     "node": {
                         "id": "grade_9",
                         "label": None,
-                        "level": 90,
+                        "level": 11,
                         "translations": [
                             {"label": "ninth grade", "languageCode": "EN"}
                         ],
@@ -1194,7 +1210,7 @@ snapshots["test_study_levels_query 1"] = {
                     "node": {
                         "id": "grade_10",
                         "label": None,
-                        "level": 100,
+                        "level": 12,
                         "translations": [
                             {"label": "tenth grade", "languageCode": "EN"}
                         ],
@@ -1204,8 +1220,18 @@ snapshots["test_study_levels_query 1"] = {
                     "node": {
                         "id": "secondary",
                         "label": None,
-                        "level": 110,
+                        "level": 13,
                         "translations": [{"label": "secondary", "languageCode": "EN"}],
+                    }
+                },
+                {
+                    "node": {
+                        "id": "other",
+                        "label": None,
+                        "level": 14,
+                        "translations": [
+                            {"label": "other group", "languageCode": "EN"}
+                        ],
                     }
                 },
             ]
@@ -1216,10 +1242,10 @@ snapshots["test_study_levels_query 1"] = {
 snapshots["test_study_level_query 1"] = {
     "data": {
         "studyLevel": {
-            "id": "preschool",
+            "id": "age_0_2",
             "label": None,
             "level": 0,
-            "translations": [{"label": "preschool", "languageCode": "EN"}],
+            "translations": [{"label": "age 0-2", "languageCode": "EN"}],
         }
     }
 }
