@@ -37,6 +37,8 @@ class StudyGroupStudyLevels:
     """
 
     STUDY_LEVEL_PRESCHOOL = "preschool"
+    STUDY_LEVEL_AGE_0_2 = "age_0_2"
+    STUDY_LEVEL_AGE_3_4 = "age_3_4"
     STUDY_LEVEL_GRADE_1 = "grade_1"
     STUDY_LEVEL_GRADE_2 = "grade_2"
     STUDY_LEVEL_GRADE_3 = "grade_3"
@@ -48,7 +50,12 @@ class StudyGroupStudyLevels:
     STUDY_LEVEL_GRADE_9 = "grade_9"
     STUDY_LEVEL_GRADE_10 = "grade_10"
     STUDY_LEVEL_SECONDARY = "secondary"
+    STUDY_LEVEL_OTHER = "other"
+
+    # The order of this STUDY_LEVELS will be the order returned in GraphQL API
     STUDY_LEVELS = (
+        (STUDY_LEVEL_AGE_0_2, _("age 0-2")),
+        (STUDY_LEVEL_AGE_3_4, _("age 3-4")),
         (STUDY_LEVEL_PRESCHOOL, _("preschool")),
         (STUDY_LEVEL_GRADE_1, _("first grade")),
         (STUDY_LEVEL_GRADE_2, _("second grade")),
@@ -61,4 +68,5 @@ class StudyGroupStudyLevels:
         (STUDY_LEVEL_GRADE_9, _("ninth grade")),
         (STUDY_LEVEL_GRADE_10, _("tenth grade")),
         (STUDY_LEVEL_SECONDARY, _("secondary")),
+        (STUDY_LEVEL_OTHER, _("other group")),
     )
