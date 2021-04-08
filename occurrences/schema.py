@@ -920,7 +920,7 @@ class Query:
             return None
         qs = Enrolment.objects.filter(occurrence__p_event__organisation=organisation)
         if kwargs.get("status"):
-            qs = qs.filter(status=kwargs["status"])
+            qs = qs.filter(status=kwargs["status"]).order_by("status")
         return qs
 
 
