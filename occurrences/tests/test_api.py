@@ -1167,6 +1167,7 @@ def test_enrol_full_children_occurrence(api_client, occurrence, mock_get_event_d
     p_event_1 = PalvelutarjotinEventFactory(
         enrolment_start=datetime(2020, 1, 3, 0, 0, 0, tzinfo=timezone.now().tzinfo),
         enrolment_end_days=2,
+        auto_acceptance=True,
     )
     occurrence = OccurrenceFactory(
         start_time=datetime(2020, 1, 6, 0, 0, 0, tzinfo=timezone.now().tzinfo),
@@ -1209,13 +1210,14 @@ def test_enrol_full_enrolment_occurrence(api_client, occurrence, mock_get_event_
     p_event_1 = PalvelutarjotinEventFactory(
         enrolment_start=datetime(2020, 1, 3, 0, 0, 0, tzinfo=timezone.now().tzinfo),
         enrolment_end_days=2,
+        auto_acceptance=True,
     )
     occurrence = OccurrenceFactory(
         start_time=datetime(2020, 1, 6, 0, 0, 0, tzinfo=timezone.now().tzinfo),
         p_event=p_event_1,
         min_group_size=10,
         max_group_size=101,
-        amount_of_seats=2,
+        amount_of_seats=1,
         seat_type=Occurrence.OCCURRENCE_SEAT_TYPE_ENROLMENT_COUNT,
     )
 

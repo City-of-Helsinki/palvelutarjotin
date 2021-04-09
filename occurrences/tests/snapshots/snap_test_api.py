@@ -419,10 +419,10 @@ snapshots["test_enrol_occurrence 1"] = {
                     "notificationType": "EMAIL",
                     "occurrence": {
                         "amountOfSeats": 50,
-                        "remainingSeats": 30,
+                        "remainingSeats": 50,
                         "seatType": "CHILDREN_COUNT",
                         "seatsApproved": 0,
-                        "seatsTaken": 20,
+                        "seatsTaken": 0,
                         "startTime": "2020-01-06T00:00:00+00:00",
                     },
                     "status": "PENDING",
@@ -432,10 +432,10 @@ snapshots["test_enrol_occurrence 1"] = {
                     "notificationType": "EMAIL",
                     "occurrence": {
                         "amountOfSeats": 2,
-                        "remainingSeats": 1,
+                        "remainingSeats": 2,
                         "seatType": "ENROLMENT_COUNT",
                         "seatsApproved": 0,
-                        "seatsTaken": 1,
+                        "seatsTaken": 0,
                         "startTime": "2020-01-06T00:00:00+00:00",
                     },
                     "status": "PENDING",
@@ -836,7 +836,7 @@ snapshots["test_approve_enrolment_with_custom_message 2"] = [
     Occurrence: 06.01.2020 02.00
     Person: barbarafarrell@yahoo.com
     Click this link to cancel the enrolment:
-    https://beta.kultus.fi/fi/enrolments/cancel/RW5yb2xtZW50Tm9kZToxOV8yMDIwLTAxLTA0IDAwOjAwOjAwKzAwOjAw
+    https://beta.kultus.fi/fi/enrolments/cancel/RW5yb2xtZW50Tm9kZToyMV8yMDIwLTAxLTA0IDAwOjAwOjAwKzAwOjAw
 
     Custom message: custom message
 """
@@ -892,7 +892,7 @@ snapshots["test_decline_enrolment_with_custom_message 2"] = [
     Occurrence: 06.01.2020 02.00
     Person: barbarafarrell@yahoo.com
     Click this link to cancel the enrolment:
-    https://beta.kultus.fi/fi/enrolments/cancel/RW5yb2xtZW50Tm9kZToyNF8yMDIwLTAxLTA0IDAwOjAwOjAwKzAwOjAw
+    https://beta.kultus.fi/fi/enrolments/cancel/RW5yb2xtZW50Tm9kZToyNl8yMDIwLTAxLTA0IDAwOjAwOjAwKzAwOjAw
 
     Custom message: custom message
 """
@@ -905,9 +905,9 @@ snapshots["test_update_enrolment 1"] = {
                 "notificationType": "SMS",
                 "occurrence": {
                     "amountOfSeats": 35,
-                    "remainingSeats": 1,
+                    "remainingSeats": 35,
                     "seatsApproved": 0,
-                    "seatsTaken": 34,
+                    "seatsTaken": 0,
                     "startTime": "2020-01-06T00:00:00+00:00",
                 },
                 "status": "PENDING",
@@ -970,10 +970,10 @@ snapshots["test_enrol_occurrence_with_captcha 1"] = {
                     "notificationType": "EMAIL",
                     "occurrence": {
                         "amountOfSeats": 50,
-                        "remainingSeats": 30,
+                        "remainingSeats": 50,
                         "seatType": "CHILDREN_COUNT",
                         "seatsApproved": 0,
-                        "seatsTaken": 20,
+                        "seatsTaken": 0,
                         "startTime": "2020-01-06T00:00:00+00:00",
                     },
                     "status": "PENDING",
@@ -1030,10 +1030,10 @@ snapshots["test_enrol_auto_acceptance_occurrence 1"] = {
                     "notificationType": "EMAIL",
                     "occurrence": {
                         "amountOfSeats": 50,
-                        "remainingSeats": 30,
+                        "remainingSeats": 50,
                         "seatType": "CHILDREN_COUNT",
                         "seatsApproved": 0,
-                        "seatsTaken": 20,
+                        "seatsTaken": 0,
                         "startTime": "2020-01-06T00:00:00+00:00",
                     },
                     "status": "PENDING",
@@ -1070,7 +1070,7 @@ snapshots["test_cancel_enrolment_query 1"] = {
     "data": {
         "cancellingEnrolment": {
             "enrolmentTime": "2020-01-04T00:00:00+00:00",
-            "occurrence": {"seatsTaken": 354},
+            "occurrence": {"seatsTaken": 0},
             "status": "PENDING",
             "studyGroup": {
                 "groupSize": 345,

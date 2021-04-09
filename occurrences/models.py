@@ -21,7 +21,7 @@ from verification_token.models import VerificationToken
 from common.models import TimestampedModel, TranslatableModel
 from common.utils import get_node_id_from_global_id
 from palvelutarjotin import settings
-from palvelutarjotin.exceptions import ApiUsageError
+from palvelutarjotin.exceptions import ApiUsageError, EnrolmentNotEnoughCapacityError
 
 
 class Language(models.Model):
@@ -219,9 +219,7 @@ class Occurrence(TimestampedModel):
 
     @property
     def seats_taken(self):
-        qs = self.enrolments.filter(
-            Q(status=Enrolment.STATUS_APPROVED) | Q(status=Enrolment.STATUS_PENDING)
-        )
+        qs = self.enrolments.filter(Q(status=Enrolment.STATUS_APPROVED))
         if self.seat_type == self.OCCURRENCE_SEAT_TYPE_CHILDREN_COUNT:
             return (
                 qs.aggregate(
@@ -519,6 +517,17 @@ class Enrolment(models.Model):
             )
 
     def approve(self, custom_message=None):
+        group_size = (
+            1
+            if self.occurrence.seat_type
+            == Occurrence.OCCURRENCE_SEAT_TYPE_ENROLMENT_COUNT
+            else self.study_group.group_size_with_adults()
+        )
+
+        if self.occurrence.seats_taken + group_size > self.occurrence.amount_of_seats:
+            raise EnrolmentNotEnoughCapacityError(
+                "Not enough space for this study group"
+            )
         self.set_status(self.STATUS_APPROVED)
         self.send_event_notifications_to_contact_people(
             NotificationTemplate.ENROLMENT_APPROVED,
