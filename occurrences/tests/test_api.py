@@ -1630,7 +1630,7 @@ def test_approve_cancelled_occurrence_enrolment(snapshot, staff_api_client):
     p_event = PalvelutarjotinEventFactory(
         enrolment_start=datetime(2020, 1, 3, 0, 0, 0, tzinfo=timezone.now().tzinfo),
         enrolment_end_days=2,
-        needed_occurrences=2,
+        needed_occurrences=1,
     )
     occurrence = OccurrenceFactory(
         start_time=datetime(2020, 1, 6, 0, 0, 0, tzinfo=timezone.now().tzinfo),
@@ -1664,16 +1664,9 @@ def test_approve_enrolment(
     p_event_1 = PalvelutarjotinEventFactory(
         enrolment_start=datetime(2020, 1, 3, 0, 0, 0, tzinfo=timezone.now().tzinfo),
         enrolment_end_days=2,
-        needed_occurrences=2,
+        needed_occurrences=1,
     )
     occurrence = OccurrenceFactory(
-        start_time=datetime(2020, 1, 6, 0, 0, 0, tzinfo=timezone.now().tzinfo),
-        p_event=p_event_1,
-        min_group_size=10,
-        max_group_size=20,
-        amount_of_seats=50,
-    )
-    occurrence_2 = OccurrenceFactory(
         start_time=datetime(2020, 1, 6, 0, 0, 0, tzinfo=timezone.now().tzinfo),
         p_event=p_event_1,
         min_group_size=10,
@@ -1685,28 +1678,16 @@ def test_approve_enrolment(
     )
     enrolment = occurrence.enrolments.first()
     EnrolmentFactory(
-        occurrence=occurrence_2,
-        study_group=study_group_15,
-        person=study_group_15.person,
-    )
-    EnrolmentFactory(
         occurrence=occurrence, study_group=study_group_10, person=study_group_10.person
     )
-    EnrolmentFactory(
-        occurrence=occurrence_2,
-        study_group=study_group_10,
-        person=study_group_10.person,
-    )
-
     assert occurrence.study_groups.count() == 2
-    assert occurrence_2.study_groups.count() == 2
     assert enrolment.status == Enrolment.STATUS_PENDING
 
     variables = {"input": {"enrolmentId": to_global_id("EnrolmentNode", enrolment.id)}}
     staff_api_client.user.person.organisations.add(occurrence.p_event.organisation)
     executed = staff_api_client.execute(APPROVE_ENROLMENT_MUTATION, variables=variables)
     snapshot.assert_match(executed)
-    assert len(mail.outbox) == 2
+    assert len(mail.outbox) == 1
     assert_mails_match_snapshot(snapshot)
     for e in study_group_15.enrolments.all():
         # Check if related enrolments change
@@ -1731,6 +1712,7 @@ def test_approve_enrolment_with_custom_message(
     p_event_1 = PalvelutarjotinEventFactory(
         enrolment_start=datetime(2020, 1, 3, 0, 0, 0, tzinfo=timezone.now().tzinfo),
         enrolment_end_days=2,
+        needed_occurrences=1,
     )
     occurrence = OccurrenceFactory(
         start_time=datetime(2020, 1, 6, 0, 0, 0, tzinfo=timezone.now().tzinfo),

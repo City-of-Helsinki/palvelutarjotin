@@ -42,6 +42,7 @@ from common.utils import (
 from palvelutarjotin import settings
 from palvelutarjotin.exceptions import (
     ApiUsageError,
+    DataValidationError,
     ObjectDoesNotExistError,
     UploadImageSizeExceededError,
 )
@@ -528,6 +529,16 @@ class PublishEventMutationInput(EventMutationInput):
     )
 
 
+def validate_p_event_data(p_event_data):
+    # By default auto_acceptance is False
+    if p_event_data["needed_occurrences"] > 1 and not p_event_data.get(
+        "auto_acceptance", False
+    ):
+        raise DataValidationError(
+            "Cannot create manual approval for multi-occurrences enrolment event"
+        )
+
+
 class AddEventMutation(Mutation):
     class Arguments:
         event = AddEventMutationInput()
@@ -539,6 +550,7 @@ class AddEventMutation(Mutation):
     def mutate(root, info, **kwargs):
         # Format to JSON POST body
         p_event_data = kwargs["event"].pop("p_event")
+        validate_p_event_data(p_event_data)
 
         organisation_gid = kwargs["event"].pop("organisation_id")
         organisation = get_editable_obj_from_global_id(
@@ -605,6 +617,15 @@ class UpdateEventMutation(Mutation):
             p_event = PalvelutarjotinEvent.objects.get(
                 linked_event_id=event_id, organisation=organisation
             )
+            # Compare to the current p_event.auto_acceptance if p_event update data
+            # doesn't include auto_acceptance
+            if p_event_data["needed_occurrences"] > 1 and not p_event_data.get(
+                "auto_acceptance", p_event.auto_acceptance
+            ):
+                raise DataValidationError(
+                    "Cannot create manual approval for multi-occurrences enrolment "
+                    "event"
+                )
         except PalvelutarjotinEvent.DoesNotExist:
             raise PermissionDenied(
                 f"User does not have permission to edit this "
@@ -720,7 +741,8 @@ class UploadImageMutationInput(InputObjectType):
     photographer_name = String()
     image = Upload(
         description="Following GraphQL file upload specs here: "
-        "https://github.com/jaydenseric/graphql-multipart-request-spec"
+        "https://github.com/jaydenseric/graphql-multipart"
+        "-request-spec"
     )
 
 

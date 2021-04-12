@@ -909,7 +909,9 @@ def test_update_event(
         "PersonNode", person.id
     )
     PalvelutarjotinEventFactory(
-        linked_event_id=UPDATE_EVENT_VARIABLES["input"]["id"], organisation=organisation
+        linked_event_id=UPDATE_EVENT_VARIABLES["input"]["id"],
+        organisation=organisation,
+        auto_acceptance=True,
     )
     staff_api_client.user.person.organisations.add(organisation)
     person.organisations.add(organisation)
