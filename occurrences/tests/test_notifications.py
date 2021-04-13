@@ -101,9 +101,9 @@ def test_approve_enrolment_notification_email(
     notification_template_enrolment_approved_en,
     notification_template_enrolment_approved_fi,
     snapshot,
-    occurrence,
-    study_group,
 ):
+    study_group = StudyGroupFactory(group_size=5)
+    occurrence = OccurrenceFactory(amount_of_seats=10)
     enrolment = EnrolmentFactory(
         study_group=study_group, occurrence=occurrence, person=study_group.person
     )
@@ -247,9 +247,11 @@ def test_only_send_approved_notification(
     notification_template_enrolment_approved_en,
     notification_template_occurrence_enrolment_fi,
     notification_template_enrolment_approved_fi,
-    study_group,
 ):
-    occurrence = OccurrenceFactory(p_event__auto_acceptance=auto_acceptance)
+    study_group = StudyGroupFactory(group_size=5)
+    occurrence = OccurrenceFactory(
+        p_event__auto_acceptance=auto_acceptance, amount_of_seats=10
+    )
     enrol = EnrolmentFactory(
         study_group=study_group, occurrence=occurrence, person=study_group.person
     )

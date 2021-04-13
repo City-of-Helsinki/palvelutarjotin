@@ -185,7 +185,7 @@ def _get_event_keyword_sets(event, keyword_set_id):
 
 class Event(IdObject):
     id = String(required=True)
-    location = Field(Place, required=True)
+    location = Field(Place)
     keywords = NonNull(List(NonNull(Keyword)))
     super_event = Field(IdObject)
     event_status = String()
@@ -463,7 +463,7 @@ class IdObjectInput(InputObjectType):
 
 
 class EventMutationInput(InputObjectType):
-    location = IdObjectInput(required=True)
+    location = IdObjectInput()
     keywords = NonNull(List(NonNull(IdObjectInput)))
     super_event = String()
     event_status = String()
