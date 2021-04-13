@@ -6,20 +6,6 @@ from snapshottest import Snapshot
 
 snapshots = Snapshot()
 
-snapshots["test_approve_enrolment_notification_email 1"] = [
-    """no-reply@hel.ninja|['williamsronald@hotmail.com']|Enrolment approved FI|
-    Event FI: Raija Malka & Kaija Saariaho: Blick
-    Extra event info: zVxeo
-    Study group: Dream party door better performance race story. Beautiful if his their. Stuff election stay every.
-    Occurrence: 12.12.2013 06.37
-    Person: williamsronald@hotmail.com
-    Click this link to cancel the enrolment:
-    https://beta.kultus.fi/fi/enrolments/cancel/RW5yb2xtZW50Tm9kZTo1Ml8yMDIwLTAxLTA0IDAwOjAwOjAwKzAwOjAw
-
-    Custom message: custom message
-"""
-]
-
 snapshots["test_decline_enrolment_notification_email 1"] = [
     """no-reply@hel.ninja|['williamsronald@hotmail.com']|Enrolment declined FI|
     Event FI: Raija Malka & Kaija Saariaho: Blick
@@ -89,35 +75,6 @@ snapshots["test_local_time_notification[tz2] 1"] = [
     Study group: Increase thank certainly again thought summer. Beyond than trial western.
     Occurrence: 04.01.2020 00.00
     Person: stephanieskinner@gmail.com
-"""
-]
-
-snapshots["test_only_send_approved_notification[False] 1"] = [
-    """no-reply@hel.ninja|['stephanieskinner@gmail.com']|Occurrence enrolment FI|
-    Event FI: Raija Malka & Kaija Saariaho: Blick
-    Extra event info: XxEpr
-    Study group: Increase thank certainly again thought summer. Beyond than trial western.
-    Occurrence: 29.06.2001 12.45
-    Person: stephanieskinner@gmail.com
-""",
-    """no-reply@hel.ninja|['stephanieskinner@gmail.com']|Enrolment approved FI|
-    Event FI: Raija Malka & Kaija Saariaho: Blick
-    Extra event info: XxEpr
-    Study group: Increase thank certainly again thought summer. Beyond than trial western.
-    Occurrence: 29.06.2001 12.45
-    Person: stephanieskinner@gmail.com
-
-""",
-]
-
-snapshots["test_only_send_approved_notification[True] 1"] = [
-    """no-reply@hel.ninja|['stephanieskinner@gmail.com']|Enrolment approved FI|
-    Event FI: Raija Malka & Kaija Saariaho: Blick
-    Extra event info: XxEpr
-    Study group: Increase thank certainly again thought summer. Beyond than trial western.
-    Occurrence: 29.06.2001 12.45
-    Person: stephanieskinner@gmail.com
-
 """
 ]
 
@@ -274,4 +231,47 @@ snapshots["test_decline_enrolment_notification_email_to_multiple_contact_person 
 
     Custom message: custom message
 """,
+]
+
+snapshots["test_only_send_approved_notification[True] 1"] = [
+    """no-reply@hel.ninja|['stephanieskinner@gmail.com']|Enrolment approved FI|
+    Event FI: Raija Malka & Kaija Saariaho: Blick
+    Extra event info: XxEpr
+    Study group: Increase thank certainly again thought summer. Beyond than trial western.
+    Occurrence: 29.06.2001 12.45
+    Person: stephanieskinner@gmail.com
+
+"""
+]
+
+snapshots["test_only_send_approved_notification[False] 1"] = [
+    """no-reply@hel.ninja|['stephanieskinner@gmail.com']|Occurrence enrolment FI|
+    Event FI: Raija Malka & Kaija Saariaho: Blick
+    Extra event info: XxEpr
+    Study group: Increase thank certainly again thought summer. Beyond than trial western.
+    Occurrence: 29.06.2001 12.45
+    Person: stephanieskinner@gmail.com
+""",
+    """no-reply@hel.ninja|['stephanieskinner@gmail.com']|Enrolment approved FI|
+    Event FI: Raija Malka & Kaija Saariaho: Blick
+    Extra event info: XxEpr
+    Study group: Increase thank certainly again thought summer. Beyond than trial western.
+    Occurrence: 29.06.2001 12.45
+    Person: stephanieskinner@gmail.com
+
+""",
+]
+
+snapshots["test_approve_enrolment_notification_email 1"] = [
+    """no-reply@hel.ninja|['stephanieskinner@gmail.com']|Enrolment approved FI|
+    Event FI: Raija Malka & Kaija Saariaho: Blick
+    Extra event info: XxEpr
+    Study group: Increase thank certainly again thought summer. Beyond than trial western.
+    Occurrence: 29.06.2001 12.45
+    Person: stephanieskinner@gmail.com
+    Click this link to cancel the enrolment:
+    https://beta.kultus.fi/fi/enrolments/cancel/RW5yb2xtZW50Tm9kZTo1NF8yMDIwLTAxLTA0IDAwOjAwOjAwKzAwOjAw
+
+    Custom message: custom message
+"""
 ]

@@ -129,7 +129,7 @@ def test_study_group_size_with_adults(group_size, amount_of_adult, result):
 
 @pytest.mark.django_db
 def test_occurrence_seat_taken():
-    enrolment = EnrolmentFactory()
+    enrolment = EnrolmentFactory(status=Enrolment.STATUS_APPROVED)
     occurrence = enrolment.occurrence
     study_group = enrolment.study_group
     assert occurrence.seats_taken > 0
