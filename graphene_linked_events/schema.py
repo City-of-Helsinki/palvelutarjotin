@@ -500,7 +500,7 @@ class AddEventMutationInput(EventMutationInput):
         "event data validation will be skipped",
         default_value=False,
     )
-    start_time = String(required=True)
+    start_time = String()
     p_event = InputField(
         PalvelutarjotinEventInput,
         required=True,
@@ -510,7 +510,7 @@ class AddEventMutationInput(EventMutationInput):
 
 class UpdateEventMutationInput(EventMutationInput):
     id = String(required=True)
-    start_time = String(required=True)
+    start_time = String()
     p_event = InputField(
         PalvelutarjotinEventInput, description="Palvelutarjotin event data",
     )
