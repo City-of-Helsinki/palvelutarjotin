@@ -2363,3 +2363,95 @@ def test_cancel_enrolment_mutation(snapshot, api_client, study_group):
         },
     )
     snapshot.assert_match(executed)
+
+
+MASS_APPROVE_ENROLMENTS_MUTATION = """
+mutation massApproveEnrolmentsMutation($input: MassApproveEnrolmentsMutationInput!){
+  massApproveEnrolments(input: $input){
+    enrolments{
+       status
+    }
+  }
+}
+"""
+
+
+def test_mass_approve_enrolment_mutation(snapshot, staff_api_client):
+    occurrence = OccurrenceFactory(
+        p_event__needed_occurrences=1,
+        p_event__auto_acceptance=False,
+        amount_of_seats=100,
+    )
+    enrolment_1 = EnrolmentFactory(occurrence=occurrence, study_group__group_size=10)
+    enrolment_2 = EnrolmentFactory(occurrence=occurrence, study_group__group_size=10)
+    enrolment_3 = EnrolmentFactory(occurrence=occurrence, study_group__group_size=10)
+    staff_api_client.user.person.organisations.add(occurrence.p_event.organisation)
+    executed = staff_api_client.execute(
+        MASS_APPROVE_ENROLMENTS_MUTATION,
+        variables={
+            "input": {
+                "enrolmentIds": [
+                    to_global_id("EnrolmentNode", enrolment_1.id),
+                    to_global_id("EnrolmentNode", enrolment_2.id),
+                    to_global_id("EnrolmentNode", enrolment_3.id),
+                ],
+                "customMessage": "Custom message",
+            }
+        },
+    )
+    snapshot.assert_match(executed)
+
+
+def test_mass_approve_multi_occurrences_enrolment_mutation(snapshot, staff_api_client):
+    occurrence = OccurrenceFactory(
+        p_event__needed_occurrences=2,
+        p_event__auto_acceptance=False,
+        amount_of_seats=100,
+    )
+    enrolment_1 = EnrolmentFactory(occurrence=occurrence, study_group__group_size=10)
+    enrolment_2 = EnrolmentFactory(occurrence=occurrence, study_group__group_size=10)
+    enrolment_3 = EnrolmentFactory(occurrence=occurrence, study_group__group_size=10)
+    staff_api_client.user.person.organisations.add(occurrence.p_event.organisation)
+    executed = staff_api_client.execute(
+        MASS_APPROVE_ENROLMENTS_MUTATION,
+        variables={
+            "input": {
+                "enrolmentIds": [
+                    to_global_id("EnrolmentNode", enrolment_1.id),
+                    to_global_id("EnrolmentNode", enrolment_2.id),
+                    to_global_id("EnrolmentNode", enrolment_3.id),
+                ],
+                "customMessage": "Custom message",
+            }
+        },
+    )
+    # Do not approve enrolment if needed_occurrences > 1
+    assert_match_error_code(executed, API_USAGE_ERROR)
+
+
+def test_approve_multi_occurrences_enrolment(
+    snapshot, staff_api_client,
+):
+    study_group_15 = StudyGroupFactory(group_size=15)
+    # Current date froze on 2020-01-04:
+    p_event_1 = PalvelutarjotinEventFactory(
+        enrolment_start=datetime(2020, 1, 3, 0, 0, 0, tzinfo=timezone.now().tzinfo),
+        enrolment_end_days=2,
+        needed_occurrences=2,
+        auto_acceptance=False,
+    )
+    occurrence = OccurrenceFactory(
+        start_time=datetime(2020, 1, 6, 0, 0, 0, tzinfo=timezone.now().tzinfo),
+        p_event=p_event_1,
+        min_group_size=10,
+        max_group_size=20,
+        amount_of_seats=50,
+    )
+    enrolment = EnrolmentFactory(
+        occurrence=occurrence, study_group=study_group_15, person=study_group_15.person
+    )
+    variables = {"input": {"enrolmentId": to_global_id("EnrolmentNode", enrolment.id)}}
+    staff_api_client.user.person.organisations.add(occurrence.p_event.organisation)
+    executed = staff_api_client.execute(APPROVE_ENROLMENT_MUTATION, variables=variables)
+    # Do not approve enrolment if needed_occurrences > 1
+    assert_match_error_code(executed, API_USAGE_ERROR)

@@ -1263,3 +1263,15 @@ snapshots["test_languagess_query 1"] = {
         }
     }
 }
+
+snapshots["test_mass_approve_enrolment_mutation 1"] = {
+    "data": {
+        "massApproveEnrolments": {
+            "enrolments": [
+                {"status": "APPROVED"},
+                {"status": "APPROVED"},
+                {"status": "APPROVED"},
+            ]
+        }
+    }
+}

@@ -14,7 +14,7 @@ snapshots["test_approve_enrolment_notification_email 1"] = [
     Occurrence: 29.06.2001 12.45
     Person: stephanieskinner@gmail.com
     Click this link to cancel the enrolment:
-    https://beta.kultus.fi/fi/enrolments/cancel/RW5yb2xtZW50Tm9kZTo1Ml8yMDIwLTAxLTA0IDAwOjAwOjAwKzAwOjAw
+    https://beta.kultus.fi/fi/enrolments/cancel/RW5yb2xtZW50Tm9kZTo1OV8yMDIwLTAxLTA0IDAwOjAwOjAwKzAwOjAw
 
     Custom message: custom message
 """
@@ -157,9 +157,9 @@ snapshots["test_send_enrolment_summary_report 1"] = [
             Event name: Raija Malka & Kaija Saariaho: Blick
             Event link: https://provider.kultus.fi/fi/events/aAVEa
                     Occurrence: #1996-02-20 13:49:25+00:00 (3 pending)
-                    Link to occurrence: https://provider.kultus.fi/fi/events/aAVEa/occurrences/T2NjdXJyZW5jZU5vZGU6OTc=
+                    Link to occurrence: https://provider.kultus.fi/fi/events/aAVEa/occurrences/T2NjdXJyZW5jZU5vZGU6MTAw
                     Occurrence: #2001-02-23 20:07:07+00:00 (1 pending)
-                    Link to occurrence: https://provider.kultus.fi/fi/events/aAVEa/occurrences/T2NjdXJyZW5jZU5vZGU6OTg=
+                    Link to occurrence: https://provider.kultus.fi/fi/events/aAVEa/occurrences/T2NjdXJyZW5jZU5vZGU6MTAx
         """,
     """no-reply@hel.ninja|['jgray@yahoo.com']|Enrolment approved FI|
         Total pending enrolments: 3
@@ -167,17 +167,17 @@ snapshots["test_send_enrolment_summary_report 1"] = [
             Event name: Raija Malka & Kaija Saariaho: Blick
             Event link: https://provider.kultus.fi/fi/events/SLZLM
                     Occurrence: #2017-06-11 11:22:16+00:00 (1 pending)
-                    Link to occurrence: https://provider.kultus.fi/fi/events/SLZLM/occurrences/T2NjdXJyZW5jZU5vZGU6MTAw
+                    Link to occurrence: https://provider.kultus.fi/fi/events/SLZLM/occurrences/T2NjdXJyZW5jZU5vZGU6MTAz
                     Occurrence: #1985-06-24 16:15:35+00:00 (1 pending)
-                    Link to occurrence: https://provider.kultus.fi/fi/events/SLZLM/occurrences/T2NjdXJyZW5jZU5vZGU6MTAx
+                    Link to occurrence: https://provider.kultus.fi/fi/events/SLZLM/occurrences/T2NjdXJyZW5jZU5vZGU6MTA0
             Event name: Raija Malka & Kaija Saariaho: Blick
             Event link: https://provider.kultus.fi/fi/events/Gqqvl
                     Occurrence: #1992-03-09 01:25:06+00:00 (1 pending)
-                    Link to occurrence: https://provider.kultus.fi/fi/events/Gqqvl/occurrences/T2NjdXJyZW5jZU5vZGU6MTAy
+                    Link to occurrence: https://provider.kultus.fi/fi/events/Gqqvl/occurrences/T2NjdXJyZW5jZU5vZGU6MTA1
             Event name: Raija Malka & Kaija Saariaho: Blick
             Event link: https://provider.kultus.fi/fi/events/VjQsm
                     Occurrence: #2010-09-28 05:44:35+00:00 (1 new enrolments)
-                    Link to occurrence: https://provider.kultus.fi/fi/events/VjQsm/occurrences/T2NjdXJyZW5jZU5vZGU6MTAz
+                    Link to occurrence: https://provider.kultus.fi/fi/events/VjQsm/occurrences/T2NjdXJyZW5jZU5vZGU6MTA2
         """,
 ]
 
@@ -272,6 +272,71 @@ snapshots["test_only_send_approved_notification[False] 1"] = [
     Study group: Increase thank certainly again thought summer. Beyond than trial western.
     Occurrence: 29.06.2001 12.45
     Person: stephanieskinner@gmail.com
+
+""",
+]
+
+snapshots["test_mass_approve_enrolment_mutation 1"] = [
+    """no-reply@hel.ninja|['philip16@moss.com']|Enrolment approved FI|
+    Event FI: Raija Malka & Kaija Saariaho: Blick
+    Extra event info: ZoGFT
+    Study group: Believe policy security score. Turn argue present throw spend prevent.
+    Occurrence: 30.07.1996 07.23
+    Person: philip16@moss.com
+    Click this link to cancel the enrolment:
+    https://beta.kultus.fi/fi/enrolments/cancel/RW5yb2xtZW50Tm9kZTo4Nl8yMDIwLTAxLTA0IDAwOjAwOjAwKzAwOjAw
+
+    Custom message: Custom message
+""",
+    """no-reply@hel.ninja|['monica13@hotmail.com']|Enrolment approved FI|
+    Event FI: Raija Malka & Kaija Saariaho: Blick
+    Extra event info: ZoGFT
+    Study group: Believe policy security score. Turn argue present throw spend prevent.
+    Occurrence: 30.07.1996 07.23
+    Person: monica13@hotmail.com
+    Click this link to cancel the enrolment:
+    https://beta.kultus.fi/fi/enrolments/cancel/RW5yb2xtZW50Tm9kZTo4Nl8yMDIwLTAxLTA0IDAwOjAwOjAwKzAwOjAw
+
+    Custom message: Custom message
+""",
+    """no-reply@hel.ninja|['melissa96@gmail.com']|Enrolment approved FI|
+    Event FI: Raija Malka & Kaija Saariaho: Blick
+    Extra event info: ZoGFT
+    Study group: Work early property your stage receive. Determine sort under car.
+    Occurrence: 30.07.1996 07.23
+    Person: melissa96@gmail.com
+    Click this link to cancel the enrolment:
+    https://beta.kultus.fi/fi/enrolments/cancel/RW5yb2xtZW50Tm9kZTo4N18yMDIwLTAxLTA0IDAwOjAwOjAwKzAwOjAw
+
+""",
+    """no-reply@hel.ninja|['perezlisa@hotmail.com']|Enrolment approved FI|
+    Event FI: Raija Malka & Kaija Saariaho: Blick
+    Extra event info: ZoGFT
+    Study group: Work early property your stage receive. Determine sort under car.
+    Occurrence: 30.07.1996 07.23
+    Person: perezlisa@hotmail.com
+    Click this link to cancel the enrolment:
+    https://beta.kultus.fi/fi/enrolments/cancel/RW5yb2xtZW50Tm9kZTo4N18yMDIwLTAxLTA0IDAwOjAwOjAwKzAwOjAw
+
+""",
+    """no-reply@hel.ninja|['robertmorris@gmail.com']|Enrolment approved FI|
+    Event FI: Raija Malka & Kaija Saariaho: Blick
+    Extra event info: ZoGFT
+    Study group: Green unit recently turn who world various.
+    Occurrence: 30.07.1996 07.23
+    Person: robertmorris@gmail.com
+    Click this link to cancel the enrolment:
+    https://beta.kultus.fi/fi/enrolments/cancel/RW5yb2xtZW50Tm9kZTo4OF8yMDIwLTAxLTA0IDAwOjAwOjAwKzAwOjAw
+
+""",
+    """no-reply@hel.ninja|['kirbyjulie@yahoo.com']|Enrolment approved FI|
+    Event FI: Raija Malka & Kaija Saariaho: Blick
+    Extra event info: ZoGFT
+    Study group: Green unit recently turn who world various.
+    Occurrence: 30.07.1996 07.23
+    Person: kirbyjulie@yahoo.com
+    Click this link to cancel the enrolment:
+    https://beta.kultus.fi/fi/enrolments/cancel/RW5yb2xtZW50Tm9kZTo4OF8yMDIwLTAxLTA0IDAwOjAwOjAwKzAwOjAw
 
 """,
 ]

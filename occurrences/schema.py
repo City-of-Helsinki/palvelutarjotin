@@ -302,7 +302,7 @@ class UpdateOccurrenceMutation(graphene.relay.ClientIDMutation):
         amount_of_seats = graphene.Int()
         languages = NonNull(
             graphene.List(LanguageInput),
-            description="If present, should include all languages of " "the occurrence",
+            description="If present, should include all languages of the occurrence",
         )
         seat_type = OccurrenceSeatTypeEnum()
 
@@ -694,7 +694,7 @@ class ApproveEnrolmentMutation(graphene.relay.ClientIDMutation):
         # Do not allow manual approvement if enrolment require more than 1 occurrences
         if e.occurrence.p_event.needed_occurrences > 1:
             raise ApiUsageError(
-                "Cannot approve enrolment that requires more than 1 " "occurrence"
+                "Cannot approve enrolment that requires more than 1 occurrence"
             )
         if e.occurrence.cancelled:
             raise EnrolCancelledOccurrenceError(
@@ -707,10 +707,10 @@ class ApproveEnrolmentMutation(graphene.relay.ClientIDMutation):
 
 class MassApproveEnrolmentsMutation(graphene.relay.ClientIDMutation):
     class Input:
-        enrolment_ids = graphene.NonNull(graphene.List(graphene.GlobalID))
+        enrolment_ids = graphene.NonNull(graphene.List(graphene.ID))
         custom_message = graphene.String()
 
-    enrolments = graphene.NonNull(graphene.List(graphene.Field(EnrolmentNode)))
+    enrolments = graphene.NonNull(graphene.List(EnrolmentNode))
 
     @classmethod
     @staff_member_required
@@ -1045,6 +1045,7 @@ class Mutation:
 
     update_enrolment = UpdateEnrolmentMutation.Field()
     approve_enrolment = ApproveEnrolmentMutation.Field()
+    mass_approve_enrolments = MassApproveEnrolmentsMutation.Field()
     decline_enrolment = DeclineEnrolmentMutation.Field()
 
     cancel_enrolment = CancelEnrolmentMutation.Field()
