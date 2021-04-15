@@ -32,7 +32,11 @@ class UserAdmin(DjangoUserAdmin):
         ("UUID", {"fields": ("uuid",)}),
         ("AD Groups", {"fields": ("ad_groups",)}),
     )
+
+    list_display = DjangoUserAdmin.list_display + ("date_joined",)
+    list_filter = ("date_joined",) + DjangoUserAdmin.list_filter
     readonly_fields = ("uuid", "ad_groups")
+    ordering = ("-date_joined",)
 
 
 admin.site.register(get_user_model(), UserAdmin)
