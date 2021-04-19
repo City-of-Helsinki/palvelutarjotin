@@ -202,7 +202,7 @@ class OccurrenceNode(DjangoObjectType):
         return self.amount_of_seats - self.seats_taken
 
 
-def validate_occurrence_data(kwargs, updated_obj=None):
+def validate_occurrence_data(p_event, kwargs, updated_obj=None):
     end_time = (
         kwargs.get("end_time", updated_obj.end_time)
         if updated_obj
@@ -215,6 +215,13 @@ def validate_occurrence_data(kwargs, updated_obj=None):
     )
     if end_time <= start_time:
         raise DataValidationError("End time must be after start time")
+    minimum_time = (
+        (p_event.enrolment_start + timedelta(days=p_event.enrolment_end_days))
+        if p_event.enrolment_end_days
+        else p_event.enrolment_start
+    )
+    if start_time < minimum_time:
+        raise DataValidationError("Start time cannot be before the enrolment ends")
 
 
 @transaction.atomic
@@ -262,12 +269,12 @@ class AddOccurrenceMutation(graphene.relay.ClientIDMutation):
     @staff_member_required
     @transaction.atomic
     def mutate_and_get_payload(cls, root, info, **kwargs):
-        validate_occurrence_data(kwargs)
-        contact_persons = kwargs.pop("contact_persons", None)
-        languages = kwargs.pop("languages", None)
         p_event = get_editable_obj_from_global_id(
             info, kwargs["p_event_id"], PalvelutarjotinEvent
         )
+        validate_occurrence_data(p_event, kwargs)
+        contact_persons = kwargs.pop("contact_persons", None)
+        languages = kwargs.pop("languages", None)
         if p_event.is_published():
             raise ApiUsageError("Cannot add occurrence to published event")
         kwargs["p_event_id"] = p_event.id
@@ -312,10 +319,10 @@ class UpdateOccurrenceMutation(graphene.relay.ClientIDMutation):
     @transaction.atomic
     def mutate_and_get_payload(cls, root, info, **kwargs):
         occurrence = get_editable_obj_from_global_id(info, kwargs.pop("id"), Occurrence)
-        validate_occurrence_data(kwargs, occurrence)
+        p_event = occurrence.p_event
+        validate_occurrence_data(p_event, kwargs, occurrence)
         contact_persons = kwargs.pop("contact_persons", None)
         languages = kwargs.pop("languages", None)
-        p_event = occurrence.p_event
         if kwargs.get("p_event_id"):
             p_event = get_editable_obj_from_global_id(
                 info, kwargs["p_event_id"], PalvelutarjotinEvent
@@ -913,7 +920,7 @@ class Query:
             return None
         qs = Enrolment.objects.filter(occurrence__p_event__organisation=organisation)
         if kwargs.get("status"):
-            qs = qs.filter(status=kwargs["status"])
+            qs = qs.filter(status=kwargs["status"]).order_by("status")
         return qs
 
 
