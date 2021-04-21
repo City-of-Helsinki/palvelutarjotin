@@ -5,6 +5,7 @@ import pytest
 import pytz
 from django.core import mail
 from django.utils import timezone
+from graphql_relay import to_global_id
 from occurrences.consts import NOTIFICATION_TYPE_ALL, NOTIFICATION_TYPE_SMS
 from occurrences.factories import (
     EnrolmentFactory,
@@ -13,6 +14,7 @@ from occurrences.factories import (
     StudyGroupFactory,
 )
 from occurrences.models import Enrolment
+from occurrences.tests.test_api import MASS_APPROVE_ENROLMENTS_MUTATION
 from organisations.factories import PersonFactory
 
 from common.tests.utils import assert_mails_match_snapshot
@@ -330,4 +332,41 @@ def test_decline_enrolment_notification_email_to_multiple_contact_person(
     enrolment_2 = EnrolmentFactory()
     enrolment_2.decline(custom_message="custom message")
     assert len(mail.outbox) == 3
+    assert_mails_match_snapshot(snapshot)
+
+
+@pytest.mark.django_db
+def test_mass_approve_enrolment_mutation(
+    snapshot,
+    staff_api_client,
+    mock_get_event_data,
+    notification_template_enrolment_approved_en,
+    notification_template_enrolment_approved_fi,
+):
+    occurrence = OccurrenceFactory(
+        p_event__needed_occurrences=1,
+        p_event__auto_acceptance=False,
+        amount_of_seats=100,
+    )
+    enrolment_1 = EnrolmentFactory(occurrence=occurrence, study_group__group_size=10)
+    enrolment_2 = EnrolmentFactory(occurrence=occurrence, study_group__group_size=10)
+    enrolment_3 = EnrolmentFactory(occurrence=occurrence, study_group__group_size=10)
+    staff_api_client.user.person.organisations.add(occurrence.p_event.organisation)
+    staff_api_client.execute(
+        MASS_APPROVE_ENROLMENTS_MUTATION,
+        variables={
+            "input": {
+                "enrolmentIds": [
+                    to_global_id("EnrolmentNode", enrolment_1.id),
+                    to_global_id("EnrolmentNode", enrolment_2.id),
+                    to_global_id("EnrolmentNode", enrolment_3.id),
+                ],
+                "customMessage": "Custom message",
+            }
+        },
+    )
+
+    # Two people got email for each enrolment
+    # (study group contact person & enrolment teacher)
+    assert len(mail.outbox) == 6
     assert_mails_match_snapshot(snapshot)
