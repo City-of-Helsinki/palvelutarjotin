@@ -517,6 +517,43 @@ def test_add_occurrence(
     assert_match_error_code(executed, DATA_VALIDATION_ERROR)
 
 
+def test_add_occurrence_to_date_when_enrolling_has_not_started(
+    staff_api_client,
+    organisation,
+    person,
+    mock_get_draft_event_data,
+    mock_update_event_data,
+):
+    variables = deepcopy(ADD_OCCURRENCE_VARIABLES)
+    p_event = PalvelutarjotinEventFactory(
+        organisation=organisation, enrolment_end_days=2
+    )
+    variables["input"]["pEventId"] = to_global_id(
+        "PalvelutarjotinEventNode", p_event.id
+    )
+    # Add one more pre-made contact person to the variable
+    variables["input"]["contactPersons"].append(
+        {
+            "id": to_global_id("PersonNode", person.id),
+            "emailAddress": person.email_address,
+            "name": person.name,
+        }
+    )
+    staff_api_client.user.person.organisations.add(organisation)
+    variables["input"]["startTime"] = p_event.enrolment_start
+    variables["input"]["endTime"] = p_event.enrolment_start + timedelta(days=4)
+
+    executed = staff_api_client.execute(ADD_OCCURRENCE_MUTATION, variables=variables)
+    assert "errors" in executed
+    assert_match_error_code(executed, DATA_VALIDATION_ERROR)
+
+    variables["input"]["startTime"] = p_event.enrolment_start + timedelta(days=3)
+    variables["input"]["endTime"] = p_event.enrolment_start + timedelta(days=4)
+
+    executed = staff_api_client.execute(ADD_OCCURRENCE_MUTATION, variables=variables)
+    assert "errors" not in executed
+
+
 def test_update_occurrence_unauthorized(
     api_client, user_api_client, occurrence, staff_api_client
 ):
