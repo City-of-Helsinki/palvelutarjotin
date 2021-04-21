@@ -220,7 +220,7 @@ def validate_occurrence_data(p_event, kwargs, updated_obj=None):
         if p_event.enrolment_end_days
         else p_event.enrolment_start
     )
-    if start_time < minimum_time:
+    if minimum_time is not None and start_time < minimum_time:
         raise DataValidationError("Start time cannot be before the enrolment ends")
 
 
