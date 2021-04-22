@@ -178,6 +178,7 @@ INSTALLED_APPS = [
     "organisations",
     "occurrences",
     "verification_token",
+    "reports",
 ]
 
 MIDDLEWARE = [

@@ -4,6 +4,9 @@ from django.contrib.admin.widgets import FilteredSelectMultiple
 from django.contrib.auth import get_user_model
 from django.contrib.auth.admin import UserAdmin as DjangoUserAdmin
 from django.contrib.auth.forms import UserChangeForm
+from django.http import HttpResponseRedirect
+from django.urls import reverse
+from django.utils.translation import gettext as _
 from organisations.models import Organisation, Person, User
 
 
@@ -12,22 +15,79 @@ class OrganisationAdmin(admin.ModelAdmin):
     filter_horizontal = ("persons",)
     list_display = ("name", "type", "publisher_id")
     exclude = ("id",)
+    actions = (
+        "export_organisation_persons",
+        "export_organisation_persons_csv",
+    )
+
+    def export_organisation_persons(self, request, queryset):
+        selected = queryset.values_list("pk", flat=True)
+        return HttpResponseRedirect(
+            "%s?ids=%s"
+            % (
+                reverse("report_organisation_persons", current_app="reports"),
+                ",".join(str(pk) for pk in selected),
+            )
+        )
+
+    def export_organisation_persons_csv(self, request, queryset):
+        selected = queryset.values_list("pk", flat=True)
+        return HttpResponseRedirect(
+            "%s?ids=%s"
+            % (
+                reverse("report_organisation_persons_csv", current_app="reports"),
+                ",".join(str(pk) for pk in selected),
+            )
+        )
+
+    export_organisation_persons_csv.short_description = _(
+        "Export organisation persons (csv)"
+    )
 
 
 class OrganisationInline(admin.TabularInline):
     model = Organisation.persons.through
 
 
+class UserExistenceListFilter(admin.SimpleListFilter):
+    """
+    Does the instance have a user profile or not?
+    List filter options: All,True (for have user profile), False (for doesn't have)
+    """
+
+    title = _("has user profile")
+    parameter_name = "person-has-user"
+
+    def lookups(self, request, model_admin):
+        return (
+            (True, _("True")),
+            (False, _("False")),
+        )
+
+    def queryset(self, request, queryset):
+
+        if self.value() == "True":
+            return queryset.filter(user__isnull=False)
+        if self.value() == "False":
+            return queryset.filter(user__isnull=True)
+
+
 @admin.register(Person)
 class PersonAdmin(admin.ModelAdmin):
     list_display = (
         "name",
+        "user",
         "email_address",
         "created_at",
         "updated_at",
     )
     fields = ("user", "name", "phone_number", "email_address")
     inlines = (OrganisationInline,)
+    list_filter = [
+        "created_at",
+        UserExistenceListFilter,
+    ]
+    search_fields = ["name", "email_address"]
 
 
 class UserAdminForm(UserChangeForm):

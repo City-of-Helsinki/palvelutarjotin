@@ -1,7 +1,7 @@
 from django.conf import settings
 from django.conf.urls.static import static
 from django.http import HttpResponse
-from django.urls import path
+from django.urls import include, path
 from django.utils.translation import ugettext
 from django.views.decorators.csrf import csrf_exempt
 from helusers.admin_site import admin
@@ -13,6 +13,7 @@ admin.site.index_title = " ".join([ugettext("Beta Kultus API"), get_api_version(
 
 urlpatterns = [
     path("admin/", admin.site.urls),
+    path("reports/", include("reports.urls")),
     path(
         "graphql",
         csrf_exempt(
