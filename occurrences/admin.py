@@ -30,15 +30,19 @@ class StudyLevelAdmin(admin.ModelAdmin):
 @admin.register(Occurrence)
 class OccurrenceAdmin(admin.ModelAdmin):
     list_display = (
+        "id",
         "p_event",
         "start_time",
         "end_time",
         "amount_of_seats",
         "seats_taken",
+        "seat_type",
         "cancelled",
         "updated_at",
     )
     exclude = ("id",)
+    list_filter = ["start_time", "end_time", "seat_type", "cancelled"]
+    search_fields = ["p_event__linked_event_id"]
 
     def linked_event_id(self, obj):
         return obj.p_event.linked_event_id
