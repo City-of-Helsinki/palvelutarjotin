@@ -97,6 +97,8 @@ class PalvelutarjotinEventAdmin(admin.ModelAdmin):
         "needed_occurrences",
         "contact_email",
     )
+    list_filter = ["enrolment_start"]
+    search_fields = ["linked_event_id", "organisation__name", "contact_email"]
 
     def occurrences_count(self, obj):
         return obj.occurrences.count()
