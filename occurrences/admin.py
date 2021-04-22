@@ -67,7 +67,23 @@ class VenueCustomDataAdmin(TranslatableAdmin):
         "has_clothing_storage",
         "has_snack_eating_place",
         "outdoor_activity",
+        "has_toilet_nearby",
+        "has_area_for_group_work",
+        "has_indoor_playing_area",
+        "has_outdoor_playing_area",
     )
+
+    list_filter = [
+        "has_clothing_storage",
+        "has_snack_eating_place",
+        "outdoor_activity",
+        "has_toilet_nearby",
+        "has_area_for_group_work",
+        "has_indoor_playing_area",
+        "has_outdoor_playing_area",
+    ]
+
+    search_fields = ["place_id"]
 
 
 @admin.register(PalvelutarjotinEvent)
