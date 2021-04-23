@@ -56,7 +56,7 @@ class UserAdminForm(UserChangeForm):
         if commit:
             user.save()
 
-        if user.pk:
+        if user.pk and hasattr(user, "person"):
             user.person.organisations.set(self.cleaned_data["organisations"])
             self.save_m2m()
 
