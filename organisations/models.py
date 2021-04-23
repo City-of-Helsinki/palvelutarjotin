@@ -19,6 +19,15 @@ class PersonQuerySet(models.QuerySet):
 
 
 class User(AbstractUser):
+
+    # When creating an user, the name and the email can be left to blank.
+    # In those cases, return username.
+    def __str__(self):
+        display_name = super(User, self).__str__()
+        if not display_name:
+            return self.username
+        return display_name
+
     class Meta:
         verbose_name = _("user")
         verbose_name_plural = _("users")
