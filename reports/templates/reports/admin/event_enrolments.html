@@ -1,0 +1,57 @@
+{% extends "admin/base.html" %}
+{% load i18n admin_urls %}
+
+{% block breadcrumbs %}
+<div class="breadcrumbs">
+    <a href="{% url 'admin:index' %}">{% trans 'Home' %}</a>
+    &rsaquo; <a href="{% url 'admin:app_list' app_label=opts.app_label %}">{{ opts.app_config.verbose_name }}</a>
+    &rsaquo; <a href="{% url opts|admin_urlname:'changelist' %}">{{opts.verbose_name_plural|capfirst }}</a>
+    &rsaquo; {% trans "Events' enrolments report"%}
+</div>
+{% endblock %}
+
+{% block content %}
+<table>
+    <caption>{% trans "Events' approved enrolments" %}</caption>
+    <thead>
+        <tr>
+            <th>{% trans "LinkedEvents id" %}</th>
+            <th>{% trans "Occurrence starting time" %}</th>
+            <th>{% trans "Enrolment time" %}</th>
+            <th>{% trans "Group name" %}</th>
+            <th>{% trans "Study levels" %}</th>
+            <th>{% trans "Amount of children" %}</th>
+            <th>{% trans "Amount of adults" %}</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for enrolment in enrolments %}
+            <tr>
+                <td><a href="{{linked_events_root}}event/{{enrolment.occurrence.p_event.linked_event_id}}" target="blank">{{enrolment.occurrence.p_event.linked_event_id}}</a></td>
+                <td>{{enrolment.occurrence.start_time|date:"d.m.Y H:i"}}</td>
+                <td>{{enrolment.enrolment_time|date:"d.m.Y H:i"}}</td>
+                <td>{{enrolment.study_group.name}}</td>
+                <td>
+                    {% for study_level in enrolment.study_group.study_levels.all %}
+                        {% if not forloop.first %}, {% endif %}
+                        {{study_level.label}}
+                    {% endfor %}
+                </td>
+                <td>{{enrolment.study_group.group_size}}</td>
+                <td>{{enrolment.study_group.amount_of_adult}}</td>
+            </tr>
+        {% endfor %}
+    </tbody>
+    <tfoot>
+        <tr>
+            <td><b>{% trans "Total" %}:</b> {{enrolments|length}}</td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td>{{total_children}}</td>
+            <td>{{total_adults}}</td>
+        </tr>
+    </tfoot>
+</table>
+{% endblock %}
