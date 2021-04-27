@@ -1,4 +1,8 @@
 from django.contrib import admin
+from django.contrib.admin.filters import DateFieldListFilter
+from django.http import HttpResponseRedirect
+from django.urls import reverse
+from django.utils.translation import gettext as _
 from occurrences.models import (
     Enrolment,
     Occurrence,
@@ -87,6 +91,7 @@ class VenueCustomDataAdmin(TranslatableAdmin):
 
 @admin.register(PalvelutarjotinEvent)
 class PalvelutarjotinEventAdmin(admin.ModelAdmin):
+    change_list_template = "admin/palvelutarjotinevent_changelist.html"
     list_display = (
         "linked_event_id",
         "organisation",
@@ -96,8 +101,37 @@ class PalvelutarjotinEventAdmin(admin.ModelAdmin):
         "needed_occurrences",
         "contact_email",
     )
-    list_filter = ["enrolment_start"]
+    list_filter = [("enrolment_start", DateFieldListFilter)]
+    date_hierarchy = "enrolment_start"
     search_fields = ["linked_event_id", "organisation__name", "contact_email"]
+    actions = (
+        "export_event_enrolments",
+        "export_event_enrolments_csv",
+    )
 
     def occurrences_count(self, obj):
         return obj.occurrences.count()
+
+    def export_event_enrolments(self, request, queryset):
+        selected = queryset.values_list("pk", flat=True)
+        return HttpResponseRedirect(
+            "%s?ids=%s"
+            % (
+                reverse("report_event_enrolments", current_app="reports"),
+                ",".join(str(pk) for pk in selected),
+            )
+        )
+
+    def export_event_enrolments_csv(self, request, queryset):
+        selected = queryset.values_list("pk", flat=True)
+        return HttpResponseRedirect(
+            "%s?ids=%s"
+            % (
+                reverse("report_event_enrolments_csv", current_app="reports"),
+                ",".join(str(pk) for pk in selected),
+            )
+        )
+
+    export_event_enrolments_csv.short_description = _(
+        "Export organisation persons (csv)"
+    )
