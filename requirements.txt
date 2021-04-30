@@ -121,7 +121,7 @@ requests==2.22.0
     #   django-anymail
     #   django-helusers
     #   pyjwkest
-rsa==4.1
+rsa==4.7
     # via python-jose
 rx==1.6.1
     # via graphql-core
