@@ -350,10 +350,7 @@
                                     <p>Check these:</p>
                                       <ul>
                                         {% for item in report %}
-                                            <li>Event: <a href="{{ item.p_event.get_link_to_provider_ui() }}">
-                                                 {{item.event.name.en if item.event.name.en is defined else item.event
-                                                         .name
-                                                         .fi}}</a>
+                                            <li>Event: <a href="{{ item.p_event.get_link_to_provider_ui() }}">{{item.event.name.en if item.event.name.en is defined else item.event.name.fi if item.event.name.fi is defined else item.event.name.sv}}</a>
                                             <ul>
                                             {% for occurrence in item.occurrences %}
                                                 <li>
