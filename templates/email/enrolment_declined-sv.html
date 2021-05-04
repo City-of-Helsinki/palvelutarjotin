@@ -343,14 +343,16 @@
                                   <th style="Margin: 0; color: #0a0a0a; font-family: Helvetica, Arial, sans-serif; font-size: 16px; font-weight: normal; line-height: 1.3; margin: 0; padding: 0; text-align: left;">
                                     <h2 style="Margin: 0; Margin-bottom: 10px; color: inherit; font-family: Helvetica, Arial, sans-serif; font-size: 30px; font-weight: normal; line-height: 1.3; margin: 0; margin-bottom: 10px; padding: 0; text-align: left; word-wrap: normal;">Meddelande om avbokning
                                       </h2>
-                                    <h5 style="Margin: 0; Margin-bottom: 10px; color: inherit; font-family: Helvetica, Arial, sans-serif; font-size: 20px; font-weight: normal; line-height: 1.3; margin: 0; margin-bottom: 10px; padding: 0; text-align: left; word-wrap: normal;">Hej {{person.name }}. Vi kan tyvärr inte erbjuda plats för dig vid följande evenemang. Vi hoppas att du hittar något annat evenemang.</h5>
-                                    <p style="Margin: 0; Margin-bottom: 10px; color: #0a0a0a; font-family: Helvetica, Arial, sans-serif; font-size: 16px; font-weight: normal; line-height: 1.3; margin: 0; margin-bottom: 10px; padding: 0; text-align: left;"><strong>Evenemang:</strong> {{event.name.sv if event.name.sv is defined else event.name.fi}}</p>
-                                    <p style="Margin: 0; Margin-bottom: 10px; color: #0a0a0a; font-family: Helvetica, Arial, sans-serif; font-size: 16px; font-weight: normal; line-height: 1.3; margin: 0; margin-bottom: 10px; padding: 0; text-align: left;"><strong>Grupp:</strong> {{study_group.name}}</p>
-
+                                    <h5 style="Margin: 0; Margin-bottom: 10px; color: inherit; font-family: Helvetica, Arial, sans-serif; font-size: 20px; font-weight: normal; line-height: 1.3; margin: 0; margin-bottom: 10px; padding: 0; text-align: left; word-wrap: normal;">Hej {{person.name }}!</h5>
+                                    <p style="Margin: 0; Margin-bottom: 10px; color: #0a0a0a; font-family: Helvetica, Arial, sans-serif; font-size: 16px; font-weight: normal; line-height: 1.3; margin: 0; margin-bottom: 10px; padding: 0; text-align: left;">Synd, denna gång lyckades vi tyvärr inte komma åt platser för din grupp {{trans(event.name)}} {{ occurrence.local_start_time.strftime('%d.%m.%Y kl %H.%M')}}.</p>
+                                    <p style="Margin: 0; Margin-bottom: 10px; color: #0a0a0a; font-family: Helvetica, Arial, sans-serif; font-size: 16px; font-weight: normal; line-height: 1.3; margin: 0; margin-bottom: 10px; padding: 0; text-align: left;">Hoppas ni hittar något annat trevligt alternativ i urvalet.</p>
+                                    <p style="Margin: 0; Margin-bottom: 10px; color: #0a0a0a; font-family: Helvetica, Arial, sans-serif; font-size: 16px; font-weight: normal; line-height: 1.3; margin: 0; margin-bottom: 10px; padding: 0; text-align: left;">Vänligen prova på nytt.</p>
+                                    <p style="Margin: 0; Margin-bottom: 10px; color: #0a0a0a; font-family: Helvetica, Arial, sans-serif; font-size: 16px; font-weight: normal; line-height: 1.3; margin: 0; margin-bottom: 10px; padding: 0; text-align: left;">Hoppas vi ses snart!</p>
+                                    
                                     <h4 style="Margin: 0; Margin-bottom: 10px; color: inherit; font-family: Helvetica, Arial, sans-serif; font-size: 24px; font-weight: normal; line-height: 1.3; margin: 0; margin-bottom: 10px; padding: 0; text-align: left; word-wrap: normal;">Uppgifter om evenemanget:</h4>
                                     <ul>
                                       {% if not preview_mode %}
-                                      <li>Tidpunkt: {{ occurrence.local_start_time.strftime('%d.%m.%Y klo %H.%M')}}</li>
+                                      <li>Tidpunkt: {{ occurrence.local_start_time.strftime('%d.%m.%Y kl %H.%M')}}</li>
                                       <li>Platser: {{ study_group.group_size }}</li>
                                       <li>Språk: {{occurrence.languages.all() | join (", ")}}</li>
                                       {% else %}
@@ -358,10 +360,10 @@
                                       <li>Platser: {{ study_group.group_size }}</li>
                                       <li>Språk: {{ occurrence.languages | join (", ")}}</li>
                                       {% endif %}
-                                      <li>Plats: <a href="#" style="Margin: 0; color: #2199e8; font-family: Helvetica, Arial, sans-serif; font-weight: normal; line-height: 1.3; margin: 0; padding: 0; text-align: left; text-decoration: none;">{{ event.location.name.sv if event.location.name.sv is defined else event.location.name.fi}}</a></li>
-                                      <li>Adress: {{event.location.street_address.sv if event.location.street_address.sv is defined else event.location.street_address.fi}}</li>
+                                      <li>Plats: <a href="#" style="Margin: 0; color: #2199e8; font-family: Helvetica, Arial, sans-serif; font-weight: normal; line-height: 1.3; margin: 0; padding: 0; text-align: left; text-decoration: none;">{{trans(event.location.name)}}</a></li>
+                                      <li>Adress: {{trans(event.location.street_address)}}</li>
                                       {% if event.location.telephone %}
-                                      <li>Kontaktuppgifter: {{event.location.telephone.sv if event.location.telephone.sv is defined else event.location.telephone.fi}}</li>
+                                      <li>Kontaktuppgifter: {{trans(event.location.telephone)}}</li>
                                       {% endif %}
                                     </ul>
 

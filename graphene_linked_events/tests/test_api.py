@@ -15,7 +15,7 @@ from occurrences.factories import OccurrenceFactory, PalvelutarjotinEventFactory
 from occurrences.models import PalvelutarjotinEvent
 
 from common.tests.utils import assert_match_error_code, assert_permission_denied
-from palvelutarjotin.consts import API_USAGE_ERROR
+from palvelutarjotin.consts import API_USAGE_ERROR, DATA_VALIDATION_ERROR
 from palvelutarjotin.settings import KEYWORD_SET_ID_MAPPING
 
 
@@ -760,6 +760,24 @@ def test_create_event_unauthorized(
     assert_permission_denied(executed)
 
 
+def test_create_invalid_event(
+    staff_api_client, snapshot, person, mock_create_event_data, organisation
+):
+    variables = deepcopy(CREATE_EVENT_VARIABLES)
+    variables["input"]["organisationId"] = to_global_id(
+        "OrganisationNode", organisation.id
+    )
+    variables["input"]["pEvent"] = {
+        "contactPersonId": to_global_id("PersonNode", person.id),
+        "neededOccurrences": 2,
+        "autoAcceptance": False,
+    }
+    staff_api_client.user.person.organisations.add(organisation)
+    person.organisations.add(organisation)
+    executed = staff_api_client.execute(CREATE_EVENT_MUTATION, variables=variables)
+    assert_match_error_code(executed, DATA_VALIDATION_ERROR)
+
+
 def test_create_event(
     staff_api_client, snapshot, person, mock_create_event_data, organisation
 ):
@@ -909,7 +927,9 @@ def test_update_event(
         "PersonNode", person.id
     )
     PalvelutarjotinEventFactory(
-        linked_event_id=UPDATE_EVENT_VARIABLES["input"]["id"], organisation=organisation
+        linked_event_id=UPDATE_EVENT_VARIABLES["input"]["id"],
+        organisation=organisation,
+        auto_acceptance=True,
     )
     staff_api_client.user.person.organisations.add(organisation)
     person.organisations.add(organisation)

@@ -178,6 +178,7 @@ INSTALLED_APPS = [
     "organisations",
     "occurrences",
     "verification_token",
+    "reports",
 ]
 
 MIDDLEWARE = [
@@ -231,7 +232,14 @@ OIDC_AUTH = {"OIDC_LEEWAY": 60 * 60}
 
 SITE_ID = 1
 
-PARLER_LANGUAGES = {SITE_ID: ({"code": "fi"}, {"code": "sv"}, {"code": "en"})}
+PARLER_LANGUAGES = {
+    SITE_ID: ({"code": "fi"}, {"code": "sv"}, {"code": "en"}),
+    "default": {
+        "fallbacks": ["fi", "en", "sv"],  # defaults to PARLER_DEFAULT_LANGUAGE_CODE
+        "hide_untranslated": False,  # the default;
+        # let .active_translations() return fallbacks too.
+    },
+}
 
 PARLER_SUPPORTED_LANGUAGE_CODES = [x["code"] for x in PARLER_LANGUAGES[SITE_ID]]
 

@@ -1,0 +1,27 @@
+{% extends 'admin/change_list.html' %}
+{% load i18n %}
+{% block object-tools-items %}
+{% now "Y" as current_year %}
+<li>
+    <a href="{% url 'report_event_enrolments_csv' %}?start={{current_year|add:'-1'}}-01-01&end={{current_year|add:'-1'}}-07-01">
+        {% blocktrans with previous_year=current_year|add:'-1' %}Export enrolments spring {{previous_year}}{% endblocktrans %}
+    </a>
+</li>
+<li>
+    <a
+        href="{% url 'report_event_enrolments_csv' %}?start={{current_year|add:'-1'}}-07-01&end={{current_year|add:'-1'}}-12-31">
+        {% blocktrans with previous_year=current_year|add:'-1' %}Export enrolments autumn {{previous_year}}{% endblocktrans %}
+    </a>
+</li>
+<li>
+    <a href="{% url 'report_event_enrolments_csv' %}?start={{current_year}}-01-01&end={{current_year}}-07-01">
+        {% blocktrans %}Export enrolments spring {{current_year}}{% endblocktrans %}
+    </a>
+</li>
+<li style="margin-right: 100px">
+    <a href="{% url 'report_event_enrolments_csv' %}?start={{current_year}}-07-01">
+        {% blocktrans %}Export enrolments autumn {{current_year}}{% endblocktrans %}
+    </a>
+</li>
+{{ block.super }}
+{% endblock %}

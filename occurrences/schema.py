@@ -220,7 +220,7 @@ def validate_occurrence_data(p_event, kwargs, updated_obj=None):
         if p_event.enrolment_end_days
         else p_event.enrolment_start
     )
-    if start_time < minimum_time:
+    if minimum_time is not None and start_time < minimum_time:
         raise DataValidationError("Start time cannot be before the enrolment ends")
 
 
@@ -237,7 +237,6 @@ def add_contact_persons_to_object(info, contact_persons, obj):
 
 
 class LanguageNode(DjangoObjectType):
-
     id = graphene.ID(source="pk", required=True)
 
     class Meta:
@@ -301,8 +300,10 @@ class UpdateOccurrenceMutation(graphene.relay.ClientIDMutation):
         end_time = graphene.DateTime()
         contact_persons = graphene.List(
             PersonNodeInput,
-            description="Should include all contact persons of the occurrence, "
-            "missing contact persons will be removed during mutation",
+            description="Should include all contact "
+            "persons of the occurrence, "
+            "missing contact persons will be "
+            "removed during mutation",
         )
         p_event_id = graphene.ID()
         amount_of_seats = graphene.Int()
@@ -694,24 +695,52 @@ class ApproveEnrolmentMutation(graphene.relay.ClientIDMutation):
     @staff_member_required
     @transaction.atomic
     def mutate_and_get_payload(cls, root, info, **kwargs):
-        enrolment = get_editable_obj_from_global_id(
-            info, kwargs["enrolment_id"], Enrolment
-        )
+        e = get_editable_obj_from_global_id(info, kwargs["enrolment_id"], Enrolment)
         custom_message = kwargs.pop("custom_message", None)
 
-        # Need to approve all related occurrences of the study group
-        enrolments = Enrolment.objects.filter(
-            occurrence__p_event=enrolment.occurrence.p_event,
-            study_group=enrolment.study_group,
-        )
-        for e in enrolments:
+        # Do not allow manual approvement if enrolment require more than 1 occurrences
+        if e.occurrence.p_event.needed_occurrences > 1:
+            raise ApiUsageError(
+                "Cannot approve enrolment that requires more than 1 occurrence"
+            )
+        if e.occurrence.cancelled:
+            raise EnrolCancelledOccurrenceError(
+                "Cannot approve enrolment to cancelled occurrence"
+            )
+        e.approve(custom_message=custom_message)
+        e.refresh_from_db()
+        return ApproveEnrolmentMutation(enrolment=e)
+
+
+class MassApproveEnrolmentsMutation(graphene.relay.ClientIDMutation):
+    class Input:
+        enrolment_ids = graphene.NonNull(graphene.List(graphene.ID))
+        custom_message = graphene.String()
+
+    enrolments = graphene.NonNull(graphene.List(EnrolmentNode))
+
+    @classmethod
+    @staff_member_required
+    @transaction.atomic
+    def mutate_and_get_payload(cls, root, info, **kwargs):
+        enrolments = []
+        for enrolment_global_id in kwargs["enrolment_ids"]:
+            e = get_editable_obj_from_global_id(info, enrolment_global_id, Enrolment)
+            if e.occurrence.p_event.needed_occurrences > 1:
+                raise ApiUsageError(
+                    "Cannot mass approve enrolment that requires more than 1 "
+                    "occurrence"
+                )
+            custom_message = kwargs.pop("custom_message", None)
+
             if e.occurrence.cancelled:
                 raise EnrolCancelledOccurrenceError(
                     "Cannot approve enrolment to cancelled occurrence"
                 )
             e.approve(custom_message=custom_message)
-        enrolment.refresh_from_db()
-        return ApproveEnrolmentMutation(enrolment=enrolment)
+            e.refresh_from_db()
+            enrolments.append(e)
+        return MassApproveEnrolmentsMutation(enrolments=enrolments)
 
 
 class DeclineEnrolmentMutation(graphene.relay.ClientIDMutation):
@@ -744,7 +773,8 @@ class AddStudyGroupMutation(graphene.relay.ClientIDMutation):
     class Input:
         person = NonNull(
             PersonNodeInput,
-            description="If person input doesn't include person id, a new person "
+            description="If person input doesn't include person id, "
+            "a new person "
             "object will be created",
         )
         name = graphene.String()
@@ -988,7 +1018,6 @@ def _get_or_create_contact_person(contact_person_data):
 
 
 def _get_instance_list(ModelClass, instance_pks: List[str]):
-
     result = []
     for instance_pk in instance_pks:
         try:
@@ -1023,6 +1052,7 @@ class Mutation:
 
     update_enrolment = UpdateEnrolmentMutation.Field()
     approve_enrolment = ApproveEnrolmentMutation.Field()
+    mass_approve_enrolments = MassApproveEnrolmentsMutation.Field()
     decline_enrolment = DeclineEnrolmentMutation.Field()
 
     cancel_enrolment = CancelEnrolmentMutation.Field()

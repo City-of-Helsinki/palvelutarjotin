@@ -343,14 +343,15 @@
                                   <th style="Margin: 0; color: #0a0a0a; font-family: Helvetica, Arial, sans-serif; font-size: 16px; font-weight: normal; line-height: 1.3; margin: 0; padding: 0; text-align: left;">
                                     <h2 style="Margin: 0; Margin-bottom: 10px; color: inherit; font-family: Helvetica, Arial, sans-serif; font-size: 30px; font-weight: normal; line-height: 1.3; margin: 0; margin-bottom: 10px; padding: 0; text-align: left; word-wrap: normal;">Enrolment accepted
                                       </h2>
-                                    <h5 style="Margin: 0; Margin-bottom: 10px; color: inherit; font-family: Helvetica, Arial, sans-serif; font-size: 20px; font-weight: normal; line-height: 1.3; margin: 0; margin-bottom: 10px; padding: 0; text-align: left; word-wrap: normal;">Hello {{person.name }}, the organiser has confirmed your participation. We look forward to seeing you there!</h5>
-                                    <p style="Margin: 0; Margin-bottom: 10px; color: #0a0a0a; font-family: Helvetica, Arial, sans-serif; font-size: 16px; font-weight: normal; line-height: 1.3; margin: 0; margin-bottom: 10px; padding: 0; text-align: left;"><strong>Event:</strong> {{event.name.en if event.name.en is defined else event.name.fi}}</p>
-                                    <p style="Margin: 0; Margin-bottom: 10px; color: #0a0a0a; font-family: Helvetica, Arial, sans-serif; font-size: 16px; font-weight: normal; line-height: 1.3; margin: 0; margin-bottom: 10px; padding: 0; text-align: left;"><strong>Group:</strong> {{study_group.name}}</p>
-
+                                    <h5 style="Margin: 0; Margin-bottom: 10px; color: inherit; font-family: Helvetica, Arial, sans-serif; font-size: 20px; font-weight: normal; line-height: 1.3; margin: 0; margin-bottom: 10px; padding: 0; text-align: left; word-wrap: normal;">Hello, {{person.name }}</h5>
+                                    <p style="Margin: 0; Margin-bottom: 10px; color: #0a0a0a; font-family: Helvetica, Arial, sans-serif; font-size: 16px; font-weight: normal; line-height: 1.3; margin: 0; margin-bottom: 10px; padding: 0; text-align: left;">Congratulations, your participation in {{trans(event.name)}} {{ occurrence.local_start_time.strftime('%d.%m.%Y %H.%M')}} has now been confirmed.</p>
+                                    <p style="Margin: 0; Margin-bottom: 10px; color: #0a0a0a; font-family: Helvetica, Arial, sans-serif; font-size: 16px; font-weight: normal; line-height: 1.3; margin: 0; margin-bottom: 10px; padding: 0; text-align: left;">Please contact us if any obstacles arise that could prevent you from attending or you need to make other changes.</p>
+                                    <p style="Margin: 0; Margin-bottom: 10px; color: #0a0a0a; font-family: Helvetica, Arial, sans-serif; font-size: 16px; font-weight: normal; line-height: 1.3; margin: 0; margin-bottom: 10px; padding: 0; text-align: left;">See you soon!</p>
+                                    
                                     <h4 style="Margin: 0; Margin-bottom: 10px; color: inherit; font-family: Helvetica, Arial, sans-serif; font-size: 24px; font-weight: normal; line-height: 1.3; margin: 0; margin-bottom: 10px; padding: 0; text-align: left; word-wrap: normal;">Event information:</h4>
                                     <ul>
                                       {% if not preview_mode %}
-                                      <li>Time: {{ occurrence.local_start_time.strftime('%d.%m.%Y klo %H.%M')}}</li>
+                                      <li>Time: {{ occurrence.local_start_time.strftime('%d.%m.%Y %H.%M')}}</li>
                                       <li>Places: {{ study_group.group_size }}</li>
                                       <li>Language: {{occurrence.languages.all() | join (", ")}}</li>
                                       {% else %}
@@ -358,17 +359,12 @@
                                       <li>Places: {{ study_group.group_size }}</li>
                                       <li>Language: {{ occurrence.languages | join (", ")}}</li>
                                       {% endif %}
-                                      <li>Place: <a href="#" style="Margin: 0; color: #2199e8; font-family: Helvetica, Arial, sans-serif; font-weight: normal; line-height: 1.3; margin: 0; padding: 0; text-align: left; text-decoration: none;">{{ event.location.name.en if event.location.name.en is defined else event.location.name.fi}}</a></li>
-                                      <li>Address: {{event.location.street_address.en if event.location.street_address.en is defined else event.location.street_address.fi}}</li>
+                                      <li>Place: <a href="#" style="Margin: 0; color: #2199e8; font-family: Helvetica, Arial, sans-serif; font-weight: normal; line-height: 1.3; margin: 0; padding: 0; text-align: left; text-decoration: none;">{{trans(event.location.name)}}</a></li>
+                                      <li>Address: {{trans(event.location.street_address)}}</li>
                                       {% if event.location.telephone %}
-                                      <li>Contact information: {{event.location.telephone.en if event.location.telephone.en is defined else event.location.telephone.fi}}</li>
+                                      <li>Contact information: {{trans(event.location.telephone)}}</li>
                                       {% endif %}
                                     </ul>
-
-                                    {% if occurrence.p_event.needed_occurrences == 1 %}
-                                    Click this link to cancel the enrolment:
-                                    {{ enrolment.get_link_to_cancel_ui()}}
-                                    {% endif %}
 
                                     {% if custom_message %}
                                     <h4 style="Margin: 0; Margin-bottom: 10px; color: inherit; font-family: Helvetica, Arial, sans-serif; font-size: 24px; font-weight: normal; line-height: 1.3; margin: 0; margin-bottom: 10px; padding: 0; text-align: left; word-wrap: normal;">Message from the organiser:</h4>

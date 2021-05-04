@@ -26,12 +26,32 @@ def send_event_notifications_to_person(
     notification_sms_template_id,
     **kwargs,
 ):
+    def translation(
+        field_translation_map: object, language=study_group.person.language
+    ):
+        """
+        Get a field value translation from an objects instance.
+        Try all the supported languages Parler languages as a fallback language.
+        """
+        languages = settings.PARLER_LANGUAGES["default"]["fallbacks"].copy()
+        languages.insert(0, language)
+
+        for lang in languages:
+            try:
+                translated_value = field_translation_map.__getattribute__(lang)
+                break
+            except AttributeError:
+                continue
+
+        return translated_value
+
     if NOTIFICATION_TYPE_EMAIL in notification_type:
         context = {
             "person": person,
             "occurrence": occurrence,
             "study_group": study_group,
             "preview_mode": False,
+            "trans": translation,
             **kwargs,
         }
         # TODO: Send notification based on user language
