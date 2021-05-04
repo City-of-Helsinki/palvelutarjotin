@@ -342,7 +342,7 @@
                                   <th style="Margin: 0; color: #0a0a0a; font-family: Helvetica, Arial, sans-serif; font-size: 16px; font-weight: normal; line-height: 1.3; margin: 0; padding: 0; text-align: left;">
                                     <h2 style="Margin: 0; Margin-bottom: 10px; color: inherit; font-family: Helvetica, Arial, sans-serif; font-size: 30px; font-weight: normal; line-height: 1.3; margin: 0; margin-bottom: 10px; padding: 0; text-align: left; word-wrap: normal;">Cancellation notification</h2>
                                     <h5 style="Margin: 0; Margin-bottom: 10px; color: inherit; font-family: Helvetica, Arial, sans-serif; font-size: 20px; font-weight: normal; line-height: 1.3; margin: 0; margin-bottom: 10px; padding: 0; text-align: left; word-wrap: normal;">Hello {{person.name }}, unfortunately the event you were planning to participate in has been cancelled.</h5>
-                                    <p style="Margin: 0; Margin-bottom: 10px; color: #0a0a0a; font-family: Helvetica, Arial, sans-serif; font-size: 16px; font-weight: normal; line-height: 1.3; margin: 0; margin-bottom: 10px; padding: 0; text-align: left;"><strong>Event: </strong>{{event.name.en if event.name.en is defined else event.name.fi}}</p>
+                                    <p style="Margin: 0; Margin-bottom: 10px; color: #0a0a0a; font-family: Helvetica, Arial, sans-serif; font-size: 16px; font-weight: normal; line-height: 1.3; margin: 0; margin-bottom: 10px; padding: 0; text-align: left;"><strong>Event: </strong>{{trans(event.name)}}</p>
                                     <p style="Margin: 0; Margin-bottom: 10px; color: #0a0a0a; font-family: Helvetica, Arial, sans-serif; font-size: 16px; font-weight: normal; line-height: 1.3; margin: 0; margin-bottom: 10px; padding: 0; text-align: left;"><strong>Group: </strong>{{study_group.name}}</p>
 
                                     <h4 style="Margin: 0; Margin-bottom: 10px; color: inherit; font-family: Helvetica, Arial, sans-serif; font-size: 24px; font-weight: normal; line-height: 1.3; margin: 0; margin-bottom: 10px; padding: 0; text-align: left; word-wrap: normal;">Event information:</h4>
@@ -356,10 +356,10 @@
                                       <li>Places: {{ study_group.group_size }}</li>
                                       <li>Language: {{ occurrence.languages | join (", ")}}</li>
                                       {% endif %}
-                                      <li>Place: <a href="#" style="Margin: 0; color: #2199e8; font-family: Helvetica, Arial, sans-serif; font-weight: normal; line-height: 1.3; margin: 0; padding: 0; text-align: left; text-decoration: none;">{{ event.location.name.en if event.location.name.en is defined else event.location.name.fi}}</a></li>
-                                      <li>Address: {{event.location.street_address.en if event.location.street_address.en is defined else event.location.street_address.fi}}</li>
+                                      <li>Place: <a href="#" style="Margin: 0; color: #2199e8; font-family: Helvetica, Arial, sans-serif; font-weight: normal; line-height: 1.3; margin: 0; padding: 0; text-align: left; text-decoration: none;">{{trans(event.location.name)}}</a></li>
+                                      <li>Address: {{trans(event.location.street_address)}}</li>
                                       {% if event.location.telephone %}
-                                      <li>Contact information: {{event.location.telephone.en if event.location.telephone.en is defined else event.location.telephone.fi}}</li>
+                                      <li>Contact information: {{trans(event.location.telephone)}}</li>
                                       {% endif %}
                                     </ul>
 

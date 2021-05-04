@@ -344,7 +344,7 @@
                                     <h2 style="Margin: 0; Margin-bottom: 10px; color: inherit; font-family: Helvetica, Arial, sans-serif; font-size: 30px; font-weight: normal; line-height: 1.3; margin: 0; margin-bottom: 10px; padding: 0; text-align: left; word-wrap: normal;">Ilmoittautuminen vahvistettu
                                       </h2>
                                     <h5 style="Margin: 0; Margin-bottom: 10px; color: inherit; font-family: Helvetica, Arial, sans-serif; font-size: 20px; font-weight: normal; line-height: 1.3; margin: 0; margin-bottom: 10px; padding: 0; text-align: left; word-wrap: normal;">Hei {{person.name }}</h5>
-                                    <p style="Margin: 0; Margin-bottom: 10px; color: #0a0a0a; font-family: Helvetica, Arial, sans-serif; font-size: 16px; font-weight: normal; line-height: 1.3; margin: 0; margin-bottom: 10px; padding: 0; text-align: left;">Hienoa, osallistumisenne {{event.name.fi}} {{ occurrence.local_start_time.strftime('%d.%m.%Y klo %H.%M')}} on nyt vahvistettu.</p>
+                                    <p style="Margin: 0; Margin-bottom: 10px; color: #0a0a0a; font-family: Helvetica, Arial, sans-serif; font-size: 16px; font-weight: normal; line-height: 1.3; margin: 0; margin-bottom: 10px; padding: 0; text-align: left;">Hienoa, osallistumisenne {{trans(event.name)}} {{ occurrence.local_start_time.strftime('%d.%m.%Y klo %H.%M')}} on nyt vahvistettu.</p>
                                     <p style="Margin: 0; Margin-bottom: 10px; color: #0a0a0a; font-family: Helvetica, Arial, sans-serif; font-size: 16px; font-weight: normal; line-height: 1.3; margin: 0; margin-bottom: 10px; padding: 0; text-align: left;">Otathan yhteyttä jos teille tulee esteitä tai muita muutoksia.</p>
                                     <p style="Margin: 0; Margin-bottom: 10px; color: #0a0a0a; font-family: Helvetica, Arial, sans-serif; font-size: 16px; font-weight: normal; line-height: 1.3; margin: 0; margin-bottom: 10px; padding: 0; text-align: left;">Tervetuloa, tavataan pian.</p>
 
@@ -359,10 +359,10 @@
                                       <li>Paikkoja: {{ study_group.group_size }}</li>
                                       <li>Kieli: {{ occurrence.languages | join (", ")}}</li>
                                       {% endif %}
-                                      <li>Paikka: <a href="#" style="Margin: 0; color: #2199e8; font-family: Helvetica, Arial, sans-serif; font-weight: normal; line-height: 1.3; margin: 0; padding: 0; text-align: left; text-decoration: none;">{{ event.location.name.fi}}</a></li>
-                                      <li>Osoite: {{event.location.street_address.fi}}</li>
+                                      <li>Paikka: <a href="#" style="Margin: 0; color: #2199e8; font-family: Helvetica, Arial, sans-serif; font-weight: normal; line-height: 1.3; margin: 0; padding: 0; text-align: left; text-decoration: none;">{{trans(event.location.name)}}</a></li>
+                                      <li>Osoite: {{trans(event.location.street_address)}}</li>
                                       {% if event.location.telephone %}
-                                      <li>Yhteystiedot: {{event.location.telephone.fi}}</li>
+                                      <li>Yhteystiedot: {{trans(event.location.telephone)}}</li>
                                       {% endif %}
                                     </ul>
 
