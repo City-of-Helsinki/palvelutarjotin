@@ -67,6 +67,7 @@ def send_event_notifications_to_person(
             "occurrence": occurrence,
             "study_group": study_group,
             "preview_mode": False,
+            "trans": translation,
             **kwargs,
         }
         destinations = [
