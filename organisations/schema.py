@@ -3,7 +3,7 @@ from django.contrib.auth import get_user_model
 from django.core.exceptions import ValidationError
 from django.core.validators import validate_email
 from django.db import transaction
-from graphene import InputObjectType, relay
+from graphene import Boolean, InputObjectType, relay
 from graphene_django import DjangoConnectionField
 from graphene_django.types import DjangoObjectType
 from graphql_jwt.decorators import login_required, superuser_required
@@ -21,6 +21,7 @@ User = get_user_model()
 
 class PersonNode(DjangoObjectType):
     language = LanguageEnum(required=True)
+    is_staff = Boolean(required=True)
 
     class Meta:
         model = Person
@@ -29,6 +30,13 @@ class PersonNode(DjangoObjectType):
     @classmethod
     def get_queryset(cls, queryset, info):
         return queryset.user_can_view(info.context.user).order_by("name")
+
+    def resolve_is_staff(self, info, **kwargs):
+        try:
+            return self.user.is_staff
+        # Contact person sharing the same Person model so it doesn't have user
+        except User.DoesNotExist:
+            return False
 
 
 class PersonNodeInput(InputObjectType):

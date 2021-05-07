@@ -128,6 +128,7 @@ snapshots["test_my_profile_query 1"] = {
     "data": {
         "myProfile": {
             "emailAddress": "stephanieskinner@gmail.com",
+            "isStaff": False,
             "language": "FI",
             "name": "William Brewer",
             "organisations": {"edges": [{"node": {"name": "Jason Berg"}}]},
@@ -167,6 +168,7 @@ snapshots["test_update_my_profile 1"] = {
         "updateMyProfile": {
             "myProfile": {
                 "emailAddress": "newEmail@address.com",
+                "isStaff": False,
                 "language": "SV",
                 "name": "New name",
                 "organisations": {"edges": [{"node": {"name": "Jason Berg"}}]},
@@ -181,6 +183,7 @@ snapshots["test_create_my_profile 1"] = {
         "createMyProfile": {
             "myProfile": {
                 "emailAddress": "newEmail@address.com",
+                "isStaff": False,
                 "language": "EN",
                 "name": "New name",
                 "organisations": {"edges": [{"node": {"name": "Brandon Johnson"}}]},
@@ -200,6 +203,19 @@ snapshots["test_update_person_mutation[firstlast@example.com-True] 1"] = {
                 "organisations": {"edges": [{"node": {"name": "William Brewer"}}]},
                 "phoneNumber": "3202813072",
             }
+        }
+    }
+}
+
+snapshots["test_my_profile_query 2"] = {
+    "data": {
+        "myProfile": {
+            "emailAddress": "moniquedavis@vargas.biz",
+            "isStaff": True,
+            "language": "FI",
+            "name": "Andrew Coleman",
+            "organisations": {"edges": [{"node": {"name": "Jason Berg"}}]},
+            "phoneNumber": "+1-583-693-1796x212",
         }
     }
 }

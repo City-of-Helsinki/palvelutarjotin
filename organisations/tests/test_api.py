@@ -100,6 +100,7 @@ query myProfile{
     phoneNumber
     emailAddress
     language
+    isStaff
     organisations{
          edges{
              node{
@@ -119,6 +120,7 @@ mutation updateMyProfileMutation($input: UpdateMyProfileMutationInput!){
       phoneNumber
       emailAddress
       language
+      isStaff
       organisations{
          edges{
              node{
@@ -147,6 +149,7 @@ mutation createMyProfileMutation($input: CreateMyProfileMutationInput!){
       phoneNumber
       emailAddress
       language
+      isStaff
       organisations{
          edges{
              node{
@@ -286,9 +289,12 @@ def test_my_profile_query_unauthenticated(snapshot, api_client, organisation):
     assert_permission_denied(executed)
 
 
-def test_my_profile_query(snapshot, person_api_client, organisation):
+def test_my_profile_query(snapshot, person_api_client, organisation, staff_api_client):
+    organisation.persons.add(staff_api_client.user.person)
     organisation.persons.add(person_api_client.user.person)
     executed = person_api_client.execute(MY_PROFILE_QUERY)
+    snapshot.assert_match(executed)
+    executed = staff_api_client.execute(MY_PROFILE_QUERY)
     snapshot.assert_match(executed)
 
 
