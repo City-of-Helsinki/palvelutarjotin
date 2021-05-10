@@ -128,7 +128,9 @@ class PalvelutarjotinEventEnrolmentsMixin(ExportReportViewMixin):
         # In case a whole db is trying to be fetched, limit the amount of fetched items
         return queryset.order_by(
             "-occurrence__p_event__enrolment_start"
-        ).select_related("occurrence__p_event", "study_group")[: self.max_results]
+        ).select_related("occurrence__p_event", "study_group", "person")[
+            : self.max_results
+        ]
 
 
 """
@@ -269,6 +271,7 @@ class PalvelutarjotinEventEnrolmentsCsvView(
 
         writer.writerow(
             [
+                _("Enrolment id"),
                 _("LinkedEvents id"),
                 _("LinkedEvents uri"),
                 _("Occurrence starting (date)"),
@@ -277,11 +280,13 @@ class PalvelutarjotinEventEnrolmentsCsvView(
                 _("Study levels"),
                 _("Amount of children"),
                 _("Amount of adults"),
+                _("Contact mail"),
             ]
         )
         for enrolment in self.get_queryset():
             writer.writerow(
                 [
+                    enrolment.id,
                     enrolment.occurrence.p_event.linked_event_id,
                     "{linked_events_root}event/{linked_event_id}".format(
                         linked_events_root=settings.LINKED_EVENTS_API_CONFIG["ROOT"],
@@ -298,6 +303,7 @@ class PalvelutarjotinEventEnrolmentsCsvView(
                     ),
                     enrolment.study_group.group_size,
                     enrolment.study_group.amount_of_adult,
+                    enrolment.person.email_address,
                 ]
             )
         return response
