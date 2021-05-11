@@ -308,6 +308,7 @@ snapshots["test_mass_approve_enrolment_mutation 1"] = [
     Click this link to cancel the enrolment:
     https://beta.kultus.fi/fi/enrolments/cancel/RW5yb2xtZW50Tm9kZTo4N18yMDIwLTAxLTA0IDAwOjAwOjAwKzAwOjAw
 
+    Custom message: Custom message
 """,
     """no-reply@hel.ninja|['perezlisa@hotmail.com']|Enrolment approved FI|
     Event FI: Raija Malka & Kaija Saariaho: Blick
@@ -318,6 +319,7 @@ snapshots["test_mass_approve_enrolment_mutation 1"] = [
     Click this link to cancel the enrolment:
     https://beta.kultus.fi/fi/enrolments/cancel/RW5yb2xtZW50Tm9kZTo4N18yMDIwLTAxLTA0IDAwOjAwOjAwKzAwOjAw
 
+    Custom message: Custom message
 """,
     """no-reply@hel.ninja|['robertmorris@gmail.com']|Enrolment approved FI|
     Event FI: Raija Malka & Kaija Saariaho: Blick
@@ -328,6 +330,7 @@ snapshots["test_mass_approve_enrolment_mutation 1"] = [
     Click this link to cancel the enrolment:
     https://beta.kultus.fi/fi/enrolments/cancel/RW5yb2xtZW50Tm9kZTo4OF8yMDIwLTAxLTA0IDAwOjAwOjAwKzAwOjAw
 
+    Custom message: Custom message
 """,
     """no-reply@hel.ninja|['kirbyjulie@yahoo.com']|Enrolment approved FI|
     Event FI: Raija Malka & Kaija Saariaho: Blick
@@ -338,5 +341,6 @@ snapshots["test_mass_approve_enrolment_mutation 1"] = [
     Click this link to cancel the enrolment:
     https://beta.kultus.fi/fi/enrolments/cancel/RW5yb2xtZW50Tm9kZTo4OF8yMDIwLTAxLTA0IDAwOjAwOjAwKzAwOjAw
 
+    Custom message: Custom message
 """,
 ]
