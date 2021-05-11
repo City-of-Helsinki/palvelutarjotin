@@ -15,6 +15,8 @@ from django.views.generic.base import View
 from occurrences.models import Enrolment, PalvelutarjotinEvent
 from organisations.models import Organisation, Person
 
+from common.utils import get_node_id_from_global_id
+
 logger = logging.getLogger(__name__)
 
 
@@ -83,6 +85,13 @@ class PalvelutarjotinEventEnrolmentsMixin(ExportReportViewMixin):
                 % {"max_results": self.max_results},
             )
 
+    def get_node_id(self, query_id):
+        try:
+            return int(query_id)
+        except ValueError:
+            # resolve the database id
+            return get_node_id_from_global_id(query_id, "PalvelutarjotinEventNode")
+
     def get_queryset(self):
         """
         Fetch enrolments instead of palvelutarjotineEvent instances.
@@ -96,7 +105,7 @@ class PalvelutarjotinEventEnrolmentsMixin(ExportReportViewMixin):
         # Get organisations for ids if they exist
         if event_ids is not None:
             # Convert parameter string to list of integers
-            event_ids = [int(x) for x in event_ids.split(",")]
+            event_ids = [self.get_node_id(x) for x in event_ids.split(",")]
             # Get objects for all parameter ids
             queryset = queryset.filter(occurrence__p_event__id__in=event_ids)
 
