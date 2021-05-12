@@ -724,6 +724,7 @@ class MassApproveEnrolmentsMutation(graphene.relay.ClientIDMutation):
     @transaction.atomic
     def mutate_and_get_payload(cls, root, info, **kwargs):
         enrolments = []
+        custom_message = kwargs.pop("custom_message", None)
         for enrolment_global_id in kwargs["enrolment_ids"]:
             e = get_editable_obj_from_global_id(info, enrolment_global_id, Enrolment)
             if e.occurrence.p_event.needed_occurrences > 1:
@@ -731,8 +732,6 @@ class MassApproveEnrolmentsMutation(graphene.relay.ClientIDMutation):
                     "Cannot mass approve enrolment that requires more than 1 "
                     "occurrence"
                 )
-            custom_message = kwargs.pop("custom_message", None)
-
             if e.occurrence.cancelled:
                 raise EnrolCancelledOccurrenceError(
                     "Cannot approve enrolment to cancelled occurrence"
