@@ -15,6 +15,7 @@
     <caption>{% trans "Events' approved enrolments" %}</caption>
     <thead>
         <tr>
+            <th>{% trans "Enrolment id" %}</th>
             <th>{% trans "LinkedEvents id" %}</th>
             <th>{% trans "Occurrence starting time" %}</th>
             <th>{% trans "Enrolment time" %}</th>
@@ -22,24 +23,28 @@
             <th>{% trans "Study levels" %}</th>
             <th>{% trans "Amount of children" %}</th>
             <th>{% trans "Amount of adults" %}</th>
+            <th>{% trans "Contact mail" %}</th>
         </tr>
     </thead>
     <tbody>
         {% for enrolment in enrolments %}
-            <tr>
-                <td><a href="{{linked_events_root}}event/{{enrolment.occurrence.p_event.linked_event_id}}" target="blank">{{enrolment.occurrence.p_event.linked_event_id}}</a></td>
-                <td>{{enrolment.occurrence.start_time|date:"d.m.Y H:i"}}</td>
-                <td>{{enrolment.enrolment_time|date:"d.m.Y H:i"}}</td>
-                <td>{{enrolment.study_group.name}}</td>
-                <td>
-                    {% for study_level in enrolment.study_group.study_levels.all %}
-                        {% if not forloop.first %}, {% endif %}
-                        {{study_level.label}}
-                    {% endfor %}
-                </td>
-                <td>{{enrolment.study_group.group_size}}</td>
-                <td>{{enrolment.study_group.amount_of_adult}}</td>
-            </tr>
+        <tr>
+            <td>{{enrolment.id}}</td>
+            <td><a href="{{linked_events_root}}event/{{enrolment.occurrence.p_event.linked_event_id}}"
+                    target="blank">{{enrolment.occurrence.p_event.linked_event_id}}</a></td>
+            <td>{{enrolment.occurrence.start_time|date:"d.m.Y H:i"}}</td>
+            <td>{{enrolment.enrolment_time|date:"d.m.Y H:i"}}</td>
+            <td>{{enrolment.study_group.name}}</td>
+            <td>
+                {% for study_level in enrolment.study_group.study_levels.all %}
+                {% if not forloop.first %}, {% endif %}
+                {{study_level.label}}
+                {% endfor %}
+            </td>
+            <td>{{enrolment.study_group.group_size}}</td>
+            <td>{{enrolment.study_group.amount_of_adult}}</td>
+            <td>{{enrolment.person.email_address}}</td>
+        </tr>
         {% endfor %}
     </tbody>
     <tfoot>
@@ -49,8 +54,10 @@
             <td></td>
             <td></td>
             <td></td>
+            <td></td>
             <td>{{total_children}}</td>
             <td>{{total_adults}}</td>
+            <td></td>
         </tr>
     </tfoot>
 </table>
