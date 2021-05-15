@@ -11,9 +11,11 @@ from django.utils import timezone
 from django.utils.decorators import method_decorator
 from django.utils.translation import gettext as _
 from django.views.generic import ListView
-from django.views.generic.base import View
+from helusers.oidc import ApiTokenAuthentication
 from occurrences.models import Enrolment, PalvelutarjotinEvent
 from organisations.models import Organisation, Person
+from rest_framework.permissions import IsAdminUser
+from rest_framework.views import APIView
 
 from common.utils import get_node_id_from_global_id
 
@@ -160,6 +162,10 @@ class OrganisationPersonsAdminView(OrganisationPersonsMixin, ListView):
         context["opts"] = self.model._meta
         return context
 
+    # @staff_member_required
+    def get(self, request, *args, **kwargs):
+        return super(OrganisationPersonsAdminView, self).get(request, *args, **kwargs)
+
 
 @method_decorator(staff_member_required, name="dispatch")
 class PalvelutarjotinEventEnrolmentsAdminView(
@@ -202,8 +208,7 @@ CSV Views...
 """
 
 
-@method_decorator(staff_member_required, name="dispatch")
-class ExportReportCsvView(ExportReportViewMixin, View):
+class ExportReportCsvView(ExportReportViewMixin, APIView):
     """
     A generic way to create csv reports from models.
     """
@@ -226,13 +231,16 @@ class ExportReportCsvView(ExportReportViewMixin, View):
         return response
 
 
-@method_decorator(staff_member_required, name="dispatch")
 class OrganisationPersonsCsvView(OrganisationPersonsMixin, ExportReportCsvView):
     """
     A csv of organisations persons.
     """
 
     model = Organisation
+    authentication_classes = [
+        ApiTokenAuthentication,
+    ]
+    permission_classes = [IsAdminUser]
 
     def get(self, request, *args, **kwargs):
 
@@ -265,6 +273,10 @@ class PalvelutarjotinEventEnrolmentsCsvView(
     """
 
     model = PalvelutarjotinEvent
+    authentication_classes = [
+        ApiTokenAuthentication,
+    ]
+    permission_classes = [IsAdminUser]
 
     def get(self, request, *args, **kwargs):
         # Inform the user if not all the data was included
