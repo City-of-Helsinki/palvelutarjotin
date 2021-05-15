@@ -14,6 +14,7 @@ from django.views.generic import ListView
 from helusers.oidc import ApiTokenAuthentication
 from occurrences.models import Enrolment, PalvelutarjotinEvent
 from organisations.models import Organisation, Person
+from rest_framework.authentication import SessionAuthentication
 from rest_framework.permissions import IsAdminUser
 from rest_framework.views import APIView
 
@@ -237,9 +238,7 @@ class OrganisationPersonsCsvView(OrganisationPersonsMixin, ExportReportCsvView):
     """
 
     model = Organisation
-    authentication_classes = [
-        ApiTokenAuthentication,
-    ]
+    authentication_classes = [ApiTokenAuthentication, SessionAuthentication]
     permission_classes = [IsAdminUser]
 
     def get(self, request, *args, **kwargs):
@@ -264,7 +263,6 @@ class OrganisationPersonsCsvView(OrganisationPersonsMixin, ExportReportCsvView):
         return response
 
 
-@method_decorator(staff_member_required, name="dispatch")
 class PalvelutarjotinEventEnrolmentsCsvView(
     PalvelutarjotinEventEnrolmentsMixin, ExportReportCsvView
 ):
@@ -273,9 +271,7 @@ class PalvelutarjotinEventEnrolmentsCsvView(
     """
 
     model = PalvelutarjotinEvent
-    authentication_classes = [
-        ApiTokenAuthentication,
-    ]
+    authentication_classes = [ApiTokenAuthentication, SessionAuthentication]
     permission_classes = [IsAdminUser]
 
     def get(self, request, *args, **kwargs):

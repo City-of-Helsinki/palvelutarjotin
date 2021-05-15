@@ -167,6 +167,7 @@ INSTALLED_APPS = [
     "django.contrib.staticfiles",
     "corsheaders",
     "graphene_django",
+    "rest_framework",
     "anymail",
     "mailer",
     "parler",

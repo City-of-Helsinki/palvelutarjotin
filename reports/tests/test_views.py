@@ -14,7 +14,7 @@ from occurrences.factories import (
     StudyGroupFactory,
 )
 from occurrences.models import Enrolment, PalvelutarjotinEvent
-from organisations.factories import OrganisationFactory, PersonFactory
+from organisations.factories import OrganisationFactory, PersonFactory, UserFactory
 from organisations.models import Organisation
 from reports.views import (
     ExportReportViewMixin,
@@ -23,6 +23,8 @@ from reports.views import (
     PalvelutarjotinEventEnrolmentsAdminView,
     PalvelutarjotinEventEnrolmentsMixin,
 )
+from rest_framework import status
+from rest_framework.test import APIClient
 
 
 class ExportReportViewMixinTest(TestCase):
@@ -267,3 +269,78 @@ class PalvelutarjotinEventEnrolmentsAdminViewTest(TestCase):
         self.assertEqual(context["total_children"], 6)
         self.assertEqual(context["total_adults"], 3)
         self.assertIsNotNone(context["opts"])
+
+
+class OrganisationPersonsCsvViewTest(TestCase):
+    def test_export_organisation_csv_data(self):
+        org1, org2 = OrganisationFactory.create_batch(2)
+        person_1 = PersonFactory.create(organisations=[org1])
+        person_2 = PersonFactory.create(organisations=[org2])
+
+        admin_user = UserFactory(is_staff=True)
+        user = UserFactory(is_staff=False)
+
+        user_api_client = APIClient()
+        user_api_client.force_authenticate(user=user)
+
+        staff_api_client = APIClient()
+        staff_api_client.force_authenticate(user=admin_user)
+
+        response = user_api_client.get(
+            "/reports/organisation/persons/csv/?ids={}".format(org1.id)
+        )
+        # Forbidden
+        assert response.status_code == status.HTTP_403_FORBIDDEN
+
+        response = staff_api_client.get(
+            "/reports/organisation/persons/csv/?ids={}".format(org1.id)
+        )
+        assert response.status_code == status.HTTP_200_OK
+
+        self.assertContains(response, org1.name)
+        self.assertContains(response, person_1.name)
+
+        self.assertNotContains(response, org2.name)
+        self.assertNotContains(response, person_2.name)
+
+
+class PalvelutarjotinEventEnrolmentsTest(TestCase):
+    def test_export_enrolment_csv_data(self):
+        today = datetime.datetime.now(tz=timezone.utc)
+        p_events = PalvelutarjotinEventFactory.create_batch(3, enrolment_start=today)
+        for p_event in p_events:
+            occurrence = OccurrenceFactory(p_event=p_event, amount_of_seats=100)
+            EnrolmentFactory(
+                occurrence=occurrence,
+                status=Enrolment.STATUS_APPROVED,
+                study_group=StudyGroupFactory(group_size=2, amount_of_adult=1),
+            )
+
+        admin_user = UserFactory(is_staff=True)
+        user = UserFactory(is_staff=False)
+
+        user_api_client = APIClient()
+        user_api_client.force_authenticate(user=user)
+
+        staff_api_client = APIClient()
+        staff_api_client.force_authenticate(user=admin_user)
+
+        response = user_api_client.get(
+            "/reports/palvelutarjotinevent/enrolments/csv/?ids={}".format(
+                p_events[0].id
+            )
+        )
+        # Forbidden
+        assert response.status_code == status.HTTP_403_FORBIDDEN
+
+        response = staff_api_client.get(
+            "/reports/palvelutarjotinevent/enrolments/csv/?ids={}".format(
+                p_events[0].id
+            )
+        )
+        assert response.status_code == status.HTTP_200_OK
+
+        self.assertContains(response, p_events[0].linked_event_id)
+
+        self.assertNotContains(response, p_events[1].linked_event_id)
+        self.assertNotContains(response, p_events[2].linked_event_id)
