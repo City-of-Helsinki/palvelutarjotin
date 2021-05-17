@@ -215,13 +215,15 @@ class ExportReportCsvView(ExportReportViewMixin, APIView):
     """
 
     model = None
+    authentication_classes = [ApiTokenAuthentication, SessionAuthentication]
+    permission_classes = [IsAdminUser]
 
     def get(self, request, *args, **kwargs):
         queryset = self.get_queryset()
         meta = self.model._meta
         field_names = [field.name for field in meta.fields]
 
-        response = HttpResponse(content_type="text/csv")
+        response = HttpResponse(content_type="text/csv; text/csv; charset=utf-8")
         response["Content-Disposition"] = "attachment; filename={}.csv".format(meta)
         writer = csv.writer(response)
 
@@ -238,12 +240,10 @@ class OrganisationPersonsCsvView(OrganisationPersonsMixin, ExportReportCsvView):
     """
 
     model = Organisation
-    authentication_classes = [ApiTokenAuthentication, SessionAuthentication]
-    permission_classes = [IsAdminUser]
 
     def get(self, request, *args, **kwargs):
 
-        response = HttpResponse(content_type="text/csv")
+        response = HttpResponse(content_type="text/csv; text/csv; charset=utf-8")
         response["Content-Disposition"] = "attachment; filename={}.csv".format(
             "kultus_organisations_persons"
         )
@@ -271,14 +271,12 @@ class PalvelutarjotinEventEnrolmentsCsvView(
     """
 
     model = PalvelutarjotinEvent
-    authentication_classes = [ApiTokenAuthentication, SessionAuthentication]
-    permission_classes = [IsAdminUser]
 
     def get(self, request, *args, **kwargs):
         # Inform the user if not all the data was included
         self.message_max_result(request)
 
-        response = HttpResponse(content_type="text/csv")
+        response = HttpResponse(content_type="text/csv; text/csv; charset=utf-8")
         response["Content-Disposition"] = "attachment; filename={}.csv".format(
             "kultus_events_approved_enrolments"
         )
