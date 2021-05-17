@@ -11,9 +11,14 @@ from django.utils import timezone
 from django.utils.decorators import method_decorator
 from django.utils.translation import gettext as _
 from django.views.generic import ListView
-from django.views.generic.base import View
+from helusers.oidc import ApiTokenAuthentication
 from occurrences.models import Enrolment, PalvelutarjotinEvent
 from organisations.models import Organisation, Person
+from rest_framework.authentication import SessionAuthentication
+from rest_framework.permissions import IsAdminUser
+from rest_framework.views import APIView
+
+from common.utils import get_node_id_from_global_id
 
 logger = logging.getLogger(__name__)
 
@@ -83,6 +88,13 @@ class PalvelutarjotinEventEnrolmentsMixin(ExportReportViewMixin):
                 % {"max_results": self.max_results},
             )
 
+    def get_node_id(self, query_id):
+        try:
+            return int(query_id)
+        except ValueError:
+            # resolve the database id
+            return get_node_id_from_global_id(query_id, "PalvelutarjotinEventNode")
+
     def get_queryset(self):
         """
         Fetch enrolments instead of palvelutarjotineEvent instances.
@@ -96,7 +108,7 @@ class PalvelutarjotinEventEnrolmentsMixin(ExportReportViewMixin):
         # Get organisations for ids if they exist
         if event_ids is not None:
             # Convert parameter string to list of integers
-            event_ids = [int(x) for x in event_ids.split(",")]
+            event_ids = [self.get_node_id(x) for x in event_ids.split(",")]
             # Get objects for all parameter ids
             queryset = queryset.filter(occurrence__p_event__id__in=event_ids)
 
@@ -153,6 +165,10 @@ class OrganisationPersonsAdminView(OrganisationPersonsMixin, ListView):
         context["opts"] = self.model._meta
         return context
 
+    # @staff_member_required
+    def get(self, request, *args, **kwargs):
+        return super(OrganisationPersonsAdminView, self).get(request, *args, **kwargs)
+
 
 @method_decorator(staff_member_required, name="dispatch")
 class PalvelutarjotinEventEnrolmentsAdminView(
@@ -195,20 +211,21 @@ CSV Views...
 """
 
 
-@method_decorator(staff_member_required, name="dispatch")
-class ExportReportCsvView(ExportReportViewMixin, View):
+class ExportReportCsvView(ExportReportViewMixin, APIView):
     """
     A generic way to create csv reports from models.
     """
 
     model = None
+    authentication_classes = [ApiTokenAuthentication, SessionAuthentication]
+    permission_classes = [IsAdminUser]
 
     def get(self, request, *args, **kwargs):
         queryset = self.get_queryset()
         meta = self.model._meta
         field_names = [field.name for field in meta.fields]
 
-        response = HttpResponse(content_type="text/csv")
+        response = HttpResponse(content_type="text/csv; text/csv; charset=utf-8")
         response["Content-Disposition"] = "attachment; filename={}.csv".format(meta)
         writer = csv.writer(response)
 
@@ -219,7 +236,6 @@ class ExportReportCsvView(ExportReportViewMixin, View):
         return response
 
 
-@method_decorator(staff_member_required, name="dispatch")
 class OrganisationPersonsCsvView(OrganisationPersonsMixin, ExportReportCsvView):
     """
     A csv of organisations persons.
@@ -229,7 +245,7 @@ class OrganisationPersonsCsvView(OrganisationPersonsMixin, ExportReportCsvView):
 
     def get(self, request, *args, **kwargs):
 
-        response = HttpResponse(content_type="text/csv")
+        response = HttpResponse(content_type="text/csv; text/csv; charset=utf-8")
         response["Content-Disposition"] = "attachment; filename={}.csv".format(
             "kultus_organisations_persons"
         )
@@ -249,7 +265,6 @@ class OrganisationPersonsCsvView(OrganisationPersonsMixin, ExportReportCsvView):
         return response
 
 
-@method_decorator(staff_member_required, name="dispatch")
 class PalvelutarjotinEventEnrolmentsCsvView(
     PalvelutarjotinEventEnrolmentsMixin, ExportReportCsvView
 ):
@@ -263,7 +278,7 @@ class PalvelutarjotinEventEnrolmentsCsvView(
         # Inform the user if not all the data was included
         self.message_max_result(request)
 
-        response = HttpResponse(content_type="text/csv")
+        response = HttpResponse(content_type="text/csv; text/csv; charset=utf-8")
         response["Content-Disposition"] = "attachment; filename={}.csv".format(
             "kultus_events_approved_enrolments"
         )
