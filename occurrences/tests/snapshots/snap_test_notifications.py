@@ -32,36 +32,6 @@ snapshots["test_decline_enrolment_notification_email 1"] = [
 """
 ]
 
-snapshots["test_cancel_occurrence_notification 1"] = [
-    """no-reply@hel.ninja|['aliciawest@barber.com']|Occurrence cancelled FI|
-    Event FI: Raija Malka & Kaija Saariaho: Blick
-    Extra event info: zVxeo
-    Study group: Key crime trial investment difference. Let join might player example environment.
-    Occurrence: 12.12.2013 06.37
-    Person: aliciawest@barber.com
-
-    Custom message: Occurrence cancel reason
-""",
-    """no-reply@hel.ninja|['rebecca01@gmail.com']|Occurrence cancelled FI|
-    Event FI: Raija Malka & Kaija Saariaho: Blick
-    Extra event info: zVxeo
-    Study group: Middle however western. Light a point charge stand store. Generation able take food share.
-    Occurrence: 12.12.2013 06.37
-    Person: rebecca01@gmail.com
-
-    Custom message: Occurrence cancel reason
-""",
-    """no-reply@hel.ninja|['williamsronald@hotmail.com']|Occurrence cancelled FI|
-    Event FI: Raija Malka & Kaija Saariaho: Blick
-    Extra event info: zVxeo
-    Study group: Dream party door better performance race story. Beautiful if his their. Stuff election stay every.
-    Occurrence: 12.12.2013 06.37
-    Person: williamsronald@hotmail.com
-
-    Custom message: Occurrence cancel reason
-""",
-]
-
 snapshots["test_local_time_notification[tz0] 1"] = [
     """no-reply@hel.ninja|['stephanieskinner@gmail.com']|Occurrence enrolment FI|
     Event FI: Raija Malka & Kaija Saariaho: Blick
@@ -284,7 +254,7 @@ snapshots["test_mass_approve_enrolment_mutation 1"] = [
     Occurrence: 30.07.1996 07.23
     Person: philip16@moss.com
     Click this link to cancel the enrolment:
-    https://beta.kultus.fi/fi/enrolments/cancel/RW5yb2xtZW50Tm9kZTo4Nl8yMDIwLTAxLTA0IDAwOjAwOjAwKzAwOjAw
+    https://beta.kultus.fi/fi/enrolments/cancel/RW5yb2xtZW50Tm9kZTo5MV8yMDIwLTAxLTA0IDAwOjAwOjAwKzAwOjAw
 
     Custom message: Custom message
 """,
@@ -295,7 +265,7 @@ snapshots["test_mass_approve_enrolment_mutation 1"] = [
     Occurrence: 30.07.1996 07.23
     Person: monica13@hotmail.com
     Click this link to cancel the enrolment:
-    https://beta.kultus.fi/fi/enrolments/cancel/RW5yb2xtZW50Tm9kZTo4Nl8yMDIwLTAxLTA0IDAwOjAwOjAwKzAwOjAw
+    https://beta.kultus.fi/fi/enrolments/cancel/RW5yb2xtZW50Tm9kZTo5MV8yMDIwLTAxLTA0IDAwOjAwOjAwKzAwOjAw
 
     Custom message: Custom message
 """,
@@ -306,7 +276,7 @@ snapshots["test_mass_approve_enrolment_mutation 1"] = [
     Occurrence: 30.07.1996 07.23
     Person: melissa96@gmail.com
     Click this link to cancel the enrolment:
-    https://beta.kultus.fi/fi/enrolments/cancel/RW5yb2xtZW50Tm9kZTo4N18yMDIwLTAxLTA0IDAwOjAwOjAwKzAwOjAw
+    https://beta.kultus.fi/fi/enrolments/cancel/RW5yb2xtZW50Tm9kZTo5Ml8yMDIwLTAxLTA0IDAwOjAwOjAwKzAwOjAw
 
     Custom message: Custom message
 """,
@@ -317,7 +287,7 @@ snapshots["test_mass_approve_enrolment_mutation 1"] = [
     Occurrence: 30.07.1996 07.23
     Person: perezlisa@hotmail.com
     Click this link to cancel the enrolment:
-    https://beta.kultus.fi/fi/enrolments/cancel/RW5yb2xtZW50Tm9kZTo4N18yMDIwLTAxLTA0IDAwOjAwOjAwKzAwOjAw
+    https://beta.kultus.fi/fi/enrolments/cancel/RW5yb2xtZW50Tm9kZTo5Ml8yMDIwLTAxLTA0IDAwOjAwOjAwKzAwOjAw
 
     Custom message: Custom message
 """,
@@ -328,7 +298,7 @@ snapshots["test_mass_approve_enrolment_mutation 1"] = [
     Occurrence: 30.07.1996 07.23
     Person: robertmorris@gmail.com
     Click this link to cancel the enrolment:
-    https://beta.kultus.fi/fi/enrolments/cancel/RW5yb2xtZW50Tm9kZTo4OF8yMDIwLTAxLTA0IDAwOjAwOjAwKzAwOjAw
+    https://beta.kultus.fi/fi/enrolments/cancel/RW5yb2xtZW50Tm9kZTo5M18yMDIwLTAxLTA0IDAwOjAwOjAwKzAwOjAw
 
     Custom message: Custom message
 """,
@@ -339,8 +309,47 @@ snapshots["test_mass_approve_enrolment_mutation 1"] = [
     Occurrence: 30.07.1996 07.23
     Person: kirbyjulie@yahoo.com
     Click this link to cancel the enrolment:
-    https://beta.kultus.fi/fi/enrolments/cancel/RW5yb2xtZW50Tm9kZTo4OF8yMDIwLTAxLTA0IDAwOjAwOjAwKzAwOjAw
+    https://beta.kultus.fi/fi/enrolments/cancel/RW5yb2xtZW50Tm9kZTo5M18yMDIwLTAxLTA0IDAwOjAwOjAwKzAwOjAw
 
     Custom message: Custom message
+""",
+]
+
+snapshots["test_cancel_occurrence_notification 1"] = [
+    """no-reply@hel.ninja|['gschneider@hotmail.com']|Occurrence cancelled FI|
+    Event FI: Raija Malka & Kaija Saariaho: Blick
+    Extra event info: zVxeo
+    Study group: City believe wall own view blue success. President act son green unit recently.
+    Occurrence: 12.12.2013 06.37
+    Person: gschneider@hotmail.com
+
+    Custom message: Occurrence cancel reason
+""",
+    """no-reply@hel.ninja|['aliciawest@barber.com']|Occurrence cancelled FI|
+    Event FI: Raija Malka & Kaija Saariaho: Blick
+    Extra event info: zVxeo
+    Study group: Key crime trial investment difference. Let join might player example environment.
+    Occurrence: 12.12.2013 06.37
+    Person: aliciawest@barber.com
+
+    Custom message: Occurrence cancel reason
+""",
+    """no-reply@hel.ninja|['rebecca01@gmail.com']|Occurrence cancelled FI|
+    Event FI: Raija Malka & Kaija Saariaho: Blick
+    Extra event info: zVxeo
+    Study group: Middle however western. Light a point charge stand store. Generation able take food share.
+    Occurrence: 12.12.2013 06.37
+    Person: rebecca01@gmail.com
+
+    Custom message: Occurrence cancel reason
+""",
+    """no-reply@hel.ninja|['williamsronald@hotmail.com']|Occurrence cancelled FI|
+    Event FI: Raija Malka & Kaija Saariaho: Blick
+    Extra event info: zVxeo
+    Study group: Dream party door better performance race story. Beautiful if his their. Stuff election stay every.
+    Occurrence: 12.12.2013 06.37
+    Person: williamsronald@hotmail.com
+
+    Custom message: Occurrence cancel reason
 """,
 ]

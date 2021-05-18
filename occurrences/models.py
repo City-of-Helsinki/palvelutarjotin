@@ -241,7 +241,9 @@ class Occurrence(TimestampedModel):
     def cancel(self, reason=None):
         self.cancelled = True
         self.save()
-        for e in self.enrolments.all():
+        for e in self.enrolments.filter(
+            status__in=[Enrolment.STATUS_PENDING, Enrolment.STATUS_APPROVED]
+        ):
             e.set_status(Enrolment.STATUS_CANCELLED)
             e.send_event_notifications_to_contact_people(
                 NotificationTemplate.OCCURRENCE_CANCELLED,
