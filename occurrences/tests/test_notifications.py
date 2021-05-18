@@ -208,11 +208,20 @@ def test_cancel_occurrence_notification(
     notification_template_cancel_occurrence_en,
     notification_template_cancel_occurrence_fi,
 ):
-    study_groups = StudyGroupFactory.create_batch(3)
-    for s in study_groups:
-        EnrolmentFactory(study_group=s, occurrence=occurrence, person=s.person)
+    for status in Enrolment.STATUSES:
+        for s in StudyGroupFactory.create_batch(2):
+            EnrolmentFactory(
+                study_group=s, occurrence=occurrence, person=s.person, status=status[0]
+            )
+    notifiable_enrolments_count = occurrence.enrolments.all().count() - (
+        occurrence.enrolments.filter(
+            status__in=[Enrolment.STATUS_CANCELLED, Enrolment.STATUS_DECLINED]
+        ).count()
+    )
     occurrence.cancel(reason="Occurrence cancel reason")
-    assert len(mail.outbox) == 3
+    # Cancellation messages should not be sent to enrolments
+    # that are already cancelled or declined.
+    assert len(mail.outbox) == notifiable_enrolments_count
     assert_mails_match_snapshot(snapshot)
 
 
