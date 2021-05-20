@@ -1,6 +1,12 @@
 <!-- REMINDER: While updating changelog, also remember to update
 the version in palvelutarjotin/__init.py__ -->
 
+## [0.3.3] - 20 May 2021
+
+### Fixed
+
+- Added no-cache headers to LinkedEvents REST GET calls, since LinkedEvents cache is now more aggressive.
+
 ## [0.3.2] - 17 May 2021
 
 ### Added
