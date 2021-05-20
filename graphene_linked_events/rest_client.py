@@ -23,7 +23,7 @@ class LinkedEventsApiClient(object):
         actions = self.get_actions(resource)
         formatted_params = self.convert_to_string_param(params)
         if is_staff:
-            headers = {"apikey": self.api_key}
+            headers = {"apikey": self.api_key, "Cache-Control": "no-cache"}
             return requests.request(
                 actions["retrieve"]["method"],
                 actions["retrieve"]["url"].format(id),
@@ -40,7 +40,7 @@ class LinkedEventsApiClient(object):
         actions = self.get_actions(resource)
         filter_params = self.convert_to_string_param(filter_list)
         if is_staff:
-            headers = {"apikey": self.api_key}
+            headers = {"apikey": self.api_key, "Cache-Control": "no-cache"}
             return requests.request(
                 actions["list"]["method"],
                 actions["list"]["url"],
