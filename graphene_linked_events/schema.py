@@ -233,6 +233,7 @@ class Event(IdObject):
         "best performance. This field only work if "
         "`keywords` is included in the query argument",
     )
+    type_id = String()
 
     def resolve_p_event(self, info, **kwargs):
         try:
@@ -493,6 +494,7 @@ class EventMutationInput(InputObjectType):
         description="Organisation global id which the created event belongs to",
         required=True,
     )
+    type_id = String(default_value="general")
 
 
 class AddEventMutationInput(EventMutationInput):
