@@ -539,10 +539,6 @@ def validate_p_event_data(p_event_data):
         )
 
 
-def _force_event_type_id(event_body: object):
-    event_body["type_id"] = "general"
-
-
 class AddEventMutation(Mutation):
     class Arguments:
         event = AddEventMutationInput()
@@ -575,9 +571,7 @@ class AddEventMutation(Mutation):
                 "publication_status"
             ] = PalvelutarjotinEvent.PUBLICATION_STATUS_DRAFT
 
-        event_body = kwargs["event"]
-        _force_event_type_id(event_body)
-        body = format_request(event_body)
+        body = format_request(kwargs["event"])
         # TODO: proper validation if necessary
         result = api_client.create("event", body)
         event_obj = json2obj(format_response(result))
@@ -648,9 +642,7 @@ class UpdateEventMutation(Mutation):
                 "publication_status"
             ] = PalvelutarjotinEvent.PUBLICATION_STATUS_DRAFT
 
-        event_body = kwargs["event"]
-        _force_event_type_id(event_body)
-        body = format_request(event_body)
+        body = format_request(kwargs["event"])
         # TODO: proper validation if necessary
         result = api_client.update("event", event_id, body)
         if result.status_code == 200 and p_event_data:
