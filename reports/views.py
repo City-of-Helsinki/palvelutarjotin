@@ -219,16 +219,23 @@ class ExportReportCsvView(ExportReportViewMixin, APIView):
     model = None
     authentication_classes = [ApiTokenAuthentication, SessionAuthentication]
     permission_classes = [IsAdminUser]
+    csv_dialect = csv.excel
+
+    def _create_csv_response_writer(self, filename):
+        response = HttpResponse(content_type="text/csv; text/csv; charset=utf-8")
+        response["Content-Disposition"] = "attachment; filename={}.csv".format(filename)
+        response.write(
+            f"sep={self.csv_dialect.delimiter}{self.csv_dialect.lineterminator}"
+        )
+        writer = csv.writer(response, dialect=self.csv_dialect)
+        return (writer, response)
 
     def get(self, request, *args, **kwargs):
         queryset = self.get_queryset()
         meta = self.model._meta
         field_names = [field.name for field in meta.fields]
-
-        response = HttpResponse(content_type="text/csv; text/csv; charset=utf-8")
-        response["Content-Disposition"] = "attachment; filename={}.csv".format(meta)
-        writer = csv.writer(response)
-
+        writer, response = self._create_csv_response_writer(meta)
+        writer = self.create_csv_writer(response)
         writer.writerow(field_names)
         for obj in queryset:
             writer.writerow([getattr(obj, field) for field in field_names])
@@ -244,13 +251,9 @@ class OrganisationPersonsCsvView(OrganisationPersonsMixin, ExportReportCsvView):
     model = Organisation
 
     def get(self, request, *args, **kwargs):
-
-        response = HttpResponse(content_type="text/csv; text/csv; charset=utf-8")
-        response["Content-Disposition"] = "attachment; filename={}.csv".format(
+        writer, response = self._create_csv_response_writer(
             "kultus_organisations_persons"
         )
-        writer = csv.writer(response)
-
         writer.writerow([_("Organisation"), _("Name"), _("Email"), _("Phone")])
         for organisation in self.get_queryset():
             for person in organisation.persons.all().order_by("name"):
@@ -277,13 +280,9 @@ class PalvelutarjotinEventEnrolmentsCsvView(
     def get(self, request, *args, **kwargs):
         # Inform the user if not all the data was included
         self.message_max_result(request)
-
-        response = HttpResponse(content_type="text/csv; text/csv; charset=utf-8")
-        response["Content-Disposition"] = "attachment; filename={}.csv".format(
+        writer, response = self._create_csv_response_writer(
             "kultus_events_approved_enrolments"
         )
-        writer = csv.writer(response)
-
         writer.writerow(
             [
                 _("Enrolment id"),
