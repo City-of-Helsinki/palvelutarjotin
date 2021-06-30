@@ -7,13 +7,15 @@ from django.contrib.auth.forms import UserChangeForm
 from django.http import HttpResponseRedirect
 from django.urls import reverse
 from django.utils.translation import gettext as _
-from organisations.models import Organisation, Person, User
+from organisations.models import Organisation, OrganisationProposal, Person, User
 
 
 @admin.register(Organisation)
 class OrganisationAdmin(admin.ModelAdmin):
     filter_horizontal = ("persons",)
     list_display = ("name", "type", "publisher_id")
+    list_filter = ["type"]
+    search_fields = ["name", "publisher_id"]
     exclude = ("id",)
     actions = (
         "export_organisation_persons",
@@ -47,6 +49,16 @@ class OrganisationAdmin(admin.ModelAdmin):
 
 class OrganisationInline(admin.TabularInline):
     model = Organisation.persons.through
+
+
+@admin.register(OrganisationProposal)
+class OrganisationProposalAdmin(admin.ModelAdmin):
+    list_display = ("name", "applicant")
+    search_fields = (
+        "name",
+        "applicant__name",
+        "applicant__user__username",
+    )
 
 
 class UserExistenceListFilter(admin.SimpleListFilter):
@@ -123,18 +135,30 @@ class UserAdminForm(UserChangeForm):
         return user
 
 
+@admin.register(get_user_model())
 class UserAdmin(DjangoUserAdmin):
     fieldsets = DjangoUserAdmin.fieldsets + (
         ("UUID", {"fields": ("uuid",)}),
         ("AD Groups", {"fields": ("ad_groups",)}),
-        ("Organisations", {"fields": ("organisations",)}),
+        ("Organisations", {"fields": ("organisation_proposals", "organisations",)}),
     )
-
-    list_display = DjangoUserAdmin.list_display + ("date_joined",)
+    list_display = DjangoUserAdmin.list_display + ("date_joined", "has_person")
     list_filter = ("date_joined",) + DjangoUserAdmin.list_filter
-    readonly_fields = ("uuid", "ad_groups")
+    readonly_fields = ("uuid", "ad_groups", "organisation_proposals")
     ordering = ("-date_joined",)
+    date_hierarchy = "date_joined"
     form = UserAdminForm
 
+    def has_person(self, obj):
+        try:
+            return bool(obj.person)
+        except (Person.DoesNotExist):
+            return False
 
-admin.site.register(get_user_model(), UserAdmin)
+    has_person.boolean = True
+
+    def organisation_proposals(self, obj):
+        if obj.person:
+            organisation_proposals = obj.person.organisationproposal_set.all()
+            return ", ".join([org.name for org in organisation_proposals])
+        return None

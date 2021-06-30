@@ -121,6 +121,9 @@ class Person(UUIDPrimaryKeyModel, TimestampedModel):
         verbose_name_plural = _("persons")
 
     def __str__(self):
+        username = self.user.username if self.user else None
+        if username:
+            return f"{self.name} ({username})"
         return f"{self.name}"
 
     def is_editable_by_user(self, user):
