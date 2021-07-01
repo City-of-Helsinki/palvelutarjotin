@@ -1,7 +1,12 @@
 import pytest
 from django.contrib.auth import get_user_model
-from organisations.factories import OrganisationFactory, PersonFactory, UserFactory
-from organisations.models import Organisation, Person
+from organisations.factories import (
+    OrganisationFactory,
+    OrganisationProposalFactory,
+    PersonFactory,
+    UserFactory,
+)
+from organisations.models import Organisation, OrganisationProposal, Person
 
 User = get_user_model()
 
@@ -16,8 +21,16 @@ def test_person_creation():
 @pytest.mark.django_db
 def test_organisation_creation():
     OrganisationFactory()
-
     assert Organisation.objects.count() == 1
+
+
+@pytest.mark.django_db
+def test_organisation_proposal_creation():
+    person = PersonFactory()
+    OrganisationProposalFactory(applicant=person)
+    assert OrganisationProposal.objects.count() == 1
+    assert person.organisationproposal_set.count() == 1
+    assert OrganisationProposal.objects.filter(applicant=person).count() == 1
 
 
 @pytest.mark.django_db
