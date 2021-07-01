@@ -178,21 +178,6 @@ snapshots["test_update_my_profile 1"] = {
     }
 }
 
-snapshots["test_create_my_profile 1"] = {
-    "data": {
-        "createMyProfile": {
-            "myProfile": {
-                "emailAddress": "newEmail@address.com",
-                "isStaff": False,
-                "language": "EN",
-                "name": "New name",
-                "organisations": {"edges": [{"node": {"name": "Brandon Johnson"}}]},
-                "phoneNumber": "",
-            }
-        }
-    }
-}
-
 snapshots["test_update_person_mutation[firstlast@example.com-True] 1"] = {
     "data": {
         "updatePerson": {
@@ -216,6 +201,24 @@ snapshots["test_my_profile_query 2"] = {
             "name": "Andrew Coleman",
             "organisations": {"edges": [{"node": {"name": "Jason Berg"}}]},
             "phoneNumber": "+1-583-693-1796x212",
+        }
+    }
+}
+
+snapshots["test_create_my_profile 1"] = {
+    "data": {
+        "createMyProfile": {
+            "myProfile": {
+                "emailAddress": "newEmail@address.com",
+                "isStaff": False,
+                "language": "EN",
+                "name": "New name",
+                "organisationproposalSet": {
+                    "edges": [{"node": {"name": "3rd party org"}}]
+                },
+                "organisations": {"edges": [{"node": {"name": "Brandon Johnson"}}]},
+                "phoneNumber": "",
+            }
         }
     }
 }

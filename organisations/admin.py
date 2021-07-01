@@ -94,6 +94,7 @@ class PersonAdmin(admin.ModelAdmin):
         "updated_at",
     )
     fields = ("user", "name", "phone_number", "email_address")
+    ordering = ("-created_at",)
     inlines = (OrganisationInline,)
     list_filter = [
         "created_at",
