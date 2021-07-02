@@ -108,6 +108,11 @@ class UserAdminForm(UserChangeForm):
         queryset=Organisation.objects.all(),
         required=False,
         widget=FilteredSelectMultiple(verbose_name="Organisations", is_stacked=False),
+        help_text=_(
+            "Select organisations to link them with the user's person relation. "
+            + "The organisations selection is disabled "
+            + "when the user is not linked to any person instance."
+        ),
     )
 
     class Meta:
