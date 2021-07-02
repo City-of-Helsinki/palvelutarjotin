@@ -65,6 +65,38 @@ class Organisation(models.Model):
         return user.person.organisations.filter(id=self.id).exists()
 
 
+class OrganisationProposal(models.Model):
+    """
+    When a member of a 3rd party organisation registers
+    to the API from the providers UI, he can make a proposal to add
+    a new 3rd party organisation.
+    NOTE: Since the process is still quite unclear, the proposals and
+    and 3rd party organisation wishes can be collected with this model
+    and stored in database as detached. The use case is that an admin can
+    see which organisation the new user likes to represent and then
+    the real organisation.Organisation instance can be created
+    (if necessary and not yet done) and linked to the user.
+    """
+
+    name = models.CharField(max_length=255, verbose_name=_("name"))
+    description = models.CharField(
+        max_length=255, verbose_name=_("description"), blank=True
+    )
+    phone_number = models.CharField(
+        verbose_name=_("phone number"), max_length=64, blank=True
+    )
+    applicant = models.ForeignKey(
+        "Person", verbose_name=_("applicant"), on_delete=models.CASCADE
+    )
+
+    class Meta:
+        verbose_name = _("organisation proposal")
+        verbose_name_plural = _("organisation proposals")
+
+    def __str__(self):
+        return f"{self.id} {self.name}"
+
+
 class Person(UUIDPrimaryKeyModel, TimestampedModel):
     user = models.OneToOneField(
         get_user_model(),
@@ -89,6 +121,9 @@ class Person(UUIDPrimaryKeyModel, TimestampedModel):
         verbose_name_plural = _("persons")
 
     def __str__(self):
+        username = self.user.username if self.user else None
+        if username:
+            return f"{self.name} ({username})"
         return f"{self.name}"
 
     def is_editable_by_user(self, user):
