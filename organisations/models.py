@@ -20,6 +20,8 @@ class PersonQuerySet(models.QuerySet):
 
 class User(AbstractUser):
 
+    is_admin = models.BooleanField(_("admin status"), default=False)
+
     # When creating an user, the name and the email can be left to blank.
     # In those cases, return username.
     def __str__(self):

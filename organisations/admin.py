@@ -118,6 +118,17 @@ class UserAdminForm(UserChangeForm):
     class Meta:
         model = User
         fields = "__all__"
+        help_texts = {
+            "is_staff": _(
+                "Gives the user the permissions to be a provider "
+                + "and create and edit the events. "
+                + "Designates whether the user can log into this admin site."
+            ),
+            "is_admin": _(
+                "Designates whether the user can administrate the system "
+                + "users and roles. Admins also receives some administrative emails."
+            ),
+        }
 
     def __init__(self, *args, **kwargs):
         super(UserAdminForm, self).__init__(*args, **kwargs)
@@ -143,14 +154,38 @@ class UserAdminForm(UserChangeForm):
 
 @admin.register(get_user_model())
 class UserAdmin(DjangoUserAdmin):
-    fieldsets = DjangoUserAdmin.fieldsets + (
-        ("UUID", {"fields": ("uuid",)}),
-        ("AD Groups", {"fields": ("ad_groups",)}),
-        ("Organisations", {"fields": ("organisation_proposals", "organisations",)}),
+    fieldsets = (
+        (None, {"fields": ("username", "password")}),
+        (_("Personal info"), {"fields": ("first_name", "last_name", "email")}),
+        (
+            _("Permissions"),
+            {
+                "fields": (
+                    "is_active",
+                    "is_staff",
+                    "is_admin",
+                    "is_superuser",
+                    "organisation_proposals",
+                    "organisations",
+                    "groups",
+                    "user_permissions",
+                )
+            },
+        ),
+        (_("UUID"), {"fields": ("uuid",)}),
+        (_("Important dates"), {"fields": ("last_login", "date_joined")}),
+        (_("AD Groups"), {"fields": ("ad_groups",)}),
     )
-    list_display = DjangoUserAdmin.list_display + ("date_joined", "has_person")
-    list_filter = ("date_joined",) + DjangoUserAdmin.list_filter
-    readonly_fields = ("uuid", "ad_groups", "organisation_proposals")
+    list_display = DjangoUserAdmin.list_display + ("date_joined", "has_person",)
+    list_filter = ("date_joined", "is_staff", "is_admin", "is_superuser", "is_active")
+
+    readonly_fields = (
+        "last_login",  # "last_login" is a nice to know, but shouldn't be editable
+        "date_joined",  # "date_joined" is a nice to know, but shouldn't be editable
+        "uuid",
+        "ad_groups",
+        "organisation_proposals",
+    )
     ordering = ("-date_joined",)
     date_hierarchy = "date_joined"
     form = UserAdminForm
