@@ -125,8 +125,8 @@ class UserAdminForm(UserChangeForm):
                 + "Designates whether the user can log into this admin site."
             ),
             "is_admin": _(
-                "Designates whether the user can administrate the system "
-                + "users and roles. Admins also receives some administrative emails."
+                "Designates whether the user can administrate the providers users. "
+                + "Admins also receives some administrative emails."
             ),
         }
 
@@ -164,17 +164,25 @@ class UserAdmin(DjangoUserAdmin):
                     "is_active",
                     "is_staff",
                     "is_admin",
-                    "is_superuser",
                     "organisation_proposals",
                     "organisations",
-                    "groups",
-                    "user_permissions",
-                )
+                ),
             },
         ),
-        (_("UUID"), {"fields": ("uuid",)}),
-        (_("Important dates"), {"fields": ("last_login", "date_joined")}),
-        (_("AD Groups"), {"fields": ("ad_groups",)}),
+        (
+            _("Advanced permission settings"),
+            {
+                "fields": ("is_superuser", "groups", "user_permissions",),
+                "classes": ["collapse in"],
+            },
+        ),
+        (
+            _("Other information"),
+            {
+                "fields": ("last_login", "date_joined", "uuid", "ad_groups"),
+                "classes": ["collapse in"],
+            },
+        ),
     )
     list_display = DjangoUserAdmin.list_display + ("date_joined", "has_person",)
     list_filter = ("date_joined", "is_staff", "is_admin", "is_superuser", "is_active")
@@ -189,6 +197,20 @@ class UserAdmin(DjangoUserAdmin):
     ordering = ("-date_joined",)
     date_hierarchy = "date_joined"
     form = UserAdminForm
+
+    def get_readonly_fields(self, request, obj=None):
+        """
+        Staff (not superusers) should not manage perms of Users.
+        """
+        readonly_fields = super(UserAdmin, self).get_readonly_fields(request, obj)
+        if not request.user.has_perm("organisations.can_administrate_user_permissions"):
+            readonly_fields += (
+                "username",
+                "is_superuser",
+                "groups",
+                "user_permissions",
+            )
+        return readonly_fields
 
     def has_person(self, obj):
         try:

@@ -33,6 +33,9 @@ class User(AbstractUser):
     class Meta:
         verbose_name = _("user")
         verbose_name_plural = _("users")
+        permissions = [
+            ("can_administrate_user_permissions", "Can administrate user permissions",),
+        ]
 
 
 class Organisation(models.Model):

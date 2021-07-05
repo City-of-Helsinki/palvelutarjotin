@@ -15,4 +15,17 @@ class Migration(migrations.Migration):
             name="is_admin",
             field=models.BooleanField(default=False, verbose_name="admin status"),
         ),
+        migrations.AlterModelOptions(
+            name="user",
+            options={
+                "permissions": [
+                    (
+                        "can_administrate_user_permissions",
+                        "Can administrate user permissions",
+                    )
+                ],
+                "verbose_name": "user",
+                "verbose_name_plural": "users",
+            },
+        ),
     ]
