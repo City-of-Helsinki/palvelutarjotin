@@ -3,6 +3,7 @@ from django.contrib.auth import get_user_model
 from django.db import models
 from django.utils.translation import ugettext_lazy as _
 from helusers.models import AbstractUser
+from organisations.services import send_myprofile_creation_notification_to_admins
 
 from common.models import TimestampedModel, UUIDPrimaryKeyModel
 
@@ -136,4 +137,9 @@ class Person(UUIDPrimaryKeyModel, TimestampedModel):
             user.person.organisations.get_queryset()
             .intersection(self.organisations.get_queryset())
             .exists()
+        )
+
+    def notify_myprofile_creation(self, custom_message=None):
+        send_myprofile_creation_notification_to_admins(
+            self, custom_message=custom_message,
         )

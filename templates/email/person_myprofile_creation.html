@@ -1,0 +1,15 @@
+<p>Dear Kultus Admin!</p>
+<p>A new Kultus provider user profile is created!</p>
+<address>
+    {{person.user.name}}<br />
+    <a href="mailto:{{person.user.email}}">{{person.user.email}}</a>
+</address>
+<p>The provider who created the user profile needs an admin (you) to accept the user profile</p>
+<p>He would like to represent these organisations:</p>
+<ul>
+    {% for organisation in person.user.organisationproposals_set.all %}
+    <li>{{organisation.name}}</li>
+    {% endfor %}
+</ul>
+<p>To edit the newly created user profile, click <a href="#" target="_blank">here</a>!</p>
+<p>To see a full list of users, click <a href="#" target="_blank">here</a>.</p>

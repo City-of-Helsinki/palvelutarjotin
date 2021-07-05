@@ -47,7 +47,7 @@ snapshots["test_persons_query 4"] = {
                         "language": "FI",
                         "name": "Jacqueline Salas",
                         "organisations": {
-                            "edges": [{"node": {"name": "William Brewer"}}]
+                            "edges": [{"node": {"name": "Terrell Group"}}]
                         },
                         "phoneNumber": "3202813072",
                     }
@@ -88,7 +88,7 @@ snapshots["test_person_query 4"] = {
             "emailAddress": "travis89@davis-porter.com",
             "language": "FI",
             "name": "Jacqueline Salas",
-            "organisations": {"edges": [{"node": {"name": "William Brewer"}}]},
+            "organisations": {"edges": [{"node": {"name": "Terrell Group"}}]},
             "phoneNumber": "3202813072",
         }
     }
@@ -100,7 +100,7 @@ snapshots["test_organisations_query 1"] = {
             "edges": [
                 {
                     "node": {
-                        "name": "Jose Kerr",
+                        "name": "Black Ltd",
                         "persons": {"edges": []},
                         "phoneNumber": "063.334.5773x557",
                         "publisherId": "Vxeob",
@@ -115,7 +115,7 @@ snapshots["test_organisations_query 1"] = {
 snapshots["test_organisation_query 1"] = {
     "data": {
         "organisation": {
-            "name": "Jose Kerr",
+            "name": "Black Ltd",
             "persons": {"edges": []},
             "phoneNumber": "063.334.5773x557",
             "publisherId": "Vxeob",
@@ -131,7 +131,7 @@ snapshots["test_my_profile_query 1"] = {
             "isStaff": False,
             "language": "FI",
             "name": "William Brewer",
-            "organisations": {"edges": [{"node": {"name": "Jason Berg"}}]},
+            "organisations": {"edges": [{"node": {"name": "Perry Ltd"}}]},
             "phoneNumber": "(767)124-0675x064",
         }
     }
@@ -171,7 +171,7 @@ snapshots["test_update_my_profile 1"] = {
                 "isStaff": False,
                 "language": "SV",
                 "name": "New name",
-                "organisations": {"edges": [{"node": {"name": "Jason Berg"}}]},
+                "organisations": {"edges": [{"node": {"name": "Perry Ltd"}}]},
                 "phoneNumber": "(767)124-0675x064",
             }
         }
@@ -185,7 +185,7 @@ snapshots["test_update_person_mutation[firstlast@example.com-True] 1"] = {
                 "emailAddress": "firstlast@example.com",
                 "language": "SV",
                 "name": "New name",
-                "organisations": {"edges": [{"node": {"name": "William Brewer"}}]},
+                "organisations": {"edges": [{"node": {"name": "Terrell Group"}}]},
                 "phoneNumber": "3202813072",
             }
         }
@@ -199,7 +199,7 @@ snapshots["test_my_profile_query 2"] = {
             "isStaff": True,
             "language": "FI",
             "name": "Andrew Coleman",
-            "organisations": {"edges": [{"node": {"name": "Jason Berg"}}]},
+            "organisations": {"edges": [{"node": {"name": "Perry Ltd"}}]},
             "phoneNumber": "+1-583-693-1796x212",
         }
     }
@@ -216,9 +216,64 @@ snapshots["test_create_my_profile 1"] = {
                 "organisationproposalSet": {
                     "edges": [{"node": {"name": "3rd party org"}}]
                 },
-                "organisations": {"edges": [{"node": {"name": "Brandon Johnson"}}]},
+                "organisations": {"edges": [{"node": {"name": "Davis Inc"}}]},
                 "phoneNumber": "",
             }
         }
     }
 }
+
+snapshots["test_create_my_profile_sends_mail_to_admins 1"] = [
+    """no-reply@hel.ninja|['shermanthomas@yahoo.com']|My profile creation FI|<p>
+<p>Hyvä Kultus ylläpitäjä!</p>
+<p>Uusi palveluntarjoajan tunnus on luotu!</p>
+<address>
+    New name<br />
+    <a href="mailto:newEmail@address.com">newEmail@address.com</a>
+    Käyttäjätunnus: ariley
+</address>
+<p>Palveluntarjoaja tarvitsee ylläpitäjää (sinua)
+hyväksymään luomansa käyttäjätunnuksen käyttöön:</p>
+<ol>
+    <li>Luo puuttuvat organisaatiot LinkedEventsiin</li>
+    <li>Luo puuttuvat organisaatiot Kultukseen</li>
+    <li>Liitä organisaatiot käyttäjään</li>
+    <li>Lisää käyttäjälle staff-lippu, jotta hän saisi oikeudet
+    luoda ja muokata tapahtumia.</li>
+</ol>
+<p>Käyttäjä haluaisi edustaa seuraavia organisaatioita:</p>
+<ul>
+    <li>3rd party org</li>
+</ul>
+<p>Muokataksesi luotua käyttäjätunnusta,
+klikkaa <a href="#" target="_blank">tästä</a>!</p>
+<p>Nähdäksesi listan käyttäjistä, klikkaa <a href="#" target="_blank">tästä</a>.</p>
+
+</p>""",
+    """no-reply@hel.ninja|['lmeyer@yahoo.com']|My profile creation FI|<p>
+<p>Hyvä Kultus ylläpitäjä!</p>
+<p>Uusi palveluntarjoajan tunnus on luotu!</p>
+<address>
+    New name<br />
+    <a href="mailto:newEmail@address.com">newEmail@address.com</a>
+    Käyttäjätunnus: ariley
+</address>
+<p>Palveluntarjoaja tarvitsee ylläpitäjää (sinua)
+hyväksymään luomansa käyttäjätunnuksen käyttöön:</p>
+<ol>
+    <li>Luo puuttuvat organisaatiot LinkedEventsiin</li>
+    <li>Luo puuttuvat organisaatiot Kultukseen</li>
+    <li>Liitä organisaatiot käyttäjään</li>
+    <li>Lisää käyttäjälle staff-lippu, jotta hän saisi oikeudet
+    luoda ja muokata tapahtumia.</li>
+</ol>
+<p>Käyttäjä haluaisi edustaa seuraavia organisaatioita:</p>
+<ul>
+    <li>3rd party org</li>
+</ul>
+<p>Muokataksesi luotua käyttäjätunnusta,
+klikkaa <a href="#" target="_blank">tästä</a>!</p>
+<p>Nähdäksesi listan käyttäjistä, klikkaa <a href="#" target="_blank">tästä</a>.</p>
+
+</p>""",
+]

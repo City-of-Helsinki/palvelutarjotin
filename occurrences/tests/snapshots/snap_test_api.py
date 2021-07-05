@@ -139,13 +139,13 @@ snapshots["test_add_occurrence 1"] = {
                 "minGroupSize": 10,
                 "pEvent": {
                     "autoAcceptance": False,
-                    "contactEmail": "colin84@yahoo.com",
-                    "contactPhoneNumber": "179.621.2666x14494",
-                    "enrolmentEndDays": 1,
-                    "enrolmentStart": "1986-04-11T14:17:11+00:00",
-                    "linkedEventId": "fcwOr",
+                    "contactEmail": "parkerbrittany@yahoo.com",
+                    "contactPhoneNumber": "(179)621-2666",
+                    "enrolmentEndDays": 2,
+                    "enrolmentStart": "1998-03-12T19:56:01+00:00",
+                    "linkedEventId": "LvDSC",
                     "mandatoryAdditionalInformation": False,
-                    "neededOccurrences": 9,
+                    "neededOccurrences": 10,
                 },
                 "startTime": "2020-05-05T00:00:00+00:00",
             }
@@ -228,28 +228,6 @@ snapshots["test_venues_query 1"] = {
                     }
                 }
             ]
-        }
-    }
-}
-
-snapshots["test_update_venue_staff_user 1"] = {
-    "data": {
-        "updateVenue": {
-            "venue": {
-                "description": "Venue description",
-                "hasAreaForGroupWork": True,
-                "hasClothingStorage": True,
-                "hasIndoorPlayingArea": True,
-                "hasOutdoorPlayingArea": True,
-                "hasSnackEatingPlace": True,
-                "hasToiletNearby": True,
-                "id": "OnQtr",
-                "outdoorActivity": True,
-                "translations": [
-                    {"description": "Venue description in EN"},
-                    {"description": "Venue description"},
-                ],
-            }
         }
     }
 }
@@ -452,7 +430,7 @@ snapshots["test_occurrences_filter_by_date 1"] = {
             "edges": [
                 {
                     "node": {
-                        "amountOfSeats": 32,
+                        "amountOfSeats": 45,
                         "contactPersons": {"edges": []},
                         "endTime": "2001-02-23T20:07:07+00:00",
                         "maxGroupSize": 777,
@@ -468,7 +446,7 @@ snapshots["test_occurrences_filter_by_date 1"] = {
                             "neededOccurrences": 6,
                         },
                         "placeId": "Later evening southern would according strong.",
-                        "remainingSeats": 32,
+                        "remainingSeats": 45,
                         "seatType": "CHILDREN_COUNT",
                         "seatsApproved": 0,
                         "seatsTaken": 0,
@@ -522,11 +500,11 @@ snapshots["test_occurrences_filter_by_upcoming 1"] = {
             "edges": [
                 {
                     "node": {
-                        "amountOfSeats": 47,
+                        "amountOfSeats": 33,
                         "contactPersons": {"edges": []},
-                        "endTime": "2015-05-17T15:09:08+00:00",
-                        "maxGroupSize": 761,
-                        "minGroupSize": 932,
+                        "endTime": "2011-05-08T04:35:51+00:00",
+                        "maxGroupSize": 527,
+                        "minGroupSize": 631,
                         "pEvent": {
                             "autoAcceptance": False,
                             "contactEmail": "codyramirez@gmail.com",
@@ -537,8 +515,8 @@ snapshots["test_occurrences_filter_by_upcoming 1"] = {
                             "mandatoryAdditionalInformation": False,
                             "neededOccurrences": 6,
                         },
-                        "placeId": "Watch media do concern sit enter. Himself from daughter order.",
-                        "remainingSeats": 47,
+                        "placeId": "From daughter order stay sign discover eight.",
+                        "remainingSeats": 33,
                         "seatType": "CHILDREN_COUNT",
                         "seatsApproved": 0,
                         "seatsTaken": 0,
@@ -548,11 +526,11 @@ snapshots["test_occurrences_filter_by_upcoming 1"] = {
                 },
                 {
                     "node": {
-                        "amountOfSeats": 0,
+                        "amountOfSeats": 24,
                         "contactPersons": {"edges": []},
-                        "endTime": "2008-06-07T05:04:58+00:00",
-                        "maxGroupSize": 796,
-                        "minGroupSize": 700,
+                        "endTime": "1975-08-12T12:08:34+00:00",
+                        "maxGroupSize": 838,
+                        "minGroupSize": 847,
                         "pEvent": {
                             "autoAcceptance": False,
                             "contactEmail": "codyramirez@gmail.com",
@@ -563,8 +541,8 @@ snapshots["test_occurrences_filter_by_upcoming 1"] = {
                             "mandatoryAdditionalInformation": False,
                             "neededOccurrences": 6,
                         },
-                        "placeId": "Newspaper force newspaper business himself exist.",
-                        "remainingSeats": 0,
+                        "placeId": "Write century spring never skill down subject town.",
+                        "remainingSeats": 24,
                         "seatType": "CHILDREN_COUNT",
                         "seatsApproved": 0,
                         "seatsTaken": 0,
@@ -583,7 +561,7 @@ snapshots["test_occurrences_filter_by_date 2"] = {
             "edges": [
                 {
                     "node": {
-                        "amountOfSeats": 32,
+                        "amountOfSeats": 45,
                         "contactPersons": {"edges": []},
                         "endTime": "2001-02-23T20:07:07+00:00",
                         "maxGroupSize": 777,
@@ -599,7 +577,7 @@ snapshots["test_occurrences_filter_by_date 2"] = {
                             "neededOccurrences": 6,
                         },
                         "placeId": "Later evening southern would according strong.",
-                        "remainingSeats": 32,
+                        "remainingSeats": 45,
                         "seatType": "CHILDREN_COUNT",
                         "seatsApproved": 0,
                         "seatsTaken": 0,
@@ -609,23 +587,23 @@ snapshots["test_occurrences_filter_by_date 2"] = {
                 },
                 {
                     "node": {
-                        "amountOfSeats": 24,
+                        "amountOfSeats": 35,
                         "contactPersons": {"edges": []},
-                        "endTime": "2000-02-02T08:29:39+00:00",
-                        "maxGroupSize": 64,
-                        "minGroupSize": 136,
+                        "endTime": "1975-02-09T12:33:37+00:00",
+                        "maxGroupSize": 75,
+                        "minGroupSize": 879,
                         "pEvent": {
                             "autoAcceptance": False,
-                            "contactEmail": "patricia05@campbell-luna.com",
-                            "contactPhoneNumber": "+1-299-013-2321x3168",
+                            "contactEmail": "delgadopatricia@hotmail.com",
+                            "contactPhoneNumber": "+1-013-232-1316",
                             "enrolmentEndDays": 2,
-                            "enrolmentStart": "1973-12-22T08:50:45+00:00",
-                            "linkedEventId": "KkSRp",
+                            "enrolmentStart": "1978-07-26T12:24:03+00:00",
+                            "linkedEventId": "pdZDV",
                             "mandatoryAdditionalInformation": False,
                             "neededOccurrences": 9,
                         },
-                        "placeId": "Wrong when lead involve sport.",
-                        "remainingSeats": 24,
+                        "placeId": "Throw wrong party wall agency customer clear.",
+                        "remainingSeats": 35,
                         "seatType": "CHILDREN_COUNT",
                         "seatsApproved": 0,
                         "seatsTaken": 0,
@@ -646,20 +624,20 @@ snapshots["test_occurrences_filter_by_time 2"] = {
                     "node": {
                         "amountOfSeats": 27,
                         "contactPersons": {"edges": []},
-                        "endTime": "2015-09-20T23:57:56+00:00",
-                        "maxGroupSize": 225,
-                        "minGroupSize": 551,
+                        "endTime": "1974-10-19T15:53:39+00:00",
+                        "maxGroupSize": 687,
+                        "minGroupSize": 225,
                         "pEvent": {
                             "autoAcceptance": False,
-                            "contactEmail": "alicehobbs@cole.com",
-                            "contactPhoneNumber": "778-840-8746x609",
+                            "contactEmail": "matthewwarren@walker.com",
+                            "contactPhoneNumber": "788-408-7466",
                             "enrolmentEndDays": 1,
-                            "enrolmentStart": "1983-10-25T22:51:16+00:00",
-                            "linkedEventId": "dgihp",
+                            "enrolmentStart": "1991-02-21T03:14:24+00:00",
+                            "linkedEventId": "mOhDG",
                             "mandatoryAdditionalInformation": False,
                             "neededOccurrences": 5,
                         },
-                        "placeId": "Dog five traditional late majority of generation.",
+                        "placeId": "Middle however western. Light a point charge stand store.",
                         "remainingSeats": 27,
                         "seatType": "CHILDREN_COUNT",
                         "seatsApproved": 0,
@@ -679,23 +657,23 @@ snapshots["test_occurrences_filter_by_time 3"] = {
             "edges": [
                 {
                     "node": {
-                        "amountOfSeats": 24,
+                        "amountOfSeats": 35,
                         "contactPersons": {"edges": []},
-                        "endTime": "2000-02-02T08:29:39+00:00",
-                        "maxGroupSize": 64,
-                        "minGroupSize": 136,
+                        "endTime": "1975-02-09T12:33:37+00:00",
+                        "maxGroupSize": 75,
+                        "minGroupSize": 879,
                         "pEvent": {
                             "autoAcceptance": False,
-                            "contactEmail": "patricia05@campbell-luna.com",
-                            "contactPhoneNumber": "+1-299-013-2321x3168",
+                            "contactEmail": "delgadopatricia@hotmail.com",
+                            "contactPhoneNumber": "+1-013-232-1316",
                             "enrolmentEndDays": 2,
-                            "enrolmentStart": "1973-12-22T08:50:45+00:00",
-                            "linkedEventId": "KkSRp",
+                            "enrolmentStart": "1978-07-26T12:24:03+00:00",
+                            "linkedEventId": "pdZDV",
                             "mandatoryAdditionalInformation": False,
                             "neededOccurrences": 9,
                         },
-                        "placeId": "Wrong when lead involve sport.",
-                        "remainingSeats": 24,
+                        "placeId": "Throw wrong party wall agency customer clear.",
+                        "remainingSeats": 35,
                         "seatType": "CHILDREN_COUNT",
                         "seatsApproved": 0,
                         "seatsTaken": 0,
@@ -705,7 +683,7 @@ snapshots["test_occurrences_filter_by_time 3"] = {
                 },
                 {
                     "node": {
-                        "amountOfSeats": 32,
+                        "amountOfSeats": 45,
                         "contactPersons": {"edges": []},
                         "endTime": "2001-02-23T20:07:07+00:00",
                         "maxGroupSize": 777,
@@ -721,7 +699,7 @@ snapshots["test_occurrences_filter_by_time 3"] = {
                             "neededOccurrences": 6,
                         },
                         "placeId": "Later evening southern would according strong.",
-                        "remainingSeats": 32,
+                        "remainingSeats": 45,
                         "seatType": "CHILDREN_COUNT",
                         "seatsApproved": 0,
                         "seatsTaken": 0,
@@ -740,23 +718,23 @@ snapshots["test_occurrences_filter_by_time 4"] = {
             "edges": [
                 {
                     "node": {
-                        "amountOfSeats": 24,
+                        "amountOfSeats": 35,
                         "contactPersons": {"edges": []},
-                        "endTime": "2000-02-02T08:29:39+00:00",
-                        "maxGroupSize": 64,
-                        "minGroupSize": 136,
+                        "endTime": "1975-02-09T12:33:37+00:00",
+                        "maxGroupSize": 75,
+                        "minGroupSize": 879,
                         "pEvent": {
                             "autoAcceptance": False,
-                            "contactEmail": "patricia05@campbell-luna.com",
-                            "contactPhoneNumber": "+1-299-013-2321x3168",
+                            "contactEmail": "delgadopatricia@hotmail.com",
+                            "contactPhoneNumber": "+1-013-232-1316",
                             "enrolmentEndDays": 2,
-                            "enrolmentStart": "1973-12-22T08:50:45+00:00",
-                            "linkedEventId": "KkSRp",
+                            "enrolmentStart": "1978-07-26T12:24:03+00:00",
+                            "linkedEventId": "pdZDV",
                             "mandatoryAdditionalInformation": False,
                             "neededOccurrences": 9,
                         },
-                        "placeId": "Wrong when lead involve sport.",
-                        "remainingSeats": 24,
+                        "placeId": "Throw wrong party wall agency customer clear.",
+                        "remainingSeats": 35,
                         "seatType": "CHILDREN_COUNT",
                         "seatsApproved": 0,
                         "seatsTaken": 0,
@@ -766,7 +744,7 @@ snapshots["test_occurrences_filter_by_time 4"] = {
                 },
                 {
                     "node": {
-                        "amountOfSeats": 32,
+                        "amountOfSeats": 45,
                         "contactPersons": {"edges": []},
                         "endTime": "2001-02-23T20:07:07+00:00",
                         "maxGroupSize": 777,
@@ -782,7 +760,7 @@ snapshots["test_occurrences_filter_by_time 4"] = {
                             "neededOccurrences": 6,
                         },
                         "placeId": "Later evening southern would according strong.",
-                        "remainingSeats": 32,
+                        "remainingSeats": 45,
                         "seatType": "CHILDREN_COUNT",
                         "seatsApproved": 0,
                         "seatsTaken": 0,
@@ -891,36 +869,6 @@ snapshots["test_decline_enrolment_with_custom_message 2"] = [
     Custom message: custom message
 """
 ]
-
-snapshots["test_update_enrolment 1"] = {
-    "data": {
-        "updateEnrolment": {
-            "enrolment": {
-                "notificationType": "SMS",
-                "occurrence": {
-                    "amountOfSeats": 35,
-                    "remainingSeats": 35,
-                    "seatsApproved": 0,
-                    "seatsTaken": 0,
-                    "startTime": "2020-01-06T00:00:00+00:00",
-                },
-                "status": "PENDING",
-                "studyGroup": {
-                    "amountOfAdult": 3,
-                    "enrolments": {
-                        "edges": [
-                            {"node": {"notificationType": "SMS"}},
-                            {"node": {"notificationType": "SMS"}},
-                        ]
-                    },
-                    "groupName": "Updated study group name",
-                    "groupSize": 16,
-                    "name": "Updated name",
-                },
-            }
-        }
-    }
-}
 
 snapshots["test_notification_template_query 1"] = {
     "data": {
@@ -1058,28 +1006,6 @@ snapshots["test_enrol_auto_acceptance_occurrence 2"] = {
             ]
         }
     }
-}
-
-snapshots["test_cancel_enrolment_query 1"] = {
-    "data": {
-        "cancellingEnrolment": {
-            "enrolmentTime": "2020-01-04T00:00:00+00:00",
-            "occurrence": {"seatsTaken": 0},
-            "status": "PENDING",
-            "studyGroup": {
-                "groupSize": 345,
-                "name": "Dream party door better performance race story. Beautiful if his their. Stuff election stay every.",
-            },
-        }
-    }
-}
-
-snapshots["test_ask_for_cancelled_confirmation_mutation 1"] = {
-    "data": {"cancelEnrolment": {"enrolment": {"status": "PENDING"}}}
-}
-
-snapshots["test_cancel_enrolment_mutation 1"] = {
-    "data": {"cancelEnrolment": {"enrolment": {"status": "CANCELLED"}}}
 }
 
 snapshots["test_study_levels_query 1"] = {
@@ -1262,6 +1188,80 @@ snapshots["test_languagess_query 1"] = {
             ]
         }
     }
+}
+
+snapshots["test_update_venue_staff_user 1"] = {
+    "data": {
+        "updateVenue": {
+            "venue": {
+                "description": "Venue description",
+                "hasAreaForGroupWork": True,
+                "hasClothingStorage": True,
+                "hasIndoorPlayingArea": True,
+                "hasOutdoorPlayingArea": True,
+                "hasSnackEatingPlace": True,
+                "hasToiletNearby": True,
+                "id": "OnQtr",
+                "outdoorActivity": True,
+                "translations": [
+                    {"description": "Venue description in EN"},
+                    {"description": "Venue description"},
+                ],
+            }
+        }
+    }
+}
+
+snapshots["test_update_enrolment 1"] = {
+    "data": {
+        "updateEnrolment": {
+            "enrolment": {
+                "notificationType": "SMS",
+                "occurrence": {
+                    "amountOfSeats": 35,
+                    "remainingSeats": 35,
+                    "seatsApproved": 0,
+                    "seatsTaken": 0,
+                    "startTime": "2020-01-06T00:00:00+00:00",
+                },
+                "status": "PENDING",
+                "studyGroup": {
+                    "amountOfAdult": 3,
+                    "enrolments": {
+                        "edges": [
+                            {"node": {"notificationType": "SMS"}},
+                            {"node": {"notificationType": "SMS"}},
+                        ]
+                    },
+                    "groupName": "Updated study group name",
+                    "groupSize": 16,
+                    "name": "Updated name",
+                },
+            }
+        }
+    }
+}
+
+snapshots["test_cancel_enrolment_query 1"] = {
+    "data": {
+        "cancellingEnrolment": {
+            "enrolmentTime": "2020-01-04T00:00:00+00:00",
+            "occurrence": {"seatsTaken": 0},
+            "status": "PENDING",
+            "studyGroup": {
+                "groupSize": 345,
+                "name": "Dream party door better performance race story. Beautiful if his their. Stuff election stay every.",
+            },
+        }
+    }
+}
+
+snapshots["test_ask_for_cancelled_confirmation_mutation 1"] = {
+    "data": {"cancelEnrolment": {"enrolment": {"status": "PENDING"}}}
+}
+
+snapshots["test_cancel_enrolment_mutation 1"] = {
+    "data": {"cancelEnrolment": {"enrolment": {"status": "CANCELLED"}}}
 }
 
 snapshots["test_mass_approve_enrolment_mutation 1"] = {
