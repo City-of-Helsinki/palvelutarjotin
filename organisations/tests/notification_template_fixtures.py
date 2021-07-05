@@ -27,8 +27,9 @@ hyväksymään luomansa käyttäjätunnuksen käyttöön:</p>
     {% endfor %}
 </ul>
 <p>Muokataksesi luotua käyttäjätunnusta,
-klikkaa <a href="#" target="_blank">tästä</a>!</p>
-<p>Nähdäksesi listan käyttäjistä, klikkaa <a href="#" target="_blank">tästä</a>.</p>
+klikkaa <a href="{{user_change_form_url}}" target="_blank">tästä</a>!</p>
+<p>Nähdäksesi listan käyttäjistä, klikkaa
+<a href="{{user_list_url}}" target="_blank">tästä</a>.</p>
 """
 
 NOTIFICATION_WITH_CUSTOM_MESSAGE_TEXT_FI = (
@@ -40,9 +41,6 @@ NOTIFICATION_WITH_CUSTOM_MESSAGE_TEXT_FI = (
 """
 )
 
-NOTIFICATION_WITH_CUSTOM_MESSAGE_HTML_FI = (
-    "<p>" + NOTIFICATION_WITH_CUSTOM_MESSAGE_TEXT_FI + "</p>"
-)
 
 DEFAULT_NOTIFICATION_BODY_TEXT_EN = """
 <p>Dear Kultus Admin!</p>
@@ -68,8 +66,9 @@ to accept the user profile:</p>
     {% endfor %}
 </ul>
 <p>To edit the newly created user profile,
-click <a href="#" target="_blank">here</a>!</p>
-<p>To see a full list of users, click <a href="#" target="_blank">here</a>.</p>
+click <a href="{{user_change_form_url}}" target="_blank">here</a>!</p>
+<p>To see a full list of users, click
+<a href="{{user_list_url}}" target="_blank">here</a>.</p>
 """
 
 NOTIFICATION_WITH_CUSTOM_MESSAGE_TEXT_EN = (
@@ -81,10 +80,6 @@ NOTIFICATION_WITH_CUSTOM_MESSAGE_TEXT_EN = (
 """
 )
 
-NOTIFICATION_WITH_CUSTOM_MESSAGE_HTML_EN = (
-    "<p>" + NOTIFICATION_WITH_CUSTOM_MESSAGE_TEXT_EN + "</p>"
-)
-
 
 @pytest.fixture
 def notification_template_myprofile_creation_fi():
@@ -92,7 +87,7 @@ def notification_template_myprofile_creation_fi():
         NotificationTemplate.MYPROFILE_CREATION,
         "fi",
         subject="My profile creation FI",
-        body_text=NOTIFICATION_WITH_CUSTOM_MESSAGE_HTML_FI,
+        body_text=DEFAULT_NOTIFICATION_BODY_TEXT_FI,
     )
 
 
@@ -102,5 +97,5 @@ def notification_template_myprofile_creation_en():
         NotificationTemplate.MYPROFILE_CREATION,
         "en",
         subject="My profile creation EN",
-        body_text=NOTIFICATION_WITH_CUSTOM_MESSAGE_HTML_EN,
+        body_text=NOTIFICATION_WITH_CUSTOM_MESSAGE_TEXT_EN,
     )

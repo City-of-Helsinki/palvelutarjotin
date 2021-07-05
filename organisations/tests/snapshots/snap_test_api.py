@@ -224,7 +224,7 @@ snapshots["test_create_my_profile 1"] = {
 }
 
 snapshots["test_create_my_profile_sends_mail_to_admins 1"] = [
-    """no-reply@hel.ninja|['shermanthomas@yahoo.com']|My profile creation FI|<p>
+    """no-reply@hel.ninja|['shermanthomas@yahoo.com']|My profile creation FI|
 <p>Hyvä Kultus ylläpitäjä!</p>
 <p>Uusi palveluntarjoajan tunnus on luotu!</p>
 <address>
@@ -246,11 +246,10 @@ hyväksymään luomansa käyttäjätunnuksen käyttöön:</p>
     <li>3rd party org</li>
 </ul>
 <p>Muokataksesi luotua käyttäjätunnusta,
-klikkaa <a href="#" target="_blank">tästä</a>!</p>
-<p>Nähdäksesi listan käyttäjistä, klikkaa <a href="#" target="_blank">tästä</a>.</p>
-
-</p>""",
-    """no-reply@hel.ninja|['lmeyer@yahoo.com']|My profile creation FI|<p>
+klikkaa <a href="http://localhost/admin/organisations/user/280a0516-1d3d-4f15-ae62-b1eeab713dc0/change/" target="_blank">tästä</a>!</p>
+<p>Nähdäksesi listan käyttäjistä, klikkaa
+<a href="http://localhost/admin/organisations/user/" target="_blank">tästä</a>.</p>""",
+    """no-reply@hel.ninja|['lmeyer@yahoo.com']|My profile creation FI|
 <p>Hyvä Kultus ylläpitäjä!</p>
 <p>Uusi palveluntarjoajan tunnus on luotu!</p>
 <address>
@@ -272,8 +271,7 @@ hyväksymään luomansa käyttäjätunnuksen käyttöön:</p>
     <li>3rd party org</li>
 </ul>
 <p>Muokataksesi luotua käyttäjätunnusta,
-klikkaa <a href="#" target="_blank">tästä</a>!</p>
-<p>Nähdäksesi listan käyttäjistä, klikkaa <a href="#" target="_blank">tästä</a>.</p>
-
-</p>""",
+klikkaa <a href="http://localhost/admin/organisations/user/280a0516-1d3d-4f15-ae62-b1eeab713dc0/change/" target="_blank">tästä</a>!</p>
+<p>Nähdäksesi listan käyttäjistä, klikkaa
+<a href="http://localhost/admin/organisations/user/" target="_blank">tästä</a>.</p>""",
 ]

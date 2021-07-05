@@ -7,7 +7,7 @@ from snapshottest import Snapshot
 snapshots = Snapshot()
 
 snapshots["test_myprofile_creation_email 1"] = [
-    """no-reply@hel.ninja|['xrubio@yahoo.com']|My profile creation FI|<p>
+    """no-reply@hel.ninja|['xrubio@yahoo.com']|My profile creation FI|
 <p>Hyvä Kultus ylläpitäjä!</p>
 <p>Uusi palveluntarjoajan tunnus on luotu!</p>
 <address>
@@ -30,12 +30,10 @@ hyväksymään luomansa käyttäjätunnuksen käyttöön:</p>
     <li>Perry Ltd</li>
 </ul>
 <p>Muokataksesi luotua käyttäjätunnusta,
-klikkaa <a href="#" target="_blank">tästä</a>!</p>
-<p>Nähdäksesi listan käyttäjistä, klikkaa <a href="#" target="_blank">tästä</a>.</p>
-
-    Erityisviesti: custom message
-</p>""",
-    """no-reply@hel.ninja|['brownheather@villarreal.com']|My profile creation FI|<p>
+klikkaa <a href="http://localhost/admin/organisations/user/881f9e62-a423-4845-9ccb-03f64d1e32fb/change/" target="_blank">tästä</a>!</p>
+<p>Nähdäksesi listan käyttäjistä, klikkaa
+<a href="http://localhost/admin/organisations/user/" target="_blank">tästä</a>.</p>""",
+    """no-reply@hel.ninja|['brownheather@villarreal.com']|My profile creation FI|
 <p>Hyvä Kultus ylläpitäjä!</p>
 <p>Uusi palveluntarjoajan tunnus on luotu!</p>
 <address>
@@ -58,9 +56,7 @@ hyväksymään luomansa käyttäjätunnuksen käyttöön:</p>
     <li>Perry Ltd</li>
 </ul>
 <p>Muokataksesi luotua käyttäjätunnusta,
-klikkaa <a href="#" target="_blank">tästä</a>!</p>
-<p>Nähdäksesi listan käyttäjistä, klikkaa <a href="#" target="_blank">tästä</a>.</p>
-
-    Erityisviesti: custom message
-</p>""",
+klikkaa <a href="http://localhost/admin/organisations/user/881f9e62-a423-4845-9ccb-03f64d1e32fb/change/" target="_blank">tästä</a>!</p>
+<p>Nähdäksesi listan käyttäjistä, klikkaa
+<a href="http://localhost/admin/organisations/user/" target="_blank">tästä</a>.</p>""",
 ]
