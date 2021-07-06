@@ -272,6 +272,13 @@ LOGGING = {
     "loggers": {"django": {"handlers": ["console"], "level": "ERROR"}},
 }
 
+if DEBUG is True:
+    LOGGING["loggers"] = {
+        "django": {"handlers": ["console"], "level": "WARNING"},
+        "occurrences": {"handlers": ["console"], "level": "DEBUG"},
+        "organisations": {"handlers": ["console"], "level": "DEBUG"},
+    }
+
 CAPTCHA_ENABLED = env.bool("CAPTCHA_ENABLED")
 RECAPTCHA_SECRET_KEY = env.str("RECAPTCHA_SECRET_KEY")
 RECAPTCHA_VALIDATION_URL = "https://www.google.com/recaptcha/api/siteverify"

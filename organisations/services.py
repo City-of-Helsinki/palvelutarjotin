@@ -38,3 +38,17 @@ def send_myprofile_creation_notification_to_admins(person: Person, **kwargs):
         send_notification(
             admin.email, NotificationTemplate.MYPROFILE_CREATION, context=context,
         )
+
+
+def send_myprofile_organisations_accepted_notification(person: Person, **kwargs):
+    """
+    Notify the person about his / her account is accepted and ready to use.
+    This notification should be sent at least when the user has
+    write permissions for events (the  is_staff -flag is set to True)
+    and he has been linked to some organisations.
+    """
+    context = {"person": person, **kwargs}
+    # TODO: Send notification based on admin user's language
+    send_notification(
+        person.email_address, NotificationTemplate.MYPROFILE_ACCEPTED, context=context
+    )
