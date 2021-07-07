@@ -222,6 +222,8 @@ class UserAdmin(DjangoUserAdmin):
 
     def organisation_proposals(self, obj):
         if obj.person:
-            organisation_proposals = obj.person.organisationproposal_set.all()
+            organisation_proposals = obj.person.organisationproposal_set.all().order_by(
+                "name"
+            )
             return ", ".join([org.name for org in organisation_proposals])
         return None
