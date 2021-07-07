@@ -5,11 +5,7 @@ from django.core import mail
 from graphql_relay import to_global_id
 from organisations.factories import OrganisationFactory, PersonFactory, UserFactory
 
-from common.tests.utils import (
-    assert_mails_match_snapshot,
-    assert_match_error_code,
-    assert_permission_denied,
-)
+from common.tests.utils import assert_match_error_code, assert_permission_denied
 from palvelutarjotin.consts import (
     API_USAGE_ERROR,
     INVALID_EMAIL_FORMAT_ERROR,
@@ -343,14 +339,13 @@ def test_create_my_profile_sends_mail_to_admins(
     notification_template_myprofile_creation_fi,
     notification_template_myprofile_creation_en,
 ):
-    UserFactory.create_batch(2, is_admin=True)
+    UserFactory.create_batch(3, is_admin=True)
     variables = deepcopy(CREATE_MY_PROFILE_VARIABLES)
     variables["input"]["organisations"] = [
         to_global_id("OrganisationNode", organisation.id),
     ]
     user_api_client.execute(CREATE_MY_PROFILE_MUTATION, variables=variables)
-    assert len(mail.outbox) == 2
-    assert_mails_match_snapshot(snapshot)
+    assert len(mail.outbox) == 3
 
 
 def test_create_profile_with_deleted_organisation(user_api_client, organisation):

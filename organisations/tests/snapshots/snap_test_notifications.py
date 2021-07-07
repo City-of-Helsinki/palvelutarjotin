@@ -30,7 +30,7 @@ hyväksymään luomansa käyttäjätunnuksen käyttöön:</p>
     <li>Perry Ltd</li>
 </ul>
 <p>Muokataksesi luotua käyttäjätunnusta,
-klikkaa <a href="http://localhost/admin/organisations/user/881f9e62-a423-4845-9ccb-03f64d1e32fb/change/" target="_blank">tästä</a>!</p>
+klikkaa <a href="http://localhost/admin/organisations/user/123/change/" target="_blank">tästä</a>!</p>
 <p>Nähdäksesi listan käyttäjistä, klikkaa
 <a href="http://localhost/admin/organisations/user/" target="_blank">tästä</a>.</p>""",
     """no-reply@hel.ninja|['brownheather@villarreal.com']|My profile creation FI|
@@ -56,7 +56,7 @@ hyväksymään luomansa käyttäjätunnuksen käyttöön:</p>
     <li>Perry Ltd</li>
 </ul>
 <p>Muokataksesi luotua käyttäjätunnusta,
-klikkaa <a href="http://localhost/admin/organisations/user/881f9e62-a423-4845-9ccb-03f64d1e32fb/change/" target="_blank">tästä</a>!</p>
+klikkaa <a href="http://localhost/admin/organisations/user/123/change/" target="_blank">tästä</a>!</p>
 <p>Nähdäksesi listan käyttäjistä, klikkaa
 <a href="http://localhost/admin/organisations/user/" target="_blank">tästä</a>.</p>""",
 ]

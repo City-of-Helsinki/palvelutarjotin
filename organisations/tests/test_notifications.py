@@ -15,7 +15,7 @@ def test_myprofile_creation_email(
     notification_template_myprofile_creation_fi,
     notification_template_myprofile_creation_en,
 ):
-    person = PersonFactory()
+    person = PersonFactory(id=123)
     OrganisationProposalFactory.create_batch(2, applicant=person)
     UserFactory.create_batch(2, is_admin=True)
     person.notify_myprofile_creation(custom_message="custom message")
