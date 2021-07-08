@@ -4,7 +4,6 @@ from __future__ import unicode_literals
 
 from snapshottest import Snapshot
 
-
 snapshots = Snapshot()
 
 snapshots["test_persons_query 1"] = {"data": {"persons": {"edges": []}}}
@@ -172,7 +171,7 @@ snapshots["test_update_my_profile 1"] = {
                 "isStaff": False,
                 "language": "SV",
                 "name": "New name",
-                "organisations": {"edges": [{"node": {"name": "Perry Ltd"}}]},
+                "organisations": {"edges": []},
                 "phoneNumber": "(767)124-0675x064",
             }
         }
