@@ -4,6 +4,7 @@ import pytest
 from django.core import mail
 from graphql_relay import to_global_id
 from organisations.factories import OrganisationFactory, PersonFactory, UserFactory
+from organisations.models import Organisation
 
 from common.tests.utils import assert_match_error_code, assert_permission_denied
 from palvelutarjotin.consts import (
@@ -59,8 +60,8 @@ query Person($id:ID!){
 """
 
 ORGANISATIONS_QUERY = """
-query Organisations{
-  organisations{
+query Organisations($type : String){
+  organisations(type:$type) {
     edges{
       node{
         publisherId
@@ -292,6 +293,16 @@ def test_person_query(snapshot, api_client, user_api_client, staff_api_client, p
 
 def test_organisations_query(snapshot, api_client, organisation):
     executed = api_client.execute(ORGANISATIONS_QUERY)
+    snapshot.assert_match(executed)
+
+
+@pytest.mark.django_db
+def test_organisations_query_type_filter(snapshot, api_client):
+    OrganisationFactory.create_batch(3, type=Organisation.TYPE_PROVIDER)
+    OrganisationFactory.create_batch(2, type=Organisation.TYPE_USER)
+    executed = api_client.execute(ORGANISATIONS_QUERY, variables={"type": "provider"})
+    snapshot.assert_match(executed)
+    executed = api_client.execute(ORGANISATIONS_QUERY, variables={"type": "user"})
     snapshot.assert_match(executed)
 
 

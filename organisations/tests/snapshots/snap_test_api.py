@@ -4,6 +4,7 @@ from __future__ import unicode_literals
 
 from snapshottest import Snapshot
 
+
 snapshots = Snapshot()
 
 snapshots["test_persons_query 1"] = {"data": {"persons": {"edges": []}}}
@@ -219,6 +220,69 @@ snapshots["test_create_my_profile 1"] = {
                 "organisations": {"edges": [{"node": {"name": "Davis Inc"}}]},
                 "phoneNumber": "",
             }
+        }
+    }
+}
+
+snapshots["test_organisations_query_type_filter 1"] = {
+    "data": {
+        "organisations": {
+            "edges": [
+                {
+                    "node": {
+                        "name": "Black Ltd",
+                        "persons": {"edges": []},
+                        "phoneNumber": "063.334.5773x557",
+                        "publisherId": "zVxeo",
+                        "type": "PROVIDER",
+                    }
+                },
+                {
+                    "node": {
+                        "name": "Underwood LLC",
+                        "persons": {"edges": []},
+                        "phoneNumber": "649-763-8034x669",
+                        "publisherId": "ThbUS",
+                        "type": "PROVIDER",
+                    }
+                },
+                {
+                    "node": {
+                        "name": "Sherman LLC",
+                        "persons": {"edges": []},
+                        "phoneNumber": "159.102.3202x8130",
+                        "publisherId": "yiWRb",
+                        "type": "PROVIDER",
+                    }
+                },
+            ]
+        }
+    }
+}
+
+snapshots["test_organisations_query_type_filter 2"] = {
+    "data": {
+        "organisations": {
+            "edges": [
+                {
+                    "node": {
+                        "name": "Walls-Roy",
+                        "persons": {"edges": []},
+                        "phoneNumber": "123-447-4468",
+                        "publisherId": "KQItj",
+                        "type": "USER",
+                    }
+                },
+                {
+                    "node": {
+                        "name": "Weber-Johnson",
+                        "persons": {"edges": []},
+                        "phoneNumber": "4883019054",
+                        "publisherId": "AmjOn",
+                        "type": "USER",
+                    }
+                },
+            ]
         }
     }
 }
