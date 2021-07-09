@@ -369,33 +369,12 @@ def test_create_profile_with_deleted_organisation(user_api_client, organisation)
     assert_match_error_code(executed, OBJECT_DOES_NOT_EXIST_ERROR)
 
 
-def test_update_my_profile(snapshot, person_api_client, organisation):
-    person_api_client.user.person.organisations.add(
-        OrganisationFactory(name="old organisation")
-    )
+def test_update_my_profile(snapshot, person_api_client):
     variables = deepcopy(UPDATE_MY_PROFILE_VARIABLES)
-    variables["input"]["organisations"] = [
-        to_global_id("OrganisationNode", organisation.id),
-    ]
     executed = person_api_client.execute(
         UPDATE_MY_PROFILE_MUTATION, variables=variables
     )
     snapshot.assert_match(executed)
-
-
-def test_update_profile_with_deleted_organisation(person_api_client, organisation):
-    person_api_client.user.person.organisations.add(
-        OrganisationFactory(name="old organisation")
-    )
-    variables = deepcopy(UPDATE_MY_PROFILE_VARIABLES)
-    variables["input"]["organisations"] = [
-        to_global_id("OrganisationNode", organisation.id),
-    ]
-    organisation.delete()
-    executed = person_api_client.execute(
-        UPDATE_MY_PROFILE_MUTATION, variables=variables
-    )
-    assert_match_error_code(executed, OBJECT_DOES_NOT_EXIST_ERROR)
 
 
 def test_update_person_mutation_unauthorized(

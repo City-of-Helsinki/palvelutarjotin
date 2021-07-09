@@ -130,10 +130,6 @@ class UpdateMyProfileMutation(graphene.relay.ClientIDMutation):
         name = graphene.String()
         phone_number = graphene.String()
         email_address = graphene.String()
-        organisations = graphene.List(
-            graphene.ID,
-            description="If present, should include all organisation ids of user",
-        )
         language = LanguageEnum(description="Default `fi`")
 
     my_profile = graphene.Field(PersonNode)
