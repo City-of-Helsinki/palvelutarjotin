@@ -207,25 +207,26 @@ class UserAdmin(DjangoUserAdmin):
         """
 
         original_user = form.instance
+        is_notifiable_changes_done = False
 
-        should_notify = self._has_organisations_changed(
-            original_user.person, form
-        ) or self._has_is_staff_changed(form)
+        # When user is linked to a person...
+        if self.has_person(original_user):
+            is_notifiable_changes_done = self._has_organisations_changed(
+                original_user.person, form
+            ) or self._has_is_staff_changed(form)
 
         user = super(UserAdmin, self).save_form(request, form, change)
 
-        # When user is linked to a person...
-        if self.has_person(user):
-            # And the organisations or is_staff status are changed...
-            if should_notify:
-                # And the edited user is accepted as a provider,
-                # since he is a staff member...
-                if user.is_staff:
-                    # And he is linked to some organisations...
-                    if user.person.organisations.count() > 0:
-                        # And the user instance is different than the current user..
-                        if user.id != request.user.id:
-                            self._notify_user_of_account_activation(request, form)
+        # And the organisations or is_staff status are changed...
+        if is_notifiable_changes_done:
+            # And the edited user is accepted as a provider,
+            # since he is a staff member...
+            if user.is_staff:
+                # And he is linked to some organisations...
+                if user.person.organisations.count() > 0:
+                    # And the user instance is different than the current user..
+                    if user.id != request.user.id:
+                        self._notify_user_of_account_activation(request, form)
 
         # Return the return value of the original save_form -method.
         return user
