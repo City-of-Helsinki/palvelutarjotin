@@ -13,9 +13,11 @@ from common.tests.utils import assert_mails_match_snapshot
 @pytest.mark.django_db
 def test_myprofile_creation_email(
     snapshot,
+    settings,
     notification_template_myprofile_creation_fi,
     notification_template_myprofile_creation_en,
 ):
+    settings.SITE_URL = "https://test-domain"
     person = PersonFactory(id=123)
     OrganisationProposalFactory.create_batch(2, applicant=person)
     UserFactory.create_batch(2, is_admin=True)

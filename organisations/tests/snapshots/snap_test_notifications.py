@@ -30,9 +30,9 @@ hyväksymään luomansa käyttäjätunnuksen käyttöön:</p>
     <li>Perry Ltd</li>
 </ul>
 <p>Muokataksesi luotua käyttäjätunnusta,
-klikkaa <a href="http://localhost/admin/organisations/user/123/change/" target="_blank">tästä</a>!</p>
+klikkaa <a href="https://test-domain/admin/organisations/user/123/change/" target="_blank">tästä</a>!</p>
 <p>Nähdäksesi listan käyttäjistä, klikkaa
-<a href="http://localhost/admin/organisations/user/" target="_blank">tästä</a>.</p>
+<a href="https://test-domain/admin/organisations/user/" target="_blank">tästä</a>.</p>
 
     <p>Erityisviesti: custom message</p>
 """,
@@ -59,9 +59,9 @@ hyväksymään luomansa käyttäjätunnuksen käyttöön:</p>
     <li>Perry Ltd</li>
 </ul>
 <p>Muokataksesi luotua käyttäjätunnusta,
-klikkaa <a href="http://localhost/admin/organisations/user/123/change/" target="_blank">tästä</a>!</p>
+klikkaa <a href="https://test-domain/admin/organisations/user/123/change/" target="_blank">tästä</a>!</p>
 <p>Nähdäksesi listan käyttäjistä, klikkaa
-<a href="http://localhost/admin/organisations/user/" target="_blank">tästä</a>.</p>
+<a href="https://test-domain/admin/organisations/user/" target="_blank">tästä</a>.</p>
 
     <p>Erityisviesti: custom message</p>
 """,
