@@ -1,0 +1,12 @@
+<p>Hei {{person.name}}!</p>
+<p>Sinun käyttäjäsi on nyt valmis käytettäväksi Kultuksessa
+    seuraavilla organisaatioille:</p>
+<ul>
+    {% for organisation in person.organisations.all()%}
+    <li>{{organisation.name}}</li>
+    {% endfor %}
+</ul>
+
+{% if custom_message %}
+<p>Erityisviesti: {{ custom_message }}</p>
+{% endif %}

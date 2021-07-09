@@ -4,6 +4,7 @@ from __future__ import unicode_literals
 
 from snapshottest import Snapshot
 
+
 snapshots = Snapshot()
 
 snapshots["test_persons_query 1"] = {"data": {"persons": {"edges": []}}}
@@ -47,7 +48,7 @@ snapshots["test_persons_query 4"] = {
                         "language": "FI",
                         "name": "Jacqueline Salas",
                         "organisations": {
-                            "edges": [{"node": {"name": "William Brewer"}}]
+                            "edges": [{"node": {"name": "Terrell Group"}}]
                         },
                         "phoneNumber": "3202813072",
                     }
@@ -88,7 +89,7 @@ snapshots["test_person_query 4"] = {
             "emailAddress": "travis89@davis-porter.com",
             "language": "FI",
             "name": "Jacqueline Salas",
-            "organisations": {"edges": [{"node": {"name": "William Brewer"}}]},
+            "organisations": {"edges": [{"node": {"name": "Terrell Group"}}]},
             "phoneNumber": "3202813072",
         }
     }
@@ -100,7 +101,7 @@ snapshots["test_organisations_query 1"] = {
             "edges": [
                 {
                     "node": {
-                        "name": "Jose Kerr",
+                        "name": "Black Ltd",
                         "persons": {"edges": []},
                         "phoneNumber": "063.334.5773x557",
                         "publisherId": "Vxeob",
@@ -115,7 +116,7 @@ snapshots["test_organisations_query 1"] = {
 snapshots["test_organisation_query 1"] = {
     "data": {
         "organisation": {
-            "name": "Jose Kerr",
+            "name": "Black Ltd",
             "persons": {"edges": []},
             "phoneNumber": "063.334.5773x557",
             "publisherId": "Vxeob",
@@ -131,7 +132,7 @@ snapshots["test_my_profile_query 1"] = {
             "isStaff": False,
             "language": "FI",
             "name": "William Brewer",
-            "organisations": {"edges": [{"node": {"name": "Jason Berg"}}]},
+            "organisations": {"edges": [{"node": {"name": "Perry Ltd"}}]},
             "phoneNumber": "(767)124-0675x064",
         }
     }
@@ -171,23 +172,8 @@ snapshots["test_update_my_profile 1"] = {
                 "isStaff": False,
                 "language": "SV",
                 "name": "New name",
-                "organisations": {"edges": [{"node": {"name": "Jason Berg"}}]},
+                "organisations": {"edges": [{"node": {"name": "Perry Ltd"}}]},
                 "phoneNumber": "(767)124-0675x064",
-            }
-        }
-    }
-}
-
-snapshots["test_create_my_profile 1"] = {
-    "data": {
-        "createMyProfile": {
-            "myProfile": {
-                "emailAddress": "newEmail@address.com",
-                "isStaff": False,
-                "language": "EN",
-                "name": "New name",
-                "organisations": {"edges": [{"node": {"name": "Brandon Johnson"}}]},
-                "phoneNumber": "",
             }
         }
     }
@@ -200,7 +186,7 @@ snapshots["test_update_person_mutation[firstlast@example.com-True] 1"] = {
                 "emailAddress": "firstlast@example.com",
                 "language": "SV",
                 "name": "New name",
-                "organisations": {"edges": [{"node": {"name": "William Brewer"}}]},
+                "organisations": {"edges": [{"node": {"name": "Terrell Group"}}]},
                 "phoneNumber": "3202813072",
             }
         }
@@ -214,8 +200,89 @@ snapshots["test_my_profile_query 2"] = {
             "isStaff": True,
             "language": "FI",
             "name": "Andrew Coleman",
-            "organisations": {"edges": [{"node": {"name": "Jason Berg"}}]},
+            "organisations": {"edges": [{"node": {"name": "Perry Ltd"}}]},
             "phoneNumber": "+1-583-693-1796x212",
+        }
+    }
+}
+
+snapshots["test_create_my_profile 1"] = {
+    "data": {
+        "createMyProfile": {
+            "myProfile": {
+                "emailAddress": "newEmail@address.com",
+                "isStaff": False,
+                "language": "EN",
+                "name": "New name",
+                "organisationproposalSet": {
+                    "edges": [{"node": {"name": "3rd party org"}}]
+                },
+                "organisations": {"edges": [{"node": {"name": "Davis Inc"}}]},
+                "phoneNumber": "",
+            }
+        }
+    }
+}
+
+snapshots["test_organisations_query_type_filter 1"] = {
+    "data": {
+        "organisations": {
+            "edges": [
+                {
+                    "node": {
+                        "name": "Black Ltd",
+                        "persons": {"edges": []},
+                        "phoneNumber": "063.334.5773x557",
+                        "publisherId": "zVxeo",
+                        "type": "PROVIDER",
+                    }
+                },
+                {
+                    "node": {
+                        "name": "Underwood LLC",
+                        "persons": {"edges": []},
+                        "phoneNumber": "649-763-8034x669",
+                        "publisherId": "ThbUS",
+                        "type": "PROVIDER",
+                    }
+                },
+                {
+                    "node": {
+                        "name": "Sherman LLC",
+                        "persons": {"edges": []},
+                        "phoneNumber": "159.102.3202x8130",
+                        "publisherId": "yiWRb",
+                        "type": "PROVIDER",
+                    }
+                },
+            ]
+        }
+    }
+}
+
+snapshots["test_organisations_query_type_filter 2"] = {
+    "data": {
+        "organisations": {
+            "edges": [
+                {
+                    "node": {
+                        "name": "Walls-Roy",
+                        "persons": {"edges": []},
+                        "phoneNumber": "123-447-4468",
+                        "publisherId": "KQItj",
+                        "type": "USER",
+                    }
+                },
+                {
+                    "node": {
+                        "name": "Weber-Johnson",
+                        "persons": {"edges": []},
+                        "phoneNumber": "4883019054",
+                        "publisherId": "AmjOn",
+                        "type": "USER",
+                    }
+                },
+            ]
         }
     }
 }

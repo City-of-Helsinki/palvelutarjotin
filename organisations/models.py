@@ -3,6 +3,10 @@ from django.contrib.auth import get_user_model
 from django.db import models
 from django.utils.translation import ugettext_lazy as _
 from helusers.models import AbstractUser
+from organisations.services import (
+    send_myprofile_creation_notification_to_admins,
+    send_myprofile_organisations_accepted_notification,
+)
 
 from common.models import TimestampedModel, UUIDPrimaryKeyModel
 
@@ -20,6 +24,8 @@ class PersonQuerySet(models.QuerySet):
 
 class User(AbstractUser):
 
+    is_admin = models.BooleanField(_("admin status"), default=False)
+
     # When creating an user, the name and the email can be left to blank.
     # In those cases, return username.
     def __str__(self):
@@ -31,6 +37,9 @@ class User(AbstractUser):
     class Meta:
         verbose_name = _("user")
         verbose_name_plural = _("users")
+        permissions = [
+            ("can_administrate_user_permissions", "Can administrate user permissions",),
+        ]
 
 
 class Organisation(models.Model):
@@ -65,6 +74,38 @@ class Organisation(models.Model):
         return user.person.organisations.filter(id=self.id).exists()
 
 
+class OrganisationProposal(models.Model):
+    """
+    When a member of a 3rd party organisation registers
+    to the API from the providers UI, he can make a proposal to add
+    a new 3rd party organisation.
+    NOTE: Since the process is still quite unclear, the proposals and
+    and 3rd party organisation wishes can be collected with this model
+    and stored in database as detached. The use case is that an admin can
+    see which organisation the new user likes to represent and then
+    the real organisation.Organisation instance can be created
+    (if necessary and not yet done) and linked to the user.
+    """
+
+    name = models.CharField(max_length=255, verbose_name=_("name"))
+    description = models.CharField(
+        max_length=255, verbose_name=_("description"), blank=True
+    )
+    phone_number = models.CharField(
+        verbose_name=_("phone number"), max_length=64, blank=True
+    )
+    applicant = models.ForeignKey(
+        "Person", verbose_name=_("applicant"), on_delete=models.CASCADE
+    )
+
+    class Meta:
+        verbose_name = _("organisation proposal")
+        verbose_name_plural = _("organisation proposals")
+
+    def __str__(self):
+        return f"{self.id} {self.name}"
+
+
 class Person(UUIDPrimaryKeyModel, TimestampedModel):
     user = models.OneToOneField(
         get_user_model(),
@@ -89,6 +130,9 @@ class Person(UUIDPrimaryKeyModel, TimestampedModel):
         verbose_name_plural = _("persons")
 
     def __str__(self):
+        username = self.user.username if self.user else None
+        if username:
+            return f"{self.name} ({username})"
         return f"{self.name}"
 
     def is_editable_by_user(self, user):
@@ -96,4 +140,14 @@ class Person(UUIDPrimaryKeyModel, TimestampedModel):
             user.person.organisations.get_queryset()
             .intersection(self.organisations.get_queryset())
             .exists()
+        )
+
+    def notify_myprofile_creation(self, custom_message=None):
+        send_myprofile_creation_notification_to_admins(
+            self, custom_message=custom_message,
+        )
+
+    def notify_myprofile_accepted(self, custom_message=None):
+        send_myprofile_organisations_accepted_notification(
+            self, custom_message=custom_message
         )

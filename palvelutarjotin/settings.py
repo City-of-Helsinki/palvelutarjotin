@@ -24,6 +24,7 @@ env = environ.Env(
     STATIC_ROOT=(environ.Path(), default_var_root("static")),
     MEDIA_URL=(str, "/media/"),
     STATIC_URL=(str, "/static/"),
+    ENVIRONMENT_URL=(str, "http://localhost"),
     ALLOWED_HOSTS=(list, []),
     USE_X_FORWARDED_HOST=(bool, False),
     DATABASE_URL=(
@@ -232,6 +233,7 @@ OIDC_API_TOKEN_AUTH = {
 OIDC_AUTH = {"OIDC_LEEWAY": 60 * 60}
 
 SITE_ID = 1
+SITE_URL = env.str("ENVIRONMENT_URL")
 
 PARLER_LANGUAGES = {
     SITE_ID: ({"code": "fi"}, {"code": "sv"}, {"code": "en"}),
@@ -269,6 +271,13 @@ LOGGING = {
     "handlers": {"console": {"class": "logging.StreamHandler"}},
     "loggers": {"django": {"handlers": ["console"], "level": "ERROR"}},
 }
+
+if DEBUG is True:
+    LOGGING["loggers"] = {
+        "django": {"handlers": ["console"], "level": "WARNING"},
+        "occurrences": {"handlers": ["console"], "level": "DEBUG"},
+        "organisations": {"handlers": ["console"], "level": "DEBUG"},
+    }
 
 CAPTCHA_ENABLED = env.bool("CAPTCHA_ENABLED")
 RECAPTCHA_SECRET_KEY = env.str("RECAPTCHA_SECRET_KEY")

@@ -1,6 +1,6 @@
 import factory
 from django.contrib.auth import get_user_model
-from organisations.models import Organisation, Person
+from organisations.models import Organisation, OrganisationProposal, Person
 
 
 class UserFactory(factory.django.DjangoModelFactory):
@@ -35,7 +35,7 @@ class PersonFactory(factory.django.DjangoModelFactory):
 
 
 class OrganisationFactory(factory.django.DjangoModelFactory):
-    name = factory.Faker("name")
+    name = factory.Faker("company")
     phone_number = factory.Faker("phone_number")
     type = factory.Faker(
         "random_element", elements=[t[0] for t in Organisation.ORGANISATION_TYPES],
@@ -44,3 +44,13 @@ class OrganisationFactory(factory.django.DjangoModelFactory):
 
     class Meta:
         model = Organisation
+
+
+class OrganisationProposalFactory(factory.django.DjangoModelFactory):
+    name = factory.Faker("company")
+    description = factory.Faker("text", max_nb_chars=255)
+    phone_number = factory.Faker("phone_number")
+    applicant = factory.SubFactory(PersonFactory)
+
+    class Meta:
+        model = OrganisationProposal

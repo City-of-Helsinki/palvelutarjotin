@@ -5,9 +5,10 @@ from django.core.validators import validate_email
 from django.db import transaction
 from graphene import Boolean, InputObjectType, relay
 from graphene_django import DjangoConnectionField
+from graphene_django.filter import DjangoFilterConnectionField
 from graphene_django.types import DjangoObjectType
 from graphql_jwt.decorators import login_required, superuser_required
-from organisations.models import Organisation, Person
+from organisations.models import Organisation, OrganisationProposal, Person
 
 from common.utils import get_node_id_from_global_id, LanguageEnum, update_object
 from palvelutarjotin.exceptions import (
@@ -33,7 +34,7 @@ class PersonNode(DjangoObjectType):
 
     def resolve_is_staff(self, info, **kwargs):
         try:
-            return self.user.is_staff
+            return self.user.is_staff if self.user else False
         # Contact person sharing the same Person model so it doesn't have user
         except User.DoesNotExist:
             return False
@@ -50,7 +51,20 @@ class PersonNodeInput(InputObjectType):
 class OrganisationNode(DjangoObjectType):
     class Meta:
         model = Organisation
+        filter_fields = ["type"]
         interfaces = (relay.Node,)
+
+
+class OrganisationProposalNode(DjangoObjectType):
+    class Meta:
+        model = OrganisationProposal
+        interfaces = (relay.Node,)
+
+
+class OrganisationProposalNodeInput(InputObjectType):
+    name = graphene.String(required=True)
+    description = graphene.String()
+    phone_number = graphene.String()
 
 
 def validate_person_data(kwargs):
@@ -67,6 +81,11 @@ class CreateMyProfileMutation(graphene.relay.ClientIDMutation):
         phone_number = graphene.String()
         email_address = graphene.String(required=True)
         organisations = graphene.List(graphene.ID)
+        organisation_proposals = graphene.List(
+            OrganisationProposalNodeInput,
+            description="Propose a new organisation being added. "
+            + "Used with 3rd party organisations",
+        )
         language = LanguageEnum(description="Default `fi`")
 
     my_profile = graphene.Field(PersonNode)
@@ -78,11 +97,25 @@ class CreateMyProfileMutation(graphene.relay.ClientIDMutation):
         user = info.context.user
         if Person.objects.filter(user=user).exists():
             raise ApiUsageError("User profile already exists")
+        kwargs["user_id"] = user.id
         validate_person_data(kwargs)
         organisation_ids = kwargs.pop("organisations", None)
-        kwargs["user_id"] = user.id
+        organisation_proposals_data = kwargs.pop("organisation_proposals", None)
         person = Person.objects.create(**kwargs)
+        if organisation_proposals_data:
+            cls._set_organisation_proposals(organisation_proposals_data, person)
         if organisation_ids:
+            cls._set_person_organisations(organisation_ids, person)
+        person.notify_myprofile_creation()
+        return CreateMyProfileMutation(my_profile=person)
+
+    def _set_organisation_proposals(organisation_proposals_data, person):
+        if organisation_proposals_data and person:
+            for organisation_proposal_data in organisation_proposals_data:
+                person.organisationproposal_set.create(**organisation_proposal_data)
+
+    def _set_person_organisations(organisation_ids, person):
+        if organisation_ids and person:
             for org_global_id in organisation_ids:
                 org_id = get_node_id_from_global_id(org_global_id, "OrganisationNode")
                 try:
@@ -90,7 +123,6 @@ class CreateMyProfileMutation(graphene.relay.ClientIDMutation):
                 except Organisation.DoesNotExist as e:
                     raise ObjectDoesNotExistError(e)
                 person.organisations.add(organisation)
-        return CreateMyProfileMutation(my_profile=person)
 
 
 class UpdateMyProfileMutation(graphene.relay.ClientIDMutation):
@@ -120,6 +152,12 @@ class UpdateMyProfileMutation(graphene.relay.ClientIDMutation):
 
         update_object(person, kwargs)
         if organisation_ids:
+            cls._set_person_organisations(organisation_ids, person)
+
+        return UpdateMyProfileMutation(my_profile=person)
+
+    def _set_person_organisations(organisation_ids, person):
+        if organisation_ids and person:
             person.organisations.clear()
             for org_global_id in organisation_ids:
                 org_id = get_node_id_from_global_id(org_global_id, "OrganisationNode")
@@ -128,8 +166,6 @@ class UpdateMyProfileMutation(graphene.relay.ClientIDMutation):
                 except Organisation.DoesNotExist as e:
                     raise ObjectDoesNotExistError(e)
                 person.organisations.add(organisation)
-
-        return UpdateMyProfileMutation(my_profile=person)
 
 
 class OrganisationTypeEnum(graphene.Enum):
@@ -224,7 +260,7 @@ class Query:
     persons = DjangoConnectionField(PersonNode)
 
     organisation = relay.Node.Field(OrganisationNode)
-    organisations = DjangoConnectionField(OrganisationNode)
+    organisations = DjangoFilterConnectionField(OrganisationNode)
 
     @staticmethod
     @login_required

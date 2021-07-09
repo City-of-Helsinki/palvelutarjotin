@@ -1,11 +1,17 @@
 from copy import deepcopy
 
 import pytest
+from django.core import mail
 from graphql_relay import to_global_id
-from organisations.factories import OrganisationFactory, PersonFactory
+from organisations.factories import OrganisationFactory, PersonFactory, UserFactory
+from organisations.models import Organisation
 
 from common.tests.utils import assert_match_error_code, assert_permission_denied
-from palvelutarjotin.consts import API_USAGE_ERROR, INVALID_EMAIL_FORMAT_ERROR
+from palvelutarjotin.consts import (
+    API_USAGE_ERROR,
+    INVALID_EMAIL_FORMAT_ERROR,
+    OBJECT_DOES_NOT_EXIST_ERROR,
+)
 
 
 @pytest.fixture(autouse=True)
@@ -54,8 +60,8 @@ query Person($id:ID!){
 """
 
 ORGANISATIONS_QUERY = """
-query Organisations{
-  organisations{
+query Organisations($type : String){
+  organisations(type:$type) {
     edges{
       node{
         publisherId
@@ -102,12 +108,12 @@ query myProfile{
     language
     isStaff
     organisations{
-         edges{
-             node{
-                 name
-             }
-         }
-      }
+        edges{
+            node{
+                name
+            }
+        }
+    }
   }
 }
 """
@@ -157,16 +163,30 @@ mutation createMyProfileMutation($input: CreateMyProfileMutationInput!){
              }
          }
       }
+      organisationproposalSet{
+        edges{
+          node{
+            name
+          }
+        }
+      }
     }
   }
 }
 """
+
+CREATE_ORGANISATION_PROPOSAL_VARIABLES = {
+    "name": "3rd party org",
+    "description": "Description about 3rd party org.",
+    "phoneNumber": "1234567890",
+}
 
 CREATE_MY_PROFILE_VARIABLES = {
     "input": {
         "name": "New name",
         "emailAddress": "newEmail@address.com",
         "language": "EN",
+        "organisationProposals": [CREATE_ORGANISATION_PROPOSAL_VARIABLES],
     }
 }
 
@@ -276,6 +296,16 @@ def test_organisations_query(snapshot, api_client, organisation):
     snapshot.assert_match(executed)
 
 
+@pytest.mark.django_db
+def test_organisations_query_type_filter(snapshot, api_client):
+    OrganisationFactory.create_batch(3, type=Organisation.TYPE_PROVIDER)
+    OrganisationFactory.create_batch(2, type=Organisation.TYPE_USER)
+    executed = api_client.execute(ORGANISATIONS_QUERY, variables={"type": "provider"})
+    snapshot.assert_match(executed)
+    executed = api_client.execute(ORGANISATIONS_QUERY, variables={"type": "user"})
+    snapshot.assert_match(executed)
+
+
 def test_organisation_query(snapshot, api_client, organisation):
     executed = api_client.execute(
         ORGANISATION_QUERY,
@@ -313,6 +343,32 @@ def test_create_my_profile(snapshot, user_api_client, person_api_client, organis
     snapshot.assert_match(executed)
 
 
+def test_create_my_profile_sends_mail_to_admins(
+    snapshot,
+    user_api_client,
+    organisation,
+    notification_template_myprofile_creation_fi,
+    notification_template_myprofile_creation_en,
+):
+    UserFactory.create_batch(3, is_admin=True)
+    variables = deepcopy(CREATE_MY_PROFILE_VARIABLES)
+    variables["input"]["organisations"] = [
+        to_global_id("OrganisationNode", organisation.id),
+    ]
+    user_api_client.execute(CREATE_MY_PROFILE_MUTATION, variables=variables)
+    assert len(mail.outbox) == 3
+
+
+def test_create_profile_with_deleted_organisation(user_api_client, organisation):
+    variables = deepcopy(CREATE_MY_PROFILE_VARIABLES)
+    variables["input"]["organisations"] = [
+        to_global_id("OrganisationNode", organisation.id),
+    ]
+    organisation.delete()
+    executed = user_api_client.execute(CREATE_MY_PROFILE_MUTATION, variables=variables)
+    assert_match_error_code(executed, OBJECT_DOES_NOT_EXIST_ERROR)
+
+
 def test_update_my_profile(snapshot, person_api_client, organisation):
     person_api_client.user.person.organisations.add(
         OrganisationFactory(name="old organisation")
@@ -325,6 +381,21 @@ def test_update_my_profile(snapshot, person_api_client, organisation):
         UPDATE_MY_PROFILE_MUTATION, variables=variables
     )
     snapshot.assert_match(executed)
+
+
+def test_update_profile_with_deleted_organisation(person_api_client, organisation):
+    person_api_client.user.person.organisations.add(
+        OrganisationFactory(name="old organisation")
+    )
+    variables = deepcopy(UPDATE_MY_PROFILE_VARIABLES)
+    variables["input"]["organisations"] = [
+        to_global_id("OrganisationNode", organisation.id),
+    ]
+    organisation.delete()
+    executed = person_api_client.execute(
+        UPDATE_MY_PROFILE_MUTATION, variables=variables
+    )
+    assert_match_error_code(executed, OBJECT_DOES_NOT_EXIST_ERROR)
 
 
 def test_update_person_mutation_unauthorized(
