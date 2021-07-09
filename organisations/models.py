@@ -3,6 +3,7 @@ from django.contrib.auth import get_user_model
 from django.db import models
 from django.utils.translation import ugettext_lazy as _
 from helusers.models import AbstractUser
+from organisations.services import send_myprofile_creation_notification_to_admins
 
 from common.models import TimestampedModel, UUIDPrimaryKeyModel
 
@@ -20,6 +21,8 @@ class PersonQuerySet(models.QuerySet):
 
 class User(AbstractUser):
 
+    is_admin = models.BooleanField(_("admin status"), default=False)
+
     # When creating an user, the name and the email can be left to blank.
     # In those cases, return username.
     def __str__(self):
@@ -31,6 +34,9 @@ class User(AbstractUser):
     class Meta:
         verbose_name = _("user")
         verbose_name_plural = _("users")
+        permissions = [
+            ("can_administrate_user_permissions", "Can administrate user permissions",),
+        ]
 
 
 class Organisation(models.Model):
@@ -131,4 +137,9 @@ class Person(UUIDPrimaryKeyModel, TimestampedModel):
             user.person.organisations.get_queryset()
             .intersection(self.organisations.get_queryset())
             .exists()
+        )
+
+    def notify_myprofile_creation(self, custom_message=None):
+        send_myprofile_creation_notification_to_admins(
+            self, custom_message=custom_message,
         )

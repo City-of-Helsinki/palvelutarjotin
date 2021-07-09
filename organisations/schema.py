@@ -104,6 +104,7 @@ class CreateMyProfileMutation(graphene.relay.ClientIDMutation):
             cls._set_organisation_proposals(organisation_proposals_data, person)
         if organisation_ids:
             cls._set_person_organisations(organisation_ids, person)
+        person.notify_myprofile_creation()
         return CreateMyProfileMutation(my_profile=person)
 
     def _set_organisation_proposals(organisation_proposals_data, person):

@@ -24,6 +24,7 @@ env = environ.Env(
     STATIC_ROOT=(environ.Path(), default_var_root("static")),
     MEDIA_URL=(str, "/media/"),
     STATIC_URL=(str, "/static/"),
+    ENVIRONMENT_URL=(str, "http://localhost"),
     ALLOWED_HOSTS=(list, []),
     USE_X_FORWARDED_HOST=(bool, False),
     DATABASE_URL=(
@@ -232,6 +233,7 @@ OIDC_API_TOKEN_AUTH = {
 OIDC_AUTH = {"OIDC_LEEWAY": 60 * 60}
 
 SITE_ID = 1
+SITE_URL = env.str("ENVIRONMENT_URL")
 
 PARLER_LANGUAGES = {
     SITE_ID: ({"code": "fi"}, {"code": "sv"}, {"code": "en"}),

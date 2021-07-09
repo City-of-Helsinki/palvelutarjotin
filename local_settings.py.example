@@ -1,0 +1,2 @@
+DATABASE_URL = "postgres://kultus:kultus@localhost/kultus:5434"
+ENVIRONMENT_URL = "http://localhost:8000"

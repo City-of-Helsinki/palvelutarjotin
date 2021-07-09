@@ -1,8 +1,9 @@
 from copy import deepcopy
 
 import pytest
+from django.core import mail
 from graphql_relay import to_global_id
-from organisations.factories import OrganisationFactory, PersonFactory
+from organisations.factories import OrganisationFactory, PersonFactory, UserFactory
 
 from common.tests.utils import assert_match_error_code, assert_permission_denied
 from palvelutarjotin.consts import (
@@ -329,6 +330,22 @@ def test_create_my_profile(snapshot, user_api_client, person_api_client, organis
 
     executed = user_api_client.execute(CREATE_MY_PROFILE_MUTATION, variables=variables)
     snapshot.assert_match(executed)
+
+
+def test_create_my_profile_sends_mail_to_admins(
+    snapshot,
+    user_api_client,
+    organisation,
+    notification_template_myprofile_creation_fi,
+    notification_template_myprofile_creation_en,
+):
+    UserFactory.create_batch(3, is_admin=True)
+    variables = deepcopy(CREATE_MY_PROFILE_VARIABLES)
+    variables["input"]["organisations"] = [
+        to_global_id("OrganisationNode", organisation.id),
+    ]
+    user_api_client.execute(CREATE_MY_PROFILE_MUTATION, variables=variables)
+    assert len(mail.outbox) == 3
 
 
 def test_create_profile_with_deleted_organisation(user_api_client, organisation):

@@ -768,7 +768,7 @@ snapshots["test_update_event 1"] = {
                         "linkedEventId": "qq:afy6aghr2y",
                         "mandatoryAdditionalInformation": True,
                         "neededOccurrences": 1,
-                        "organisation": {"name": "Deborah Cardenas"},
+                        "organisation": {"name": "Baker, Cardenas and Cruz"},
                     },
                     "shortDescription": {
                         "en": "short desc en",
@@ -903,7 +903,7 @@ snapshots["test_create_event 1"] = {
                         "linkedEventId": "qq:afy6aghr2y",
                         "mandatoryAdditionalInformation": True,
                         "neededOccurrences": 1,
-                        "organisation": {"name": "Deborah Cardenas"},
+                        "organisation": {"name": "Baker, Cardenas and Cruz"},
                     },
                     "shortDescription": {
                         "en": "short desc en",

@@ -108,11 +108,27 @@ class UserAdminForm(UserChangeForm):
         queryset=Organisation.objects.all(),
         required=False,
         widget=FilteredSelectMultiple(verbose_name="Organisations", is_stacked=False),
+        help_text=_(
+            "Select organisations to link them with the user's person relation. "
+            + "The organisations selection is disabled "
+            + "when the user is not linked to any person instance."
+        ),
     )
 
     class Meta:
         model = User
         fields = "__all__"
+        help_texts = {
+            "is_staff": _(
+                "Gives the user the permissions to be a provider "
+                + "and create and edit the events. "
+                + "Designates whether the user can log into this admin site."
+            ),
+            "is_admin": _(
+                "Designates whether the user can administrate the providers users. "
+                + "Admins also receives some administrative emails."
+            ),
+        }
 
     def __init__(self, *args, **kwargs):
         super(UserAdminForm, self).__init__(*args, **kwargs)
@@ -138,17 +154,63 @@ class UserAdminForm(UserChangeForm):
 
 @admin.register(get_user_model())
 class UserAdmin(DjangoUserAdmin):
-    fieldsets = DjangoUserAdmin.fieldsets + (
-        ("UUID", {"fields": ("uuid",)}),
-        ("AD Groups", {"fields": ("ad_groups",)}),
-        ("Organisations", {"fields": ("organisation_proposals", "organisations",)}),
+    fieldsets = (
+        (None, {"fields": ("username", "password")}),
+        (_("Personal info"), {"fields": ("first_name", "last_name", "email")}),
+        (
+            _("Permissions"),
+            {
+                "fields": (
+                    "is_active",
+                    "is_staff",
+                    "is_admin",
+                    "organisation_proposals",
+                    "organisations",
+                ),
+            },
+        ),
+        (
+            _("Advanced permission settings"),
+            {
+                "fields": ("is_superuser", "groups", "user_permissions",),
+                "classes": ["collapse in"],
+            },
+        ),
+        (
+            _("Other information"),
+            {
+                "fields": ("last_login", "date_joined", "uuid", "ad_groups"),
+                "classes": ["collapse in"],
+            },
+        ),
     )
-    list_display = DjangoUserAdmin.list_display + ("date_joined", "has_person")
-    list_filter = ("date_joined",) + DjangoUserAdmin.list_filter
-    readonly_fields = ("uuid", "ad_groups", "organisation_proposals")
+    list_display = DjangoUserAdmin.list_display + ("date_joined", "has_person",)
+    list_filter = ("date_joined", "is_staff", "is_admin", "is_superuser", "is_active")
+
+    readonly_fields = (
+        "last_login",  # "last_login" is a nice to know, but shouldn't be editable
+        "date_joined",  # "date_joined" is a nice to know, but shouldn't be editable
+        "uuid",
+        "ad_groups",
+        "organisation_proposals",
+    )
     ordering = ("-date_joined",)
     date_hierarchy = "date_joined"
     form = UserAdminForm
+
+    def get_readonly_fields(self, request, obj=None):
+        """
+        Staff (not superusers) should not manage perms of Users.
+        """
+        readonly_fields = super(UserAdmin, self).get_readonly_fields(request, obj)
+        if not request.user.has_perm("organisations.can_administrate_user_permissions"):
+            readonly_fields += (
+                "username",
+                "is_superuser",
+                "groups",
+                "user_permissions",
+            )
+        return readonly_fields
 
     def has_person(self, obj):
         try:
@@ -160,6 +222,8 @@ class UserAdmin(DjangoUserAdmin):
 
     def organisation_proposals(self, obj):
         if obj.person:
-            organisation_proposals = obj.person.organisationproposal_set.all()
+            organisation_proposals = obj.person.organisationproposal_set.all().order_by(
+                "name"
+            )
             return ", ".join([org.name for org in organisation_proposals])
         return None

@@ -1,0 +1,34 @@
+<p>Hyvä Kultus ylläpitäjä!</p>
+<p>Uusi palveluntarjoajan tunnus on luotu!</p>
+<address>
+    {{person.name}}<br />
+    <a href="mailto:{{person.email_address}}">{{person.email_address}}</a>
+    Käyttäjätunnus: {{person.user.username}}
+</address>
+<p>
+    Palveluntarjoaja tarvitsee ylläpitäjää (sinua) hyväksymään luomansa
+    käyttäjätunnuksen käyttöön:
+</p>
+<ol>
+    <li>Luo puuttuvat organisaatiot LinkedEventsiin</li>
+    <li>Luo puuttuvat organisaatiot Kultukseen</li>
+    <li>Liitä organisaatiot käyttäjään</li>
+    <li>
+        Lisää käyttäjälle staff-lippu, jotta hän saisi oikeudet luoda ja muokata
+        tapahtumia.
+    </li>
+</ol>
+<p>Käyttäjä haluaisi edustaa seuraavia organisaatioita:</p>
+<ul>
+    {% for organisation in person.organisationproposal_set.all() %}
+    <li>{{organisation.name}}</li>
+    {% endfor %}
+</ul>
+<p>
+    Muokataksesi luotua käyttäjätunnusta, klikkaa
+    <a href="{{user_change_form_url}}" target="_blank">tästä</a>!
+</p>
+<p>
+    Nähdäksesi listan käyttäjistä, klikkaa
+    <a href="{{user_list_url}}" target="_blank">tästä</a>.
+</p>
