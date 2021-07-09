@@ -16,27 +16,38 @@ if TYPE_CHECKING:
     from organisations.models import Person
 
 
+def get_user_change_form_url(person: Person, domain=settings.SITE_URL):
+    return domain + reverse("admin:organisations_user_change", args=(person.id,))
+
+
+def get_user_list_url(domain=settings.SITE_URL):
+    return domain + reverse("admin:organisations_user_changelist")
+
+
+def get_admin_emails():
+    return list(
+        get_user_model().objects.filter(is_admin=True).values_list("email", flat=True)
+    )
+
+
 def send_myprofile_creation_notification_to_admins(person: Person, **kwargs):
     """
     Notify the admins about a new user creation.
     """
-    admins = get_user_model().objects.filter(is_admin=True)
 
-    user_change_form_url = settings.SITE_URL + reverse(
-        "admin:organisations_user_change", args=(person.id,)
-    )
-    user_list_url = settings.SITE_URL + reverse("admin:organisations_user_changelist")
+    admin_emails = get_admin_emails()
 
     context = {
         "person": person,
-        "user_change_form_url": user_change_form_url,
-        "user_list_url": user_list_url,
+        "user_change_form_url": get_user_change_form_url(person, settings.SITE_URL),
+        "user_list_url": get_user_list_url(settings.SITE_URL),
         **kwargs,
     }
-    for admin in admins:
+
+    for admin_email in admin_emails:
         # TODO: Send notification based on admin user's language
         send_notification(
-            admin.email, NotificationTemplate.MYPROFILE_CREATION, context=context,
+            admin_email, NotificationTemplate.MYPROFILE_CREATION, context=context,
         )
 
 
