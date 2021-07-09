@@ -5,6 +5,7 @@ from django.core.validators import validate_email
 from django.db import transaction
 from graphene import Boolean, InputObjectType, relay
 from graphene_django import DjangoConnectionField
+from graphene_django.filter import DjangoFilterConnectionField
 from graphene_django.types import DjangoObjectType
 from graphql_jwt.decorators import login_required, superuser_required
 from organisations.models import Organisation, OrganisationProposal, Person
@@ -50,6 +51,7 @@ class PersonNodeInput(InputObjectType):
 class OrganisationNode(DjangoObjectType):
     class Meta:
         model = Organisation
+        filter_fields = ["type"]
         interfaces = (relay.Node,)
 
 
@@ -258,7 +260,7 @@ class Query:
     persons = DjangoConnectionField(PersonNode)
 
     organisation = relay.Node.Field(OrganisationNode)
-    organisations = DjangoConnectionField(OrganisationNode)
+    organisations = DjangoFilterConnectionField(OrganisationNode)
 
     @staticmethod
     @login_required
