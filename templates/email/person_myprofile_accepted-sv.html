@@ -1,0 +1,12 @@
+<p>Hi {{person.name}}!</p>
+<p>Your account is now ready to be used in Kultus
+    with the following organisations linked to your account:</p>
+<ul>
+    {% for organisation in person.organisations.all()%}
+    <li>{{organisation.name}}</li>
+    {% endfor %}
+</ul>
+
+{% if custom_message %}
+<p>Custom message: {{ custom_message }}</p>
+{% endif %}

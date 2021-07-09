@@ -3,7 +3,7 @@ from organisations.consts import NotificationTemplate
 
 from common.tests.utils import create_notification_template_in_language
 
-DEFAULT_NOTIFICATION_BODY_TEXT_FI = """
+MYPROFILE_CREATED_NOTIFICATION_BODY_TEXT_FI = """
 <p>Hyvä Kultus ylläpitäjä!</p>
 <p>Uusi palveluntarjoajan tunnus on luotu!</p>
 <address>
@@ -32,17 +32,17 @@ klikkaa <a href="{{user_change_form_url}}" target="_blank">tästä</a>!</p>
 <a href="{{user_list_url}}" target="_blank">tästä</a>.</p>
 """
 
-NOTIFICATION_WITH_CUSTOM_MESSAGE_TEXT_FI = (
-    DEFAULT_NOTIFICATION_BODY_TEXT_FI
+MYPROFILE_CREATED_NOTIFICATION_WITH_CUSTOM_MESSAGE_TEXT_FI = (
+    MYPROFILE_CREATED_NOTIFICATION_BODY_TEXT_FI
     + """
     {% if custom_message %}
-    Erityisviesti: {{ custom_message }}
+    <p>Erityisviesti: {{ custom_message }}</p>
     {% endif %}
 """
 )
 
 
-DEFAULT_NOTIFICATION_BODY_TEXT_EN = """
+MYPROFILE_CREATED_NOTIFICATION_BODY_TEXT_EN = """
 <p>Dear Kultus Admin!</p>
 <p>A new Kultus provider user profile is created!</p>
 <address>
@@ -71,11 +71,11 @@ click <a href="{{user_change_form_url}}" target="_blank">here</a>!</p>
 <a href="{{user_list_url}}" target="_blank">here</a>.</p>
 """
 
-NOTIFICATION_WITH_CUSTOM_MESSAGE_TEXT_EN = (
-    DEFAULT_NOTIFICATION_BODY_TEXT_EN
+MYPROFILE_CREATED_NOTIFICATION_WITH_CUSTOM_MESSAGE_TEXT_EN = (
+    MYPROFILE_CREATED_NOTIFICATION_BODY_TEXT_EN
     + """
     {% if custom_message %}
-    Custom message: {{ custom_message }}
+    <p>Custom message: {{ custom_message }}</p>
     {% endif %}
 """
 )
@@ -87,7 +87,7 @@ def notification_template_myprofile_creation_fi():
         NotificationTemplate.MYPROFILE_CREATION,
         "fi",
         subject="My profile creation FI",
-        body_text=DEFAULT_NOTIFICATION_BODY_TEXT_FI,
+        body_text=MYPROFILE_CREATED_NOTIFICATION_WITH_CUSTOM_MESSAGE_TEXT_FI,
     )
 
 
@@ -97,5 +97,64 @@ def notification_template_myprofile_creation_en():
         NotificationTemplate.MYPROFILE_CREATION,
         "en",
         subject="My profile creation EN",
-        body_text=NOTIFICATION_WITH_CUSTOM_MESSAGE_TEXT_EN,
+        body_text=MYPROFILE_CREATED_NOTIFICATION_WITH_CUSTOM_MESSAGE_TEXT_EN,
+    )
+
+
+MYPROFILE_ACCEPTED_NOTIFICATION_BODY_TEXT_FI = """
+<p>Hei {{person.name}}!</p>
+<p>Sinun käyttäjäsi on nyt valmis käytettäväksi Kultuksessa
+seuraavilla organisaatioille:</p>
+<ul>
+    {% for organisation in person.organisations.all()%}
+    <li>{{organisation.name}}</li>
+    {% endfor %}
+</ul>
+"""
+MYPROFILE_ACCEPTED_NOTIFICATION_WITH_CUSTOM_MESSAGE_TEXT_FI = (
+    MYPROFILE_ACCEPTED_NOTIFICATION_BODY_TEXT_FI
+    + """
+    {% if custom_message %}
+    <p>Erityisviesti: {{ custom_message }}</p>
+    {% endif %}
+    """
+)
+
+MYPROFILE_ACCEPTED_NOTIFICATION_BODY_TEXT_EN = """
+<p>Hi {{person.name}}!</p>
+<p>Your account is now ready to be used in Kultus
+with the following organisations linked to your account:</p>
+<ul>
+    {% for organisation in person.organisations.all()%}
+    <li>{{organisation.name}}</li>
+    {% endfor %}
+</ul>
+"""
+MYPROFILE_ACCEPTED_NOTIFICATION_WITH_CUSTOM_MESSAGE_TEXT_EN = (
+    MYPROFILE_ACCEPTED_NOTIFICATION_BODY_TEXT_EN
+    + """
+    {% if custom_message %}
+    <p>Custom message: {{ custom_message }}</p>
+    {% endif %}
+    """
+)
+
+
+@pytest.fixture
+def notification_template_myprofile_accepted_fi():
+    return create_notification_template_in_language(
+        NotificationTemplate.MYPROFILE_ACCEPTED,
+        "fi",
+        subject="My profile accepted FI",
+        body_text=MYPROFILE_ACCEPTED_NOTIFICATION_WITH_CUSTOM_MESSAGE_TEXT_FI,
+    )
+
+
+@pytest.fixture
+def notification_template_myprofile_accepted_en():
+    return create_notification_template_in_language(
+        NotificationTemplate.MYPROFILE_ACCEPTED,
+        "en",
+        subject="My profile accepted EN",
+        body_text=MYPROFILE_ACCEPTED_NOTIFICATION_WITH_CUSTOM_MESSAGE_TEXT_EN,
     )

@@ -1,5 +1,5 @@
 from django import forms
-from django.contrib import admin
+from django.contrib import admin, messages
 from django.contrib.admin.widgets import FilteredSelectMultiple
 from django.contrib.auth import get_user_model
 from django.contrib.auth.admin import UserAdmin as DjangoUserAdmin
@@ -198,6 +198,38 @@ class UserAdmin(DjangoUserAdmin):
     date_hierarchy = "date_joined"
     form = UserAdminForm
 
+    def save_form(self, request, form, change):
+        """
+        Given a ModelForm return an unsaved instance. ``change`` is True if
+        the object is being changed, and False if it's being added.
+        Overridden so the request could be combined with the model instance save
+        and we could write a message about a mail is being sent.
+        """
+
+        original_user = form.instance
+
+        should_notify = self._has_organisations_changed(
+            original_user.person, form
+        ) or self._has_is_staff_changed(form)
+
+        user = super(UserAdmin, self).save_form(request, form, change)
+
+        # When user is linked to a person...
+        if self.has_person(user):
+            # And the organisations or is_staff status are changed...
+            if should_notify:
+                # And the edited user is accepted as a provider,
+                # since he is a staff member...
+                if user.is_staff:
+                    # And he is linked to some organisations...
+                    if user.person.organisations.count() > 0:
+                        # And the user instance is different than the current user..
+                        if user.id != request.user.id:
+                            self._notify_user_of_account_activation(request, form)
+
+        # Return the return value of the original save_form -method.
+        return user
+
     def get_readonly_fields(self, request, obj=None):
         """
         Staff (not superusers) should not manage perms of Users.
@@ -227,3 +259,28 @@ class UserAdmin(DjangoUserAdmin):
             )
             return ", ".join([org.name for org in organisation_proposals])
         return None
+
+    def _has_organisations_changed(self, person, form):
+        return (
+            bool(
+                sorted(list(person.organisations.all().values_list("id", flat=True)))
+                != sorted([org.id for org in form.cleaned_data["organisations"]])
+            )
+            if person
+            else False
+        )
+
+    def _has_is_staff_changed(self, form):
+        return bool("is_staff" in form.changed_data)
+
+    def _notify_user_of_account_activation(self, request, form):
+
+        user = form.instance
+
+        # Send a mail to the accepted user
+        user.person.notify_myprofile_accepted()
+
+        # Info about the sent mail
+        messages.add_message(
+            request, messages.INFO, "Email is sent to an user about the organisation",
+        )

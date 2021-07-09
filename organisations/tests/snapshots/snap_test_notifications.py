@@ -32,7 +32,10 @@ hyväksymään luomansa käyttäjätunnuksen käyttöön:</p>
 <p>Muokataksesi luotua käyttäjätunnusta,
 klikkaa <a href="http://localhost/admin/organisations/user/123/change/" target="_blank">tästä</a>!</p>
 <p>Nähdäksesi listan käyttäjistä, klikkaa
-<a href="http://localhost/admin/organisations/user/" target="_blank">tästä</a>.</p>""",
+<a href="http://localhost/admin/organisations/user/" target="_blank">tästä</a>.</p>
+
+    <p>Erityisviesti: custom message</p>
+""",
     """no-reply@hel.ninja|['brownheather@villarreal.com']|My profile creation FI|
 <p>Hyvä Kultus ylläpitäjä!</p>
 <p>Uusi palveluntarjoajan tunnus on luotu!</p>
@@ -58,5 +61,22 @@ hyväksymään luomansa käyttäjätunnuksen käyttöön:</p>
 <p>Muokataksesi luotua käyttäjätunnusta,
 klikkaa <a href="http://localhost/admin/organisations/user/123/change/" target="_blank">tästä</a>!</p>
 <p>Nähdäksesi listan käyttäjistä, klikkaa
-<a href="http://localhost/admin/organisations/user/" target="_blank">tästä</a>.</p>""",
+<a href="http://localhost/admin/organisations/user/" target="_blank">tästä</a>.</p>
+
+    <p>Erityisviesti: custom message</p>
+""",
+]
+
+snapshots["test_myprofile_accepted_email 1"] = [
+    """no-reply@hel.ninja|['patrick24@yahoo.com']|My profile accepted FI|
+<p>Hei Amanda George!</p>
+<p>Sinun käyttäjäsi on nyt valmis käytettäväksi Kultuksessa
+seuraavilla organisaatioille:</p>
+<ul>
+    <li>Black Ltd</li>
+    <li>Burns, Gomez and Roach</li>
+</ul>
+
+    <p>Erityisviesti: custom message</p>
+    """
 ]

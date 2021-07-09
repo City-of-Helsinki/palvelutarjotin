@@ -3,7 +3,10 @@ from django.contrib.auth import get_user_model
 from django.db import models
 from django.utils.translation import ugettext_lazy as _
 from helusers.models import AbstractUser
-from organisations.services import send_myprofile_creation_notification_to_admins
+from organisations.services import (
+    send_myprofile_creation_notification_to_admins,
+    send_myprofile_organisations_accepted_notification,
+)
 
 from common.models import TimestampedModel, UUIDPrimaryKeyModel
 
@@ -142,4 +145,9 @@ class Person(UUIDPrimaryKeyModel, TimestampedModel):
     def notify_myprofile_creation(self, custom_message=None):
         send_myprofile_creation_notification_to_admins(
             self, custom_message=custom_message,
+        )
+
+    def notify_myprofile_accepted(self, custom_message=None):
+        send_myprofile_organisations_accepted_notification(
+            self, custom_message=custom_message
         )
