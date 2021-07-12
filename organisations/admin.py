@@ -163,7 +163,6 @@ class UserAdmin(DjangoUserAdmin):
                 "fields": (
                     "is_active",
                     "is_staff",
-                    "is_admin",
                     "organisation_proposals",
                     "organisations",
                 ),
@@ -172,7 +171,7 @@ class UserAdmin(DjangoUserAdmin):
         (
             _("Advanced permission settings"),
             {
-                "fields": ("is_superuser", "groups", "user_permissions",),
+                "fields": ("is_admin", "is_superuser", "groups", "user_permissions",),
                 "classes": ["collapse in"],
             },
         ),
