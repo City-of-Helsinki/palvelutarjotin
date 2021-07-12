@@ -47,6 +47,7 @@ jobs:
         uses: andersinno/kolga-deploy-action@v2
         env:
           ENVIRONMENT_URL: https://${{ env.K8S_NAMESPACE }}.${{ env.BASE_DOMAIN }}
+          K8S_SECRET_ENVIRONMENT_URL: https://${{ env.K8S_NAMESPACE }}.${{ env.BASE_DOMAIN }}
           K8S_SECRET_ALLOWED_HOSTS: "*"
           K8S_SECRET_DEBUG: 1
           K8S_SECRET_TOKEN_AUTH_AUTHSERVER_URL: "https://tunnistamo.test.kuva.hel.ninja/openid"
