@@ -45,6 +45,7 @@ jobs:
         env:
           K8S_NAMESPACE: ${{ secrets.K8S_NAMESPACE_STAGING }}
           ENVIRONMENT_URL: https://${{ secrets.ENVIRONMENT_URL_STAGING }}
+          K8S_SECRET_ENVIRONMENT_URL: https://${{ secrets.ENVIRONMENT_URL_STAGING }}
           K8S_SECRET_ALLOWED_HOSTS: "*"
           K8S_SECRET_CORS_ORIGIN_ALLOW_ALL: 1
           K8S_SECRET_SECRET_KEY: ${{ secrets.GH_QA_DJANGO_SECRET_KEY }}
