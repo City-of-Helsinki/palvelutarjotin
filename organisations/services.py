@@ -17,7 +17,7 @@ if TYPE_CHECKING:
 
 
 def get_user_change_form_url(person: Person, domain=settings.SITE_URL):
-    return domain + reverse("admin:organisations_user_change", args=(person.id,))
+    return domain + reverse("admin:organisations_user_change", args=(person.user_id,))
 
 
 def get_user_list_url(domain=settings.SITE_URL):

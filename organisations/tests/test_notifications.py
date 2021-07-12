@@ -18,7 +18,8 @@ def test_myprofile_creation_email(
     notification_template_myprofile_creation_en,
 ):
     settings.SITE_URL = "https://test-domain"
-    person = PersonFactory(id=123)
+    user = UserFactory(id=123)
+    person = PersonFactory(user=user)
     OrganisationProposalFactory.create_batch(2, applicant=person)
     UserFactory.create_batch(2, is_admin=True)
     person.notify_myprofile_creation(custom_message="custom message")
