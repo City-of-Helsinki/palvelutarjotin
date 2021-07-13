@@ -1,4 +1,5 @@
 from django import forms
+from django.conf import settings
 from django.contrib import admin, messages
 from django.contrib.admin.widgets import FilteredSelectMultiple
 from django.contrib.auth import get_user_model
@@ -84,6 +85,27 @@ class UserExistenceListFilter(admin.SimpleListFilter):
             return queryset.filter(user__isnull=True)
 
 
+class PersonAdminForm(forms.ModelForm):
+    language = forms.ChoiceField(choices=settings.LANGUAGES)
+
+    class Meta:
+        model = Person
+        fields = "__all__"
+
+    def __init__(self, *args, **kwargs):
+        super(PersonAdminForm, self).__init__(*args, **kwargs)
+        user = self.fields["user"]
+        # Show only users without any links to a person
+        user.queryset = User.objects.filter(person__isnull=True)
+        if self.instance.user:
+            # If an user instance is already set, add it to queryset with an union.
+            user.queryset |= User.objects.filter(pk=self.instance.user.pk)
+            user.initial = self.instance.user
+        user.help_text = _(
+            "Only the users that aren't linked to a person yet, can be selected."
+        )
+
+
 @admin.register(Person)
 class PersonAdmin(admin.ModelAdmin):
     list_display = (
@@ -93,7 +115,7 @@ class PersonAdmin(admin.ModelAdmin):
         "created_at",
         "updated_at",
     )
-    fields = ("user", "name", "phone_number", "email_address")
+    fields = ("user", "name", "phone_number", "email_address", "language")
     ordering = ("-created_at",)
     inlines = (OrganisationInline,)
     list_filter = [
@@ -101,6 +123,31 @@ class PersonAdmin(admin.ModelAdmin):
         UserExistenceListFilter,
     ]
     search_fields = ["name", "email_address"]
+    form = PersonAdminForm
+
+
+class UserPersonInLine(admin.StackedInline):
+    """
+    UserPersonInLine is created to make a support visible and clickable
+    view and navigation between user and person from an admin user change form.
+
+    NOTE: If any of the fields are writable, users that shouldn't have
+    a person instance linked to them, will get one, because when any of the
+    fields in the (person) inline form are included in save submit request,
+    a person instance will be created - this should be avoided, since we
+    would also like to support users without persons.
+    """
+
+    model = Person
+    verbose_name = _("Person")
+    verbose_name_plural = _(
+        "Persons (The Kultus provider model extension for the User model)"
+    )
+    fields = ["name", "email_address", "language"]
+    readonly_fields = fields  # All fields should be readonly fields
+    show_change_link = True  # show a link to a person instance
+    can_delete = False  # Prevent the deletion of a person instance
+    classes = ["collapse"]  # Collapsible inline form
 
 
 class UserAdminForm(UserChangeForm):
@@ -185,7 +232,6 @@ class UserAdmin(DjangoUserAdmin):
     )
     list_display = DjangoUserAdmin.list_display + ("date_joined", "has_person",)
     list_filter = ("date_joined", "is_staff", "is_admin", "is_superuser", "is_active")
-
     readonly_fields = (
         "last_login",  # "last_login" is a nice to know, but shouldn't be editable
         "date_joined",  # "date_joined" is a nice to know, but shouldn't be editable
@@ -195,6 +241,13 @@ class UserAdmin(DjangoUserAdmin):
     )
     ordering = ("-date_joined",)
     date_hierarchy = "date_joined"
+    # The person link is in huge role all around the system,
+    # so it would be good to show the related information InLine.
+    # All the fields needs to be read_only,
+    # or otherwise a missing person relation is created on (every) save and
+    # sometimes it is wanted to have a user without person, e.g a pure admin user
+    # or a superuser.
+    inlines = (UserPersonInLine,)
     form = UserAdminForm
 
     def save_form(self, request, form, change):
@@ -282,5 +335,8 @@ class UserAdmin(DjangoUserAdmin):
 
         # Info about the sent mail
         messages.add_message(
-            request, messages.INFO, "Email is sent to an user about the organisation",
+            request,
+            messages.INFO,
+            "An email is sent to the user about the organisation changes "
+            + "and the profile acceptance!",
         )
