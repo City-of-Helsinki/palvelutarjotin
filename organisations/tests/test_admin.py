@@ -5,13 +5,14 @@ from django.contrib.admin.sites import AdminSite
 from django.contrib.auth import get_user_model
 from django.core import mail
 from django.test import TestCase
-from organisations.admin import UserAdmin, UserAdminForm
+from organisations.admin import PersonAdmin, PersonAdminForm, UserAdmin, UserAdminForm
 from organisations.factories import (
     OrganisationFactory,
     OrganisationProposalFactory,
     PersonFactory,
     UserFactory,
 )
+from organisations.models import Person
 
 
 @pytest.mark.usefixtures("notification_template_myprofile_accepted_fi")
@@ -110,6 +111,29 @@ class UserAdminViewTest(TestCase):
         assert self.admin.save_form(request, user_admin_form, True) == user
         assert add_message.called
         assert len(mail.outbox) == 1
+
+
+class PersonAdminViewTest(TestCase):
+    def setUp(self):
+        site = AdminSite()
+        self.admin = PersonAdmin(model=Person, admin_site=site)
+
+    def test_person_admin_form_user(self):
+        UserFactory.create_batch(5)
+        PersonFactory.create_batch(5)
+        person = PersonFactory()
+        assert get_user_model().objects.all().count() == 11
+        assert person.user is not None
+
+        person_admin_form = PersonAdminForm()
+        user_field = person_admin_form.fields["user"]
+        assert user_field.initial is None
+        assert user_field.queryset.count() == 5
+
+        person_admin_form = PersonAdminForm(person.__dict__, instance=person)
+        user_field = person_admin_form.fields["user"]
+        assert user_field.initial == person.user
+        assert user_field.queryset.count() == 6
 
 
 class MockRequest(object):

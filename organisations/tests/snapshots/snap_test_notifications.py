@@ -36,7 +36,7 @@ klikkaa <a href="https://test-domain/admin/organisations/user/123/change/" targe
 
     <p>Erityisviesti: custom message</p>
 """,
-    """no-reply@hel.ninja|['brownheather@villarreal.com']|My profile creation FI|
+    """no-reply@hel.ninja|['lmathis@ortiz.com']|My profile creation FI|
 <p>Hyvä Kultus ylläpitäjä!</p>
 <p>Uusi palveluntarjoajan tunnus on luotu!</p>
 <address>
@@ -65,9 +65,38 @@ klikkaa <a href="https://test-domain/admin/organisations/user/123/change/" targe
 
     <p>Erityisviesti: custom message</p>
 """,
+    """no-reply@hel.ninja|['mendezjonathan@espinoza.biz']|My profile creation EN|
+<p>Dear Kultus Admin!</p>
+<p>A new Kultus provider user profile is created!</p>
+<address>
+    William Brewer<br />
+    <a href="mailto:stephanieskinner@gmail.com">stephanieskinner@gmail.com</a>
+    Username: ariley
+</address>
+<p>The provider who created the user profile needs an admin (you)
+to accept the user profile:</p>
+<ol>
+    <li>Create the missing organisations to LinkedEvents</li>
+    <li>Create the missing organisations to Kultus</li>
+    <li>Link the user to organisations</li>
+    <li>Set the staff -flag so the user would receive the permissions
+    to create and edit their events.</li>
+</ol>
+<p>The user would like to represent these organisations:</p>
+<ul>
+    <li>Bell, Price and Dixon</li>
+    <li>Perry Ltd</li>
+</ul>
+<p>To edit the newly created user profile,
+click <a href="https://test-domain/admin/organisations/user/123/change/" target="_blank">here</a>!</p>
+<p>To see a full list of users, click
+<a href="https://test-domain/admin/organisations/user/" target="_blank">here</a>.</p>
+
+    <p>Custom message: custom message</p>
+""",
 ]
 
-snapshots["test_myprofile_accepted_email 1"] = [
+snapshots["test_myprofile_accepted_email[fi] 1"] = [
     """no-reply@hel.ninja|['patrick24@yahoo.com']|My profile accepted FI|
 <p>Hei Amanda George!</p>
 <p>Sinun käyttäjäsi on nyt valmis käytettäväksi Kultuksessa
@@ -78,5 +107,19 @@ seuraavilla organisaatioille:</p>
 </ul>
 
     <p>Erityisviesti: custom message</p>
+    """
+]
+
+snapshots["test_myprofile_accepted_email[en] 1"] = [
+    """no-reply@hel.ninja|['patrick24@yahoo.com']|My profile accepted EN|
+<p>Hi Amanda George!</p>
+<p>Your account is now ready to be used in Kultus
+with the following organisations linked to your account:</p>
+<ul>
+    <li>Black Ltd</li>
+    <li>Burns, Gomez and Roach</li>
+</ul>
+
+    <p>Custom message: custom message</p>
     """
 ]

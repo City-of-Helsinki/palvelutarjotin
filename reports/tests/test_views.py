@@ -305,6 +305,7 @@ class OrganisationPersonsCsvViewTest(TestCase):
 
 
 class PalvelutarjotinEventEnrolmentsTest(TestCase):
+    @pytest.mark.django_db
     def test_export_enrolment_csv_data(self):
         today = datetime.datetime.now(tz=timezone.utc)
         p_events = PalvelutarjotinEventFactory.create_batch(3, enrolment_start=today)
