@@ -3,7 +3,7 @@ import uuid
 import django
 from django.conf import settings
 from django.db import models, transaction
-from django.utils.translation import ugettext_lazy as _
+from django.utils.translation import gettext_lazy as _
 from parler.managers import TranslatableQuerySet as ParlerTranslatableQuerySet
 from parler.models import TranslatableModel as ParlerTranslatableModel
 

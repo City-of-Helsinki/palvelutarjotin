@@ -6,37 +6,53 @@
 #
 aniso8601==7.0.0
     # via graphene
+asgiref==3.4.1
+    # via django
+authlib==0.15.4
+    # via drf-oidc-auth
+cachetools==4.2.2
+    # via django-helusers
 certifi==2019.9.11
     # via
     #   requests
     #   sentry-sdk
+cffi==1.14.6
+    # via cryptography
 chardet==3.0.4
     # via requests
+cryptography==3.4.7
+    # via
+    #   authlib
+    #   drf-oidc-auth
+deprecation==2.1.0
+    # via django-helusers
 django-anymail==7.0.0
     # via django-ilmoitin
 django-appconf==1.0.4
     # via django-axes
 django-axes==5.3.1
     # via -r requirements.in
-django-cors-headers==3.1.1
+django-cors-headers==3.7.0
     # via -r requirements.in
 django-environ==0.4.5
     # via -r requirements.in
-django-filter==2.2.0
+django-filter==2.4.0
     # via -r requirements.in
 django-graphql-jwt==0.2.2
     # via -r requirements.in
-django-helusers==0.5.6
+django-helusers==0.6.1
     # via -r requirements.in
-django-ilmoitin[graphql_api]==0.5.3
+django-ilmoitin[graphql_api]==0.6.0
     # via -r requirements.in
 django-ipware==2.1.0
     # via django-axes
 django-mailer==2.0
     # via django-ilmoitin
-django-parler==1.9.2
+django-parler==2.2
     # via django-ilmoitin
-django==2.2.24
+django-utils-six==2.0
+    # via -r requirements.in
+django==3.2.5
     # via
     #   -r requirements.in
     #   django-anymail
@@ -51,10 +67,10 @@ django==2.2.24
     #   djangorestframework
     #   drf-oidc-auth
     #   graphene-django
-djangorestframework==3.11.2
+djangorestframework==3.12.4
     # via drf-oidc-auth
-drf-oidc-auth==0.10.0
-    # via django-helusers
+drf-oidc-auth==2.0.0
+    # via -r requirements.in
 ecdsa==0.13.3
     # via python-jose
 factory-boy==2.12.0
@@ -62,10 +78,8 @@ factory-boy==2.12.0
 faker==2.0.4
     # via factory-boy
 future==0.17.1
-    # via
-    #   pyjwkest
-    #   python-jose
-graphene-django==2.6.0
+    # via python-jose
+graphene-django==2.15.0
     # via
     #   -r requirements.in
     #   django-graphql-jwt
@@ -89,12 +103,16 @@ graphql-relay==2.0.0
     #   graphene
 idna==2.8
     # via requests
+importlib-metadata==4.6.1
+    # via -r requirements.in
 jinja2==2.11.3
     # via django-ilmoitin
 lockfile==0.12.2
     # via django-mailer
 markupsafe==1.1.1
     # via jinja2
+packaging==21.0
+    # via deprecation
 promise==2.2.1
     # via
     #   graphene-django
@@ -104,12 +122,12 @@ psycopg2-binary==2.8.6
     # via -r requirements.in
 pyasn1==0.4.7
     # via rsa
-pycryptodomex==3.10.1
-    # via pyjwkest
-pyjwkest==1.4.2
-    # via drf-oidc-auth
+pycparser==2.20
+    # via cffi
 pyjwt==1.7.1
     # via django-graphql-jwt
+pyparsing==2.4.7
+    # via packaging
 python-dateutil==2.8.1
     # via faker
 python-jose==3.0.1
@@ -120,7 +138,7 @@ requests==2.22.0
     # via
     #   django-anymail
     #   django-helusers
-    #   pyjwkest
+    #   drf-oidc-auth
 rsa==4.7
     # via python-jose
 rx==1.6.1
@@ -140,15 +158,22 @@ six==1.12.0
     #   graphql-core
     #   graphql-relay
     #   promise
-    #   pyjwkest
     #   python-dateutil
     #   python-jose
     #   singledispatch
 sqlparse==0.3.0
     # via django
 text-unidecode==1.3
-    # via faker
+    # via
+    #   faker
+    #   graphene-django
+typing-extensions==3.10.0.0
+    # via
+    #   asgiref
+    #   importlib-metadata
 urllib3==1.25.8
     # via
     #   requests
     #   sentry-sdk
+zipp==3.5.0
+    # via importlib-metadata

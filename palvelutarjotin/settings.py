@@ -3,7 +3,7 @@ import subprocess
 
 import environ
 import sentry_sdk
-from django.utils.translation import ugettext_lazy as _
+from django.utils.translation import gettext_lazy as _
 from sentry_sdk.integrations.django import DjangoIntegration
 
 checkout_dir = environ.Path(__file__) - 2
@@ -159,7 +159,7 @@ USE_TZ = True
 ENABLE_GRAPHIQL = env("ENABLE_GRAPHIQL")
 
 INSTALLED_APPS = [
-    "helusers",
+    "helusers.apps.HelusersConfig",
     "helusers.apps.HelusersAdminConfig",
     "django.contrib.auth",
     "django.contrib.contenttypes",
@@ -307,3 +307,5 @@ if os.path.exists(local_settings_path):
     with open(local_settings_path) as fp:
         code = compile(fp.read(), local_settings_path, "exec")
     exec(code, globals(), locals())
+
+DEFAULT_AUTO_FIELD = "django.db.models.AutoField"
