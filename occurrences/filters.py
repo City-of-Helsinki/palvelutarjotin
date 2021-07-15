@@ -19,10 +19,6 @@ class OccurrenceFilter(django_filters.FilterSet):
         model = Occurrence
         fields = ["upcoming", "date", "time", "p_event", "cancelled"]
 
-    order_by = django_filters.OrderingFilter(
-        fields=(("start_time", "start_time"), ("end_time", "end_time"),)
-    )
-
     def filter_by_upcoming(self, qs, name, value):
         if value:
             # Only work with PostgreSQL

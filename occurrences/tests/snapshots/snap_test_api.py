@@ -1275,3 +1275,543 @@ snapshots["test_mass_approve_enrolment_mutation 1"] = {
         }
     }
 }
+
+snapshots["test_occurrences_filter_by_cancelled 1"] = {
+    "data": {
+        "occurrences": {
+            "edges": [
+                {
+                    "node": {
+                        "amountOfSeats": 5,
+                        "contactPersons": {"edges": []},
+                        "endTime": "1978-12-17T12:06:21+00:00",
+                        "maxGroupSize": 851,
+                        "minGroupSize": 837,
+                        "pEvent": {
+                            "autoAcceptance": False,
+                            "contactEmail": "underwoodtracy@roach-cruz.biz",
+                            "contactPhoneNumber": "+1-345-773-5577x76712",
+                            "enrolmentEndDays": 2,
+                            "enrolmentStart": "1998-07-06T01:19:12+00:00",
+                            "linkedEventId": "aAVEa",
+                            "mandatoryAdditionalInformation": False,
+                            "neededOccurrences": 3,
+                        },
+                        "placeId": "Pay parent theory go. Push book and interesting sit future.",
+                        "remainingSeats": 5,
+                        "seatType": "CHILDREN_COUNT",
+                        "seatsApproved": 0,
+                        "seatsTaken": 0,
+                        "startTime": "1996-04-05T11:49:51+00:00",
+                        "studyGroups": {"edges": []},
+                    }
+                },
+                {
+                    "node": {
+                        "amountOfSeats": 17,
+                        "contactPersons": {"edges": []},
+                        "endTime": "1983-04-29T08:34:00+00:00",
+                        "maxGroupSize": 777,
+                        "minGroupSize": 399,
+                        "pEvent": {
+                            "autoAcceptance": False,
+                            "contactEmail": "underwoodtracy@roach-cruz.biz",
+                            "contactPhoneNumber": "+1-345-773-5577x76712",
+                            "enrolmentEndDays": 2,
+                            "enrolmentStart": "1998-07-06T01:19:12+00:00",
+                            "linkedEventId": "aAVEa",
+                            "mandatoryAdditionalInformation": False,
+                            "neededOccurrences": 3,
+                        },
+                        "placeId": "Daughter order stay sign discover.",
+                        "remainingSeats": 17,
+                        "seatType": "CHILDREN_COUNT",
+                        "seatsApproved": 0,
+                        "seatsTaken": 0,
+                        "startTime": "2001-02-23T20:07:07+00:00",
+                        "studyGroups": {"edges": []},
+                    }
+                },
+            ]
+        }
+    }
+}
+
+snapshots["test_occurrences_filter_by_cancelled 2"] = {
+    "data": {
+        "occurrences": {
+            "edges": [
+                {
+                    "node": {
+                        "amountOfSeats": 21,
+                        "contactPersons": {"edges": []},
+                        "endTime": "2000-09-23T10:26:32+00:00",
+                        "maxGroupSize": 84,
+                        "minGroupSize": 838,
+                        "pEvent": {
+                            "autoAcceptance": False,
+                            "contactEmail": "underwoodtracy@roach-cruz.biz",
+                            "contactPhoneNumber": "+1-345-773-5577x76712",
+                            "enrolmentEndDays": 2,
+                            "enrolmentStart": "1998-07-06T01:19:12+00:00",
+                            "linkedEventId": "aAVEa",
+                            "mandatoryAdditionalInformation": False,
+                            "neededOccurrences": 3,
+                        },
+                        "placeId": "Able process base sing according.",
+                        "remainingSeats": 21,
+                        "seatType": "CHILDREN_COUNT",
+                        "seatsApproved": 0,
+                        "seatsTaken": 0,
+                        "startTime": "1996-02-20T13:49:25+00:00",
+                        "studyGroups": {"edges": []},
+                    }
+                }
+            ]
+        }
+    }
+}
+
+snapshots["test_occurrences_filter_by_p_event 1"] = {
+    "data": {
+        "occurrences": {
+            "edges": [
+                {
+                    "node": {
+                        "amountOfSeats": 9,
+                        "contactPersons": {"edges": []},
+                        "endTime": "2002-08-15T13:47:04+00:00",
+                        "maxGroupSize": 231,
+                        "minGroupSize": 45,
+                        "pEvent": {
+                            "autoAcceptance": False,
+                            "contactEmail": "underwoodtracy@roach-cruz.biz",
+                            "contactPhoneNumber": "+1-345-773-5577x76712",
+                            "enrolmentEndDays": 2,
+                            "enrolmentStart": "1998-07-06T01:19:12+00:00",
+                            "linkedEventId": "aAVEa",
+                            "mandatoryAdditionalInformation": False,
+                            "neededOccurrences": 3,
+                        },
+                        "placeId": "Which president smile staff country actually generation.",
+                        "remainingSeats": 9,
+                        "seatType": "CHILDREN_COUNT",
+                        "seatsApproved": 0,
+                        "seatsTaken": 0,
+                        "startTime": "2002-06-15T11:57:08+00:00",
+                        "studyGroups": {"edges": []},
+                    }
+                },
+                {
+                    "node": {
+                        "amountOfSeats": 46,
+                        "contactPersons": {"edges": []},
+                        "endTime": "2016-11-01T20:07:19+00:00",
+                        "maxGroupSize": 835,
+                        "minGroupSize": 429,
+                        "pEvent": {
+                            "autoAcceptance": False,
+                            "contactEmail": "underwoodtracy@roach-cruz.biz",
+                            "contactPhoneNumber": "+1-345-773-5577x76712",
+                            "enrolmentEndDays": 2,
+                            "enrolmentStart": "1998-07-06T01:19:12+00:00",
+                            "linkedEventId": "aAVEa",
+                            "mandatoryAdditionalInformation": False,
+                            "neededOccurrences": 3,
+                        },
+                        "placeId": "Already name likely behind mission network.",
+                        "remainingSeats": 46,
+                        "seatType": "CHILDREN_COUNT",
+                        "seatsApproved": 0,
+                        "seatsTaken": 0,
+                        "startTime": "2018-01-05T23:56:15+00:00",
+                        "studyGroups": {"edges": []},
+                    }
+                },
+            ]
+        }
+    }
+}
+
+snapshots["test_occurrences_filter_by_p_event 2"] = {
+    "data": {
+        "occurrences": {
+            "edges": [
+                {
+                    "node": {
+                        "amountOfSeats": 6,
+                        "contactPersons": {"edges": []},
+                        "endTime": "2017-05-02T13:53:33+00:00",
+                        "maxGroupSize": 64,
+                        "minGroupSize": 136,
+                        "pEvent": {
+                            "autoAcceptance": False,
+                            "contactEmail": "manningelizabeth@gmail.com",
+                            "contactPhoneNumber": "001-227-741-6754x3903",
+                            "enrolmentEndDays": 1,
+                            "enrolmentStart": "1995-02-20T07:52:36+00:00",
+                            "linkedEventId": "mRVJD",
+                            "mandatoryAdditionalInformation": False,
+                            "neededOccurrences": 8,
+                        },
+                        "placeId": "Box myself last appear. Wrong when lead involve sport.",
+                        "remainingSeats": 6,
+                        "seatType": "CHILDREN_COUNT",
+                        "seatsApproved": 0,
+                        "seatsTaken": 0,
+                        "startTime": "2000-02-02T08:29:39+00:00",
+                        "studyGroups": {"edges": []},
+                    }
+                }
+            ]
+        }
+    }
+}
+
+snapshots["test_occurrences_ordering_by_order_by_start_time 1"] = {
+    "data": {
+        "occurrences": {
+            "edges": [
+                {
+                    "node": {
+                        "amountOfSeats": 35,
+                        "contactPersons": {"edges": []},
+                        "endTime": "1975-02-09T12:33:37+00:00",
+                        "maxGroupSize": 75,
+                        "minGroupSize": 879,
+                        "pEvent": {
+                            "autoAcceptance": False,
+                            "contactEmail": "delgadopatricia@hotmail.com",
+                            "contactPhoneNumber": "+1-013-232-1316",
+                            "enrolmentEndDays": 2,
+                            "enrolmentStart": "1978-07-26T12:24:03+00:00",
+                            "linkedEventId": "pdZDV",
+                            "mandatoryAdditionalInformation": False,
+                            "neededOccurrences": 9,
+                        },
+                        "placeId": "Throw wrong party wall agency customer clear.",
+                        "remainingSeats": 35,
+                        "seatType": "CHILDREN_COUNT",
+                        "seatsApproved": 0,
+                        "seatsTaken": 0,
+                        "startTime": "2020-01-05T00:00:00+00:00",
+                        "studyGroups": {"edges": []},
+                    }
+                },
+                {
+                    "node": {
+                        "amountOfSeats": 5,
+                        "contactPersons": {"edges": []},
+                        "endTime": "2013-12-12T04:57:19+00:00",
+                        "maxGroupSize": 383,
+                        "minGroupSize": 341,
+                        "pEvent": {
+                            "autoAcceptance": False,
+                            "contactEmail": "bthomas@charles.com",
+                            "contactPhoneNumber": "750-649-7638x0346",
+                            "enrolmentEndDays": 2,
+                            "enrolmentStart": "1988-11-29T04:01:36+00:00",
+                            "linkedEventId": "OzVxe",
+                            "mandatoryAdditionalInformation": False,
+                            "neededOccurrences": 0,
+                        },
+                        "placeId": "Record card my. Sure sister return.",
+                        "remainingSeats": 5,
+                        "seatType": "CHILDREN_COUNT",
+                        "seatsApproved": 0,
+                        "seatsTaken": 0,
+                        "startTime": "2020-01-06T00:00:00+00:00",
+                        "studyGroups": {"edges": []},
+                    }
+                },
+                {
+                    "node": {
+                        "amountOfSeats": 45,
+                        "contactPersons": {"edges": []},
+                        "endTime": "2001-02-23T20:07:07+00:00",
+                        "maxGroupSize": 777,
+                        "minGroupSize": 399,
+                        "pEvent": {
+                            "autoAcceptance": False,
+                            "contactEmail": "stricklandpatrick@combs.com",
+                            "contactPhoneNumber": "106.695.8369x31796",
+                            "enrolmentEndDays": 1,
+                            "enrolmentStart": "1993-11-15T08:45:06+00:00",
+                            "linkedEventId": "ZoGFT",
+                            "mandatoryAdditionalInformation": False,
+                            "neededOccurrences": 6,
+                        },
+                        "placeId": "Later evening southern would according strong.",
+                        "remainingSeats": 45,
+                        "seatType": "CHILDREN_COUNT",
+                        "seatsApproved": 0,
+                        "seatsTaken": 0,
+                        "startTime": "2020-01-07T00:00:00+00:00",
+                        "studyGroups": {"edges": []},
+                    }
+                },
+            ]
+        }
+    }
+}
+
+snapshots["test_occurrences_ordering_by_order_by_start_time 2"] = {
+    "data": {
+        "occurrences": {
+            "edges": [
+                {
+                    "node": {
+                        "amountOfSeats": 45,
+                        "contactPersons": {"edges": []},
+                        "endTime": "2001-02-23T20:07:07+00:00",
+                        "maxGroupSize": 777,
+                        "minGroupSize": 399,
+                        "pEvent": {
+                            "autoAcceptance": False,
+                            "contactEmail": "stricklandpatrick@combs.com",
+                            "contactPhoneNumber": "106.695.8369x31796",
+                            "enrolmentEndDays": 1,
+                            "enrolmentStart": "1993-11-15T08:45:06+00:00",
+                            "linkedEventId": "ZoGFT",
+                            "mandatoryAdditionalInformation": False,
+                            "neededOccurrences": 6,
+                        },
+                        "placeId": "Later evening southern would according strong.",
+                        "remainingSeats": 45,
+                        "seatType": "CHILDREN_COUNT",
+                        "seatsApproved": 0,
+                        "seatsTaken": 0,
+                        "startTime": "2020-01-07T00:00:00+00:00",
+                        "studyGroups": {"edges": []},
+                    }
+                },
+                {
+                    "node": {
+                        "amountOfSeats": 5,
+                        "contactPersons": {"edges": []},
+                        "endTime": "2013-12-12T04:57:19+00:00",
+                        "maxGroupSize": 383,
+                        "minGroupSize": 341,
+                        "pEvent": {
+                            "autoAcceptance": False,
+                            "contactEmail": "bthomas@charles.com",
+                            "contactPhoneNumber": "750-649-7638x0346",
+                            "enrolmentEndDays": 2,
+                            "enrolmentStart": "1988-11-29T04:01:36+00:00",
+                            "linkedEventId": "OzVxe",
+                            "mandatoryAdditionalInformation": False,
+                            "neededOccurrences": 0,
+                        },
+                        "placeId": "Record card my. Sure sister return.",
+                        "remainingSeats": 5,
+                        "seatType": "CHILDREN_COUNT",
+                        "seatsApproved": 0,
+                        "seatsTaken": 0,
+                        "startTime": "2020-01-06T00:00:00+00:00",
+                        "studyGroups": {"edges": []},
+                    }
+                },
+                {
+                    "node": {
+                        "amountOfSeats": 35,
+                        "contactPersons": {"edges": []},
+                        "endTime": "1975-02-09T12:33:37+00:00",
+                        "maxGroupSize": 75,
+                        "minGroupSize": 879,
+                        "pEvent": {
+                            "autoAcceptance": False,
+                            "contactEmail": "delgadopatricia@hotmail.com",
+                            "contactPhoneNumber": "+1-013-232-1316",
+                            "enrolmentEndDays": 2,
+                            "enrolmentStart": "1978-07-26T12:24:03+00:00",
+                            "linkedEventId": "pdZDV",
+                            "mandatoryAdditionalInformation": False,
+                            "neededOccurrences": 9,
+                        },
+                        "placeId": "Throw wrong party wall agency customer clear.",
+                        "remainingSeats": 35,
+                        "seatType": "CHILDREN_COUNT",
+                        "seatsApproved": 0,
+                        "seatsTaken": 0,
+                        "startTime": "2020-01-05T00:00:00+00:00",
+                        "studyGroups": {"edges": []},
+                    }
+                },
+            ]
+        }
+    }
+}
+
+snapshots["test_occurrences_ordering_by_order_by_end_time 1"] = {
+    "data": {
+        "occurrences": {
+            "edges": [
+                {
+                    "node": {
+                        "amountOfSeats": 35,
+                        "contactPersons": {"edges": []},
+                        "endTime": "2020-01-05T00:00:00+00:00",
+                        "maxGroupSize": 75,
+                        "minGroupSize": 879,
+                        "pEvent": {
+                            "autoAcceptance": False,
+                            "contactEmail": "delgadopatricia@hotmail.com",
+                            "contactPhoneNumber": "+1-013-232-1316",
+                            "enrolmentEndDays": 2,
+                            "enrolmentStart": "1978-07-26T12:24:03+00:00",
+                            "linkedEventId": "pdZDV",
+                            "mandatoryAdditionalInformation": False,
+                            "neededOccurrences": 9,
+                        },
+                        "placeId": "Throw wrong party wall agency customer clear.",
+                        "remainingSeats": 35,
+                        "seatType": "CHILDREN_COUNT",
+                        "seatsApproved": 0,
+                        "seatsTaken": 0,
+                        "startTime": "1975-02-09T12:33:37+00:00",
+                        "studyGroups": {"edges": []},
+                    }
+                },
+                {
+                    "node": {
+                        "amountOfSeats": 5,
+                        "contactPersons": {"edges": []},
+                        "endTime": "2020-01-06T00:00:00+00:00",
+                        "maxGroupSize": 383,
+                        "minGroupSize": 341,
+                        "pEvent": {
+                            "autoAcceptance": False,
+                            "contactEmail": "bthomas@charles.com",
+                            "contactPhoneNumber": "750-649-7638x0346",
+                            "enrolmentEndDays": 2,
+                            "enrolmentStart": "1988-11-29T04:01:36+00:00",
+                            "linkedEventId": "OzVxe",
+                            "mandatoryAdditionalInformation": False,
+                            "neededOccurrences": 0,
+                        },
+                        "placeId": "Record card my. Sure sister return.",
+                        "remainingSeats": 5,
+                        "seatType": "CHILDREN_COUNT",
+                        "seatsApproved": 0,
+                        "seatsTaken": 0,
+                        "startTime": "2013-12-12T04:57:19+00:00",
+                        "studyGroups": {"edges": []},
+                    }
+                },
+                {
+                    "node": {
+                        "amountOfSeats": 45,
+                        "contactPersons": {"edges": []},
+                        "endTime": "2020-01-07T00:00:00+00:00",
+                        "maxGroupSize": 777,
+                        "minGroupSize": 399,
+                        "pEvent": {
+                            "autoAcceptance": False,
+                            "contactEmail": "stricklandpatrick@combs.com",
+                            "contactPhoneNumber": "106.695.8369x31796",
+                            "enrolmentEndDays": 1,
+                            "enrolmentStart": "1993-11-15T08:45:06+00:00",
+                            "linkedEventId": "ZoGFT",
+                            "mandatoryAdditionalInformation": False,
+                            "neededOccurrences": 6,
+                        },
+                        "placeId": "Later evening southern would according strong.",
+                        "remainingSeats": 45,
+                        "seatType": "CHILDREN_COUNT",
+                        "seatsApproved": 0,
+                        "seatsTaken": 0,
+                        "startTime": "2001-02-23T20:07:07+00:00",
+                        "studyGroups": {"edges": []},
+                    }
+                },
+            ]
+        }
+    }
+}
+
+snapshots["test_occurrences_ordering_by_order_by_end_time 2"] = {
+    "data": {
+        "occurrences": {
+            "edges": [
+                {
+                    "node": {
+                        "amountOfSeats": 45,
+                        "contactPersons": {"edges": []},
+                        "endTime": "2020-01-07T00:00:00+00:00",
+                        "maxGroupSize": 777,
+                        "minGroupSize": 399,
+                        "pEvent": {
+                            "autoAcceptance": False,
+                            "contactEmail": "stricklandpatrick@combs.com",
+                            "contactPhoneNumber": "106.695.8369x31796",
+                            "enrolmentEndDays": 1,
+                            "enrolmentStart": "1993-11-15T08:45:06+00:00",
+                            "linkedEventId": "ZoGFT",
+                            "mandatoryAdditionalInformation": False,
+                            "neededOccurrences": 6,
+                        },
+                        "placeId": "Later evening southern would according strong.",
+                        "remainingSeats": 45,
+                        "seatType": "CHILDREN_COUNT",
+                        "seatsApproved": 0,
+                        "seatsTaken": 0,
+                        "startTime": "2001-02-23T20:07:07+00:00",
+                        "studyGroups": {"edges": []},
+                    }
+                },
+                {
+                    "node": {
+                        "amountOfSeats": 5,
+                        "contactPersons": {"edges": []},
+                        "endTime": "2020-01-06T00:00:00+00:00",
+                        "maxGroupSize": 383,
+                        "minGroupSize": 341,
+                        "pEvent": {
+                            "autoAcceptance": False,
+                            "contactEmail": "bthomas@charles.com",
+                            "contactPhoneNumber": "750-649-7638x0346",
+                            "enrolmentEndDays": 2,
+                            "enrolmentStart": "1988-11-29T04:01:36+00:00",
+                            "linkedEventId": "OzVxe",
+                            "mandatoryAdditionalInformation": False,
+                            "neededOccurrences": 0,
+                        },
+                        "placeId": "Record card my. Sure sister return.",
+                        "remainingSeats": 5,
+                        "seatType": "CHILDREN_COUNT",
+                        "seatsApproved": 0,
+                        "seatsTaken": 0,
+                        "startTime": "2013-12-12T04:57:19+00:00",
+                        "studyGroups": {"edges": []},
+                    }
+                },
+                {
+                    "node": {
+                        "amountOfSeats": 35,
+                        "contactPersons": {"edges": []},
+                        "endTime": "2020-01-05T00:00:00+00:00",
+                        "maxGroupSize": 75,
+                        "minGroupSize": 879,
+                        "pEvent": {
+                            "autoAcceptance": False,
+                            "contactEmail": "delgadopatricia@hotmail.com",
+                            "contactPhoneNumber": "+1-013-232-1316",
+                            "enrolmentEndDays": 2,
+                            "enrolmentStart": "1978-07-26T12:24:03+00:00",
+                            "linkedEventId": "pdZDV",
+                            "mandatoryAdditionalInformation": False,
+                            "neededOccurrences": 9,
+                        },
+                        "placeId": "Throw wrong party wall agency customer clear.",
+                        "remainingSeats": 35,
+                        "seatType": "CHILDREN_COUNT",
+                        "seatsApproved": 0,
+                        "seatsTaken": 0,
+                        "startTime": "1975-02-09T12:33:37+00:00",
+                        "studyGroups": {"edges": []},
+                    }
+                },
+            ]
+        }
+    }
+}

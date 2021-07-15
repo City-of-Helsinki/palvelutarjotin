@@ -189,8 +189,22 @@ query StudyGroup($id: ID!){
 """
 
 OCCURRENCES_QUERY = """
-query Occurrences($upcoming: Boolean, $date: Date, $time: Time){
-  occurrences(upcoming: $upcoming, date: $date, time: $time){
+query Occurrences(
+    $upcoming: Boolean,
+    $date: Date,
+    $time: Time,
+    $cancelled: Boolean,
+    $pEvent: ID,
+    $orderBy: [String]
+){
+  occurrences(
+      upcoming: $upcoming,
+      date: $date,
+      time: $time,
+      cancelled: $cancelled,
+      pEvent: $pEvent,
+      orderBy: $orderBy
+  ){
     edges{
       node{
         placeId
@@ -2073,6 +2087,128 @@ def test_occurrences_filter_by_upcoming(snapshot, api_client):
     executed = api_client.execute(OCCURRENCES_QUERY, variables={"upcoming": True})
     snapshot.assert_match(executed)
     assert len(executed["data"]["occurrences"]["edges"]) == 2
+
+
+def test_occurrences_filter_by_cancelled(snapshot, api_client):
+    p_event_1 = PalvelutarjotinEventFactory()
+    OccurrenceFactory(
+        p_event=p_event_1, cancelled=True,
+    )
+    OccurrenceFactory.create_batch(2, p_event=p_event_1, cancelled=False)
+
+    executed = api_client.execute(OCCURRENCES_QUERY, variables={"cancelled": False})
+    snapshot.assert_match(executed)
+    assert len(executed["data"]["occurrences"]["edges"]) == 2
+
+    executed = api_client.execute(OCCURRENCES_QUERY, variables={"cancelled": True})
+    snapshot.assert_match(executed)
+    assert len(executed["data"]["occurrences"]["edges"]) == 1
+
+
+def test_occurrences_filter_by_p_event(snapshot, api_client):
+    p_event_1 = PalvelutarjotinEventFactory()
+    p_event_2 = PalvelutarjotinEventFactory()
+    OccurrenceFactory.create_batch(2, p_event=p_event_1)
+    OccurrenceFactory(p_event=p_event_2)
+
+    executed = api_client.execute(
+        OCCURRENCES_QUERY,
+        variables={"pEvent": to_global_id("PalvelutarjotinNode", p_event_1.id)},
+    )
+    snapshot.assert_match(executed)
+    assert len(executed["data"]["occurrences"]["edges"]) == 2
+
+    executed = api_client.execute(
+        OCCURRENCES_QUERY,
+        variables={"pEvent": to_global_id("PalvelutarjotinNode", p_event_2.id)},
+    )
+    snapshot.assert_match(executed)
+    assert len(executed["data"]["occurrences"]["edges"]) == 1
+
+
+def test_occurrences_ordering_by_order_by_start_time(snapshot, api_client):
+    OccurrenceFactory(
+        start_time=datetime(2020, 1, 6, 0, 0, 0, tzinfo=timezone.now().tzinfo),
+    )
+    OccurrenceFactory(
+        start_time=datetime(2020, 1, 7, 0, 0, 0, tzinfo=timezone.now().tzinfo),
+    )
+    OccurrenceFactory(
+        start_time=datetime(2020, 1, 5, 0, 0, 0, tzinfo=timezone.now().tzinfo),
+    )
+
+    executed_asc = api_client.execute(
+        OCCURRENCES_QUERY, variables={"orderBy": ["startTime"]}
+    )
+    snapshot.assert_match(executed_asc)
+
+    executed_desc = api_client.execute(
+        OCCURRENCES_QUERY, variables={"orderBy": ["-startTime"]}
+    )
+    snapshot.assert_match(executed_desc)
+
+    # Its easier to see the difference when a list of ids is compared
+    assert executed_asc["data"]["occurrences"]["edges"] == list(
+        reversed(executed_desc["data"]["occurrences"]["edges"])
+    )
+
+
+def test_occurrences_order_by_with_different_input_types(api_client):
+    OccurrenceFactory.create_batch(10)
+    execute_asc1 = api_client.execute(
+        OCCURRENCES_QUERY, variables={"orderBy": ["startTime"]}
+    )
+    execute_asc2 = api_client.execute(
+        OCCURRENCES_QUERY, variables={"orderBy": ["start_time"]}
+    )
+    assert execute_asc1 == execute_asc2
+
+    execute_desc1 = api_client.execute(
+        OCCURRENCES_QUERY, variables={"orderBy": ["-startTime"]}
+    )
+    execute_desc2 = api_client.execute(
+        OCCURRENCES_QUERY, variables={"orderBy": ["-start_time"]}
+    )
+    assert execute_desc1 == execute_desc2
+
+    assert execute_asc1 != execute_desc1
+
+    execute_asc3 = api_client.execute(
+        OCCURRENCES_QUERY, variables={"orderBy": "startTime"}
+    )
+
+    execute_desc3 = api_client.execute(
+        OCCURRENCES_QUERY, variables={"orderBy": "-startTime"}
+    )
+    assert execute_asc1 == execute_asc3
+    assert execute_desc1 == execute_desc3
+
+
+def test_occurrences_ordering_by_order_by_end_time(snapshot, api_client):
+    OccurrenceFactory(
+        end_time=datetime(2020, 1, 6, 0, 0, 0, tzinfo=timezone.now().tzinfo),
+    )
+    OccurrenceFactory(
+        end_time=datetime(2020, 1, 7, 0, 0, 0, tzinfo=timezone.now().tzinfo),
+    )
+    OccurrenceFactory(
+        end_time=datetime(2020, 1, 5, 0, 0, 0, tzinfo=timezone.now().tzinfo),
+    )
+
+    executed_asc = api_client.execute(
+        OCCURRENCES_QUERY, variables={"orderBy": ["endTime"]}
+    )
+    snapshot.assert_match(executed_asc)
+
+    executed_desc = api_client.execute(
+        OCCURRENCES_QUERY, variables={"orderBy": ["-endTime"]}
+    )
+    snapshot.assert_match(executed_desc)
+
+    # Its easier to see the difference when a list of ids is compared
+    assert executed_asc["data"]["occurrences"]["edges"] == list(
+        reversed(executed_desc["data"]["occurrences"]["edges"])
+    )
 
 
 NOTIFICATION_TEMPLATE_QUERY = """
