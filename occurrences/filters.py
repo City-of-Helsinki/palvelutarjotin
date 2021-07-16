@@ -17,7 +17,7 @@ class OccurrenceFilter(django_filters.FilterSet):
 
     class Meta:
         model = Occurrence
-        fields = ["upcoming", "date", "time"]
+        fields = ["upcoming", "date", "time", "p_event", "cancelled"]
 
     def filter_by_upcoming(self, qs, name, value):
         if value:

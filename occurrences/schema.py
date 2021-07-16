@@ -9,6 +9,7 @@ from django.db import transaction
 from django.utils import timezone
 from django.utils.translation import get_language
 from graphene import Connection, Field, InputObjectType, NonNull, relay
+from graphene.utils.str_converters import to_snake_case
 from graphene_django import DjangoConnectionField, DjangoObjectType
 from graphene_django.filter import DjangoFilterConnectionField
 from graphene_linked_events.utils import api_client, format_response, json2obj
@@ -50,6 +51,62 @@ from palvelutarjotin.exceptions import (
     MissingMantatoryInformationError,
     ObjectDoesNotExistError,
 )
+
+
+# TODO: Get rid of this when the graphene and django_filters gives the support.
+class OrderedDjangoFilterConnectionField(DjangoFilterConnectionField):
+    """
+    OrderedDjangoFilterConnectionField makes it possible to use
+    a filter to order the result nodes.
+    Example:
+    --------
+    query {
+        posts(orderBy: "-createdAt") {
+            title
+        }
+    }
+
+    In newer versions of
+    graphene, django-graphene and django-filters this feature comes out of the box:
+    https://docs.graphene-python.org/projects/django/en/latest/filtering/#ordering
+
+    Example:
+    --------
+    class UserFilter(FilterSet):
+        class Meta:
+            model = UserModel
+
+        order_by = OrderingFilter(
+            fields=(
+                ('name', 'created_at'),
+            )
+        )
+    """
+
+    @classmethod
+    def resolve_queryset(cls, connection, iterable, info, args):
+        qs = super().resolve_queryset(connection, iterable, info, args)
+        order = args.get("orderBy", None)
+        if order:
+            if isinstance(order, str):
+                snake_order = to_snake_case(order)
+            else:
+                snake_order = [to_snake_case(o) for o in order]
+
+            # annotate counts for ordering
+            for order_arg in snake_order:
+                order_arg = order_arg.lstrip("-")
+                annotation_name = f"annotate_{order_arg}"
+                annotation_method = getattr(qs, annotation_name, None)
+                if annotation_method:
+                    qs = annotation_method()
+
+            # override the default distinct parameters
+            # as they might differ from the order_by params
+            qs = qs.order_by(*snake_order).distinct()
+
+        return qs
+
 
 StudyLevelTranslation = apps.get_model("occurrences", "StudyLevelTranslation")
 VenueTranslation = apps.get_model("occurrences", "VenueCustomDataTranslation")
@@ -885,7 +942,9 @@ def _verify_enrolment_token(enrolment, token):
 
 
 class Query:
-    occurrences = DjangoFilterConnectionField(OccurrenceNode)
+    occurrences = OrderedDjangoFilterConnectionField(
+        OccurrenceNode, orderBy=graphene.List(of_type=graphene.String)
+    )
     occurrence = relay.Node.Field(OccurrenceNode)
 
     study_groups = DjangoConnectionField(StudyGroupNode)
