@@ -52,6 +52,23 @@ class OrganisationInline(admin.TabularInline):
     model = Organisation.persons.through
 
 
+class OrganisationProposalAdminForm(forms.ModelForm):
+    class Meta:
+        model = OrganisationProposal
+        fields = "__all__"
+
+    def __init__(self, *args, **kwargs):
+        super(OrganisationProposalAdminForm, self).__init__(*args, **kwargs)
+        self.fields["applicant"].queryset = Person.objects.all().order_by(
+            "name", "-created_at"
+        )
+        self.fields[
+            "applicant"
+        ].label_from_instance = (
+            lambda instance: f"{instance.__str__()} (id: {instance.id})"
+        )
+
+
 @admin.register(OrganisationProposal)
 class OrganisationProposalAdmin(admin.ModelAdmin):
     list_display = ("name", "applicant")
@@ -60,6 +77,7 @@ class OrganisationProposalAdmin(admin.ModelAdmin):
         "applicant__name",
         "applicant__user__username",
     )
+    form = OrganisationProposalAdminForm
 
 
 class UserExistenceListFilter(admin.SimpleListFilter):
