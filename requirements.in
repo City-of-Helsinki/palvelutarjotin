@@ -14,3 +14,4 @@ sentry-sdk
 importlib_metadata
 django-utils-six
 drf-oidc-auth
+social-auth-app-django
