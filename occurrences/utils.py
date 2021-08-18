@@ -26,16 +26,17 @@ def send_event_notifications_to_person(
     notification_sms_template_id,
     **kwargs,
 ):
-    def translation(
-        field_translation_map: object, language=study_group.person.language
-    ):
+    def translation(field_translation_map: object, language=None):
         """
         Get a field value translation from an objects instance.
         Try all the supported languages Parler languages as a fallback language.
         """
+        if language is None:
+            language = study_group.person.language
+
         languages = settings.PARLER_LANGUAGES["default"]["fallbacks"].copy()
         languages.insert(0, language)
-
+        translated_value = ""
         for lang in languages:
             try:
                 translated_value = field_translation_map.__getattribute__(lang)
