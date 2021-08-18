@@ -1,6 +1,28 @@
 <!-- REMINDER: While updating changelog, also remember to update
 the version in palvelutarjotin/__init.py__ -->
 
+## [0.4.0] - 18 August 2021
+
+### Added
+
+- Organisation proposal model for 3rd party organisations.
+- An user can be set as an administrator with a new is_admin -field. Administrators receives emails from new users.
+- New users will receive a notification when their account is ready for use after registration.
+- New permission "can_administrate_user_permissions" which can be used to limit the editable fields in user admin change form.
+- ENVIRONMENT_URL environment variable is set to a new SITE_URL setting, which stores the server domain information.
+- Type filter for organisations GraphQL -query.
+
+### Updated
+
+- Django updated from 2.2.20 to v. 2.2.24.
+- Disallowed organisation changes on update my profile mutation. MyProfile mutations does not allow organisation changes anymore, because of security concerns.
+- Improvements to multiple admin views.
+
+### Fixed
+
+- Report -app CSV-files support for Microsoft Excel improved.
+- Multiple notification templates updated.
+
 ## [0.3.3] - 20 May 2021
 
 ### Fixed
