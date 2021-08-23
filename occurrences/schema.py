@@ -84,27 +84,22 @@ class OrderedDjangoFilterConnectionField(DjangoFilterConnectionField):
     """
 
     @classmethod
-    def resolve_queryset(cls, connection, iterable, info, args):
-        qs = super().resolve_queryset(connection, iterable, info, args)
+    def resolve_queryset(
+        cls, connection, iterable, info, args, filtering_args, filterset_class
+    ):
+        qs = super(DjangoFilterConnectionField, cls).resolve_queryset(
+            connection, iterable, info, args
+        )
+        filter_kwargs = {k: v for k, v in args.items() if k in filtering_args}
+        qs = filterset_class(data=filter_kwargs, queryset=qs, request=info.context).qs
+
         order = args.get("orderBy", None)
         if order:
-            if isinstance(order, str):
+            if type(order) is str:
                 snake_order = to_snake_case(order)
             else:
                 snake_order = [to_snake_case(o) for o in order]
-
-            # annotate counts for ordering
-            for order_arg in snake_order:
-                order_arg = order_arg.lstrip("-")
-                annotation_name = f"annotate_{order_arg}"
-                annotation_method = getattr(qs, annotation_name, None)
-                if annotation_method:
-                    qs = annotation_method()
-
-            # override the default distinct parameters
-            # as they might differ from the order_by params
-            qs = qs.order_by(*snake_order).distinct()
-
+            qs = qs.order_by(*snake_order)
         return qs
 
 

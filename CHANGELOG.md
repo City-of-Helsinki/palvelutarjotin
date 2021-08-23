@@ -1,6 +1,19 @@
 <!-- REMINDER: While updating changelog, also remember to update
 the version in palvelutarjotin/__init.py__ -->
 
+## [0.5.0] - 18 August 2021
+
+### Updated
+
+- Django from v. 2.2.24 to v. 3.2.5
+- Django-helusers to v. 0.7.0.
+- Django-ilmoitin graphql-api to v. 0.6.0.
+- All the dependencies to resolve version missmatches.
+
+### Fixed
+
+- OIDC authentication claims validation's amr-value reading fixed by converting strings to lists.
+
 ## [0.4.0] - 18 August 2021
 
 ### Added

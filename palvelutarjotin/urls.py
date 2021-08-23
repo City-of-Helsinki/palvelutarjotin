@@ -14,6 +14,8 @@ admin.site.index_title = " ".join([ugettext("Beta Kultus API"), get_api_version(
 urlpatterns = [
     path("admin/", admin.site.urls),
     path("reports/", include("reports.urls")),
+    path("pysocial/", include("social_django.urls", namespace="social")),
+    path("helauth/", include("helusers.urls")),
     path(
         "graphql",
         csrf_exempt(

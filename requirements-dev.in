@@ -7,3 +7,6 @@ pytest
 pytest-cov
 pytest-django
 snapshottest
+packaging==21.0
+pyparsing==2.4.7
+pre-commit

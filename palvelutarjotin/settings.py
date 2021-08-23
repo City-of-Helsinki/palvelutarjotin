@@ -3,7 +3,7 @@ import subprocess
 
 import environ
 import sentry_sdk
-from django.utils.translation import ugettext_lazy as _
+from django.utils.translation import gettext_lazy as _
 from sentry_sdk.integrations.django import DjangoIntegration
 
 checkout_dir = environ.Path(__file__) - 2
@@ -159,13 +159,14 @@ USE_TZ = True
 ENABLE_GRAPHIQL = env("ENABLE_GRAPHIQL")
 
 INSTALLED_APPS = [
-    "helusers",
+    "helusers.apps.HelusersConfig",
     "helusers.apps.HelusersAdminConfig",
     "django.contrib.auth",
     "django.contrib.contenttypes",
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
+    "social_django",
     "corsheaders",
     "graphene_django",
     "rest_framework",
@@ -217,17 +218,47 @@ CORS_ORIGIN_ALLOW_ALL = env.bool("CORS_ORIGIN_ALLOW_ALL")
 
 AUTHENTICATION_BACKENDS = [
     "axes.backends.AxesBackend",
+    "helusers.tunnistamo_oidc.TunnistamoOIDCAuth",
     "django.contrib.auth.backends.ModelBackend",
     "palvelutarjotin.oidc.GraphQLApiTokenAuthentication",
 ]
-
+LOGIN_REDIRECT_URL = "/"
+LOGOUT_REDIRECT_URL = "/"
+SESSION_SERIALIZER = "django.contrib.sessions.serializers.PickleSerializer"
 AUTH_USER_MODEL = "organisations.User"
+SOCIAL_AUTH_TUNNISTAMO_AUTH_EXTRA_ARGUMENTS = {"ui_locales": ""}
 
 OIDC_API_TOKEN_AUTH = {
+    # Audience that must be present in the token for it to be
+    # accepted. Value must be agreed between your SSO service and your
+    # application instance. Essentially this allows your application to
+    # know that the token is meant to be used with it.
+    # RequestJWTAuthentication supports multiple acceptable audiences,
+    # so this setting can also be a list of strings.
+    # This setting is required.
     "AUDIENCE": env.str("TOKEN_AUTH_ACCEPTED_AUDIENCE"),
-    "API_SCOPE_PREFIX": env.str("TOKEN_AUTH_ACCEPTED_SCOPE_PREFIX"),
+    # Who we trust to sign the tokens. The library will request the
+    # public signature keys from standard locations below this URL.
+    # RequestJWTAuthentication supports multiple issuers, so this
+    # setting can also be a list of strings.
+    # Default is https://tunnistamo.hel.fi.
     "ISSUER": env.str("TOKEN_AUTH_AUTHSERVER_URL"),
+    # The following can be used if you need certain scopes for any
+    # functionality of the API. Usually this is not needed, as checking
+    # the audience is enough. Default is False.
     "REQUIRE_API_SCOPE_FOR_AUTHENTICATION": env.bool("TOKEN_AUTH_REQUIRE_SCOPE_PREFIX"),
+    # The name of the claim that is used to read in the scopes from the JWT.
+    # Default is https://api.hel.fi/auth.
+    # "API_AUTHORIZATION_FIELD": "scope_field",
+    # The request will be denied if scopes don't contain anything starting
+    # with the value provided here.
+    "API_SCOPE_PREFIX": env.str("TOKEN_AUTH_ACCEPTED_SCOPE_PREFIX"),
+    # In order to do the authentication RequestJWTAuthentication needs
+    # some facts from the authorization server, mainly its public keys for
+    # verifying the JWT's signature. This setting controls the time how long
+    # authorization server configuration and public keys are "remembered".
+    # The value is in seconds. Default is 24 hours.
+    "OIDC_CONFIG_EXPIRATION_TIME": 600,
 }
 
 OIDC_AUTH = {"OIDC_LEEWAY": 60 * 60}
@@ -307,3 +338,5 @@ if os.path.exists(local_settings_path):
     with open(local_settings_path) as fp:
         code = compile(fp.read(), local_settings_path, "exec")
     exec(code, globals(), locals())
+
+DEFAULT_AUTO_FIELD = "django.db.models.AutoField"

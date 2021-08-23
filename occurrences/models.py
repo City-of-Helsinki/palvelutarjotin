@@ -5,7 +5,7 @@ from django.db import models, transaction
 from django.db.models import F, Q, Sum
 from django.utils import timezone
 from django.utils.timezone import localtime
-from django.utils.translation import ugettext_lazy as _
+from django.utils.translation import gettext_lazy as _
 from django_ilmoitin.utils import send_notification
 from graphene_linked_events.utils import retrieve_linked_events_data
 from graphql_relay import to_global_id
