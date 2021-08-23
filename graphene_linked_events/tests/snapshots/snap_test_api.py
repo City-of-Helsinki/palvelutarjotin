@@ -93,81 +93,10 @@ snapshots["test_get_events 1"] = {
                     "subEvents": [],
                     "superEvent": None,
                     "superEventType": None,
-                },
-                {
-                    "audience": [],
-                    "audienceMaxAge": None,
-                    "audienceMinAge": None,
-                    "createdTime": "2019-12-13T12:49:40.545273Z",
-                    "customData": None,
-                    "dataSource": "helsinki",
-                    "datePublished": None,
-                    "description": {
-                        "en": "<p>Visual artist Raija Malka and composer Kaija Saariaho will take over Amos Rex’s exhibition space in a new and experiential way next summer. The work is painterly, spatial and musical all at once, offering visitors an opportunity to shape the space with their own creativity.</p><p>The exhibition title, Blick (Gaze), is a reference to visual artist Wassily Kandinsky’s poem from 1912 that is included in the soundscape by Kaija Saariaho. The gazes of the two artists are brought together in a three-dimensional space.</p><p>The exhibition is a multisensory experience that invites people to stay. In a world made up of the colours and sounds of Malka and Saariaho, visitors can build their own arrangements.</p><p>Amos Rex<br>10.6.-30.8. </p><p>Mon, Fri 11.00-18.00<br>Wed, Thu 11.00-20.00<br>Sat, Sun 11.00-17.00</p><p>Admission fee 5-15€, under 18 yrs free entry</p>",
-                        "fi": "<p>Kuvataiteilija Raija Malka ja säveltäjä Kaija Saariaho täyttävät ensi kesänä Amos Rexin näyttelytilan uudella kokemuksellisella tavalla. Teos on yhtä aikaa maalauksellinen, tilallinen ja musiikillinen. </p><p>Näyttelyn nimi Blick (Katse) viittaa kuvataiteilija Wassily Kandinskyn 1912 julkaistuun runoon, joka sisältyy Kaija Saariahon näyttelyssä kuultavaan äänimaisemaan. Kahden taiteilijan katseet yhdistyvät näyttelyn kolmiulotteisessa tilassa.</p><p>Näyttely on moniaistinen kokonaisuus, joka houkuttelee viipymään. Kävijä voi rakentaa omia asetelmiaan Malkan ja Saariahon väri- ja äänimaailmaan.</p><p>Amos Rex<br>10.6.-30.8. </p><p>ma, pe klo 11-18<br>ke, to klo 11-20<br>la, su klo 11-17</p><p>Sisäänpääsy 5-15€, alle 18-vuotiaille vapaa pääsy</p>",
-                        "sv": "<p>Bildkonstnären Raija Malka och kompositören Kaija Saariaho fyller Amos Rex utställningsutrymme på ett nytt och experimentellt sätt nästa sommaren. Deras verk är på en och samma gång måleriskt, rumsligt och musikaliskt. </p><p>Utställningstiteln, Blick, syftar på bildkonstnären Wassily Kandinskys dikt från 1912. Texten ingår i Kaija Saariahos ljuder i utställningen. De två konstnärernas blickar möts i det tredimensionella utställningsutrymmet.</p><p>Utställningen utgör en sinnlig helhet som lockar besökare att dröja kvar. De kan bidra till Malkas och Saariahos färg- och ljudvärld med sina egna byggstenar.</p><p>Amos Rex<br>10.6.-30.8. </p><p>må, fre kl 11-18<br>ons, to kl 11-20<br>lö, sö kl 11-17</p><p>Inträde 5-15€, under 18 år fritt inträde</p>",
-                    },
-                    "endTime": None,
-                    "eventStatus": "EventPostponed",
-                    "extensionCourse": None,
-                    "externalLinks": [],
-                    "id": "helsinki:afxp6tv4xa",
-                    "images": [
-                        {
-                            "internalId": "https://api.hel.fi/linkedevents/v1/image/61106/"
-                        }
-                    ],
-                    "inLanguage": [],
-                    "infoUrl": {
-                        "en": "http://www.amosrex.fi",
-                        "fi": "http://www.amosrex.fi",
-                        "sv": "http://www.amosrex.fi",
-                    },
-                    "internalContext": "http://schema.org",
-                    "internalId": "https://api.hel.fi/linkedevents/v1/event/helsinki:afxp6tv4xa/",
-                    "internalType": "Event/LinkedEvent",
-                    "keywords": [
-                        {
-                            "internalId": "https://api.hel.fi/linkedevents/v1/keyword/helfi:12/"
-                        },
-                        {
-                            "internalId": "https://api.hel.fi/linkedevents/v1/keyword/yso:p5121/"
-                        },
-                        {
-                            "internalId": "https://api.hel.fi/linkedevents/v1/keyword/yso:p6889/"
-                        },
-                        {
-                            "internalId": "https://api.hel.fi/linkedevents/v1/keyword/yso:p1808/"
-                        },
-                    ],
-                    "lastModifiedTime": "2020-05-05T09:24:58.569334Z",
-                    "localizationExtraInfo": None,
-                    "location": {
-                        "internalId": "https://api.hel.fi/linkedevents/v1/place/tprek:55959/"
-                    },
-                    "name": {
-                        "en": "Raija Malka & Kaija Saariaho: Blick",
-                        "fi": "Raija Malka & Kaija Saariaho: Blick",
-                        "sv": "Raija Malka & Kaija Saariaho: Blick",
-                    },
-                    "offers": [{"isFree": False}],
-                    "provider": {"en": "Amos Rex", "fi": "Amos Rex", "sv": "Amos Rex"},
-                    "providerContactInfo": None,
-                    "publicationStatus": None,
-                    "publisher": "ytj:0586977-6",
-                    "shortDescription": {
-                        "en": "Visual artist Raija Malka and composer Kaija Saariaho will take over Amos Rex’s exhibition space in a new and experiential way next summer. ",
-                        "fi": "Kuvataiteilija Raija Malka ja säveltäjä Kaija Saariaho täyttävät ensi kesänä Amos Rexin näyttelytilan uudella kokemuksellisella tavalla. ",
-                        "sv": "Bildkonstnären Raija Malka och kompositören Kaija Saariaho fyller Amos Rex utställningsutrymme på ett nytt och experimentellt sätt nästa sommaren.",
-                    },
-                    "startTime": None,
-                    "subEvents": [],
-                    "superEvent": None,
-                    "superEventType": None,
-                },
+                }
             ],
             "meta": {
-                "count": 151775,
+                "count": 1,
                 "next": "https://api.hel.fi/linkedevents/v1/event/?page=2",
                 "previous": None,
             },
@@ -874,7 +803,7 @@ snapshots["test_get_events_with_occurrences 1"] = {
                 },
             ],
             "meta": {
-                "count": 151775,
+                "count": 2,
                 "next": "https://api.hel.fi/linkedevents/v1/event/?page=2",
                 "previous": None,
             },

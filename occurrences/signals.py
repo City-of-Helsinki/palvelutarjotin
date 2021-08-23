@@ -3,6 +3,7 @@ import logging
 from typing import List
 
 from anymail.signals import pre_send
+from django.core.exceptions import ObjectDoesNotExist
 from django.db import transaction
 from django.db.models.signals import m2m_changed, post_delete, post_save
 from django.dispatch import receiver
@@ -127,6 +128,13 @@ def update_event_languages_on_occurrence_delete(sender, instance, **kwargs):
     the remaining occurrences languages should be synced to LinkedEvents
     Event languages.
     """
+
+    try:
+        if not hasattr(instance, "p_event"):
+            return
+    except ObjectDoesNotExist:
+        return
+
     # Current languages set to an event.
     # Note that on post_delete, the object will no longer be in the database.
     event_language_ids = [

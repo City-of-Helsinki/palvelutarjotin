@@ -1,9 +1,11 @@
+import json
 from copy import deepcopy
 from datetime import timedelta
 
 import graphene_linked_events
 import pytest
 from django.utils import timezone
+from graphene_linked_events.schema import Query
 from graphene_linked_events.tests.mock_data import (
     EVENT_DATA,
     EVENTS_DATA,
@@ -575,14 +577,30 @@ query eventsSearch{
 """
 
 
+@pytest.mark.django_db
 def test_get_events(api_client, snapshot, mock_get_events_data, organisation):
     # Because of mock data, this test might not return correct result,
     # but the goal is to test if organisation argument work in `resolve_events`
+
+    # NOTE: Only events that have a p_event in database should be returned.
+    linked_event_id = EVENTS_DATA["data"][0]["id"]
+    PalvelutarjotinEventFactory(linked_event_id=linked_event_id)
     executed = api_client.execute(
         GET_EVENTS_QUERY,
         variables={"organisationId": to_global_id("OrganisationNode", organisation.id)},
     )
+    assert EVENTS_DATA["meta"]["count"] == 151775
+    assert len(EVENTS_DATA["data"]) == 2
+    assert executed["data"]["events"]["meta"]["count"] == 1
+    assert executed["data"]["events"]["data"][0]["id"] == linked_event_id
     snapshot.assert_match(executed)
+
+
+@pytest.mark.django_db
+def test_pevent_preadded_with_test_events_p_event_relations():
+    p_event = PalvelutarjotinEventFactory(linked_event_id=EVENTS_DATA["data"][0]["id"])
+    result = Query._test_events_p_event_relations(json.dumps(EVENTS_DATA))
+    assert result.data[0].p_event.id == p_event.id
 
 
 def test_get_event(api_client, snapshot, monkeypatch):

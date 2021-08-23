@@ -14,12 +14,12 @@ def format_response(response):
     return response.text.replace("@", "internal_")
 
 
-def _json_object_hook(d):
+def json_object_hook(d):
     return namedtuple("X", d.keys())(*d.values())
 
 
 def json2obj(data):
-    return json.loads(data, object_hook=_json_object_hook)
+    return json.loads(data, object_hook=json_object_hook)
 
 
 def format_request(request):

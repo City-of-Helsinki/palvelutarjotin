@@ -4,6 +4,7 @@ import pytest
 from graphene_linked_events.utils import api_client
 from occurrences.factories import LanguageFactory, OccurrenceFactory
 from occurrences.models import Occurrence
+from occurrences.signals import update_event_languages_on_occurrence_delete
 
 from common.tests.utils import mocked_json_response
 from palvelutarjotin.exceptions import ApiUsageError, ObjectDoesNotExistError
@@ -136,3 +137,22 @@ def test_occurrence_delete_should_ignore(
     occurrence.delete()
     assert mock_api_client_update.call_count == 3
     assert Occurrence.objects.count() == 0
+
+
+@pytest.mark.django_db
+@patch.object(
+    api_client, "update", return_value=mocked_json_response(data=None, status_code=404)
+)
+def test_occurrence_without_p_event_should_not_call_API(mock_api_client_update):
+    occurrence = OccurrenceFactory()
+
+    # Test p_Event does not exist
+    occurrence.p_event_id = 0  # object which does not exist
+    update_event_languages_on_occurrence_delete(Occurrence, occurrence)
+    assert mock_api_client_update.call_count == 0
+
+    # Test no p_event attr
+    d = occurrence.__dict__
+    d["p_event"] = None
+    update_event_languages_on_occurrence_delete(Occurrence, d)
+    assert mock_api_client_update.call_count == 0
