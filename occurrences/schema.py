@@ -232,7 +232,11 @@ class OccurrenceNode(DjangoObjectType):
     remaining_seats = graphene.Int(required=True)
     seats_taken = graphene.Int(required=True)
     seats_approved = graphene.Int(required=True)
-    linked_event = Field("graphene_linked_events.schema.Event")
+    linked_event = Field(
+        "graphene_linked_events.schema.Event",
+        description="Only use this field in single event query for "
+        + "best performance.",
+    )
 
     def resolve_linked_event(self, info, **kwargs):
         response = api_client.retrieve(
