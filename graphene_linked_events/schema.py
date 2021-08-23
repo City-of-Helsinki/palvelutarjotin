@@ -1,3 +1,6 @@
+import json
+from types import SimpleNamespace
+
 from django.core.exceptions import PermissionDenied
 from django.db import transaction
 from django.utils import timezone
@@ -23,6 +26,7 @@ from graphene_linked_events.utils import (
     format_response,
     get_keyword_set_by_id,
     json2obj,
+    json_object_hook,
 )
 from graphql_jwt.decorators import staff_member_required
 from occurrences.models import PalvelutarjotinEvent, VenueCustomData
@@ -235,6 +239,11 @@ class Event(IdObject):
     )
 
     def resolve_p_event(self, info, **kwargs):
+
+        # Avoid needless palvelutarjotin event queries.
+        if hasattr(self, "p_event"):
+            return self.p_event
+
         try:
             return PalvelutarjotinEvent.objects.prefetch_related("occurrences").get(
                 linked_event_id=self.id
@@ -367,6 +376,36 @@ class Query:
     )
 
     @staticmethod
+    def _test_events_p_event_relations(events_json):
+        """
+        Prune events that does not have a PalvelutarjotinEvent in our database.
+        """
+
+        events = json.loads(events_json, object_hook=lambda d: SimpleNamespace(**d))
+
+        # Get related palvelutarjotin events
+        p_events = PalvelutarjotinEvent.objects.prefetch_related("occurrences").filter(
+            linked_event_id__in=[e.id for e in events.data]
+        )
+
+        # Prune a list of events which have a link to a palvelutarjotin event
+        tested_events = [
+            e for e in events.data if e.id in [p.linked_event_id for p in p_events]
+        ]
+
+        # Attach prefetched palvelutarjotin events to event instances
+        for t in tested_events:
+            t.p_event = next((p for p in p_events if p.linked_event_id == t.id), None)
+
+        # Create a (new) mutated immutable X-object of the event results.
+        return json_object_hook(
+            {
+                "meta": {**events.meta.__dict__, **{"count": len(tested_events)}},
+                "data": tested_events,
+            }
+        )
+
+    @staticmethod
     def resolve_event(parent, info, **kwargs):
         response = api_client.retrieve(
             "event",
@@ -399,7 +438,10 @@ class Query:
         response = api_client.list(
             "event", filter_list=kwargs, is_staff=info.context.user.is_staff
         )
-        return json2obj(format_response(response))
+
+        events_json = format_response(response)
+
+        return Query._test_events_p_event_relations(events_json)
 
     @staticmethod
     def resolve_place(parent, info, **kwargs):

@@ -1,7 +1,9 @@
 import json
+import logging
 from typing import List
 
 from anymail.signals import pre_send
+from django.core.exceptions import ObjectDoesNotExist
 from django.db import transaction
 from django.db.models.signals import m2m_changed, post_delete, post_save
 from django.dispatch import receiver
@@ -10,7 +12,9 @@ from occurrences.consts import NotificationTemplate
 from occurrences.models import Enrolment, Occurrence, PalvelutarjotinEvent
 from occurrences.utils import send_event_notifications_to_person
 
-from palvelutarjotin.exceptions import ApiUsageError
+from palvelutarjotin.exceptions import ApiUsageError, ObjectDoesNotExistError
+
+logger = logging.getLogger(__name__)
 
 
 def send_event_languages_update(
@@ -37,7 +41,10 @@ def send_event_languages_update(
     # Call API to update event
     result = api_client.update("event", p_event.linked_event_id, json.dumps(event_obj))
 
-    if result.status_code != 200:
+    if result.status_code == 404:
+        raise ObjectDoesNotExistError("Could not find the event from the API")
+
+    elif result.status_code != 200:
         raise ApiUsageError("Cannot update occurrences languages to the event")
 
 
@@ -121,6 +128,13 @@ def update_event_languages_on_occurrence_delete(sender, instance, **kwargs):
     the remaining occurrences languages should be synced to LinkedEvents
     Event languages.
     """
+
+    try:
+        if not hasattr(instance, "p_event"):
+            return
+    except ObjectDoesNotExist:
+        return
+
     # Current languages set to an event.
     # Note that on post_delete, the object will no longer be in the database.
     event_language_ids = [
@@ -128,4 +142,10 @@ def update_event_languages_on_occurrence_delete(sender, instance, **kwargs):
         for language in instance.p_event.get_event_languages_from_occurrence()
     ]
     # Send the updated languages to LinkedEvent
-    send_event_languages_update(instance.p_event, event_language_ids)
+    try:
+        send_event_languages_update(instance.p_event, event_language_ids)
+    except ObjectDoesNotExistError as err:
+        logger.warning(
+            "An ObjectDoesNotExistError was raised, but the update process continued,"
+            + "because data is being deleted, not updated. Error: {0}".format(err)
+        )
