@@ -15,3 +15,4 @@ importlib_metadata
 django-utils-six
 drf-oidc-auth
 social-auth-app-django
+urllib3>=1.26.5
