@@ -2,6 +2,7 @@ import json
 from types import SimpleNamespace
 
 from django.core.exceptions import PermissionDenied
+from django.core.paginator import Paginator
 from django.db import transaction
 from django.utils import timezone
 from graphene import (
@@ -25,11 +26,12 @@ from graphene_linked_events.utils import (
     format_request,
     format_response,
     get_keyword_set_by_id,
+    get_linked_events_date_support,
     json2obj,
     json_object_hook,
 )
 from graphql_jwt.decorators import staff_member_required
-from occurrences.models import PalvelutarjotinEvent, VenueCustomData
+from occurrences.models import Occurrence, PalvelutarjotinEvent, VenueCustomData
 from occurrences.schema import (
     PalvelutarjotinEventInput,
     PalvelutarjotinEventNode,
@@ -60,6 +62,10 @@ PublicationStatusEnum = Enum(
 KeywordSetEnum = Enum(
     "KeywordSetType", [(s.upper(), s) for s in KEYWORD_SET_ID_MAPPING.keys()]
 )
+
+LINKED_EVENTS_PAGINATION_PAGE_SIZE = 10
+LINKED_EVENTS_PAGINATION_PAGE_PARAM = "page"
+LINKED_EVENTS_PAGINATION_PAGE_SIZE_PARAM = "page_size"
 
 
 class IdObject(ObjectType):
@@ -406,6 +412,59 @@ class Query:
         )
 
     @staticmethod
+    def _get_queryset_page(queryset, page, page_size):
+        """
+        Paginate the queryset and return a defined page.
+        NOTE: When the pagination is done internally, the page size should match
+        the LinkedEvents default page size.
+        """
+        paginator = Paginator(queryset, page_size)
+        instances = paginator.page(page).object_list
+        return instances
+
+    @staticmethod
+    def _resolve_events_from_occurrences(parent, info, **kwargs):
+        """
+        When events are wanted to be filtered by occurrence data,
+        also the sorting and pagniation should be done internally in Kultus API.
+        """
+        occurrences_qs = Occurrence.objects.all().prefetch_related("p_event")
+
+        if "start" in kwargs:
+            start_time = get_linked_events_date_support(kwargs["start"])
+            occurrences_qs = occurrences_qs.filter(start_time__gte=start_time)
+
+        if "end" in kwargs:
+            end_time = get_linked_events_date_support(kwargs["end"])
+            occurrences_qs = occurrences_qs.filter(end_time__lte=end_time)
+
+        occurrences_qs.order_by("-start_time").distinct("p_event")
+
+        # Paginate the occurrences internally in Kultus API
+        occurrences = Query._get_queryset_page(
+            occurrences_qs,
+            kwargs.get(LINKED_EVENTS_PAGINATION_PAGE_PARAM, 1),
+            kwargs.get(
+                LINKED_EVENTS_PAGINATION_PAGE_SIZE_PARAM,
+                LINKED_EVENTS_PAGINATION_PAGE_SIZE,
+            ),
+        )
+
+        # Get a list of event ids that needs to be fetched
+        # Only 1 page should be returned from api_client
+        event_ids = [occurrence.p_event.linked_event_id for occurrence in occurrences]
+
+        response = api_client.list(
+            "event",
+            filter_list={"ids": event_ids},
+            is_staff=info.context.user.is_staff,
+        )
+
+        # Write the (pagination) meta data to response
+
+        return response
+
+    @staticmethod
     def resolve_event(parent, info, **kwargs):
         response = api_client.retrieve(
             "event",
@@ -435,12 +494,26 @@ class Query:
         if kwargs.get("keyword_not"):
             kwargs["keyword!"] = kwargs.pop("keyword_not")
 
-        response = api_client.list(
-            "event", filter_list=kwargs, is_staff=info.context.user.is_staff
-        )
+        # If events are requested to be filtered and sorted by occurrences
+        # the events should be filtered and paginated by occurrences...
+        if kwargs.get("sort") == "-occurrence_start_time":
+            # this  sort parameter is unsupported by api_client and
+            # in this case the sorting, filtering and pagination
+            # should be done outside from LinkedEvents
+            del kwargs["sort"]
+            response = Query._resolve_events_from_occurrences(parent, info, **kwargs)
+        # ...In normal case the pagination and whole request is
+        # handled by LinkedEvents API.
+        else:
+            response = api_client.list(
+                "event", filter_list=kwargs, is_staff=info.context.user.is_staff
+            )
 
+        # Get events json
         events_json = format_response(response)
 
+        # Return a list of events which are
+        # still linked with PalvelutarjotinEvent instances.
         return Query._test_events_p_event_relations(events_json)
 
     @staticmethod
