@@ -1268,7 +1268,7 @@ def test_enrol_full_enrolment_occurrence(api_client, occurrence, mock_get_event_
         p_event=p_event_1,
         min_group_size=10,
         max_group_size=101,
-        amount_of_seats=1,
+        amount_of_seats=2,
         seat_type=Occurrence.OCCURRENCE_SEAT_TYPE_ENROLMENT_COUNT,
     )
 
