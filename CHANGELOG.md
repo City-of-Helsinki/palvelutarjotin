@@ -1,7 +1,7 @@
 <!-- REMINDER: While updating changelog, also remember to update
 the version in palvelutarjotin/__init.py__ -->
 
-## [0.5.0] - 18 August 2021
+## [0.5.0] - 9 September 2021
 
 ### Updated
 
