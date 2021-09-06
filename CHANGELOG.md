@@ -13,6 +13,9 @@ the version in palvelutarjotin/__init.py__ -->
 ### Fixed
 
 - OIDC authentication claims validation's amr-value reading fixed by converting strings to lists.
+- Checks the PalvelutarjotinEvent link existence when fetching events from LinkedEvents API.
+- Occurrence deletion signals are no longer preventing deletion.
+- Enrolment seats taken calculation fixed.
 
 ## [0.4.0] - 18 August 2021
 
