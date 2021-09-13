@@ -126,11 +126,12 @@ Allow user to create test database
 ](https://github.com/City-of-Helsinki/notification-service-api) then add these lines to your local `.env` / `.docker
 -compose.env.yaml`
 
-    ```python
-    NOTIFICATION_SERVICE_API_TOKEN=your_api_key
-    NOTIFICATION_SERVICE_API_URL=notification_service_end_point
-    ```
- 
+        ```python
+        NOTIFICATION_SERVICE_API_TOKEN=your_api_key
+        NOTIFICATION_SERVICE_API_URL=notification_service_end_point
+        ```
+
+7.  (Optional) To offer neighborhood division through a GraphQL API, the Neighborhood API needs to be configured. By default it is using kartta.hel.fi open data API and it should work out of the box.
 
 ## API Documentation
 To view the API documentation, in DEBUG mode visit: http://localhost:8081/graphql and checkout the `Documentation Explorer` section

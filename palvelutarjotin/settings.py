@@ -61,6 +61,7 @@ env = environ.Env(
     LINKED_EVENTS_API_ROOT=(str, "https://api.hel.fi/linkedevents/v1/"),
     LINKED_EVENTS_API_KEY=(str, ""),
     LINKED_EVENTS_DATA_SOURCE=(str, "palvelutarjotin"),
+    NEIGHBORHOOD_API_ROOT=(str, "https://kartta.hel.fi/ws/geoserver/avoindata/wfs"),
     NOTIFICATION_SERVICE_API_TOKEN=(str, ""),
     NOTIFICATION_SERVICE_API_URL=(str, "https://notification-service.hel.fi/v1/"),
     CAPTCHA_ENABLED=(bool, False),
@@ -292,6 +293,8 @@ LINKED_EVENTS_API_CONFIG = {
     "API_KEY": env.str("LINKED_EVENTS_API_KEY"),
     "DATA_SOURCE": env.str("LINKED_EVENTS_DATA_SOURCE"),
 }
+
+NEIGHBORHOOD_API_CONFIG = {"ROOT": env.str("NEIGHBORHOOD_API_ROOT")}
 
 AXES_FAILURE_LIMIT = 5
 AXES_COOLOFF_TIME = 1  # hour after locked out, user will be able to attempt login
