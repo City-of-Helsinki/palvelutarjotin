@@ -249,7 +249,7 @@ snapshots["test_only_send_approved_notification[False] 1"] = [
 snapshots["test_mass_approve_enrolment_mutation 1"] = [
     """no-reply@hel.ninja|['philip16@moss.com']|Enrolment approved FI|
     Event FI: Raija Malka & Kaija Saariaho: Blick
-    Extra event info: ZoGFT
+    Extra event info: xkiAB
     Study group: Believe policy security score. Turn argue present throw spend prevent.
     Occurrence: 30.07.1996 07.23
     Person: philip16@moss.com
@@ -260,7 +260,7 @@ snapshots["test_mass_approve_enrolment_mutation 1"] = [
 """,
     """no-reply@hel.ninja|['monica13@hotmail.com']|Enrolment approved FI|
     Event FI: Raija Malka & Kaija Saariaho: Blick
-    Extra event info: ZoGFT
+    Extra event info: xkiAB
     Study group: Believe policy security score. Turn argue present throw spend prevent.
     Occurrence: 30.07.1996 07.23
     Person: monica13@hotmail.com
@@ -271,7 +271,7 @@ snapshots["test_mass_approve_enrolment_mutation 1"] = [
 """,
     """no-reply@hel.ninja|['melissa96@gmail.com']|Enrolment approved FI|
     Event FI: Raija Malka & Kaija Saariaho: Blick
-    Extra event info: ZoGFT
+    Extra event info: xkiAB
     Study group: Work early property your stage receive. Determine sort under car.
     Occurrence: 30.07.1996 07.23
     Person: melissa96@gmail.com
@@ -282,7 +282,7 @@ snapshots["test_mass_approve_enrolment_mutation 1"] = [
 """,
     """no-reply@hel.ninja|['perezlisa@hotmail.com']|Enrolment approved FI|
     Event FI: Raija Malka & Kaija Saariaho: Blick
-    Extra event info: ZoGFT
+    Extra event info: xkiAB
     Study group: Work early property your stage receive. Determine sort under car.
     Occurrence: 30.07.1996 07.23
     Person: perezlisa@hotmail.com
@@ -293,7 +293,7 @@ snapshots["test_mass_approve_enrolment_mutation 1"] = [
 """,
     """no-reply@hel.ninja|['robertmorris@gmail.com']|Enrolment approved FI|
     Event FI: Raija Malka & Kaija Saariaho: Blick
-    Extra event info: ZoGFT
+    Extra event info: xkiAB
     Study group: Green unit recently turn who world various.
     Occurrence: 30.07.1996 07.23
     Person: robertmorris@gmail.com
@@ -304,7 +304,7 @@ snapshots["test_mass_approve_enrolment_mutation 1"] = [
 """,
     """no-reply@hel.ninja|['kirbyjulie@yahoo.com']|Enrolment approved FI|
     Event FI: Raija Malka & Kaija Saariaho: Blick
-    Extra event info: ZoGFT
+    Extra event info: xkiAB
     Study group: Green unit recently turn who world various.
     Occurrence: 30.07.1996 07.23
     Person: kirbyjulie@yahoo.com

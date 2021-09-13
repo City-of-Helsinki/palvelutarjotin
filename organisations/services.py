@@ -30,6 +30,7 @@ def get_admin_emails_and_languages():
     return list(
         get_user_model()
         .objects.filter(is_admin=True)
+        .order_by("id")
         .values_list("email", "person__language")
     )
 
