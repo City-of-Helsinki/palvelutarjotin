@@ -219,6 +219,7 @@ query Occurrences(
             neededOccurrences
             enrolmentEndDays
             enrolmentStart
+            externalEnrolmentUrl
             linkedEventId
             autoAcceptance
             mandatoryAdditionalInformation
@@ -257,6 +258,7 @@ query Occurrence($id: ID!){
         neededOccurrences
         enrolmentEndDays
         enrolmentStart
+        externalEnrolmentUrl
         linkedEventId
         autoAcceptance
         mandatoryAdditionalInformation
@@ -323,6 +325,7 @@ ADD_OCCURRENCE_MUTATION = """
             neededOccurrences
             enrolmentEndDays
             enrolmentStart
+            externalEnrolmentUrl
             linkedEventId
             autoAcceptance
             mandatoryAdditionalInformation
@@ -382,6 +385,7 @@ mutation updateOccurrence($input: UpdateOccurrenceMutationInput!){
         neededOccurrences
         enrolmentEndDays
         enrolmentStart
+        externalEnrolmentUrl
         linkedEventId
         mandatoryAdditionalInformation
       }

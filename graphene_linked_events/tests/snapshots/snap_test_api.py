@@ -694,6 +694,7 @@ snapshots["test_update_event 1"] = {
                         "contactPhoneNumber": "123123",
                         "enrolmentEndDays": 2,
                         "enrolmentStart": "2020-06-06T16:40:48+00:00",
+                        "externalEnrolmentUrl": None,
                         "linkedEventId": "qq:afy6aghr2y",
                         "mandatoryAdditionalInformation": True,
                         "neededOccurrences": 1,
@@ -829,6 +830,7 @@ snapshots["test_create_event 1"] = {
                         "contactPhoneNumber": "123123",
                         "enrolmentEndDays": 2,
                         "enrolmentStart": "2020-06-06T16:40:48+00:00",
+                        "externalEnrolmentUrl": None,
                         "linkedEventId": "qq:afy6aghr2y",
                         "mandatoryAdditionalInformation": True,
                         "neededOccurrences": 1,
@@ -955,6 +957,80 @@ snapshots["test_get_keyword_set 4"] = {
                     },
                 }
             ],
+        }
+    }
+}
+
+snapshots["test_create_event_with_external_enrolment 1"] = {
+    "data": {
+        "addEventMutation": {
+            "response": {
+                "body": {
+                    "description": {"en": "desc en", "fi": "desc", "sv": "desc sv"},
+                    "id": "qq:afy6aghr2y",
+                    "infoUrl": None,
+                    "keywords": [{"id": None}],
+                    "location": {"id": None},
+                    "offers": [{"isFree": False}],
+                    "pEvent": {
+                        "autoAcceptance": False,
+                        "contactEmail": "contact@email.me",
+                        "contactPerson": {"name": "Jason Berg"},
+                        "contactPhoneNumber": "123123",
+                        "enrolmentEndDays": 0,
+                        "enrolmentStart": None,
+                        "externalEnrolmentUrl": "http://test.org",
+                        "linkedEventId": "qq:afy6aghr2y",
+                        "mandatoryAdditionalInformation": True,
+                        "neededOccurrences": 0,
+                        "organisation": {"name": "Baker, Cardenas and Cruz"},
+                    },
+                    "shortDescription": {
+                        "en": "short desc en",
+                        "fi": "short desc",
+                        "sv": "short desc sv",
+                    },
+                    "startTime": "2020-05-05",
+                },
+                "statusCode": 201,
+            }
+        }
+    }
+}
+
+snapshots["test_create_event_without_enrolment 1"] = {
+    "data": {
+        "addEventMutation": {
+            "response": {
+                "body": {
+                    "description": {"en": "desc en", "fi": "desc", "sv": "desc sv"},
+                    "id": "qq:afy6aghr2y",
+                    "infoUrl": None,
+                    "keywords": [{"id": None}],
+                    "location": {"id": None},
+                    "offers": [{"isFree": False}],
+                    "pEvent": {
+                        "autoAcceptance": False,
+                        "contactEmail": "contact@email.me",
+                        "contactPerson": {"name": "Jason Berg"},
+                        "contactPhoneNumber": "123123",
+                        "enrolmentEndDays": 0,
+                        "enrolmentStart": None,
+                        "externalEnrolmentUrl": "",
+                        "linkedEventId": "qq:afy6aghr2y",
+                        "mandatoryAdditionalInformation": True,
+                        "neededOccurrences": 0,
+                        "organisation": {"name": "Baker, Cardenas and Cruz"},
+                    },
+                    "shortDescription": {
+                        "en": "short desc en",
+                        "fi": "short desc",
+                        "sv": "short desc sv",
+                    },
+                    "startTime": "2020-05-05",
+                },
+                "statusCode": 201,
+            }
         }
     }
 }
