@@ -694,6 +694,7 @@ mutation addEvent($input: AddEventMutationInput!){
           }
           enrolmentEndDays
           enrolmentStart
+          externalEnrolmentUrl
           neededOccurrences
           linkedEventId
           organisation{
@@ -813,6 +814,52 @@ def test_create_event(
     snapshot.assert_match(executed)
 
 
+def test_create_event_with_external_enrolment(
+    staff_api_client, snapshot, person, mock_create_event_data, organisation
+):
+    variables = deepcopy(CREATE_EVENT_VARIABLES)
+    variables["input"]["organisationId"] = to_global_id(
+        "OrganisationNode", organisation.id
+    )
+    variables["input"]["pEvent"]["contactPersonId"] = to_global_id(
+        "PersonNode", person.id
+    )
+    variables["input"]["pEvent"]["externalEnrolmentUrl"] = "http://test.org"
+    variables["input"]["pEvent"]["enrolmentStart"] = None
+    variables["input"]["pEvent"]["enrolmentEndDays"] = 0
+    variables["input"]["pEvent"]["neededOccurrences"] = 0
+    variables["input"]["pEvent"]["autoAcceptance"] = False
+
+    staff_api_client.user.person.organisations.add(organisation)
+    person.organisations.add(organisation)
+    executed = staff_api_client.execute(CREATE_EVENT_MUTATION, variables=variables)
+    assert PalvelutarjotinEvent.objects.count() == 1
+    snapshot.assert_match(executed)
+
+
+def test_create_event_without_enrolment(
+    staff_api_client, snapshot, person, mock_create_event_data, organisation
+):
+    variables = deepcopy(CREATE_EVENT_VARIABLES)
+    variables["input"]["organisationId"] = to_global_id(
+        "OrganisationNode", organisation.id
+    )
+    variables["input"]["pEvent"]["contactPersonId"] = to_global_id(
+        "PersonNode", person.id
+    )
+    variables["input"]["pEvent"]["externalEnrolmentUrl"] = ""
+    variables["input"]["pEvent"]["enrolmentStart"] = None
+    variables["input"]["pEvent"]["enrolmentEndDays"] = 0
+    variables["input"]["pEvent"]["neededOccurrences"] = 0
+    variables["input"]["pEvent"]["autoAcceptance"] = False
+
+    staff_api_client.user.person.organisations.add(organisation)
+    person.organisations.add(organisation)
+    executed = staff_api_client.execute(CREATE_EVENT_MUTATION, variables=variables)
+    assert PalvelutarjotinEvent.objects.count() == 1
+    snapshot.assert_match(executed)
+
+
 UPDATE_EVENT_MUTATION = """
 mutation addEvent($input: UpdateEventMutationInput!){
   updateEventMutation(event: $input){
@@ -850,6 +897,7 @@ mutation addEvent($input: UpdateEventMutationInput!){
           contactPhoneNumber
           enrolmentEndDays
           enrolmentStart
+          externalEnrolmentUrl
           neededOccurrences
           linkedEventId
           organisation{

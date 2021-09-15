@@ -1,5 +1,6 @@
 import pytest
 from django.contrib.auth import get_user_model
+from django.core.exceptions import ValidationError
 from occurrences.consts import StudyGroupStudyLevels
 from occurrences.factories import (
     EnrolmentFactory,
@@ -25,7 +26,68 @@ User = get_user_model()
 
 @pytest.mark.django_db
 def test_palvelutarjotin_event():
-    PalvelutarjotinEventFactory()
+    p_event = PalvelutarjotinEventFactory()
+    assert p_event.enrolment_start is not None
+    assert p_event.external_enrolment_url is None
+    assert PalvelutarjotinEvent.objects.count() == 1
+    assert Organisation.objects.count() == 1
+    assert Person.objects.count() == 1
+
+
+@pytest.mark.django_db
+def test_palvelutarjotin_event_with_external_enrolment():
+    p_event = PalvelutarjotinEventFactory(
+        enrolment_start=None, external_enrolment_url="http://test.org"
+    )
+    assert p_event.enrolment_start is None
+    assert p_event.external_enrolment_url == "http://test.org"
+    assert PalvelutarjotinEvent.objects.count() == 1
+    assert Organisation.objects.count() == 1
+    assert Person.objects.count() == 1
+
+
+@pytest.mark.django_db
+def test_palvelutarjotin_event_with_valid_external_enrolment_url():
+
+    PalvelutarjotinEventFactory(external_enrolment_url="https://123.fi").full_clean()
+    PalvelutarjotinEventFactory(
+        external_enrolment_url="ftp://file-transfer-protocol.com/"
+    ).full_clean()
+    PalvelutarjotinEventFactory(
+        external_enrolment_url="http://äåöxyz.org/"
+    ).full_clean()
+
+    # URLField validation is not triggered in DB level
+    assert PalvelutarjotinEvent.objects.count() == 3
+
+
+@pytest.mark.django_db
+def test_palvelutarjotin_event_with_invalid_external_enrolment_url():
+
+    p_events = [
+        PalvelutarjotinEventFactory(external_enrolment_url="./asdfasdf"),
+        PalvelutarjotinEventFactory(external_enrolment_url="//org/"),
+        PalvelutarjotinEventFactory(external_enrolment_url="chrome://flags"),
+        PalvelutarjotinEventFactory(external_enrolment_url="tättärää/"),
+        PalvelutarjotinEventFactory(external_enrolment_url="http://%¶€#.org/"),
+        PalvelutarjotinEventFactory(external_enrolment_url="http://asdfasdf"),
+    ]
+
+    for p_event in p_events:
+        with pytest.raises(ValidationError):
+            p_event.full_clean()
+
+    # URLField validation is not triggered in DB level
+    assert PalvelutarjotinEvent.objects.count() == 6
+
+
+@pytest.mark.django_db
+def test_palvelutarjotin_event_without_enrolments():
+    p_event = PalvelutarjotinEventFactory(
+        enrolment_start=None, external_enrolment_url=None
+    )
+    assert p_event.enrolment_start is None
+    assert p_event.external_enrolment_url is None
     assert PalvelutarjotinEvent.objects.count() == 1
     assert Organisation.objects.count() == 1
     assert Person.objects.count() == 1

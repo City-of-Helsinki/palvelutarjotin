@@ -50,13 +50,16 @@ class PalvelutarjotinEvent(TimestampedModel):
     linked_event_id = models.CharField(
         max_length=255, verbose_name=_("linked event id"), unique=True
     )
+    # TODO: enrolment_start should be replaces with LinkedEvents V2 Event model's field
     enrolment_start = models.DateTimeField(
         verbose_name=_("enrolment start"), blank=True, null=True
     )
-
     # Enrolment will be close x days before the occurrence start
     enrolment_end_days = models.PositiveSmallIntegerField(
         verbose_name=_("enrolment end days"), blank=True, null=True
+    )
+    external_enrolment_url = models.URLField(
+        verbose_name=_("enrolment url"), blank=True, null=True
     )
     needed_occurrences = models.PositiveSmallIntegerField(
         verbose_name=_("needed occurrence"), default=1
