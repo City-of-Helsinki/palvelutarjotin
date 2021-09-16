@@ -130,7 +130,7 @@ class PalvelutarjotinEventNode(DjangoObjectType):
     def resolve_next_occurrence_datetime(self, info, **kwargs):
         try:
             return (
-                self.occurrences.filter(start_time__gte=timezone.now())
+                self.occurrences.filter(start_time__gte=timezone.now(), cancelled=False)
                 .earliest("start_time")
                 .start_time
             )
@@ -139,7 +139,9 @@ class PalvelutarjotinEventNode(DjangoObjectType):
 
     def resolve_last_occurrence_datetime(self, info, **kwargs):
         try:
-            return self.occurrences.latest("start_time").start_time
+            return (
+                self.occurrences.filter(cancelled=False).latest("start_time").start_time
+            )
         except Occurrence.DoesNotExist:
             return None
 
