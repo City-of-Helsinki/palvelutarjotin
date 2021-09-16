@@ -2215,6 +2215,70 @@ def test_occurrences_ordering_by_order_by_end_time(snapshot, api_client):
     )
 
 
+def test_occurrences_next_and_last_occurrence(api_client):
+    p_event = PalvelutarjotinEventFactory()
+    # Current date froze on 2020-01-04:
+    OccurrenceFactory(
+        p_event=p_event,
+        start_time=datetime(2020, 1, 3, 0, 0, 0, tzinfo=timezone.now().tzinfo),
+    )
+    OccurrenceFactory(
+        p_event=p_event,
+        start_time=datetime(2020, 1, 7, 0, 0, 0, tzinfo=timezone.now().tzinfo),
+    )
+    OccurrenceFactory(
+        p_event=p_event,
+        start_time=datetime(2020, 1, 6, 0, 0, 0, tzinfo=timezone.now().tzinfo),
+    )
+    # next, but cancelled, so won't be picked
+    OccurrenceFactory(
+        p_event=p_event,
+        start_time=datetime(2020, 1, 5, 0, 0, 0, tzinfo=timezone.now().tzinfo),
+        cancelled=True,
+    )
+    # last, but cancelled, so won't be picked
+    OccurrenceFactory(
+        p_event=p_event,
+        start_time=datetime(2020, 1, 8, 0, 0, 0, tzinfo=timezone.now().tzinfo),
+        cancelled=True,
+    )
+
+    executed = api_client.execute(
+        """
+            query Occurrences(
+                $pEvent: ID,
+            ){
+            occurrences(
+                pEvent: $pEvent,
+            ){
+                edges{
+                node{
+                    pEvent{
+                        linkedEventId
+                        nextOccurrenceDatetime
+                        lastOccurrenceDatetime
+                    }
+                }
+                }
+            }
+            }
+        """,
+        variables={"pEvent": to_global_id("PalvelutarjotinNode", p_event.id)},
+    )
+
+    assert len(executed["data"]["occurrences"]["edges"]) == 5
+
+    for edge in executed["data"]["occurrences"]["edges"]:
+        assert (
+            edge["node"]["pEvent"]["nextOccurrenceDatetime"]
+            == "2020-01-06T00:00:00+00:00"
+        )
+        assert (
+            edge["node"]["pEvent"]["lastOccurrenceDatetime"]
+            == "2020-01-07T00:00:00+00:00"
+        )
+
+
 NOTIFICATION_TEMPLATE_QUERY = """
 query NotificationTemplate($type: NotificationTemplateType!, $language: Language!,
 $context:JSONString!){
