@@ -399,10 +399,13 @@ class Query:
 
         # Create a (new) mutated immutable X-object of the event results.
         return json_object_hook(
-            {
-                "meta": {**events.meta.__dict__, **{"count": len(tested_events)}},
-                "data": tested_events,
-            }
+            # NOTE: LinkedEvents paginates the results, but Kultus API filters
+            # the paginated sets. This leads to a situation where the events
+            # count in meta data, easily does not match with the fact.
+            # If events.meta is used, the count is bigger than the filtered result.
+            # If a length of tested_events is used,
+            # it works only for unpaginated results. Events.meta is better!
+            {"meta": events.meta, "data": tested_events}
         )
 
     @staticmethod
