@@ -1,10 +1,12 @@
 import json
 from copy import deepcopy
 from datetime import timedelta
+from unittest.mock import patch
 
 import graphene_linked_events
 import pytest
 from django.utils import timezone
+from graphene_linked_events.rest_client import LinkedEventsApiClient
 from graphene_linked_events.schema import Query
 from graphene_linked_events.tests.mock_data import (
     EVENT_DATA,
@@ -27,8 +29,20 @@ def autouse_db(db):
 
 
 GET_EVENTS_QUERY = """
-query Events($organisationId: String){
-  events(organisationId: $organisationId){
+query Events(
+    $organisationId: String,
+    $keywordAnd: [String],
+    $keywordNot: [String],
+    $allOngoingAnd: [String],
+    $allOngoingOr: [String]
+){
+  events(
+      organisationId: $organisationId,
+      keywordAnd: $keywordAnd,
+      keywordNot: $keywordNot,
+      allOngoingAnd: $allOngoingAnd,
+      allOngoingOr: $allOngoingOr
+  ){
     meta {
       count
       next
@@ -604,6 +618,35 @@ def test_pevent_preadded_with_test_events_p_event_relations():
     p_event = PalvelutarjotinEventFactory(linked_event_id=EVENTS_DATA["data"][0]["id"])
     result = Query._test_events_p_event_relations(json.dumps(EVENTS_DATA))
     assert result.data[0].p_event.id == p_event.id
+
+
+@pytest.mark.django_db
+@pytest.mark.parametrize(
+    "given,expected",
+    [
+        ("keywordAnd", "keyword_AND"),
+        ("keywordNot", "keyword!"),
+        ("allOngoingAnd", "all_ongoing_AND"),
+        ("allOngoingOr", "all_ongoing_OR"),
+    ],
+)
+def test_resolve_events_unsupported_parameter_mapping(
+    given, expected, api_client, mock_get_events_data, organisation
+):
+    linked_event_id = EVENTS_DATA["data"][0]["id"]
+    organisation_id = to_global_id("OrganisationNode", organisation.id)
+    PalvelutarjotinEventFactory(linked_event_id=linked_event_id)
+    with patch.object(LinkedEventsApiClient, "list") as linkedEventsApiClientMock:
+        api_client.execute(
+            GET_EVENTS_QUERY,
+            variables={"organisationId": organisation_id, given: ["test"]},
+        )
+
+    linkedEventsApiClientMock.assert_called_with(
+        "event",
+        filter_list={"publisher": organisation.publisher_id, expected: ["test"]},
+        is_staff=False,
+    )
 
 
 def test_get_event(api_client, snapshot, monkeypatch):

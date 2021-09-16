@@ -321,6 +321,8 @@ class Query:
         keyword=List(String),
         keyword_and=List(String),
         keyword_not=List(String),
+        all_ongoing_and=List(String),
+        all_ongoing_or=List(String),
         language=String(),
         location=String(),
         page=Int(),
@@ -437,6 +439,10 @@ class Query:
             kwargs["keyword_AND"] = kwargs.pop("keyword_and")
         if kwargs.get("keyword_not"):
             kwargs["keyword!"] = kwargs.pop("keyword_not")
+        if kwargs.get("all_ongoing_and"):
+            kwargs["all_ongoing_AND"] = kwargs.pop("all_ongoing_and")
+        if kwargs.get("all_ongoing_or"):
+            kwargs["all_ongoing_OR"] = kwargs.pop("all_ongoing_or")
 
         response = api_client.list(
             "event", filter_list=kwargs, is_staff=info.context.user.is_staff
