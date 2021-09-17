@@ -7,7 +7,7 @@ from snapshottest import Snapshot
 snapshots = Snapshot()
 
 snapshots["test_myprofile_creation_email 1"] = [
-    """no-reply@hel.ninja|['xrubio@yahoo.com']|My profile creation FI|
+    """no-reply@hel.ninja|['fmartinez@hotmail.com']|My profile creation FI|
 <p>Hyvä Kultus ylläpitäjä!</p>
 <p>Uusi palveluntarjoajan tunnus on luotu!</p>
 <address>
@@ -26,8 +26,8 @@ hyväksymään luomansa käyttäjätunnuksen käyttöön:</p>
 </ol>
 <p>Käyttäjä haluaisi edustaa seuraavia organisaatioita:</p>
 <ul>
-    <li>Bell, Price and Dixon</li>
-    <li>Perry Ltd</li>
+    <li>Bartlett and Sons</li>
+    <li>Thomas, Ochoa and Peters</li>
 </ul>
 <p>Muokataksesi luotua käyttäjätunnusta,
 klikkaa <a href="https://test-domain/admin/organisations/user/123/change/" target="_blank">tästä</a>!</p>
@@ -36,7 +36,7 @@ klikkaa <a href="https://test-domain/admin/organisations/user/123/change/" targe
 
     <p>Erityisviesti: custom message</p>
 """,
-    """no-reply@hel.ninja|['lmathis@ortiz.com']|My profile creation FI|
+    """no-reply@hel.ninja|['velezsusan@hotmail.com']|My profile creation FI|
 <p>Hyvä Kultus ylläpitäjä!</p>
 <p>Uusi palveluntarjoajan tunnus on luotu!</p>
 <address>
@@ -55,8 +55,8 @@ hyväksymään luomansa käyttäjätunnuksen käyttöön:</p>
 </ol>
 <p>Käyttäjä haluaisi edustaa seuraavia organisaatioita:</p>
 <ul>
-    <li>Bell, Price and Dixon</li>
-    <li>Perry Ltd</li>
+    <li>Bartlett and Sons</li>
+    <li>Thomas, Ochoa and Peters</li>
 </ul>
 <p>Muokataksesi luotua käyttäjätunnusta,
 klikkaa <a href="https://test-domain/admin/organisations/user/123/change/" target="_blank">tästä</a>!</p>
@@ -65,7 +65,7 @@ klikkaa <a href="https://test-domain/admin/organisations/user/123/change/" targe
 
     <p>Erityisviesti: custom message</p>
 """,
-    """no-reply@hel.ninja|['mendezjonathan@espinoza.biz']|My profile creation EN|
+    """no-reply@hel.ninja|['deborah29@hotmail.com']|My profile creation EN|
 <p>Dear Kultus Admin!</p>
 <p>A new Kultus provider user profile is created!</p>
 <address>
@@ -84,8 +84,8 @@ to accept the user profile:</p>
 </ol>
 <p>The user would like to represent these organisations:</p>
 <ul>
-    <li>Bell, Price and Dixon</li>
-    <li>Perry Ltd</li>
+    <li>Bartlett and Sons</li>
+    <li>Thomas, Ochoa and Peters</li>
 </ul>
 <p>To edit the newly created user profile,
 click <a href="https://test-domain/admin/organisations/user/123/change/" target="_blank">here</a>!</p>

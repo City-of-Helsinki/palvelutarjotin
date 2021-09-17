@@ -86,7 +86,7 @@ class StudyGroupFactory(factory.django.DjangoModelFactory):
     group_size = factory.Faker("random_int", max=1000)
     extra_needs = factory.Faker("text", max_nb_chars=100)
     group_name = factory.Faker("text", max_nb_chars=100)
-    amount_of_adult = factory.Faker("random_int", max=10)
+    amount_of_adult = 0
 
     @factory.post_generation
     def study_levels(self, create, extracted, **kwargs):

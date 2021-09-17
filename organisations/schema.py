@@ -46,6 +46,7 @@ class PersonNodeInput(InputObjectType):
     phone_number = graphene.String()
     email_address = graphene.String(required=True)
     language = LanguageEnum(description="Default `fi`")
+    place_ids = graphene.List(graphene.String, default=[])
 
 
 class OrganisationNode(DjangoObjectType):

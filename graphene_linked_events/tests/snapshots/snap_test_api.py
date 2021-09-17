@@ -600,7 +600,7 @@ snapshots["test_update_event 1"] = {
                         "linkedEventId": "qq:afy6aghr2y",
                         "mandatoryAdditionalInformation": True,
                         "neededOccurrences": 1,
-                        "organisation": {"name": "Baker, Cardenas and Cruz"},
+                        "organisation": {"name": "Navarro-Morton"},
                     },
                     "shortDescription": {
                         "en": "short desc en",
@@ -736,7 +736,7 @@ snapshots["test_create_event 1"] = {
                         "linkedEventId": "qq:afy6aghr2y",
                         "mandatoryAdditionalInformation": True,
                         "neededOccurrences": 1,
-                        "organisation": {"name": "Baker, Cardenas and Cruz"},
+                        "organisation": {"name": "Navarro-Morton"},
                     },
                     "shortDescription": {
                         "en": "short desc en",
@@ -885,7 +885,7 @@ snapshots["test_create_event_with_external_enrolment 1"] = {
                         "linkedEventId": "qq:afy6aghr2y",
                         "mandatoryAdditionalInformation": True,
                         "neededOccurrences": 0,
-                        "organisation": {"name": "Baker, Cardenas and Cruz"},
+                        "organisation": {"name": "Navarro-Morton"},
                     },
                     "shortDescription": {
                         "en": "short desc en",
@@ -922,7 +922,7 @@ snapshots["test_create_event_without_enrolment 1"] = {
                         "linkedEventId": "qq:afy6aghr2y",
                         "mandatoryAdditionalInformation": True,
                         "neededOccurrences": 0,
-                        "organisation": {"name": "Baker, Cardenas and Cruz"},
+                        "organisation": {"name": "Navarro-Morton"},
                     },
                     "shortDescription": {
                         "en": "short desc en",
