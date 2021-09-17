@@ -6,104 +6,6 @@ from snapshottest import Snapshot
 
 snapshots = Snapshot()
 
-snapshots["test_get_events 1"] = {
-    "data": {
-        "events": {
-            "data": [
-                {
-                    "audience": [],
-                    "audienceMaxAge": None,
-                    "audienceMinAge": None,
-                    "createdTime": "2020-05-05T09:27:45.644890Z",
-                    "customData": None,
-                    "dataSource": "helsinki",
-                    "datePublished": None,
-                    "description": {
-                        "en": None,
-                        "fi": "<p>Tule kuulolle ja kysymään muun muassa Viikin, Pukinmäen, Puistolan, Suutarilan, Pihlajamäen, Tapanilan ja Malmin ajankohtaisista suunnitteluasioista. Koilliseen suunnitellaan uusia asuntoja ja liiketiloja, kadut ja viheralueet kohenevat.<br>Malmin lentokentän alueelle suunnitellaan asuntoja noin 25 000 ihmiselle ja Viikin-Malmin pikaraitiotiestä kaavaillaan koillisen uutta raideyhteyttä. Asemanseuduilla eli Tapulikaupunki – Puistola -alueella ja Pukinmäessä hahmotellaan kehittämisperiaatteita. Raide-Jokerin rakentaminen edistyy.<br>Osallistu kotisohvaltasi kaavoituksen sekä liikenteen ja puistojen suunnittelun tilaisuuteen maanantaina 1.6. klo 17−19. Kirjaudu sisään jo klo 16.45. Lisätietoa, ohjeet, liittymislinkki ja vinkit ennakko-osallistumisesta: hel.fi/suunnitelmat.</p><p>Esittelyssä mukana olevat hankkeet:<br>Asemakaavoitus ja muu maankäytön suunnittelu / Ota kantaa juuri nyt<br>· Malmin uimahallin laajennus<br>· Malmin energiakortteli Tattarisuon teollisuusalueen eteläpuolelle</p><p>Kadut, puistot ja viheralueet / Ota kantaa juuri nyt<br>· Katariina Saksilaisen kadun eteläosan katusuunnitelma ja Pornaistenniemen puistosuunnitelma, jotka sisältävät pyöräliikenteen baanayhteyden<br>· Kivikon puistosilta, joka ylittää Lahdenväylän ja johtaa lentokenttäalueelta Kivikon ulkoilupuistoon<br>· Maatullinkujan katusuunnitelma välillä Henrik Forsiuksen tie - Kämnerintie<br>· Suutarilan alueen katusuunnitelmia: Jupiterintie, Marsintie, Merkuriuksentie, Pikkaraistie, Riimukuja, Saturnuksentie ja Uranuksentie</p><p>Ajankohtaiskatsaus – missä mennään muiden koillisen hankkeiden kanssa <br>· Lentoasemankorttelit<br>· Lentokenttäalueen puistokilpailu ja väliaikaiskäytön ajankohtaiset suunnitelmat<br>· Malmin keskustan suunnittelutilanne<br>· Pukinmäki, Säterinportti 3, Säterintie 7-9, Madetojankuja 1 <br>· Pukinmäki, Rälssintien ja Isonkaivontien alueet <br>· Malmi, (Pihlajamäki), Rapakivenkuja 2 Pihlajamäen ostoskeskus <br>· Tapanilan asemanseudun eteläosa <br>· Töyrynummi, Puutarhakortteli <br>· Tapulikaupunki, Kämnerintie <br>· Viikki, Maakaarenkuja 2 ja Aleksanteri Nevskin katu <br>· Mellunkylä, Kivikon pelastusasematontti (helikopterikenttä) <br>· Tapulikaupunki ja Puistolan asemanseutu <br>· Pukinmäen täydennysrakentaminen<br>· Viikin-Malmin pikaraitiotie<br>· Raide-Jokerin rakentamistilanne<br>· Vanhan Porvoontien suunnittelu välillä Suurmetsäntie-Heikinlaaksontie, sisältää melusuojauksen suunnittelun</p>",
-                        "sv": None,
-                    },
-                    "endTime": "2020-06-01T16:00:00Z",
-                    "eventStatus": "EventScheduled",
-                    "extensionCourse": None,
-                    "externalLinks": [],
-                    "id": "helsinki:afy6ikna3u",
-                    "images": [
-                        {
-                            "internalId": "https://api.hel.fi/linkedevents/v1/image/64235/"
-                        }
-                    ],
-                    "inLanguage": [
-                        {
-                            "internalId": "https://api.hel.fi/linkedevents/v1/language/fi/"
-                        }
-                    ],
-                    "infoUrl": {
-                        "en": None,
-                        "fi": "https://www.hel.fi/Helsinki/fi/asuminen-ja-ymparisto/kaavoitus/ajankohtaiset-suunnitelmat/",
-                        "sv": None,
-                    },
-                    "internalContext": "http://schema.org",
-                    "internalId": "https://api.hel.fi/linkedevents/v1/event/helsinki:afy6ikna3u/",
-                    "internalType": "Event/LinkedEvent",
-                    "keywords": [
-                        {
-                            "internalId": "https://api.hel.fi/linkedevents/v1/keyword/yso:p15875/"
-                        },
-                        {
-                            "internalId": "https://api.hel.fi/linkedevents/v1/keyword/yso:p13980/"
-                        },
-                        {
-                            "internalId": "https://api.hel.fi/linkedevents/v1/keyword/yso:p14004/"
-                        },
-                        {
-                            "internalId": "https://api.hel.fi/linkedevents/v1/keyword/yso:p8270/"
-                        },
-                        {
-                            "internalId": "https://api.hel.fi/linkedevents/v1/keyword/yso:p15882/"
-                        },
-                        {
-                            "internalId": "https://api.hel.fi/linkedevents/v1/keyword/yso:p26626/"
-                        },
-                        {
-                            "internalId": "https://api.hel.fi/linkedevents/v1/keyword/yso:p8268/"
-                        },
-                    ],
-                    "lastModifiedTime": "2020-05-05T09:27:45.644920Z",
-                    "localizationExtraInfo": None,
-                    "location": {
-                        "internalId": "https://api.hel.fi/linkedevents/v1/place/helsinki:internet/"
-                    },
-                    "name": {
-                        "en": None,
-                        "fi": "Uutta Koillis-Helsinkiä verkkotilaisuus",
-                        "sv": None,
-                    },
-                    "offers": [{"isFree": True}],
-                    "provider": None,
-                    "providerContactInfo": None,
-                    "publicationStatus": None,
-                    "publisher": "ahjo:u541000",
-                    "shortDescription": {
-                        "en": None,
-                        "fi": "Tule kuulemaan ja keskustelemaan verkkoon uudistuvasta Koillis-Helsingistä omalta kotisohvaltasi. Juuri nyt voit vaikuttaa useisiin suunnittelukohteisiin!",
-                        "sv": None,
-                    },
-                    "startTime": "2020-06-01T13:45:00Z",
-                    "subEvents": [],
-                    "superEvent": None,
-                    "superEventType": None,
-                }
-            ],
-            "meta": {
-                "count": 1,
-                "next": "https://api.hel.fi/linkedevents/v1/event/?page=2",
-                "previous": None,
-            },
-        }
-    }
-}
-
 snapshots["test_get_event 1"] = {
     "data": {
         "event": {
@@ -804,7 +706,7 @@ snapshots["test_get_events_with_occurrences 1"] = {
                 },
             ],
             "meta": {
-                "count": 2,
+                "count": 151775,
                 "next": "https://api.hel.fi/linkedevents/v1/event/?page=2",
                 "previous": None,
             },
@@ -1031,6 +933,104 @@ snapshots["test_create_event_without_enrolment 1"] = {
                 },
                 "statusCode": 201,
             }
+        }
+    }
+}
+
+snapshots["test_get_events 1"] = {
+    "data": {
+        "events": {
+            "data": [
+                {
+                    "audience": [],
+                    "audienceMaxAge": None,
+                    "audienceMinAge": None,
+                    "createdTime": "2020-05-05T09:27:45.644890Z",
+                    "customData": None,
+                    "dataSource": "helsinki",
+                    "datePublished": None,
+                    "description": {
+                        "en": None,
+                        "fi": "<p>Tule kuulolle ja kysymään muun muassa Viikin, Pukinmäen, Puistolan, Suutarilan, Pihlajamäen, Tapanilan ja Malmin ajankohtaisista suunnitteluasioista. Koilliseen suunnitellaan uusia asuntoja ja liiketiloja, kadut ja viheralueet kohenevat.<br>Malmin lentokentän alueelle suunnitellaan asuntoja noin 25 000 ihmiselle ja Viikin-Malmin pikaraitiotiestä kaavaillaan koillisen uutta raideyhteyttä. Asemanseuduilla eli Tapulikaupunki – Puistola -alueella ja Pukinmäessä hahmotellaan kehittämisperiaatteita. Raide-Jokerin rakentaminen edistyy.<br>Osallistu kotisohvaltasi kaavoituksen sekä liikenteen ja puistojen suunnittelun tilaisuuteen maanantaina 1.6. klo 17−19. Kirjaudu sisään jo klo 16.45. Lisätietoa, ohjeet, liittymislinkki ja vinkit ennakko-osallistumisesta: hel.fi/suunnitelmat.</p><p>Esittelyssä mukana olevat hankkeet:<br>Asemakaavoitus ja muu maankäytön suunnittelu / Ota kantaa juuri nyt<br>· Malmin uimahallin laajennus<br>· Malmin energiakortteli Tattarisuon teollisuusalueen eteläpuolelle</p><p>Kadut, puistot ja viheralueet / Ota kantaa juuri nyt<br>· Katariina Saksilaisen kadun eteläosan katusuunnitelma ja Pornaistenniemen puistosuunnitelma, jotka sisältävät pyöräliikenteen baanayhteyden<br>· Kivikon puistosilta, joka ylittää Lahdenväylän ja johtaa lentokenttäalueelta Kivikon ulkoilupuistoon<br>· Maatullinkujan katusuunnitelma välillä Henrik Forsiuksen tie - Kämnerintie<br>· Suutarilan alueen katusuunnitelmia: Jupiterintie, Marsintie, Merkuriuksentie, Pikkaraistie, Riimukuja, Saturnuksentie ja Uranuksentie</p><p>Ajankohtaiskatsaus – missä mennään muiden koillisen hankkeiden kanssa <br>· Lentoasemankorttelit<br>· Lentokenttäalueen puistokilpailu ja väliaikaiskäytön ajankohtaiset suunnitelmat<br>· Malmin keskustan suunnittelutilanne<br>· Pukinmäki, Säterinportti 3, Säterintie 7-9, Madetojankuja 1 <br>· Pukinmäki, Rälssintien ja Isonkaivontien alueet <br>· Malmi, (Pihlajamäki), Rapakivenkuja 2 Pihlajamäen ostoskeskus <br>· Tapanilan asemanseudun eteläosa <br>· Töyrynummi, Puutarhakortteli <br>· Tapulikaupunki, Kämnerintie <br>· Viikki, Maakaarenkuja 2 ja Aleksanteri Nevskin katu <br>· Mellunkylä, Kivikon pelastusasematontti (helikopterikenttä) <br>· Tapulikaupunki ja Puistolan asemanseutu <br>· Pukinmäen täydennysrakentaminen<br>· Viikin-Malmin pikaraitiotie<br>· Raide-Jokerin rakentamistilanne<br>· Vanhan Porvoontien suunnittelu välillä Suurmetsäntie-Heikinlaaksontie, sisältää melusuojauksen suunnittelun</p>",
+                        "sv": None,
+                    },
+                    "endTime": "2020-06-01T16:00:00Z",
+                    "eventStatus": "EventScheduled",
+                    "extensionCourse": None,
+                    "externalLinks": [],
+                    "id": "helsinki:afy6ikna3u",
+                    "images": [
+                        {
+                            "internalId": "https://api.hel.fi/linkedevents/v1/image/64235/"
+                        }
+                    ],
+                    "inLanguage": [
+                        {
+                            "internalId": "https://api.hel.fi/linkedevents/v1/language/fi/"
+                        }
+                    ],
+                    "infoUrl": {
+                        "en": None,
+                        "fi": "https://www.hel.fi/Helsinki/fi/asuminen-ja-ymparisto/kaavoitus/ajankohtaiset-suunnitelmat/",
+                        "sv": None,
+                    },
+                    "internalContext": "http://schema.org",
+                    "internalId": "https://api.hel.fi/linkedevents/v1/event/helsinki:afy6ikna3u/",
+                    "internalType": "Event/LinkedEvent",
+                    "keywords": [
+                        {
+                            "internalId": "https://api.hel.fi/linkedevents/v1/keyword/yso:p15875/"
+                        },
+                        {
+                            "internalId": "https://api.hel.fi/linkedevents/v1/keyword/yso:p13980/"
+                        },
+                        {
+                            "internalId": "https://api.hel.fi/linkedevents/v1/keyword/yso:p14004/"
+                        },
+                        {
+                            "internalId": "https://api.hel.fi/linkedevents/v1/keyword/yso:p8270/"
+                        },
+                        {
+                            "internalId": "https://api.hel.fi/linkedevents/v1/keyword/yso:p15882/"
+                        },
+                        {
+                            "internalId": "https://api.hel.fi/linkedevents/v1/keyword/yso:p26626/"
+                        },
+                        {
+                            "internalId": "https://api.hel.fi/linkedevents/v1/keyword/yso:p8268/"
+                        },
+                    ],
+                    "lastModifiedTime": "2020-05-05T09:27:45.644920Z",
+                    "localizationExtraInfo": None,
+                    "location": {
+                        "internalId": "https://api.hel.fi/linkedevents/v1/place/helsinki:internet/"
+                    },
+                    "name": {
+                        "en": None,
+                        "fi": "Uutta Koillis-Helsinkiä verkkotilaisuus",
+                        "sv": None,
+                    },
+                    "offers": [{"isFree": True}],
+                    "provider": None,
+                    "providerContactInfo": None,
+                    "publicationStatus": None,
+                    "publisher": "ahjo:u541000",
+                    "shortDescription": {
+                        "en": None,
+                        "fi": "Tule kuulemaan ja keskustelemaan verkkoon uudistuvasta Koillis-Helsingistä omalta kotisohvaltasi. Juuri nyt voit vaikuttaa useisiin suunnittelukohteisiin!",
+                        "sv": None,
+                    },
+                    "startTime": "2020-06-01T13:45:00Z",
+                    "subEvents": [],
+                    "superEvent": None,
+                    "superEventType": None,
+                }
+            ],
+            "meta": {
+                "count": 151775,
+                "next": "https://api.hel.fi/linkedevents/v1/event/?page=2",
+                "previous": None,
+            },
         }
     }
 }

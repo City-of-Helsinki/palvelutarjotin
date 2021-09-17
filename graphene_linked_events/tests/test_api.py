@@ -591,7 +591,10 @@ def test_get_events(api_client, snapshot, mock_get_events_data, organisation):
     )
     assert EVENTS_DATA["meta"]["count"] == 151775
     assert len(EVENTS_DATA["data"]) == 2
-    assert executed["data"]["events"]["meta"]["count"] == 1
+    # NOTE: LinkedEvents paginates the results, but Kultus API filters
+    # the paginated sets. This leads to a situation where the events
+    # count in meta data, easily does not match with the fact.
+    assert executed["data"]["events"]["meta"]["count"] == 151775
     assert executed["data"]["events"]["data"][0]["id"] == linked_event_id
     snapshot.assert_match(executed)
 
