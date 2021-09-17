@@ -3,6 +3,13 @@ from django.contrib.auth import get_user_model
 from organisations.models import Organisation, OrganisationProposal, Person
 
 
+def fake_id_array():
+    from faker import Faker
+
+    fake = Faker()
+    return fake.pylist(3, True, "str")
+
+
 class UserFactory(factory.django.DjangoModelFactory):
     first_name = factory.Faker("first_name")
     last_name = factory.Faker("last_name")
@@ -18,6 +25,7 @@ class PersonFactory(factory.django.DjangoModelFactory):
     name = factory.Faker("name")
     phone_number = factory.Faker("phone_number")
     email_address = factory.Faker("email")
+    place_ids = factory.LazyFunction(fake_id_array)
 
     class Meta:
         model = Person

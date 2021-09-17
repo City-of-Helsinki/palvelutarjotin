@@ -16,11 +16,11 @@ snapshots["test_persons_query 3"] = {
             "edges": [
                 {
                     "node": {
-                        "emailAddress": "nancy55@yahoo.com",
+                        "emailAddress": "garciakimberly@hotmail.com",
                         "language": "FI",
-                        "name": "Robert Cruz",
+                        "name": "Arthur Dominguez",
                         "organisations": {"edges": []},
-                        "phoneNumber": "390-340-4467x342",
+                        "phoneNumber": "(114)508-9299",
                     }
                 }
             ]
@@ -34,11 +34,11 @@ snapshots["test_persons_query 4"] = {
             "edges": [
                 {
                     "node": {
-                        "emailAddress": "jesse27@hotmail.com",
+                        "emailAddress": "garciakimberly@hotmail.com",
                         "language": "FI",
-                        "name": "Gregory Weber",
+                        "name": "Arthur Dominguez",
                         "organisations": {"edges": []},
-                        "phoneNumber": "0488301905",
+                        "phoneNumber": "(114)508-9299",
                     }
                 },
                 {
@@ -54,11 +54,11 @@ snapshots["test_persons_query 4"] = {
                 },
                 {
                     "node": {
-                        "emailAddress": "nancy55@yahoo.com",
+                        "emailAddress": "ncombs@hill.com",
                         "language": "FI",
-                        "name": "Robert Cruz",
+                        "name": "Jeffery Norman",
                         "organisations": {"edges": []},
-                        "phoneNumber": "390-340-4467x342",
+                        "phoneNumber": "369-317-9621x266",
                     }
                 },
             ]
@@ -73,11 +73,12 @@ snapshots["test_person_query 2"] = {"data": {"person": None}}
 snapshots["test_person_query 3"] = {
     "data": {
         "person": {
-            "emailAddress": "nancy55@yahoo.com",
+            "emailAddress": "garciakimberly@hotmail.com",
             "language": "FI",
-            "name": "Robert Cruz",
+            "name": "Arthur Dominguez",
             "organisations": {"edges": []},
-            "phoneNumber": "390-340-4467x342",
+            "phoneNumber": "(114)508-9299",
+            "placeIds": ["HMMTVcHUQIIHoLALPuMg", "VNrNeAhkMBVEOTtwlFnU"],
         }
     }
 }
@@ -90,6 +91,7 @@ snapshots["test_person_query 4"] = {
             "name": "Jacqueline Salas",
             "organisations": {"edges": [{"node": {"name": "Terrell Group"}}]},
             "phoneNumber": "3202813072",
+            "placeIds": ["nnouKQItjsGbbnCZaIeO", "tnXjyxRexoPZaRKcMIon"],
         }
     }
 }
@@ -131,8 +133,11 @@ snapshots["test_my_profile_query 1"] = {
             "isStaff": False,
             "language": "FI",
             "name": "William Brewer",
-            "organisations": {"edges": [{"node": {"name": "Perry Ltd"}}]},
+            "organisations": {
+                "edges": [{"node": {"name": "Thomas, Ochoa and Peters"}}]
+            },
             "phoneNumber": "(767)124-0675x064",
+            "placeIds": ["DyxTUOfTVXgFfhhcjebL", "IzCCezaIinzTPCrDgtoN"],
         }
     }
 }
@@ -195,12 +200,19 @@ snapshots["test_update_person_mutation[firstlast@example.com-True] 1"] = {
 snapshots["test_my_profile_query 2"] = {
     "data": {
         "myProfile": {
-            "emailAddress": "moniquedavis@vargas.biz",
+            "emailAddress": "brenda99@gmail.com",
             "isStaff": True,
             "language": "FI",
-            "name": "Andrew Coleman",
-            "organisations": {"edges": [{"node": {"name": "Perry Ltd"}}]},
-            "phoneNumber": "+1-583-693-1796x212",
+            "name": "Natalie Keith",
+            "organisations": {
+                "edges": [{"node": {"name": "Thomas, Ochoa and Peters"}}]
+            },
+            "phoneNumber": "001-042-405-4852x6231",
+            "placeIds": [
+                "vJGuUZtSihlLyOWeWgxN",
+                "IdaNadghCetJYgCAuXtm",
+                "VxzDraSqNldgihpkthKx",
+            ],
         }
     }
 }
@@ -216,7 +228,7 @@ snapshots["test_create_my_profile 1"] = {
                 "organisationproposalSet": {
                     "edges": [{"node": {"name": "3rd party org"}}]
                 },
-                "organisations": {"edges": [{"node": {"name": "Davis Inc"}}]},
+                "organisations": {"edges": [{"node": {"name": "Hayes and Sons"}}]},
                 "phoneNumber": "",
             }
         }

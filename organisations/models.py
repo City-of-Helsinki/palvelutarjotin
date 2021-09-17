@@ -1,5 +1,6 @@
 from django.conf import settings
 from django.contrib.auth import get_user_model
+from django.contrib.postgres.fields import ArrayField
 from django.db import models
 from django.utils.translation import gettext_lazy as _
 from helusers.models import AbstractUser
@@ -121,6 +122,12 @@ class Person(UUIDPrimaryKeyModel, TimestampedModel):
     email_address = models.EmailField(max_length=255, verbose_name=_("email"))
     language = models.CharField(
         verbose_name=_("language"), max_length=10, default=settings.LANGUAGES[0][0]
+    )
+    place_ids = ArrayField(
+        models.CharField(max_length=250),
+        verbose_name=_("own places"),
+        blank=True,
+        default=list,
     )
 
     objects = PersonQuerySet.as_manager()
