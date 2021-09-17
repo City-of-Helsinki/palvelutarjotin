@@ -48,6 +48,59 @@ def test_membership_creation():
 
 
 @pytest.mark.django_db
+def test_own_places():
+    place1 = "abc:123"
+    place2 = "xyz:321"
+    place3 = "jkl:999"
+    PersonFactory(name="person without places")
+    person1 = PersonFactory(name="person1", place_ids=[place1, place2])
+    person2 = PersonFactory(name="person2", place_ids=[place1])
+    person3 = PersonFactory(name="person3", place_ids=[place3, place2])
+    assert person1.place_ids == [place1, place2]
+    assert Person.objects.all().count() == 4
+    assert list(Person.objects.filter(place_ids__contains=[place1])) == [
+        person1,
+        person2,
+    ]
+    assert list(Person.objects.filter(place_ids__contains=[place2])) == [
+        person1,
+        person3,
+    ]
+    assert list(Person.objects.filter(place_ids__contains=[place1, place2])) == [
+        person1
+    ]
+    assert (
+        Person.objects.filter(place_ids__contains=[place1, place2, place3]).count() == 0
+    )
+
+    assert list(Person.objects.filter(place_ids__contained_by=[place1, place2])) == [
+        person1,
+        person2,
+    ]
+    assert list(
+        Person.objects.exclude(place_ids=[]).filter(
+            place_ids__contained_by=[place1, place2]
+        )
+    ) == [person1, person2]
+    assert (
+        Person.objects.filter(place_ids__contained_by=[place1, place2, place3]).count()
+        == 3
+    )
+
+    assert list(Person.objects.filter(place_ids__overlap=[place1])) == [
+        person1,
+        person2,
+    ]
+    assert list(Person.objects.filter(place_ids__overlap=[place1, place3])) == [
+        person1,
+        person2,
+        person3,
+    ]
+
+    assert list(Person.objects.filter(place_ids__len=1)) == [person2]
+
+
+@pytest.mark.django_db
 def test_user_str():
     user_with_name_and_email = UserFactory.create(
         first_name="first_name",

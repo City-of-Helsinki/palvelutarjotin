@@ -133,7 +133,7 @@ class PersonAdmin(admin.ModelAdmin):
         "created_at",
         "updated_at",
     )
-    fields = ("user", "name", "phone_number", "email_address", "language")
+    fields = ("user", "name", "phone_number", "email_address", "language", "place_ids")
     ordering = ("-created_at",)
     inlines = (OrganisationInline,)
     list_filter = [

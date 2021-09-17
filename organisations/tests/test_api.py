@@ -55,6 +55,7 @@ query Person($id:ID!){
         }
       }
     }
+    placeIds
   }
 }
 """
@@ -114,6 +115,7 @@ query myProfile{
             }
         }
     }
+    placeIds
   }
 }
 """
