@@ -6,6 +6,7 @@ from unittest.mock import patch
 import graphene_linked_events
 import pytest
 from django.utils import timezone
+from graphene.utils.str_converters import to_snake_case
 from graphene_linked_events.rest_client import LinkedEventsApiClient
 from graphene_linked_events.schema import Query
 from graphene_linked_events.tests.mock_data import (
@@ -860,6 +861,15 @@ def test_create_event(
     snapshot.assert_match(executed)
 
 
+P_EVENT_WITH_EXTERNAL_ENROLMENT_VARIABLES = {
+    "externalEnrolmentUrl": "http://test.org",
+    "enrolmentStart": None,
+    "enrolmentEndDays": 0,
+    "neededOccurrences": 0,
+    "autoAcceptance": False,
+}
+
+
 def test_create_event_with_external_enrolment(
     staff_api_client, snapshot, person, mock_create_event_data, organisation
 ):
@@ -870,17 +880,25 @@ def test_create_event_with_external_enrolment(
     variables["input"]["pEvent"]["contactPersonId"] = to_global_id(
         "PersonNode", person.id
     )
-    variables["input"]["pEvent"]["externalEnrolmentUrl"] = "http://test.org"
-    variables["input"]["pEvent"]["enrolmentStart"] = None
-    variables["input"]["pEvent"]["enrolmentEndDays"] = 0
-    variables["input"]["pEvent"]["neededOccurrences"] = 0
-    variables["input"]["pEvent"]["autoAcceptance"] = False
+    variables["input"]["pEvent"] = {
+        **variables["input"]["pEvent"],
+        **P_EVENT_WITH_EXTERNAL_ENROLMENT_VARIABLES,
+    }
 
     staff_api_client.user.person.organisations.add(organisation)
     person.organisations.add(organisation)
     executed = staff_api_client.execute(CREATE_EVENT_MUTATION, variables=variables)
     assert PalvelutarjotinEvent.objects.count() == 1
     snapshot.assert_match(executed)
+
+
+P_EVENT_WITHOUT_ENROLMENT_VARIABLES = {
+    "externalEnrolmentUrl": "",
+    "enrolmentStart": None,
+    "enrolmentEndDays": 0,
+    "neededOccurrences": 0,
+    "autoAcceptance": False,
+}
 
 
 def test_create_event_without_enrolment(
@@ -893,11 +911,11 @@ def test_create_event_without_enrolment(
     variables["input"]["pEvent"]["contactPersonId"] = to_global_id(
         "PersonNode", person.id
     )
-    variables["input"]["pEvent"]["externalEnrolmentUrl"] = ""
-    variables["input"]["pEvent"]["enrolmentStart"] = None
-    variables["input"]["pEvent"]["enrolmentEndDays"] = 0
-    variables["input"]["pEvent"]["neededOccurrences"] = 0
-    variables["input"]["pEvent"]["autoAcceptance"] = False
+
+    variables["input"]["pEvent"] = {
+        **variables["input"]["pEvent"],
+        **P_EVENT_WITHOUT_ENROLMENT_VARIABLES,
+    }
 
     staff_api_client.user.person.organisations.add(organisation)
     person.organisations.add(organisation)
@@ -1277,6 +1295,76 @@ def test_publish_event(
     executed = staff_api_client.execute(PUBLISH_EVENT_MUTATION, variables=variables)
     # cannot publish event without occurrence
     assert_match_error_code(executed, API_USAGE_ERROR)
+    OccurrenceFactory(p_event=p_event)
+    executed = staff_api_client.execute(PUBLISH_EVENT_MUTATION, variables=variables)
+    snapshot.assert_match(executed)
+
+
+def test_publish_event_with_external_enrolments(
+    snapshot,
+    api_client,
+    user_api_client,
+    staff_api_client,
+    mock_update_event_data,
+    organisation,
+    person,
+):
+    # Reuse update event variables
+    variables = deepcopy(UPDATE_EVENT_VARIABLES)
+    del variables["input"]["draft"]
+    variables["input"]["organisationId"] = to_global_id(
+        "OrganisationNode", organisation.id
+    )
+    variables["input"]["pEvent"]["contactPersonId"] = to_global_id(
+        "PersonNode", person.id
+    )
+    p_event = PalvelutarjotinEventFactory.create(
+        **{
+            "linked_event_id": UPDATE_EVENT_VARIABLES["input"]["id"],
+            "organisation": organisation,
+            **{
+                to_snake_case(key): value
+                for key, value in P_EVENT_WITH_EXTERNAL_ENROLMENT_VARIABLES.items()
+            },
+        }
+    )
+    staff_api_client.user.person.organisations.add(organisation)
+    person.organisations.add(organisation)
+    OccurrenceFactory(p_event=p_event)
+    executed = staff_api_client.execute(PUBLISH_EVENT_MUTATION, variables=variables)
+    snapshot.assert_match(executed)
+
+
+def test_publish_event_without_enrolments(
+    snapshot,
+    api_client,
+    user_api_client,
+    staff_api_client,
+    mock_update_event_data,
+    organisation,
+    person,
+):
+    # Reuse update event variables
+    variables = deepcopy(UPDATE_EVENT_VARIABLES)
+    del variables["input"]["draft"]
+    variables["input"]["organisationId"] = to_global_id(
+        "OrganisationNode", organisation.id
+    )
+    variables["input"]["pEvent"]["contactPersonId"] = to_global_id(
+        "PersonNode", person.id
+    )
+    p_event = PalvelutarjotinEventFactory.create(
+        **{
+            "linked_event_id": UPDATE_EVENT_VARIABLES["input"]["id"],
+            "organisation": organisation,
+            **{
+                to_snake_case(key): value
+                for key, value in P_EVENT_WITHOUT_ENROLMENT_VARIABLES.items()
+            },
+        }
+    )
+    staff_api_client.user.person.organisations.add(organisation)
+    person.organisations.add(organisation)
     OccurrenceFactory(p_event=p_event)
     executed = staff_api_client.execute(PUBLISH_EVENT_MUTATION, variables=variables)
     snapshot.assert_match(executed)
