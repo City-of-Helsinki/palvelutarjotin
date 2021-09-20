@@ -125,7 +125,9 @@ class PalvelutarjotinEvent(TimestampedModel):
             last_occurrence = self.occurrences.latest("start_time")
         except Occurrence.DoesNotExist:
             raise ValueError("Palvelutarjotin event has no occurrence")
-        return last_occurrence.start_time - timedelta(days=self.enrolment_end_days)
+        if self.enrolment_end_days is not None:
+            return last_occurrence.start_time - timedelta(days=self.enrolment_end_days)
+        return last_occurrence.start_time
 
     def get_link_to_provider_ui(self, language=settings.LANGUAGE_CODE):
         return (

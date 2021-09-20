@@ -864,7 +864,7 @@ def test_create_event(
 P_EVENT_WITH_EXTERNAL_ENROLMENT_VARIABLES = {
     "externalEnrolmentUrl": "http://test.org",
     "enrolmentStart": None,
-    "enrolmentEndDays": 0,
+    "enrolmentEndDays": None,
     "neededOccurrences": 0,
     "autoAcceptance": False,
 }
@@ -893,9 +893,9 @@ def test_create_event_with_external_enrolment(
 
 
 P_EVENT_WITHOUT_ENROLMENT_VARIABLES = {
-    "externalEnrolmentUrl": "",
+    "externalEnrolmentUrl": None,
     "enrolmentStart": None,
-    "enrolmentEndDays": 0,
+    "enrolmentEndDays": None,
     "neededOccurrences": 0,
     "autoAcceptance": False,
 }
