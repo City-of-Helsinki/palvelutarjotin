@@ -131,9 +131,9 @@ snapshots["test_send_enrolment_summary_report 1"] = [
             Event name: Raija Malka & Kaija Saariaho: Blick
             Event link: https://provider.kultus.fi/fi/events/aAVEa
                     Occurrence: #2005-01-18 03:44:33+00:00 (3 pending)
-                    Link to occurrence: https://provider.kultus.fi/fi/events/aAVEa/occurrences/T2NjdXJyZW5jZU5vZGU6MTI4
+                    Link to occurrence: https://provider.kultus.fi/fi/events/aAVEa/occurrences/T2NjdXJyZW5jZU5vZGU6MTMw
                     Occurrence: #1992-11-14 16:36:36+00:00 (1 pending)
-                    Link to occurrence: https://provider.kultus.fi/fi/events/aAVEa/occurrences/T2NjdXJyZW5jZU5vZGU6MTI5
+                    Link to occurrence: https://provider.kultus.fi/fi/events/aAVEa/occurrences/T2NjdXJyZW5jZU5vZGU6MTMx
         """,
     """no-reply@hel.ninja|['cooknathan@gmail.com']|Enrolment approved FI|
         Total pending enrolments: 3
@@ -141,17 +141,17 @@ snapshots["test_send_enrolment_summary_report 1"] = [
             Event name: Raija Malka & Kaija Saariaho: Blick
             Event link: https://provider.kultus.fi/fi/events/QiZdS
                     Occurrence: #1982-07-08 17:49:14+00:00 (1 pending)
-                    Link to occurrence: https://provider.kultus.fi/fi/events/QiZdS/occurrences/T2NjdXJyZW5jZU5vZGU6MTMx
+                    Link to occurrence: https://provider.kultus.fi/fi/events/QiZdS/occurrences/T2NjdXJyZW5jZU5vZGU6MTMz
                     Occurrence: #2006-03-19 04:44:09+00:00 (1 pending)
-                    Link to occurrence: https://provider.kultus.fi/fi/events/QiZdS/occurrences/T2NjdXJyZW5jZU5vZGU6MTMy
+                    Link to occurrence: https://provider.kultus.fi/fi/events/QiZdS/occurrences/T2NjdXJyZW5jZU5vZGU6MTM0
             Event name: Raija Malka & Kaija Saariaho: Blick
             Event link: https://provider.kultus.fi/fi/events/TxNhK
                     Occurrence: #2017-06-15 05:09:54+00:00 (1 pending)
-                    Link to occurrence: https://provider.kultus.fi/fi/events/TxNhK/occurrences/T2NjdXJyZW5jZU5vZGU6MTMz
+                    Link to occurrence: https://provider.kultus.fi/fi/events/TxNhK/occurrences/T2NjdXJyZW5jZU5vZGU6MTM1
             Event name: Raija Malka & Kaija Saariaho: Blick
             Event link: https://provider.kultus.fi/fi/events/tNows
                     Occurrence: #1977-06-01 10:58:40+00:00 (1 new enrolments)
-                    Link to occurrence: https://provider.kultus.fi/fi/events/tNows/occurrences/T2NjdXJyZW5jZU5vZGU6MTM0
+                    Link to occurrence: https://provider.kultus.fi/fi/events/tNows/occurrences/T2NjdXJyZW5jZU5vZGU6MTM2
         """,
 ]
 
