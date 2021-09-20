@@ -178,6 +178,7 @@ snapshots["test_update_my_profile 1"] = {
                 "name": "New name",
                 "organisations": {"edges": []},
                 "phoneNumber": "(767)124-0675x064",
+                "placeIds": ["xyz:123", "xxx:123"],
             }
         }
     }
@@ -230,6 +231,7 @@ snapshots["test_create_my_profile 1"] = {
                 },
                 "organisations": {"edges": [{"node": {"name": "Hayes and Sons"}}]},
                 "phoneNumber": "",
+                "placeIds": [],
             }
         }
     }
@@ -294,6 +296,25 @@ snapshots["test_organisations_query_type_filter 2"] = {
                     }
                 },
             ]
+        }
+    }
+}
+
+snapshots["test_create_my_profile_with_place_ids 1"] = {
+    "data": {
+        "createMyProfile": {
+            "myProfile": {
+                "emailAddress": "newEmail@address.com",
+                "isStaff": False,
+                "language": "EN",
+                "name": "New name",
+                "organisationproposalSet": {
+                    "edges": [{"node": {"name": "3rd party org"}}]
+                },
+                "organisations": {"edges": [{"node": {"name": "Hayes and Sons"}}]},
+                "phoneNumber": "",
+                "placeIds": ["xyz:123", "abc321"],
+            }
         }
     }
 }

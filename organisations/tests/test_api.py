@@ -136,6 +136,7 @@ mutation updateMyProfileMutation($input: UpdateMyProfileMutationInput!){
              }
          }
       }
+      placeIds
     }
   }
 }
@@ -146,6 +147,7 @@ UPDATE_MY_PROFILE_VARIABLES = {
         "name": "New name",
         "emailAddress": "newEmail@address.com",
         "language": "SV",
+        "placeIds": ["xyz:123", "xxx:123"],
     }
 }
 
@@ -172,6 +174,7 @@ mutation createMyProfileMutation($input: CreateMyProfileMutationInput!){
           }
         }
       }
+      placeIds
     }
   }
 }
@@ -341,6 +344,18 @@ def test_create_my_profile(snapshot, user_api_client, person_api_client, organis
     )
     assert_match_error_code(executed, API_USAGE_ERROR)
 
+    executed = user_api_client.execute(CREATE_MY_PROFILE_MUTATION, variables=variables)
+    snapshot.assert_match(executed)
+
+
+def test_create_my_profile_with_place_ids(
+    snapshot, user_api_client, person_api_client, organisation
+):
+    variables = deepcopy(CREATE_MY_PROFILE_VARIABLES)
+    variables["input"]["organisations"] = [
+        to_global_id("OrganisationNode", organisation.id),
+    ]
+    variables["input"]["placeIds"] = ["xyz:123", "abc321"]
     executed = user_api_client.execute(CREATE_MY_PROFILE_MUTATION, variables=variables)
     snapshot.assert_match(executed)
 

@@ -46,7 +46,7 @@ class PersonNodeInput(InputObjectType):
     phone_number = graphene.String()
     email_address = graphene.String(required=True)
     language = LanguageEnum(description="Default `fi`")
-    place_ids = graphene.List(graphene.String, default=[])
+    place_ids = graphene.List(graphene.String)
 
 
 class OrganisationNode(DjangoObjectType):
@@ -88,6 +88,7 @@ class CreateMyProfileMutation(graphene.relay.ClientIDMutation):
             + "Used with 3rd party organisations",
         )
         language = LanguageEnum(description="Default `fi`")
+        place_ids = graphene.List(graphene.String)
 
     my_profile = graphene.Field(PersonNode)
 
@@ -132,6 +133,7 @@ class UpdateMyProfileMutation(graphene.relay.ClientIDMutation):
         phone_number = graphene.String()
         email_address = graphene.String()
         language = LanguageEnum(description="Default `fi`")
+        place_ids = graphene.List(graphene.String)
 
     my_profile = graphene.Field(PersonNode)
 
