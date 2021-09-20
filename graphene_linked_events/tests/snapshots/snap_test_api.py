@@ -1034,3 +1034,35 @@ snapshots["test_get_events 1"] = {
         }
     }
 }
+
+snapshots["test_publish_event_with_external_enrolments 1"] = {
+    "data": {
+        "publishEventMutation": {
+            "response": {
+                "body": {
+                    "endTime": None,
+                    "id": "qq:afy6aghr2y",
+                    "publicationStatus": "public",
+                    "startTime": "2020-05-07",
+                },
+                "statusCode": 200,
+            }
+        }
+    }
+}
+
+snapshots["test_publish_event_without_enrolments 1"] = {
+    "data": {
+        "publishEventMutation": {
+            "response": {
+                "body": {
+                    "endTime": None,
+                    "id": "qq:afy6aghr2y",
+                    "publicationStatus": "public",
+                    "startTime": "2020-05-07",
+                },
+                "statusCode": 200,
+            }
+        }
+    }
+}
