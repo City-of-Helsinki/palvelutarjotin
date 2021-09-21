@@ -1,6 +1,25 @@
 <!-- REMINDER: While updating changelog, also remember to update
 the version in palvelutarjotin/__init.py__ -->
 
+## [0.6.0] - 21 September 2021
+
+### Added
+
+- Neighborhood API that fetches a list of city divisions from kartta.hel.fi.
+- ExternalEnrolmentUrl field added to PalvelutarjotinEvent to offer different event enrolment types: internal enrolment, external enrolment and nonenrollable event.
+- Support for event queries with all_ongoing_AND and all_ongoing_OR params.
+- Added place_ids to Person to list persons own places they want to follow.
+
+### Updated
+
+- Increased production server limits
+
+### Fixed
+
+- Events pagination
+- Cancelled occurrences are no longer set as next occurrence or last occurrence.
+- Don't log healthchecks in production to avoid spam on server logging.
+
 ## [0.5.0] - 9 September 2021
 
 ### Updated
