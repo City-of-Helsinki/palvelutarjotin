@@ -1,6 +1,12 @@
 <!-- REMINDER: While updating changelog, also remember to update
 the version in palvelutarjotin/__init.py__ -->
 
+## [0.6.1] - 22 September 2021
+
+### Fixed
+
+- Upcoming occurrences filter when enrolment end days is null.
+
 ## [0.6.0] - 21 September 2021
 
 ### Added
