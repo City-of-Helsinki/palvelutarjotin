@@ -2,6 +2,7 @@ from datetime import timedelta
 
 import django_filters
 from django.db.models import F
+from django.db.models.functions import Coalesce
 from django.utils import timezone
 from occurrences.models import Occurrence
 
@@ -22,11 +23,14 @@ class OccurrenceFilter(django_filters.FilterSet):
     def filter_by_upcoming(self, qs, name, value):
         if value:
             # Only work with PostgreSQL
-            return qs.filter(
+            return qs.annotate(
+                # Nulls should be treated as 0, because null returns nothing
+                enrolment_end_days=Coalesce("p_event__enrolment_end_days", 0)
+            ).filter(
                 **{
                     name
                     + "__gt": timezone.now()
-                    + timedelta(days=1) * F("p_event__enrolment_end_days")
+                    + timedelta(days=1) * F("enrolment_end_days")
                 }
             )
         return qs

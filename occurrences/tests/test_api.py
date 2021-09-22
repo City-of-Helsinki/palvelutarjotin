@@ -2066,10 +2066,13 @@ def test_occurrences_filter_by_time(api_client, snapshot):
     snapshot.assert_match(executed)
 
 
-def test_occurrences_filter_by_upcoming(snapshot, api_client):
+@pytest.mark.parametrize("enrolment_end_days,count", [(None, 3), (0, 3), (1, 2)])
+def test_occurrences_filter_by_upcoming(
+    enrolment_end_days, count, snapshot, api_client
+):
     p_event_1 = PalvelutarjotinEventFactory(
         enrolment_start=datetime(2020, 1, 5, 0, 0, 0, tzinfo=timezone.now().tzinfo),
-        enrolment_end_days=1,
+        enrolment_end_days=enrolment_end_days,
     )
 
     OccurrenceFactory(
@@ -2090,7 +2093,7 @@ def test_occurrences_filter_by_upcoming(snapshot, api_client):
 
     executed = api_client.execute(OCCURRENCES_QUERY, variables={"upcoming": True})
     snapshot.assert_match(executed)
-    assert len(executed["data"]["occurrences"]["edges"]) == 2
+    assert len(executed["data"]["occurrences"]["edges"]) == count
 
 
 def test_occurrences_filter_by_cancelled(snapshot, api_client):
