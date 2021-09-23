@@ -2,6 +2,9 @@ import requests
 
 
 class NeighborhoodApiClient:
+
+    CONNECTION_TIMEOUT = 5
+
     def __init__(self, config) -> None:
         self.root = config["ROOT"]
         self.jsonParams = {"outputFormat": "json"}
@@ -15,4 +18,5 @@ class NeighborhoodApiClient:
                 "typeName": "avoindata:Kaupunginosajako",
                 **self.jsonParams,
             },
+            timeout=self.CONNECTION_TIMEOUT,
         )

@@ -12,6 +12,7 @@ def _prepare_sms_payload(sender, destinations, text):
 
 class NotificationService:
     SEND_SMS_ENDPOINT = "message/send"
+    CONNECTION_TIMEOUT = 10
 
     def __init__(self, api_token, api_url) -> None:
         self.api_token = api_token
@@ -25,4 +26,6 @@ class NotificationService:
             "Authorization": "Token " + self.api_token,
             "Content-Type": "application/json",
         }
-        return requests.post(url, data=data, headers=headers,)
+        return requests.post(
+            url, data=data, headers=headers, timeout=self.CONNECTION_TIMEOUT
+        )
