@@ -3,7 +3,7 @@ import requests
 
 class LinkedEventsApiClient(object):
 
-    CONNECTION_TIMEOUT = 5
+    CONNECTION_TIMEOUT = 10
 
     def __init__(self, config) -> None:
         self.root = config["ROOT"]
