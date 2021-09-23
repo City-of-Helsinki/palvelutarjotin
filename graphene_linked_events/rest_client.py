@@ -2,6 +2,9 @@ import requests
 
 
 class LinkedEventsApiClient(object):
+
+    CONNECTION_TIMEOUT = 5
+
     def __init__(self, config) -> None:
         self.root = config["ROOT"]
         self.api_key = config["API_KEY"]
@@ -31,11 +34,13 @@ class LinkedEventsApiClient(object):
                 params=formatted_params,
                 headers=headers,
                 cookies=cookies,
+                timeout=self.CONNECTION_TIMEOUT,
             )
         return requests.request(
             actions["retrieve"]["method"],
             actions["retrieve"]["url"].format(id),
             params=formatted_params,
+            timeout=self.CONNECTION_TIMEOUT,
         )
 
     def list(self, resource, filter_list=None, is_staff=False):
@@ -50,9 +55,13 @@ class LinkedEventsApiClient(object):
                 params=filter_params,
                 headers=headers,
                 cookies=cookies,
+                timeout=self.CONNECTION_TIMEOUT,
             )
         return requests.request(
-            actions["list"]["method"], actions["list"]["url"], params=filter_params
+            actions["list"]["method"],
+            actions["list"]["url"],
+            params=filter_params,
+            timeout=self.CONNECTION_TIMEOUT,
         )
 
     def create(self, resource, body):
@@ -63,6 +72,7 @@ class LinkedEventsApiClient(object):
             actions["create"]["url"],
             data=body,
             headers=headers,
+            timeout=self.CONNECTION_TIMEOUT,
         )
 
     def update(self, resource, id, body):
@@ -73,6 +83,7 @@ class LinkedEventsApiClient(object):
             actions["update"]["url"].format(id),
             data=body,
             headers=headers,
+            timeout=self.CONNECTION_TIMEOUT,
         )
 
     def delete(self, resource, id):
@@ -82,6 +93,7 @@ class LinkedEventsApiClient(object):
             actions["delete"]["method"],
             actions["delete"]["url"].format(id),
             headers=headers,
+            timeout=self.CONNECTION_TIMEOUT,
         )
 
     # Special action to full-text search generic resources
@@ -89,7 +101,10 @@ class LinkedEventsApiClient(object):
         search_params = self.convert_to_string_param(params)
         action = self.get_actions()["search"]
         response = requests.request(
-            action["method"], action["url"], params=search_params
+            action["method"],
+            action["url"],
+            params=search_params,
+            timeout=self.CONNECTION_TIMEOUT,
         )
         return response
 
@@ -97,7 +112,12 @@ class LinkedEventsApiClient(object):
         action = self.get_actions(resource)["upload"]
         headers = {"apikey": self.api_key}
         return requests.request(
-            action["method"], action["url"], data=body, files=files, headers=headers
+            action["method"],
+            action["url"],
+            data=body,
+            files=files,
+            headers=headers,
+            timeout=self.CONNECTION_TIMEOUT,
         )
 
     @staticmethod
