@@ -183,6 +183,7 @@ INSTALLED_APPS = [
     "occurrences",
     "verification_token",
     "reports",
+    "notification_importers",
 ]
 
 MIDDLEWARE = [
@@ -343,3 +344,5 @@ if os.path.exists(local_settings_path):
     exec(code, globals(), locals())
 
 DEFAULT_AUTO_FIELD = "django.db.models.AutoField"
+
+NOTIFICATIONS_SHEET_ID = "NOTIFICATIONS_SHEET_ID"

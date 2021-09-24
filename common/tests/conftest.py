@@ -1,5 +1,6 @@
 import factory.random
 import pytest
+import responses
 from django.contrib.auth.models import AnonymousUser
 from django.test import RequestFactory
 from freezegun import freeze_time
@@ -109,3 +110,9 @@ def _create_api_client_with_user(user):
     )
     client.user = user
     return client
+
+
+@pytest.fixture
+def mocked_responses():
+    with responses.RequestsMock() as rsps:
+        yield rsps
