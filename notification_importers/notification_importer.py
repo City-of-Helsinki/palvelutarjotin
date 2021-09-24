@@ -1,5 +1,6 @@
 import csv
 import io
+import os
 from collections import defaultdict
 from logging import getLogger
 from typing import DefaultDict, Dict, Mapping, Optional, Sequence, Tuple
@@ -210,5 +211,39 @@ class NotificationGoogleSheetImporter(AbstractNotificationImporter):
                 notification_data[language][field] = self.clean_text(content)
 
             source_data[notification_type] = notification_data
+
+        return source_data
+
+
+class NotificationFileImporter(AbstractNotificationImporter):
+    def __init__(self) -> None:
+        self.files = [
+            "/templates/email/enrolment_approved-fi.html",
+            "/templates/email/enrolment_approved-en.html",
+            "/templates/email/enrolment_approved-sv.html",
+            "/templates/email/occurrence_enrolment-fi.html",
+            "/templates/email/occurrence_enrolment-en.html",
+            "/templates/email/occurrence_enrolment-sv.html",
+        ]
+        self.source_data: SourceData = self._fetch_data()
+
+    def _fetch_data(self) -> SourceData:
+        source_data: SourceData = defaultdict(lambda: defaultdict(dict))
+        for template_file_path in self.files:
+            with open(
+                os.path.dirname(os.path.abspath(__file__)) + template_file_path, "r"
+            ) as template_file:
+
+                pathname = os.path.splitext(template_file.name)[0]
+                filename = pathname.split("/")[-1]
+                notification_type, language = filename.split("-")
+                field = "body_text" if "sms" in template_file.name else "body_html"
+                content = template_file.read()
+                source_data[notification_type][language][field] = self.clean_text(
+                    content
+                )
+                source_data[notification_type][language][
+                    "subject"
+                ] = notification_type.__str__()
 
         return source_data

@@ -61,15 +61,20 @@ def occurrence_enrolment_notification():
 def test_create_non_existing_and_update_existing_notifications(
     enrolment_approved_notification, occurrence_enrolment_notification, snapshot
 ):
-    NotificationGoogleSheetImporter().create_missing_and_update_existing_notifications()
-
+    (
+        num_of_created,
+        num_of_updated,
+    ) = (
+        NotificationGoogleSheetImporter().create_missing_and_update_existing_notifications()  # noqa: E501
+    )
+    assert num_of_created == 0
+    assert num_of_updated == 2
     snapshot.assert_match(serialize_notifications(NotificationTemplate.objects.all()))
 
 
 @pytest.mark.django_db
 def test_create_non_existing_notifications(enrolment_approved_notification, snapshot):
     NotificationGoogleSheetImporter().create_missing_notifications()
-
     snapshot.assert_match(serialize_notifications(NotificationTemplate.objects.all()))
 
 
@@ -78,7 +83,6 @@ def test_update_notifications(enrolment_approved_notification, snapshot):
     NotificationGoogleSheetImporter().update_notifications(
         [enrolment_approved_notification]
     )
-
     snapshot.assert_match(serialize_notifications(NotificationTemplate.objects.all()))
 
 

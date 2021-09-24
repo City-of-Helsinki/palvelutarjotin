@@ -34,7 +34,7 @@ for template in TEMPLATES:
 person = PersonFactory.build()
 study_group = StudyGroupFactory.build(person=person)
 p_event = PalvelutarjotinEventFactory.build()
-occurrence = OccurrenceFactory.build(p_event=p_event)
+occurrence = OccurrenceFactory.build(id=1, p_event=p_event)
 enrolment = EnrolmentFactory.build()
 
 DEFAULT_DUMMY_CONTEXT = {
@@ -45,6 +45,7 @@ DEFAULT_DUMMY_CONTEXT = {
     "event": EVENT_DATA,
     "enrolment": enrolment,
     "custom_message": "custom_message",
+    "trans": lambda field_translation_map: field_translation_map["fi"],
 }
 dummy_context.update(
     {
