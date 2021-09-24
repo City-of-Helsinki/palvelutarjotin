@@ -24,7 +24,7 @@ from requests import RequestException
 #     },
 #     ...
 # }
-SheetData = Mapping[str, Mapping[str, Mapping[str, str]]]
+SourceData = Mapping[str, Mapping[str, Mapping[str, str]]]
 
 
 logger = getLogger(__name__)
@@ -34,20 +34,17 @@ class NotificationImporterException(Exception):
     pass
 
 
-class NotificationGoogleSheetImporter:
-    """Imports NotificationTemplates from Google Sheets."""
+class AbstractNotificationImporter:
+    """
+    An abstract base class for Notification Importer classes.
+    Original source:
+    https://github.com/City-of-Helsinki/kukkuu/blob/master/importers/notification_importer.py
+    1. Some function and variable renaming done.
+    2. Splitted code from original importer to create an abstract class
+    """
 
-    TIMEOUT = 5
     LANGUAGES = settings.PARLER_SUPPORTED_LANGUAGE_CODES
     FIELDS = ("subject", "body_text", "body_html")
-    HEADER_FIELD_AND_LANGUAGE_SEPARATOR = "|"
-
-    def __init__(self, sheet_id: str = None) -> None:
-        self.sheet_id = sheet_id or settings.NOTIFICATIONS_SHEET_ID
-        if not self.sheet_id:
-            raise NotificationImporterException("Sheet ID not set.")
-
-        self.sheet_data: SheetData = self._fetch_data()
 
     @transaction.atomic()
     def create_missing_and_update_existing_notifications(self) -> Tuple[int, int]:
@@ -57,12 +54,12 @@ class NotificationGoogleSheetImporter:
 
     @transaction.atomic()
     def create_missing_notifications(self) -> int:
-        new_types = set(self.sheet_data.keys()) - set(
+        new_types = set(self.source_data.keys()) - set(
             NotificationTemplate.objects.values_list("type", flat=True)
         )
         for new_type in new_types:
             new_notification = NotificationTemplate(type=new_type)
-            self._create_or_update_notification_using_sheet_data(new_notification)
+            self._create_or_update_notification_using_source_data(new_notification)
 
         return len(new_types)
 
@@ -74,7 +71,7 @@ class NotificationGoogleSheetImporter:
 
         for notification in notifications:
             if self.is_notification_in_sync(notification) is False:
-                self._create_or_update_notification_using_sheet_data(notification)
+                self._create_or_update_notification_using_source_data(notification)
                 num_of_updated += 1
 
         return num_of_updated
@@ -82,7 +79,7 @@ class NotificationGoogleSheetImporter:
     def is_notification_in_sync(
         self, notification: NotificationTemplate
     ) -> Optional[bool]:
-        if notification.type not in self.sheet_data:
+        if notification.type not in self.source_data:
             return None
 
         for language in self.LANGUAGES:
@@ -97,55 +94,23 @@ class NotificationGoogleSheetImporter:
                     if translation_obj
                     else ""
                 )
-                sheet_value = self._get_value_from_sheet(
+                source_value = self._get_value_from_source(
                     notification.type, field, language
                 )
 
-                if current_value != sheet_value:
+                if current_value != source_value:
                     return False
 
         return True
 
-    @property
-    def url(self) -> str:
+    def _get_value_from_source(
+        self, notification_type: str, field: str, language: str
+    ) -> str:
         return (
-            f"https://docs.google.com/spreadsheets/d/{self.sheet_id}/export?format=csv"
+            self.source_data.get(notification_type, {}).get(language, {}).get(field, "")
         )
 
-    def _fetch_data(self) -> SheetData:
-        csv_data = self._fetch_csv_data()
-        return self._get_sheet_data_from_csv_file(io.StringIO(csv_data))
-
-    def _fetch_csv_data(self) -> str:
-        try:
-            response = requests.get(self.url, timeout=self.TIMEOUT)
-            response.raise_for_status()
-        except RequestException as e:
-            raise NotificationImporterException(
-                f"Error fetching data from the spreadsheet: {e}"
-            ) from e
-        return response.content.decode("utf-8")
-
-    def _get_sheet_data_from_csv_file(self, csv_file: io.StringIO) -> SheetData:
-        reader = csv.DictReader(csv_file)
-        sheet_data = {}
-
-        for row in reader:
-            notification_data: DefaultDict[str, Dict[str, str]] = defaultdict(dict)
-
-            row_items = iter(row.items())
-            # the first column contains notification type
-            notification_type = next(row_items)[1].lower()
-
-            for header, content in row_items:
-                field, language = self._get_field_and_language_from_header(header)
-                notification_data[language][field] = self.clean_text(content)
-
-            sheet_data[notification_type] = notification_data
-
-        return sheet_data
-
-    def _create_or_update_notification_using_sheet_data(
+    def _create_or_update_notification_using_source_data(
         self, notification: NotificationTemplate
     ):
         creating = not bool(notification.pk)
@@ -156,7 +121,7 @@ class NotificationGoogleSheetImporter:
                     setattr(
                         notification,
                         field,
-                        self._get_value_from_sheet(notification.type, field, language),
+                        self._get_value_from_source(notification.type, field, language),
                     )
                 notification.save()
 
@@ -178,17 +143,72 @@ class NotificationGoogleSheetImporter:
             f'{"Created" if creating else "Updated"} notification "{notification}"'
         )
 
-    def _get_field_and_language_from_header(self, header: str) -> Tuple[str, str]:
-        field, language = header.split(self.HEADER_FIELD_AND_LANGUAGE_SEPARATOR)
-        return field.lower().strip(), language.lower().strip()
-
-    def _get_value_from_sheet(
-        self, notification_type: str, field: str, language: str
-    ) -> str:
-        return (
-            self.sheet_data.get(notification_type, {}).get(language, {}).get(field, "")
-        )
+    def _fetch_data(self) -> SourceData:
+        raise NotImplementedError
 
     @staticmethod
     def clean_text(text: str) -> str:
         return text.replace("\u202f", " ").replace("\r\n", "\n")
+
+
+class NotificationGoogleSheetImporter(AbstractNotificationImporter):
+    """
+    Imports NotificationTemplates from Google Sheets.
+    Original source:
+    https://github.com/City-of-Helsinki/kukkuu/blob/master/importers/notification_importer.py
+    1. Some function and variable renaming done.
+    2. Splitted code from original importer to create an abstract class
+    """
+
+    TIMEOUT = 5
+    HEADER_FIELD_AND_LANGUAGE_SEPARATOR = "|"
+
+    def __init__(self, sheet_id: str = None) -> None:
+        self.sheet_id = sheet_id or settings.NOTIFICATIONS_SHEET_ID
+        if not self.sheet_id:
+            raise NotificationImporterException("Sheet ID not set.")
+
+        self.source_data: SourceData = self._fetch_data()
+
+    @property
+    def url(self) -> str:
+        return (
+            f"https://docs.google.com/spreadsheets/d/{self.sheet_id}/export?format=csv"
+        )
+
+    def _fetch_data(self) -> SourceData:
+        csv_data = self.__fetch_csv_data()
+        return self.__get_source_data_from_csv_file(io.StringIO(csv_data))
+
+    def __get_field_and_language_from_header(self, header: str) -> Tuple[str, str]:
+        field, language = header.split(self.HEADER_FIELD_AND_LANGUAGE_SEPARATOR)
+        return field.lower().strip(), language.lower().strip()
+
+    def __fetch_csv_data(self) -> str:
+        try:
+            response = requests.get(self.url, timeout=self.TIMEOUT)
+            response.raise_for_status()
+        except RequestException as e:
+            raise NotificationImporterException(
+                f"Error fetching data from the spreadsheet: {e}"
+            ) from e
+        return response.content.decode("utf-8")
+
+    def __get_source_data_from_csv_file(self, csv_file: io.StringIO) -> SourceData:
+        reader = csv.DictReader(csv_file)
+        source_data = {}
+
+        for row in reader:
+            notification_data: DefaultDict[str, Dict[str, str]] = defaultdict(dict)
+
+            row_items = iter(row.items())
+            # the first column contains notification type
+            notification_type = next(row_items)[1].lower()
+
+            for header, content in row_items:
+                field, language = self.__get_field_and_language_from_header(header)
+                notification_data[language][field] = self.clean_text(content)
+
+            source_data[notification_type] = notification_data
+
+        return source_data
