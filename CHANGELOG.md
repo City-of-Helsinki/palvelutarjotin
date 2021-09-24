@@ -1,6 +1,12 @@
 <!-- REMINDER: While updating changelog, also remember to update
 the version in palvelutarjotin/__init.py__ -->
 
+## [0.6.2] - 24 September 2021
+
+### Fixed
+
+- Added connection timeouts to external API requests.
+
 ## [0.6.1] - 22 September 2021
 
 ### Fixed
