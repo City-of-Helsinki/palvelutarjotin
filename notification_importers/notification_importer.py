@@ -2,6 +2,7 @@ import csv
 import glob
 import io
 import os
+import re
 from collections import defaultdict
 from logging import getLogger
 from typing import DefaultDict, Dict, Mapping, Optional, Sequence, Tuple
@@ -256,9 +257,24 @@ class NotificationFileImporter(AbstractNotificationImporter):
                 )
                 source_data[notification_type][language][
                     "subject"
-                ] = notification_type.__str__()
+                ] = self.__get_subject(content, notification_type)
 
         return source_data
+
+    def __get_subject(
+        self, file_content: io.TextIOWrapper, notification_type: str
+    ) -> str:
+        """
+        Returns a title element content from a HTML file as a notification subject.
+        If a title cannot be found, it uses the file name as a subject.
+        """
+        title_rgx = re.compile(r"\<title\>(\S+)\<\/title\>")
+        subject = (
+            title_rgx.search(file_content).group(1)
+            if title_rgx.search(file_content)
+            else notification_type.__str__().replace("_", " ")
+        )
+        return subject
 
     def __is_sms_template(self, template_file: io.TextIOWrapper) -> bool:
         return True if "sms" in template_file.name else False

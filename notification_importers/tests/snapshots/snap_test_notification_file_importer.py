@@ -9,14 +9,14 @@ snapshots = Snapshot()
 snapshots[
     "test_create_non_existing_notifications 1"
 ] = """enrolment_approved|enrolment_approved fi original subject|enrolment_approved en original subject|enrolment_approved sv original subject||||enrolment_approved fi original body_html|enrolment_approved en original body_html|enrolment_approved sv original body_html
-enrolment_approved_sms|enrolment_approved_sms|enrolment_approved_sms|enrolment_approved_sms|Hei. Ilmoittautuminen hyväksytty tapahtumaan {{trans(event.name)}}. {{ occurrence.local_start_time.strftime('%d.%m.%Y klo %H.%M')}}. Ryhmä {{ study_group.name }} {{study_group.group_size}} hlö. {{trans(event.location.name)}}, {{trans(event.location.street_address)}}. Lisätietoja: {{occurrence.p_event.contact_email}}|Enrolment accepted for the event {{trans(event.name)}}. {{ occurrence.local_start_time.strftime('%d.%m.%Y at %H.%M')}}. Group {{ study_group.name }} {{study_group.group_size}} ppl. {{trans(event.location.name)}}, {{trans(event.location.street_address)}}. Info: {{occurrence.p_event.contact_email}}|Hej. Din anmälan till evenemanget {{trans(event.name)}}. {{ occurrence.local_start_time.strftime('%d.%m.%Y kl %H.%M')}} Grupp {{ study_group.name }} {{study_group.group_size}} personer. {{trans(event.location.name)}}, {{trans(event.location.street_address)}}. Mer information: {{occurrence.p_event.contact_email}}|||
-enrolment_cancellation|enrolment_cancellation|enrolment_cancellation|enrolment_cancellation||||<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+enrolment_approved_sms|enrolment approved sms|enrolment approved sms|enrolment approved sms|Hei. Ilmoittautuminen hyväksytty tapahtumaan {{trans(event.name)}}. {{ occurrence.local_start_time.strftime('%d.%m.%Y klo %H.%M')}}. Ryhmä {{ study_group.name }} {{study_group.group_size}} hlö. {{trans(event.location.name)}}, {{trans(event.location.street_address)}}. Lisätietoja: {{occurrence.p_event.contact_email}}|Enrolment accepted for the event {{trans(event.name)}}. {{ occurrence.local_start_time.strftime('%d.%m.%Y at %H.%M')}}. Group {{ study_group.name }} {{study_group.group_size}} ppl. {{trans(event.location.name)}}, {{trans(event.location.street_address)}}. Info: {{occurrence.p_event.contact_email}}|Hej. Din anmälan till evenemanget {{trans(event.name)}}. {{ occurrence.local_start_time.strftime('%d.%m.%Y kl %H.%M')}} Grupp {{ study_group.name }} {{study_group.group_size}} personer. {{trans(event.location.name)}}, {{trans(event.location.street_address)}}. Mer information: {{occurrence.p_event.contact_email}}|||
+enrolment_cancellation|enrolment cancellation|enrolment cancellation|enrolment cancellation||||<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 
 <head>
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
   <meta name="viewport" content="width=device-width">
-  <title>Title</title>
+  <title>Ilmoittautumisen peruuttaminen</title>
 
 </head>
 
@@ -508,7 +508,7 @@ enrolment_cancellation|enrolment_cancellation|enrolment_cancellation|enrolment_c
 <head>
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
   <meta name="viewport" content="width=device-width">
-  <title>Title</title>
+  <title>Enrolment cancellation</title>
 
 </head>
 
@@ -1005,7 +1005,7 @@ enrolment_cancellation|enrolment_cancellation|enrolment_cancellation|enrolment_c
 <head>
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
   <meta name="viewport" content="width=device-width">
-  <title>Title</title>
+  <title>Avbokning av anmälan</title>
 
 </head>
 
@@ -1497,14 +1497,14 @@ enrolment_cancellation|enrolment_cancellation|enrolment_cancellation|enrolment_c
 </body>
 
 </html>
-enrolment_cancellation_sms|enrolment_cancellation_sms|enrolment_cancellation_sms|enrolment_cancellation_sms|Hei. Voitte vahvistaa peruutuksenne liittyen tapahtumaan {{trans(event.name)}} seuraavalla linkillä: {{enrolment.get_cancellation_url(language='fi')}}. {{ occurrence.local_start_time.strftime('%d.%m.%Y klo %H.%M')}}. {{trans(event.location.name)}}, {{trans(event.location.street_address)}}. Lisätietoja: {{occurrence.p_event.contact_email}}|Hi. You can confirm your cancellation to the event {{trans(event.name)}} at the following link: {{enrolment.get_cancellation_url(language='en')}}. {{ occurrence.local_start_time.strftime('%d.%m.%Y at %H.%M')}}. {{trans(event.location.name)}}, {{trans(event.location.street_address)}}. Info: {{occurrence.p_event.contact_email}}|Hej. Du kan bekräfta din avbokning till evenemanget {{trans(event.name)}} på följande länk: {{enrolment.get_cancellation_url(language='sv')}}. {{ occurrence.local_start_time.strftime('%d.%m.%Y at %H.%M')}}. {{trans(event.location.name)}}, {{trans(event.location.street_address)}}. Mer information: {{occurrence.p_event.contact_email}}|||
-enrolment_cancelled|enrolment_cancelled|enrolment_cancelled|enrolment_cancelled||||<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+enrolment_cancellation_sms|enrolment cancellation sms|enrolment cancellation sms|enrolment cancellation sms|Hei. Voitte vahvistaa peruutuksenne liittyen tapahtumaan {{trans(event.name)}} seuraavalla linkillä: {{enrolment.get_cancellation_url(language='fi')}}. {{ occurrence.local_start_time.strftime('%d.%m.%Y klo %H.%M')}}. {{trans(event.location.name)}}, {{trans(event.location.street_address)}}. Lisätietoja: {{occurrence.p_event.contact_email}}|Hi. You can confirm your cancellation to the event {{trans(event.name)}} at the following link: {{enrolment.get_cancellation_url(language='en')}}. {{ occurrence.local_start_time.strftime('%d.%m.%Y at %H.%M')}}. {{trans(event.location.name)}}, {{trans(event.location.street_address)}}. Info: {{occurrence.p_event.contact_email}}|Hej. Du kan bekräfta din avbokning till evenemanget {{trans(event.name)}} på följande länk: {{enrolment.get_cancellation_url(language='sv')}}. {{ occurrence.local_start_time.strftime('%d.%m.%Y at %H.%M')}}. {{trans(event.location.name)}}, {{trans(event.location.street_address)}}. Mer information: {{occurrence.p_event.contact_email}}|||
+enrolment_cancelled|enrolment cancelled|enrolment cancelled|enrolment cancelled||||<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 
 <head>
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
   <meta name="viewport" content="width=device-width">
-  <title>Title</title>
+  <title>Ilmoittautumisen peruuttaminen vahvistettu</title>
 
 </head>
 
@@ -1999,7 +1999,7 @@ enrolment_cancelled|enrolment_cancelled|enrolment_cancelled|enrolment_cancelled|
 <head>
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
   <meta name="viewport" content="width=device-width">
-  <title>Title</title>
+  <title>Enrolment cancellation confirmed</title>
 
 </head>
 
@@ -2494,7 +2494,7 @@ enrolment_cancelled|enrolment_cancelled|enrolment_cancelled|enrolment_cancelled|
 <head>
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
   <meta name="viewport" content="width=device-width">
-  <title>Title</title>
+  <title>Avbokning av anmälan bekräftad</title>
 
 </head>
 
@@ -2984,14 +2984,14 @@ enrolment_cancelled|enrolment_cancelled|enrolment_cancelled|enrolment_cancelled|
 </body>
 
 </html>
-enrolment_cancelled_sms|enrolment_cancelled_sms|enrolment_cancelled_sms|enrolment_cancelled_sms|Hei. Peruutuksenne tapahtumaan {{trans(event.name)}} on vahvistettu. {{ occurrence.local_start_time.strftime('%d.%m.%Y klo %H.%M')}}. {{trans(event.location.name)}}, {{trans(event.location.street_address)}}. Lisätietoja: {{occurrence.p_event.contact_email}}|Hi. Your cancellation to the event {{trans(event.name)}} is confirmed. {{ occurrence.local_start_time.strftime('%d.%m.%Y at %H.%M')}}. {{trans(event.location.name)}}, {{trans(event.location.street_address)}}. Info: {{occurrence.p_event.contact_email}}|Hej. Avbokningen av anmälan till evenemanget {{trans(event.name)}} har bekräftats. {{ occurrence.local_start_time.strftime('%d.%m.%Y at %H.%M')}}. {{trans(event.location.name)}}, {{trans(event.location.street_address)}}. Mer information: {{occurrence.p_event.contact_email}}|||
-enrolment_declined|enrolment_declined|enrolment_declined|enrolment_declined||||<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+enrolment_cancelled_sms|enrolment cancelled sms|enrolment cancelled sms|enrolment cancelled sms|Hei. Peruutuksenne tapahtumaan {{trans(event.name)}} on vahvistettu. {{ occurrence.local_start_time.strftime('%d.%m.%Y klo %H.%M')}}. {{trans(event.location.name)}}, {{trans(event.location.street_address)}}. Lisätietoja: {{occurrence.p_event.contact_email}}|Hi. Your cancellation to the event {{trans(event.name)}} is confirmed. {{ occurrence.local_start_time.strftime('%d.%m.%Y at %H.%M')}}. {{trans(event.location.name)}}, {{trans(event.location.street_address)}}. Info: {{occurrence.p_event.contact_email}}|Hej. Avbokningen av anmälan till evenemanget {{trans(event.name)}} har bekräftats. {{ occurrence.local_start_time.strftime('%d.%m.%Y at %H.%M')}}. {{trans(event.location.name)}}, {{trans(event.location.street_address)}}. Mer information: {{occurrence.p_event.contact_email}}|||
+enrolment_declined|enrolment declined|enrolment declined|enrolment declined||||<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 
 <head>
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
   <meta name="viewport" content="width=device-width">
-  <title>Title</title>
+  <title>Ilmoittautumisen peruutusilmoitus</title>
 
 </head>
 
@@ -3492,7 +3492,7 @@ enrolment_declined|enrolment_declined|enrolment_declined|enrolment_declined||||<
 <head>
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
   <meta name="viewport" content="width=device-width">
-  <title>Title</title>
+  <title>Enrolment declined</title>
 
 </head>
 
@@ -3994,7 +3994,7 @@ enrolment_declined|enrolment_declined|enrolment_declined|enrolment_declined||||<
 <head>
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
   <meta name="viewport" content="width=device-width">
-  <title>Title</title>
+  <title>Meddelande om avbokning</title>
 
 </head>
 
@@ -4490,14 +4490,14 @@ enrolment_declined|enrolment_declined|enrolment_declined|enrolment_declined||||<
 </body>
 
 </html>
-enrolment_declined_sms|enrolment_declined_sms|enrolment_declined_sms|enrolment_declined_sms|Hei. Valitettavasti emme pysty tarjoamaan paikkaa tapahtumaan {{trans(event.name)}}. {{ occurrence.local_start_time.strftime('%d.%m.%Y klo %H.%M')}}. Ryhmä {{ study_group.name }} {{study_group.group_size}} hlö. {{trans(event.location.name)}}, {{trans(event.location.street_address)}}. Lisätietoja: {{occurrence.p_event.contact_email}}|Hi. Unfortunately, we cannot offer you a place at the event {{trans(event.name)}}. {{ occurrence.local_start_time.strftime('%d.%m.%Y at %H.%M')}}. Group {{ study_group.name }} {{study_group.group_size}} ppl. {{trans(event.location.name)}}, {{trans(event.location.street_address)}}. Info: {{occurrence.p_event.contact_email}}|Hej. Vi kan tyvärr inte erbjuda en plats på evenemanget {{trans(event.name)}}. {{ occurrence.local_start_time.strftime('%d.%m.%Y kl %H.%M')}} Grupp {{ study_group.name }} {{study_group.group_size}} personer. {{trans(event.location.name)}}, {{trans(event.location.street_address)}}. Mer information: {{occurrence.p_event.contact_email}}|||
-enrolment_summary_report|enrolment_summary_report|enrolment_summary_report|enrolment_summary_report||||<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+enrolment_declined_sms|enrolment declined sms|enrolment declined sms|enrolment declined sms|Hei. Valitettavasti emme pysty tarjoamaan paikkaa tapahtumaan {{trans(event.name)}}. {{ occurrence.local_start_time.strftime('%d.%m.%Y klo %H.%M')}}. Ryhmä {{ study_group.name }} {{study_group.group_size}} hlö. {{trans(event.location.name)}}, {{trans(event.location.street_address)}}. Lisätietoja: {{occurrence.p_event.contact_email}}|Hi. Unfortunately, we cannot offer you a place at the event {{trans(event.name)}}. {{ occurrence.local_start_time.strftime('%d.%m.%Y at %H.%M')}}. Group {{ study_group.name }} {{study_group.group_size}} ppl. {{trans(event.location.name)}}, {{trans(event.location.street_address)}}. Info: {{occurrence.p_event.contact_email}}|Hej. Vi kan tyvärr inte erbjuda en plats på evenemanget {{trans(event.name)}}. {{ occurrence.local_start_time.strftime('%d.%m.%Y kl %H.%M')}} Grupp {{ study_group.name }} {{study_group.group_size}} personer. {{trans(event.location.name)}}, {{trans(event.location.street_address)}}. Mer information: {{occurrence.p_event.contact_email}}|||
+enrolment_summary_report|enrolment summary report|enrolment summary report|enrolment summary report||||<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 
 <head>
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
   <meta name="viewport" content="width=device-width">
-  <title>Title</title>
+  <title>Ilmoittautumisen yhteenvetoraportti</title>
 </head>
 
 <body
@@ -4970,7 +4970,7 @@ enrolment_summary_report|enrolment_summary_report|enrolment_summary_report|enrol
 <head>
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
   <meta name="viewport" content="width=device-width">
-  <title>Title</title>
+  <title>Enrolment summary report</title>
 </head>
 
 <body
@@ -5444,7 +5444,7 @@ enrolment_summary_report|enrolment_summary_report|enrolment_summary_report|enrol
 <head>
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
   <meta name="viewport" content="width=device-width">
-  <title>Title</title>
+  <title>Sammanfattningsrapport för inskrivning</title>
 </head>
 
 <body
@@ -5912,13 +5912,13 @@ enrolment_summary_report|enrolment_summary_report|enrolment_summary_report|enrol
 </body>
 
 </html>
-occurrence_cancelled|occurrence_cancelled|occurrence_cancelled|occurrence_cancelled||||<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+occurrence_cancelled|Peruutusilmoitus|occurrence cancelled|occurrence cancelled||||<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 
 <head>
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
   <meta name="viewport" content="width=device-width">
-  <title>Title</title>
+  <title>Peruutusilmoitus</title>
 </head>
 
 <body
@@ -6414,7 +6414,7 @@ occurrence_cancelled|occurrence_cancelled|occurrence_cancelled|occurrence_cancel
 <head>
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
   <meta name="viewport" content="width=device-width">
-  <title>Title</title>
+  <title>Cancellation notification</title>
 </head>
 
 <body
@@ -6910,7 +6910,7 @@ occurrence_cancelled|occurrence_cancelled|occurrence_cancelled|occurrence_cancel
 <head>
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
   <meta name="viewport" content="width=device-width">
-  <title>Title</title>
+  <title>Meddelande om inställt evenemang</title>
 </head>
 
 <body
@@ -7402,14 +7402,14 @@ occurrence_cancelled|occurrence_cancelled|occurrence_cancelled|occurrence_cancel
 </body>
 
 </html>
-occurrence_cancelled_sms|occurrence_cancelled_sms|occurrence_cancelled_sms|occurrence_cancelled_sms|Hei. Valitettavasti tapahtuma on peruttu. {{trans(event.name)}}. {{ occurrence.local_start_time.strftime('%d.%m.%Y klo %H.%M')}}. Ryhmä {{ study_group.name }} {{study_group.group_size}} hlö. {{trans(event.location.name)}}, {{trans(event.location.street_address)}}. Lisätietoja: {{occurrence.p_event.contact_email}}|Hi. Unfortunately, the event is cancelled. {{trans(event.name)}}. {{ occurrence.local_start_time.strftime('%d.%m.%Y at %H.%M')}}. Group {{ study_group.name }} {{study_group.group_size}} ppl. {{trans(event.location.name)}}, {{trans(event.location.street_address)}}. Info: {{occurrence.p_event.contact_email}}|Hej. Evenemanget har tyvärr ställts in. {{trans(event.name)}}. {{ occurrence.local_start_time.strftime('%d.%m.%Y kl %H.%M')}} Grupp {{ study_group.name }} {{study_group.group_size}} personer. {{trans(event.location.name)}}, {{trans(event.location.street_address)}}. Mer information: {{occurrence.p_event.contact_email}}|||
-occurrence_enrolment|occurrence_enrolment|occurrence_enrolment|occurrence_enrolment||||<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+occurrence_cancelled_sms|occurrence cancelled sms|occurrence cancelled sms|occurrence cancelled sms|Hei. Valitettavasti tapahtuma on peruttu. {{trans(event.name)}}. {{ occurrence.local_start_time.strftime('%d.%m.%Y klo %H.%M')}}. Ryhmä {{ study_group.name }} {{study_group.group_size}} hlö. {{trans(event.location.name)}}, {{trans(event.location.street_address)}}. Lisätietoja: {{occurrence.p_event.contact_email}}|Hi. Unfortunately, the event is cancelled. {{trans(event.name)}}. {{ occurrence.local_start_time.strftime('%d.%m.%Y at %H.%M')}}. Group {{ study_group.name }} {{study_group.group_size}} ppl. {{trans(event.location.name)}}, {{trans(event.location.street_address)}}. Info: {{occurrence.p_event.contact_email}}|Hej. Evenemanget har tyvärr ställts in. {{trans(event.name)}}. {{ occurrence.local_start_time.strftime('%d.%m.%Y kl %H.%M')}} Grupp {{ study_group.name }} {{study_group.group_size}} personer. {{trans(event.location.name)}}, {{trans(event.location.street_address)}}. Mer information: {{occurrence.p_event.contact_email}}|||
+occurrence_enrolment|occurrence enrolment|occurrence enrolment|occurrence enrolment||||<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 
 <head>
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
   <meta name="viewport" content="width=device-width">
-  <title>Title</title>
+  <title>Ilmoittautuminen vastaanotettu</title>
 </head>
 
 <body
@@ -7894,7 +7894,7 @@ occurrence_enrolment|occurrence_enrolment|occurrence_enrolment|occurrence_enrolm
 <head>
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
   <meta name="viewport" content="width=device-width">
-  <title>Title</title>
+  <title>Enrolment received</title>
 </head>
 
 <body
@@ -8379,7 +8379,7 @@ occurrence_enrolment|occurrence_enrolment|occurrence_enrolment|occurrence_enrolm
 <head>
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
   <meta name="viewport" content="width=device-width">
-  <title>Title</title>
+  <title>Anmälan mottagen</title>
 </head>
 
 <body
@@ -8859,14 +8859,14 @@ occurrence_enrolment|occurrence_enrolment|occurrence_enrolment|occurrence_enrolm
 </body>
 
 </html>
-occurrence_enrolment_sms|occurrence_enrolment_sms|occurrence_enrolment_sms|occurrence_enrolment_sms|Hei. Viesti vastaanotettu tapahtumaan {{trans(event.name)}}. {{ occurrence.local_start_time.strftime('%d.%m.%Y klo %H.%M')}}. Ryhmä {{ study_group.name }} {{study_group.group_size}} hlö. {{trans(event.location.name)}}, {{trans(event.location.street_address)}}. Lisätietoja: {{occurrence.p_event.contact_email}}|Message received. We will send you a confirmation for the event {{trans(event.name)}}. {{ occurrence.local_start_time.strftime('%d.%m.%Y at %H.%M')}}. Group {{ study_group.name }} {{study_group.group_size}} ppl. {{trans(event.location.name)}}, {{trans(event.location.street_address)}}. Info: {{occurrence.p_event.contact_email}}|Hej. Meddelandet är mottaget. Du får ännu en separat bekräftelse för deltagandet i evenemanget {{trans(event.name)}}. {{ occurrence.local_start_time.strftime('%d.%m.%Y kl %H.%M')}} Grupp {{ study_group.name }} {{study_group.group_size}} personer. {{trans(event.location.name)}}, {{trans(event.location.street_address)}}. Mer information: {{occurrence.p_event.contact_email}}|||
-person_myprofile_accepted|person_myprofile_accepted|person_myprofile_accepted|person_myprofile_accepted||||<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+occurrence_enrolment_sms|occurrence enrolment sms|occurrence enrolment sms|occurrence enrolment sms|Hei. Viesti vastaanotettu tapahtumaan {{trans(event.name)}}. {{ occurrence.local_start_time.strftime('%d.%m.%Y klo %H.%M')}}. Ryhmä {{ study_group.name }} {{study_group.group_size}} hlö. {{trans(event.location.name)}}, {{trans(event.location.street_address)}}. Lisätietoja: {{occurrence.p_event.contact_email}}|Message received. We will send you a confirmation for the event {{trans(event.name)}}. {{ occurrence.local_start_time.strftime('%d.%m.%Y at %H.%M')}}. Group {{ study_group.name }} {{study_group.group_size}} ppl. {{trans(event.location.name)}}, {{trans(event.location.street_address)}}. Info: {{occurrence.p_event.contact_email}}|Hej. Meddelandet är mottaget. Du får ännu en separat bekräftelse för deltagandet i evenemanget {{trans(event.name)}}. {{ occurrence.local_start_time.strftime('%d.%m.%Y kl %H.%M')}} Grupp {{ study_group.name }} {{study_group.group_size}} personer. {{trans(event.location.name)}}, {{trans(event.location.street_address)}}. Mer information: {{occurrence.p_event.contact_email}}|||
+person_myprofile_accepted|person myprofile accepted|person myprofile accepted|person myprofile accepted||||<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
     <meta name="viewport" content="width=device-width">
-    <title>Kultus - Käyttäjätilisi on hyväksytty</title>
+    <title>Käyttäjätilisi Kultuksessa on valmis käytettäväksi</title>
 
 </head>
 
@@ -9335,7 +9335,7 @@ person_myprofile_accepted|person_myprofile_accepted|person_myprofile_accepted|pe
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
     <meta name="viewport" content="width=device-width">
-    <title>Kultus - Käyttäjäsi on hyväksytty</title>
+    <title>Your user account in Kultus is ready for use</title>
 
 </head>
 
@@ -9805,7 +9805,7 @@ person_myprofile_accepted|person_myprofile_accepted|person_myprofile_accepted|pe
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
     <meta name="viewport" content="width=device-width">
-    <title>Kultus - Käyttäjäsi on hyväksytty</title>
+    <title>Ditt användarkonto i Kultus är klart för användning</title>
 
 </head>
 
@@ -10270,13 +10270,13 @@ person_myprofile_accepted|person_myprofile_accepted|person_myprofile_accepted|pe
 </body>
 
 </html>
-person_myprofile_creation|person_myprofile_creation|person_myprofile_creation|person_myprofile_creation||||<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+person_myprofile_creation|person myprofile creation|person myprofile creation|person myprofile creation||||<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
     <meta name="viewport" content="width=device-width">
-    <title>Kultus - Uusi käyttäjä</title>
+    <title>Uusi käyttäjä luotu Kultukseen</title>
 
 </head>
 
@@ -10773,7 +10773,7 @@ person_myprofile_creation|person_myprofile_creation|person_myprofile_creation|pe
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
     <meta name="viewport" content="width=device-width">
-    <title>Kultus - New user</title>
+    <title>New user created for Kultus</title>
 
 </head>
 
@@ -11271,7 +11271,7 @@ person_myprofile_creation|person_myprofile_creation|person_myprofile_creation|pe
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
     <meta name="viewport" content="width=device-width">
-    <title>Kultus - New user</title>
+    <title>Ny användare skapad för Kultus</title>
 
 </head>
 
@@ -11767,13 +11767,13 @@ person_myprofile_creation|person_myprofile_creation|person_myprofile_creation|pe
 
 snapshots[
     "test_update_notifications 1"
-] = """enrolment_approved|enrolment_approved|enrolment_approved|enrolment_approved||||<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+] = """enrolment_approved|enrolment approved|enrolment approved|enrolment approved||||<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 
 <head>
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
   <meta name="viewport" content="width=device-width">
-  <title>Title</title>
+  <title>Ilmoittautuminen vahvistettu</title>
 
 </head>
 
@@ -12271,7 +12271,7 @@ snapshots[
 <head>
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
   <meta name="viewport" content="width=device-width">
-  <title>Title</title>
+  <title>Enrolment approved</title>
 
 </head>
 
@@ -12770,7 +12770,7 @@ snapshots[
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
     <meta name="viewport" content="width=device-width">
-    <title>Title</title>
+    <title>Anmälan har bekräftats</title>
 
 </head>
 
@@ -13285,14 +13285,14 @@ snapshots[
 
 snapshots[
     "test_create_non_existing_and_update_existing_notifications 1"
-] = """enrolment_approved_sms|enrolment_approved_sms|enrolment_approved_sms|enrolment_approved_sms|Hei. Ilmoittautuminen hyväksytty tapahtumaan {{trans(event.name)}}. {{ occurrence.local_start_time.strftime('%d.%m.%Y klo %H.%M')}}. Ryhmä {{ study_group.name }} {{study_group.group_size}} hlö. {{trans(event.location.name)}}, {{trans(event.location.street_address)}}. Lisätietoja: {{occurrence.p_event.contact_email}}|Enrolment accepted for the event {{trans(event.name)}}. {{ occurrence.local_start_time.strftime('%d.%m.%Y at %H.%M')}}. Group {{ study_group.name }} {{study_group.group_size}} ppl. {{trans(event.location.name)}}, {{trans(event.location.street_address)}}. Info: {{occurrence.p_event.contact_email}}|Hej. Din anmälan till evenemanget {{trans(event.name)}}. {{ occurrence.local_start_time.strftime('%d.%m.%Y kl %H.%M')}} Grupp {{ study_group.name }} {{study_group.group_size}} personer. {{trans(event.location.name)}}, {{trans(event.location.street_address)}}. Mer information: {{occurrence.p_event.contact_email}}|||
-enrolment_cancellation|enrolment_cancellation|enrolment_cancellation|enrolment_cancellation||||<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+] = """enrolment_approved_sms|enrolment approved sms|enrolment approved sms|enrolment approved sms|Hei. Ilmoittautuminen hyväksytty tapahtumaan {{trans(event.name)}}. {{ occurrence.local_start_time.strftime('%d.%m.%Y klo %H.%M')}}. Ryhmä {{ study_group.name }} {{study_group.group_size}} hlö. {{trans(event.location.name)}}, {{trans(event.location.street_address)}}. Lisätietoja: {{occurrence.p_event.contact_email}}|Enrolment accepted for the event {{trans(event.name)}}. {{ occurrence.local_start_time.strftime('%d.%m.%Y at %H.%M')}}. Group {{ study_group.name }} {{study_group.group_size}} ppl. {{trans(event.location.name)}}, {{trans(event.location.street_address)}}. Info: {{occurrence.p_event.contact_email}}|Hej. Din anmälan till evenemanget {{trans(event.name)}}. {{ occurrence.local_start_time.strftime('%d.%m.%Y kl %H.%M')}} Grupp {{ study_group.name }} {{study_group.group_size}} personer. {{trans(event.location.name)}}, {{trans(event.location.street_address)}}. Mer information: {{occurrence.p_event.contact_email}}|||
+enrolment_cancellation|enrolment cancellation|enrolment cancellation|enrolment cancellation||||<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 
 <head>
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
   <meta name="viewport" content="width=device-width">
-  <title>Title</title>
+  <title>Ilmoittautumisen peruuttaminen</title>
 
 </head>
 
@@ -13784,7 +13784,7 @@ enrolment_cancellation|enrolment_cancellation|enrolment_cancellation|enrolment_c
 <head>
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
   <meta name="viewport" content="width=device-width">
-  <title>Title</title>
+  <title>Enrolment cancellation</title>
 
 </head>
 
@@ -14281,7 +14281,7 @@ enrolment_cancellation|enrolment_cancellation|enrolment_cancellation|enrolment_c
 <head>
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
   <meta name="viewport" content="width=device-width">
-  <title>Title</title>
+  <title>Avbokning av anmälan</title>
 
 </head>
 
@@ -14773,14 +14773,14 @@ enrolment_cancellation|enrolment_cancellation|enrolment_cancellation|enrolment_c
 </body>
 
 </html>
-enrolment_cancellation_sms|enrolment_cancellation_sms|enrolment_cancellation_sms|enrolment_cancellation_sms|Hei. Voitte vahvistaa peruutuksenne liittyen tapahtumaan {{trans(event.name)}} seuraavalla linkillä: {{enrolment.get_cancellation_url(language='fi')}}. {{ occurrence.local_start_time.strftime('%d.%m.%Y klo %H.%M')}}. {{trans(event.location.name)}}, {{trans(event.location.street_address)}}. Lisätietoja: {{occurrence.p_event.contact_email}}|Hi. You can confirm your cancellation to the event {{trans(event.name)}} at the following link: {{enrolment.get_cancellation_url(language='en')}}. {{ occurrence.local_start_time.strftime('%d.%m.%Y at %H.%M')}}. {{trans(event.location.name)}}, {{trans(event.location.street_address)}}. Info: {{occurrence.p_event.contact_email}}|Hej. Du kan bekräfta din avbokning till evenemanget {{trans(event.name)}} på följande länk: {{enrolment.get_cancellation_url(language='sv')}}. {{ occurrence.local_start_time.strftime('%d.%m.%Y at %H.%M')}}. {{trans(event.location.name)}}, {{trans(event.location.street_address)}}. Mer information: {{occurrence.p_event.contact_email}}|||
-enrolment_cancelled|enrolment_cancelled|enrolment_cancelled|enrolment_cancelled||||<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+enrolment_cancellation_sms|enrolment cancellation sms|enrolment cancellation sms|enrolment cancellation sms|Hei. Voitte vahvistaa peruutuksenne liittyen tapahtumaan {{trans(event.name)}} seuraavalla linkillä: {{enrolment.get_cancellation_url(language='fi')}}. {{ occurrence.local_start_time.strftime('%d.%m.%Y klo %H.%M')}}. {{trans(event.location.name)}}, {{trans(event.location.street_address)}}. Lisätietoja: {{occurrence.p_event.contact_email}}|Hi. You can confirm your cancellation to the event {{trans(event.name)}} at the following link: {{enrolment.get_cancellation_url(language='en')}}. {{ occurrence.local_start_time.strftime('%d.%m.%Y at %H.%M')}}. {{trans(event.location.name)}}, {{trans(event.location.street_address)}}. Info: {{occurrence.p_event.contact_email}}|Hej. Du kan bekräfta din avbokning till evenemanget {{trans(event.name)}} på följande länk: {{enrolment.get_cancellation_url(language='sv')}}. {{ occurrence.local_start_time.strftime('%d.%m.%Y at %H.%M')}}. {{trans(event.location.name)}}, {{trans(event.location.street_address)}}. Mer information: {{occurrence.p_event.contact_email}}|||
+enrolment_cancelled|enrolment cancelled|enrolment cancelled|enrolment cancelled||||<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 
 <head>
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
   <meta name="viewport" content="width=device-width">
-  <title>Title</title>
+  <title>Ilmoittautumisen peruuttaminen vahvistettu</title>
 
 </head>
 
@@ -15275,7 +15275,7 @@ enrolment_cancelled|enrolment_cancelled|enrolment_cancelled|enrolment_cancelled|
 <head>
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
   <meta name="viewport" content="width=device-width">
-  <title>Title</title>
+  <title>Enrolment cancellation confirmed</title>
 
 </head>
 
@@ -15770,7 +15770,7 @@ enrolment_cancelled|enrolment_cancelled|enrolment_cancelled|enrolment_cancelled|
 <head>
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
   <meta name="viewport" content="width=device-width">
-  <title>Title</title>
+  <title>Avbokning av anmälan bekräftad</title>
 
 </head>
 
@@ -16260,14 +16260,14 @@ enrolment_cancelled|enrolment_cancelled|enrolment_cancelled|enrolment_cancelled|
 </body>
 
 </html>
-enrolment_cancelled_sms|enrolment_cancelled_sms|enrolment_cancelled_sms|enrolment_cancelled_sms|Hei. Peruutuksenne tapahtumaan {{trans(event.name)}} on vahvistettu. {{ occurrence.local_start_time.strftime('%d.%m.%Y klo %H.%M')}}. {{trans(event.location.name)}}, {{trans(event.location.street_address)}}. Lisätietoja: {{occurrence.p_event.contact_email}}|Hi. Your cancellation to the event {{trans(event.name)}} is confirmed. {{ occurrence.local_start_time.strftime('%d.%m.%Y at %H.%M')}}. {{trans(event.location.name)}}, {{trans(event.location.street_address)}}. Info: {{occurrence.p_event.contact_email}}|Hej. Avbokningen av anmälan till evenemanget {{trans(event.name)}} har bekräftats. {{ occurrence.local_start_time.strftime('%d.%m.%Y at %H.%M')}}. {{trans(event.location.name)}}, {{trans(event.location.street_address)}}. Mer information: {{occurrence.p_event.contact_email}}|||
-enrolment_declined|enrolment_declined|enrolment_declined|enrolment_declined||||<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+enrolment_cancelled_sms|enrolment cancelled sms|enrolment cancelled sms|enrolment cancelled sms|Hei. Peruutuksenne tapahtumaan {{trans(event.name)}} on vahvistettu. {{ occurrence.local_start_time.strftime('%d.%m.%Y klo %H.%M')}}. {{trans(event.location.name)}}, {{trans(event.location.street_address)}}. Lisätietoja: {{occurrence.p_event.contact_email}}|Hi. Your cancellation to the event {{trans(event.name)}} is confirmed. {{ occurrence.local_start_time.strftime('%d.%m.%Y at %H.%M')}}. {{trans(event.location.name)}}, {{trans(event.location.street_address)}}. Info: {{occurrence.p_event.contact_email}}|Hej. Avbokningen av anmälan till evenemanget {{trans(event.name)}} har bekräftats. {{ occurrence.local_start_time.strftime('%d.%m.%Y at %H.%M')}}. {{trans(event.location.name)}}, {{trans(event.location.street_address)}}. Mer information: {{occurrence.p_event.contact_email}}|||
+enrolment_declined|enrolment declined|enrolment declined|enrolment declined||||<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 
 <head>
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
   <meta name="viewport" content="width=device-width">
-  <title>Title</title>
+  <title>Ilmoittautumisen peruutusilmoitus</title>
 
 </head>
 
@@ -16768,7 +16768,7 @@ enrolment_declined|enrolment_declined|enrolment_declined|enrolment_declined||||<
 <head>
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
   <meta name="viewport" content="width=device-width">
-  <title>Title</title>
+  <title>Enrolment declined</title>
 
 </head>
 
@@ -17270,7 +17270,7 @@ enrolment_declined|enrolment_declined|enrolment_declined|enrolment_declined||||<
 <head>
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
   <meta name="viewport" content="width=device-width">
-  <title>Title</title>
+  <title>Meddelande om avbokning</title>
 
 </head>
 
@@ -17766,14 +17766,14 @@ enrolment_declined|enrolment_declined|enrolment_declined|enrolment_declined||||<
 </body>
 
 </html>
-enrolment_declined_sms|enrolment_declined_sms|enrolment_declined_sms|enrolment_declined_sms|Hei. Valitettavasti emme pysty tarjoamaan paikkaa tapahtumaan {{trans(event.name)}}. {{ occurrence.local_start_time.strftime('%d.%m.%Y klo %H.%M')}}. Ryhmä {{ study_group.name }} {{study_group.group_size}} hlö. {{trans(event.location.name)}}, {{trans(event.location.street_address)}}. Lisätietoja: {{occurrence.p_event.contact_email}}|Hi. Unfortunately, we cannot offer you a place at the event {{trans(event.name)}}. {{ occurrence.local_start_time.strftime('%d.%m.%Y at %H.%M')}}. Group {{ study_group.name }} {{study_group.group_size}} ppl. {{trans(event.location.name)}}, {{trans(event.location.street_address)}}. Info: {{occurrence.p_event.contact_email}}|Hej. Vi kan tyvärr inte erbjuda en plats på evenemanget {{trans(event.name)}}. {{ occurrence.local_start_time.strftime('%d.%m.%Y kl %H.%M')}} Grupp {{ study_group.name }} {{study_group.group_size}} personer. {{trans(event.location.name)}}, {{trans(event.location.street_address)}}. Mer information: {{occurrence.p_event.contact_email}}|||
-enrolment_summary_report|enrolment_summary_report|enrolment_summary_report|enrolment_summary_report||||<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+enrolment_declined_sms|enrolment declined sms|enrolment declined sms|enrolment declined sms|Hei. Valitettavasti emme pysty tarjoamaan paikkaa tapahtumaan {{trans(event.name)}}. {{ occurrence.local_start_time.strftime('%d.%m.%Y klo %H.%M')}}. Ryhmä {{ study_group.name }} {{study_group.group_size}} hlö. {{trans(event.location.name)}}, {{trans(event.location.street_address)}}. Lisätietoja: {{occurrence.p_event.contact_email}}|Hi. Unfortunately, we cannot offer you a place at the event {{trans(event.name)}}. {{ occurrence.local_start_time.strftime('%d.%m.%Y at %H.%M')}}. Group {{ study_group.name }} {{study_group.group_size}} ppl. {{trans(event.location.name)}}, {{trans(event.location.street_address)}}. Info: {{occurrence.p_event.contact_email}}|Hej. Vi kan tyvärr inte erbjuda en plats på evenemanget {{trans(event.name)}}. {{ occurrence.local_start_time.strftime('%d.%m.%Y kl %H.%M')}} Grupp {{ study_group.name }} {{study_group.group_size}} personer. {{trans(event.location.name)}}, {{trans(event.location.street_address)}}. Mer information: {{occurrence.p_event.contact_email}}|||
+enrolment_summary_report|enrolment summary report|enrolment summary report|enrolment summary report||||<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 
 <head>
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
   <meta name="viewport" content="width=device-width">
-  <title>Title</title>
+  <title>Ilmoittautumisen yhteenvetoraportti</title>
 </head>
 
 <body
@@ -18246,7 +18246,7 @@ enrolment_summary_report|enrolment_summary_report|enrolment_summary_report|enrol
 <head>
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
   <meta name="viewport" content="width=device-width">
-  <title>Title</title>
+  <title>Enrolment summary report</title>
 </head>
 
 <body
@@ -18720,7 +18720,7 @@ enrolment_summary_report|enrolment_summary_report|enrolment_summary_report|enrol
 <head>
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
   <meta name="viewport" content="width=device-width">
-  <title>Title</title>
+  <title>Sammanfattningsrapport för inskrivning</title>
 </head>
 
 <body
@@ -19188,13 +19188,13 @@ enrolment_summary_report|enrolment_summary_report|enrolment_summary_report|enrol
 </body>
 
 </html>
-occurrence_cancelled|occurrence_cancelled|occurrence_cancelled|occurrence_cancelled||||<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+occurrence_cancelled|Peruutusilmoitus|occurrence cancelled|occurrence cancelled||||<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 
 <head>
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
   <meta name="viewport" content="width=device-width">
-  <title>Title</title>
+  <title>Peruutusilmoitus</title>
 </head>
 
 <body
@@ -19690,7 +19690,7 @@ occurrence_cancelled|occurrence_cancelled|occurrence_cancelled|occurrence_cancel
 <head>
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
   <meta name="viewport" content="width=device-width">
-  <title>Title</title>
+  <title>Cancellation notification</title>
 </head>
 
 <body
@@ -20186,7 +20186,7 @@ occurrence_cancelled|occurrence_cancelled|occurrence_cancelled|occurrence_cancel
 <head>
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
   <meta name="viewport" content="width=device-width">
-  <title>Title</title>
+  <title>Meddelande om inställt evenemang</title>
 </head>
 
 <body
@@ -20678,15 +20678,15 @@ occurrence_cancelled|occurrence_cancelled|occurrence_cancelled|occurrence_cancel
 </body>
 
 </html>
-occurrence_cancelled_sms|occurrence_cancelled_sms|occurrence_cancelled_sms|occurrence_cancelled_sms|Hei. Valitettavasti tapahtuma on peruttu. {{trans(event.name)}}. {{ occurrence.local_start_time.strftime('%d.%m.%Y klo %H.%M')}}. Ryhmä {{ study_group.name }} {{study_group.group_size}} hlö. {{trans(event.location.name)}}, {{trans(event.location.street_address)}}. Lisätietoja: {{occurrence.p_event.contact_email}}|Hi. Unfortunately, the event is cancelled. {{trans(event.name)}}. {{ occurrence.local_start_time.strftime('%d.%m.%Y at %H.%M')}}. Group {{ study_group.name }} {{study_group.group_size}} ppl. {{trans(event.location.name)}}, {{trans(event.location.street_address)}}. Info: {{occurrence.p_event.contact_email}}|Hej. Evenemanget har tyvärr ställts in. {{trans(event.name)}}. {{ occurrence.local_start_time.strftime('%d.%m.%Y kl %H.%M')}} Grupp {{ study_group.name }} {{study_group.group_size}} personer. {{trans(event.location.name)}}, {{trans(event.location.street_address)}}. Mer information: {{occurrence.p_event.contact_email}}|||
-occurrence_enrolment_sms|occurrence_enrolment_sms|occurrence_enrolment_sms|occurrence_enrolment_sms|Hei. Viesti vastaanotettu tapahtumaan {{trans(event.name)}}. {{ occurrence.local_start_time.strftime('%d.%m.%Y klo %H.%M')}}. Ryhmä {{ study_group.name }} {{study_group.group_size}} hlö. {{trans(event.location.name)}}, {{trans(event.location.street_address)}}. Lisätietoja: {{occurrence.p_event.contact_email}}|Message received. We will send you a confirmation for the event {{trans(event.name)}}. {{ occurrence.local_start_time.strftime('%d.%m.%Y at %H.%M')}}. Group {{ study_group.name }} {{study_group.group_size}} ppl. {{trans(event.location.name)}}, {{trans(event.location.street_address)}}. Info: {{occurrence.p_event.contact_email}}|Hej. Meddelandet är mottaget. Du får ännu en separat bekräftelse för deltagandet i evenemanget {{trans(event.name)}}. {{ occurrence.local_start_time.strftime('%d.%m.%Y kl %H.%M')}} Grupp {{ study_group.name }} {{study_group.group_size}} personer. {{trans(event.location.name)}}, {{trans(event.location.street_address)}}. Mer information: {{occurrence.p_event.contact_email}}|||
-person_myprofile_accepted|person_myprofile_accepted|person_myprofile_accepted|person_myprofile_accepted||||<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+occurrence_cancelled_sms|occurrence cancelled sms|occurrence cancelled sms|occurrence cancelled sms|Hei. Valitettavasti tapahtuma on peruttu. {{trans(event.name)}}. {{ occurrence.local_start_time.strftime('%d.%m.%Y klo %H.%M')}}. Ryhmä {{ study_group.name }} {{study_group.group_size}} hlö. {{trans(event.location.name)}}, {{trans(event.location.street_address)}}. Lisätietoja: {{occurrence.p_event.contact_email}}|Hi. Unfortunately, the event is cancelled. {{trans(event.name)}}. {{ occurrence.local_start_time.strftime('%d.%m.%Y at %H.%M')}}. Group {{ study_group.name }} {{study_group.group_size}} ppl. {{trans(event.location.name)}}, {{trans(event.location.street_address)}}. Info: {{occurrence.p_event.contact_email}}|Hej. Evenemanget har tyvärr ställts in. {{trans(event.name)}}. {{ occurrence.local_start_time.strftime('%d.%m.%Y kl %H.%M')}} Grupp {{ study_group.name }} {{study_group.group_size}} personer. {{trans(event.location.name)}}, {{trans(event.location.street_address)}}. Mer information: {{occurrence.p_event.contact_email}}|||
+occurrence_enrolment_sms|occurrence enrolment sms|occurrence enrolment sms|occurrence enrolment sms|Hei. Viesti vastaanotettu tapahtumaan {{trans(event.name)}}. {{ occurrence.local_start_time.strftime('%d.%m.%Y klo %H.%M')}}. Ryhmä {{ study_group.name }} {{study_group.group_size}} hlö. {{trans(event.location.name)}}, {{trans(event.location.street_address)}}. Lisätietoja: {{occurrence.p_event.contact_email}}|Message received. We will send you a confirmation for the event {{trans(event.name)}}. {{ occurrence.local_start_time.strftime('%d.%m.%Y at %H.%M')}}. Group {{ study_group.name }} {{study_group.group_size}} ppl. {{trans(event.location.name)}}, {{trans(event.location.street_address)}}. Info: {{occurrence.p_event.contact_email}}|Hej. Meddelandet är mottaget. Du får ännu en separat bekräftelse för deltagandet i evenemanget {{trans(event.name)}}. {{ occurrence.local_start_time.strftime('%d.%m.%Y kl %H.%M')}} Grupp {{ study_group.name }} {{study_group.group_size}} personer. {{trans(event.location.name)}}, {{trans(event.location.street_address)}}. Mer information: {{occurrence.p_event.contact_email}}|||
+person_myprofile_accepted|person myprofile accepted|person myprofile accepted|person myprofile accepted||||<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
     <meta name="viewport" content="width=device-width">
-    <title>Kultus - Käyttäjätilisi on hyväksytty</title>
+    <title>Käyttäjätilisi Kultuksessa on valmis käytettäväksi</title>
 
 </head>
 
@@ -21155,7 +21155,7 @@ person_myprofile_accepted|person_myprofile_accepted|person_myprofile_accepted|pe
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
     <meta name="viewport" content="width=device-width">
-    <title>Kultus - Käyttäjäsi on hyväksytty</title>
+    <title>Your user account in Kultus is ready for use</title>
 
 </head>
 
@@ -21625,7 +21625,7 @@ person_myprofile_accepted|person_myprofile_accepted|person_myprofile_accepted|pe
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
     <meta name="viewport" content="width=device-width">
-    <title>Kultus - Käyttäjäsi on hyväksytty</title>
+    <title>Ditt användarkonto i Kultus är klart för användning</title>
 
 </head>
 
@@ -22090,13 +22090,13 @@ person_myprofile_accepted|person_myprofile_accepted|person_myprofile_accepted|pe
 </body>
 
 </html>
-person_myprofile_creation|person_myprofile_creation|person_myprofile_creation|person_myprofile_creation||||<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+person_myprofile_creation|person myprofile creation|person myprofile creation|person myprofile creation||||<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
     <meta name="viewport" content="width=device-width">
-    <title>Kultus - Uusi käyttäjä</title>
+    <title>Uusi käyttäjä luotu Kultukseen</title>
 
 </head>
 
@@ -22593,7 +22593,7 @@ person_myprofile_creation|person_myprofile_creation|person_myprofile_creation|pe
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
     <meta name="viewport" content="width=device-width">
-    <title>Kultus - New user</title>
+    <title>New user created for Kultus</title>
 
 </head>
 
@@ -23091,7 +23091,7 @@ person_myprofile_creation|person_myprofile_creation|person_myprofile_creation|pe
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
     <meta name="viewport" content="width=device-width">
-    <title>Kultus - New user</title>
+    <title>Ny användare skapad för Kultus</title>
 
 </head>
 
@@ -23584,13 +23584,13 @@ person_myprofile_creation|person_myprofile_creation|person_myprofile_creation|pe
 </body>
 
 </html>
-enrolment_approved|enrolment_approved|enrolment_approved|enrolment_approved||||<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+enrolment_approved|enrolment approved|enrolment approved|enrolment approved||||<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 
 <head>
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
   <meta name="viewport" content="width=device-width">
-  <title>Title</title>
+  <title>Ilmoittautuminen vahvistettu</title>
 
 </head>
 
@@ -24088,7 +24088,7 @@ enrolment_approved|enrolment_approved|enrolment_approved|enrolment_approved||||<
 <head>
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
   <meta name="viewport" content="width=device-width">
-  <title>Title</title>
+  <title>Enrolment approved</title>
 
 </head>
 
@@ -24587,7 +24587,7 @@ enrolment_approved|enrolment_approved|enrolment_approved|enrolment_approved||||<
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
     <meta name="viewport" content="width=device-width">
-    <title>Title</title>
+    <title>Anmälan har bekräftats</title>
 
 </head>
 
@@ -25099,13 +25099,13 @@ enrolment_approved|enrolment_approved|enrolment_approved|enrolment_approved||||<
 </body>
 
 </html>
-occurrence_enrolment|occurrence_enrolment|occurrence_enrolment|occurrence_enrolment||||<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+occurrence_enrolment|occurrence enrolment|occurrence enrolment|occurrence enrolment||||<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 
 <head>
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
   <meta name="viewport" content="width=device-width">
-  <title>Title</title>
+  <title>Ilmoittautuminen vastaanotettu</title>
 </head>
 
 <body
@@ -25590,7 +25590,7 @@ occurrence_enrolment|occurrence_enrolment|occurrence_enrolment|occurrence_enrolm
 <head>
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
   <meta name="viewport" content="width=device-width">
-  <title>Title</title>
+  <title>Enrolment received</title>
 </head>
 
 <body
@@ -26075,7 +26075,7 @@ occurrence_enrolment|occurrence_enrolment|occurrence_enrolment|occurrence_enrolm
 <head>
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
   <meta name="viewport" content="width=device-width">
-  <title>Title</title>
+  <title>Anmälan mottagen</title>
 </head>
 
 <body
