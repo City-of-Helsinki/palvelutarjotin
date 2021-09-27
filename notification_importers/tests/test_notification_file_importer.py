@@ -52,7 +52,7 @@ def test_create_non_existing_and_update_existing_notifications(
         num_of_updated,
     ) = NotificationFileImporter().create_missing_and_update_existing_notifications()
 
-    assert num_of_created == 7
+    assert num_of_created > 0
     assert num_of_updated == 2
     snapshot.assert_match(serialize_notifications(NotificationTemplate.objects.all()))
 

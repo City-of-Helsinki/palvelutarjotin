@@ -218,14 +218,16 @@ class NotificationGoogleSheetImporter(AbstractNotificationImporter):
 
 class NotificationFileImporter(AbstractNotificationImporter):
     def __init__(self) -> None:
-        self.template_dir = "/templates/email/"
+        self.template_dirs = ["/templates/email", "/templates/sms"]
         self.files = sorted(
             [
                 filename
+                for template_dir in self.template_dirs
+                for ext in ("*.html", "*.j2")
                 for filename in glob.iglob(
                     os.path.dirname(os.path.abspath(__file__))
-                    + self.template_dir
-                    + "**/*.html",
+                    + template_dir
+                    + f"**/{ext}",
                     recursive=True,
                 )
             ]
