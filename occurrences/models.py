@@ -1,3 +1,4 @@
+import logging
 from datetime import timedelta
 
 from django.contrib.contenttypes.fields import GenericRelation
@@ -22,6 +23,8 @@ from common.models import TimestampedModel, TranslatableModel
 from common.utils import get_node_id_from_global_id
 from palvelutarjotin import settings
 from palvelutarjotin.exceptions import ApiUsageError, EnrolmentNotEnoughCapacityError
+
+logger = logging.getLogger(__name__)
 
 
 class Language(models.Model):
@@ -599,10 +602,17 @@ class Enrolment(models.Model):
         If the cancellation token is not given as a parameter,
         it will be fetched from the database.
         """
-        if not cancellation_token:
-            cancellation_token = self.get_active_verification_tokens(
-                verification_type=VerificationToken.VERIFICATION_TYPE_CANCELLATION
-            )[0]
+        try:
+            if not cancellation_token:
+                cancellation_token = self.get_active_verification_tokens(
+                    verification_type=VerificationToken.VERIFICATION_TYPE_CANCELLATION
+                )[0]
+        except IndexError:
+            logger.warning(
+                f"No cancellation token created when there should be one!"
+                + f" Enrolment id: {self.id}"
+            )
+            return ""
 
         token = (
             cancellation_token.key
@@ -610,9 +620,15 @@ class Enrolment(models.Model):
             else cancellation_token
         )
 
-        return settings.VERIFICATION_TOKEN_URL_MAPPING[
-            "occurrences.enrolment.CANCELLATION.confirmation"
-        ].format(lang=language, unique_id=self.get_unique_id(), token=token)
+        return (
+            settings.VERIFICATION_TOKEN_URL_MAPPING[
+                "occurrences.enrolment.CANCELLATION.confirmation"
+            ].format(lang=language, unique_id=self.get_unique_id(), token=token)
+            if settings.VERIFICATION_TOKEN_URL_MAPPING
+            and "occurrences.enrolment.CANCELLATION.confirmation"
+            in settings.VERIFICATION_TOKEN_URL_MAPPING
+            else ""
+        )
 
     def create_cancellation_token(self, deactivate_existing=False):
         """
