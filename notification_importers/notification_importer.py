@@ -1,4 +1,5 @@
 import csv
+import glob
 import io
 import os
 from collections import defaultdict
@@ -58,7 +59,7 @@ class AbstractNotificationImporter:
         new_types = set(self.source_data.keys()) - set(
             NotificationTemplate.objects.values_list("type", flat=True)
         )
-        for new_type in new_types:
+        for new_type in sorted(new_types):
             new_notification = NotificationTemplate(type=new_type)
             self._create_or_update_notification_using_source_data(new_notification)
 
@@ -70,7 +71,7 @@ class AbstractNotificationImporter:
     ) -> int:
         num_of_updated = 0
 
-        for notification in notifications:
+        for notification in sorted(notifications, key=lambda n: n.type):
             if self.is_notification_in_sync(notification) is False:
                 self._create_or_update_notification_using_source_data(notification)
                 num_of_updated += 1
@@ -217,27 +218,32 @@ class NotificationGoogleSheetImporter(AbstractNotificationImporter):
 
 class NotificationFileImporter(AbstractNotificationImporter):
     def __init__(self) -> None:
-        self.files = [
-            "/templates/email/enrolment_approved-fi.html",
-            "/templates/email/enrolment_approved-en.html",
-            "/templates/email/enrolment_approved-sv.html",
-            "/templates/email/occurrence_enrolment-fi.html",
-            "/templates/email/occurrence_enrolment-en.html",
-            "/templates/email/occurrence_enrolment-sv.html",
-        ]
+        self.template_dir = "/templates/email/"
+        self.files = sorted(
+            [
+                filename
+                for filename in glob.iglob(
+                    os.path.dirname(os.path.abspath(__file__))
+                    + self.template_dir
+                    + "**/*.html",
+                    recursive=True,
+                )
+            ]
+        )
         self.source_data: SourceData = self._fetch_data()
 
     def _fetch_data(self) -> SourceData:
         source_data: SourceData = defaultdict(lambda: defaultdict(dict))
         for template_file_path in self.files:
-            with open(
-                os.path.dirname(os.path.abspath(__file__)) + template_file_path, "r"
-            ) as template_file:
-
+            with open(template_file_path, "r") as template_file:
                 pathname = os.path.splitext(template_file.name)[0]
                 filename = pathname.split("/")[-1]
                 notification_type, language = filename.split("-")
-                field = "body_text" if "sms" in template_file.name else "body_html"
+                field = (
+                    "body_text"
+                    if self.__is_sms_template(template_file)
+                    else "body_html"
+                )
                 content = template_file.read()
                 source_data[notification_type][language][field] = self.clean_text(
                     content
@@ -247,3 +253,6 @@ class NotificationFileImporter(AbstractNotificationImporter):
                 ] = notification_type.__str__()
 
         return source_data
+
+    def __is_sms_template(self, template_file: io.TextIOWrapper) -> bool:
+        return True if "sms" in template_file.name else False
