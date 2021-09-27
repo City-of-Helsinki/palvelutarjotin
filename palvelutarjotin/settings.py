@@ -345,4 +345,6 @@ if os.path.exists(local_settings_path):
 
 DEFAULT_AUTO_FIELD = "django.db.models.AutoField"
 
-NOTIFICATIONS_SHEET_ID = "NOTIFICATIONS_SHEET_ID"
+NOTIFICATIONS_IMPORTER = (
+    "notification_importers.notification_importer.NotificationFileImporter"
+)

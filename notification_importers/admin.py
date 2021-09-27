@@ -1,3 +1,4 @@
+import importlib
 import logging
 
 from django.conf import settings
@@ -10,7 +11,7 @@ from django_ilmoitin.admin import NotificationTemplateAdmin
 from django_ilmoitin.models import NotificationTemplate
 
 from .notification_importer import (
-    NotificationGoogleSheetImporter,
+    AbstractNotificationImporter,
     NotificationImporterException,
 )
 
@@ -22,19 +23,28 @@ class NotificationTemplateAdminWithImporter(NotificationTemplateAdmin):
     actions = ("update_selected",)
     ordering = ("type",)
     change_list_template = "notification_change_list.html"
-    importer = None
+    importer: AbstractNotificationImporter = None
 
     def changelist_view(self, request, *args, **kwargs):
         try:
-            self.importer = NotificationGoogleSheetImporter()
+            self.importer = self.__load_importer_class_from_settings()
         except NotificationImporterException as e:
             self._send_error_message(request, e)
         return super().changelist_view(request, *args, **kwargs)
 
+    def __load_importer_class_from_settings(self) -> AbstractNotificationImporter:
+        (
+            importer_module_name,
+            importer_class_name,
+        ) = settings.NOTIFICATIONS_IMPORTER.rsplit(".", 1)
+        importer_module = importlib.import_module(importer_module_name)
+        importer_class = getattr(importer_module, importer_class_name)
+        return importer_class()
+
     def get_sync_status(self, obj):
         return self.importer.is_notification_in_sync(obj) if self.importer else None
 
-    get_sync_status.short_description = _("in sync with the spreadsheet")
+    get_sync_status.short_description = _("in sync with the importer source")
     get_sync_status.boolean = True
 
     def update_selected(self, request, queryset):
@@ -58,7 +68,7 @@ class NotificationTemplateAdminWithImporter(NotificationTemplateAdmin):
         self.message_user(request, message, messages.SUCCESS)
 
     update_selected.short_description = _(
-        "Update selected notifications from the spreadsheet"
+        "Update selected notifications from the importer source"
     )
 
     def get_urls(self):
@@ -98,6 +108,6 @@ class NotificationTemplateAdminWithImporter(NotificationTemplateAdmin):
         self.message_user(request, message, messages.ERROR)
 
 
-if settings.NOTIFICATIONS_SHEET_ID:
+if hasattr(settings, "NOTIFICATIONS_IMPORTER"):
     admin.site.unregister(NotificationTemplate)
     admin.site.register(NotificationTemplate, NotificationTemplateAdminWithImporter)

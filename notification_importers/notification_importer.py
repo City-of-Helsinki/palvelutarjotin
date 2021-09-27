@@ -166,7 +166,11 @@ class NotificationGoogleSheetImporter(AbstractNotificationImporter):
     HEADER_FIELD_AND_LANGUAGE_SEPARATOR = "|"
 
     def __init__(self, sheet_id: str = None) -> None:
-        self.sheet_id = sheet_id or settings.NOTIFICATIONS_SHEET_ID
+        self.sheet_id = (
+            sheet_id or settings.NOTIFICATIONS_SHEET_ID
+            if hasattr(settings, "NOTIFICATIONS_SHEET_ID")
+            else None
+        )
         if not self.sheet_id:
             raise NotificationImporterException("Sheet ID not set.")
 
