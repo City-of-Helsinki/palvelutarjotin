@@ -222,6 +222,14 @@ class NotificationGoogleSheetImporter(AbstractNotificationImporter):
 
 
 class NotificationFileImporter(AbstractNotificationImporter):
+    """
+    Import notification templates from template files.
+    The templates files should be stored in notification_importers app in
+    notification_importers/templates/sms and notification_importers/templates/email
+    folders. There is also a naming convention used there.
+    The file name must be given in this pattern [notification_type]-[locale].[html|j2].
+    """
+
     def __init__(self) -> None:
         self.template_dirs = ["/templates/email", "/templates/sms"]
         self.files = sorted(

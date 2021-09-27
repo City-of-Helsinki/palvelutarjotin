@@ -137,9 +137,35 @@ Allow user to create test database
 
 7.  (Optional) To offer neighborhood division through a GraphQL API, the Neighborhood API needs to be configured. By default it is using kartta.hel.fi open data API and it should work out of the box.
 
+        ```python
+        NEIGHBORHOOD_API_ROOT=https://kartta.hel.fi/ws/geoserver/avoindata/wfs
+        ```
+
+8.  (Optional) The notification templates can be imported via
+    a. a Google sheet importer
+    b. a Template file importer
+
+The importer can be used to create and update the notification templates or to check whether the templates are in sync.
+The importer can be used via Django management commands (in notification_importers app) or admin site tools.
+
+To enable admin site tools, some configuration is needed:
+
+To enable a selected importer (`NotificationFileImporter` or `NotificationGoogleSheetImporter`)
+
 ```python
-NEIGHBORHOOD_API_ROOT=https://kartta.hel.fi/ws/geoserver/avoindata/wfs
+NOTIFICATIONS_IMPORTER = (
+    "notification_importers.notification_importer.NotificationFileImporter"
+)
 ```
+
+If a Google sheet importer is used, also `NOTIFICATIONS_SHEET_ID` is needed
+
+```python
+NOTIFICATIONS_SHEET_ID = "1234"
+```
+
+If a File importer is used, files should be stored in notification_importers app in notification_importers/templates/sms and notification_importers/templates/email folders.
+There is also a naming convention used there. The file name must be given in this pattern [notification_type]-[locale].[html|j2].
 
 ## API Documentation
 
