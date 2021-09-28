@@ -276,7 +276,7 @@ class NotificationFileImporter(AbstractNotificationImporter):
         Returns a title element content from a HTML file as a notification subject.
         If a title cannot be found, it uses the file name as a subject.
         """
-        title_rgx = re.compile(r"\<title\>(\S+)\<\/title\>")
+        title_rgx = re.compile(r"\<title\>(\S.*)\<\/title\>")
         subject = (
             title_rgx.search(file_content).group(1)
             if title_rgx.search(file_content)

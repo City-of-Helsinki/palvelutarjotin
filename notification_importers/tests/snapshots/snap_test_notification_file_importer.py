@@ -10,7 +10,7 @@ snapshots[
     "test_create_non_existing_notifications 1"
 ] = """enrolment_approved|enrolment_approved fi original subject|enrolment_approved en original subject|enrolment_approved sv original subject||||enrolment_approved fi original body_html|enrolment_approved en original body_html|enrolment_approved sv original body_html
 enrolment_approved_sms|enrolment approved sms|enrolment approved sms|enrolment approved sms|Hei. Ilmoittautuminen hyväksytty tapahtumaan {{trans(event.name)}}. {{ occurrence.local_start_time.strftime('%d.%m.%Y klo %H.%M')}}. Ryhmä {{ study_group.name }} {{study_group.group_size}} hlö. {{trans(event.location.name)}}, {{trans(event.location.street_address)}}. Lisätietoja: {{occurrence.p_event.contact_email}}|Enrolment accepted for the event {{trans(event.name)}}. {{ occurrence.local_start_time.strftime('%d.%m.%Y at %H.%M')}}. Group {{ study_group.name }} {{study_group.group_size}} ppl. {{trans(event.location.name)}}, {{trans(event.location.street_address)}}. Info: {{occurrence.p_event.contact_email}}|Hej. Din anmälan till evenemanget {{trans(event.name)}}. {{ occurrence.local_start_time.strftime('%d.%m.%Y kl %H.%M')}} Grupp {{ study_group.name }} {{study_group.group_size}} personer. {{trans(event.location.name)}}, {{trans(event.location.street_address)}}. Mer information: {{occurrence.p_event.contact_email}}|||
-enrolment_cancellation|enrolment cancellation|enrolment cancellation|enrolment cancellation||||<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+enrolment_cancellation|Ilmoittautumisen peruuttaminen|Enrolment cancellation|Avbokning av anmälan||||<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 
 <head>
@@ -1498,7 +1498,7 @@ enrolment_cancellation|enrolment cancellation|enrolment cancellation|enrolment c
 
 </html>
 enrolment_cancellation_sms|enrolment cancellation sms|enrolment cancellation sms|enrolment cancellation sms|Hei. Voitte vahvistaa peruutuksenne liittyen tapahtumaan {{trans(event.name)}} seuraavalla linkillä: {{enrolment.get_cancellation_url(language='fi')}}. {{ occurrence.local_start_time.strftime('%d.%m.%Y klo %H.%M')}}. {{trans(event.location.name)}}, {{trans(event.location.street_address)}}. Lisätietoja: {{occurrence.p_event.contact_email}}|Hi. You can confirm your cancellation to the event {{trans(event.name)}} at the following link: {{enrolment.get_cancellation_url(language='en')}}. {{ occurrence.local_start_time.strftime('%d.%m.%Y at %H.%M')}}. {{trans(event.location.name)}}, {{trans(event.location.street_address)}}. Info: {{occurrence.p_event.contact_email}}|Hej. Du kan bekräfta din avbokning till evenemanget {{trans(event.name)}} på följande länk: {{enrolment.get_cancellation_url(language='sv')}}. {{ occurrence.local_start_time.strftime('%d.%m.%Y at %H.%M')}}. {{trans(event.location.name)}}, {{trans(event.location.street_address)}}. Mer information: {{occurrence.p_event.contact_email}}|||
-enrolment_cancelled|enrolment cancelled|enrolment cancelled|enrolment cancelled||||<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+enrolment_cancelled|Ilmoittautumisen peruuttaminen vahvistettu|Enrolment cancellation confirmed|Avbokning av anmälan bekräftad||||<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 
 <head>
@@ -2985,7 +2985,7 @@ enrolment_cancelled|enrolment cancelled|enrolment cancelled|enrolment cancelled|
 
 </html>
 enrolment_cancelled_sms|enrolment cancelled sms|enrolment cancelled sms|enrolment cancelled sms|Hei. Peruutuksenne tapahtumaan {{trans(event.name)}} on vahvistettu. {{ occurrence.local_start_time.strftime('%d.%m.%Y klo %H.%M')}}. {{trans(event.location.name)}}, {{trans(event.location.street_address)}}. Lisätietoja: {{occurrence.p_event.contact_email}}|Hi. Your cancellation to the event {{trans(event.name)}} is confirmed. {{ occurrence.local_start_time.strftime('%d.%m.%Y at %H.%M')}}. {{trans(event.location.name)}}, {{trans(event.location.street_address)}}. Info: {{occurrence.p_event.contact_email}}|Hej. Avbokningen av anmälan till evenemanget {{trans(event.name)}} har bekräftats. {{ occurrence.local_start_time.strftime('%d.%m.%Y at %H.%M')}}. {{trans(event.location.name)}}, {{trans(event.location.street_address)}}. Mer information: {{occurrence.p_event.contact_email}}|||
-enrolment_declined|enrolment declined|enrolment declined|enrolment declined||||<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+enrolment_declined|Ilmoittautumisen peruutusilmoitus|Enrolment declined|Meddelande om avbokning||||<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 
 <head>
@@ -4491,7 +4491,7 @@ enrolment_declined|enrolment declined|enrolment declined|enrolment declined||||<
 
 </html>
 enrolment_declined_sms|enrolment declined sms|enrolment declined sms|enrolment declined sms|Hei. Valitettavasti emme pysty tarjoamaan paikkaa tapahtumaan {{trans(event.name)}}. {{ occurrence.local_start_time.strftime('%d.%m.%Y klo %H.%M')}}. Ryhmä {{ study_group.name }} {{study_group.group_size}} hlö. {{trans(event.location.name)}}, {{trans(event.location.street_address)}}. Lisätietoja: {{occurrence.p_event.contact_email}}|Hi. Unfortunately, we cannot offer you a place at the event {{trans(event.name)}}. {{ occurrence.local_start_time.strftime('%d.%m.%Y at %H.%M')}}. Group {{ study_group.name }} {{study_group.group_size}} ppl. {{trans(event.location.name)}}, {{trans(event.location.street_address)}}. Info: {{occurrence.p_event.contact_email}}|Hej. Vi kan tyvärr inte erbjuda en plats på evenemanget {{trans(event.name)}}. {{ occurrence.local_start_time.strftime('%d.%m.%Y kl %H.%M')}} Grupp {{ study_group.name }} {{study_group.group_size}} personer. {{trans(event.location.name)}}, {{trans(event.location.street_address)}}. Mer information: {{occurrence.p_event.contact_email}}|||
-enrolment_summary_report|enrolment summary report|enrolment summary report|enrolment summary report||||<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+enrolment_summary_report|Ilmoittautumisen yhteenvetoraportti|Enrolment summary report|Sammanfattningsrapport för inskrivning||||<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 
 <head>
@@ -5912,7 +5912,7 @@ enrolment_summary_report|enrolment summary report|enrolment summary report|enrol
 </body>
 
 </html>
-occurrence_cancelled|Peruutusilmoitus|occurrence cancelled|occurrence cancelled||||<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+occurrence_cancelled|Peruutusilmoitus|Cancellation notification|Meddelande om inställt evenemang||||<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 
 <head>
@@ -7403,7 +7403,7 @@ occurrence_cancelled|Peruutusilmoitus|occurrence cancelled|occurrence cancelled|
 
 </html>
 occurrence_cancelled_sms|occurrence cancelled sms|occurrence cancelled sms|occurrence cancelled sms|Hei. Valitettavasti tapahtuma on peruttu. {{trans(event.name)}}. {{ occurrence.local_start_time.strftime('%d.%m.%Y klo %H.%M')}}. Ryhmä {{ study_group.name }} {{study_group.group_size}} hlö. {{trans(event.location.name)}}, {{trans(event.location.street_address)}}. Lisätietoja: {{occurrence.p_event.contact_email}}|Hi. Unfortunately, the event is cancelled. {{trans(event.name)}}. {{ occurrence.local_start_time.strftime('%d.%m.%Y at %H.%M')}}. Group {{ study_group.name }} {{study_group.group_size}} ppl. {{trans(event.location.name)}}, {{trans(event.location.street_address)}}. Info: {{occurrence.p_event.contact_email}}|Hej. Evenemanget har tyvärr ställts in. {{trans(event.name)}}. {{ occurrence.local_start_time.strftime('%d.%m.%Y kl %H.%M')}} Grupp {{ study_group.name }} {{study_group.group_size}} personer. {{trans(event.location.name)}}, {{trans(event.location.street_address)}}. Mer information: {{occurrence.p_event.contact_email}}|||
-occurrence_enrolment|occurrence enrolment|occurrence enrolment|occurrence enrolment||||<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+occurrence_enrolment|Ilmoittautuminen vastaanotettu|Enrolment received|Anmälan mottagen||||<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 
 <head>
@@ -8860,7 +8860,7 @@ occurrence_enrolment|occurrence enrolment|occurrence enrolment|occurrence enrolm
 
 </html>
 occurrence_enrolment_sms|occurrence enrolment sms|occurrence enrolment sms|occurrence enrolment sms|Hei. Viesti vastaanotettu tapahtumaan {{trans(event.name)}}. {{ occurrence.local_start_time.strftime('%d.%m.%Y klo %H.%M')}}. Ryhmä {{ study_group.name }} {{study_group.group_size}} hlö. {{trans(event.location.name)}}, {{trans(event.location.street_address)}}. Lisätietoja: {{occurrence.p_event.contact_email}}|Message received. We will send you a confirmation for the event {{trans(event.name)}}. {{ occurrence.local_start_time.strftime('%d.%m.%Y at %H.%M')}}. Group {{ study_group.name }} {{study_group.group_size}} ppl. {{trans(event.location.name)}}, {{trans(event.location.street_address)}}. Info: {{occurrence.p_event.contact_email}}|Hej. Meddelandet är mottaget. Du får ännu en separat bekräftelse för deltagandet i evenemanget {{trans(event.name)}}. {{ occurrence.local_start_time.strftime('%d.%m.%Y kl %H.%M')}} Grupp {{ study_group.name }} {{study_group.group_size}} personer. {{trans(event.location.name)}}, {{trans(event.location.street_address)}}. Mer information: {{occurrence.p_event.contact_email}}|||
-person_myprofile_accepted|person myprofile accepted|person myprofile accepted|person myprofile accepted||||<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+person_myprofile_accepted|Käyttäjätilisi Kultuksessa on valmis käytettäväksi|Your user account in Kultus is ready for use|Ditt användarkonto i Kultus är klart för användning||||<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 
 <head>
@@ -10270,7 +10270,7 @@ person_myprofile_accepted|person myprofile accepted|person myprofile accepted|pe
 </body>
 
 </html>
-person_myprofile_creation|person myprofile creation|person myprofile creation|person myprofile creation||||<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+person_myprofile_creation|Uusi käyttäjä luotu Kultukseen|New user created for Kultus|Ny användare skapad för Kultus||||<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 
 <head>
@@ -11767,7 +11767,7 @@ person_myprofile_creation|person myprofile creation|person myprofile creation|pe
 
 snapshots[
     "test_update_notifications 1"
-] = """enrolment_approved|enrolment approved|enrolment approved|enrolment approved||||<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+] = """enrolment_approved|Ilmoittautuminen vahvistettu|Enrolment approved|Anmälan har bekräftats||||<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 
 <head>
@@ -13286,7 +13286,7 @@ snapshots[
 snapshots[
     "test_create_non_existing_and_update_existing_notifications 1"
 ] = """enrolment_approved_sms|enrolment approved sms|enrolment approved sms|enrolment approved sms|Hei. Ilmoittautuminen hyväksytty tapahtumaan {{trans(event.name)}}. {{ occurrence.local_start_time.strftime('%d.%m.%Y klo %H.%M')}}. Ryhmä {{ study_group.name }} {{study_group.group_size}} hlö. {{trans(event.location.name)}}, {{trans(event.location.street_address)}}. Lisätietoja: {{occurrence.p_event.contact_email}}|Enrolment accepted for the event {{trans(event.name)}}. {{ occurrence.local_start_time.strftime('%d.%m.%Y at %H.%M')}}. Group {{ study_group.name }} {{study_group.group_size}} ppl. {{trans(event.location.name)}}, {{trans(event.location.street_address)}}. Info: {{occurrence.p_event.contact_email}}|Hej. Din anmälan till evenemanget {{trans(event.name)}}. {{ occurrence.local_start_time.strftime('%d.%m.%Y kl %H.%M')}} Grupp {{ study_group.name }} {{study_group.group_size}} personer. {{trans(event.location.name)}}, {{trans(event.location.street_address)}}. Mer information: {{occurrence.p_event.contact_email}}|||
-enrolment_cancellation|enrolment cancellation|enrolment cancellation|enrolment cancellation||||<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+enrolment_cancellation|Ilmoittautumisen peruuttaminen|Enrolment cancellation|Avbokning av anmälan||||<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 
 <head>
@@ -14774,7 +14774,7 @@ enrolment_cancellation|enrolment cancellation|enrolment cancellation|enrolment c
 
 </html>
 enrolment_cancellation_sms|enrolment cancellation sms|enrolment cancellation sms|enrolment cancellation sms|Hei. Voitte vahvistaa peruutuksenne liittyen tapahtumaan {{trans(event.name)}} seuraavalla linkillä: {{enrolment.get_cancellation_url(language='fi')}}. {{ occurrence.local_start_time.strftime('%d.%m.%Y klo %H.%M')}}. {{trans(event.location.name)}}, {{trans(event.location.street_address)}}. Lisätietoja: {{occurrence.p_event.contact_email}}|Hi. You can confirm your cancellation to the event {{trans(event.name)}} at the following link: {{enrolment.get_cancellation_url(language='en')}}. {{ occurrence.local_start_time.strftime('%d.%m.%Y at %H.%M')}}. {{trans(event.location.name)}}, {{trans(event.location.street_address)}}. Info: {{occurrence.p_event.contact_email}}|Hej. Du kan bekräfta din avbokning till evenemanget {{trans(event.name)}} på följande länk: {{enrolment.get_cancellation_url(language='sv')}}. {{ occurrence.local_start_time.strftime('%d.%m.%Y at %H.%M')}}. {{trans(event.location.name)}}, {{trans(event.location.street_address)}}. Mer information: {{occurrence.p_event.contact_email}}|||
-enrolment_cancelled|enrolment cancelled|enrolment cancelled|enrolment cancelled||||<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+enrolment_cancelled|Ilmoittautumisen peruuttaminen vahvistettu|Enrolment cancellation confirmed|Avbokning av anmälan bekräftad||||<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 
 <head>
@@ -16261,7 +16261,7 @@ enrolment_cancelled|enrolment cancelled|enrolment cancelled|enrolment cancelled|
 
 </html>
 enrolment_cancelled_sms|enrolment cancelled sms|enrolment cancelled sms|enrolment cancelled sms|Hei. Peruutuksenne tapahtumaan {{trans(event.name)}} on vahvistettu. {{ occurrence.local_start_time.strftime('%d.%m.%Y klo %H.%M')}}. {{trans(event.location.name)}}, {{trans(event.location.street_address)}}. Lisätietoja: {{occurrence.p_event.contact_email}}|Hi. Your cancellation to the event {{trans(event.name)}} is confirmed. {{ occurrence.local_start_time.strftime('%d.%m.%Y at %H.%M')}}. {{trans(event.location.name)}}, {{trans(event.location.street_address)}}. Info: {{occurrence.p_event.contact_email}}|Hej. Avbokningen av anmälan till evenemanget {{trans(event.name)}} har bekräftats. {{ occurrence.local_start_time.strftime('%d.%m.%Y at %H.%M')}}. {{trans(event.location.name)}}, {{trans(event.location.street_address)}}. Mer information: {{occurrence.p_event.contact_email}}|||
-enrolment_declined|enrolment declined|enrolment declined|enrolment declined||||<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+enrolment_declined|Ilmoittautumisen peruutusilmoitus|Enrolment declined|Meddelande om avbokning||||<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 
 <head>
@@ -17767,7 +17767,7 @@ enrolment_declined|enrolment declined|enrolment declined|enrolment declined||||<
 
 </html>
 enrolment_declined_sms|enrolment declined sms|enrolment declined sms|enrolment declined sms|Hei. Valitettavasti emme pysty tarjoamaan paikkaa tapahtumaan {{trans(event.name)}}. {{ occurrence.local_start_time.strftime('%d.%m.%Y klo %H.%M')}}. Ryhmä {{ study_group.name }} {{study_group.group_size}} hlö. {{trans(event.location.name)}}, {{trans(event.location.street_address)}}. Lisätietoja: {{occurrence.p_event.contact_email}}|Hi. Unfortunately, we cannot offer you a place at the event {{trans(event.name)}}. {{ occurrence.local_start_time.strftime('%d.%m.%Y at %H.%M')}}. Group {{ study_group.name }} {{study_group.group_size}} ppl. {{trans(event.location.name)}}, {{trans(event.location.street_address)}}. Info: {{occurrence.p_event.contact_email}}|Hej. Vi kan tyvärr inte erbjuda en plats på evenemanget {{trans(event.name)}}. {{ occurrence.local_start_time.strftime('%d.%m.%Y kl %H.%M')}} Grupp {{ study_group.name }} {{study_group.group_size}} personer. {{trans(event.location.name)}}, {{trans(event.location.street_address)}}. Mer information: {{occurrence.p_event.contact_email}}|||
-enrolment_summary_report|enrolment summary report|enrolment summary report|enrolment summary report||||<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+enrolment_summary_report|Ilmoittautumisen yhteenvetoraportti|Enrolment summary report|Sammanfattningsrapport för inskrivning||||<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 
 <head>
@@ -19188,7 +19188,7 @@ enrolment_summary_report|enrolment summary report|enrolment summary report|enrol
 </body>
 
 </html>
-occurrence_cancelled|Peruutusilmoitus|occurrence cancelled|occurrence cancelled||||<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+occurrence_cancelled|Peruutusilmoitus|Cancellation notification|Meddelande om inställt evenemang||||<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 
 <head>
@@ -20680,7 +20680,7 @@ occurrence_cancelled|Peruutusilmoitus|occurrence cancelled|occurrence cancelled|
 </html>
 occurrence_cancelled_sms|occurrence cancelled sms|occurrence cancelled sms|occurrence cancelled sms|Hei. Valitettavasti tapahtuma on peruttu. {{trans(event.name)}}. {{ occurrence.local_start_time.strftime('%d.%m.%Y klo %H.%M')}}. Ryhmä {{ study_group.name }} {{study_group.group_size}} hlö. {{trans(event.location.name)}}, {{trans(event.location.street_address)}}. Lisätietoja: {{occurrence.p_event.contact_email}}|Hi. Unfortunately, the event is cancelled. {{trans(event.name)}}. {{ occurrence.local_start_time.strftime('%d.%m.%Y at %H.%M')}}. Group {{ study_group.name }} {{study_group.group_size}} ppl. {{trans(event.location.name)}}, {{trans(event.location.street_address)}}. Info: {{occurrence.p_event.contact_email}}|Hej. Evenemanget har tyvärr ställts in. {{trans(event.name)}}. {{ occurrence.local_start_time.strftime('%d.%m.%Y kl %H.%M')}} Grupp {{ study_group.name }} {{study_group.group_size}} personer. {{trans(event.location.name)}}, {{trans(event.location.street_address)}}. Mer information: {{occurrence.p_event.contact_email}}|||
 occurrence_enrolment_sms|occurrence enrolment sms|occurrence enrolment sms|occurrence enrolment sms|Hei. Viesti vastaanotettu tapahtumaan {{trans(event.name)}}. {{ occurrence.local_start_time.strftime('%d.%m.%Y klo %H.%M')}}. Ryhmä {{ study_group.name }} {{study_group.group_size}} hlö. {{trans(event.location.name)}}, {{trans(event.location.street_address)}}. Lisätietoja: {{occurrence.p_event.contact_email}}|Message received. We will send you a confirmation for the event {{trans(event.name)}}. {{ occurrence.local_start_time.strftime('%d.%m.%Y at %H.%M')}}. Group {{ study_group.name }} {{study_group.group_size}} ppl. {{trans(event.location.name)}}, {{trans(event.location.street_address)}}. Info: {{occurrence.p_event.contact_email}}|Hej. Meddelandet är mottaget. Du får ännu en separat bekräftelse för deltagandet i evenemanget {{trans(event.name)}}. {{ occurrence.local_start_time.strftime('%d.%m.%Y kl %H.%M')}} Grupp {{ study_group.name }} {{study_group.group_size}} personer. {{trans(event.location.name)}}, {{trans(event.location.street_address)}}. Mer information: {{occurrence.p_event.contact_email}}|||
-person_myprofile_accepted|person myprofile accepted|person myprofile accepted|person myprofile accepted||||<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+person_myprofile_accepted|Käyttäjätilisi Kultuksessa on valmis käytettäväksi|Your user account in Kultus is ready for use|Ditt användarkonto i Kultus är klart för användning||||<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 
 <head>
@@ -22090,7 +22090,7 @@ person_myprofile_accepted|person myprofile accepted|person myprofile accepted|pe
 </body>
 
 </html>
-person_myprofile_creation|person myprofile creation|person myprofile creation|person myprofile creation||||<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+person_myprofile_creation|Uusi käyttäjä luotu Kultukseen|New user created for Kultus|Ny användare skapad för Kultus||||<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 
 <head>
@@ -23584,7 +23584,7 @@ person_myprofile_creation|person myprofile creation|person myprofile creation|pe
 </body>
 
 </html>
-enrolment_approved|enrolment approved|enrolment approved|enrolment approved||||<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+enrolment_approved|Ilmoittautuminen vahvistettu|Enrolment approved|Anmälan har bekräftats||||<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 
 <head>
@@ -25099,7 +25099,7 @@ enrolment_approved|enrolment approved|enrolment approved|enrolment approved||||<
 </body>
 
 </html>
-occurrence_enrolment|occurrence enrolment|occurrence enrolment|occurrence enrolment||||<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+occurrence_enrolment|Ilmoittautuminen vastaanotettu|Enrolment received|Anmälan mottagen||||<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 
 <head>
