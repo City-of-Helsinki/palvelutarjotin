@@ -1,6 +1,12 @@
 <!-- REMINDER: While updating changelog, also remember to update
 the version in palvelutarjotin/__init.py__ -->
 
+## [0.7.0] - 28 September 2021
+
+### Added
+
+- Notification importer: Notification templates can be imported from files (and Google sheets).
+
 ## [0.6.2] - 24 September 2021
 
 ### Fixed
