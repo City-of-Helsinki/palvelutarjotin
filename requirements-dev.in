@@ -10,3 +10,6 @@ snapshottest
 packaging==21.0
 pyparsing==2.4.7
 pre-commit
+responses
+idna==2.8
+requests==2.22.0
