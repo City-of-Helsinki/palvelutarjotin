@@ -1,6 +1,12 @@
 <!-- REMINDER: While updating changelog, also remember to update
 the version in palvelutarjotin/__init.py__ -->
 
+## [0.7.1] - 29 September 2021
+
+### Fixed
+
+- LinkedEvents timeout raised to 20s.
+
 ## [0.7.0] - 28 September 2021
 
 ### Added
