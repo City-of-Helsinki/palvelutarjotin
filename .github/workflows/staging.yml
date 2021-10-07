@@ -53,10 +53,10 @@ jobs:
           K8S_SECRET_TOKEN_AUTH_AUTHSERVER_URL: "https://tunnistamo.test.kuva.hel.ninja/openid"
           K8S_SECRET_ILMOITIN_QUEUE_NOTIFICATIONS: 1
           K8S_SECRET_MAIL_MAILGUN_KEY: ${{ secrets.SECRET_GH_QA_MAILGUN_API_KEY }}
-          K8S_SECRET_MAIL_MAILGUN_DOMAIN: "mail.hel.ninja"
+          K8S_SECRET_MAIL_MAILGUN_DOMAIN: "hel.fi"
           K8S_SECRET_MAIL_MAILGUN_API: "https://api.eu.mailgun.net/v3"
           K8S_SECRET_MAILER_EMAIL_BACKEND: "anymail.backends.mailgun.EmailBackend"
-          K8S_SECRET_DEFAULT_FROM_EMAIL: "no-reply@hel.ninja"
+          K8S_SECRET_DEFAULT_FROM_EMAIL: "no-reply@hel.fi"
           K8S_SECRET_SENTRY_DSN: ${{ secrets.GH_SENTRY_DNS }}
           K8S_SECRET_SENTRY_ENVIRONMENT: "test"
           K8S_SECRET_ENABLE_GRAPHIQL: 1
