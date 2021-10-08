@@ -11,7 +11,6 @@ from django.utils import timezone
 from django.utils.decorators import method_decorator
 from django.utils.translation import gettext as _
 from django.views.generic import ListView
-from helusers.oidc import ApiTokenAuthentication
 from occurrences.models import Enrolment, PalvelutarjotinEvent
 from organisations.models import Organisation, Person
 from rest_framework.authentication import SessionAuthentication
@@ -19,6 +18,7 @@ from rest_framework.permissions import IsAdminUser
 from rest_framework.views import APIView
 
 from common.utils import get_node_id_from_global_id
+from palvelutarjotin.oidc import KultusApiTokenAuthentication
 
 logger = logging.getLogger(__name__)
 
@@ -217,7 +217,7 @@ class ExportReportCsvView(ExportReportViewMixin, APIView):
     """
 
     model = None
-    authentication_classes = [ApiTokenAuthentication, SessionAuthentication]
+    authentication_classes = [KultusApiTokenAuthentication, SessionAuthentication]
     permission_classes = [IsAdminUser]
     csv_dialect = csv.excel
     csv_delimiter = ";"
