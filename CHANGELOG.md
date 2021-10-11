@@ -1,6 +1,13 @@
 <!-- REMINDER: While updating changelog, also remember to update
 the version in palvelutarjotin/__init.py__ -->
 
+## [0.7.2] - 8 October 2021
+
+### Fixed
+
+- Report view authentication.
+- hel.ninja mail address changed to hel.fi (staging and production).
+
 ## [0.7.1] - 29 September 2021
 
 ### Fixed
