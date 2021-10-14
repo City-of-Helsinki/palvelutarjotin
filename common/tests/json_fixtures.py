@@ -30,13 +30,26 @@ def _get_mock_function(data, status_code=200):
 
 @pytest.fixture
 def mock_get_event_data(monkeypatch):
+    """
+    Mocks a published event data fetch from LinkedEvents API.
+    Also mocks the update, because Occurrences app's signals
+    updates the event status to LinkedEvents API,
+    when the event is published
+    """
     monkeypatch.setattr(
         LinkedEventsApiClient, "retrieve", _get_mock_function(EVENT_DATA),
+    )
+    # Mock the published event update
+    monkeypatch.setattr(
+        LinkedEventsApiClient, "update", _get_mock_function(EVENT_DATA),
     )
 
 
 @pytest.fixture
 def mock_get_draft_event_data(monkeypatch):
+    """
+    Mocks an unpublished / draft event data fetch from LinkedEvents API.
+    """
     monkeypatch.setattr(
         LinkedEventsApiClient, "retrieve", _get_mock_function(DRAFT_EVENT_DATA),
     )

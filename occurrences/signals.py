@@ -1,51 +1,22 @@
-import json
 import logging
-from typing import List
 
 from anymail.signals import pre_send
 from django.core.exceptions import ObjectDoesNotExist
 from django.db import transaction
 from django.db.models.signals import m2m_changed, post_delete, post_save
 from django.dispatch import receiver
-from graphene_linked_events.utils import api_client
 from occurrences.consts import NotificationTemplate
-from occurrences.models import Enrolment, Occurrence, PalvelutarjotinEvent
+from occurrences.event_api_services import (
+    send_event_languages_update,
+    send_event_republish,
+    send_event_unpublish,
+)
+from occurrences.models import Enrolment, Occurrence
 from occurrences.utils import send_event_notifications_to_person
 
-from palvelutarjotin.exceptions import ApiUsageError, ObjectDoesNotExistError
+from palvelutarjotin.exceptions import ObjectDoesNotExistError
 
 logger = logging.getLogger(__name__)
-
-
-def send_event_languages_update(
-    p_event: PalvelutarjotinEvent, event_language_ids: List[str]
-) -> None:
-    """
-    Update event languages to LinkedEvents.
-    """
-
-    # FIXME: This is a needless call if LE would not need a full event data.
-    # Since the LE needs at least all the required fields when an event is updated,
-    # we first need to fetch the current event object.
-    event_obj = json.loads(
-        api_client.retrieve("event", p_event.linked_event_id, is_staff=True).text
-    )
-
-    # Updated languages
-    in_language_body = [
-        {"@id": "/v1/language/{language}/".format(language=language)}
-        for language in event_language_ids
-    ]
-    event_obj.__setitem__("in_language", in_language_body)
-
-    # Call API to update event
-    result = api_client.update("event", p_event.linked_event_id, json.dumps(event_obj))
-
-    if result.status_code == 404:
-        raise ObjectDoesNotExistError("Could not find the event from the API")
-
-    elif result.status_code != 200:
-        raise ApiUsageError("Cannot update occurrences languages to the event")
 
 
 @receiver(post_save, sender=Enrolment, dispatch_uid="send_enrolment_email")
@@ -96,7 +67,6 @@ def update_event_languages(sender, instance, action, pk_set, **kwargs):
 
     NOTE: This will be called once by remove actions and once by additions.
     """
-
     # Ignore other actions than post actions
     if action not in ["post_clear", "post_remove", "post_add"]:
         return
@@ -128,7 +98,6 @@ def update_event_languages_on_occurrence_delete(sender, instance, **kwargs):
     the remaining occurrences languages should be synced to LinkedEvents
     Event languages.
     """
-
     try:
         if not hasattr(instance, "p_event"):
             return
@@ -149,3 +118,39 @@ def update_event_languages_on_occurrence_delete(sender, instance, **kwargs):
             "An ObjectDoesNotExistError was raised, but the update process continued,"
             + "because data is being deleted, not updated. Error: {0}".format(err)
         )
+
+
+@receiver(post_save, sender=Occurrence)
+@transaction.atomic
+def republish_event_to_sync_times_on_update(sender, instance, created, **kwargs):
+    """
+    Republish the event end time to LinkedEvents API when an occurrence is saved
+    and linked to a published event.
+    NOTE: `The graphene_linked_events.PublishEventMutation` and
+    `graphene_linked_events._prepare_published_event_data`
+    sets the start time of the event to time it is at the moment of the publishment.
+    That should not be changed here in this signal! Also, since it would be pure
+    nonsense to add an occurrence to the past, the occurrence handled in this signal
+    should never change the start time of the event
+    """
+    if (
+        instance.p_event.is_published()
+        and instance.p_event.occurrences.filter(cancelled=False).count() > 0
+    ):
+        # republish
+        send_event_republish(instance.p_event)
+
+
+@receiver(post_delete, sender=Occurrence)
+@transaction.atomic
+def republish_event_to_sync_times_on_delete(sender, instance, **kwargs):
+    """
+    If the event is published,
+    handle the event update of last existing occurrence
+    by calling "unpublish" which means resetting the end time of the event.
+    """
+    if (
+        instance.p_event.is_published()
+        and instance.p_event.occurrences.filter(cancelled=False).count() == 1
+    ):
+        send_event_unpublish(instance.p_event)

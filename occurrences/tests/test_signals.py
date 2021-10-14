@@ -7,7 +7,7 @@ from occurrences.models import Occurrence
 from occurrences.signals import update_event_languages_on_occurrence_delete
 
 from common.tests.utils import mocked_json_response
-from palvelutarjotin.exceptions import ApiUsageError, ObjectDoesNotExistError
+from palvelutarjotin.exceptions import ApiConnectionError, ObjectDoesNotExistError
 
 
 @pytest.mark.django_db
@@ -15,7 +15,7 @@ from palvelutarjotin.exceptions import ApiUsageError, ObjectDoesNotExistError
     api_client, "update", return_value=mocked_json_response(data=None, status_code=200)
 )
 def test_update_event_languages(
-    mock_api_client_update, mock_update_event_data, p_event
+    mock_api_client_update, mock_get_draft_event_data, mock_update_event_data, p_event
 ):
     def language_link_nodes(languages):
         return ['{"@id": "/v1/language/' + lang.pk + '/"}' for lang in languages]
@@ -68,7 +68,7 @@ def test_update_event_languages(
     api_client, "update", return_value=mocked_json_response(data=None, status_code=200)
 )
 def test_update_event_languages_should_not_update_if_language_still_exists(
-    mock_api_client_update, mock_update_event_data, p_event
+    mock_api_client_update, mock_get_draft_event_data, mock_update_event_data, p_event
 ):
     lng1, lng2, lng3 = LanguageFactory.create_batch(3)
     OccurrenceFactory(p_event=p_event, languages=[lng1, lng2])
@@ -85,7 +85,7 @@ def test_update_event_languages_should_not_update_if_language_still_exists(
     api_client, "update", return_value=mocked_json_response(data=None, status_code=200)
 )
 def test_update_event_languages_when_occurrence_is_deleted(
-    mock_api_client_update, mock_update_event_data, p_event
+    mock_api_client_update, mock_get_draft_event_data, mock_update_event_data, p_event
 ):
     lng1, lng2, lng3 = LanguageFactory.create_batch(3)
     OccurrenceFactory(p_event=p_event, languages=[lng1, lng2])
@@ -100,9 +100,9 @@ def test_update_event_languages_when_occurrence_is_deleted(
     api_client, "update", return_value=mocked_json_response(data=None, status_code=400)
 )
 def test_update_event_languages_cannot_reach_api(
-    mock_api_client_update, mock_update_event_data, p_event
+    mock_api_client_update, mock_get_draft_event_data, mock_update_event_data, p_event
 ):
-    with pytest.raises(ApiUsageError):
+    with pytest.raises(ApiConnectionError):
         OccurrenceFactory(p_event=p_event, languages=LanguageFactory.create_batch(2))
 
 
@@ -122,7 +122,7 @@ def test_update_event_languages_cannot_find_event(
     api_client, "update", return_value=mocked_json_response(data=None, status_code=200)
 )
 def test_occurrence_delete_should_ignore(
-    mock_api_client_update, mock_update_event_data, p_event
+    mock_api_client_update, mock_get_draft_event_data, mock_update_event_data, p_event
 ):
     occurrence = OccurrenceFactory(
         p_event=p_event, languages=LanguageFactory.create_batch(2)
@@ -133,7 +133,7 @@ def test_occurrence_delete_should_ignore(
     mock_api_client_update.return_value = mocked_json_response(
         data=None, status_code=404
     )
-    # with pytest.raises(ObjectDoesNotExistError):
+
     occurrence.delete()
     assert mock_api_client_update.call_count == 3
     assert Occurrence.objects.count() == 0
@@ -156,3 +156,60 @@ def test_occurrence_without_p_event_should_not_call_API(mock_api_client_update):
     d["p_event"] = None
     update_event_languages_on_occurrence_delete(Occurrence, d)
     assert mock_api_client_update.call_count == 0
+
+
+@pytest.mark.django_db
+@patch("occurrences.signals.send_event_republish")
+def test_republish_event_to_sync_times_on_update_calls_republish_when_published(
+    mock_send_event_republish, mock_get_event_data, p_event
+):
+    OccurrenceFactory(p_event=p_event)
+    assert Occurrence.objects.count() == 1
+    assert mock_send_event_republish.called
+
+
+@pytest.mark.django_db
+@patch("occurrences.signals.send_event_republish")
+def test_republish_event_to_sync_times_on_update_does_nothing_when_draft(
+    mock_send_event_republish, mock_get_draft_event_data, p_event,
+):
+    OccurrenceFactory(p_event=p_event)
+    assert Occurrence.objects.count() == 1
+    assert not mock_send_event_republish.called
+
+
+@pytest.mark.django_db
+@patch("occurrences.signals.send_event_unpublish")
+def test_republish_event_to_sync_times_on_delete_does_nothing_when_many_occurrences(
+    mock_send_event_unpublish, mock_get_event_data, p_event,
+):
+    OccurrenceFactory(p_event=p_event)
+    occurrence = OccurrenceFactory(p_event=p_event)
+    assert Occurrence.objects.count() == 2
+    occurrence.delete()
+    assert Occurrence.objects.count() == 1
+    assert mock_send_event_unpublish.called
+
+
+@pytest.mark.django_db
+@patch("occurrences.signals.send_event_unpublish")
+def test_republish_event_to_sync_times_on_delete_does_nothing_when_draft(
+    mock_send_event_unpublish, mock_get_draft_event_data, p_event,
+):
+    occurrence = OccurrenceFactory(p_event=p_event)
+    assert Occurrence.objects.count() == 1
+    occurrence.delete()
+    assert Occurrence.objects.count() == 0
+    assert not mock_send_event_unpublish.called
+
+
+@pytest.mark.django_db
+@patch("occurrences.signals.send_event_unpublish")
+def test_republish_event_to_sync_times_on_delete_does_nothing_when_last_occurrence(
+    mock_send_event_unpublish, mock_get_event_data, p_event,
+):
+    occurrence = OccurrenceFactory(p_event=p_event)
+    assert Occurrence.objects.count() == 1
+    occurrence.delete()
+    assert Occurrence.objects.count() == 0
+    assert not mock_send_event_unpublish.called

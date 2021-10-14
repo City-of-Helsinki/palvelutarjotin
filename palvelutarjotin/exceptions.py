@@ -17,6 +17,10 @@ class ObjectDoesNotExistError(PalvelutarjotinGraphQLError):
     """Object does not exist"""
 
 
+class ApiConnectionError(PalvelutarjotinGraphQLError):
+    """Could not establish a connection"""
+
+
 class QueryTooDeepError(PalvelutarjotinGraphQLError):
     """Query depth exceeded settings.PALVELUTARJOTIN_QUERY_MAX_DEPTH"""
 

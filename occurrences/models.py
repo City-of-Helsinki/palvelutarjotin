@@ -22,7 +22,11 @@ from verification_token.models import VerificationToken
 from common.models import TimestampedModel, TranslatableModel
 from common.utils import get_node_id_from_global_id
 from palvelutarjotin import settings
-from palvelutarjotin.exceptions import ApiUsageError, EnrolmentNotEnoughCapacityError
+from palvelutarjotin.exceptions import (
+    ApiUsageError,
+    EnrolmentNotEnoughCapacityError,
+    ObjectDoesNotExistError,
+)
 
 logger = logging.getLogger(__name__)
 
@@ -107,9 +111,14 @@ class PalvelutarjotinEvent(TimestampedModel):
     def get_event_data(self, is_staff=False):
         # We need query event location as well
         params = {"include": "location"}
-        return retrieve_linked_events_data(
-            "event", self.linked_event_id, params=params, is_staff=is_staff
-        )
+        try:
+            data = retrieve_linked_events_data(
+                "event", self.linked_event_id, params=params, is_staff=is_staff
+            )
+        except ObjectDoesNotExistError:
+            return None
+
+        return data
 
     def is_editable_by_user(self, user):
         if self.organisation:
@@ -117,15 +126,19 @@ class PalvelutarjotinEvent(TimestampedModel):
         return True
 
     def is_published(self):
+        event = self.get_event_data(is_staff=True)
+        if not event:
+            return False
         return (
-            self.get_event_data(is_staff=True).publication_status
-            == PalvelutarjotinEvent.PUBLICATION_STATUS_PUBLIC
+            event.publication_status == PalvelutarjotinEvent.PUBLICATION_STATUS_PUBLIC
         )
 
     def get_end_time_from_occurrences(self):
         # Return the latest time that teacher can enrol to the event
         try:
-            last_occurrence = self.occurrences.latest("start_time")
+            last_occurrence = self.occurrences.filter(cancelled=False).latest(
+                "start_time"
+            )
         except Occurrence.DoesNotExist:
             raise ValueError("Palvelutarjotin event has no occurrence")
         if self.enrolment_end_days is not None:

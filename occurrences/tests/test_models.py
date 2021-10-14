@@ -213,7 +213,9 @@ def test_occurrence_seat_approved():
 
 
 @pytest.mark.django_db
-def test_get_event_languages_from_occurrence(mock_update_event_data):
+def test_get_event_languages_from_occurrence(
+    mock_get_draft_event_data, mock_update_event_data
+):
     lng1, lng2, lng3, lng4 = LanguageFactory.create_batch(4)
     p_event = PalvelutarjotinEventFactory()
     OccurrenceFactory(p_event=p_event, languages=[lng1, lng2])
