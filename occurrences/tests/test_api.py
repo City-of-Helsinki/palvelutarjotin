@@ -4,6 +4,7 @@ from datetime import datetime, timedelta
 import pytest
 from django.core import mail
 from django.utils import timezone
+from graphene_linked_events.tests.mock_data import EVENT_DATA
 from graphql_relay import to_global_id
 from occurrences.consts import NOTIFICATION_TYPE_EMAIL
 from occurrences.factories import (
@@ -587,14 +588,33 @@ def test_update_occurrence_unauthorized(
     assert_permission_denied(executed)
 
 
-def test_update_occurrence_of_published_event(
-    staff_api_client, organisation, person, mock_get_event_data
+@pytest.mark.parametrize("group_size,amount_of_adult", [(1, 0), (0, 1), (2, 3)])
+def test_update_occurrence_of_published_event_with_enrolments(
+    group_size,
+    amount_of_adult,
+    staff_api_client,
+    organisation,
+    person,
+    mock_get_event_data,
 ):
     variables = deepcopy(UPDATE_OCCURRENCE_VARIABLES)
     occurrence = OccurrenceFactory(
-        contact_persons=[person], p_event__organisation=organisation
+        contact_persons=[person],
+        p_event__organisation=organisation,
+        amount_of_seats=100,
+        min_group_size=1,
+        max_group_size=10,
     )
-    p_event = PalvelutarjotinEventFactory(organisation=organisation)
+
+    # enrolment for occurrence
+    study_group_20 = StudyGroupFactory(
+        group_size=group_size, amount_of_adult=amount_of_adult
+    )
+    EnrolmentFactory(occurrence=occurrence, study_group=study_group_20)
+
+    p_event = PalvelutarjotinEventFactory(
+        linked_event_id=EVENT_DATA["id"], organisation=organisation
+    )
     variables["input"]["id"] = to_global_id("OccurrenceNode", occurrence.id)
     # Change p_event
     variables["input"]["pEventId"] = to_global_id(
@@ -610,11 +630,56 @@ def test_update_occurrence_of_published_event(
         },
     ]
     staff_api_client.user.person.organisations.add(organisation)
+    assert occurrence.seats_taken > 0
     executed = staff_api_client.execute(UPDATE_OCCURRENCE_MUTATION, variables=variables)
     assert_match_error_code(executed, API_USAGE_ERROR)
 
 
-def test_update_occurrence(
+def test_update_occurrence_of_published_event_without_enrolments(
+    snapshot,
+    staff_api_client,
+    organisation,
+    person,
+    mock_get_event_data,
+    mock_update_event_data,
+):
+    variables = deepcopy(UPDATE_OCCURRENCE_VARIABLES)
+    occurrence = OccurrenceFactory(
+        contact_persons=[person],
+        p_event__organisation=organisation,
+        amount_of_seats=100,
+        min_group_size=1,
+        max_group_size=10,
+    )
+
+    p_event = PalvelutarjotinEventFactory(
+        linked_event_id=EVENT_DATA["id"], organisation=organisation
+    )
+    variables["input"]["id"] = to_global_id("OccurrenceNode", occurrence.id)
+    # Change p_event
+    variables["input"]["pEventId"] = to_global_id(
+        "PalvelutarjotinEventNode", p_event.id
+    )
+    # Change contact person, remove old one
+    new_person = PersonFactory()
+    variables["input"]["contactPersons"] = [
+        {
+            "id": to_global_id("PersonNode", new_person.id),
+            "emailAddress": new_person.email_address,
+            "name": new_person.name,
+        },
+    ]
+    assert occurrence.seats_taken == 0
+    staff_api_client.user.person.organisations.add(organisation)
+    executed = staff_api_client.execute(UPDATE_OCCURRENCE_MUTATION, variables=variables)
+    snapshot.assert_match(executed)
+    # test validation
+    variables["input"]["endTime"] = variables["input"].pop("startTime")
+    executed = staff_api_client.execute(UPDATE_OCCURRENCE_MUTATION, variables=variables)
+    assert_match_error_code(executed, DATA_VALIDATION_ERROR)
+
+
+def test_update_unpublished_occurrence(
     snapshot,
     staff_api_client,
     organisation,

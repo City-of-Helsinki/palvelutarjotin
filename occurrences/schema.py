@@ -389,8 +389,16 @@ class UpdateOccurrenceMutation(graphene.relay.ClientIDMutation):
                 info, kwargs["p_event_id"], PalvelutarjotinEvent
             )
             kwargs["p_event_id"] = p_event.id
-        if p_event.is_published():
-            raise ApiUsageError("Cannot update occurrence of published event")
+        """
+        1. If there are no enrolments done to the occurrence of a published event,
+        it should be possible to edit it.
+        2. If there are some enrolments done to the published event,
+        it should not be editable.
+        """
+        if p_event.is_published() and occurrence.seats_taken > 0:
+            raise ApiUsageError(
+                "Cannot update occurrence of published event with enrolments"
+            )
         update_object(occurrence, kwargs)
         # Nested update
         if contact_persons:

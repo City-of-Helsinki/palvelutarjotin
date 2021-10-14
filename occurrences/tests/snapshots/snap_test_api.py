@@ -158,37 +158,6 @@ snapshots["test_add_occurrence 1"] = {
     }
 }
 
-snapshots["test_update_occurrence 1"] = {
-    "data": {
-        "updateOccurrence": {
-            "occurrence": {
-                "contactPersons": {"edges": [{"node": {"name": "Thomas Conway"}}]},
-                "endTime": "2020-05-06T00:00:00+00:00",
-                "languages": {
-                    "edges": [
-                        {"node": {"id": "en", "name": "English"}},
-                        {"node": {"id": "fi", "name": "Finnish"}},
-                        {"node": {"id": "sv", "name": "Swedish"}},
-                    ]
-                },
-                "maxGroupSize": 793,
-                "minGroupSize": 10,
-                "pEvent": {
-                    "contactEmail": "mcdanielmonica@yahoo.com",
-                    "contactPhoneNumber": "540.389.1625x965",
-                    "enrolmentEndDays": 1,
-                    "enrolmentStart": "1999-07-28T05:19:09+00:00",
-                    "externalEnrolmentUrl": None,
-                    "linkedEventId": "VkleI",
-                    "mandatoryAdditionalInformation": False,
-                    "neededOccurrences": 8,
-                },
-                "startTime": "2020-05-05T00:00:00+00:00",
-            }
-        }
-    }
-}
-
 snapshots["test_add_venue_staff_user 1"] = {
     "data": {
         "addVenue": {
@@ -762,7 +731,7 @@ snapshots["test_approve_enrolment_with_custom_message 2"] = [
     Occurrence: 06.01.2020 02.00
     Person: qlee@hotmail.com
     Click this link to cancel the enrolment:
-    https://beta.kultus.fi/fi/enrolments/cancel/RW5yb2xtZW50Tm9kZToxOV8yMDIwLTAxLTA0IDAwOjAwOjAwKzAwOjAw
+    https://beta.kultus.fi/fi/enrolments/cancel/RW5yb2xtZW50Tm9kZToyMl8yMDIwLTAxLTA0IDAwOjAwOjAwKzAwOjAw
 
     Custom message: custom message
 """
@@ -776,7 +745,7 @@ snapshots["test_approve_enrolment 2"] = [
     Occurrence: 06.01.2020 02.00
     Person: qlee@hotmail.com
     Click this link to cancel the enrolment:
-    https://beta.kultus.fi/fi/enrolments/cancel/RW5yb2xtZW50Tm9kZToxN18yMDIwLTAxLTA0IDAwOjAwOjAwKzAwOjAw
+    https://beta.kultus.fi/fi/enrolments/cancel/RW5yb2xtZW50Tm9kZToyMF8yMDIwLTAxLTA0IDAwOjAwOjAwKzAwOjAw
 
 """
 ]
@@ -2025,4 +1994,66 @@ snapshots["test_occurrences_filter_by_upcoming[1-2] 1"] = {
 
 snapshots["test_delete_unpublished_occurrence 1"] = {
     "data": {"deleteOccurrence": {"__typename": "DeleteOccurrenceMutationPayload"}}
+}
+
+snapshots["test_update_unpublished_occurrence 1"] = {
+    "data": {
+        "updateOccurrence": {
+            "occurrence": {
+                "contactPersons": {"edges": [{"node": {"name": "Thomas Conway"}}]},
+                "endTime": "2020-05-06T00:00:00+00:00",
+                "languages": {
+                    "edges": [
+                        {"node": {"id": "en", "name": "English"}},
+                        {"node": {"id": "fi", "name": "Finnish"}},
+                        {"node": {"id": "sv", "name": "Swedish"}},
+                    ]
+                },
+                "maxGroupSize": 793,
+                "minGroupSize": 10,
+                "pEvent": {
+                    "contactEmail": "mcdanielmonica@yahoo.com",
+                    "contactPhoneNumber": "540.389.1625x965",
+                    "enrolmentEndDays": 1,
+                    "enrolmentStart": "1999-07-28T05:19:09+00:00",
+                    "externalEnrolmentUrl": None,
+                    "linkedEventId": "VkleI",
+                    "mandatoryAdditionalInformation": False,
+                    "neededOccurrences": 8,
+                },
+                "startTime": "2020-05-05T00:00:00+00:00",
+            }
+        }
+    }
+}
+
+snapshots["test_update_occurrence_of_published_event_without_enrolments 1"] = {
+    "data": {
+        "updateOccurrence": {
+            "occurrence": {
+                "contactPersons": {"edges": [{"node": {"name": "Corey Holland"}}]},
+                "endTime": "2020-05-06T00:00:00+00:00",
+                "languages": {
+                    "edges": [
+                        {"node": {"id": "en", "name": "English"}},
+                        {"node": {"id": "fi", "name": "Finnish"}},
+                        {"node": {"id": "sv", "name": "Swedish"}},
+                    ]
+                },
+                "maxGroupSize": 10,
+                "minGroupSize": 10,
+                "pEvent": {
+                    "contactEmail": "molinamichael@mccoy.com",
+                    "contactPhoneNumber": "636-588-2540x3891",
+                    "enrolmentEndDays": 0,
+                    "enrolmentStart": "2021-07-24T21:32:11+00:00",
+                    "externalEnrolmentUrl": None,
+                    "linkedEventId": "helsinki:afxp6tv4xa",
+                    "mandatoryAdditionalInformation": False,
+                    "neededOccurrences": 3,
+                },
+                "startTime": "2020-05-05T00:00:00+00:00",
+            }
+        }
+    }
 }
