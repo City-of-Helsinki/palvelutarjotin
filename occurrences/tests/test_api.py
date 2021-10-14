@@ -684,7 +684,7 @@ def test_delete_cancelled_occurrence(
     snapshot.assert_match(executed)
 
 
-def test_delete_occurrence(
+def test_delete_unpublished_occurrence(
     snapshot,
     staff_api_client,
     occurrence,

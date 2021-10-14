@@ -727,10 +727,6 @@ snapshots["test_occurrences_filter_by_time 4"] = {
     }
 }
 
-snapshots["test_delete_occurrence 1"] = {
-    "data": {"deleteOccurrence": {"__typename": "DeleteOccurrenceMutationPayload"}}
-}
-
 snapshots["test_unenrol_occurrence 1"] = {
     "data": {
         "unenrolOccurrence": {
@@ -2025,4 +2021,8 @@ snapshots["test_occurrences_filter_by_upcoming[1-2] 1"] = {
             ]
         }
     }
+}
+
+snapshots["test_delete_unpublished_occurrence 1"] = {
+    "data": {"deleteOccurrence": {"__typename": "DeleteOccurrenceMutationPayload"}}
 }
