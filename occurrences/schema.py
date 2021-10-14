@@ -334,8 +334,6 @@ class AddOccurrenceMutation(graphene.relay.ClientIDMutation):
         validate_occurrence_data(p_event, kwargs)
         contact_persons = kwargs.pop("contact_persons", None)
         languages = kwargs.pop("languages", None)
-        if p_event.is_published():
-            raise ApiUsageError("Cannot add occurrence to published event")
         kwargs["p_event_id"] = p_event.id
         occurrence = Occurrence.objects.create(**kwargs)
 

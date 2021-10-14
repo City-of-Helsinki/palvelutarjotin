@@ -119,45 +119,6 @@ snapshots["test_occurrence_query 1"] = {
     }
 }
 
-snapshots["test_add_occurrence 1"] = {
-    "data": {
-        "addOccurrence": {
-            "occurrence": {
-                "contactPersons": {
-                    "edges": [
-                        {"node": {"name": "Jason Berg"}},
-                        {"node": {"name": "New name"}},
-                    ]
-                },
-                "endTime": "2020-05-06T00:00:00+00:00",
-                "languages": {
-                    "edges": [
-                        {"node": {"id": "ar", "name": "Arabic"}},
-                        {"node": {"id": "zh_hans", "name": "Chinese"}},
-                        {"node": {"id": "en", "name": "English"}},
-                        {"node": {"id": "ru", "name": "Russia"}},
-                        {"node": {"id": "sv", "name": "Swedish"}},
-                    ]
-                },
-                "maxGroupSize": None,
-                "minGroupSize": 10,
-                "pEvent": {
-                    "autoAcceptance": False,
-                    "contactEmail": "alexandra95@gray.biz",
-                    "contactPhoneNumber": "(959)911-8326",
-                    "enrolmentEndDays": 1,
-                    "enrolmentStart": "2020-03-08T01:43:57+00:00",
-                    "externalEnrolmentUrl": None,
-                    "linkedEventId": "HWJti",
-                    "mandatoryAdditionalInformation": False,
-                    "neededOccurrences": 2,
-                },
-                "startTime": "2020-05-05T00:00:00+00:00",
-            }
-        }
-    }
-}
-
 snapshots["test_add_venue_staff_user 1"] = {
     "data": {
         "addVenue": {
@@ -2051,6 +2012,84 @@ snapshots["test_update_occurrence_of_published_event_without_enrolments 1"] = {
                     "linkedEventId": "helsinki:afxp6tv4xa",
                     "mandatoryAdditionalInformation": False,
                     "neededOccurrences": 3,
+                },
+                "startTime": "2020-05-05T00:00:00+00:00",
+            }
+        }
+    }
+}
+
+snapshots["test_add_occurrence_to_published_event 1"] = {
+    "data": {
+        "addOccurrence": {
+            "occurrence": {
+                "contactPersons": {
+                    "edges": [
+                        {"node": {"name": "Jason Berg"}},
+                        {"node": {"name": "New name"}},
+                    ]
+                },
+                "endTime": "2020-05-06T00:00:00+00:00",
+                "languages": {
+                    "edges": [
+                        {"node": {"id": "ar", "name": "Arabic"}},
+                        {"node": {"id": "zh_hans", "name": "Chinese"}},
+                        {"node": {"id": "en", "name": "English"}},
+                        {"node": {"id": "ru", "name": "Russia"}},
+                        {"node": {"id": "sv", "name": "Swedish"}},
+                    ]
+                },
+                "maxGroupSize": None,
+                "minGroupSize": 10,
+                "pEvent": {
+                    "autoAcceptance": False,
+                    "contactEmail": "alexandra95@gray.biz",
+                    "contactPhoneNumber": "(959)911-8326",
+                    "enrolmentEndDays": 1,
+                    "enrolmentStart": "2020-03-08T01:43:57+00:00",
+                    "externalEnrolmentUrl": None,
+                    "linkedEventId": "HWJti",
+                    "mandatoryAdditionalInformation": False,
+                    "neededOccurrences": 2,
+                },
+                "startTime": "2020-05-05T00:00:00+00:00",
+            }
+        }
+    }
+}
+
+snapshots["test_add_occurrence_to_unpublished_event 1"] = {
+    "data": {
+        "addOccurrence": {
+            "occurrence": {
+                "contactPersons": {
+                    "edges": [
+                        {"node": {"name": "Jason Berg"}},
+                        {"node": {"name": "New name"}},
+                    ]
+                },
+                "endTime": "2020-05-06T00:00:00+00:00",
+                "languages": {
+                    "edges": [
+                        {"node": {"id": "ar", "name": "Arabic"}},
+                        {"node": {"id": "zh_hans", "name": "Chinese"}},
+                        {"node": {"id": "en", "name": "English"}},
+                        {"node": {"id": "ru", "name": "Russia"}},
+                        {"node": {"id": "sv", "name": "Swedish"}},
+                    ]
+                },
+                "maxGroupSize": None,
+                "minGroupSize": 10,
+                "pEvent": {
+                    "autoAcceptance": False,
+                    "contactEmail": "alexandra95@gray.biz",
+                    "contactPhoneNumber": "(959)911-8326",
+                    "enrolmentEndDays": 1,
+                    "enrolmentStart": "2020-03-08T01:43:57+00:00",
+                    "externalEnrolmentUrl": None,
+                    "linkedEventId": "HWJti",
+                    "mandatoryAdditionalInformation": False,
+                    "neededOccurrences": 2,
                 },
                 "startTime": "2020-05-05T00:00:00+00:00",
             }

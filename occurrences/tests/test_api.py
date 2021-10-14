@@ -486,7 +486,12 @@ def test_add_occurrence_unauthorized(
 
 
 def test_add_occurrence_to_published_event(
-    staff_api_client, organisation, person, mock_get_event_data
+    snapshot,
+    staff_api_client,
+    organisation,
+    person,
+    mock_get_event_data,
+    mock_update_event_data,
 ):
     variables = deepcopy(ADD_OCCURRENCE_VARIABLES)
     p_event = PalvelutarjotinEventFactory(organisation=organisation)
@@ -503,10 +508,14 @@ def test_add_occurrence_to_published_event(
     )
     staff_api_client.user.person.organisations.add(organisation)
     executed = staff_api_client.execute(ADD_OCCURRENCE_MUTATION, variables=variables)
-    assert_match_error_code(executed, API_USAGE_ERROR)
+    snapshot.assert_match(executed)
+    # test validation
+    variables["input"]["endTime"] = variables["input"]["startTime"]
+    executed = staff_api_client.execute(ADD_OCCURRENCE_MUTATION, variables=variables)
+    assert_match_error_code(executed, DATA_VALIDATION_ERROR)
 
 
-def test_add_occurrence(
+def test_add_occurrence_to_unpublished_event(
     snapshot,
     staff_api_client,
     organisation,
