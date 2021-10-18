@@ -1,9 +1,8 @@
 import json
 import logging
-from typing import List
+from typing import List, TYPE_CHECKING
 
 from graphene_linked_events.utils import api_client
-from occurrences.models import PalvelutarjotinEvent
 
 from common.utils import format_linked_event_datetime
 from palvelutarjotin.exceptions import (
@@ -11,6 +10,10 @@ from palvelutarjotin.exceptions import (
     ApiUsageError,
     ObjectDoesNotExistError,
 )
+
+if TYPE_CHECKING:
+    from occurrences.models import PalvelutarjotinEvent
+
 
 logger = logging.getLogger(__name__)
 
@@ -43,7 +46,7 @@ def update_event_to_linkedevents_api(linked_event_id: str, event_obj) -> None:
 
 
 def send_event_languages_update(
-    p_event: PalvelutarjotinEvent, event_language_ids: List[str]
+    p_event: "PalvelutarjotinEvent", event_language_ids: List[str]
 ) -> None:
     """
     Update event languages to LinkedEvents.
@@ -64,7 +67,7 @@ def send_event_languages_update(
     update_event_to_linkedevents_api(p_event.linked_event_id, event_obj)
 
 
-def send_event_republish(p_event: PalvelutarjotinEvent):
+def send_event_republish(p_event: "PalvelutarjotinEvent"):
 
     # FIXME: This is a needless call if LE would not need a full event data.
     # Since the LE needs at least all the required fields when an event is updated,
@@ -84,7 +87,7 @@ def send_event_republish(p_event: PalvelutarjotinEvent):
         update_event_to_linkedevents_api(p_event.linked_event_id, event_obj)
 
 
-def send_event_unpublish(p_event: PalvelutarjotinEvent):
+def send_event_unpublish(p_event: "PalvelutarjotinEvent"):
     # FIXME: This is a needless call if LE would not need a full event data.
     # Since the LE needs at least all the required fields when an event is updated,
     # we first need to fetch the current event object.

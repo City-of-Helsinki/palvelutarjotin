@@ -6,15 +6,10 @@ from django.db import transaction
 from django.db.models.signals import m2m_changed, post_delete, post_save
 from django.dispatch import receiver
 from occurrences.consts import NotificationTemplate
-from occurrences.event_api_services import (
-    send_event_languages_update,
-    send_event_republish,
-    send_event_unpublish,
-)
+from occurrences.event_api_services import send_event_languages_update
 from occurrences.models import Enrolment, Occurrence
 from occurrences.utils import send_event_notifications_to_person
 
-from common.utils import format_linked_event_datetime
 from palvelutarjotin.exceptions import ObjectDoesNotExistError
 
 logger = logging.getLogger(__name__)
@@ -119,75 +114,3 @@ def update_event_languages_on_occurrence_delete(sender, instance, **kwargs):
             "An ObjectDoesNotExistError was raised, but the update process continued,"
             + "because data is being deleted, not updated. Error: {0}".format(err)
         )
-
-
-@receiver(post_save, sender=Occurrence)
-@transaction.atomic
-def republish_event_to_sync_times_on_save(sender, instance, created, **kwargs):
-    """
-    Republish the event end time to LinkedEvents API when an occurrence is saved
-    and linked to a published event.
-    NOTE: `The graphene_linked_events.PublishEventMutation` and
-    `graphene_linked_events._prepare_published_event_data`
-    sets the start time of the event to time it is at the moment of the publishment.
-    That should not be changed here in this signal! Also, since it would be pure
-    nonsense to add an occurrence to the past, the occurrence handled in this signal
-    should never change the start time of the event
-    """
-
-    event_time_range_changed = False
-    if not created:
-        # The status of occurrences before the save process has finished.
-        occurrences = instance.p_event.occurrences.filter(cancelled=False).order_by(
-            "start_time"
-        )
-
-        # Fetch data from LinkedEvents API.
-        # FIXME: The changes of the time fields should be checked,
-        # to prevent duplicate signal calls (1 from create, 1 from relation updates),
-        # but in a post_save-signal the information is not available
-        # and in a pre_save-signal the occurrences are not yet persisted,
-        # so it would be a pain to republish by using
-        # send_event_republish (and p_event.get_end_time_from_occurrences())
-        # TODO: Effective cache should be used
-        event = instance.p_event.get_event_data()
-
-        if not event:
-            return
-
-        # If first or last occurrence of the event and affects on event time range.
-        if (
-            instance == occurrences.first()
-            and not event.start_time
-            == format_linked_event_datetime(instance.start_time)
-        ) or (
-            instance == occurrences.last()
-            and not event.end_time == format_linked_event_datetime(instance.end_time)
-        ):
-
-            # Event start time or end time has changed
-            event_time_range_changed = True
-
-    if (
-        # Newly created or needs update for times...
-        (created is True or event_time_range_changed is True)
-        # Published (in LinkedEvents API)
-        and instance.p_event.is_published()
-    ):
-        # Republish
-        send_event_republish(instance.p_event)
-
-
-@receiver(post_delete, sender=Occurrence)
-@transaction.atomic
-def republish_event_to_sync_times_on_delete(sender, instance, **kwargs):
-    """
-    If the event is published,
-    handle the event update of last existing occurrence
-    by calling "unpublish" which means resetting the end time of the event.
-    """
-    if (
-        instance.p_event.is_published()
-        and instance.p_event.occurrences.filter(cancelled=False).count() == 0
-    ):
-        send_event_unpublish(instance.p_event)

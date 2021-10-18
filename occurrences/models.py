@@ -15,6 +15,7 @@ from occurrences.consts import (
     NOTIFICATION_TYPES,
     NotificationTemplate,
 )
+from occurrences.event_api_services import send_event_republish, send_event_unpublish
 from occurrences.utils import send_event_notifications_to_person
 from parler.models import TranslatedFields
 from verification_token.models import VerificationToken
@@ -219,6 +220,59 @@ class Occurrence(TimestampedModel):
     class Meta:
         verbose_name = _("occurrence")
         verbose_name_plural = _("occurrences")
+
+    def __post_save_republish_event(self, created, old_object, **kwargs):
+        """
+        Republish the event end time to LinkedEvents API when an occurrence is saved
+        and linked to a published event.
+        NOTE: `The graphene_linked_events.PublishEventMutation` and
+        `graphene_linked_events._prepare_published_event_data`
+        sets the start time of the event to time it is at the moment of the publishment.
+        """
+        event_time_range_changed = False
+        if not created:
+            # The status of occurrences before the save process has finished.
+            occurrences = self.p_event.occurrences.filter(cancelled=False).order_by(
+                "start_time"
+            )
+
+            # If first or last occurrence of the event and affects on event time range.
+            if (
+                self == occurrences.first() and old_object.start_time > self.start_time
+            ) or (self == occurrences.last() and old_object.end_time < self.end_time):
+                # Event start time or end time has changed
+                event_time_range_changed = True
+
+        if (
+            # Newly created or needs update for times...
+            (created is True or event_time_range_changed is True)
+            # Published (in LinkedEvents API)
+            and self.p_event.is_published()
+        ):
+            # Republish
+            send_event_republish(self.p_event)
+
+    def __post_delete_unpublish_event(self):
+        """
+        If the event is published,
+        handle the event update of last existing occurrence
+        by calling "unpublish" which means resetting the end time of the event.
+        """
+        if (
+            self.p_event.is_published()
+            and self.p_event.occurrences.filter(cancelled=False).count() == 0
+        ):
+            send_event_unpublish(self.p_event)
+
+    def save(self, *args, **kwargs):
+        created = self.pk is None
+        old_object = Occurrence.objects.get(pk=self.pk) if self.pk else None
+        super(Occurrence, self).save(*args, **kwargs)
+        self.__post_save_republish_event(created, old_object)
+
+    def delete(self, *args, **kwargs):
+        super(Occurrence, self).delete(*args, **kwargs)
+        self.__post_delete_unpublish_event()
 
     def __str__(self):
         return f"{self.p_event.linked_event_id} {self.start_time}" f" {self.place_id}"
