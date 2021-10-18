@@ -1,4 +1,5 @@
 import json
+import logging
 from typing import List
 
 from graphene_linked_events.utils import api_client
@@ -10,6 +11,8 @@ from palvelutarjotin.exceptions import (
     ApiUsageError,
     ObjectDoesNotExistError,
 )
+
+logger = logging.getLogger(__name__)
 
 
 def fetch_event_as_json(linked_event_id: str):
@@ -68,11 +71,17 @@ def send_event_republish(p_event: PalvelutarjotinEvent):
     # we first need to fetch the current event object.
     event_obj = fetch_event_as_json(p_event.linked_event_id)
 
-    event_obj["end_time"] = format_linked_event_datetime(
-        p_event.get_end_time_from_occurrences()
-    )
-
-    update_event_to_linkedevents_api(p_event.linked_event_id, event_obj)
+    try:
+        event_obj["end_time"] = format_linked_event_datetime(
+            p_event.get_end_time_from_occurrences()
+        )
+    except ValueError as e:
+        logger.warning(
+            f"""Could not republish the event {p_event.linked_event_id}
+            because of an ValueError:{e}."""
+        )
+    else:
+        update_event_to_linkedevents_api(p_event.linked_event_id, event_obj)
 
 
 def send_event_unpublish(p_event: PalvelutarjotinEvent):
