@@ -135,13 +135,7 @@ Allow user to create test database
         NOTIFICATION_SERVICE_API_URL=notification_service_end_point
         ```
 
-7.  (Optional) To offer neighborhood division through a GraphQL API, the Neighborhood API needs to be configured. By default it is using kartta.hel.fi open data API and it should work out of the box.
-
-        ```python
-        NEIGHBORHOOD_API_ROOT=https://kartta.hel.fi/ws/geoserver/avoindata/wfs
-        ```
-
-8.  (Optional) The notification templates can be imported via
+7.  (Optional) The notification templates can be imported via
     a. a Google sheet importer
     b. a Template file importer
 

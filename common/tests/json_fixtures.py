@@ -17,8 +17,6 @@ from graphene_linked_events.tests.mock_data import (
     UPDATE_EVENT_DATA,
 )
 from graphene_linked_events.tests.utils import MockResponse
-from neighborhood.rest_client import NeighborhoodApiClient
-from neighborhood.tests.mock_data import FEATURE_COLLECTION_DATA
 
 
 def _get_mock_function(data, status_code=200):
@@ -153,13 +151,4 @@ def mock_recaptcha_data(monkeypatch):
 def mock_get_keyword_set_data(monkeypatch):
     monkeypatch.setattr(
         LinkedEventsApiClient, "retrieve", _get_mock_function(KEYWORD_SET_DATA),
-    )
-
-
-@pytest.fixture
-def mock_get_neighborhood_list_data(monkeypatch):
-    monkeypatch.setattr(
-        NeighborhoodApiClient,
-        "neighborhood_list",
-        _get_mock_function(FEATURE_COLLECTION_DATA),
     )
