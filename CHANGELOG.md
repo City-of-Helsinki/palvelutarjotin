@@ -1,6 +1,12 @@
 <!-- REMINDER: While updating changelog, also remember to update
 the version in palvelutarjotin/__init.py__ -->
 
+## [0.7.3] - 8 October 2021
+
+### Fixed
+
+- Hotfixed PalvelutarjotinNode occurrences limit from 100 to 400 because of a real life use case.
+
 ## [0.7.2] - 8 October 2021
 
 ### Fixed
