@@ -318,10 +318,22 @@ def test_republish_event_to_sync_times_on_update_calls_republish_when_published(
     assert Occurrence.objects.count() == 2
     assert mock_send_event_republish.call_count == 2
 
+    assert (
+        occurrence1 == sorted([occurrence1, occurrence2], key=lambda o: o.start_time)[0]
+    )
+
     # Moving the occurrence to be the first affects on event time range
     occurrence2.start_time = occurrence1.start_time - timedelta(days=1)
+    occurrence2.end_time = occurrence1.end_time - timedelta(days=1)
     occurrence2.save()
     assert mock_send_event_republish.call_count == 3
+
+    assert (
+        occurrence2 == sorted([occurrence1, occurrence2], key=lambda o: o.start_time)[0]
+    )
+    assert (
+        occurrence2 == sorted([occurrence1, occurrence2], key=lambda o: o.end_time)[0]
+    )
 
     # changing the first occurrence start time affects on event time range
     occurrence2.start_time = occurrence2.start_time - timedelta(days=1)

@@ -134,7 +134,7 @@ class PalvelutarjotinEvent(TimestampedModel):
             event.publication_status == PalvelutarjotinEvent.PUBLICATION_STATUS_PUBLIC
         )
 
-    def get_end_time_from_occurrences(self):
+    def get_enrolment_end_time_from_occurrences(self):
         # Return the latest time that teacher can enrol to the event
         try:
             last_occurrence = self.occurrences.filter(cancelled=False).latest(
@@ -162,6 +162,12 @@ class PalvelutarjotinEvent(TimestampedModel):
         return Language.objects.filter(
             occurrences__in=self.occurrences.all()
         ).distinct()
+
+
+class OccurrenceQueryset(models.QuerySet):
+    def delete(self, *args, **kwargs):
+        for obj in self:
+            obj.delete()
 
 
 class Occurrence(TimestampedModel):
@@ -217,11 +223,13 @@ class Occurrence(TimestampedModel):
         default=OCCURRENCE_SEAT_TYPE_CHILDREN_COUNT,
     )
 
+    objects = OccurrenceQueryset.as_manager()
+
     class Meta:
         verbose_name = _("occurrence")
         verbose_name_plural = _("occurrences")
 
-    def __post_save_republish_event(self, created, old_object, **kwargs):
+    def __post_save_republish_event(self, old_object, **kwargs):
         """
         Republish the event end time to LinkedEvents API when an occurrence is saved
         and linked to a published event.
@@ -229,28 +237,34 @@ class Occurrence(TimestampedModel):
         `graphene_linked_events._prepare_published_event_data`
         sets the start time of the event to time it is at the moment of the publishment.
         """
-        event_time_range_changed = False
-        if not created:
-            # The status of occurrences before the save process has finished.
-            occurrences = self.p_event.occurrences.filter(cancelled=False).order_by(
-                "start_time"
-            )
-
-            # If first or last occurrence of the event and affects on event time range.
-            if (
-                self == occurrences.first() and old_object.start_time > self.start_time
-            ) or (self == occurrences.last() and old_object.end_time < self.end_time):
-                # Event start time or end time has changed
-                event_time_range_changed = True
-
+        # Published (in LinkedEvents API)
         if (
-            # Newly created or needs update for times...
-            (created is True or event_time_range_changed is True)
-            # Published (in LinkedEvents API)
+            self.p_event.occurrences.filter(cancelled=False).count() > 0
             and self.p_event.is_published()
         ):
-            # Republish
-            send_event_republish(self.p_event)
+            created = old_object is None
+            event_time_range_changed = False
+            if not created:
+                # The status of occurrences before the save process has finished.
+                occurrences = self.p_event.occurrences.filter(cancelled=False)
+                first_occurrence = occurrences.order_by("start_time").first()
+                last_occurrence = occurrences.order_by("end_time").last()
+
+                # If first or last occurrence of the event
+                # and affects on event time range.
+                if (
+                    self == first_occurrence
+                    and not old_object.start_time == self.start_time
+                ) or (
+                    self == last_occurrence and not old_object.end_time == self.end_time
+                ):
+                    # Event start time or end time has changed
+                    event_time_range_changed = True
+
+            # Newly created or needs update for times...
+            if created or event_time_range_changed:
+                # Republish
+                send_event_republish(self.p_event)
 
     def __post_delete_unpublish_event(self):
         """
@@ -265,13 +279,12 @@ class Occurrence(TimestampedModel):
             send_event_unpublish(self.p_event)
 
     def save(self, *args, **kwargs):
-        created = self.pk is None
         old_object = Occurrence.objects.get(pk=self.pk) if self.pk else None
-        super(Occurrence, self).save(*args, **kwargs)
-        self.__post_save_republish_event(created, old_object)
+        super().save(*args, **kwargs)
+        self.__post_save_republish_event(old_object)
 
     def delete(self, *args, **kwargs):
-        super(Occurrence, self).delete(*args, **kwargs)
+        super().delete(*args, **kwargs)
         self.__post_delete_unpublish_event()
 
     def __str__(self):

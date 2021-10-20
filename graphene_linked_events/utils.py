@@ -6,7 +6,7 @@ from collections import namedtuple
 from django.conf import settings
 from graphene_linked_events.rest_client import LinkedEventsApiClient
 
-from palvelutarjotin.exceptions import ApiConnectionError, ObjectDoesNotExistError
+from palvelutarjotin.exceptions import ApiBadRequestError, ObjectDoesNotExistError
 
 api_client = LinkedEventsApiClient(config=settings.LINKED_EVENTS_API_CONFIG)
 
@@ -35,7 +35,7 @@ def retrieve_linked_events_data(resource, resource_id, params=None, is_staff=Fal
     )
 
     if response.status_code == 400:
-        raise ApiConnectionError("Could not establish a connection to the API.")
+        raise ApiBadRequestError("Could not establish a connection to the API.")
 
     if response.status_code == 404:
         raise ObjectDoesNotExistError("Could not find the event from the API.")

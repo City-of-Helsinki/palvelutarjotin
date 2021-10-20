@@ -22,7 +22,7 @@ def test_send_event_republish(
     event_obj = mock_update_event_to_linkedevents_api.call_args[0][1]
     assert called_linked_event_id == p_event.linked_event_id
     assert event_obj["end_time"] == format_linked_event_datetime(
-        p_event.get_end_time_from_occurrences()
+        p_event.get_enrolment_end_time_from_occurrences()
     )
 
 
@@ -39,6 +39,6 @@ def test_send_event_unpublish(
     called_linked_event_id = mock_update_event_to_linkedevents_api.call_args[0][0]
     event_obj = mock_update_event_to_linkedevents_api.call_args[0][1]
     assert called_linked_event_id == p_event.linked_event_id
-    assert event_obj["publication_status"] is False
+    assert event_obj["publication_status"] == "draft"
     assert event_obj["start_time"] == ""
     assert event_obj["end_time"] == ""

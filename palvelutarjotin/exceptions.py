@@ -17,7 +17,7 @@ class ObjectDoesNotExistError(PalvelutarjotinGraphQLError):
     """Object does not exist"""
 
 
-class ApiConnectionError(PalvelutarjotinGraphQLError):
+class ApiBadRequestError(PalvelutarjotinGraphQLError):
     """Could not establish a connection"""
 
 

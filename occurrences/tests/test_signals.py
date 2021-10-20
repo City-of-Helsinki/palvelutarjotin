@@ -7,7 +7,7 @@ from occurrences.models import Occurrence
 from occurrences.signals import update_event_languages_on_occurrence_delete
 
 from common.tests.utils import mocked_json_response
-from palvelutarjotin.exceptions import ApiConnectionError, ObjectDoesNotExistError
+from palvelutarjotin.exceptions import ApiBadRequestError, ObjectDoesNotExistError
 
 
 @pytest.mark.django_db
@@ -102,7 +102,7 @@ def test_update_event_languages_when_occurrence_is_deleted(
 def test_update_event_languages_cannot_reach_api(
     mock_api_client_update, mock_get_draft_event_data, mock_update_event_data, p_event
 ):
-    with pytest.raises(ApiConnectionError):
+    with pytest.raises(ApiBadRequestError):
         OccurrenceFactory(p_event=p_event, languages=LanguageFactory.create_batch(2))
 
 
