@@ -1493,6 +1493,45 @@ def test_get_events_with_occurrences(
     snapshot.assert_match(executed)
 
 
+@pytest.mark.parametrize("occurrences_count", [5, 100, 150, 400, 500])
+def test_get_event_with_occurrences_limit(
+    occurrences_count, api_client, mock_get_event_data, organisation
+):
+    p_event = PalvelutarjotinEventFactory(
+        linked_event_id=EVENT_DATA["id"], organisation=organisation
+    )
+
+    OccurrenceFactory.create_batch(occurrences_count, p_event=p_event)
+
+    executed = api_client.execute(
+        """
+        query Event{
+          event(id: "helmet:210309"){
+            pEvent{
+              occurrences {
+                edges {
+                  node {
+                    id
+                  }
+                }
+              }
+              nextOccurrenceDatetime
+              lastOccurrenceDatetime
+            }
+          }
+        }
+        """,
+        variables={"organisationId": to_global_id("OrganisationNode", organisation.id)},
+    )
+    if occurrences_count > 400:
+        assert len(executed["data"]["event"]["pEvent"]["occurrences"]["edges"]) == 400
+    else:
+        assert (
+            len(executed["data"]["event"]["pEvent"]["occurrences"]["edges"])
+            == occurrences_count
+        )
+
+
 GET_KEYWORD_SET_QUERY = """
 query getKeywordSet($setType: KeywordSetType!){
   keywordSet(setType: $setType){
