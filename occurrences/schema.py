@@ -119,9 +119,40 @@ OccurrenceSeatTypeEnum = graphene.Enum(
 )
 
 
+class OccurrenceNode(DjangoObjectType):
+    remaining_seats = graphene.Int(required=True)
+    seats_taken = graphene.Int(required=True)
+    seats_approved = graphene.Int(required=True)
+    linked_event = Field(
+        "graphene_linked_events.schema.Event",
+        description="Only use this field in single event query for "
+        + "best performance.",
+    )
+
+    def resolve_linked_event(self, info, **kwargs):
+        response = api_client.retrieve(
+            "event", self.p_event.linked_event_id, is_staff=info.context.user.is_staff
+        )
+        obj = json2obj(format_response(response))
+        return obj
+
+    class Meta:
+        model = Occurrence
+        interfaces = (relay.Node,)
+        filterset_class = OccurrenceFilter
+
+    @classmethod
+    def get_queryset(cls, queryset, info):
+        return super().get_queryset(queryset, info).order_by("start_time")
+
+    def resolve_remaining_seats(self, info, **kwargs):
+        return self.amount_of_seats - self.seats_taken
+
+
 class PalvelutarjotinEventNode(DjangoObjectType):
     next_occurrence_datetime = graphene.DateTime()
     last_occurrence_datetime = graphene.DateTime()
+    occurrences = DjangoFilterConnectionField(OccurrenceNode, max_limit=400)
 
     class Meta:
         model = PalvelutarjotinEvent
@@ -229,36 +260,6 @@ class VenueNode(DjangoObjectType):
 
 class VenueNodeInput(InputObjectType):
     translations = graphene.List(VenueTranslationsInput)
-
-
-class OccurrenceNode(DjangoObjectType):
-    remaining_seats = graphene.Int(required=True)
-    seats_taken = graphene.Int(required=True)
-    seats_approved = graphene.Int(required=True)
-    linked_event = Field(
-        "graphene_linked_events.schema.Event",
-        description="Only use this field in single event query for "
-        + "best performance.",
-    )
-
-    def resolve_linked_event(self, info, **kwargs):
-        response = api_client.retrieve(
-            "event", self.p_event.linked_event_id, is_staff=info.context.user.is_staff
-        )
-        obj = json2obj(format_response(response))
-        return obj
-
-    class Meta:
-        model = Occurrence
-        interfaces = (relay.Node,)
-        filterset_class = OccurrenceFilter
-
-    @classmethod
-    def get_queryset(cls, queryset, info):
-        return super().get_queryset(queryset, info).order_by("start_time")
-
-    def resolve_remaining_seats(self, info, **kwargs):
-        return self.amount_of_seats - self.seats_taken
 
 
 def validate_occurrence_data(p_event, kwargs, updated_obj=None):

@@ -15,7 +15,7 @@ Range north skin watch.
     Occurrence: 15.07.2008 03.29
     Person: stephanieskinner@gmail.com
     Click this link to cancel the enrolment:
-    https://beta.kultus.fi/fi/enrolments/cancel/RW5yb2xtZW50Tm9kZTo1OV8yMDIwLTAxLTA0IDAwOjAwOjAwKzAwOjAw
+    https://beta.kultus.fi/fi/enrolments/cancel/RW5yb2xtZW50Tm9kZTo1XzIwMjAtMDEtMDQgMDA6MDA6MDArMDA6MDA=
 
     Custom message: custom message
 """
@@ -131,9 +131,9 @@ snapshots["test_send_enrolment_summary_report 1"] = [
             Event name: Raija Malka & Kaija Saariaho: Blick
             Event link: https://provider.kultus.fi/fi/events/aAVEa
                     Occurrence: #2005-01-18 03:44:33+00:00 (3 pending)
-                    Link to occurrence: https://provider.kultus.fi/fi/events/aAVEa/occurrences/T2NjdXJyZW5jZU5vZGU6MTM2
+                    Link to occurrence: https://provider.kultus.fi/fi/events/aAVEa/occurrences/T2NjdXJyZW5jZU5vZGU6MTU=
                     Occurrence: #1992-11-14 16:36:36+00:00 (1 pending)
-                    Link to occurrence: https://provider.kultus.fi/fi/events/aAVEa/occurrences/T2NjdXJyZW5jZU5vZGU6MTM3
+                    Link to occurrence: https://provider.kultus.fi/fi/events/aAVEa/occurrences/T2NjdXJyZW5jZU5vZGU6MTY=
         """,
     """no-reply@hel.ninja|['cooknathan@gmail.com']|Enrolment approved FI|
         Total pending enrolments: 3
@@ -141,17 +141,17 @@ snapshots["test_send_enrolment_summary_report 1"] = [
             Event name: Raija Malka & Kaija Saariaho: Blick
             Event link: https://provider.kultus.fi/fi/events/QiZdS
                     Occurrence: #1982-07-08 17:49:14+00:00 (1 pending)
-                    Link to occurrence: https://provider.kultus.fi/fi/events/QiZdS/occurrences/T2NjdXJyZW5jZU5vZGU6MTM5
+                    Link to occurrence: https://provider.kultus.fi/fi/events/QiZdS/occurrences/T2NjdXJyZW5jZU5vZGU6MTg=
                     Occurrence: #2006-03-19 04:44:09+00:00 (1 pending)
-                    Link to occurrence: https://provider.kultus.fi/fi/events/QiZdS/occurrences/T2NjdXJyZW5jZU5vZGU6MTQw
+                    Link to occurrence: https://provider.kultus.fi/fi/events/QiZdS/occurrences/T2NjdXJyZW5jZU5vZGU6MTk=
             Event name: Raija Malka & Kaija Saariaho: Blick
             Event link: https://provider.kultus.fi/fi/events/TxNhK
                     Occurrence: #2017-06-15 05:09:54+00:00 (1 pending)
-                    Link to occurrence: https://provider.kultus.fi/fi/events/TxNhK/occurrences/T2NjdXJyZW5jZU5vZGU6MTQx
+                    Link to occurrence: https://provider.kultus.fi/fi/events/TxNhK/occurrences/T2NjdXJyZW5jZU5vZGU6MjA=
             Event name: Raija Malka & Kaija Saariaho: Blick
             Event link: https://provider.kultus.fi/fi/events/tNows
                     Occurrence: #1977-06-01 10:58:40+00:00 (1 new enrolments)
-                    Link to occurrence: https://provider.kultus.fi/fi/events/tNows/occurrences/T2NjdXJyZW5jZU5vZGU6MTQy
+                    Link to occurrence: https://provider.kultus.fi/fi/events/tNows/occurrences/T2NjdXJyZW5jZU5vZGU6MjE=
         """,
 ]
 
@@ -261,7 +261,7 @@ snapshots["test_mass_approve_enrolment_mutation 1"] = [
     Occurrence: 30.11.2020 14.06
     Person: barnettdiana@perry.com
     Click this link to cancel the enrolment:
-    https://beta.kultus.fi/fi/enrolments/cancel/RW5yb2xtZW50Tm9kZTo5MV8yMDIwLTAxLTA0IDAwOjAwOjAwKzAwOjAw
+    https://beta.kultus.fi/fi/enrolments/cancel/RW5yb2xtZW50Tm9kZTozN18yMDIwLTAxLTA0IDAwOjAwOjAwKzAwOjAw
 
     Custom message: Custom message
 """,
@@ -272,7 +272,7 @@ snapshots["test_mass_approve_enrolment_mutation 1"] = [
     Occurrence: 30.11.2020 14.06
     Person: byrdbrandon@newton-miranda.info
     Click this link to cancel the enrolment:
-    https://beta.kultus.fi/fi/enrolments/cancel/RW5yb2xtZW50Tm9kZTo5MV8yMDIwLTAxLTA0IDAwOjAwOjAwKzAwOjAw
+    https://beta.kultus.fi/fi/enrolments/cancel/RW5yb2xtZW50Tm9kZTozN18yMDIwLTAxLTA0IDAwOjAwOjAwKzAwOjAw
 
     Custom message: Custom message
 """,
@@ -283,7 +283,7 @@ snapshots["test_mass_approve_enrolment_mutation 1"] = [
     Occurrence: 30.11.2020 14.06
     Person: scott76@cameron-hansen.com
     Click this link to cancel the enrolment:
-    https://beta.kultus.fi/fi/enrolments/cancel/RW5yb2xtZW50Tm9kZTo5Ml8yMDIwLTAxLTA0IDAwOjAwOjAwKzAwOjAw
+    https://beta.kultus.fi/fi/enrolments/cancel/RW5yb2xtZW50Tm9kZTozOF8yMDIwLTAxLTA0IDAwOjAwOjAwKzAwOjAw
 
     Custom message: Custom message
 """,
@@ -294,7 +294,7 @@ snapshots["test_mass_approve_enrolment_mutation 1"] = [
     Occurrence: 30.11.2020 14.06
     Person: jensenjulia@hotmail.com
     Click this link to cancel the enrolment:
-    https://beta.kultus.fi/fi/enrolments/cancel/RW5yb2xtZW50Tm9kZTo5Ml8yMDIwLTAxLTA0IDAwOjAwOjAwKzAwOjAw
+    https://beta.kultus.fi/fi/enrolments/cancel/RW5yb2xtZW50Tm9kZTozOF8yMDIwLTAxLTA0IDAwOjAwOjAwKzAwOjAw
 
     Custom message: Custom message
 """,
@@ -305,7 +305,7 @@ snapshots["test_mass_approve_enrolment_mutation 1"] = [
     Occurrence: 30.11.2020 14.06
     Person: robert99@hotmail.com
     Click this link to cancel the enrolment:
-    https://beta.kultus.fi/fi/enrolments/cancel/RW5yb2xtZW50Tm9kZTo5M18yMDIwLTAxLTA0IDAwOjAwOjAwKzAwOjAw
+    https://beta.kultus.fi/fi/enrolments/cancel/RW5yb2xtZW50Tm9kZTozOV8yMDIwLTAxLTA0IDAwOjAwOjAwKzAwOjAw
 
     Custom message: Custom message
 """,
@@ -316,7 +316,7 @@ snapshots["test_mass_approve_enrolment_mutation 1"] = [
     Occurrence: 30.11.2020 14.06
     Person: newmanmelinda@yahoo.com
     Click this link to cancel the enrolment:
-    https://beta.kultus.fi/fi/enrolments/cancel/RW5yb2xtZW50Tm9kZTo5M18yMDIwLTAxLTA0IDAwOjAwOjAwKzAwOjAw
+    https://beta.kultus.fi/fi/enrolments/cancel/RW5yb2xtZW50Tm9kZTozOV8yMDIwLTAxLTA0IDAwOjAwOjAwKzAwOjAw
 
     Custom message: Custom message
 """,
