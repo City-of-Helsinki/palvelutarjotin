@@ -1753,7 +1753,9 @@ mutation declineEnrolmentMutation($input: DeclineEnrolmentMutationInput!){
 """
 
 
-def test_approve_cancelled_occurrence_enrolment(snapshot, staff_api_client):
+def test_approve_cancelled_occurrence_enrolment(
+    snapshot, staff_api_client, mock_get_event_data
+):
     study_group = StudyGroupFactory(group_size=15)
     # Current date froze on 2020-01-04:
     p_event = PalvelutarjotinEventFactory(
@@ -2010,7 +2012,9 @@ mutation updateEnrolmentMutation($input: UpdateEnrolmentMutationInput!){
 """
 
 
-def test_update_enrolment_unauthorized(api_client, user_api_client):
+def test_update_enrolment_unauthorized(
+    api_client, user_api_client, mock_get_event_data
+):
     study_group_15 = StudyGroupFactory(group_size=15)
     # Current date froze on 2020-01-04:
     p_event_1 = PalvelutarjotinEventFactory(
@@ -2036,7 +2040,7 @@ def test_update_enrolment_unauthorized(api_client, user_api_client):
     assert_permission_denied(executed)
 
 
-def test_update_enrolment(snapshot, staff_api_client):
+def test_update_enrolment(snapshot, staff_api_client, mock_get_event_data):
     study_group_15 = StudyGroupFactory(group_size=15)
     study_group_10 = StudyGroupFactory(group_size=10)
     # Current date froze on 2020-01-04:
@@ -2542,7 +2546,9 @@ query cancellingEnrolment($id: ID!){
 """
 
 
-def test_cancel_enrolment_query(snapshot, api_client, occurrence, study_group):
+def test_cancel_enrolment_query(
+    snapshot, api_client, mock_get_event_data, occurrence, study_group
+):
     enrolment = EnrolmentFactory(occurrence=occurrence, study_group=study_group)
     executed = api_client.execute(
         CANCEL_ENROLMENT_QUERY, variables={"id": enrolment.get_unique_id()}
@@ -2562,7 +2568,7 @@ CANCEL_ENROLMENT_MUTATION = """
 
 
 def test_ask_for_cancelled_confirmation_mutation_error(
-    snapshot, api_client, study_group
+    snapshot, api_client, study_group, mock_get_event_data
 ):
     occurrence = OccurrenceFactory(p_event__needed_occurrences=1)
     occurrence_2 = OccurrenceFactory(p_event__needed_occurrences=2)
@@ -2588,7 +2594,9 @@ def test_ask_for_cancelled_confirmation_mutation_error(
     assert_match_error_code(executed, API_USAGE_ERROR)
 
 
-def test_ask_for_cancelled_confirmation_mutation(snapshot, api_client, study_group):
+def test_ask_for_cancelled_confirmation_mutation(
+    snapshot, api_client, study_group, mock_get_event_data
+):
     occurrence = OccurrenceFactory(p_event__needed_occurrences=1)
 
     enrolment = EnrolmentFactory(occurrence=occurrence, study_group=study_group)
@@ -2618,7 +2626,9 @@ def test_ask_for_cancelled_confirmation_mutation(snapshot, api_client, study_gro
     assert not token.id == new_token.id
 
 
-def test_cancel_enrolment_mutation_invalid_token(snapshot, api_client, study_group):
+def test_cancel_enrolment_mutation_invalid_token(
+    snapshot, api_client, study_group, mock_get_event_data
+):
     occurrence = OccurrenceFactory(p_event__needed_occurrences=1)
 
     enrolment = EnrolmentFactory(occurrence=occurrence, study_group=study_group)
@@ -2668,7 +2678,9 @@ def test_cancel_enrolment_mutation_invalid_token(snapshot, api_client, study_gro
     assert_match_error_code(executed, INVALID_TOKEN_ERROR)
 
 
-def test_cancel_enrolment_mutation(snapshot, api_client, study_group):
+def test_cancel_enrolment_mutation(
+    snapshot, api_client, study_group, mock_get_event_data
+):
     occurrence = OccurrenceFactory(p_event__needed_occurrences=1)
 
     enrolment = EnrolmentFactory(occurrence=occurrence, study_group=study_group)
@@ -2694,7 +2706,9 @@ mutation massApproveEnrolmentsMutation($input: MassApproveEnrolmentsMutationInpu
 """
 
 
-def test_mass_approve_enrolment_mutation(snapshot, staff_api_client):
+def test_mass_approve_enrolment_mutation(
+    snapshot, staff_api_client, mock_get_event_data
+):
     occurrence = OccurrenceFactory(
         p_event__needed_occurrences=1,
         p_event__auto_acceptance=False,
@@ -2720,7 +2734,9 @@ def test_mass_approve_enrolment_mutation(snapshot, staff_api_client):
     snapshot.assert_match(executed)
 
 
-def test_mass_approve_multi_occurrences_enrolment_mutation(snapshot, staff_api_client):
+def test_mass_approve_multi_occurrences_enrolment_mutation(
+    snapshot, staff_api_client, mock_get_event_data
+):
     occurrence = OccurrenceFactory(
         p_event__needed_occurrences=2,
         p_event__auto_acceptance=False,
@@ -2748,7 +2764,7 @@ def test_mass_approve_multi_occurrences_enrolment_mutation(snapshot, staff_api_c
 
 
 def test_approve_multi_occurrences_enrolment(
-    snapshot, staff_api_client,
+    snapshot, staff_api_client, mock_get_event_data
 ):
     study_group_15 = StudyGroupFactory(group_size=15)
     # Current date froze on 2020-01-04:

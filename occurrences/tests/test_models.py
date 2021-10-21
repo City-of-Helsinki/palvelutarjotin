@@ -137,7 +137,7 @@ def test_enrolment_creation(mock_get_event_data):
 
 
 @pytest.mark.django_db
-def test_enrolment_create_cancellation_token():
+def test_enrolment_create_cancellation_token(mock_get_event_data):
     enrolment = EnrolmentFactory()
     person = enrolment.person
     token = enrolment.create_cancellation_token()
@@ -148,7 +148,7 @@ def test_enrolment_create_cancellation_token():
 
 
 @pytest.mark.django_db
-def test_enrolment_create_cancellation_token_with_deactivation():
+def test_enrolment_create_cancellation_token_with_deactivation(mock_get_event_data,):
     enrolment = EnrolmentFactory()
     enrolment.create_cancellation_token()
     VerificationToken.objects.count() == 1
@@ -158,7 +158,7 @@ def test_enrolment_create_cancellation_token_with_deactivation():
 
 
 @pytest.mark.django_db
-def test_enrolment_get_cancellation_url():
+def test_enrolment_get_cancellation_url(mock_get_event_data):
     enrolment = EnrolmentFactory()
     token = enrolment.create_cancellation_token()
     cancellation_url = enrolment.get_cancellation_url()
@@ -194,7 +194,7 @@ def test_study_group_size_with_adults(group_size, amount_of_adult, result):
 
 
 @pytest.mark.django_db
-def test_occurrence_seat_taken():
+def test_occurrence_seat_taken(mock_get_event_data):
     enrolment = EnrolmentFactory(status=Enrolment.STATUS_APPROVED)
     occurrence = enrolment.occurrence
     study_group = enrolment.study_group
@@ -205,7 +205,7 @@ def test_occurrence_seat_taken():
 
 
 @pytest.mark.django_db
-def test_occurrence_seat_approved():
+def test_occurrence_seat_approved(mock_get_event_data):
     enrolment = EnrolmentFactory(status=Enrolment.STATUS_APPROVED)
     occurrence = enrolment.occurrence
     study_group = enrolment.study_group
@@ -218,7 +218,7 @@ def test_occurrence_seat_approved():
 
 @pytest.mark.django_db
 def test_get_event_languages_from_occurrence(
-    mock_get_draft_event_data, mock_update_event_data
+    mock_update_event_data, mock_get_event_data
 ):
     lng1, lng2, lng3, lng4 = LanguageFactory.create_batch(4)
     p_event = PalvelutarjotinEventFactory()
@@ -231,7 +231,7 @@ def test_get_event_languages_from_occurrence(
 
 
 @pytest.mark.django_db
-def test_languages_are_sorted_by_name_and_id():
+def test_languages_are_sorted_by_name_and_id(mock_get_event_data):
     languages = LanguageFactory.create_batch(size=10)
     Language.objects.count() == 10
     [l for l in Language.objects.all()] == sorted(
