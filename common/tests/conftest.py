@@ -1,3 +1,5 @@
+from unittest.mock import patch
+
 import factory.random
 import occurrences.signals
 import pytest
@@ -125,3 +127,21 @@ def disconnect_send_enrolment_email():
     occurrences.signals.post_save.disconnect(
         sender=Enrolment, dispatch_uid="send_enrolment_email"
     )
+
+
+@pytest.fixture
+def mock_enrolment_cancel_link():
+    with patch.object(
+        Enrolment,
+        "get_link_to_cancel_ui",
+        return_value="mock-enrolment-cancel-link-abc123xyz456",
+    ) as _fixture:
+        yield _fixture
+
+
+@pytest.fixture
+def mock_enrolment_unique_id():
+    with patch.object(
+        Enrolment, "get_unique_id", return_value="mock-enrolment-unique-id-abc123xyz456"
+    ) as _fixture:
+        yield _fixture
