@@ -29,7 +29,7 @@ User = get_user_model()
 
 
 @pytest.mark.django_db
-def test_palvelutarjotin_event():
+def test_palvelutarjotin_event(mock_get_event_data):
     p_event = PalvelutarjotinEventFactory()
     assert p_event.enrolment_start is not None
     assert p_event.external_enrolment_url is None
@@ -39,7 +39,7 @@ def test_palvelutarjotin_event():
 
 
 @pytest.mark.django_db
-def test_palvelutarjotin_event_with_external_enrolment():
+def test_palvelutarjotin_event_with_external_enrolment(mock_get_event_data):
     p_event = PalvelutarjotinEventFactory(
         enrolment_start=None, external_enrolment_url="http://test.org"
     )
@@ -51,7 +51,7 @@ def test_palvelutarjotin_event_with_external_enrolment():
 
 
 @pytest.mark.django_db
-def test_palvelutarjotin_event_with_valid_external_enrolment_url():
+def test_palvelutarjotin_event_with_valid_external_enrolment_url(mock_get_event_data):
 
     PalvelutarjotinEventFactory(external_enrolment_url="https://123.fi").full_clean()
     PalvelutarjotinEventFactory(
@@ -121,7 +121,7 @@ def test_study_level_creation_via_study_group():
 
 
 @pytest.mark.django_db
-def test_occurrence_creation():
+def test_occurrence_creation(mock_get_event_data):
     OccurrenceFactory()
     assert Occurrence.objects.count() == 1
     assert Organisation.objects.count() == 1
@@ -367,7 +367,10 @@ def test_unpublish_event_to_sync_times_on_delete_does_nothing_when_many_occurren
 @pytest.mark.django_db
 @patch("occurrences.models.send_event_unpublish")
 def test_unpublish_event_to_sync_times_on_delete_does_nothing_when_draft(
-    mock_send_event_unpublish, mock_get_draft_event_data, p_event,
+    mock_send_event_unpublish,
+    mock_get_draft_event_data,
+    mock_update_event_data,
+    p_event,
 ):
     occurrence = OccurrenceFactory(p_event=p_event)
     assert Occurrence.objects.count() == 1
@@ -400,3 +403,11 @@ def test_unpublish_event_to_sync_times_on_delete_when_last_occurrence(
     occurrence.delete()
     assert Occurrence.objects.count() == 0
     assert mock_send_event_unpublish.called
+
+
+@pytest.mark.django_db
+@patch("occurrences.models.send_event_unpublish")
+def test_delete_queryset(mock_send_event_unpublish, mock_get_event_data):
+    OccurrenceFactory.create_batch(10)
+    Occurrence.objects.all().delete()
+    assert mock_send_event_unpublish.call_count == 10

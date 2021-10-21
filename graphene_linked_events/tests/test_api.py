@@ -15,12 +15,20 @@ from graphene_linked_events.tests.mock_data import (
     KEYWORD_SET_DATA,
 )
 from graphene_linked_events.tests.utils import MockResponse
+from graphene_linked_events.utils import retrieve_linked_events_data
 from graphql_relay import to_global_id
+from occurrences.event_api_services import update_event_to_linkedevents_api
 from occurrences.factories import OccurrenceFactory, PalvelutarjotinEventFactory
 from occurrences.models import PalvelutarjotinEvent
+from rest_framework.exceptions import APIException
 
-from common.tests.utils import assert_match_error_code, assert_permission_denied
+from common.tests.utils import (
+    assert_match_error_code,
+    assert_permission_denied,
+    mocked_json_response,
+)
 from palvelutarjotin.consts import API_USAGE_ERROR, DATA_VALIDATION_ERROR
+from palvelutarjotin.exceptions import ApiBadRequestError, ObjectDoesNotExistError
 from palvelutarjotin.settings import KEYWORD_SET_ID_MAPPING
 
 
@@ -1241,6 +1249,7 @@ def test_publish_event_unauthorized(
     user_api_client,
     staff_api_client,
     mock_update_event_data,
+    mock_get_draft_event_data,
     organisation,
     person,
 ):
@@ -1274,6 +1283,7 @@ def test_publish_event(
     api_client,
     user_api_client,
     staff_api_client,
+    mock_get_draft_event_data,
     mock_update_event_data,
     organisation,
     person,
@@ -1306,6 +1316,7 @@ def test_publish_event_with_external_enrolments(
     user_api_client,
     staff_api_client,
     mock_update_event_data,
+    mock_get_draft_event_data,
     organisation,
     person,
 ):
@@ -1341,6 +1352,7 @@ def test_publish_event_without_enrolments(
     user_api_client,
     staff_api_client,
     mock_update_event_data,
+    mock_get_draft_event_data,
     organisation,
     person,
 ):
@@ -1393,6 +1405,7 @@ def test_unpublish_event_unauthorized(
     user_api_client,
     staff_api_client,
     mock_update_event_data,
+    mock_get_event_data,
     organisation,
     person,
 ):
@@ -1426,7 +1439,7 @@ def test_unpublish_event(
     snapshot,
     api_client,
     staff_api_client,
-    mock_update_event_data,
+    mock_unpublish_event_data,
     organisation,
     person,
 ):
@@ -1471,7 +1484,7 @@ query Events($organisationId: String){
 
 
 def test_get_events_with_occurrences(
-    api_client, snapshot, mock_get_events_data, organisation
+    api_client, snapshot, mock_get_events_data, mock_get_event_data, organisation
 ):
     for e in EVENTS_DATA["data"]:
         p_event = PalvelutarjotinEventFactory(
@@ -1557,3 +1570,31 @@ def test_get_keyword_set(api_client, snapshot, mock_get_keyword_set_data):
             GET_KEYWORD_SET_QUERY, variables={"setType": set_type}
         )
         snapshot.assert_match(executed)
+
+
+@pytest.mark.parametrize(
+    "status_code,error_cls",
+    [(400, ApiBadRequestError), (404, ObjectDoesNotExistError)],
+)
+def test_linkedevents_api_retrieve_errors(status_code, error_cls):
+    with patch.object(
+        LinkedEventsApiClient,
+        "retrieve",
+        return_value=mocked_json_response(data=None, status_code=status_code),
+    ):
+        with pytest.raises(error_cls):
+            retrieve_linked_events_data("event", 1)
+
+
+@pytest.mark.parametrize(
+    "status_code,error_cls",
+    [(400, ApiBadRequestError), (404, ObjectDoesNotExistError), (500, APIException)],
+)
+def test_linkedevents_api_update_errors(status_code, error_cls):
+    with patch.object(
+        LinkedEventsApiClient,
+        "update",
+        return_value=mocked_json_response(data=None, status_code=status_code),
+    ):
+        with pytest.raises(error_cls):
+            update_event_to_linkedevents_api("linked_event_id", {})

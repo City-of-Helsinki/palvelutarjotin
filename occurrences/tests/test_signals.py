@@ -144,8 +144,7 @@ def test_occurrence_delete_should_ignore(
     api_client, "update", return_value=mocked_json_response(data=None, status_code=404)
 )
 def test_occurrence_without_p_event_should_not_call_API(mock_api_client_update):
-    occurrence = OccurrenceFactory()
-
+    occurrence = OccurrenceFactory(p_event=None)
     # Test p_Event does not exist
     occurrence.p_event_id = 0  # object which does not exist
     update_event_languages_on_occurrence_delete(Occurrence, occurrence)

@@ -239,7 +239,8 @@ class Occurrence(TimestampedModel):
         """
         # Published (in LinkedEvents API)
         if (
-            self.p_event.occurrences.filter(cancelled=False).count() > 0
+            self.p_event_id
+            and self.p_event.occurrences.filter(cancelled=False).count() > 0
             and self.p_event.is_published()
         ):
             created = old_object is None
@@ -279,7 +280,10 @@ class Occurrence(TimestampedModel):
             send_event_unpublish(self.p_event)
 
     def save(self, *args, **kwargs):
-        old_object = Occurrence.objects.get(pk=self.pk) if self.pk else None
+        try:
+            old_object = Occurrence.objects.get(pk=self.pk) if self.pk else None
+        except Occurrence.DoesNotExist:
+            old_object = None
         super().save(*args, **kwargs)
         self.__post_save_republish_event(old_object)
 

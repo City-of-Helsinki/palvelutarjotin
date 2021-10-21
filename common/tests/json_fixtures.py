@@ -14,6 +14,7 @@ from graphene_linked_events.tests.mock_data import (
     PLACE_DATA,
     PLACES_DATA,
     RECAPTCHA_DATA,
+    UNPUBLISH_EVENT_DATA,
     UPDATE_EVENT_DATA,
 )
 from graphene_linked_events.tests.utils import MockResponse
@@ -131,6 +132,13 @@ def mock_create_event_data(monkeypatch):
 def mock_update_event_data(monkeypatch):
     monkeypatch.setattr(
         LinkedEventsApiClient, "update", _get_mock_function(UPDATE_EVENT_DATA),
+    )
+
+
+@pytest.fixture
+def mock_unpublish_event_data(monkeypatch):
+    monkeypatch.setattr(
+        LinkedEventsApiClient, "update", _get_mock_function(UNPUBLISH_EVENT_DATA),
     )
 
 

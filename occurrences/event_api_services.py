@@ -100,7 +100,7 @@ def send_event_unpublish(p_event: "PalvelutarjotinEvent"):
     event_obj[
         "publication_status"
     ] = p_event.__class__.PUBLICATION_STATUS_DRAFT  # prevent cyclic import
-    event_obj["start_time"] = ""
-    event_obj["end_time"] = ""
+    # event_obj["start_time"] = None
+    # event_obj["end_time"] = None
 
     update_event_to_linkedevents_api(p_event.linked_event_id, event_obj)
