@@ -15,7 +15,7 @@ from palvelutarjotin.exceptions import ApiUsageError, ObjectDoesNotExistError
     api_client, "update", return_value=mocked_json_response(data=None, status_code=200)
 )
 def test_update_event_languages(
-    mock_api_client_update, mock_update_event_data, p_event
+    mock_api_client_update, mock_update_event_data, mock_get_draft_event_data, p_event
 ):
     def language_link_nodes(languages):
         return ['{"@id": "/v1/language/' + lang.pk + '/"}' for lang in languages]
@@ -68,7 +68,7 @@ def test_update_event_languages(
     api_client, "update", return_value=mocked_json_response(data=None, status_code=200)
 )
 def test_update_event_languages_should_not_update_if_language_still_exists(
-    mock_api_client_update, mock_update_event_data, p_event
+    mock_api_client_update, mock_update_event_data, mock_get_draft_event_data, p_event
 ):
     lng1, lng2, lng3 = LanguageFactory.create_batch(3)
     OccurrenceFactory(p_event=p_event, languages=[lng1, lng2])
@@ -85,7 +85,7 @@ def test_update_event_languages_should_not_update_if_language_still_exists(
     api_client, "update", return_value=mocked_json_response(data=None, status_code=200)
 )
 def test_update_event_languages_when_occurrence_is_deleted(
-    mock_api_client_update, mock_update_event_data, p_event
+    mock_api_client_update, mock_update_event_data, mock_get_draft_event_data, p_event
 ):
     lng1, lng2, lng3 = LanguageFactory.create_batch(3)
     OccurrenceFactory(p_event=p_event, languages=[lng1, lng2])
@@ -100,7 +100,7 @@ def test_update_event_languages_when_occurrence_is_deleted(
     api_client, "update", return_value=mocked_json_response(data=None, status_code=400)
 )
 def test_update_event_languages_cannot_reach_api(
-    mock_api_client_update, mock_update_event_data, p_event
+    mock_api_client_update, mock_update_event_data, mock_get_draft_event_data, p_event
 ):
     with pytest.raises(ApiUsageError):
         OccurrenceFactory(p_event=p_event, languages=LanguageFactory.create_batch(2))
@@ -111,7 +111,7 @@ def test_update_event_languages_cannot_reach_api(
     api_client, "update", return_value=mocked_json_response(data=None, status_code=404)
 )
 def test_update_event_languages_cannot_find_event(
-    mock_api_client_update, mock_update_event_data, p_event
+    mock_api_client_update, mock_update_event_data, mock_get_draft_event_data, p_event
 ):
     with pytest.raises(ObjectDoesNotExistError):
         OccurrenceFactory(p_event=p_event, languages=LanguageFactory.create_batch(2))
@@ -122,7 +122,7 @@ def test_update_event_languages_cannot_find_event(
     api_client, "update", return_value=mocked_json_response(data=None, status_code=200)
 )
 def test_occurrence_delete_should_ignore(
-    mock_api_client_update, mock_update_event_data, p_event
+    mock_api_client_update, mock_update_event_data, mock_get_draft_event_data, p_event
 ):
     occurrence = OccurrenceFactory(
         p_event=p_event, languages=LanguageFactory.create_batch(2)
