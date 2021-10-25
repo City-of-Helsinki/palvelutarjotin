@@ -1,4 +1,7 @@
+from unittest.mock import patch
+
 import factory.random
+import occurrences.signals
 import pytest
 import responses
 from django.contrib.auth.models import AnonymousUser
@@ -12,6 +15,7 @@ from occurrences.factories import (
     StudyGroupFactory,
     VenueCustomDataFactory,
 )
+from occurrences.models import Enrolment
 from occurrences.tests.notification_template_fixtures import *  # noqa
 from organisations.factories import OrganisationFactory, PersonFactory, UserFactory
 from organisations.tests.notification_template_fixtures import *  # noqa
@@ -116,3 +120,28 @@ def _create_api_client_with_user(user):
 def mocked_responses():
     with responses.RequestsMock() as rsps:
         yield rsps
+
+
+@pytest.fixture
+def disconnect_send_enrolment_email():
+    occurrences.signals.post_save.disconnect(
+        sender=Enrolment, dispatch_uid="send_enrolment_email"
+    )
+
+
+@pytest.fixture
+def mock_enrolment_cancel_link():
+    with patch.object(
+        Enrolment,
+        "get_link_to_cancel_ui",
+        return_value="mock-enrolment-cancel-link-abc123xyz456",
+    ) as _fixture:
+        yield _fixture
+
+
+@pytest.fixture
+def mock_enrolment_unique_id():
+    with patch.object(
+        Enrolment, "get_unique_id", return_value="mock-enrolment-unique-id-abc123xyz456"
+    ) as _fixture:
+        yield _fixture

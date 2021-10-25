@@ -80,6 +80,7 @@ class OrganisationPersonsMixinTest(TestCase):
         self.assertEqual(len(persons), 4)
 
 
+@pytest.mark.usefixtures("disconnect_send_enrolment_email")
 class PalvelutarjotinEventEnrolmentsMixinTest(TestCase):
     class DummyPalvelutarjotinEventEnrolmentCsvView(
         PalvelutarjotinEventEnrolmentsMixin
@@ -198,12 +199,12 @@ class PalvelutarjotinEventEnrolmentsMixinTest(TestCase):
             "/fake-path/?end=%s"
             % ((today - datetime.timedelta(days=2)).strftime("%Y-%m-%d"))
         )
-        self.assertEqual(self.view.get_queryset().count(), 3)
+        self.assertEqual(self.view.get_queryset().count(), 6)
         self.view.request = RequestFactory().get(
             "/fake-path/?end=%s"
             % ((today - datetime.timedelta(days=3)).strftime("%Y-%m-%d"))
         )
-        self.assertEqual(self.view.get_queryset().count(), 0)
+        self.assertEqual(self.view.get_queryset().count(), 3)
 
         # filtered with start and end
         self.view.request = RequestFactory().get(
@@ -213,9 +214,10 @@ class PalvelutarjotinEventEnrolmentsMixinTest(TestCase):
                 (today - datetime.timedelta(days=2)).strftime("%Y-%m-%d"),
             )
         )
-        self.assertEqual(self.view.get_queryset().count(), 3)
+        self.assertEqual(self.view.get_queryset().count(), 6)
 
 
+@pytest.mark.usefixtures("disconnect_send_enrolment_email")
 class OrganisationPersonsAdminViewTest(TestCase):
     def setUp(self):
         super(OrganisationPersonsAdminViewTest, self).setUp()
@@ -235,6 +237,7 @@ class OrganisationPersonsAdminViewTest(TestCase):
         self.assertEqual(len(context["organisations"]), 2)
 
 
+@pytest.mark.usefixtures("disconnect_send_enrolment_email")
 class PalvelutarjotinEventEnrolmentsAdminViewTest(TestCase):
     def setUp(self):
         super(PalvelutarjotinEventEnrolmentsAdminViewTest, self).setUp()
@@ -271,6 +274,7 @@ class PalvelutarjotinEventEnrolmentsAdminViewTest(TestCase):
         self.assertIsNotNone(context["opts"])
 
 
+@pytest.mark.usefixtures("disconnect_send_enrolment_email")
 class OrganisationPersonsCsvViewTest(TestCase):
     def test_export_organisation_csv_data(self):
         org1, org2 = OrganisationFactory.create_batch(2)
@@ -304,6 +308,7 @@ class OrganisationPersonsCsvViewTest(TestCase):
         self.assertNotContains(response, person_2.name)
 
 
+@pytest.mark.usefixtures("disconnect_send_enrolment_email")
 class PalvelutarjotinEventEnrolmentsTest(TestCase):
     @pytest.mark.django_db
     def test_export_enrolment_csv_data(self):
