@@ -40,6 +40,9 @@ def retrieve_linked_events_data(resource, resource_id, params=None, is_staff=Fal
     if response.status_code == 404:
         raise ObjectDoesNotExistError("Could not find the event from the API.")
 
+    # Raise any other errors
+    response.raise_for_status()
+
     return json2obj(format_response(response))
 
 

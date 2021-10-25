@@ -8,3 +8,6 @@ class MockResponse:
 
     def json(self):
         return json.loads(self.text)
+
+    def raise_for_status(self):
+        return None

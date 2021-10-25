@@ -121,7 +121,7 @@ def test_update_event_languages_cannot_find_event(
 @patch.object(
     api_client, "update", return_value=mocked_json_response(data=None, status_code=200)
 )
-def test_occurrence_delete_should_ignore(
+def test_occurrence_delete_should_ignore_errors(
     mock_api_client_update, mock_update_event_data, mock_get_draft_event_data, p_event
 ):
     occurrence = OccurrenceFactory(
