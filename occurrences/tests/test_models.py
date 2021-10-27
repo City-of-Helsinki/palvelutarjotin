@@ -350,6 +350,19 @@ def test_republish_event_to_sync_times_on_update_calls_republish_when_published(
     occurrence1.save()
     assert mock_send_event_republish.call_count == 5
 
+    assert (
+        occurrence2 == sorted([occurrence1, occurrence2], key=lambda o: o.start_time)[0]
+    )
+    assert (
+        occurrence2 == sorted([occurrence1, occurrence2], key=lambda o: o.end_time)[0]
+    )
+
+    # old occurrence to become the last one
+    occurrence2.end_time = occurrence1.end_time + timedelta(days=1)
+    occurrence2.start_time = occurrence1.start_time + timedelta(days=1)
+    occurrence2.save()
+    assert mock_send_event_republish.call_count == 6
+
 
 @pytest.mark.django_db
 @patch("occurrences.models.send_event_unpublish")

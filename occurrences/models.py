@@ -15,7 +15,11 @@ from occurrences.consts import (
     NOTIFICATION_TYPES,
     NotificationTemplate,
 )
-from occurrences.event_api_services import send_event_republish, send_event_unpublish
+from occurrences.event_api_services import (
+    has_event_time_range_changed,
+    send_event_republish,
+    send_event_unpublish,
+)
 from occurrences.utils import send_event_notifications_to_person
 from parler.models import TranslatedFields
 from verification_token.models import VerificationToken
@@ -232,7 +236,7 @@ class Occurrence(TimestampedModel):
         verbose_name = _("occurrence")
         verbose_name_plural = _("occurrences")
 
-    def __post_save_republish_event(self, old_object, **kwargs):
+    def __post_save_republish_event(new_object, old_object, **kwargs):
         """
         Republish the event end time to LinkedEvents API when an occurrence is saved
         and linked to a published event.
@@ -242,33 +246,21 @@ class Occurrence(TimestampedModel):
         """
         # Published (in LinkedEvents API)
         if (
-            self.p_event_id
-            and self.p_event.occurrences.filter(cancelled=False).count() > 0
-            and self.p_event.is_published()
+            new_object.p_event_id
+            and new_object.p_event.occurrences.filter(cancelled=False).count() > 0
+            and new_object.p_event.is_published()
         ):
             created = old_object is None
             event_time_range_changed = False
             if not created:
-                # The status of occurrences before the save process has finished.
-                occurrences = self.p_event.occurrences.filter(cancelled=False)
-                first_occurrence = occurrences.order_by("start_time").first()
-                last_occurrence = occurrences.order_by("end_time").last()
-
-                # If first or last occurrence of the event
-                # and affects on event time range.
-                if (
-                    self == first_occurrence
-                    and not old_object.start_time == self.start_time
-                ) or (
-                    self == last_occurrence and not old_object.end_time == self.end_time
-                ):
-                    # Event start time or end time has changed
-                    event_time_range_changed = True
+                event_time_range_changed = has_event_time_range_changed(
+                    new_object, old_object
+                )
 
             # Newly created or needs update for times...
             if created or event_time_range_changed:
                 # Republish
-                send_event_republish(self.p_event)
+                send_event_republish(new_object.p_event)
 
     def __post_delete_unpublish_event(self):
         """

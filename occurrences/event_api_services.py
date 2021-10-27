@@ -8,7 +8,7 @@ from common.utils import format_linked_event_datetime
 from palvelutarjotin.exceptions import ApiBadRequestError, ObjectDoesNotExistError
 
 if TYPE_CHECKING:
-    from occurrences.models import PalvelutarjotinEvent
+    from occurrences.models import PalvelutarjotinEvent, Occurrence
 
 
 logger = logging.getLogger(__name__)
@@ -92,3 +92,30 @@ def send_event_unpublish(p_event: "PalvelutarjotinEvent"):
     ] = p_event.__class__.PUBLICATION_STATUS_DRAFT  # prevent cyclic import
 
     update_event_to_linkedevents_api(p_event.linked_event_id, event_obj)
+
+
+def has_event_time_range_changed(
+    new_object: "Occurrence", old_object: "Occurrence"
+) -> bool:
+    # The status of occurrences before the save process has finished.
+    occurrences = new_object.p_event.occurrences.filter(cancelled=False)
+    first_occurrence = occurrences.order_by("start_time").first()
+    last_occurrence = occurrences.order_by("end_time").last()
+
+    # If first or last occurrence of the event
+    # and affects on event time range.
+    if (
+        new_object == first_occurrence
+        and not old_object.start_time == new_object.start_time
+    ) or (
+        new_object == last_occurrence and not old_object.end_time == new_object.end_time
+    ):
+        # Event start time or end time has changed
+        return True
+    elif (
+        old_object.start_time < first_occurrence.start_time
+        or old_object.end_time > last_occurrence.end_time
+    ):
+        return True
+
+    return False
