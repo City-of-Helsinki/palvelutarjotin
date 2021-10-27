@@ -1,7 +1,9 @@
 import json
 import logging
+from datetime import timedelta
 from typing import List, Optional, TYPE_CHECKING
 
+from django.utils import timezone
 from graphene_linked_events.utils import api_client
 
 from common.utils import format_linked_event_datetime
@@ -71,12 +73,19 @@ def send_event_republish(p_event: "PalvelutarjotinEvent"):
     # we first need to fetch the current event object.
     event_obj = fetch_event_as_json(p_event.linked_event_id)
 
-    # NOTE: Event creation date is set as a start_time,
-    # by `_prepare_published_event_data` in `graphene_linked_events.schema.py.
-    # That should not be changed.
-    event_obj["end_time"] = format_linked_event_datetime(
-        p_event.get_enrolment_end_time_from_occurrences()
+    start_time, end_time = get_event_time_range_from_occurrences(p_event)
+    (
+        enrolment_start_time,
+        enrolment_end_time,
+    ) = get_enrollable_event_time_range_from_occurrences(p_event)
+
+    event_obj["publication_status"] = p_event.__class__.PUBLICATION_STATUS_PUBLIC
+    event_obj["start_time"] = format_linked_event_datetime(start_time)
+    event_obj["end_time"] = format_linked_event_datetime(end_time)
+    event_obj["enrolment_start_time"] = format_linked_event_datetime(
+        enrolment_start_time
     )
+    event_obj["enrolment_end_time"] = format_linked_event_datetime(enrolment_end_time)
 
     update_event_to_linkedevents_api(p_event.linked_event_id, event_obj)
 
@@ -105,3 +114,18 @@ def get_event_time_range_from_occurrences(p_event: Optional["PalvelutarjotinEven
     if first_occurrence and last_occurrence:
         return first_occurrence.start_time, last_occurrence.end_time
     return None, None
+
+
+def get_enrollable_event_time_range_from_occurrences(
+    p_event: Optional["PalvelutarjotinEvent"],
+):
+    if not p_event:
+        return None, None
+
+    occurrences = p_event.occurrences.filter(cancelled=False).order_by("start_time")
+    end_time = occurrences.last().start_time
+
+    if p_event.enrolment_end_days is not None:
+        end_time = end_time - timedelta(days=p_event.enrolment_end_days)
+
+    return (timezone.now(), end_time)

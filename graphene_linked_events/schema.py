@@ -3,7 +3,6 @@ from types import SimpleNamespace
 
 from django.core.exceptions import PermissionDenied
 from django.db import transaction
-from django.utils import timezone
 from graphene import (
     Boolean,
     Enum,
@@ -29,6 +28,10 @@ from graphene_linked_events.utils import (
     json_object_hook,
 )
 from graphql_jwt.decorators import staff_member_required
+from occurrences.event_api_services import (
+    get_enrollable_event_time_range_from_occurrences,
+    get_event_time_range_from_occurrences,
+)
 from occurrences.models import PalvelutarjotinEvent, VenueCustomData
 from occurrences.schema import (
     PalvelutarjotinEventInput,
@@ -714,12 +717,21 @@ def _prepare_published_event_data(event_id):
     )
     if not p_event.occurrences.exists():
         raise ApiUsageError("Cannot publish event without event occurrences")
+
+    start_time, end_time = get_event_time_range_from_occurrences(p_event)
+    (
+        enrolment_start_time,
+        enrolment_end_time,
+    ) = get_enrollable_event_time_range_from_occurrences(p_event)
+
     body = {
         "publication_status": PalvelutarjotinEvent.PUBLICATION_STATUS_PUBLIC,
-        "start_time": format_linked_event_datetime(timezone.now()),
-        "end_time": format_linked_event_datetime(
-            p_event.get_enrolment_end_time_from_occurrences()
+        "start_time": format_linked_event_datetime(start_time),
+        "end_time": format_linked_event_datetime(end_time),
+        "enrolment_end_time_start_time": format_linked_event_datetime(
+            enrolment_start_time
         ),
+        "enrolment_end_time_end_time": format_linked_event_datetime(enrolment_end_time),
     }
     return body
 

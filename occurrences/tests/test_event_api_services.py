@@ -1,3 +1,4 @@
+from datetime import timedelta
 from unittest.mock import patch
 
 import pytest
@@ -20,10 +21,12 @@ def test_send_event_republish(
 
     called_linked_event_id = mock_update_event_to_linkedevents_api.call_args[0][0]
     event_obj = mock_update_event_to_linkedevents_api.call_args[0][1]
+    enrolling_ends = p_event.occurrences.order_by(
+        "start_time"
+    ).last().start_time - timedelta(days=p_event.enrolment_end_days)
     assert called_linked_event_id == p_event.linked_event_id
-    assert event_obj["end_time"] == format_linked_event_datetime(
-        p_event.get_enrolment_end_time_from_occurrences()
-    )
+    assert event_obj["end_time"] == format_linked_event_datetime(enrolling_ends)
+    assert event_obj["end_time"] is not None
 
 
 @pytest.mark.django_db
