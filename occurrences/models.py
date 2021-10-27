@@ -27,6 +27,7 @@ from palvelutarjotin.exceptions import (
     ApiUsageError,
     EnrolmentNotEnoughCapacityError,
     ObjectDoesNotExistError,
+    PalvelutarjotinEventHasNoOccurrencesError,
 )
 
 logger = logging.getLogger(__name__)
@@ -141,7 +142,9 @@ class PalvelutarjotinEvent(TimestampedModel):
                 "start_time"
             )
         except Occurrence.DoesNotExist:
-            raise ValueError("Palvelutarjotin event has no occurrence")
+            raise PalvelutarjotinEventHasNoOccurrencesError(
+                "Palvelutarjotin event has no occurrence"
+            )
         if self.enrolment_end_days is not None:
             return last_occurrence.start_time - timedelta(days=self.enrolment_end_days)
         return last_occurrence.start_time

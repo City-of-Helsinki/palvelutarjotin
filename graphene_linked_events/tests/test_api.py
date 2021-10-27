@@ -20,7 +20,7 @@ from graphql_relay import to_global_id
 from occurrences.event_api_services import update_event_to_linkedevents_api
 from occurrences.factories import OccurrenceFactory, PalvelutarjotinEventFactory
 from occurrences.models import PalvelutarjotinEvent
-from rest_framework.exceptions import APIException
+from requests.models import HTTPError
 
 from common.tests.utils import (
     assert_match_error_code,
@@ -1588,7 +1588,7 @@ def test_linkedevents_api_retrieve_errors(status_code, error_cls):
 
 @pytest.mark.parametrize(
     "status_code,error_cls",
-    [(400, ApiBadRequestError), (404, ObjectDoesNotExistError), (500, APIException)],
+    [(400, ApiBadRequestError), (404, ObjectDoesNotExistError), (500, HTTPError)],
 )
 def test_linkedevents_api_update_errors(status_code, error_cls):
     with patch.object(
