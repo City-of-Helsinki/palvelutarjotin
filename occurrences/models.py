@@ -16,7 +16,7 @@ from occurrences.consts import (
     NotificationTemplate,
 )
 from occurrences.event_api_services import (
-    has_event_time_range_changed,
+    get_event_time_range_from_occurrences,
     send_event_republish,
     send_event_unpublish,
 )
@@ -236,7 +236,7 @@ class Occurrence(TimestampedModel):
         verbose_name = _("occurrence")
         verbose_name_plural = _("occurrences")
 
-    def __post_save_republish_event(new_object, old_object, **kwargs):
+    def __post_save_republish_event(self):
         """
         Republish the event end time to LinkedEvents API when an occurrence is saved
         and linked to a published event.
@@ -244,23 +244,14 @@ class Occurrence(TimestampedModel):
         `graphene_linked_events._prepare_published_event_data`
         sets the start time of the event to time it is at the moment of the publishment.
         """
-        # Published (in LinkedEvents API)
-        if (
-            new_object.p_event_id
-            and new_object.p_event.occurrences.filter(cancelled=False).count() > 0
-            and new_object.p_event.is_published()
-        ):
-            created = old_object is None
-            event_time_range_changed = False
-            if not created:
-                event_time_range_changed = has_event_time_range_changed(
-                    new_object, old_object
-                )
 
-            # Newly created or needs update for times...
-            if created or event_time_range_changed:
-                # Republish
-                send_event_republish(new_object.p_event)
+        if (
+            self.p_event_id
+            and self.p_event.is_published()
+            and self.p_event.occurrences.filter(cancelled=False).count() > 0
+        ):
+            # Republish
+            send_event_republish(self.p_event)
 
     def __post_delete_unpublish_event(self):
         """
@@ -275,12 +266,21 @@ class Occurrence(TimestampedModel):
             send_event_unpublish(self.p_event)
 
     def save(self, *args, **kwargs):
-        try:
-            old_object = Occurrence.objects.get(pk=self.pk) if self.pk else None
-        except Occurrence.DoesNotExist:
-            old_object = None
+        # Resolve the event time range before the save
+        pre_start_time, pre_end_time = get_event_time_range_from_occurrences(
+            self.p_event
+        )
+
+        # Save the occurrence instance
         super().save(*args, **kwargs)
-        self.__post_save_republish_event(old_object)
+
+        # Resolve the event time range after the save
+        post_start_time, post_end_time = get_event_time_range_from_occurrences(
+            self.p_event
+        )
+
+        if not (pre_start_time, pre_end_time) == (post_start_time, post_end_time):
+            self.__post_save_republish_event()
 
     def delete(self, *args, **kwargs):
         super().delete(*args, **kwargs)
