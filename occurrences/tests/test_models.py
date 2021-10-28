@@ -1,6 +1,10 @@
+from datetime import datetime, timedelta
+from unittest.mock import patch
+
 import pytest
 from django.contrib.auth import get_user_model
 from django.core.exceptions import ValidationError
+from django.utils import timezone
 from occurrences.consts import StudyGroupStudyLevels
 from occurrences.factories import (
     EnrolmentFactory,
@@ -25,7 +29,7 @@ User = get_user_model()
 
 
 @pytest.mark.django_db
-def test_palvelutarjotin_event():
+def test_palvelutarjotin_event(mock_get_event_data):
     p_event = PalvelutarjotinEventFactory()
     assert p_event.enrolment_start is not None
     assert p_event.external_enrolment_url is None
@@ -35,7 +39,7 @@ def test_palvelutarjotin_event():
 
 
 @pytest.mark.django_db
-def test_palvelutarjotin_event_with_external_enrolment():
+def test_palvelutarjotin_event_with_external_enrolment(mock_get_event_data):
     p_event = PalvelutarjotinEventFactory(
         enrolment_start=None, external_enrolment_url="http://test.org"
     )
@@ -47,7 +51,7 @@ def test_palvelutarjotin_event_with_external_enrolment():
 
 
 @pytest.mark.django_db
-def test_palvelutarjotin_event_with_valid_external_enrolment_url():
+def test_palvelutarjotin_event_with_valid_external_enrolment_url(mock_get_event_data):
 
     PalvelutarjotinEventFactory(external_enrolment_url="https://123.fi").full_clean()
     PalvelutarjotinEventFactory(
@@ -117,7 +121,7 @@ def test_study_level_creation_via_study_group():
 
 
 @pytest.mark.django_db
-def test_occurrence_creation():
+def test_occurrence_creation(mock_get_event_data):
     OccurrenceFactory()
     assert Occurrence.objects.count() == 1
     assert Organisation.objects.count() == 1
@@ -233,3 +237,190 @@ def test_languages_are_sorted_by_name_and_id(mock_get_event_data):
     [l for l in Language.objects.all()] == sorted(
         languages, key=lambda x: (x.name, x.id)
     )
+
+
+@pytest.mark.django_db
+@pytest.mark.parametrize(
+    "occurrence_start_time,occurrence_end_time",
+    [
+        # new starting occurrence
+        (
+            datetime(2020, 1, 10, 0, 0, 0, tzinfo=timezone.now().tzinfo),
+            datetime(2020, 1, 11, 0, 0, 0, tzinfo=timezone.now().tzinfo),
+        ),
+        # new ending occurrence
+        (
+            datetime(2020, 1, 25, 0, 0, 0, tzinfo=timezone.now().tzinfo),
+            datetime(2020, 1, 26, 0, 0, 0, tzinfo=timezone.now().tzinfo),
+        ),
+    ],
+)
+@patch("occurrences.models.send_event_republish")
+def test_republish_event_to_sync_times_on_save_calls_republish_when_published(
+    mock_send_event_republish,
+    occurrence_start_time,
+    occurrence_end_time,
+    mock_get_event_data,
+):
+    enrolment_start = datetime(2020, 1, 10, 0, 0, 0, tzinfo=timezone.now().tzinfo)
+    enrolment_end_days = 1
+    p_event = PalvelutarjotinEventFactory(
+        enrolment_start=enrolment_start, enrolment_end_days=enrolment_end_days,
+    )
+
+    # First occurrence, starts earliest possible, is a 1 day event
+    OccurrenceFactory(
+        p_event=p_event,
+        start_time=datetime(2020, 1, 11, 0, 0, 0, tzinfo=timezone.now().tzinfo),
+        end_time=datetime(2020, 1, 12, 0, 0, 0, tzinfo=timezone.now().tzinfo),
+    )
+
+    # Last occurrence, starts 10 days after first one, is a 1 day event
+    OccurrenceFactory(
+        p_event=p_event,
+        start_time=datetime(2020, 1, 21, 0, 0, 0, tzinfo=timezone.now().tzinfo),
+        end_time=datetime(2020, 1, 22, 0, 0, 0, tzinfo=timezone.now().tzinfo),
+    )
+
+    # new parametrized occurrence
+    OccurrenceFactory(
+        p_event=p_event, start_time=occurrence_start_time, end_time=occurrence_end_time,
+    )
+    assert Occurrence.objects.count() == 3
+    assert mock_send_event_republish.call_count == 3
+
+
+@pytest.mark.django_db
+@patch("occurrences.models.send_event_republish")
+def test_republish_event_to_sync_times_on_update_calls_republish_when_published(
+    mock_send_event_republish, mock_get_event_data,
+):
+    enrolment_start = datetime(2020, 1, 10, 0, 0, 0, tzinfo=timezone.now().tzinfo)
+    enrolment_end_days = 1
+    p_event = PalvelutarjotinEventFactory(
+        enrolment_start=enrolment_start, enrolment_end_days=enrolment_end_days,
+    )
+
+    # First occurrence, starts earliest possible, is a 1 day event
+    occurrence1 = OccurrenceFactory(
+        p_event=p_event,
+        start_time=datetime(2020, 1, 11, 0, 0, 0, tzinfo=timezone.now().tzinfo),
+        end_time=datetime(2020, 1, 12, 0, 0, 0, tzinfo=timezone.now().tzinfo),
+    )
+
+    # Last occurrence, starts 10 days after first one, is a 1 day event
+    occurrence2 = OccurrenceFactory(
+        p_event=p_event,
+        start_time=datetime(2020, 1, 21, 0, 0, 0, tzinfo=timezone.now().tzinfo),
+        end_time=datetime(2020, 1, 22, 0, 0, 0, tzinfo=timezone.now().tzinfo),
+    )
+
+    assert Occurrence.objects.count() == 2
+    assert mock_send_event_republish.call_count == 2
+
+    assert (
+        occurrence1 == sorted([occurrence1, occurrence2], key=lambda o: o.start_time)[0]
+    )
+
+    # Moving the occurrence to be the first affects on event time range
+    occurrence2.start_time = occurrence1.start_time - timedelta(days=1)
+    occurrence2.end_time = occurrence1.end_time - timedelta(days=1)
+    occurrence2.save()
+    assert mock_send_event_republish.call_count == 3
+
+    assert (
+        occurrence2 == sorted([occurrence1, occurrence2], key=lambda o: o.start_time)[0]
+    )
+    assert (
+        occurrence2 == sorted([occurrence1, occurrence2], key=lambda o: o.end_time)[0]
+    )
+
+    # changing the first occurrence start time affects on event time range
+    occurrence2.start_time = occurrence2.start_time - timedelta(days=1)
+    occurrence2.save()
+    assert mock_send_event_republish.call_count == 4
+
+    # changing the last occurrence end time affects on event time range
+    occurrence1.end_time = occurrence1.end_time + timedelta(days=1)
+    occurrence1.save()
+    assert mock_send_event_republish.call_count == 5
+
+    # changing the last occurrence start time does not affect on event time range
+    occurrence1.start_time = occurrence1.start_time - timedelta(days=1)
+    occurrence1.save()
+    assert mock_send_event_republish.call_count == 5
+
+    assert (
+        occurrence2 == sorted([occurrence1, occurrence2], key=lambda o: o.start_time)[0]
+    )
+    assert (
+        occurrence2 == sorted([occurrence1, occurrence2], key=lambda o: o.end_time)[0]
+    )
+
+    # old occurrence to become the last one
+    occurrence2.end_time = occurrence1.end_time + timedelta(days=1)
+    occurrence2.start_time = occurrence1.start_time + timedelta(days=1)
+    occurrence2.save()
+    assert mock_send_event_republish.call_count == 6
+
+
+@pytest.mark.django_db
+@patch("occurrences.models.send_event_unpublish")
+def test_unpublish_event_to_sync_times_on_delete_does_nothing_when_many_occurrences(
+    mock_send_event_unpublish, mock_get_event_data, p_event,
+):
+    OccurrenceFactory(p_event=p_event)
+    occurrence = OccurrenceFactory(p_event=p_event)
+    assert Occurrence.objects.count() == 2
+    occurrence.delete()
+    assert Occurrence.objects.count() == 1
+    assert not mock_send_event_unpublish.called
+
+
+@pytest.mark.django_db
+@patch("occurrences.models.send_event_unpublish")
+def test_unpublish_event_to_sync_times_on_delete_does_nothing_when_draft(
+    mock_send_event_unpublish,
+    mock_get_draft_event_data,
+    mock_update_event_data,
+    p_event,
+):
+    occurrence = OccurrenceFactory(p_event=p_event)
+    assert Occurrence.objects.count() == 1
+    occurrence.delete()
+    assert Occurrence.objects.count() == 0
+    assert not mock_send_event_unpublish.called
+
+
+@pytest.mark.django_db
+@patch("occurrences.models.send_event_unpublish")
+def test_unpublish_event_to_sync_times_on_delete_when_last_occurrence_is_cancelled(
+    mock_send_event_unpublish, mock_get_event_data, p_event,
+):
+    OccurrenceFactory(p_event=p_event, cancelled=True)
+    occurrence = OccurrenceFactory(p_event=p_event)
+    assert Occurrence.objects.count() == 2
+    occurrence.delete()
+    assert Occurrence.objects.count() == 1
+    assert Occurrence.objects.filter(cancelled=False).count() == 0
+    assert mock_send_event_unpublish.called
+
+
+@pytest.mark.django_db
+@patch("occurrences.models.send_event_unpublish")
+def test_unpublish_event_to_sync_times_on_delete_when_last_occurrence(
+    mock_send_event_unpublish, mock_get_event_data, p_event,
+):
+    occurrence = OccurrenceFactory(p_event=p_event)
+    assert Occurrence.objects.count() == 1
+    occurrence.delete()
+    assert Occurrence.objects.count() == 0
+    assert mock_send_event_unpublish.called
+
+
+@pytest.mark.django_db
+@patch("occurrences.models.send_event_unpublish")
+def test_delete_queryset(mock_send_event_unpublish, mock_get_event_data):
+    OccurrenceFactory.create_batch(10)
+    Occurrence.objects.all().delete()
+    assert mock_send_event_unpublish.call_count == 10

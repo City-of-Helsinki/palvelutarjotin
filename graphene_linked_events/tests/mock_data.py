@@ -927,6 +927,8 @@ UPDATE_EVENT_DATA = {
     "@type": "Event/LinkedEvent",
 }
 
+UNPUBLISH_EVENT_DATA = {**UPDATE_EVENT_DATA, **{"publication_status": "draft"}}
+
 IMAGES_DATA = {
     "meta": {
         "count": 64258,

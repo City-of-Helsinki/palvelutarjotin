@@ -1,51 +1,18 @@
-import json
 import logging
-from typing import List
 
 from anymail.signals import pre_send
 from django.core.exceptions import ObjectDoesNotExist
 from django.db import transaction
 from django.db.models.signals import m2m_changed, post_delete, post_save
 from django.dispatch import receiver
-from graphene_linked_events.utils import api_client
 from occurrences.consts import NotificationTemplate
-from occurrences.models import Enrolment, Occurrence, PalvelutarjotinEvent
+from occurrences.event_api_services import send_event_languages_update
+from occurrences.models import Enrolment, Occurrence
 from occurrences.utils import send_event_notifications_to_person
 
-from palvelutarjotin.exceptions import ApiUsageError, ObjectDoesNotExistError
+from palvelutarjotin.exceptions import ObjectDoesNotExistError
 
 logger = logging.getLogger(__name__)
-
-
-def send_event_languages_update(
-    p_event: PalvelutarjotinEvent, event_language_ids: List[str]
-) -> None:
-    """
-    Update event languages to LinkedEvents.
-    """
-
-    # FIXME: This is a needless call if LE would not need a full event data.
-    # Since the LE needs at least all the required fields when an event is updated,
-    # we first need to fetch the current event object.
-    event_obj = json.loads(
-        api_client.retrieve("event", p_event.linked_event_id, is_staff=True).text
-    )
-
-    # Updated languages
-    in_language_body = [
-        {"@id": "/v1/language/{language}/".format(language=language)}
-        for language in event_language_ids
-    ]
-    event_obj.__setitem__("in_language", in_language_body)
-
-    # Call API to update event
-    result = api_client.update("event", p_event.linked_event_id, json.dumps(event_obj))
-
-    if result.status_code == 404:
-        raise ObjectDoesNotExistError("Could not find the event from the API")
-
-    elif result.status_code != 200:
-        raise ApiUsageError("Cannot update occurrences languages to the event")
 
 
 @receiver(post_save, sender=Enrolment, dispatch_uid="send_enrolment_email")
@@ -96,7 +63,6 @@ def update_event_languages(sender, instance, action, pk_set, **kwargs):
 
     NOTE: This will be called once by remove actions and once by additions.
     """
-
     # Ignore other actions than post actions
     if action not in ["post_clear", "post_remove", "post_add"]:
         return
@@ -128,7 +94,6 @@ def update_event_languages_on_occurrence_delete(sender, instance, **kwargs):
     the remaining occurrences languages should be synced to LinkedEvents
     Event languages.
     """
-
     try:
         if not hasattr(instance, "p_event"):
             return

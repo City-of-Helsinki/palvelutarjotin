@@ -206,8 +206,8 @@ def test_occurrence_enrolment_notifications_to_contact_person(
 @pytest.mark.django_db
 def test_cancel_occurrence_notification(
     snapshot,
-    occurrence,
     mock_get_event_data,
+    occurrence,
     notification_template_cancel_occurrence_en,
     notification_template_cancel_occurrence_fi,
 ):

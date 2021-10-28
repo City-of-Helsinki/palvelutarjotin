@@ -4,6 +4,7 @@ from datetime import datetime, timedelta
 import pytest
 from django.core import mail
 from django.utils import timezone
+from graphene_linked_events.tests.mock_data import EVENT_DATA
 from graphql_relay import to_global_id
 from occurrences.consts import NOTIFICATION_TYPE_EMAIL
 from occurrences.factories import (
@@ -450,12 +451,16 @@ def test_study_group_query(snapshot, study_group, api_client):
     snapshot.assert_match(executed)
 
 
-def test_occurrences_query(snapshot, occurrence, api_client):
+def test_occurrences_query(
+    snapshot, mock_update_event_data, mock_get_event_data, occurrence, api_client
+):
     executed = api_client.execute(OCCURRENCES_QUERY)
     snapshot.assert_match(executed)
 
 
-def test_occurrence_query(snapshot, occurrence, api_client, mock_get_event_data):
+def test_occurrence_query(
+    snapshot, mock_update_event_data, mock_get_event_data, occurrence, api_client
+):
     executed = api_client.execute(
         OCCURRENCE_QUERY,
         variables={"id": to_global_id("OccurrenceNode", occurrence.id)},
@@ -485,7 +490,12 @@ def test_add_occurrence_unauthorized(
 
 
 def test_add_occurrence_to_published_event(
-    staff_api_client, organisation, person, mock_get_event_data
+    snapshot,
+    staff_api_client,
+    organisation,
+    person,
+    mock_get_event_data,
+    mock_update_event_data,
 ):
     variables = deepcopy(ADD_OCCURRENCE_VARIABLES)
     p_event = PalvelutarjotinEventFactory(organisation=organisation)
@@ -502,10 +512,14 @@ def test_add_occurrence_to_published_event(
     )
     staff_api_client.user.person.organisations.add(organisation)
     executed = staff_api_client.execute(ADD_OCCURRENCE_MUTATION, variables=variables)
-    assert_match_error_code(executed, API_USAGE_ERROR)
+    snapshot.assert_match(executed)
+    # test validation
+    variables["input"]["endTime"] = variables["input"]["startTime"]
+    executed = staff_api_client.execute(ADD_OCCURRENCE_MUTATION, variables=variables)
+    assert_match_error_code(executed, DATA_VALIDATION_ERROR)
 
 
-def test_add_occurrence(
+def test_add_occurrence_to_unpublished_event(
     snapshot,
     staff_api_client,
     organisation,
@@ -573,7 +587,12 @@ def test_add_occurrence_to_date_when_enrolling_has_not_started(
 
 
 def test_update_occurrence_unauthorized(
-    api_client, user_api_client, occurrence, staff_api_client
+    api_client,
+    user_api_client,
+    mock_get_event_data,
+    mock_update_event_data,
+    occurrence,
+    staff_api_client,
 ):
     variables = deepcopy(UPDATE_OCCURRENCE_VARIABLES)
     variables["input"]["id"] = to_global_id("OccurrenceNode", occurrence.id)
@@ -587,14 +606,33 @@ def test_update_occurrence_unauthorized(
     assert_permission_denied(executed)
 
 
-def test_update_occurrence_of_published_event(
-    staff_api_client, organisation, person, mock_get_event_data
+@pytest.mark.parametrize("group_size,amount_of_adult", [(1, 0), (0, 1), (2, 3)])
+def test_update_occurrence_of_published_event_with_enrolments(
+    group_size,
+    amount_of_adult,
+    staff_api_client,
+    organisation,
+    person,
+    mock_get_event_data,
 ):
     variables = deepcopy(UPDATE_OCCURRENCE_VARIABLES)
     occurrence = OccurrenceFactory(
-        contact_persons=[person], p_event__organisation=organisation
+        contact_persons=[person],
+        p_event__organisation=organisation,
+        amount_of_seats=100,
+        min_group_size=1,
+        max_group_size=10,
     )
-    p_event = PalvelutarjotinEventFactory(organisation=organisation)
+
+    # enrolment for occurrence
+    study_group_20 = StudyGroupFactory(
+        group_size=group_size, amount_of_adult=amount_of_adult
+    )
+    EnrolmentFactory(occurrence=occurrence, study_group=study_group_20)
+
+    p_event = PalvelutarjotinEventFactory(
+        linked_event_id=EVENT_DATA["id"], organisation=organisation
+    )
     variables["input"]["id"] = to_global_id("OccurrenceNode", occurrence.id)
     # Change p_event
     variables["input"]["pEventId"] = to_global_id(
@@ -610,11 +648,56 @@ def test_update_occurrence_of_published_event(
         },
     ]
     staff_api_client.user.person.organisations.add(organisation)
+    assert occurrence.seats_taken > 0
     executed = staff_api_client.execute(UPDATE_OCCURRENCE_MUTATION, variables=variables)
     assert_match_error_code(executed, API_USAGE_ERROR)
 
 
-def test_update_occurrence(
+def test_update_occurrence_of_published_event_without_enrolments(
+    snapshot,
+    staff_api_client,
+    organisation,
+    person,
+    mock_get_event_data,
+    mock_update_event_data,
+):
+    variables = deepcopy(UPDATE_OCCURRENCE_VARIABLES)
+    occurrence = OccurrenceFactory(
+        contact_persons=[person],
+        p_event__organisation=organisation,
+        amount_of_seats=100,
+        min_group_size=1,
+        max_group_size=10,
+    )
+
+    p_event = PalvelutarjotinEventFactory(
+        linked_event_id=EVENT_DATA["id"], organisation=organisation
+    )
+    variables["input"]["id"] = to_global_id("OccurrenceNode", occurrence.id)
+    # Change p_event
+    variables["input"]["pEventId"] = to_global_id(
+        "PalvelutarjotinEventNode", p_event.id
+    )
+    # Change contact person, remove old one
+    new_person = PersonFactory()
+    variables["input"]["contactPersons"] = [
+        {
+            "id": to_global_id("PersonNode", new_person.id),
+            "emailAddress": new_person.email_address,
+            "name": new_person.name,
+        },
+    ]
+    assert occurrence.seats_taken == 0
+    staff_api_client.user.person.organisations.add(organisation)
+    executed = staff_api_client.execute(UPDATE_OCCURRENCE_MUTATION, variables=variables)
+    snapshot.assert_match(executed)
+    # test validation
+    variables["input"]["endTime"] = variables["input"].pop("startTime")
+    executed = staff_api_client.execute(UPDATE_OCCURRENCE_MUTATION, variables=variables)
+    assert_match_error_code(executed, DATA_VALIDATION_ERROR)
+
+
+def test_update_unpublished_occurrence(
     snapshot,
     staff_api_client,
     organisation,
@@ -651,7 +734,12 @@ def test_update_occurrence(
 
 
 def test_delete_occurrence_unauthorized(
-    api_client, user_api_client, staff_api_client, occurrence
+    api_client,
+    user_api_client,
+    staff_api_client,
+    mock_update_event_data,
+    mock_get_event_data,
+    occurrence,
 ):
     # TODO: paremeterize
     variables = {"input": {"id": to_global_id("OccurrenceNode", occurrence.id)}}
@@ -667,7 +755,7 @@ def test_delete_occurrence_unauthorized(
 
 
 def test_delete_cancelled_occurrence(
-    snapshot, occurrence, staff_api_client, mock_get_event_data, mock_update_event_data
+    snapshot, staff_api_client, mock_get_event_data, mock_update_event_data, occurrence
 ):
     staff_api_client.user.person.organisations.add(occurrence.p_event.organisation)
     executed = staff_api_client.execute(
@@ -684,12 +772,12 @@ def test_delete_cancelled_occurrence(
     snapshot.assert_match(executed)
 
 
-def test_delete_occurrence(
+def test_delete_unpublished_occurrence(
     snapshot,
     staff_api_client,
-    occurrence,
     mock_get_draft_event_data,
     mock_update_event_data,
+    occurrence,
 ):
     staff_api_client.user.person.organisations.add(occurrence.p_event.organisation)
     executed = staff_api_client.execute(
@@ -947,7 +1035,14 @@ ADD_STUDY_GROUP_VARIABLES = {
 }
 
 
-def test_add_study_group(snapshot, api_client, occurrence, person):
+def test_add_study_group(
+    snapshot,
+    api_client,
+    mock_update_event_data,
+    mock_get_event_data,
+    occurrence,
+    person,
+):
     variables = deepcopy(ADD_STUDY_GROUP_VARIABLES)
     executed = api_client.execute(ADD_STUDY_GROUP_MUTATION, variables=variables)
     snapshot.assert_match(executed)
@@ -1085,7 +1180,9 @@ mutation enrolOccurrence($input: EnrolOccurrenceMutationInput!){
 """
 
 
-def test_enrol_not_started_occurrence(api_client):
+def test_enrol_not_started_occurrence(
+    api_client, mock_update_event_data, mock_get_event_data
+):
     # Current date froze on 2020-01-04:
     study_group = StudyGroupFactory(group_size=10)
     p_event_1 = PalvelutarjotinEventFactory(
@@ -1123,7 +1220,9 @@ def test_enrol_not_started_occurrence(api_client):
     assert_match_error_code(executed, ENROLMENT_NOT_STARTED_ERROR)
 
 
-def test_enrol_past_occurrence(api_client, occurrence):
+def test_enrol_past_occurrence(
+    api_client, mock_update_event_data, mock_get_event_data, occurrence
+):
     # Current date froze on 2020-01-04:
     study_group = StudyGroupFactory(group_size=10)
     p_event_1 = PalvelutarjotinEventFactory(
@@ -1159,7 +1258,9 @@ def test_enrol_past_occurrence(api_client, occurrence):
     assert_match_error_code(executed, ENROLMENT_CLOSED_ERROR)
 
 
-def test_enrol_invalid_group_size(api_client, occurrence):
+def test_enrol_invalid_group_size(
+    api_client, mock_update_event_data, mock_get_event_data, occurrence
+):
     study_group_21 = StudyGroupFactory(group_size=21)
     study_group_9 = StudyGroupFactory(group_size=9)
     # Current date froze on 2020-01-04:
@@ -1215,7 +1316,9 @@ def test_enrol_invalid_group_size(api_client, occurrence):
     assert_match_error_code(executed, INVALID_STUDY_GROUP_SIZE_ERROR)
 
 
-def test_enrol_full_children_occurrence(api_client, occurrence, mock_get_event_data):
+def test_enrol_full_children_occurrence(
+    api_client, mock_update_event_data, mock_get_event_data, occurrence
+):
     study_group_15 = StudyGroupFactory(group_size=15)
     study_group_20 = StudyGroupFactory(group_size=20)
     # Current date froze on 2020-01-04:
@@ -1257,7 +1360,9 @@ def test_enrol_full_children_occurrence(api_client, occurrence, mock_get_event_d
     assert_match_error_code(executed, NOT_ENOUGH_CAPACITY_ERROR)
 
 
-def test_enrol_full_enrolment_occurrence(api_client, occurrence, mock_get_event_data):
+def test_enrol_full_enrolment_occurrence(
+    api_client, mock_update_event_data, mock_get_event_data, occurrence
+):
     study_group_15 = StudyGroupFactory(group_size=15)
     study_group_100 = StudyGroupFactory(group_size=100)
     study_group_20 = StudyGroupFactory(group_size=20)
@@ -1302,7 +1407,9 @@ def test_enrol_full_enrolment_occurrence(api_client, occurrence, mock_get_event_
     assert_match_error_code(executed, NOT_ENOUGH_CAPACITY_ERROR)
 
 
-def test_enrol_cancelled_occurrence(api_client, occurrence):
+def test_enrol_cancelled_occurrence(
+    api_client, mock_update_event_data, mock_get_event_data, occurrence
+):
     study_group = StudyGroupFactory(group_size=10)
     occurrence.cancelled = True
     occurrence.save()
@@ -1328,7 +1435,9 @@ def test_enrol_cancelled_occurrence(api_client, occurrence):
     assert_match_error_code(executed, ENROL_CANCELLED_OCCURRENCE_ERROR)
 
 
-def test_enrol_occurrence_without_required_information(api_client, occurrence):
+def test_enrol_occurrence_without_required_information(
+    api_client, mock_update_event_data, mock_get_event_data, occurrence
+):
     study_group = StudyGroupFactory(group_size=10, extra_needs="")
     p_event = occurrence.p_event
     p_event.mandatory_additional_information = True
@@ -1966,7 +2075,9 @@ def test_update_enrolment_unauthorized(
     assert_permission_denied(executed)
 
 
-def test_update_enrolment(snapshot, staff_api_client, mock_get_event_data):
+def test_update_enrolment(
+    snapshot, staff_api_client, mock_get_event_data, mock_update_event_data
+):
     study_group_15 = StudyGroupFactory(group_size=15)
     study_group_10 = StudyGroupFactory(group_size=10)
     # Current date froze on 2020-01-04:
@@ -2023,7 +2134,9 @@ def test_update_enrolment(snapshot, staff_api_client, mock_get_event_data):
         assert e.notification_type == NOTIFICATION_TYPE_EMAIL
 
 
-def test_occurrences_filter_by_date(api_client, snapshot):
+def test_occurrences_filter_by_date(
+    api_client, snapshot, mock_get_event_data, mock_update_event_data
+):
     OccurrenceFactory(
         start_time=datetime(2020, 1, 1, 0, 0, 0, tzinfo=timezone.now().tzinfo),
     )
@@ -2043,7 +2156,9 @@ def test_occurrences_filter_by_date(api_client, snapshot):
     snapshot.assert_match(executed)
 
 
-def test_occurrences_filter_by_time(api_client, snapshot):
+def test_occurrences_filter_by_time(
+    api_client, snapshot, mock_get_event_data, mock_update_event_data
+):
     for i in range(10, 12):
         OccurrenceFactory(
             start_time=datetime(2020, 1, 1, i, 0, 0, tzinfo=timezone.now().tzinfo),
@@ -2072,7 +2187,12 @@ def test_occurrences_filter_by_time(api_client, snapshot):
 
 @pytest.mark.parametrize("enrolment_end_days,count", [(None, 3), (0, 3), (1, 2)])
 def test_occurrences_filter_by_upcoming(
-    enrolment_end_days, count, snapshot, api_client
+    enrolment_end_days,
+    count,
+    snapshot,
+    api_client,
+    mock_get_event_data,
+    mock_update_event_data,
 ):
     p_event_1 = PalvelutarjotinEventFactory(
         enrolment_start=datetime(2020, 1, 5, 0, 0, 0, tzinfo=timezone.now().tzinfo),
@@ -2100,7 +2220,9 @@ def test_occurrences_filter_by_upcoming(
     assert len(executed["data"]["occurrences"]["edges"]) == count
 
 
-def test_occurrences_filter_by_cancelled(snapshot, api_client):
+def test_occurrences_filter_by_cancelled(
+    snapshot, api_client, mock_get_event_data, mock_update_event_data
+):
     p_event_1 = PalvelutarjotinEventFactory()
     OccurrenceFactory(
         p_event=p_event_1, cancelled=True,
@@ -2116,7 +2238,9 @@ def test_occurrences_filter_by_cancelled(snapshot, api_client):
     assert len(executed["data"]["occurrences"]["edges"]) == 1
 
 
-def test_occurrences_filter_by_p_event(snapshot, api_client):
+def test_occurrences_filter_by_p_event(
+    snapshot, api_client, mock_get_event_data, mock_update_event_data
+):
     p_event_1 = PalvelutarjotinEventFactory()
     p_event_2 = PalvelutarjotinEventFactory()
     OccurrenceFactory.create_batch(2, p_event=p_event_1)
@@ -2137,7 +2261,9 @@ def test_occurrences_filter_by_p_event(snapshot, api_client):
     assert len(executed["data"]["occurrences"]["edges"]) == 1
 
 
-def test_occurrences_ordering_by_order_by_start_time(snapshot, api_client):
+def test_occurrences_ordering_by_order_by_start_time(
+    snapshot, api_client, mock_get_event_data, mock_update_event_data
+):
     OccurrenceFactory(
         start_time=datetime(2020, 1, 6, 0, 0, 0, tzinfo=timezone.now().tzinfo),
     )
@@ -2164,7 +2290,9 @@ def test_occurrences_ordering_by_order_by_start_time(snapshot, api_client):
     )
 
 
-def test_occurrences_order_by_with_different_input_types(api_client):
+def test_occurrences_order_by_with_different_input_types(
+    api_client, mock_get_event_data, mock_update_event_data
+):
     OccurrenceFactory.create_batch(10)
     execute_asc1 = api_client.execute(
         OCCURRENCES_QUERY, variables={"orderBy": ["startTime"]}
@@ -2195,7 +2323,9 @@ def test_occurrences_order_by_with_different_input_types(api_client):
     assert execute_desc1 == execute_desc3
 
 
-def test_occurrences_ordering_by_order_by_end_time(snapshot, api_client):
+def test_occurrences_ordering_by_order_by_end_time(
+    snapshot, api_client, mock_get_event_data, mock_update_event_data
+):
     OccurrenceFactory(
         end_time=datetime(2020, 1, 6, 0, 0, 0, tzinfo=timezone.now().tzinfo),
     )
@@ -2222,7 +2352,9 @@ def test_occurrences_ordering_by_order_by_end_time(snapshot, api_client):
     )
 
 
-def test_occurrences_next_and_last_occurrence(api_client):
+def test_occurrences_next_and_last_occurrence(
+    api_client, mock_get_event_data, mock_update_event_data
+):
     p_event = PalvelutarjotinEventFactory()
     # Current date froze on 2020-01-04:
     OccurrenceFactory(
@@ -2353,7 +2485,12 @@ mutation cancelOccurrenceMutation($input: CancelOccurrenceMutationInput!){
 
 
 def test_cancel_occurrence_unauthorized(
-    api_client, user_api_client, staff_api_client, occurrence
+    api_client,
+    user_api_client,
+    staff_api_client,
+    mock_get_event_data,
+    mock_update_event_data,
+    occurrence,
 ):
     executed = api_client.execute(
         CANCEL_OCCURRENCE_MUTATION,
@@ -2372,7 +2509,9 @@ def test_cancel_occurrence_unauthorized(
     assert_permission_denied(executed)
 
 
-def test_cancel_occurrence(snapshot, staff_api_client, occurrence):
+def test_cancel_occurrence(
+    snapshot, staff_api_client, mock_get_event_data, mock_update_event_data, occurrence
+):
     assert not occurrence.cancelled
     staff_api_client.user.person.organisations.add(occurrence.p_event.organisation)
     executed = staff_api_client.execute(
@@ -2425,7 +2564,7 @@ def test_enrolments_summary_unauthorized(
 
 
 def test_enrolments_summary(
-    snapshot, staff_api_client, occurrence, mock_get_event_data
+    snapshot, staff_api_client, mock_get_event_data, occurrence
 ):
     organisation_gid = to_global_id(
         "OrganisationNode", occurrence.p_event.organisation.id

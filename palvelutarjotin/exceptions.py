@@ -1,6 +1,10 @@
 from graphql import GraphQLError
 
 
+class PalvelutarjotinEventHasNoOccurrencesError(Exception):
+    """Event has no occurrences when it should"""
+
+
 class PalvelutarjotinGraphQLError(GraphQLError):
     """GraphQLError that is not sent to Sentry."""
 
@@ -15,6 +19,10 @@ class ApiUsageError(PalvelutarjotinGraphQLError):
 
 class ObjectDoesNotExistError(PalvelutarjotinGraphQLError):
     """Object does not exist"""
+
+
+class ApiBadRequestError(PalvelutarjotinGraphQLError):
+    """Bad request, e.g. JsonDecodeError"""
 
 
 class QueryTooDeepError(PalvelutarjotinGraphQLError):

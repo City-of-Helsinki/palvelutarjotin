@@ -15,6 +15,11 @@ from occurrences.consts import (
     NOTIFICATION_TYPES,
     NotificationTemplate,
 )
+from occurrences.event_api_services import (
+    get_event_time_range_from_occurrences,
+    send_event_republish,
+    send_event_unpublish,
+)
 from occurrences.utils import send_event_notifications_to_person
 from parler.models import TranslatedFields
 from verification_token.models import VerificationToken
@@ -22,7 +27,12 @@ from verification_token.models import VerificationToken
 from common.models import TimestampedModel, TranslatableModel
 from common.utils import get_node_id_from_global_id
 from palvelutarjotin import settings
-from palvelutarjotin.exceptions import ApiUsageError, EnrolmentNotEnoughCapacityError
+from palvelutarjotin.exceptions import (
+    ApiUsageError,
+    EnrolmentNotEnoughCapacityError,
+    ObjectDoesNotExistError,
+    PalvelutarjotinEventHasNoOccurrencesError,
+)
 
 logger = logging.getLogger(__name__)
 
@@ -107,9 +117,14 @@ class PalvelutarjotinEvent(TimestampedModel):
     def get_event_data(self, is_staff=False):
         # We need query event location as well
         params = {"include": "location"}
-        return retrieve_linked_events_data(
-            "event", self.linked_event_id, params=params, is_staff=is_staff
-        )
+        try:
+            data = retrieve_linked_events_data(
+                "event", self.linked_event_id, params=params, is_staff=is_staff
+            )
+        except ObjectDoesNotExistError:
+            return None
+
+        return data
 
     def is_editable_by_user(self, user):
         if self.organisation:
@@ -117,17 +132,23 @@ class PalvelutarjotinEvent(TimestampedModel):
         return True
 
     def is_published(self):
+        event = self.get_event_data(is_staff=True)
+        if not event:
+            return False
         return (
-            self.get_event_data(is_staff=True).publication_status
-            == PalvelutarjotinEvent.PUBLICATION_STATUS_PUBLIC
+            event.publication_status == PalvelutarjotinEvent.PUBLICATION_STATUS_PUBLIC
         )
 
-    def get_end_time_from_occurrences(self):
+    def get_enrolment_end_time_from_occurrences(self):
         # Return the latest time that teacher can enrol to the event
         try:
-            last_occurrence = self.occurrences.latest("start_time")
+            last_occurrence = self.occurrences.filter(cancelled=False).latest(
+                "start_time"
+            )
         except Occurrence.DoesNotExist:
-            raise ValueError("Palvelutarjotin event has no occurrence")
+            raise PalvelutarjotinEventHasNoOccurrencesError(
+                "Palvelutarjotin event has no occurrence"
+            )
         if self.enrolment_end_days is not None:
             return last_occurrence.start_time - timedelta(days=self.enrolment_end_days)
         return last_occurrence.start_time
@@ -148,6 +169,12 @@ class PalvelutarjotinEvent(TimestampedModel):
         return Language.objects.filter(
             occurrences__in=self.occurrences.all()
         ).distinct()
+
+
+class OccurrenceQueryset(models.QuerySet):
+    def delete(self, *args, **kwargs):
+        for obj in self:
+            obj.delete()
 
 
 class Occurrence(TimestampedModel):
@@ -203,9 +230,61 @@ class Occurrence(TimestampedModel):
         default=OCCURRENCE_SEAT_TYPE_CHILDREN_COUNT,
     )
 
+    objects = OccurrenceQueryset.as_manager()
+
     class Meta:
         verbose_name = _("occurrence")
         verbose_name_plural = _("occurrences")
+
+    def __post_save_republish_event(self):
+        """
+        Republish the event end time to LinkedEvents API when an occurrence is saved
+        and linked to a published event.
+        NOTE: `The graphene_linked_events.PublishEventMutation` and
+        `graphene_linked_events._prepare_published_event_data`
+        sets the start time of the event to time it is at the moment of the publishment.
+        """
+
+        if (
+            self.p_event_id
+            and self.p_event.is_published()
+            and self.p_event.occurrences.filter(cancelled=False).count() > 0
+        ):
+            # Republish
+            send_event_republish(self.p_event)
+
+    def __post_delete_unpublish_event(self):
+        """
+        If the event is published,
+        handle the event update of last existing occurrence
+        by calling "unpublish" which means resetting the end time of the event.
+        """
+        if (
+            self.p_event.is_published()
+            and self.p_event.occurrences.filter(cancelled=False).count() == 0
+        ):
+            send_event_unpublish(self.p_event)
+
+    def save(self, *args, **kwargs):
+        # Resolve the event time range before the save
+        pre_start_time, pre_end_time = get_event_time_range_from_occurrences(
+            self.p_event
+        )
+
+        # Save the occurrence instance
+        super().save(*args, **kwargs)
+
+        # Resolve the event time range after the save
+        post_start_time, post_end_time = get_event_time_range_from_occurrences(
+            self.p_event
+        )
+
+        if not (pre_start_time, pre_end_time) == (post_start_time, post_end_time):
+            self.__post_save_republish_event()
+
+    def delete(self, *args, **kwargs):
+        super().delete(*args, **kwargs)
+        self.__post_delete_unpublish_event()
 
     def __str__(self):
         return f"{self.p_event.linked_event_id} {self.start_time}" f" {self.place_id}"

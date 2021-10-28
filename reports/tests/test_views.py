@@ -80,7 +80,7 @@ class OrganisationPersonsMixinTest(TestCase):
         self.assertEqual(len(persons), 4)
 
 
-@pytest.mark.usefixtures("disconnect_send_enrolment_email")
+@pytest.mark.usefixtures("mock_get_event_data")
 class PalvelutarjotinEventEnrolmentsMixinTest(TestCase):
     class DummyPalvelutarjotinEventEnrolmentCsvView(
         PalvelutarjotinEventEnrolmentsMixin
@@ -217,7 +217,7 @@ class PalvelutarjotinEventEnrolmentsMixinTest(TestCase):
         self.assertEqual(self.view.get_queryset().count(), 6)
 
 
-@pytest.mark.usefixtures("disconnect_send_enrolment_email")
+@pytest.mark.usefixtures("mock_get_event_data")
 class OrganisationPersonsAdminViewTest(TestCase):
     def setUp(self):
         super(OrganisationPersonsAdminViewTest, self).setUp()
@@ -237,7 +237,7 @@ class OrganisationPersonsAdminViewTest(TestCase):
         self.assertEqual(len(context["organisations"]), 2)
 
 
-@pytest.mark.usefixtures("disconnect_send_enrolment_email")
+@pytest.mark.usefixtures("mock_get_event_data")
 class PalvelutarjotinEventEnrolmentsAdminViewTest(TestCase):
     def setUp(self):
         super(PalvelutarjotinEventEnrolmentsAdminViewTest, self).setUp()
@@ -274,7 +274,7 @@ class PalvelutarjotinEventEnrolmentsAdminViewTest(TestCase):
         self.assertIsNotNone(context["opts"])
 
 
-@pytest.mark.usefixtures("disconnect_send_enrolment_email")
+@pytest.mark.usefixtures("mock_get_event_data")
 class OrganisationPersonsCsvViewTest(TestCase):
     def test_export_organisation_csv_data(self):
         org1, org2 = OrganisationFactory.create_batch(2)
@@ -308,7 +308,7 @@ class OrganisationPersonsCsvViewTest(TestCase):
         self.assertNotContains(response, person_2.name)
 
 
-@pytest.mark.usefixtures("disconnect_send_enrolment_email")
+@pytest.mark.usefixtures("mock_get_event_data")
 class PalvelutarjotinEventEnrolmentsTest(TestCase):
     @pytest.mark.django_db
     def test_export_enrolment_csv_data(self):

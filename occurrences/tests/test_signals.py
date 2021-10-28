@@ -7,7 +7,7 @@ from occurrences.models import Occurrence
 from occurrences.signals import update_event_languages_on_occurrence_delete
 
 from common.tests.utils import mocked_json_response
-from palvelutarjotin.exceptions import ApiUsageError, ObjectDoesNotExistError
+from palvelutarjotin.exceptions import ApiBadRequestError, ObjectDoesNotExistError
 
 
 @pytest.mark.django_db
@@ -102,7 +102,7 @@ def test_update_event_languages_when_occurrence_is_deleted(
 def test_update_event_languages_cannot_reach_api(
     mock_api_client_update, mock_update_event_data, mock_get_draft_event_data, p_event
 ):
-    with pytest.raises(ApiUsageError):
+    with pytest.raises(ApiBadRequestError):
         OccurrenceFactory(p_event=p_event, languages=LanguageFactory.create_batch(2))
 
 
@@ -121,7 +121,7 @@ def test_update_event_languages_cannot_find_event(
 @patch.object(
     api_client, "update", return_value=mocked_json_response(data=None, status_code=200)
 )
-def test_occurrence_delete_should_ignore(
+def test_occurrence_delete_should_ignore_errors(
     mock_api_client_update, mock_update_event_data, mock_get_draft_event_data, p_event
 ):
     occurrence = OccurrenceFactory(
@@ -133,7 +133,7 @@ def test_occurrence_delete_should_ignore(
     mock_api_client_update.return_value = mocked_json_response(
         data=None, status_code=404
     )
-    # with pytest.raises(ObjectDoesNotExistError):
+
     occurrence.delete()
     assert mock_api_client_update.call_count == 3
     assert Occurrence.objects.count() == 0
@@ -144,8 +144,7 @@ def test_occurrence_delete_should_ignore(
     api_client, "update", return_value=mocked_json_response(data=None, status_code=404)
 )
 def test_occurrence_without_p_event_should_not_call_API(mock_api_client_update):
-    occurrence = OccurrenceFactory()
-
+    occurrence = OccurrenceFactory(p_event=None)
     # Test p_Event does not exist
     occurrence.p_event_id = 0  # object which does not exist
     update_event_languages_on_occurrence_delete(Occurrence, occurrence)

@@ -9,7 +9,7 @@ from verification_token.models import VerificationToken
 
 
 @pytest.mark.django_db
-def test_enrolment_verification_token_creation(disconnect_send_enrolment_email):
+def test_enrolment_verification_token_creation(mock_get_event_data):
     verification_token = EnrolmentVerificationTokenFactory()
     assert VerificationToken.objects.count() == 1
     assert verification_token.content_object.__class__ == Enrolment
@@ -17,7 +17,7 @@ def test_enrolment_verification_token_creation(disconnect_send_enrolment_email):
 
 
 @pytest.mark.django_db
-def test_verification_token_is_valid(disconnect_send_enrolment_email):
+def test_verification_token_is_valid(mock_get_event_data):
     valid_token = EnrolmentVerificationTokenFactory(
         expiry_date=timezone.now() + timedelta(minutes=10)
     )
@@ -31,7 +31,7 @@ def test_verification_token_is_valid(disconnect_send_enrolment_email):
 
 
 @pytest.mark.django_db
-def test_verification_token_filter_active_tokens(disconnect_send_enrolment_email):
+def test_verification_token_filter_active_tokens(mock_get_event_data):
     token1 = EnrolmentVerificationTokenFactory(is_active=False)
     token2 = EnrolmentVerificationTokenFactory(is_active=True)
     token3 = EnrolmentVerificationTokenFactory(is_active=True, key="123")
@@ -72,7 +72,7 @@ def test_verification_token_filter_active_tokens(disconnect_send_enrolment_email
 
 
 @pytest.mark.django_db
-def test_verification_token_deactivation(disconnect_send_enrolment_email):
+def test_verification_token_deactivation(mock_get_event_data):
     # Test with instance
     token1 = EnrolmentVerificationTokenFactory(is_active=True)
     VerificationToken.objects.deactivate_token(token1.content_object)
@@ -113,7 +113,7 @@ def test_verification_token_deactivation(disconnect_send_enrolment_email):
 
 
 @pytest.mark.django_db
-def test_verification_token_create_token_with_manager(disconnect_send_enrolment_email):
+def test_verification_token_create_token_with_manager(mock_get_event_data):
     enrolment = EnrolmentFactory()
     person = enrolment.person
     email = "adsf@asdf.com"
@@ -134,9 +134,7 @@ def test_verification_token_create_token_with_manager(disconnect_send_enrolment_
 
 
 @pytest.mark.django_db
-def test_verification_token_deactivate_and_create_token(
-    disconnect_send_enrolment_email,
-):
+def test_verification_token_deactivate_and_create_token(mock_get_event_data,):
     enrolment = EnrolmentFactory()
     person = enrolment.person
     token1 = VerificationToken.objects.create_token(
@@ -151,7 +149,7 @@ def test_verification_token_deactivate_and_create_token(
 
 
 @pytest.mark.django_db
-def test_clean_invalid_tokens_defaults(disconnect_send_enrolment_email):
+def test_clean_invalid_tokens_defaults(mock_get_event_data):
     EnrolmentVerificationTokenFactory(is_active=True)
     EnrolmentVerificationTokenFactory(is_active=False)
     EnrolmentVerificationTokenFactory(
@@ -163,7 +161,7 @@ def test_clean_invalid_tokens_defaults(disconnect_send_enrolment_email):
 
 
 @pytest.mark.django_db
-def test_clean_invalid_tokens_inactive(disconnect_send_enrolment_email):
+def test_clean_invalid_tokens_inactive(mock_get_event_data):
     EnrolmentVerificationTokenFactory(is_active=True)
     EnrolmentVerificationTokenFactory(is_active=False)
     expired_token = EnrolmentVerificationTokenFactory(
@@ -178,7 +176,7 @@ def test_clean_invalid_tokens_inactive(disconnect_send_enrolment_email):
 
 
 @pytest.mark.django_db
-def test_clean_invalid_tokens_expired(disconnect_send_enrolment_email):
+def test_clean_invalid_tokens_expired(mock_get_event_data):
     EnrolmentVerificationTokenFactory(is_active=True)
     inactive_token = EnrolmentVerificationTokenFactory(is_active=False)
     EnrolmentVerificationTokenFactory(

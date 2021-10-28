@@ -14,6 +14,7 @@ from graphene_linked_events.tests.mock_data import (
     PLACE_DATA,
     PLACES_DATA,
     RECAPTCHA_DATA,
+    UNPUBLISH_EVENT_DATA,
     UPDATE_EVENT_DATA,
 )
 from graphene_linked_events.tests.utils import MockResponse
@@ -28,13 +29,26 @@ def _get_mock_function(data, status_code=200):
 
 @pytest.fixture
 def mock_get_event_data(monkeypatch):
+    """
+    Mocks a published event data fetch from LinkedEvents API.
+    Also mocks the update, because Occurrences app's signals
+    updates the event status to LinkedEvents API,
+    when the event is published
+    """
     monkeypatch.setattr(
         LinkedEventsApiClient, "retrieve", _get_mock_function(EVENT_DATA),
+    )
+    # Mock the published event update
+    monkeypatch.setattr(
+        LinkedEventsApiClient, "update", _get_mock_function(EVENT_DATA),
     )
 
 
 @pytest.fixture
 def mock_get_draft_event_data(monkeypatch):
+    """
+    Mocks an unpublished / draft event data fetch from LinkedEvents API.
+    """
     monkeypatch.setattr(
         LinkedEventsApiClient, "retrieve", _get_mock_function(DRAFT_EVENT_DATA),
     )
@@ -116,6 +130,13 @@ def mock_create_event_data(monkeypatch):
 def mock_update_event_data(monkeypatch):
     monkeypatch.setattr(
         LinkedEventsApiClient, "update", _get_mock_function(UPDATE_EVENT_DATA),
+    )
+
+
+@pytest.fixture
+def mock_unpublish_event_data(monkeypatch):
+    monkeypatch.setattr(
+        LinkedEventsApiClient, "update", _get_mock_function(UNPUBLISH_EVENT_DATA),
     )
 
 

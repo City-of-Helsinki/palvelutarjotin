@@ -709,14 +709,16 @@ class UpdateEventMutation(Mutation):
 def _prepare_published_event_data(event_id):
     # Only care about getting published event data, no permission/authorization check
     # here
-    p_event = PalvelutarjotinEvent.objects.get(linked_event_id=event_id)
+    p_event: PalvelutarjotinEvent = PalvelutarjotinEvent.objects.get(
+        linked_event_id=event_id
+    )
     if not p_event.occurrences.exists():
         raise ApiUsageError("Cannot publish event without event occurrences")
     body = {
         "publication_status": PalvelutarjotinEvent.PUBLICATION_STATUS_PUBLIC,
         "start_time": format_linked_event_datetime(timezone.now()),
         "end_time": format_linked_event_datetime(
-            p_event.get_end_time_from_occurrences()
+            p_event.get_enrolment_end_time_from_occurrences()
         ),
     }
     return body

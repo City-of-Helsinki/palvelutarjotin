@@ -774,7 +774,7 @@ snapshots["test_unpublish_event 1"] = {
                 "body": {
                     "endTime": None,
                     "id": "qq:afy6aghr2y",
-                    "publicationStatus": "public",
+                    "publicationStatus": "draft",
                     "startTime": "2020-05-07",
                 },
                 "statusCode": 200,
