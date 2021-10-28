@@ -174,14 +174,6 @@ class InLanguage(IdObject):
     name = Field(LocalisedObject)
 
 
-class ExtensionCourse(ObjectType):
-    enrolment_start_time = String()
-    enrolment_end_time = String()
-    maximum_attendee_capacity = Int()
-    minimum_attendee_capacity = Int()
-    remaining_attendee_capacity = Int()
-
-
 def _get_event_keyword_sets(event, keyword_set_id):
     kw_set = get_keyword_set_by_id(keyword_set_id)
     return [
@@ -210,7 +202,11 @@ class Event(IdObject):
     audience_min_age = String()
     audience_max_age = String()
     super_event_type = String()
-    extension_course = Field(ExtensionCourse)
+    enrolment_start_time = String()
+    enrolment_end_time = String()
+    maximum_attendee_capacity = Int()
+    minimum_attendee_capacity = Int()
+    remaining_attendee_capacity = Int()
     name = Field(LocalisedObject, required=True)
     localization_extra_info = Field(LocalisedObject)
     short_description = Field(LocalisedObject, required=True)
@@ -535,7 +531,11 @@ class EventMutationInput(InputObjectType):
     audience_min_age = String()
     audience_max_age = String()
     super_event_type = String()
-    extension_course = InputField(IdObjectInput)
+    enrolment_start_time = String()
+    enrolment_end_time = String()
+    maximum_attendee_capacity = Int()
+    minimum_attendee_capacity = Int()
+    remaining_attendee_capacity = Int()
     name = InputField(LocalisedObjectInput, required=True)
     localization_extra_info = InputField(LocalisedObjectInput)
     short_description = InputField(LocalisedObjectInput, required=True)
@@ -728,10 +728,8 @@ def _prepare_published_event_data(event_id):
         "publication_status": PalvelutarjotinEvent.PUBLICATION_STATUS_PUBLIC,
         "start_time": format_linked_event_datetime(start_time),
         "end_time": format_linked_event_datetime(end_time),
-        "enrolment_end_time_start_time": format_linked_event_datetime(
-            enrolment_start_time
-        ),
-        "enrolment_end_time_end_time": format_linked_event_datetime(enrolment_end_time),
+        "enrolment_start_time": format_linked_event_datetime(enrolment_start_time),
+        "enrolment_end_time": format_linked_event_datetime(enrolment_end_time),
     }
     return body
 

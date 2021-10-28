@@ -25,8 +25,9 @@ snapshots["test_get_event 1"] = {
                 "sv": "<p>Bildkonstnären Raija Malka och kompositören Kaija Saariaho fyller Amos Rex utställningsutrymme på ett nytt och experimentellt sätt nästa sommaren. Deras verk är på en och samma gång måleriskt, rumsligt och musikaliskt. </p><p>Utställningstiteln, Blick, syftar på bildkonstnären Wassily Kandinskys dikt från 1912. Texten ingår i Kaija Saariahos ljuder i utställningen. De två konstnärernas blickar möts i det tredimensionella utställningsutrymmet.</p><p>Utställningen utgör en sinnlig helhet som lockar besökare att dröja kvar. De kan bidra till Malkas och Saariahos färg- och ljudvärld med sina egna byggstenar.</p><p>Amos Rex<br>10.6.-30.8. </p><p>må, fre kl 11-18<br>ons, to kl 11-20<br>lö, sö kl 11-17</p><p>Inträde 5-15€, under 18 år fritt inträde</p>",
             },
             "endTime": None,
+            "enrolmentEndTime": None,
+            "enrolmentStartTime": None,
             "eventStatus": "EventPostponed",
-            "extensionCourse": None,
             "externalLinks": [],
             "id": "helsinki:afxp6tv4xa",
             "images": [
@@ -52,6 +53,8 @@ snapshots["test_get_event 1"] = {
             "location": {
                 "internalId": "https://api.hel.fi/linkedevents-test/v1/place/tprek:15321/"
             },
+            "maximumAttendeeCapacity": None,
+            "minimumAttendeeCapacity": None,
             "name": {
                 "en": "Raija Malka & Kaija Saariaho: Blick",
                 "fi": "Raija Malka & Kaija Saariaho: Blick",
@@ -62,6 +65,7 @@ snapshots["test_get_event 1"] = {
             "providerContactInfo": None,
             "publicationStatus": "public",
             "publisher": "ytj:0586977-6",
+            "remainingAttendeeCapacity": None,
             "shortDescription": {
                 "en": "Visual artist Raija Malka and composer Kaija Saariaho will take over Amos Rex’s exhibition space in a new and experiential way next summer. ",
                 "fi": "Kuvataiteilija Raija Malka ja säveltäjä Kaija Saariaho täyttävät ensi kesänä Amos Rexin näyttelytilan uudella kokemuksellisella tavalla. ",
@@ -423,8 +427,9 @@ snapshots["test_search_events 1"] = {
                         "sv": None,
                     },
                     "endTime": "2020-06-01T16:00:00Z",
+                    "enrolmentEndTime": None,
+                    "enrolmentStartTime": None,
                     "eventStatus": "EventScheduled",
-                    "extensionCourse": None,
                     "externalLinks": [],
                     "id": "helsinki:afy6ikna3u",
                     "images": [
@@ -473,6 +478,8 @@ snapshots["test_search_events 1"] = {
                     "location": {
                         "internalId": "https://api.hel.fi/linkedevents/v1/place/helsinki:internet/"
                     },
+                    "maximumAttendeeCapacity": None,
+                    "minimumAttendeeCapacity": None,
                     "name": {
                         "en": None,
                         "fi": "Uutta Koillis-Helsinkiä verkkotilaisuus",
@@ -483,6 +490,7 @@ snapshots["test_search_events 1"] = {
                     "providerContactInfo": None,
                     "publicationStatus": None,
                     "publisher": "ahjo:u541000",
+                    "remainingAttendeeCapacity": None,
                     "shortDescription": {
                         "en": None,
                         "fi": "Tule kuulemaan ja keskustelemaan verkkoon uudistuvasta Koillis-Helsingistä omalta kotisohvaltasi. Juuri nyt voit vaikuttaa useisiin suunnittelukohteisiin!",
@@ -507,8 +515,9 @@ snapshots["test_search_events 1"] = {
                         "sv": "<p>Bildkonstnären Raija Malka och kompositören Kaija Saariaho fyller Amos Rex utställningsutrymme på ett nytt och experimentellt sätt nästa sommaren. Deras verk är på en och samma gång måleriskt, rumsligt och musikaliskt. </p><p>Utställningstiteln, Blick, syftar på bildkonstnären Wassily Kandinskys dikt från 1912. Texten ingår i Kaija Saariahos ljuder i utställningen. De två konstnärernas blickar möts i det tredimensionella utställningsutrymmet.</p><p>Utställningen utgör en sinnlig helhet som lockar besökare att dröja kvar. De kan bidra till Malkas och Saariahos färg- och ljudvärld med sina egna byggstenar.</p><p>Amos Rex<br>10.6.-30.8. </p><p>må, fre kl 11-18<br>ons, to kl 11-20<br>lö, sö kl 11-17</p><p>Inträde 5-15€, under 18 år fritt inträde</p>",
                     },
                     "endTime": None,
+                    "enrolmentEndTime": None,
+                    "enrolmentStartTime": None,
                     "eventStatus": "EventPostponed",
-                    "extensionCourse": None,
                     "externalLinks": [],
                     "id": "helsinki:afxp6tv4xa",
                     "images": [
@@ -544,6 +553,8 @@ snapshots["test_search_events 1"] = {
                     "location": {
                         "internalId": "https://api.hel.fi/linkedevents/v1/place/tprek:55959/"
                     },
+                    "maximumAttendeeCapacity": None,
+                    "minimumAttendeeCapacity": None,
                     "name": {
                         "en": "Raija Malka & Kaija Saariaho: Blick",
                         "fi": "Raija Malka & Kaija Saariaho: Blick",
@@ -554,6 +565,7 @@ snapshots["test_search_events 1"] = {
                     "providerContactInfo": None,
                     "publicationStatus": None,
                     "publisher": "ytj:0586977-6",
+                    "remainingAttendeeCapacity": None,
                     "shortDescription": {
                         "en": "Visual artist Raija Malka and composer Kaija Saariaho will take over Amos Rex’s exhibition space in a new and experiential way next summer. ",
                         "fi": "Kuvataiteilija Raija Malka ja säveltäjä Kaija Saariaho täyttävät ensi kesänä Amos Rexin näyttelytilan uudella kokemuksellisella tavalla. ",
@@ -955,8 +967,9 @@ snapshots["test_get_events 1"] = {
                         "sv": None,
                     },
                     "endTime": "2020-06-01T16:00:00Z",
+                    "enrolmentEndTime": None,
+                    "enrolmentStartTime": None,
                     "eventStatus": "EventScheduled",
-                    "extensionCourse": None,
                     "externalLinks": [],
                     "id": "helsinki:afy6ikna3u",
                     "images": [
@@ -1005,6 +1018,8 @@ snapshots["test_get_events 1"] = {
                     "location": {
                         "internalId": "https://api.hel.fi/linkedevents/v1/place/helsinki:internet/"
                     },
+                    "maximumAttendeeCapacity": None,
+                    "minimumAttendeeCapacity": None,
                     "name": {
                         "en": None,
                         "fi": "Uutta Koillis-Helsinkiä verkkotilaisuus",
@@ -1015,6 +1030,7 @@ snapshots["test_get_events 1"] = {
                     "providerContactInfo": None,
                     "publicationStatus": None,
                     "publisher": "ahjo:u541000",
+                    "remainingAttendeeCapacity": None,
                     "shortDescription": {
                         "en": None,
                         "fi": "Tule kuulemaan ja keskustelemaan verkkoon uudistuvasta Koillis-Helsingistä omalta kotisohvaltasi. Juuri nyt voit vaikuttaa useisiin suunnittelukohteisiin!",

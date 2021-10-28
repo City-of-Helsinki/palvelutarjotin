@@ -21,12 +21,17 @@ def test_send_event_republish(
 
     called_linked_event_id = mock_update_event_to_linkedevents_api.call_args[0][0]
     event_obj = mock_update_event_to_linkedevents_api.call_args[0][1]
-    enrolling_ends = p_event.occurrences.order_by(
-        "start_time"
-    ).last().start_time - timedelta(days=p_event.enrolment_end_days)
+    last_occurrence = p_event.occurrences.order_by("start_time").last()
+    event_end = last_occurrence.end_time
+    enrolling_ends = last_occurrence.start_time - timedelta(
+        days=p_event.enrolment_end_days
+    )
     assert called_linked_event_id == p_event.linked_event_id
-    assert event_obj["end_time"] == format_linked_event_datetime(enrolling_ends)
-    assert event_obj["end_time"] is not None
+    assert event_obj["end_time"] == format_linked_event_datetime(event_end)
+    assert event_obj["enrolment_end_time"] == format_linked_event_datetime(
+        enrolling_ends
+    )
+    assert event_obj["enrolment_end_time"] is not None
 
 
 @pytest.mark.django_db

@@ -104,13 +104,11 @@ query Events(
       audienceMinAge
       audienceMaxAge
       superEventType
-      extensionCourse {
-        enrolmentStartTime
-        enrolmentEndTime
-        maximumAttendeeCapacity
-        minimumAttendeeCapacity
-        remainingAttendeeCapacity
-      }
+      enrolmentStartTime
+      enrolmentEndTime
+      maximumAttendeeCapacity
+      minimumAttendeeCapacity
+      remainingAttendeeCapacity
       name {
         fi
         sv
@@ -196,13 +194,11 @@ query Event{
       audienceMinAge
       audienceMaxAge
       superEventType
-      extensionCourse {
-        enrolmentStartTime
-        enrolmentEndTime
-        maximumAttendeeCapacity
-        minimumAttendeeCapacity
-        remainingAttendeeCapacity
-      }
+      enrolmentStartTime
+      enrolmentEndTime
+      maximumAttendeeCapacity
+      minimumAttendeeCapacity
+      remainingAttendeeCapacity
       name {
         fi
         sv
@@ -556,13 +552,11 @@ query eventsSearch{
       audienceMinAge
       audienceMaxAge
       superEventType
-      extensionCourse {
-        enrolmentStartTime
-        enrolmentEndTime
-        maximumAttendeeCapacity
-        minimumAttendeeCapacity
-        remainingAttendeeCapacity
-      }
+      enrolmentStartTime
+      enrolmentEndTime
+      maximumAttendeeCapacity
+      minimumAttendeeCapacity
+      remainingAttendeeCapacity
       name {
         fi
         sv
