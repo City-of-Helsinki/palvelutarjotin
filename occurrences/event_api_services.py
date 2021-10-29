@@ -3,7 +3,6 @@ import logging
 from datetime import timedelta
 from typing import List, Optional, TYPE_CHECKING
 
-from django.utils import timezone
 from graphene_linked_events.utils import api_client
 
 from common.utils import format_linked_event_datetime
@@ -80,12 +79,18 @@ def send_event_republish(p_event: "PalvelutarjotinEvent"):
     ) = get_enrollable_event_time_range_from_occurrences(p_event)
 
     event_obj["publication_status"] = p_event.__class__.PUBLICATION_STATUS_PUBLIC
-    event_obj["start_time"] = format_linked_event_datetime(start_time)
-    event_obj["end_time"] = format_linked_event_datetime(end_time)
-    event_obj["enrolment_start_time"] = format_linked_event_datetime(
-        enrolment_start_time
+    event_obj["start_time"] = (
+        format_linked_event_datetime(start_time) if start_time else None
     )
-    event_obj["enrolment_end_time"] = format_linked_event_datetime(enrolment_end_time)
+    event_obj["end_time"] = format_linked_event_datetime(end_time) if end_time else None
+    event_obj["enrolment_start_time"] = (
+        format_linked_event_datetime(enrolment_start_time)
+        if enrolment_start_time
+        else None
+    )
+    event_obj["enrolment_end_time"] = (
+        format_linked_event_datetime(enrolment_end_time) if enrolment_end_time else None
+    )
 
     update_event_to_linkedevents_api(p_event.linked_event_id, event_obj)
 
@@ -119,13 +124,31 @@ def get_event_time_range_from_occurrences(p_event: Optional["PalvelutarjotinEven
 def get_enrollable_event_time_range_from_occurrences(
     p_event: Optional["PalvelutarjotinEvent"],
 ):
-    if not p_event:
+    if not p_event or not p_event.enrolment_start:
+        """
+        1. No p_event set yet
+        2. 2nd step of the UI's form wizard, that includes the occurrences
+        and enrolment data, is not yet full filled.
+        3. The event is externally enrollable
+        4. The event is not enrollable at all
+        """
         return None, None
 
-    occurrences = p_event.occurrences.filter(cancelled=False).order_by("start_time")
+    occurrences = p_event.occurrences.filter(cancelled=False).order_by("end_time")
     end_time = occurrences.last().start_time
 
-    if p_event.enrolment_end_days is not None:
+    # Enrolment end days sets the last day for enrolment
+    if p_event.enrolment_end_days is not None and p_event.enrolment_end_days > 0:
         end_time = end_time - timedelta(days=p_event.enrolment_end_days)
 
-    return (timezone.now(), end_time)
+    # NOTE: originally the start time has been timezone.now(),
+    # because something needs to be set on UI wizards first step,
+    # when there are no occurrences or enrolment start time set yet.
+    # Event's enrolment start time should be in sync
+    # with p_event.enrolment_start, or `p_event.enrolment_start`
+    # should be fully replaced with
+    # `occurrence.start_time - timedelta(days=p_event.enrolment_end_days)`
+    # TODO: Remove p_event.enrolment_start and
+    # start using the one from LinkedEvents Event API,
+    # so there would be one field less to sync between the APIs
+    return (p_event.enrolment_start, end_time)

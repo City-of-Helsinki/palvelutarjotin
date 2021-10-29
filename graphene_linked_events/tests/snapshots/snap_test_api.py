@@ -763,22 +763,6 @@ snapshots["test_create_event 1"] = {
     }
 }
 
-snapshots["test_publish_event 1"] = {
-    "data": {
-        "publishEventMutation": {
-            "response": {
-                "body": {
-                    "endTime": None,
-                    "id": "qq:afy6aghr2y",
-                    "publicationStatus": "public",
-                    "startTime": "2020-05-07",
-                },
-                "statusCode": 200,
-            }
-        }
-    }
-}
-
 snapshots["test_unpublish_event 1"] = {
     "data": {
         "unpublishEventMutation": {
@@ -1068,6 +1052,38 @@ snapshots["test_publish_event_with_external_enrolments 1"] = {
 }
 
 snapshots["test_publish_event_without_enrolments 1"] = {
+    "data": {
+        "publishEventMutation": {
+            "response": {
+                "body": {
+                    "endTime": None,
+                    "id": "qq:afy6aghr2y",
+                    "publicationStatus": "public",
+                    "startTime": "2020-05-07",
+                },
+                "statusCode": 200,
+            }
+        }
+    }
+}
+
+snapshots["test_publish_event[None] 1"] = {
+    "data": {
+        "publishEventMutation": {
+            "response": {
+                "body": {
+                    "endTime": None,
+                    "id": "qq:afy6aghr2y",
+                    "publicationStatus": "public",
+                    "startTime": "2020-05-07",
+                },
+                "statusCode": 200,
+            }
+        }
+    }
+}
+
+snapshots["test_publish_event[p_event_enrolment_start1] 1"] = {
     "data": {
         "publishEventMutation": {
             "response": {

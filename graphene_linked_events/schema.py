@@ -3,6 +3,7 @@ from types import SimpleNamespace
 
 from django.core.exceptions import PermissionDenied
 from django.db import transaction
+from django.utils import timezone
 from graphene import (
     Boolean,
     Enum,
@@ -726,10 +727,16 @@ def _prepare_published_event_data(event_id):
 
     body = {
         "publication_status": PalvelutarjotinEvent.PUBLICATION_STATUS_PUBLIC,
-        "start_time": format_linked_event_datetime(start_time),
-        "end_time": format_linked_event_datetime(end_time),
-        "enrolment_start_time": format_linked_event_datetime(enrolment_start_time),
-        "enrolment_end_time": format_linked_event_datetime(enrolment_end_time),
+        "start_time": format_linked_event_datetime(start_time)
+        if start_time
+        else timezone.now(),
+        "end_time": format_linked_event_datetime(end_time) if end_time else None,
+        "enrolment_start_time": format_linked_event_datetime(enrolment_start_time)
+        if enrolment_start_time
+        else None,
+        "enrolment_end_time": format_linked_event_datetime(enrolment_end_time)
+        if enrolment_end_time
+        else None,
     }
     return body
 

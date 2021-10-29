@@ -1,6 +1,6 @@
 import json
 from copy import deepcopy
-from datetime import timedelta
+from datetime import datetime, timedelta
 from unittest.mock import patch
 
 import graphene_linked_events
@@ -8,11 +8,15 @@ import pytest
 from django.utils import timezone
 from graphene.utils.str_converters import to_snake_case
 from graphene_linked_events.rest_client import LinkedEventsApiClient
+from graphene_linked_events.schema import (
+    api_client as graphene_linked_events_api_client,
+)
 from graphene_linked_events.schema import Query
 from graphene_linked_events.tests.mock_data import (
     EVENT_DATA,
     EVENTS_DATA,
     KEYWORD_SET_DATA,
+    UPDATE_EVENT_DATA,
 )
 from graphene_linked_events.tests.utils import MockResponse
 from graphene_linked_events.utils import retrieve_linked_events_data
@@ -1272,16 +1276,33 @@ def test_publish_event_unauthorized(
     assert_permission_denied(executed)
 
 
+@patch.object(
+    graphene_linked_events_api_client,
+    "update",
+    return_value=MockResponse(status_code=200, json_data=UPDATE_EVENT_DATA),
+)
+@pytest.mark.parametrize("p_event_enrolment_start", [None, timezone.now()])
 def test_publish_event(
+    mocked_update_event_data,
+    p_event_enrolment_start,
     snapshot,
     api_client,
     user_api_client,
     staff_api_client,
     mock_get_draft_event_data,
-    mock_update_event_data,
     organisation,
     person,
 ):
+    def __eq_dt_with_tz(dt1, dt2) -> bool:
+        if dt1 and dt2:
+            if isinstance(dt1, str):
+                dt1 = datetime.fromisoformat(dt1)
+            if isinstance(dt2, str):
+                dt2 = datetime.fromisoformat(dt2)
+
+            return dt1.utctimetuple() == dt2.utctimetuple()
+        return dt1 == dt2
+
     # Reuse update event variables
     variables = deepcopy(UPDATE_EVENT_VARIABLES)
     del variables["input"]["draft"]
@@ -1292,15 +1313,31 @@ def test_publish_event(
         "PersonNode", person.id
     )
     p_event = PalvelutarjotinEventFactory(
-        linked_event_id=UPDATE_EVENT_VARIABLES["input"]["id"], organisation=organisation
+        linked_event_id=UPDATE_EVENT_VARIABLES["input"]["id"],
+        organisation=organisation,
+        enrolment_start=p_event_enrolment_start,
     )
     staff_api_client.user.person.organisations.add(organisation)
     person.organisations.add(organisation)
     executed = staff_api_client.execute(PUBLISH_EVENT_MUTATION, variables=variables)
     # cannot publish event without occurrence
     assert_match_error_code(executed, API_USAGE_ERROR)
-    OccurrenceFactory(p_event=p_event)
+    occurrence = OccurrenceFactory(p_event=p_event)
+    assert occurrence.start_time is not None
+    assert occurrence.end_time is not None
     executed = staff_api_client.execute(PUBLISH_EVENT_MUTATION, variables=variables)
+    event_response = json.loads(mocked_update_event_data.call_args[0][2])
+    assert __eq_dt_with_tz(event_response["start_time"], occurrence.start_time)
+    assert __eq_dt_with_tz(event_response["end_time"], occurrence.end_time)
+    assert __eq_dt_with_tz(
+        event_response["enrolment_start_time"], p_event.enrolment_start
+    )
+    if p_event.enrolment_start:
+        assert __eq_dt_with_tz(
+            event_response["enrolment_end_time"],
+            occurrence.start_time - timedelta(days=p_event.enrolment_end_days),
+        )
+
     snapshot.assert_match(executed)
 
 
