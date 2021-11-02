@@ -82,7 +82,7 @@ class StudyLevelFactory(factory.django.DjangoModelFactory):
 
 class StudyGroupFactory(factory.django.DjangoModelFactory):
     person = factory.SubFactory(PersonFactory)
-    name = factory.Faker("text", max_nb_chars=100)
+    unit_name = factory.Faker("text", max_nb_chars=100)
     group_size = factory.Faker("random_int", max=1000)
     extra_needs = factory.Faker("text", max_nb_chars=100)
     group_name = factory.Faker("text", max_nb_chars=100)

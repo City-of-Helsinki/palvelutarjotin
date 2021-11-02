@@ -8,7 +8,7 @@ from common.utils import format_linked_event_datetime
 from palvelutarjotin.exceptions import ApiBadRequestError, ObjectDoesNotExistError
 
 if TYPE_CHECKING:
-    from occurrences.models import PalvelutarjotinEvent
+    from occurrences.models import PalvelutarjotinEvent, StudyGroup
 
 
 logger = logging.getLogger(__name__)
@@ -105,3 +105,24 @@ def get_event_time_range_from_occurrences(p_event: Optional["PalvelutarjotinEven
     if first_occurrence and last_occurrence:
         return first_occurrence.start_time, last_occurrence.end_time
     return None, None
+
+
+def resolve_unit_name_with_unit_id(study_group: "StudyGroup"):
+    if not study_group.unit_id:
+        raise ValueError(
+            """Resolve_unit_name_with_unit_id cannot resolve
+            the name when the unit id is not given."""
+        )
+
+    result = api_client.retrieve("place", study_group.unit_id)
+
+    if result.status_code == 400:
+        raise ApiBadRequestError("Bad request to LinkedEvents API.")
+
+    if result.status_code == 404:
+        raise ObjectDoesNotExistError("Could not find the event from the API.")
+
+    result.raise_for_status()
+
+    if result.name:
+        study_group.unit_name = result.name

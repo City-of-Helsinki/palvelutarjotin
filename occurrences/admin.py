@@ -20,7 +20,7 @@ class OccurrenceInline(admin.TabularInline):
 
 @admin.register(StudyGroup)
 class StudyGroupAdmin(admin.ModelAdmin):
-    list_display = ("name", "created_at", "group_size")
+    list_display = ("unit_name", "created_at", "group_size")
     exclude = ("id",)
     inlines = (OccurrenceInline,)
 

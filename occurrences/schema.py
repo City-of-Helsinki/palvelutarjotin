@@ -8,7 +8,7 @@ from django.conf import settings
 from django.db import transaction
 from django.utils import timezone
 from django.utils.translation import get_language
-from graphene import Connection, Field, InputObjectType, NonNull, relay
+from graphene import Connection, Field, ID, InputObjectType, NonNull, relay
 from graphene.utils.str_converters import to_snake_case
 from graphene_django import DjangoConnectionField, DjangoObjectType
 from graphene_django.filter import DjangoFilterConnectionField
@@ -219,6 +219,15 @@ class StudyGroupNode(DjangoObjectType):
     class Meta:
         model = StudyGroup
         interfaces = (relay.Node,)
+        excludes = ["unit_id", "unit_name"]
+
+    # unit_id = graphene.ID(source="place_id", description="place_id from linkedEvent")
+    unit = Field("graphene_linked_events.schema.Place", id=ID(required=True))
+
+    @staticmethod
+    def resolve_unit(parent, info, **kwargs):
+        response = api_client.retrieve("place", kwargs["unit_id"])
+        return json2obj(format_response(response))
 
 
 class VenueTranslationType(DjangoObjectType):
