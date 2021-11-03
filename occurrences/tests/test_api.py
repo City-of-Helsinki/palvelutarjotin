@@ -118,7 +118,19 @@ query StudyGroups{
   studyGroups{
     edges{
       node{
-        name
+        unit {
+            ... on ExternalPlace {
+                name {
+                    fi
+                }
+            }
+            ... on Place {
+                internalId
+                name {
+                    fi
+                }
+            }
+        }
         person {
           name
         }
@@ -156,7 +168,21 @@ query StudyGroups{
 STUDY_GROUP_QUERY = """
 query StudyGroup($id: ID!){
   studyGroup(id: $id){
-    name
+    unitId
+    unitName
+    unit {
+        ... on ExternalPlace {
+            name {
+                fi
+            }
+        }
+        ... on Place {
+            internalId
+            name {
+                fi
+            }
+        }
+    }
     person {
       name
     }
@@ -230,7 +256,7 @@ query Occurrences(
         studyGroups {
           edges {
             node {
-              name
+              unitName
             }
           }
         }
@@ -276,7 +302,7 @@ query Occurrence($id: ID!){
     studyGroups {
       edges {
         node {
-          name
+          unitName
         }
       }
     }
@@ -988,7 +1014,21 @@ ADD_STUDY_GROUP_MUTATION = """
 mutation addStudyGroup($input: AddStudyGroupMutationInput!){
   addStudyGroup(input:$input) {
     studyGroup{
-      name
+      unitId
+      unitName
+      unit {
+        ... on ExternalPlace {
+            name {
+                fi
+            }
+        }
+        ... on Place {
+            internalId
+            name {
+                fi
+            }
+        }
+      }
       person{
         name
         emailAddress
@@ -1025,7 +1065,7 @@ ADD_STUDY_GROUP_VARIABLES = {
             "phoneNumber": "123123",
             "language": "SV",
         },
-        "name": "Sample study group name",
+        "unitName": "Sample study group name",
         "groupSize": 20,
         "amountOfAdult": 1,
         "studyLevels": ["GRADE_1"],
@@ -1057,7 +1097,21 @@ UPDATE_STUDY_GROUP_MUTATION = """
 mutation updateStudyGroup($input: UpdateStudyGroupMutationInput!){
   updateStudyGroup(input:$input) {
     studyGroup{
-      name
+      unitId
+      unitName
+      unit {
+        ... on ExternalPlace {
+            name {
+                fi
+            }
+        }
+        ... on Place {
+            internalId
+            name {
+                fi
+            }
+        }
+      }
       person{
         name
         emailAddress
@@ -1094,7 +1148,7 @@ UPDATE_STUDY_GROUP_VARIABLES = {
             "emailAddress": "email@address.com",
             "phoneNumber": "123123",
         },
-        "name": "Sample study group name",
+        "unitName": "Sample study group name",
         "groupSize": 20,
         "amountOfAdult": 2,
         "studyLevels": ["GRADE_2"],
@@ -1162,7 +1216,7 @@ mutation enrolOccurrence($input: EnrolOccurrenceMutationInput!){
   enrolOccurrence(input: $input){
     enrolments{
       studyGroup{
-        name
+        unitName
       }
       occurrence{
         startTime
@@ -1208,7 +1262,7 @@ def test_enrol_not_started_occurrence(
                     "name": study_group.person.name,
                     "emailAddress": study_group.person.email_address,
                 },
-                "name": "To be created group",
+                "unitName": "To be created group",
                 "groupSize": study_group.group_size,
                 "groupName": study_group.group_name,
                 "studyLevels": [sl.id.upper() for sl in StudyLevel.objects.all()],
@@ -1246,7 +1300,7 @@ def test_enrol_past_occurrence(
                     "name": study_group.person.name,
                     "emailAddress": study_group.person.email_address,
                 },
-                "name": "To be created group",
+                "unitName": "To be created group",
                 "groupSize": study_group.group_size,
                 "groupName": study_group.group_name,
                 "studyLevels": [sl.id.upper() for sl in StudyLevel.objects.all()],
@@ -1284,7 +1338,7 @@ def test_enrol_invalid_group_size(
                     "name": study_group_21.person.name,
                     "emailAddress": study_group_21.person.email_address,
                 },
-                "name": "To be created group",
+                "unitName": "To be created group",
                 "groupSize": study_group_21.group_size,
                 "groupName": study_group_21.group_name,
                 "studyLevels": [sl.upper() for sl in study_group_21.study_levels.all()],
@@ -1304,7 +1358,7 @@ def test_enrol_invalid_group_size(
                     "name": study_group_9.person.name,
                     "emailAddress": study_group_9.person.email_address,
                 },
-                "name": "To be created group",
+                "unitName": "To be created group",
                 "groupSize": study_group_9.group_size,
                 "groupName": study_group_9.group_name,
                 "studyLevels": [sl.upper() for sl in study_group_9.study_levels.all()],
@@ -1348,7 +1402,7 @@ def test_enrol_full_children_occurrence(
                     "name": study_group_15.person.name,
                     "emailAddress": study_group_15.person.email_address,
                 },
-                "name": "To be created group",
+                "unitName": "To be created group",
                 "groupSize": study_group_15.group_size,
                 "groupName": study_group_15.group_name,
                 "studyLevels": [sl.upper() for sl in study_group_15.study_levels.all()],
@@ -1395,7 +1449,7 @@ def test_enrol_full_enrolment_occurrence(
                     "name": study_group_15.person.name,
                     "emailAddress": study_group_15.person.email_address,
                 },
-                "name": "To be created group",
+                "unitName": "To be created group",
                 "groupSize": study_group_15.group_size,
                 "groupName": study_group_15.group_name,
                 "studyLevels": [sl.upper() for sl in study_group_15.study_levels.all()],
@@ -1423,7 +1477,7 @@ def test_enrol_cancelled_occurrence(
                     "name": study_group.person.name,
                     "emailAddress": study_group.person.email_address,
                 },
-                "name": "To be created group",
+                "unitName": "To be created group",
                 "groupSize": study_group.group_size,
                 "groupName": study_group.group_name,
                 "studyLevels": [sl.id.upper() for sl in StudyLevel.objects.all()],
@@ -1454,7 +1508,7 @@ def test_enrol_occurrence_without_required_information(
                     "name": study_group.person.name,
                     "emailAddress": study_group.person.email_address,
                 },
-                "name": "To be created group",
+                "unitName": "To be created group",
                 "groupSize": study_group.group_size,
                 "groupName": study_group.group_name,
                 "studyLevels": [sl.id.upper() for sl in StudyLevel.objects.all()],
@@ -1502,7 +1556,7 @@ def test_enrol_occurrence(snapshot, api_client, mock_get_event_data):
                     "name": study_group_15.person.name,
                     "emailAddress": study_group_15.person.email_address,
                 },
-                "name": "To be created group",
+                "unitName": "To be created group",
                 "groupSize": study_group_15.group_size,
                 "groupName": study_group_15.group_name,
                 "studyLevels": [sl.upper() for sl in study_group_15.study_levels.all()],
@@ -1541,7 +1595,7 @@ def test_enrol_occurrence_with_captcha(
                     "name": study_group_15.person.name,
                     "emailAddress": study_group_15.person.email_address,
                 },
-                "name": "To be created group",
+                "unitName": "To be created group",
                 "groupSize": study_group_15.group_size,
                 "groupName": study_group_15.group_name,
                 "studyLevels": [sl.upper() for sl in study_group_15.study_levels.all()],
@@ -1593,7 +1647,7 @@ def test_enrol_auto_acceptance_occurrence(snapshot, api_client, mock_get_event_d
                     "name": study_group_15.person.name,
                     "emailAddress": study_group_15.person.email_address,
                 },
-                "name": "To be created group",
+                "unitName": "To be created group",
                 "groupSize": study_group_15.group_size,
                 "groupName": study_group_15.group_name,
                 "studyLevels": [sl.upper() for sl in study_group_15.study_levels.all()],
@@ -1615,7 +1669,7 @@ def test_enrol_auto_acceptance_occurrence(snapshot, api_client, mock_get_event_d
                     "name": study_group_15.person.name,
                     "emailAddress": study_group_15.person.email_address,
                 },
-                "name": "To be created group",
+                "unitName": "To be created group",
                 "groupSize": study_group_15.group_size,
                 "groupName": study_group_15.group_name,
                 "studyLevels": [sl.upper() for sl in study_group_15.study_levels.all()],
@@ -1656,7 +1710,7 @@ def test_enrol_max_needed_occurrences(snapshot, api_client, mock_get_event_data)
                     "name": study_group_15.person.name,
                     "emailAddress": study_group_15.person.email_address,
                 },
-                "name": "To be created group",
+                "unitName": "To be created group",
                 "groupSize": study_group_15.group_size,
                 "groupName": study_group_15.group_name,
                 "studyLevels": [sl.upper() for sl in study_group_15.study_levels.all()],
@@ -1679,7 +1733,7 @@ mutation unenrolOccurrence($input: UnenrolOccurrenceMutationInput!){
        amountOfSeats
     }
     studyGroup{
-      name
+        unitName
     }
   }
 }
@@ -2020,7 +2074,7 @@ mutation updateEnrolmentMutation($input: UpdateEnrolmentMutationInput!){
   updateEnrolment(input: $input){
     enrolment{
       studyGroup{
-        name
+        unitName
         groupName
         amountOfAdult
         groupSize
@@ -2117,7 +2171,7 @@ def test_update_enrolment(
                     "name": study_group_15.person.name,
                     "emailAddress": study_group_15.person.email_address,
                 },
-                "name": "Updated name",
+                "unitName": "Updated name",
                 "groupSize": 16,
                 "groupName": "Updated study group name",
                 "studyLevels": [sl.upper() for sl in study_group_15.study_levels.all()],
@@ -2603,7 +2657,7 @@ query cancellingEnrolment($id: ID!){
             seatsTaken
         }
         studyGroup{
-            name
+            unitName
             groupSize
         }
     }

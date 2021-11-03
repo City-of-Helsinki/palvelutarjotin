@@ -8,10 +8,10 @@ from django.conf import settings
 from django.db import transaction
 from django.utils import timezone
 from django.utils.translation import get_language
-from graphene import Connection, Field, ID, InputObjectType, NonNull, relay
 from graphene.utils.str_converters import to_snake_case
 from graphene_django import DjangoConnectionField, DjangoObjectType
 from graphene_django.filter import DjangoFilterConnectionField
+from graphene_linked_events.schema import Place
 from graphene_linked_events.utils import api_client, format_response, json2obj
 from graphql_jwt.decorators import staff_member_required
 from occurrences.consts import NOTIFICATION_TYPES
@@ -123,7 +123,7 @@ class OccurrenceNode(DjangoObjectType):
     remaining_seats = graphene.Int(required=True)
     seats_taken = graphene.Int(required=True)
     seats_approved = graphene.Int(required=True)
-    linked_event = Field(
+    linked_event = graphene.Field(
         "graphene_linked_events.schema.Event",
         description="Only use this field in single event query for "
         + "best performance.",
@@ -138,7 +138,7 @@ class OccurrenceNode(DjangoObjectType):
 
     class Meta:
         model = Occurrence
-        interfaces = (relay.Node,)
+        interfaces = (graphene.relay.Node,)
         filterset_class = OccurrenceFilter
 
     @classmethod
@@ -156,7 +156,7 @@ class PalvelutarjotinEventNode(DjangoObjectType):
 
     class Meta:
         model = PalvelutarjotinEvent
-        interfaces = (relay.Node,)
+        interfaces = (graphene.relay.Node,)
 
     def resolve_next_occurrence_datetime(self, info, **kwargs):
         try:
@@ -177,7 +177,7 @@ class PalvelutarjotinEventNode(DjangoObjectType):
             return None
 
 
-class PalvelutarjotinEventInput(InputObjectType):
+class PalvelutarjotinEventInput(graphene.InputObjectType):
     enrolment_start = graphene.DateTime()
     enrolment_end_days = graphene.Int()
     external_enrolment_url = graphene.String()
@@ -206,7 +206,7 @@ class StudyLevelNode(DjangoObjectType):
 
     class Meta:
         model = StudyLevel
-        interfaces = (relay.Node,)
+        interfaces = (graphene.relay.Node,)
         exclude = ("study_groups",)
 
     @classmethod
@@ -215,19 +215,45 @@ class StudyLevelNode(DjangoObjectType):
         return queryset.language(lang)
 
 
+class ExternalPlace(graphene.ObjectType):
+    name = graphene.Field("graphene_linked_events.schema.LocalisedObject")
+
+
+class UnitNode(graphene.Union):
+    class Meta:
+
+        types = (ExternalPlace, Place)
+
+    @classmethod
+    def resolve_type(cls, instance, info):
+        if getattr(instance, "_meta", None) == "ExternalPlace":
+            return ExternalPlace
+        if getattr(instance, "id", None):
+            return Place
+        return ExternalPlace
+
+
 class StudyGroupNode(DjangoObjectType):
     class Meta:
         model = StudyGroup
-        interfaces = (relay.Node,)
-        excludes = ["unit_id", "unit_name"]
+        interfaces = (graphene.relay.Node,)
 
-    # unit_id = graphene.ID(source="place_id", description="place_id from linkedEvent")
-    unit = Field("graphene_linked_events.schema.Place", id=ID(required=True))
+    unit = graphene.Field(UnitNode)
 
     @staticmethod
     def resolve_unit(parent, info, **kwargs):
-        response = api_client.retrieve("place", kwargs["unit_id"])
-        return json2obj(format_response(response))
+        if parent.unit_id:
+            response = api_client.retrieve("place", parent.unit_id)
+            return json2obj(format_response(response))
+        if parent.unit_name:
+            return ExternalPlace(
+                name={
+                    "fi": parent.unit_name,
+                    "sv": parent.unit_name,
+                    "en": parent.unit_name,
+                }
+            )
+        return None
 
 
 class VenueTranslationType(DjangoObjectType):
@@ -238,7 +264,7 @@ class VenueTranslationType(DjangoObjectType):
         exclude = ("id", "master")
 
 
-class VenueTranslationsInput(InputObjectType):
+class VenueTranslationsInput(graphene.InputObjectType):
     description = graphene.String()
     language_code = LanguageEnum(required=True)
 
@@ -254,7 +280,7 @@ class VenueNode(DjangoObjectType):
 
     class Meta:
         model = VenueCustomData
-        interfaces = (relay.Node,)
+        interfaces = (graphene.relay.Node,)
         exclude = ("place_id",)
 
     @classmethod
@@ -267,7 +293,7 @@ class VenueNode(DjangoObjectType):
         return super().get_node(info, id)
 
 
-class VenueNodeInput(InputObjectType):
+class VenueNodeInput(graphene.InputObjectType):
     translations = graphene.List(VenueTranslationsInput)
 
 
@@ -311,10 +337,10 @@ class LanguageNode(DjangoObjectType):
     class Meta:
         model = Language
         exclude = ("occurrences",)
-        interfaces = (relay.Node,)
+        interfaces = (graphene.relay.Node,)
 
 
-class LanguageInput(InputObjectType):
+class LanguageInput(graphene.InputObjectType):
     id = graphene.String()
 
 
@@ -329,7 +355,7 @@ class AddOccurrenceMutation(graphene.relay.ClientIDMutation):
         p_event_id = graphene.ID(required=True)
         amount_of_seats = graphene.Int(required=True)
         seat_type = OccurrenceSeatTypeEnum()
-        languages = NonNull(graphene.List(LanguageInput))
+        languages = graphene.NonNull(graphene.List(LanguageInput))
 
     occurrence = graphene.Field(OccurrenceNode)
 
@@ -374,7 +400,7 @@ class UpdateOccurrenceMutation(graphene.relay.ClientIDMutation):
         )
         p_event_id = graphene.ID()
         amount_of_seats = graphene.Int()
-        languages = NonNull(
+        languages = graphene.NonNull(
             graphene.List(LanguageInput),
             description="If present, should include all languages of the occurrence",
         )
@@ -524,7 +550,7 @@ class DeleteVenueMutation(graphene.relay.ClientIDMutation):
         return DeleteVenueMutation()
 
 
-class EnrolmentConnectionWithCount(Connection):
+class EnrolmentConnectionWithCount(graphene.Connection):
     class Meta:
         abstract = True
 
@@ -541,7 +567,7 @@ class EnrolmentNode(DjangoObjectType):
     class Meta:
         model = Enrolment
         filter_fields = ["status"]
-        interfaces = (relay.Node,)
+        interfaces = (graphene.relay.Node,)
         connection_class = EnrolmentConnectionWithCount
 
 
@@ -592,14 +618,15 @@ def validate_enrolment(study_group, occurrence, new_enrolment=True):
             )
 
 
-class StudyGroupInput(InputObjectType):
-    person = NonNull(
+class StudyGroupInput(graphene.InputObjectType):
+    person = graphene.NonNull(
         PersonNodeInput,
         description="If person input doesn't include person id, "
         "a new person "
         "object will be created",
     )
-    name = graphene.String()
+    unit_id = graphene.String()
+    unit_name = graphene.String()
     group_size = graphene.Int(required=True)
     group_name = graphene.String()
     extra_needs = graphene.String()
@@ -628,7 +655,7 @@ def verify_captcha(key):
 
 class EnrolOccurrenceMutation(graphene.relay.ClientIDMutation):
     class Input:
-        occurrence_ids = NonNull(
+        occurrence_ids = graphene.NonNull(
             graphene.List(graphene.ID), description="Occurrence ids of event"
         )
         study_group = StudyGroupInput(description="Study group data", required=True)
@@ -845,13 +872,14 @@ class DeclineEnrolmentMutation(graphene.relay.ClientIDMutation):
 
 class AddStudyGroupMutation(graphene.relay.ClientIDMutation):
     class Input:
-        person = NonNull(
+        person = graphene.NonNull(
             PersonNodeInput,
             description="If person input doesn't include person id, "
             "a new person "
             "object will be created",
         )
-        name = graphene.String()
+        unit_id = graphene.String()
+        unit_name = graphene.String()
         group_size = graphene.Int(required=True)
         group_name = graphene.String()
         extra_needs = graphene.String()
@@ -871,7 +899,8 @@ class UpdateStudyGroupMutation(graphene.relay.ClientIDMutation):
     class Input:
         id = graphene.GlobalID()
         person = PersonNodeInput()
-        name = graphene.String()
+        unit_id = graphene.String()
+        unit_name = graphene.String()
         group_size = graphene.Int()
         group_name = graphene.String()
         extra_needs = graphene.String()
@@ -963,10 +992,10 @@ class Query:
     occurrences = OrderedDjangoFilterConnectionField(
         OccurrenceNode, orderBy=graphene.List(of_type=graphene.String)
     )
-    occurrence = relay.Node.Field(OccurrenceNode)
+    occurrence = graphene.relay.Node.Field(OccurrenceNode)
 
     study_groups = DjangoConnectionField(StudyGroupNode)
-    study_group = relay.Node.Field(StudyGroupNode)
+    study_group = graphene.relay.Node.Field(StudyGroupNode)
 
     study_levels = DjangoConnectionField(StudyLevelNode)
     study_level = graphene.Field(StudyLevelNode, id=graphene.ID(required=True))
@@ -1008,7 +1037,7 @@ class Query:
             return None
 
     enrolments = DjangoConnectionField(EnrolmentNode)
-    enrolment = relay.Node.Field(EnrolmentNode)
+    enrolment = graphene.relay.Node.Field(EnrolmentNode)
 
     enrolment_summary = DjangoConnectionField(
         EnrolmentNode,

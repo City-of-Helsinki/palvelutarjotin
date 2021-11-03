@@ -16,11 +16,15 @@ snapshots["test_study_groups_query 1"] = {
                         "extraNeeds": "Stay every something base may middle good father. Past ready join enjoy.",
                         "groupName": "Staff read rule point leg within. Staff country actually generation five training.",
                         "groupSize": 631,
-                        "name": """Age else myself yourself.
-Range north skin watch.""",
                         "occurrences": {"edges": []},
                         "person": {"name": "William Brewer"},
                         "studyLevels": {"edges": []},
+                        "unit": {
+                            "name": {
+                                "fi": """Age else myself yourself.
+Range north skin watch."""
+                            }
+                        },
                         "updatedAt": "2020-01-04T00:00:00+00:00",
                     }
                 }
@@ -36,11 +40,18 @@ snapshots["test_study_group_query 1"] = {
             "extraNeeds": "Stay every something base may middle good father. Past ready join enjoy.",
             "groupName": "Staff read rule point leg within. Staff country actually generation five training.",
             "groupSize": 631,
-            "name": """Age else myself yourself.
-Range north skin watch.""",
             "occurrences": {"edges": []},
             "person": {"name": "William Brewer"},
             "studyLevels": {"edges": []},
+            "unit": {
+                "name": {
+                    "fi": """Age else myself yourself.
+Range north skin watch."""
+                }
+            },
+            "unitId": None,
+            "unitName": """Age else myself yourself.
+Range north skin watch.""",
             "updatedAt": "2020-01-04T00:00:00+00:00",
         }
     }
@@ -197,7 +208,6 @@ snapshots["test_add_study_group 1"] = {
                 "extraNeeds": "Extra needs",
                 "groupName": "Sample group name",
                 "groupSize": 20,
-                "name": "Sample study group name",
                 "person": {
                     "emailAddress": "email@address.com",
                     "language": "SV",
@@ -218,6 +228,9 @@ snapshots["test_add_study_group 1"] = {
                         }
                     ]
                 },
+                "unit": {"name": {"fi": "Sample study group name"}},
+                "unitId": None,
+                "unitName": "Sample study group name",
             }
         }
     }
@@ -231,7 +244,6 @@ snapshots["test_add_study_group 2"] = {
                 "extraNeeds": "Extra needs",
                 "groupName": "Sample group name",
                 "groupSize": 20,
-                "name": "Sample study group name",
                 "person": {
                     "emailAddress": "torreswilliam@hotmail.com",
                     "language": "FI",
@@ -252,6 +264,9 @@ snapshots["test_add_study_group 2"] = {
                         }
                     ]
                 },
+                "unit": {"name": {"fi": "Sample study group name"}},
+                "unitId": None,
+                "unitName": "Sample study group name",
             }
         }
     }
@@ -265,7 +280,6 @@ snapshots["test_update_study_group_staff_user 1"] = {
                 "extraNeeds": "Extra needs",
                 "groupName": "Sample group name",
                 "groupSize": 20,
-                "name": "Sample study group name",
                 "person": {
                     "emailAddress": "email@address.com",
                     "language": "FI",
@@ -286,6 +300,9 @@ snapshots["test_update_study_group_staff_user 1"] = {
                         }
                     ]
                 },
+                "unit": {"name": {"fi": "Sample study group name"}},
+                "unitId": None,
+                "unitName": "Sample study group name",
             }
         }
     }
@@ -299,7 +316,6 @@ snapshots["test_update_study_group_staff_user 2"] = {
                 "extraNeeds": "Extra needs",
                 "groupName": "Sample group name",
                 "groupSize": 20,
-                "name": "Sample study group name",
                 "person": {
                     "emailAddress": "bdorsey@owens.org",
                     "language": "FI",
@@ -320,6 +336,9 @@ snapshots["test_update_study_group_staff_user 2"] = {
                         }
                     ]
                 },
+                "unit": {"name": {"fi": "Sample study group name"}},
+                "unitId": None,
+                "unitName": "Sample study group name",
             }
         }
     }
@@ -340,7 +359,7 @@ snapshots["test_enrol_occurrence 1"] = {
                         "startTime": "2020-01-06T00:00:00+00:00",
                     },
                     "status": "PENDING",
-                    "studyGroup": {"name": "To be created group"},
+                    "studyGroup": {"unitName": "To be created group"},
                 },
                 {
                     "notificationType": "EMAIL",
@@ -353,7 +372,7 @@ snapshots["test_enrol_occurrence 1"] = {
                         "startTime": "2020-01-06T00:00:00+00:00",
                     },
                     "status": "PENDING",
-                    "studyGroup": {"name": "To be created group"},
+                    "studyGroup": {"unitName": "To be created group"},
                 },
             ]
         }
@@ -667,7 +686,7 @@ snapshots["test_unenrol_occurrence 1"] = {
                 "seatsTaken": 0,
                 "startTime": "2020-01-06T00:00:00+00:00",
             },
-            "studyGroup": {"name": "Respond yard door indicate."},
+            "studyGroup": {"unitName": "Respond yard door indicate."},
         }
     }
 }
@@ -795,7 +814,7 @@ snapshots["test_enrol_occurrence_with_captcha 1"] = {
                         "startTime": "2020-01-06T00:00:00+00:00",
                     },
                     "status": "PENDING",
-                    "studyGroup": {"name": "To be created group"},
+                    "studyGroup": {"unitName": "To be created group"},
                 }
             ]
         }
@@ -855,7 +874,7 @@ snapshots["test_enrol_auto_acceptance_occurrence 1"] = {
                         "startTime": "2020-01-06T00:00:00+00:00",
                     },
                     "status": "PENDING",
-                    "studyGroup": {"name": "To be created group"},
+                    "studyGroup": {"unitName": "To be created group"},
                 }
             ]
         }
@@ -877,7 +896,7 @@ snapshots["test_enrol_auto_acceptance_occurrence 2"] = {
                         "startTime": "2020-01-06T00:00:00+00:00",
                     },
                     "status": "APPROVED",
-                    "studyGroup": {"name": "To be created group"},
+                    "studyGroup": {"unitName": "To be created group"},
                 }
             ]
         }
@@ -1111,7 +1130,7 @@ snapshots["test_update_enrolment 1"] = {
                     },
                     "groupName": "Updated study group name",
                     "groupSize": 16,
-                    "name": "Updated name",
+                    "unitName": "Updated name",
                 },
             }
         }
@@ -1126,7 +1145,7 @@ snapshots["test_cancel_enrolment_query 1"] = {
             "status": "PENDING",
             "studyGroup": {
                 "groupSize": 914,
-                "name": "Family around year off. Sense person the probably.",
+                "unitName": "Family around year off. Sense person the probably.",
             },
         }
     }

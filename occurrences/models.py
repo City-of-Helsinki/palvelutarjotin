@@ -456,6 +456,22 @@ class StudyGroup(TimestampedModel):
         verbose_name = _("study group")
         verbose_name_plural = _("study groups")
 
+    @property
+    def name(self):
+        """
+        Deprecated! This getter is for backward compatibility
+        to better support existing notification templates etc.
+        """
+        return self.unit_name
+
+    @name.setter
+    def name(self, value):
+        """
+        Deprecated! This getter is for backward compatibility
+        to better support existing notification templates etc.
+        """
+        self.unit_name = value
+
     def __str__(self):
         return f"{self.id} {self.name}"
 
