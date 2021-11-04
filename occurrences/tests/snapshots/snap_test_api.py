@@ -228,8 +228,11 @@ snapshots["test_add_study_group 1"] = {
                         }
                     ]
                 },
-                "unit": {"name": {"fi": "Sample study group name"}},
-                "unitId": None,
+                "unit": {
+                    "internalId": "https://api.hel.fi/linkedevents/v1/event/helsinki:afxp6tv4xa/",
+                    "name": {"fi": "Raija Malka & Kaija Saariaho: Blick"},
+                },
+                "unitId": "helsinki:afxp6tv4xa",
                 "unitName": "Sample study group name",
             }
         }
@@ -264,8 +267,11 @@ snapshots["test_add_study_group 2"] = {
                         }
                     ]
                 },
-                "unit": {"name": {"fi": "Sample study group name"}},
-                "unitId": None,
+                "unit": {
+                    "internalId": "https://api.hel.fi/linkedevents/v1/event/helsinki:afxp6tv4xa/",
+                    "name": {"fi": "Raija Malka & Kaija Saariaho: Blick"},
+                },
+                "unitId": "helsinki:afxp6tv4xa",
                 "unitName": "Sample study group name",
             }
         }
@@ -300,8 +306,11 @@ snapshots["test_update_study_group_staff_user 1"] = {
                         }
                     ]
                 },
-                "unit": {"name": {"fi": "Sample study group name"}},
-                "unitId": None,
+                "unit": {
+                    "internalId": "https://api.hel.fi/linkedevents/v1/place/tprek:15417/",
+                    "name": {"fi": "Sellon kirjasto"},
+                },
+                "unitId": "helsinki:afxp6tv4xa",
                 "unitName": "Sample study group name",
             }
         }
@@ -336,8 +345,11 @@ snapshots["test_update_study_group_staff_user 2"] = {
                         }
                     ]
                 },
-                "unit": {"name": {"fi": "Sample study group name"}},
-                "unitId": None,
+                "unit": {
+                    "internalId": "https://api.hel.fi/linkedevents/v1/place/tprek:15417/",
+                    "name": {"fi": "Sellon kirjasto"},
+                },
+                "unitId": "helsinki:afxp6tv4xa",
                 "unitName": "Sample study group name",
             }
         }
@@ -2112,6 +2124,24 @@ snapshots["test_add_occurrence_to_unpublished_event 1"] = {
                 },
                 "startTime": "2020-05-05T00:00:00+00:00",
             }
+        }
+    }
+}
+
+snapshots["test_study_group_query_without_unit 1"] = {
+    "data": {
+        "studyGroup": {
+            "amountOfAdult": 0,
+            "extraNeeds": "Spring never skill. Able process base sing according.",
+            "groupName": "Scientist service wonder everything pay. Moment strong hand push book and interesting sit.",
+            "groupSize": 35,
+            "occurrences": {"edges": []},
+            "person": {"name": "William Brewer"},
+            "studyLevels": {"edges": []},
+            "unit": None,
+            "unitId": "",
+            "unitName": "",
+            "updatedAt": "2020-01-04T00:00:00+00:00",
         }
     }
 }

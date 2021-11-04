@@ -4,7 +4,7 @@ from datetime import datetime, timedelta
 import pytest
 from django.core import mail
 from django.utils import timezone
-from graphene_linked_events.tests.mock_data import EVENT_DATA
+from graphene_linked_events.tests.mock_data import EVENT_DATA, PLACE_DATA
 from graphql_relay import to_global_id
 from occurrences.consts import NOTIFICATION_TYPE_EMAIL
 from occurrences.factories import (
@@ -20,6 +20,7 @@ from occurrences.models import (
     StudyLevel,
     VenueCustomData,
 )
+from occurrences.schema import StudyGroupNode
 from organisations.factories import PersonFactory
 from verification_token.models import VerificationToken
 
@@ -475,6 +476,31 @@ def test_study_group_query(snapshot, study_group, api_client):
         variables={"id": to_global_id("StudyGroupNode", study_group.id)},
     )
     snapshot.assert_match(executed)
+
+
+def test_study_group_query_without_unit(snapshot, api_client):
+    study_group = StudyGroupFactory(unit_name="", unit_id="")
+    executed = api_client.execute(
+        STUDY_GROUP_QUERY,
+        variables={"id": to_global_id("StudyGroupNode", study_group.id)},
+    )
+    assert executed["data"]["studyGroup"]["unit"] is None
+    snapshot.assert_match(executed)
+
+
+def test_studygroup_resolve_unit_with_id(mock_get_place_data):
+    study_group = StudyGroupFactory(unit_id=PLACE_DATA["id"], unit_name="testname")
+    unit = StudyGroupNode.resolve_unit(study_group, None)
+    assert unit.id == PLACE_DATA["id"]
+    assert unit.name.fi == PLACE_DATA["name"]["fi"]
+    assert unit.name.sv == PLACE_DATA["name"]["sv"]
+    assert unit.name.en == PLACE_DATA["name"]["en"]
+
+
+def test_studygroup_resolve_unit_without_id(mock_get_place_data):
+    study_group = StudyGroupFactory(unit_id=None, unit_name="testname")
+    unit = StudyGroupNode.resolve_unit(study_group, None)
+    assert unit.name["fi"] == unit.name["sv"] == unit.name["en"] == "testname"
 
 
 def test_occurrences_query(
@@ -1065,6 +1091,7 @@ ADD_STUDY_GROUP_VARIABLES = {
             "phoneNumber": "123123",
             "language": "SV",
         },
+        "unitId": EVENT_DATA["id"],
         "unitName": "Sample study group name",
         "groupSize": 20,
         "amountOfAdult": 1,
@@ -1148,6 +1175,7 @@ UPDATE_STUDY_GROUP_VARIABLES = {
             "emailAddress": "email@address.com",
             "phoneNumber": "123123",
         },
+        "unitId": EVENT_DATA["id"],
         "unitName": "Sample study group name",
         "groupSize": 20,
         "amountOfAdult": 2,
@@ -1167,7 +1195,9 @@ def test_update_study_group_unauthenticated(api_client, user_api_client):
     assert_permission_denied(executed)
 
 
-def test_update_study_group_staff_user(snapshot, staff_api_client, study_group, person):
+def test_update_study_group_staff_user(
+    snapshot, staff_api_client, study_group, person, mock_get_place_data
+):
     variables = deepcopy(UPDATE_STUDY_GROUP_VARIABLES)
     variables["input"]["id"] = to_global_id("StudyGroupNode", study_group.id)
     executed = staff_api_client.execute(
