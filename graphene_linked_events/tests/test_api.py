@@ -1572,6 +1572,52 @@ def test_get_keyword_set(api_client, snapshot, mock_get_keyword_set_data):
         snapshot.assert_match(executed)
 
 
+POPULAR_KULTUS_KEYWORDS_QUERY = """
+query kws($amount: Int, $showAllKeywords: Boolean) {
+  popularKultusKeywords(amount: $amount, showAllKeywords: $showAllKeywords) {
+    meta {
+      count
+    }
+    data {
+      name {
+        fi
+        sv
+        en
+      }
+      id
+      internalId
+      dataSource
+      nEvents
+    }
+  }
+}
+"""
+
+
+@pytest.mark.parametrize(
+    "all_keywords,amount,expected_results",
+    [(None, None, 1), (True, None, 2), (True, 1, 1)],
+)
+def test_get_popular_kultus_keywords(
+    api_client,
+    snapshot,
+    mock_get_popular_kultus_keywords,
+    all_keywords,
+    amount,
+    expected_results,
+):
+
+    executed = api_client.execute(
+        POPULAR_KULTUS_KEYWORDS_QUERY,
+        variables={"amount": amount, "showAllKeywords": all_keywords},
+    )
+    # All keyword sets return the same keyword, duplicates should get removed.
+    assert (
+        executed["data"]["popularKultusKeywords"]["meta"]["count"] == expected_results
+    )
+    snapshot.assert_match(executed)
+
+
 @pytest.mark.parametrize(
     "status_code,error_cls",
     [(400, ApiBadRequestError), (404, ObjectDoesNotExistError)],
