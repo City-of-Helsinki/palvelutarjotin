@@ -1,5 +1,6 @@
 from django.contrib import admin
 from django.contrib.admin.filters import DateFieldListFilter
+from django.db.models import Q
 from django.http import HttpResponseRedirect
 from django.urls import reverse
 from django.utils.translation import gettext as _
@@ -18,11 +19,36 @@ class OccurrenceInline(admin.TabularInline):
     model = Occurrence.study_groups.through
 
 
+class HasUnitIdStudyGroupListFilter(admin.SimpleListFilter):
+    """
+    Does the instance have a user profile or not?
+    List filter options: All,True (for have user profile), False (for doesn't have)
+    """
+
+    title = _("has unit id")
+    parameter_name = "studygroup-has-unitid"
+
+    def lookups(self, request, model_admin):
+        return (
+            (True, _("True")),
+            (False, _("False")),
+        )
+
+    def queryset(self, request, queryset):
+
+        if self.value() == "True":
+            return queryset.filter(unit_id__isnull=False).exclude(unit_id__exact="")
+        if self.value() == "False":
+            return queryset.filter(Q(unit_id__isnull=True) | Q(unit_id__exact=""))
+
+
 @admin.register(StudyGroup)
 class StudyGroupAdmin(admin.ModelAdmin):
-    list_display = ("unit_name", "created_at", "group_size")
+    list_display = ("id", "unit_id", "unit_name", "created_at", "group_size", "person")
     exclude = ("id",)
     inlines = (OccurrenceInline,)
+    list_filter = ["created_at", HasUnitIdStudyGroupListFilter]
+    search_fields = ["unit_id", "unit_name", "person"]
 
 
 @admin.register(StudyLevel)
