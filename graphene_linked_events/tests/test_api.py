@@ -1,6 +1,7 @@
 import json
 from copy import deepcopy
 from datetime import datetime, timedelta
+from typing import Optional
 from unittest.mock import patch
 
 import graphene_linked_events
@@ -34,6 +35,17 @@ from common.tests.utils import (
 from palvelutarjotin.consts import API_USAGE_ERROR, DATA_VALIDATION_ERROR
 from palvelutarjotin.exceptions import ApiBadRequestError, ObjectDoesNotExistError
 from palvelutarjotin.settings import KEYWORD_SET_ID_MAPPING
+
+
+def __eq_dt_with_tz(dt1: Optional[datetime], dt2: Optional[datetime]) -> bool:
+    if dt1 and dt2:
+        if isinstance(dt1, str):
+            dt1 = datetime.fromisoformat(dt1)
+        if isinstance(dt2, str):
+            dt2 = datetime.fromisoformat(dt2)
+
+        return dt1.utctimetuple() == dt2.utctimetuple()
+    return dt1 == dt2
 
 
 @pytest.fixture(autouse=True)
@@ -1293,16 +1305,6 @@ def test_publish_event(
     organisation,
     person,
 ):
-    def __eq_dt_with_tz(dt1, dt2) -> bool:
-        if dt1 and dt2:
-            if isinstance(dt1, str):
-                dt1 = datetime.fromisoformat(dt1)
-            if isinstance(dt2, str):
-                dt2 = datetime.fromisoformat(dt2)
-
-            return dt1.utctimetuple() == dt2.utctimetuple()
-        return dt1 == dt2
-
     # Reuse update event variables
     variables = deepcopy(UPDATE_EVENT_VARIABLES)
     del variables["input"]["draft"]

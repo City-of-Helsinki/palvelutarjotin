@@ -24,6 +24,8 @@ LanguageEnum = graphene.Enum(
 
 
 def format_linked_event_datetime(datetime_obj):
+    if not datetime_obj:
+        return None
     return datetime_obj.isoformat(timespec="seconds")
 
 

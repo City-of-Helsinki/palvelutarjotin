@@ -727,9 +727,7 @@ def _prepare_published_event_data(event_id):
 
     body = {
         "publication_status": PalvelutarjotinEvent.PUBLICATION_STATUS_PUBLIC,
-        "start_time": format_linked_event_datetime(start_time)
-        if start_time
-        else timezone.now(),
+        "start_time": format_linked_event_datetime(start_time or timezone.now()),
         "end_time": format_linked_event_datetime(end_time) if end_time else None,
         "enrolment_start_time": format_linked_event_datetime(enrolment_start_time)
         if enrolment_start_time

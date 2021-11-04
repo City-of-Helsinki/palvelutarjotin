@@ -134,8 +134,11 @@ def get_enrollable_event_time_range_from_occurrences(
         """
         return None, None
 
-    occurrences = p_event.occurrences.filter(cancelled=False).order_by("end_time")
-    end_time = occurrences.last().start_time
+    try:
+        occurrences = p_event.occurrences.filter(cancelled=False).order_by("end_time")
+        end_time = occurrences.last().start_time
+    except AttributeError:
+        return None, None
 
     # Enrolment end days sets the last day for enrolment
     if p_event.enrolment_end_days is not None and p_event.enrolment_end_days > 0:
