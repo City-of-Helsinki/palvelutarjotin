@@ -37,6 +37,7 @@ from palvelutarjotin.consts import (
     ENROLMENT_CLOSED_ERROR,
     ENROLMENT_NOT_STARTED_ERROR,
     INVALID_STUDY_GROUP_SIZE_ERROR,
+    INVALID_STUDY_GROUP_UNIT_INFO_ERROR,
     INVALID_TOKEN_ERROR,
     MAX_NEEDED_OCCURRENCES_REACHED_ERROR,
     MISSING_MANDATORY_INFORMATION_ERROR,
@@ -1120,6 +1121,16 @@ def test_add_study_group(
     snapshot.assert_match(executed)
 
 
+def test_add_study_group_without_unit_info_raises_error(
+    api_client, mock_update_event_data, mock_get_event_data, occurrence, person,
+):
+    variables = deepcopy(ADD_STUDY_GROUP_VARIABLES)
+    variables["input"]["unitName"] = None
+    variables["input"]["unitId"] = None
+    executed = api_client.execute(ADD_STUDY_GROUP_MUTATION, variables=variables)
+    assert_match_error_code(executed, INVALID_STUDY_GROUP_UNIT_INFO_ERROR)
+
+
 UPDATE_STUDY_GROUP_MUTATION = """
 mutation updateStudyGroup($input: UpdateStudyGroupMutationInput!){
   updateStudyGroup(input:$input) {
@@ -1210,6 +1221,20 @@ def test_update_study_group_staff_user(
         UPDATE_STUDY_GROUP_MUTATION, variables=variables
     )
     snapshot.assert_match(executed)
+
+
+def test_update_study_group_without_unit_info_raises_error(
+    staff_api_client, study_group, person, mock_get_place_data
+):
+    variables = deepcopy(UPDATE_STUDY_GROUP_VARIABLES)
+    variables["input"]["id"] = to_global_id("StudyGroupNode", study_group.id)
+    variables["input"]["person"]["id"] = to_global_id("PersonNode", person.id)
+    variables["input"]["unitName"] = None
+    variables["input"]["unitId"] = None
+    executed = staff_api_client.execute(
+        UPDATE_STUDY_GROUP_MUTATION, variables=variables
+    )
+    assert_match_error_code(executed, INVALID_STUDY_GROUP_UNIT_INFO_ERROR)
 
 
 DELETE_STUDY_GROUP_MUTATION = """
@@ -1596,6 +1621,55 @@ def test_enrol_occurrence(snapshot, api_client, mock_get_event_data):
     }
     executed = api_client.execute(ENROL_OCCURRENCE_MUTATION, variables=variables)
     snapshot.assert_match(executed)
+
+
+def test_enrol_occurrence_without_unit_info_should_raise_error(
+    snapshot, api_client, mock_get_event_data
+):
+    study_group_15 = StudyGroupFactory(group_size=15)
+    # Current date froze on 2020-01-04:
+    p_event_1 = PalvelutarjotinEventFactory(
+        enrolment_start=datetime(2020, 1, 3, 0, 0, 0, tzinfo=timezone.now().tzinfo),
+        enrolment_end_days=2,
+    )
+    occurrence = OccurrenceFactory(
+        start_time=datetime(2020, 1, 6, 0, 0, 0, tzinfo=timezone.now().tzinfo),
+        p_event=p_event_1,
+        min_group_size=10,
+        max_group_size=20,
+        amount_of_seats=50,
+    )
+
+    occurrence_2 = OccurrenceFactory(
+        start_time=datetime(2020, 1, 6, 0, 0, 0, tzinfo=timezone.now().tzinfo),
+        p_event=p_event_1,
+        min_group_size=10,
+        max_group_size=20,
+        amount_of_seats=2,
+        seat_type=Occurrence.OCCURRENCE_SEAT_TYPE_ENROLMENT_COUNT,
+    )
+
+    variables = {
+        "input": {
+            "occurrenceIds": [
+                to_global_id("OccurrenceNode", occurrence.id),
+                to_global_id("OccurrenceNode", occurrence_2.id),
+            ],
+            "studyGroup": {
+                "person": {
+                    "id": to_global_id("PersonNode", study_group_15.person.id),
+                    "name": study_group_15.person.name,
+                    "emailAddress": study_group_15.person.email_address,
+                },
+                "groupSize": study_group_15.group_size,
+                "groupName": study_group_15.group_name,
+                "studyLevels": [sl.upper() for sl in study_group_15.study_levels.all()],
+                "amountOfAdult": study_group_15.amount_of_adult,
+            },
+        }
+    }
+    executed = api_client.execute(ENROL_OCCURRENCE_MUTATION, variables=variables)
+    assert_match_error_code(executed, INVALID_STUDY_GROUP_UNIT_INFO_ERROR)
 
 
 def test_enrol_occurrence_with_captcha(

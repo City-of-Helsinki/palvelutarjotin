@@ -1,5 +1,5 @@
 from datetime import timedelta
-from typing import List
+from typing import List, Union
 
 import graphene
 import requests
@@ -47,6 +47,7 @@ from palvelutarjotin.exceptions import (
     EnrolmentNotEnoughCapacityError,
     EnrolmentNotStartedError,
     InvalidStudyGroupSizeError,
+    InvalidStudyGroupUnitInfoError,
     InvalidTokenError,
     MissingMantatoryInformationError,
     ObjectDoesNotExistError,
@@ -571,7 +572,20 @@ class EnrolmentNode(DjangoObjectType):
         connection_class = EnrolmentConnectionWithCount
 
 
+def validate_study_group(study_group: Union[StudyGroup, dict]):
+    if not isinstance(study_group, dict):
+        study_group_data = study_group.__dict__
+    else:
+        study_group_data = dict(study_group)
+    if not study_group_data.get("unit_id") and not study_group_data.get("unit_name"):
+        raise InvalidStudyGroupUnitInfoError(
+            "Study group should always have an unit id or an unit name."
+        )
+
+
 def validate_enrolment(study_group, occurrence, new_enrolment=True):
+    validate_study_group(study_group)
+
     # Expensive validation are sorted to bottom
     if (
         occurrence.p_event.mandatory_additional_information
@@ -1065,7 +1079,7 @@ def _create_study_group(study_group_data):
     person_data = study_group_data.pop("person")
     person = _get_or_create_contact_person(person_data)
     study_group_data["person_id"] = person.id
-
+    validate_study_group(study_group_data)
     study_group = StudyGroup.objects.create(**study_group_data)
     study_group.study_levels.set(
         _get_instance_list(StudyLevel, map(lambda x: x.lower(), study_levels_data))
@@ -1097,6 +1111,8 @@ def _update_study_group(study_group_data, study_group_obj=None):
         study_group_obj.study_levels.set(
             _get_instance_list(StudyLevel, map(lambda x: x.lower(), study_levels_data))
         )
+
+    validate_study_group(study_group_data)
 
     # update the populated object
     update_object(study_group_obj, study_group_data)

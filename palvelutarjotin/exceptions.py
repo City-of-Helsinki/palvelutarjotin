@@ -62,6 +62,10 @@ class InvalidStudyGroupSizeError(PalvelutarjotinGraphQLError):
     size"""
 
 
+class InvalidStudyGroupUnitInfoError(PalvelutarjotinGraphQLError):
+    """Study group should always have an unit id or an unit name."""
+
+
 class InvalidEmailFormatError(PalvelutarjotinGraphQLError):
     """Invalid email format error"""
 
