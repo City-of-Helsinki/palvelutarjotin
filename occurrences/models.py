@@ -1,4 +1,5 @@
 import logging
+import warnings
 from datetime import timedelta
 
 from django.contrib.contenttypes.fields import GenericRelation
@@ -458,18 +459,12 @@ class StudyGroup(TimestampedModel):
 
     @property
     def name(self):
-        """
-        Deprecated! This getter is for backward compatibility
-        to better support existing notification templates etc.
-        """
+        warnings.warn("Deprecated!", DeprecationWarning, stacklevel=2)
         return self.unit_name
 
     @name.setter
     def name(self, value):
-        """
-        Deprecated! This getter is for backward compatibility
-        to better support existing notification templates etc.
-        """
+        warnings.warn("Deprecated!", DeprecationWarning, stacklevel=2)
         self.unit_name = value
 
     def __str__(self):
