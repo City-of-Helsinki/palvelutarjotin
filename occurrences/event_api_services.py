@@ -126,5 +126,5 @@ def resolve_unit_name_with_unit_id(study_group: "StudyGroup"):
 
     unit = json2obj(format_response(result))
 
-    if unit.name:
-        study_group.unit_name = unit.name
+    if unit.name and unit.name.fi:
+        study_group.unit_name = unit.name.fi

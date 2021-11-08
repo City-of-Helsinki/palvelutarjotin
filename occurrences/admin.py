@@ -1,6 +1,5 @@
 from django.contrib import admin
 from django.contrib.admin.filters import DateFieldListFilter
-from django.db.models import Q
 from django.http import HttpResponseRedirect
 from django.urls import reverse
 from django.utils.translation import gettext as _
@@ -37,9 +36,9 @@ class HasUnitIdStudyGroupListFilter(admin.SimpleListFilter):
     def queryset(self, request, queryset):
 
         if self.value() == "True":
-            return queryset.filter(unit_id__isnull=False).exclude(unit_id__exact="")
+            return queryset.filter(unit_id__isnull=False)
         if self.value() == "False":
-            return queryset.filter(Q(unit_id__isnull=True) | Q(unit_id__exact=""))
+            return queryset.filter(unit_id__isnull=True)
 
 
 @admin.register(StudyGroup)

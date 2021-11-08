@@ -430,9 +430,7 @@ class StudyGroup(TimestampedModel):
         "organisations.Person", verbose_name=_("person"), on_delete=models.PROTECT
     )
     # Tprek / Service map id for school or kindergarten from the city of Helsinki
-    unit_id = models.CharField(
-        max_length=255, verbose_name=_("unit id"), blank=True, null=True
-    )
+    unit_id = models.CharField(max_length=255, verbose_name=_("unit id"), null=True)
     unit_name = models.CharField(
         max_length=1000, blank=True, verbose_name=_("unit name")
     )

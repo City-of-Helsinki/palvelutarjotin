@@ -17,7 +17,7 @@ class Migration(migrations.Migration):
             model_name="studygroup",
             name="unit_id",
             field=models.CharField(
-                blank=True, max_length=255, null=True, verbose_name="unit id"
+                blank=False, max_length=255, null=True, verbose_name="unit id"
             ),
         ),
     ]
