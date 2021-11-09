@@ -18,11 +18,36 @@ class OccurrenceInline(admin.TabularInline):
     model = Occurrence.study_groups.through
 
 
+class HasUnitIdStudyGroupListFilter(admin.SimpleListFilter):
+    """
+    Does the instance have a user profile or not?
+    List filter options: All,True (for have user profile), False (for doesn't have)
+    """
+
+    title = _("has unit id")
+    parameter_name = "studygroup-has-unitid"
+
+    def lookups(self, request, model_admin):
+        return (
+            (True, _("True")),
+            (False, _("False")),
+        )
+
+    def queryset(self, request, queryset):
+
+        if self.value() == "True":
+            return queryset.filter(unit_id__isnull=False)
+        if self.value() == "False":
+            return queryset.filter(unit_id__isnull=True)
+
+
 @admin.register(StudyGroup)
 class StudyGroupAdmin(admin.ModelAdmin):
-    list_display = ("name", "created_at", "group_size")
+    list_display = ("id", "unit_id", "unit_name", "created_at", "group_size", "person")
     exclude = ("id",)
     inlines = (OccurrenceInline,)
+    list_filter = ["created_at", HasUnitIdStudyGroupListFilter]
+    search_fields = ["unit_id", "unit_name", "person"]
 
 
 @admin.register(StudyLevel)

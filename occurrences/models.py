@@ -1,4 +1,5 @@
 import logging
+import warnings
 from datetime import timedelta
 
 from django.contrib.contenttypes.fields import GenericRelation
@@ -17,6 +18,7 @@ from occurrences.consts import (
 )
 from occurrences.event_api_services import (
     get_event_time_range_from_occurrences,
+    resolve_unit_name_with_unit_id,
     send_event_republish,
     send_event_unpublish,
 )
@@ -412,7 +414,11 @@ class StudyGroup(TimestampedModel):
     person = models.ForeignKey(
         "organisations.Person", verbose_name=_("person"), on_delete=models.PROTECT
     )
-    name = models.CharField(max_length=1000, blank=True, verbose_name=_("name"))
+    # Tprek / Service map id for school or kindergarten from the city of Helsinki
+    unit_id = models.CharField(max_length=255, verbose_name=_("unit id"), null=True)
+    unit_name = models.CharField(
+        max_length=1000, blank=True, verbose_name=_("unit name")
+    )
     group_size = models.PositiveSmallIntegerField(verbose_name=_("group size"))
     amount_of_adult = models.PositiveSmallIntegerField(
         verbose_name=_("amount of adult"), default=0
@@ -434,6 +440,16 @@ class StudyGroup(TimestampedModel):
         verbose_name = _("study group")
         verbose_name_plural = _("study groups")
 
+    @property
+    def name(self):
+        warnings.warn("Deprecated!", DeprecationWarning, stacklevel=2)
+        return self.unit_name
+
+    @name.setter
+    def name(self, value):
+        warnings.warn("Deprecated!", DeprecationWarning, stacklevel=2)
+        self.unit_name = value
+
     def __str__(self):
         return f"{self.id} {self.name}"
 
@@ -442,6 +458,15 @@ class StudyGroup(TimestampedModel):
         Sum an amount of adults to a size of group.
         """
         return self.group_size + self.amount_of_adult
+
+    def save(self, *args, **kwargs):
+
+        # Resolve the (school or kindergarten) unit name if it is not given
+        if not self.unit_name and self.unit_id:
+            resolve_unit_name_with_unit_id(self)
+
+        # Save the study group instance
+        super().save(*args, **kwargs)
 
 
 class EnrolmentQuerySet(models.QuerySet):

@@ -3,14 +3,18 @@ from unittest.mock import patch
 
 import pytest
 from django.utils import timezone
+from occurrences.event_api_services import api_client as le_api_client
 from occurrences.event_api_services import (
     get_enrollable_event_time_range_from_occurrences,
+    resolve_unit_name_with_unit_id,
     send_event_republish,
     send_event_unpublish,
 )
 from occurrences.factories import OccurrenceFactory, PalvelutarjotinEventFactory
 
+from common.tests.utils import mocked_json_response
 from common.utils import format_linked_event_datetime
+from palvelutarjotin.exceptions import ApiBadRequestError, ObjectDoesNotExistError
 
 
 @pytest.mark.django_db
@@ -95,3 +99,31 @@ def test_get_enrollable_event_time_range_from_occurrences_with_active_occurrence
     OccurrenceFactory(p_event=p_event, cancelled=False)
     (start, _) = get_enrollable_event_time_range_from_occurrences(p_event)
     assert start == p_event.enrolment_start
+
+
+@pytest.mark.django_db
+@patch("occurrences.event_api_services.update_event_to_linkedevents_api")
+def test_resolve_unit_name_with_unit_id_raises_valueerror_without_unit_id(
+    mock_update_event_to_linkedevents_api, study_group
+):
+    study_group.unit_id = None
+    with pytest.raises(ValueError):
+        resolve_unit_name_with_unit_id(study_group)
+
+
+@pytest.mark.django_db
+@pytest.mark.parametrize(
+    "status_code,error_cls", [(400, ApiBadRequestError), (404, ObjectDoesNotExistError)]
+)
+@patch("occurrences.event_api_services.update_event_to_linkedevents_api")
+def test_resolve_unit_name_with_unit_id_raises_error_from_server_faults(
+    mock_update_event_to_linkedevents_api, status_code, error_cls, study_group
+):
+    study_group.unit_id = "kultus:123"
+    with patch.object(
+        le_api_client,
+        "retrieve",
+        return_value=mocked_json_response(data=None, status_code=status_code),
+    ):
+        with pytest.raises(error_cls):
+            resolve_unit_name_with_unit_id(study_group)

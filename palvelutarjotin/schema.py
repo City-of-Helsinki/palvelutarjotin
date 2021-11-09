@@ -2,6 +2,7 @@ import graphene
 import graphene_linked_events.schema
 import occurrences.schema
 import organisations.schema
+import servicemap.schema
 from django_ilmoitin.api.schema import (
     NotificationTemplateNode as IlmotinNotificationTemplateNode,
 )
@@ -37,6 +38,7 @@ NotificationTemplateTypeEnum = graphene.Enum(
 
 class Query(
     graphene_linked_events.schema.Query,
+    servicemap.schema.Query,
     organisations.schema.Query,
     occurrences.schema.Query,
     graphene.ObjectType,

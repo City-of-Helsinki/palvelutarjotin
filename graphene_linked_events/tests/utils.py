@@ -7,9 +7,11 @@ class MockResponse:
     status_code = None
     exception = None
     text = None
+    content = None
 
     def __init__(self, json_data, status_code, exception=None):
-        self.text = json.dumps(json_data)
+        self.content = json.dumps(json_data)
+        self.text = self.content
         self.status_code = status_code
         self.exception = exception
 

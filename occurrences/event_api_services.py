@@ -3,13 +3,13 @@ import logging
 from datetime import timedelta
 from typing import List, Optional, TYPE_CHECKING
 
-from graphene_linked_events.utils import api_client
+from graphene_linked_events.utils import api_client, format_response, json2obj
 
 from common.utils import format_linked_event_datetime
 from palvelutarjotin.exceptions import ApiBadRequestError, ObjectDoesNotExistError
 
 if TYPE_CHECKING:
-    from occurrences.models import PalvelutarjotinEvent
+    from occurrences.models import PalvelutarjotinEvent, StudyGroup
 
 
 logger = logging.getLogger(__name__)
@@ -155,3 +155,26 @@ def get_enrollable_event_time_range_from_occurrences(
     # start using the one from LinkedEvents Event API,
     # so there would be one field less to sync between the APIs
     return (p_event.enrolment_start, end_time)
+
+
+def resolve_unit_name_with_unit_id(study_group: "StudyGroup"):
+    if not study_group.unit_id:
+        raise ValueError(
+            """Resolve_unit_name_with_unit_id cannot resolve
+            the name when the unit id is not given."""
+        )
+
+    result = api_client.retrieve("place", study_group.unit_id)
+
+    if result.status_code == 400:
+        raise ApiBadRequestError("Bad request to LinkedEvents API.")
+
+    if result.status_code == 404:
+        raise ObjectDoesNotExistError("Could not find the event from the API.")
+
+    result.raise_for_status()
+
+    unit = json2obj(format_response(result))
+
+    if unit.name and unit.name.fi:
+        study_group.unit_name = unit.name.fi
