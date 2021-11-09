@@ -13,6 +13,7 @@ from graphene_linked_events.tests.mock_data import (
     KEYWORDS_DATA,
     PLACE_DATA,
     PLACES_DATA,
+    POPULAR_KEYWORD_SET_DATA,
     RECAPTCHA_DATA,
     UNPUBLISH_EVENT_DATA,
     UPDATE_EVENT_DATA,
@@ -174,6 +175,13 @@ def mock_recaptcha_data(monkeypatch):
 def mock_get_keyword_set_data(monkeypatch):
     monkeypatch.setattr(
         LinkedEventsApiClient, "retrieve", _get_mock_function(KEYWORD_SET_DATA),
+    )
+
+
+@pytest.fixture
+def mock_get_popular_kultus_keywords(monkeypatch):
+    monkeypatch.setattr(
+        LinkedEventsApiClient, "retrieve", _get_mock_function(POPULAR_KEYWORD_SET_DATA),
     )
 
 

@@ -1066,3 +1066,77 @@ snapshots["test_publish_event_without_enrolments 1"] = {
         }
     }
 }
+
+snapshots["test_get_popular_kultus_keywords[None-None-1] 1"] = {
+    "data": {
+        "popularKultusKeywords": {
+            "data": [
+                {
+                    "dataSource": "yso",
+                    "id": "yso:p84",
+                    "internalId": "http://localhost:8080/v1/keyword/yso:p84/",
+                    "nEvents": 200,
+                    "name": {
+                        "en": "education and training",
+                        "fi": "koulutus",
+                        "sv": "utbildning",
+                    },
+                }
+            ],
+            "meta": {"count": 1},
+        }
+    }
+}
+
+snapshots["test_get_popular_kultus_keywords[True-None-2] 1"] = {
+    "data": {
+        "popularKultusKeywords": {
+            "data": [
+                {
+                    "dataSource": "yso",
+                    "id": "yso:p84",
+                    "internalId": "http://localhost:8080/v1/keyword/yso:p84/",
+                    "nEvents": 200,
+                    "name": {
+                        "en": "education and training",
+                        "fi": "koulutus",
+                        "sv": "utbildning",
+                    },
+                },
+                {
+                    "dataSource": "yso",
+                    "id": "helfi:12",
+                    "internalId": "http://localhost:8080/v1/keyword/yso:p27033/",
+                    "nEvents": 0,
+                    "name": {
+                        "en": "Valentine's Day",
+                        "fi": "ystävänpäivä",
+                        "sv": "alla hjärtans dag",
+                    },
+                },
+            ],
+            "meta": {"count": 2},
+        }
+    }
+}
+
+snapshots["test_get_popular_kultus_keywords[True-1-1] 1"] = {
+    "data": {
+        "popularKultusKeywords": {
+            "data": [
+                {
+                    "dataSource": "yso",
+                    "id": "yso:p84",
+                    "internalId": "http://localhost:8080/v1/keyword/yso:p84/",
+                    "nEvents": 200,
+                    "name": {
+                        "en": "education and training",
+                        "fi": "koulutus",
+                        "sv": "utbildning",
+                    },
+                }
+            ],
+            "meta": {"count": 1},
+        }
+    }
+}
