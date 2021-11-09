@@ -1,20 +1,23 @@
-from graphene import Field, ID, Int, List, NonNull, ObjectType
-from graphene_linked_events.schema import LocalisedObject, Response
+import graphene
 from servicemap.utils import api_client, json2obj, json_object_hook
 
 
-class ServiceUnitNode(ObjectType):
-    id = ID(required=True)
-    name = Field(LocalisedObject)
+class Response(graphene.ObjectType):
+    meta = graphene.Field("graphene_linked_events.schema.Meta", required=True)
+
+
+class ServiceUnitNode(graphene.ObjectType):
+    id = graphene.ID(required=True)
+    name = graphene.Field("graphene_linked_events.schema.LocalisedObject")
 
 
 class ServiceUnitNameListResponse(Response):
-    data = NonNull(List(NonNull(ServiceUnitNode)))
+    data = graphene.NonNull(graphene.List(graphene.NonNull(ServiceUnitNode)))
 
 
 class Query:
-    schools_and_kindergartens_list = Field(
-        ServiceUnitNameListResponse, page=Int(), page_size=Int()
+    schools_and_kindergartens_list = graphene.Field(
+        ServiceUnitNameListResponse, page=graphene.Int(), page_size=graphene.Int()
     )
 
     @staticmethod

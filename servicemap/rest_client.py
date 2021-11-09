@@ -15,7 +15,14 @@ class ServicemapApiClient:
         Query:
         https://api.hel.fi/servicemap/v2/unit/?municipality=helsinki&only=name&service_node=2118,868,2179,1088,1257,1097
         """
-        service_nodes = [2118, 868, 2179, 1088, 1257, 1097]
+        service_nodes = [
+            2118,  # Pre-primary education
+            868,  # Day care
+            2179,  # Vocational education
+            1088,  # Pre-primary education
+            1257,  # General upper secondary education
+            1097,  # Basic education
+        ]
 
         filter_params = (
             self.__convert_to_string_param(filter_list) if filter_list else {}

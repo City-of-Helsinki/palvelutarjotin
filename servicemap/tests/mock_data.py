@@ -1,3 +1,4 @@
+# flake8: noqa
 # Real sample data copied from the Servicemap API (page 1) at
 # https://api.hel.fi/servicemap/v2/unit/?municipality=helsinki&only=name&service_node=2118%2C868%2C2179%2C1088%2C1257%2C1097
 SCHOOL_AND_KINDERGARTEN_NAMES_DATA = {

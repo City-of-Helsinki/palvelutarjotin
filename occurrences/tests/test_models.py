@@ -5,6 +5,7 @@ import pytest
 from django.contrib.auth import get_user_model
 from django.core.exceptions import ValidationError
 from django.utils import timezone
+from graphene_linked_events.tests.mock_data import EVENT_DATA
 from occurrences.consts import StudyGroupStudyLevels
 from occurrences.factories import (
     EnrolmentFactory,
@@ -103,6 +104,12 @@ def test_study_group_creation():
     assert StudyGroup.objects.count() == 1
     assert Person.objects.count() == 1
     assert User.objects.count() == 1
+
+
+@pytest.mark.django_db
+def test_study_group_save_resolves_unit_name_from_unit_id(mock_get_place_data):
+    study_group = StudyGroupFactory(unit_id=EVENT_DATA["id"], unit_name=None)
+    study_group.unit_name is not None
 
 
 @pytest.mark.django_db
