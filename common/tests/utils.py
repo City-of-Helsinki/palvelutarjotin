@@ -59,4 +59,8 @@ def mocked_json_response(data=None, status_code=200, **kwargs):
         def text(self):
             return str(self.json())
 
+        @property
+        def content(self):
+            return str(self.json())
+
     return MockResponse(data, status_code, **kwargs)

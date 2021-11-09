@@ -139,27 +139,36 @@ Allow user to create test database
     a. a Google sheet importer
     b. a Template file importer
 
-The importer can be used to create and update the notification templates or to check whether the templates are in sync.
-The importer can be used via Django management commands (in notification_importers app) or admin site tools.
+    The importer can be used to create and update the notification templates or to check whether the templates are in sync.
+    The importer can be used via Django management commands (in notification_importers app) or admin site tools.
 
-To enable admin site tools, some configuration is needed:
+    To enable admin site tools, some configuration is needed:
 
-To enable a selected importer (`NotificationFileImporter` or `NotificationGoogleSheetImporter`)
+    To enable a selected importer (`NotificationFileImporter` or `NotificationGoogleSheetImporter`)
+
+    ```python
+    NOTIFICATIONS_IMPORTER = (
+        "notification_importers.notification_importer.NotificationFileImporter"
+    )
+    ```
+
+    If a Google sheet importer is used, also `NOTIFICATIONS_SHEET_ID` is needed
+
+    ```python
+    NOTIFICATIONS_SHEET_ID = "1234"
+    ```
+
+    If a File importer is used, files should be stored in notification_importers app in notification_importers/templates/sms and notification_importers/templates/email folders.
+    There is also a naming convention used there. The file name must be given in this pattern [notification_type]-[locale].[html|j2].
+
+8.  (Optional) To offer Kindergartens, schools and colleges from the Servicemap of the Helsinki, the Servicemap API needs to be configured. By default it is using the open data from "https://api.hel.fi/servicemap/v2/unit/" and it should work out of the box.
 
 ```python
-NOTIFICATIONS_IMPORTER = (
-    "notification_importers.notification_importer.NotificationFileImporter"
-)
+  env = environ.Env(
+    SERVICEMAP_API_ROOT=(str, "https://api.hel.fi/servicemap/v2/unit/"),
+  )
+  SERVICEMAP_API_CONFIG = {"ROOT": env.str("SERVICEMAP_API_ROOT")}
 ```
-
-If a Google sheet importer is used, also `NOTIFICATIONS_SHEET_ID` is needed
-
-```python
-NOTIFICATIONS_SHEET_ID = "1234"
-```
-
-If a File importer is used, files should be stored in notification_importers app in notification_importers/templates/sms and notification_importers/templates/email folders.
-There is also a naming convention used there. The file name must be given in this pattern [notification_type]-[locale].[html|j2].
 
 ## API Documentation
 

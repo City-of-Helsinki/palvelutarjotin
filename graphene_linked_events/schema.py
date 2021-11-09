@@ -30,11 +30,6 @@ from graphene_linked_events.utils import (
 )
 from graphql_jwt.decorators import staff_member_required
 from occurrences.models import PalvelutarjotinEvent, VenueCustomData
-from occurrences.schema import (
-    PalvelutarjotinEventInput,
-    PalvelutarjotinEventNode,
-    VenueNode,
-)
 from organisations.models import Organisation, Person
 
 from common.utils import (
@@ -215,8 +210,8 @@ class Event(IdObject):
     info_url = Field(LocalisedObject)
     provider_contact_info = String()
     description = Field(LocalisedObject, required=True)
-    p_event = Field(PalvelutarjotinEventNode, required=True)
-    venue = Field(VenueNode)
+    p_event = Field("occurrences.schema.PalvelutarjotinEventNode", required=True)
+    venue = Field("occurrences.schema.VenueNode")
     publication_status = String()
     categories = NonNull(
         List(NonNull(Keyword)),
@@ -554,7 +549,7 @@ class AddEventMutationInput(EventMutationInput):
     )
     start_time = String(required=True)
     p_event = InputField(
-        PalvelutarjotinEventInput,
+        "occurrences.schema.PalvelutarjotinEventInput",
         required=True,
         description="Palvelutarjotin event data",
     )
@@ -564,7 +559,8 @@ class UpdateEventMutationInput(EventMutationInput):
     id = String(required=True)
     start_time = String(required=True)
     p_event = InputField(
-        PalvelutarjotinEventInput, description="Palvelutarjotin event data",
+        "occurrences.schema.PalvelutarjotinEventInput",
+        description="Palvelutarjotin event data",
     )
     draft = Boolean(
         description="Set to `true` to save event as draft version, when draft is true, "
@@ -576,7 +572,8 @@ class UpdateEventMutationInput(EventMutationInput):
 class PublishEventMutationInput(EventMutationInput):
     id = String(required=True)
     p_event = InputField(
-        PalvelutarjotinEventInput, description="Palvelutarjotin event data",
+        "occurrences.schema.PalvelutarjotinEventInput",
+        description="Palvelutarjotin event data",
     )
 
 

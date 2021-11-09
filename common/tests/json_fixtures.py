@@ -18,6 +18,8 @@ from graphene_linked_events.tests.mock_data import (
     UPDATE_EVENT_DATA,
 )
 from graphene_linked_events.tests.utils import MockResponse
+from servicemap.rest_client import ServicemapApiClient
+from servicemap.tests.mock_data import SCHOOL_AND_KINDERGARTEN_NAMES_DATA
 
 
 def _get_mock_function(data, status_code=200):
@@ -172,4 +174,13 @@ def mock_recaptcha_data(monkeypatch):
 def mock_get_keyword_set_data(monkeypatch):
     monkeypatch.setattr(
         LinkedEventsApiClient, "retrieve", _get_mock_function(KEYWORD_SET_DATA),
+    )
+
+
+@pytest.fixture
+def mock_get_servicemap_schools_and_kindergartens_data(monkeypatch):
+    monkeypatch.setattr(
+        ServicemapApiClient,
+        "list_helsinki_schools_and_kindergartens",
+        _get_mock_function(SCHOOL_AND_KINDERGARTEN_NAMES_DATA),
     )

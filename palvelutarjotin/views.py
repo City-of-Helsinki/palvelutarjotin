@@ -15,6 +15,7 @@ from palvelutarjotin.consts import (
     INCORRECT_GLOBAL_ID_ERROR,
     INVALID_EMAIL_FORMAT_ERROR,
     INVALID_STUDY_GROUP_SIZE_ERROR,
+    INVALID_STUDY_GROUP_UNIT_INFO_ERROR,
     INVALID_TOKEN_ERROR,
     MAX_NEEDED_OCCURRENCES_REACHED_ERROR,
     MISSING_DEFAULT_TRANSLATION_ERROR,
@@ -38,6 +39,7 @@ from palvelutarjotin.exceptions import (
     IncorrectGlobalIdError,
     InvalidEmailFormatError,
     InvalidStudyGroupSizeError,
+    InvalidStudyGroupUnitInfoError,
     InvalidTokenError,
     MissingDefaultTranslationError,
     MissingMantatoryInformationError,
@@ -72,6 +74,7 @@ error_codes_palvelutarjotin = {
     UploadImageSizeExceededError: UPLOAD_IMAGE_SIZE_EXCEEDED_ERROR,
     MissingMantatoryInformationError: MISSING_MANDATORY_INFORMATION_ERROR,
     InvalidTokenError: INVALID_TOKEN_ERROR,
+    InvalidStudyGroupUnitInfoError: INVALID_STUDY_GROUP_UNIT_INFO_ERROR,
 }
 
 sentry_ignored_errors = (
