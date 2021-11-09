@@ -4,6 +4,7 @@ from types import SimpleNamespace
 from django.core.exceptions import PermissionDenied
 from django.db import transaction
 from django.utils import timezone
+from django.utils.translation import gettext_lazy as _
 from graphene import (
     Boolean,
     Enum,
@@ -362,6 +363,15 @@ class Query:
     )
     keyword = Field(Keyword, id=ID(required=True))
 
+    popular_kultus_keywords = Field(
+        KeywordListResponse,
+        description=_("Keywords related to Kultus ordered by the number of events"),
+        amount=Int(description=_("Maximum number of results to return")),
+        show_all_keywords=Boolean(
+            description=_("Include keywords without events"), default_value=False
+        ),
+    )
+
     keyword_set = Field(KeywordSet, set_type=KeywordSetEnum(required=True))
 
     # TODO: Add support for start-end filter
@@ -466,6 +476,40 @@ class Query:
     def resolve_keywords(parent, info, **kwargs):
         response = api_client.list("keyword", filter_list=kwargs)
         return json2obj(format_response(response))
+
+    @staticmethod
+    def resolve_popular_kultus_keywords(parent, info, **kwargs):
+        """Returns Kultus related keywords ordered by popularity.
+
+        Fetches keywords for keyword sets: category, additional criteria and
+        target group. Keywords are ordered in descending order by the number of events
+        and returned.
+        """
+        amount = kwargs.get("amount")
+        show_all_keywords = kwargs.get("show_all_keywords")
+        set_ids = [
+            KEYWORD_SET_ID_MAPPING["CATEGORY"],
+            KEYWORD_SET_ID_MAPPING["ADDITIONAL_CRITERIA"],
+            KEYWORD_SET_ID_MAPPING["TARGET_GROUP"],
+        ]
+        keywords = {}
+
+        for set_id in set_ids:
+            response = api_client.retrieve(
+                "keyword_set", set_id, params={"include": "keywords"}
+            )
+            response = json2obj(format_response(response))
+            for keyword in response.keywords:
+                if show_all_keywords or keyword.n_events > 0:
+                    keywords[keyword.id] = keyword
+
+        unique_keywords = sorted(
+            keywords.values(), key=lambda x: x.n_events, reverse=True
+        )
+        if amount:
+            unique_keywords = unique_keywords[:amount]
+
+        return {"data": unique_keywords, "meta": {"count": len(unique_keywords)}}
 
     @staticmethod
     def resolve_keyword_set(parent, info, **kwargs):
