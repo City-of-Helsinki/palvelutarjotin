@@ -5,7 +5,6 @@ from django.core.exceptions import PermissionDenied
 from django.db import transaction
 from django.utils import timezone
 from django.utils.translation import gettext_lazy as _
-
 from graphene import (
     Boolean,
     Enum,
@@ -31,6 +30,10 @@ from graphene_linked_events.utils import (
     json_object_hook,
 )
 from graphql_jwt.decorators import staff_member_required
+from occurrences.event_api_services import (
+    get_enrollable_event_time_range_from_occurrences,
+    get_event_time_range_from_occurrences,
+)
 from occurrences.models import PalvelutarjotinEvent, VenueCustomData
 from organisations.models import Organisation, Person
 
@@ -168,14 +171,6 @@ class InLanguage(IdObject):
     name = Field(LocalisedObject)
 
 
-class ExtensionCourse(ObjectType):
-    enrolment_start_time = String()
-    enrolment_end_time = String()
-    maximum_attendee_capacity = Int()
-    minimum_attendee_capacity = Int()
-    remaining_attendee_capacity = Int()
-
-
 def _get_event_keyword_sets(event, keyword_set_id):
     kw_set = get_keyword_set_by_id(keyword_set_id)
     return [
@@ -204,7 +199,11 @@ class Event(IdObject):
     audience_min_age = String()
     audience_max_age = String()
     super_event_type = String()
-    extension_course = Field(ExtensionCourse)
+    enrolment_start_time = String()
+    enrolment_end_time = String()
+    maximum_attendee_capacity = Int()
+    minimum_attendee_capacity = Int()
+    remaining_attendee_capacity = Int()
     name = Field(LocalisedObject, required=True)
     localization_extra_info = Field(LocalisedObject)
     short_description = Field(LocalisedObject, required=True)
@@ -572,7 +571,11 @@ class EventMutationInput(InputObjectType):
     audience_min_age = String()
     audience_max_age = String()
     super_event_type = String()
-    extension_course = InputField(IdObjectInput)
+    enrolment_start_time = String()
+    enrolment_end_time = String()
+    maximum_attendee_capacity = Int()
+    minimum_attendee_capacity = Int()
+    remaining_attendee_capacity = Int()
     name = InputField(LocalisedObjectInput, required=True)
     localization_extra_info = InputField(LocalisedObjectInput)
     short_description = InputField(LocalisedObjectInput, required=True)
@@ -756,12 +759,23 @@ def _prepare_published_event_data(event_id):
     )
     if not p_event.occurrences.exists():
         raise ApiUsageError("Cannot publish event without event occurrences")
+
+    start_time, end_time = get_event_time_range_from_occurrences(p_event)
+    (
+        enrolment_start_time,
+        enrolment_end_time,
+    ) = get_enrollable_event_time_range_from_occurrences(p_event)
+
     body = {
         "publication_status": PalvelutarjotinEvent.PUBLICATION_STATUS_PUBLIC,
-        "start_time": format_linked_event_datetime(timezone.now()),
-        "end_time": format_linked_event_datetime(
-            p_event.get_enrolment_end_time_from_occurrences()
-        ),
+        "start_time": format_linked_event_datetime(start_time or timezone.now()),
+        "end_time": format_linked_event_datetime(end_time) if end_time else None,
+        "enrolment_start_time": format_linked_event_datetime(enrolment_start_time)
+        if enrolment_start_time
+        else None,
+        "enrolment_end_time": format_linked_event_datetime(enrolment_end_time)
+        if enrolment_end_time
+        else None,
     }
     return body
 

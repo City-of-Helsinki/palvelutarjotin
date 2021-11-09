@@ -33,7 +33,6 @@ from palvelutarjotin.exceptions import (
     ApiUsageError,
     EnrolmentNotEnoughCapacityError,
     ObjectDoesNotExistError,
-    PalvelutarjotinEventHasNoOccurrencesError,
 )
 
 logger = logging.getLogger(__name__)
@@ -140,20 +139,6 @@ class PalvelutarjotinEvent(TimestampedModel):
         return (
             event.publication_status == PalvelutarjotinEvent.PUBLICATION_STATUS_PUBLIC
         )
-
-    def get_enrolment_end_time_from_occurrences(self):
-        # Return the latest time that teacher can enrol to the event
-        try:
-            last_occurrence = self.occurrences.filter(cancelled=False).latest(
-                "start_time"
-            )
-        except Occurrence.DoesNotExist:
-            raise PalvelutarjotinEventHasNoOccurrencesError(
-                "Palvelutarjotin event has no occurrence"
-            )
-        if self.enrolment_end_days is not None:
-            return last_occurrence.start_time - timedelta(days=self.enrolment_end_days)
-        return last_occurrence.start_time
 
     def get_link_to_provider_ui(self, language=settings.LANGUAGE_CODE):
         return (

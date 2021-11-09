@@ -1,5 +1,6 @@
 import json
 import logging
+from datetime import timedelta
 from typing import List, Optional, TYPE_CHECKING
 
 from graphene_linked_events.utils import api_client, format_response, json2obj
@@ -71,11 +72,24 @@ def send_event_republish(p_event: "PalvelutarjotinEvent"):
     # we first need to fetch the current event object.
     event_obj = fetch_event_as_json(p_event.linked_event_id)
 
-    # NOTE: Event creation date is set as a start_time,
-    # by `_prepare_published_event_data` in `graphene_linked_events.schema.py.
-    # That should not be changed.
-    event_obj["end_time"] = format_linked_event_datetime(
-        p_event.get_enrolment_end_time_from_occurrences()
+    start_time, end_time = get_event_time_range_from_occurrences(p_event)
+    (
+        enrolment_start_time,
+        enrolment_end_time,
+    ) = get_enrollable_event_time_range_from_occurrences(p_event)
+
+    event_obj["publication_status"] = p_event.__class__.PUBLICATION_STATUS_PUBLIC
+    event_obj["start_time"] = (
+        format_linked_event_datetime(start_time) if start_time else None
+    )
+    event_obj["end_time"] = format_linked_event_datetime(end_time) if end_time else None
+    event_obj["enrolment_start_time"] = (
+        format_linked_event_datetime(enrolment_start_time)
+        if enrolment_start_time
+        else None
+    )
+    event_obj["enrolment_end_time"] = (
+        format_linked_event_datetime(enrolment_end_time) if enrolment_end_time else None
     )
 
     update_event_to_linkedevents_api(p_event.linked_event_id, event_obj)
@@ -105,6 +119,42 @@ def get_event_time_range_from_occurrences(p_event: Optional["PalvelutarjotinEven
     if first_occurrence and last_occurrence:
         return first_occurrence.start_time, last_occurrence.end_time
     return None, None
+
+
+def get_enrollable_event_time_range_from_occurrences(
+    p_event: Optional["PalvelutarjotinEvent"],
+):
+    if not p_event or not p_event.enrolment_start:
+        """
+        1. No p_event set yet
+        2. 2nd step of the UI's form wizard, that includes the occurrences
+        and enrolment data, is not yet full filled.
+        3. The event is externally enrollable
+        4. The event is not enrollable at all
+        """
+        return None, None
+
+    try:
+        occurrences = p_event.occurrences.filter(cancelled=False).order_by("end_time")
+        end_time = occurrences.last().start_time
+    except AttributeError:
+        return None, None
+
+    # Enrolment end days sets the last day for enrolment
+    if p_event.enrolment_end_days is not None and p_event.enrolment_end_days > 0:
+        end_time = end_time - timedelta(days=p_event.enrolment_end_days)
+
+    # NOTE: originally the start time has been timezone.now(),
+    # because something needs to be set on UI wizards first step,
+    # when there are no occurrences or enrolment start time set yet.
+    # Event's enrolment start time should be in sync
+    # with p_event.enrolment_start, or `p_event.enrolment_start`
+    # should be fully replaced with
+    # `occurrence.start_time - timedelta(days=p_event.enrolment_end_days)`
+    # TODO: Remove p_event.enrolment_start and
+    # start using the one from LinkedEvents Event API,
+    # so there would be one field less to sync between the APIs
+    return (p_event.enrolment_start, end_time)
 
 
 def resolve_unit_name_with_unit_id(study_group: "StudyGroup"):
