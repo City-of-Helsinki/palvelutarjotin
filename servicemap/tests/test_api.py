@@ -1,3 +1,5 @@
+from unittest.mock import patch
+
 GET_SCHOOLS_AND_KINDERGARTENS_LIST_QUERY = """
   query ServicemapSchoolsAndKindergartensList {
     schoolsAndKindergartensList {
@@ -19,8 +21,13 @@ GET_SCHOOLS_AND_KINDERGARTENS_LIST_QUERY = """
   """
 
 
+@patch("servicemap.schema.Query.resolve_schools_and_kindergartens_list")
 def test_list_helsinki_schools_and_kindergartens(
-    api_client, snapshot, mock_get_servicemap_schools_and_kindergartens_data
+    mock_recursive_call,
+    api_client,
+    snapshot,
+    mock_get_servicemap_schools_and_kindergartens_data,
 ):
     executed = api_client.execute(GET_SCHOOLS_AND_KINDERGARTENS_LIST_QUERY)
+    assert mock_recursive_call.call_count == 1
     snapshot.assert_match(executed)
