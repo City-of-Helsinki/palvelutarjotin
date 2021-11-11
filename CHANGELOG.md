@@ -1,6 +1,24 @@
 <!-- REMINDER: While updating changelog, also remember to update
 the version in palvelutarjotin/__init.py__ -->
 
+## [0.8.0] - 11 November 2021
+
+### Added
+
+- The published occurrences can now be updated if there are no enrolments yet, and deleted if they are first cancelled. New occurrences can also be added to a published event.
+- Events will be republished to LinkedEvents API if the occurrences are saved and the event time range changes.
+- A full Place can now be linked to a study group instead of a just name.
+- Servicemap rest-client and graphql schema for schools and kindergartens query
+
+### Updated
+
+- Improved error handling on LinkedEvents API calls.
+- Old Course-extension is removed from the Event interface and the fields are now moved to the root of the event object.
+
+### Removed
+
+- Unused neighborhoods API is removed.
+
 ## [0.7.3] - 8 October 2021
 
 ### Fixed
