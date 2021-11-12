@@ -1,6 +1,9 @@
 import json
+import logging
 
 import requests
+
+logger = logging.getLogger(__name__)
 
 
 def _prepare_sms_payload(sender, destinations, text):
@@ -26,6 +29,14 @@ class NotificationService:
             "Authorization": "Token " + self.api_token,
             "Content-Type": "application/json",
         }
-        return requests.post(
-            url, data=data, headers=headers, timeout=self.CONNECTION_TIMEOUT
-        )
+
+        try:
+            response = requests.post(
+                url, data=data, headers=headers, timeout=self.CONNECTION_TIMEOUT
+            )
+
+            response.raise_for_status()
+        except requests.exceptions.HTTPError:
+            logger.exception(f"SMS message sent failed!")
+
+        return response
