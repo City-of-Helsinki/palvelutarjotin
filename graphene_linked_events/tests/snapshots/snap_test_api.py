@@ -1172,3 +1172,71 @@ snapshots["test_get_popular_kultus_keywords[True-1-1] 1"] = {
         }
     }
 }
+
+snapshots["test_get_upcoming_events[True-True-True] 1"] = {
+    "data": {
+        "upcomingEvents": {
+            "data": [
+                {"id": "kultus:3", "pEvent": {"linkedEventId": "kultus:3"}},
+                {"id": "kultus:2", "pEvent": {"linkedEventId": "kultus:2"}},
+                {"id": "kultus:1", "pEvent": {"linkedEventId": "kultus:1"}},
+            ],
+            "meta": {"count": 3},
+        }
+    }
+}
+
+snapshots["test_get_upcoming_events[True-True-False] 1"] = {
+    "data": {
+        "upcomingEvents": {
+            "data": [
+                {"id": "kultus:3", "pEvent": {"linkedEventId": "kultus:3"}},
+                {"id": "kultus:2", "pEvent": {"linkedEventId": "kultus:2"}},
+                {"id": "kultus:1", "pEvent": {"linkedEventId": "kultus:1"}},
+            ],
+            "meta": {"count": 3},
+        }
+    }
+}
+
+snapshots["test_get_upcoming_events[True-False-True] 1"] = {
+    "data": {
+        "upcomingEvents": {
+            "data": [
+                {"id": "kultus:3", "pEvent": {"linkedEventId": "kultus:3"}},
+                {"id": "kultus:2", "pEvent": {"linkedEventId": "kultus:2"}},
+                {"id": "kultus:1", "pEvent": {"linkedEventId": "kultus:1"}},
+            ],
+            "meta": {"count": 3},
+        }
+    }
+}
+
+snapshots["test_get_upcoming_events[True-False-False] 1"] = {
+    "data": {
+        "upcomingEvents": {
+            "data": [
+                {"id": "kultus:3", "pEvent": {"linkedEventId": "kultus:3"}},
+                {"id": "kultus:2", "pEvent": {"linkedEventId": "kultus:2"}},
+                {"id": "kultus:1", "pEvent": {"linkedEventId": "kultus:1"}},
+            ],
+            "meta": {"count": 3},
+        }
+    }
+}
+
+snapshots["test_get_upcoming_events[False-True-True] 1"] = {
+    "data": {"upcomingEvents": {"data": [], "meta": {"count": 0}}}
+}
+
+snapshots["test_get_upcoming_events[False-True-False] 1"] = {
+    "data": {"upcomingEvents": {"data": [], "meta": {"count": 0}}}
+}
+
+snapshots["test_get_upcoming_events[False-False-True] 1"] = {
+    "data": {"upcomingEvents": {"data": [], "meta": {"count": 0}}}
+}
+
+snapshots["test_get_upcoming_events[False-False-False] 1"] = {
+    "data": {"upcomingEvents": {"data": [], "meta": {"count": 0}}}
+}

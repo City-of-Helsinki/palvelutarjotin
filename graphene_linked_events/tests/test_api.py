@@ -1,3 +1,4 @@
+import itertools
 import json
 from copy import deepcopy
 from datetime import datetime, timedelta
@@ -6,6 +7,7 @@ from unittest.mock import patch
 
 import graphene_linked_events
 import pytest
+import responses
 from django.utils import timezone
 from graphene.utils.str_converters import to_snake_case
 from graphene_linked_events.rest_client import LinkedEventsApiClient
@@ -1576,6 +1578,109 @@ def test_get_event_with_occurrences_limit(
             len(executed["data"]["event"]["pEvent"]["occurrences"]["edges"])
             == occurrences_count
         )
+
+
+GET_UPCOMING_EVENTS_QUERY = """
+query UpcomingEvents {
+  upcomingEvents {
+    meta {
+      count
+    }
+    data {
+      id
+      pEvent {
+        linkedEventId
+      }
+    }
+  }
+}
+"""
+
+
+@pytest.mark.parametrize(
+    "upcoming,past,cancelled", itertools.product((True, False), repeat=3)
+)
+def test_get_upcoming_events(
+    api_client,
+    organisation,
+    mocked_responses,
+    settings,
+    snapshot,
+    upcoming,
+    past,
+    cancelled,
+):
+    """
+    Event are ordered so that the event with the next upcoming occurrence is first.
+    """
+    mocked_responses.assert_all_requests_are_fired = False
+    UPCOMING_MOCKED_EVENTS = []
+
+    for i in range(1, 4):
+        p_event = PalvelutarjotinEventFactory(
+            linked_event_id=f"kultus:{i}", organisation=organisation
+        )
+        MOCK_EVENT_DATA = {**EVENT_DATA, "id": p_event.linked_event_id}
+        mocked_responses.add(
+            responses.GET,
+            url=settings.LINKED_EVENTS_API_CONFIG["ROOT"]
+            + f"event/{p_event.linked_event_id}/",
+            json=MOCK_EVENT_DATA,
+        )
+        mocked_responses.add(
+            responses.PUT,
+            url=settings.LINKED_EVENTS_API_CONFIG["ROOT"]
+            + f"event/{p_event.linked_event_id}/",
+            json=MOCK_EVENT_DATA,
+        )
+
+        if cancelled:
+            # Cancelled but would be next
+            start = timezone.now() + timedelta(days=i)
+            end = start + timedelta(hours=1)
+            OccurrenceFactory.create(
+                p_event=p_event, start_time=start, end_time=end, cancelled=True
+            )
+
+        if past:
+            # In the past
+            start = timezone.now() - timedelta(days=5) + timedelta(days=i)
+            end = start + timedelta(hours=1)
+            OccurrenceFactory.create(p_event=p_event, start_time=start, end_time=end)
+
+        if upcoming:
+            # Event should be ordered reverse to the creation order.
+            start = timezone.now() + timedelta(days=8) - timedelta(days=i)
+            end = start + timedelta(hours=1)
+            OccurrenceFactory.create(p_event=p_event, start_time=start, end_time=end)
+
+            UPCOMING_MOCKED_EVENTS.append(MOCK_EVENT_DATA)
+
+    if upcoming:
+        query_string = "ids=kultus:3,kultus:2,kultus:1"
+        mocked_responses.add(
+            responses.GET,
+            url=f"{settings.LINKED_EVENTS_API_CONFIG['ROOT']}event/?{query_string}",
+            json={
+                "meta": {
+                    "count": len(UPCOMING_MOCKED_EVENTS),
+                    "next": None,
+                    "previous": None,
+                },
+                "data": UPCOMING_MOCKED_EVENTS,
+            },
+        )
+
+    executed = api_client.execute(GET_UPCOMING_EVENTS_QUERY)
+
+    if upcoming:
+        assert executed["data"]["upcomingEvents"]["data"][0]["id"] == "kultus:3"
+        assert executed["data"]["upcomingEvents"]["data"][1]["id"] == "kultus:2"
+        assert executed["data"]["upcomingEvents"]["data"][2]["id"] == "kultus:1"
+    else:
+        assert executed["data"]["upcomingEvents"]["data"] == []
+
+    snapshot.assert_match(executed)
 
 
 GET_KEYWORD_SET_QUERY = """
