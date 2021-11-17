@@ -161,11 +161,13 @@ class EnrolmentReport(TimestampedModel):
     publisher = models.CharField(
         max_length=255,
         help_text=_("a primary name of the publisher, e.g. a legally recognized name"),
+        null=True,
     )
     keywords = ArrayField(
         # ArrayField Size 2: id, translated name
         ArrayField(models.CharField(max_length=255), size=2),
         verbose_name=_("keywords"),
+        null=True,
     )
 
     """
@@ -205,7 +207,7 @@ class EnrolmentReport(TimestampedModel):
         self.__pre_save_set_distance_from_unit_to_event_place()
         super().save(*args, **kwargs)
 
-    def _rehydrate(self):
+    def _rehydrate(self, hydrate_linkedevents_event=False):
         try:
             # enrolment setter hydrates everything
             if getattr(self, "enrolment"):
@@ -216,8 +218,8 @@ class EnrolmentReport(TimestampedModel):
             elif getattr(self, "occurrence"):
                 # Trigger the setter
                 self.occurrence = getattr(self, "occurrence")
-            else:
-                # Hydrate Event data from LinkedEvents API
+            # Hydrate Event data from LinkedEvents API
+            if hydrate_linkedevents_event:
                 self._hydrate_linkedevents_event()
         except AttributeError:
             pass
@@ -292,12 +294,14 @@ class EnrolmentReport(TimestampedModel):
         self.enrolment_externally = bool(getattr(obj, "external_enrolment_url", None))
 
         # Populate the events data from LinkedEvents API
-        self._hydrate_linkedevents_event()
+        # self._hydrate_linkedevents_event()
 
     def _hydrate_linkedevents_event(self):
         event = fetch_event_as_json(self.linked_event_id, includes=["keywords"])
         self.provider = event["provider"]
         self.publisher = event["publisher"]
-        self.keywords = [
-            (kw["id"], kw.get("name", {"en": ""})["en"]) for kw in event["keywords"]
-        ]
+        self.keywords = (
+            [(kw["id"], kw.get("name", {"en": ""})["en"]) for kw in event["keywords"]]
+            if event["keywords"]
+            else []
+        )

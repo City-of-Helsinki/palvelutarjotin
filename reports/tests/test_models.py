@@ -12,7 +12,7 @@ def test_enrolment_report(snapshot, mock_get_event_data):
 
 
 @pytest.mark.django_db
-def test_enrolment_report_enrolment_hydration(snapshot, mock_get_event_data, enrolment):
+def test_enrolment_report_enrolment_hydration(mock_get_event_data, enrolment):
     report = EnrolmentReport(enrolment=enrolment)
     assert report.enrolment is not None
     assert report.study_group is not None
@@ -20,9 +20,6 @@ def test_enrolment_report_enrolment_hydration(snapshot, mock_get_event_data, enr
     assert enrolment.occurrence.p_event.enrolment_start is not None
     assert report.enrolment_start_time is not None
     assert report.linked_event_id != ""
-    assert report.publisher != ""
-    assert report.keywords is not None
-    snapshot.assert_match(report.__dict__)
 
 
 @pytest.mark.django_db
@@ -32,8 +29,6 @@ def test_enrolment_report_occurrence_hydration(mock_get_event_data, occurrence):
     assert occurrence.p_event.enrolment_start is not None
     assert report.enrolment_start_time is not None
     assert report.linked_event_id != ""
-    assert report.publisher != ""
-    assert report.keywords is not None
 
 
 @pytest.mark.django_db
@@ -50,22 +45,21 @@ def test_enrolment_report_study_group_hydration(mock_get_event_data):
 
 @pytest.mark.django_db
 def test_enrolment_report_enrolment_rehydration_with_enrolment(
-    snapshot, mock_get_event_data, enrolment
+    mock_get_event_data, enrolment
 ):
     report = EnrolmentReport()
     report._enrolment = enrolment
     assert report.study_group is None
     assert report.occurrence is None
-    report._rehydrate()
+    report._rehydrate(hydrate_linkedevents_event=True)
     assert report.enrolment is not None
     assert report.study_group is not None
     assert report.occurrence is not None
     assert enrolment.occurrence.p_event.enrolment_start is not None
     assert report.enrolment_start_time is not None
     assert report.linked_event_id != ""
-    assert report.publisher != ""
+    assert report.publisher is not None
     assert report.keywords is not None
-    snapshot.assert_match(report.__dict__)
 
 
 @pytest.mark.django_db
@@ -76,14 +70,14 @@ def test_enrolment_report_enrolment_rehydration_with_occurrence(
     report._occurrence = occurrence
     assert report.enrolment_start_time is None
     assert report.linked_event_id == ""
-    assert report.publisher == ""
+    assert report.publisher is None
     assert report.keywords is None
-    report._rehydrate()
+    report._rehydrate(hydrate_linkedevents_event=True)
     assert report.occurrence is not None
     assert occurrence.p_event.enrolment_start is not None
     assert report.enrolment_start_time is not None
     assert report.linked_event_id != ""
-    assert report.publisher != ""
+    assert report.publisher is not None
     assert report.keywords is not None
 
 
@@ -93,12 +87,12 @@ def test_enrolment_report_enrolment_rehydration(mock_get_event_data, occurrence)
     report._occurrence = occurrence
     assert report.enrolment_start_time is None
     assert report.linked_event_id == ""
-    assert report.publisher == ""
+    assert report.publisher is None
     assert report.keywords is None
-    report._rehydrate()
+    report._rehydrate(hydrate_linkedevents_event=True)
     assert report.occurrence is not None
     assert occurrence.p_event.enrolment_start is not None
     assert report.enrolment_start_time is not None
     assert report.linked_event_id != ""
-    assert report.publisher != ""
+    assert report.publisher is not None
     assert report.keywords is not None
