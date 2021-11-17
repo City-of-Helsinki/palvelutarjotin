@@ -15,8 +15,10 @@ if TYPE_CHECKING:
 logger = logging.getLogger(__name__)
 
 
-def fetch_event_as_json(linked_event_id: str):
-    result = api_client.retrieve("event", linked_event_id, is_staff=True)
+def fetch_event_as_json(linked_event_id: str, **filter_params):
+    result = api_client.retrieve(
+        "event", linked_event_id, params=filter_params, is_staff=True
+    )
 
     if result.status_code == 400:
         raise ApiBadRequestError("Bad request to LinkedEvents API.")

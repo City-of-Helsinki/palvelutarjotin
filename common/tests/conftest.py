@@ -9,6 +9,7 @@ from django.test import RequestFactory
 from freezegun import freeze_time
 from graphene.test import Client
 from occurrences.factories import (
+    EnrolmentFactory,
     LanguageFactory,
     OccurrenceFactory,
     PalvelutarjotinEventFactory,
@@ -79,6 +80,11 @@ def organisation():
 @pytest.fixture
 def study_group():
     return StudyGroupFactory()
+
+
+@pytest.fixture
+def enrolment():
+    return EnrolmentFactory()
 
 
 @pytest.fixture
