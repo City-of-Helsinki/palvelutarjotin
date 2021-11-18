@@ -1,5 +1,6 @@
 import logging
-from typing import List, Union
+from datetime import datetime
+from typing import List, Optional, Union
 
 import occurrences.models as occurrences_models
 from django.contrib.postgres.fields import ArrayField
@@ -14,18 +15,22 @@ logger = logging.getLogger(__name__)
 
 
 class EnrolmentQuerySet(models.QuerySet):
-    def unsynced(self) -> Union[models.QuerySet, List[occurrences_models.Enrolment]]:
+    def unsynced(
+        self, sync_from: datetime = None
+    ) -> Union[models.QuerySet, List[occurrences_models.Enrolment]]:
         """Get a list of enrolments which are updated after latest report updates."""
-        latest_sync = self.aggregate(models.Max("updated_at"))["updated_at__max"]
-        if latest_sync:
+        sync_from = sync_from or UnsyncedQuerySet.latest_sync(self)
+        if sync_from:
             return occurrences_models.Enrolment.objects.filter(
-                updated_at__gt=latest_sync
+                updated_at__gte=sync_from
             )
         return occurrences_models.Enrolment.objects.all()
 
-    def missing(self):
+    def missing(
+        self, sync_from: datetime = None
+    ) -> Union[models.QuerySet, List[occurrences_models.Enrolment]]:
         """Get a list of enrolments which are missing from EnrolmentReport db-table."""
-        enrolments = EnrolmentQuerySet.unsynced(self)
+        enrolments = EnrolmentQuerySet.unsynced(self, sync_from=sync_from)
         reports_enrolment_ids = self.filter(
             _enrolment_id__in=[e.id for e in enrolments]
         ).values_list("_enrolment_id", flat=True)
@@ -33,6 +38,10 @@ class EnrolmentQuerySet(models.QuerySet):
 
 
 class UnsyncedQuerySet(models.QuerySet):
+    def latest_sync(self) -> Optional[datetime]:
+        """Returns latest updated_at, which represents the date of the last sync made"""
+        return self.aggregate(models.Max("updated_at"))["updated_at__max"]
+
     def unsynced(self):
         """
         Query unsynced enrolment report instances:
@@ -83,24 +92,30 @@ class EnrolmentReportManager(models.Manager):
     def get_queryset(self):
         return UnsyncedQuerySet(self.model, using=self._db)
 
-    def unsynced(self):
+    def latest_sync(self):
+        """Returns latest updated_at, which represents the date of the last sync made"""
+        return self.get_queryset().latest_sync()
+
+    def unsynced(self, sync_from: datetime = None):
         """Query unsynced enrolment report instances"""
         return self.get_queryset().unsynced()
 
-    def create_missing(self):
+    def create_missing(self, sync_from: datetime = None):
         """Create missing enrolment report instances."""
-        enrolments = self.model.enrolment_objects.missing()
+        enrolments = self.model.enrolment_objects.missing(sync_from=sync_from)
         return self.bulk_create(
             [EnrolmentReport(enrolment=enrolment) for enrolment in enrolments]
         )
 
-    def update_unsynced(self):
+    def update_unsynced(
+        self, hydrate_linkedevents_event=False, sync_from: datetime = None
+    ):
         """Sync existing unsynced enrolment report instances."""
         # TODO: Do we need to update every field,
         # or would it be ok to use bulk_update or queryset.update()?
-        reports = self.unsynced()
+        reports = self.unsynced(sync_from=sync_from)
         for report in reports:
-            report._rehydrate()
+            report._rehydrate(hydrate_linkedevents_event=hydrate_linkedevents_event)
             report.save()
         return reports
 
@@ -128,7 +143,8 @@ class EnrolmentReport(TimestampedModel):
     """
     _study_group = models.ForeignKey(
         occurrences_models.StudyGroup,
-        on_delete=models.DO_NOTHING,
+        on_delete=models.SET_NULL,
+        null=True,
         db_column="study_group_id",
     )
     study_group_unit_id = models.CharField(
@@ -171,7 +187,8 @@ class EnrolmentReport(TimestampedModel):
     """
     _enrolment = models.ForeignKey(
         occurrences_models.Enrolment,
-        on_delete=models.DO_NOTHING,
+        on_delete=models.SET_NULL,
+        null=True,
         db_column="enrolment_id",
     )
     enrolment_time = models.DateTimeField(verbose_name=_("enrolment time"))
@@ -193,7 +210,8 @@ class EnrolmentReport(TimestampedModel):
     """
     _occurrence = models.ForeignKey(
         occurrences_models.Occurrence,
-        on_delete=models.DO_NOTHING,
+        on_delete=models.SET_NULL,
+        null=True,
         db_column="occurrence_id",
     )
     # The position of the (event) place from LinkedEvents API
