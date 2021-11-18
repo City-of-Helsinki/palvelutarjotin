@@ -3,6 +3,7 @@ from types import SimpleNamespace
 
 from django.core.exceptions import PermissionDenied
 from django.db import transaction
+from django.db.models import OuterRef, Subquery
 from django.utils import timezone
 from django.utils.translation import gettext_lazy as _
 from graphene import (
@@ -34,7 +35,7 @@ from occurrences.event_api_services import (
     get_enrollable_event_time_range_from_occurrences,
     get_event_time_range_from_occurrences,
 )
-from occurrences.models import PalvelutarjotinEvent, VenueCustomData
+from occurrences.models import Occurrence, PalvelutarjotinEvent, VenueCustomData
 from organisations.models import Organisation, Person
 
 from common.utils import (
@@ -335,6 +336,12 @@ class Query:
         publication_status=String(),
     )
     event = Field(Event, id=ID(required=True), include=List(String))
+    upcoming_events = Field(
+        EventListResponse,
+        page=Int(default_value=1),
+        page_size=Int(default_value=10),
+        description=_("Get upcoming events sorted by the next occurrence."),
+    )
 
     places = Field(
         PlaceListResponse,
@@ -456,6 +463,49 @@ class Query:
         events_json = format_response(response)
 
         return Query._test_events_p_event_relations(events_json)
+
+    @staticmethod
+    def resolve_upcoming_events(parent, info, **kwargs):
+        """Return a list of upcoming events based on occurrence start time."""
+        page = kwargs.get("page")
+        page_size = kwargs.get("page_size")
+
+        start = page_size * (page - 1)
+        end = page * page_size
+
+        next_occurrences = Occurrence.objects.filter(
+            p_event=OuterRef("pk"), start_time__gte=timezone.now(), cancelled=False
+        ).order_by("start_time")
+
+        p_events = (
+            PalvelutarjotinEvent.objects.annotate(
+                next_occurrence_start_time=Subquery(
+                    next_occurrences.values("start_time")[:1]
+                )
+            )
+            .filter(next_occurrence_start_time__isnull=False)
+            .order_by("next_occurrence_start_time")
+            .prefetch_related("occurrences")[start:end]
+        )
+        linked_event_ids = [p_event.linked_event_id for p_event in p_events]
+
+        if linked_event_ids:
+            response = api_client.list("event", filter_list={"ids": linked_event_ids})
+
+            events = json.loads(
+                format_response(response), object_hook=lambda d: SimpleNamespace(**d)
+            )
+            events = [e for e in events.data if e.id in linked_event_ids]
+            events.sort(key=lambda x: linked_event_ids.index(x.id))
+
+            for event in events:
+                event.p_event = next(
+                    (p for p in p_events if p.linked_event_id == event.id), None
+                )
+        else:
+            events = []
+
+        return {"data": events, "meta": {"count": len(events)}}
 
     @staticmethod
     def resolve_place(parent, info, **kwargs):
