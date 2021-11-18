@@ -171,11 +171,7 @@ snapshots["test_list_helsinki_schools_and_kindergartens 1"] = {
                     },
                 },
             ],
-            "meta": {
-                "count": 1019,
-                "next": "https://api.hel.fi/servicemap/v2/unit/?municipality=helsinki&only=name&page=2&service_node=2118%2C868%2C2179%2C1088%2C1257%2C1097",
-                "previous": None,
-            },
+            "meta": {"count": 1019, "next": None, "previous": None},
         }
     }
 }
