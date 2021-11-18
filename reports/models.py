@@ -1,4 +1,5 @@
 import logging
+from typing import List, Union
 
 import occurrences.models as occurrences_models
 from django.contrib.postgres.fields import ArrayField
@@ -12,23 +13,43 @@ from common.models import TimestampedModel
 logger = logging.getLogger(__name__)
 
 
-class UnsyncedQueryset(models.QuerySet):
-    def unsynced(self):
-        # Get latest update from enrolment reports table
+class EnrolmentQuerySet(models.QuerySet):
+    def unsynced(self) -> Union[models.QuerySet, List[occurrences_models.Enrolment]]:
+        """Get a list of enrolments which are updated after latest report updates."""
         latest_sync = self.aggregate(models.Max("updated_at"))["updated_at__max"]
+        if latest_sync:
+            return occurrences_models.Enrolment.objects.filter(
+                updated_at__gt=latest_sync
+            )
+        return occurrences_models.Enrolment.objects.all()
 
+    def missing(self):
+        """Get a list of enrolments which are missing from EnrolmentReport db-table."""
+        enrolments = EnrolmentQuerySet.unsynced(self)
+        reports_enrolment_ids = self.filter(
+            _enrolment_id__in=[e.id for e in enrolments]
+        ).values_list("_enrolment_id", flat=True)
+        return enrolments.exclude(id__in=reports_enrolment_ids)
+
+
+class UnsyncedQuerySet(models.QuerySet):
+    def unsynced(self):
+        """
+        Query unsynced enrolment report instances:
+        Enrolment report is not in sync when it's related enrolment instance
+        has an updated_at -field value greater than
+        report instances updated_at -field value.
+        """
         # Even if the enrolment instance has updated,
         # we do not want to update it's related enrolment report instance,
         # until the status of enrolment has changed.
         enrolment_ids_with_statuses = list(
             {"_enrolment_id": id, "enrolment_status": status}
-            for id, status in occurrences_models.Enrolment.objects.filter(
-                updated_at__gt=latest_sync
-            ).values_list("id", "status")
+            for id, status in EnrolmentQuerySet.unsynced(self).values_list(
+                "id", "status"
+            )
         )
-
         separator = ":"
-
         return (
             # Filter all reports that are related to enrolments
             self.filter(
@@ -60,10 +81,28 @@ class UnsyncedQueryset(models.QuerySet):
 
 class EnrolmentReportManager(models.Manager):
     def get_queryset(self):
-        return UnsyncedQueryset(self.model, using=self._db)
+        return UnsyncedQuerySet(self.model, using=self._db)
 
     def unsynced(self):
+        """Query unsynced enrolment report instances"""
         return self.get_queryset().unsynced()
+
+    def create_missing(self):
+        """Create missing enrolment report instances."""
+        enrolments = self.model.enrolment_objects.missing()
+        return self.bulk_create(
+            [EnrolmentReport(enrolment=enrolment) for enrolment in enrolments]
+        )
+
+    def update_unsynced(self):
+        """Sync existing unsynced enrolment report instances."""
+        # TODO: Do we need to update every field,
+        # or would it be ok to use bulk_update or queryset.update()?
+        reports = self.unsynced()
+        for report in reports:
+            report._rehydrate()
+            report.save()
+        return reports
 
 
 class EnrolmentReport(TimestampedModel):
@@ -87,7 +126,6 @@ class EnrolmentReport(TimestampedModel):
     Place data must be fetched from LinkedEvents API
     (or from other service like the servicemap API)
     """
-
     _study_group = models.ForeignKey(
         occurrences_models.StudyGroup,
         on_delete=models.DO_NOTHING,
@@ -235,6 +273,7 @@ class EnrolmentReport(TimestampedModel):
     )
 
     objects = EnrolmentReportManager()
+    enrolment_objects = EnrolmentQuerySet.as_manager()
 
     @property
     def study_group_group_size(self):

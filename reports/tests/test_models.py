@@ -145,3 +145,50 @@ def test_unsynced_queryset(mock_get_event_data):
         in_sync
     )
     assert EnrolmentReport.objects.unsynced().count() == len(needs_sync)
+
+
+@pytest.mark.django_db
+def test_create_missing(mock_get_event_data):
+    enrolments = EnrolmentFactory.create_batch(10)
+    with freeze_time("2019-12-30"):
+        for enrolment in enrolments[:5]:
+            EnrolmentReportFactory(enrolment=enrolment)
+    assert EnrolmentReport.objects.all().count() == 5
+    EnrolmentReport.objects.create_missing()
+    assert (
+        EnrolmentReport.objects.filter(
+            _enrolment_id__in=[e.id for e in enrolments]
+        ).count()
+        == 10
+    )
+
+
+@pytest.mark.django_db
+def test_update_unsynced(mock_get_event_data):
+    enrolments = EnrolmentFactory.create_batch(10, status=Enrolment.STATUS_APPROVED)
+    # All reports which are wanted to be updated, needs to be in the past
+    with freeze_time("2019-12-30"):
+        for enrolment in enrolments[:5]:
+            EnrolmentReportFactory(enrolment=enrolment)
+        for enrolment in enrolments[5:]:
+            report = EnrolmentReportFactory(enrolment=enrolment)
+            # enrolment_status needs to be implicitly set
+            # because otherwise enrolment setter would override it
+            report.enrolment_status = Enrolment.STATUS_PENDING
+            report.save()
+    assert EnrolmentReport.objects.filter(updated_at__lt="2019-12-31").count() == 10
+
+    with freeze_time("2020-01-04"):
+        EnrolmentReport.objects.update_unsynced()
+        assert (
+            EnrolmentReport.objects.filter(
+                updated_at__gte="2020-01-04", enrolment_status=Enrolment.STATUS_APPROVED
+            ).count()
+            == 5
+        )
+        assert (
+            EnrolmentReport.objects.filter(
+                enrolment_status=Enrolment.STATUS_APPROVED
+            ).count()
+            == 10
+        )
