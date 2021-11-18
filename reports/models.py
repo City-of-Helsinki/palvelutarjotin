@@ -5,7 +5,7 @@ from django.contrib.postgres.fields import ArrayField
 from django.db import models
 from django.utils.translation import ugettext_lazy as _
 from occurrences.event_api_services import fetch_event_as_json
-from reports.services import get_distance
+from reports.utils import haversine
 
 from common.models import TimestampedModel
 
@@ -194,7 +194,7 @@ class EnrolmentReport(TimestampedModel):
         the study group unit and the event occurrence place.
         """
         if self.occurrence_place_position and self.study_group_unit_position:
-            self.distance_from_unit_to_event_place = get_distance(
+            self.distance_from_unit_to_event_place = haversine(
                 self.occurrence_place_position[0],
                 self.occurrence_place_position[1],
                 self.study_group_unit_position[0],
