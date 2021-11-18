@@ -1,5 +1,8 @@
+import dateutil.parser
 import pytest
-from occurrences.factories import StudyGroupFactory, StudyLevelFactory
+from freezegun import freeze_time
+from occurrences.factories import EnrolmentFactory, StudyGroupFactory, StudyLevelFactory
+from occurrences.models import Enrolment
 from reports.factories import EnrolmentReportFactory
 from reports.models import EnrolmentReport
 
@@ -96,3 +99,49 @@ def test_enrolment_report_enrolment_rehydration(mock_get_event_data, occurrence)
     assert report.linked_event_id != ""
     assert report.publisher is not None
     assert report.keywords is not None
+
+
+@pytest.mark.django_db
+def test_unsynced_queryset(mock_get_event_data):
+    latest_sync = "2020-01-01"
+
+    def create_enrolment(updated_at_str):
+        with freeze_time(updated_at_str):
+            return EnrolmentFactory(status=Enrolment.STATUS_APPROVED,)
+
+    enrolment1, enrolment2, enrolment3, enrolment4 = [
+        create_enrolment(updated_at_str)
+        for updated_at_str in [latest_sync, "2020-01-02", "2020-01-03", "2020-01-04"]
+    ]
+
+    # In sync - also sets the latest sync time to "2020-01-01"
+    with freeze_time(latest_sync):
+        in_sync = [
+            EnrolmentReportFactory(
+                updated_at=dateutil.parser.isoparse("20200101"), enrolment=enrolment1,
+            )
+        ]
+
+    with freeze_time("2019-12-30"):
+        # Not in sync, but status unchanged
+        no_sync_need = [EnrolmentReportFactory(enrolment=enrolment2,)]
+
+        # Not in sync and status updated
+        needs_sync = [
+            EnrolmentReportFactory(enrolment=enrolment3,),
+            EnrolmentReportFactory(enrolment=enrolment4,),
+        ]
+        for report in needs_sync:
+            # Update the enrolment status gets overriden
+            # by enrolment setter and it's hydration
+            report.enrolment_status = Enrolment.STATUS_CANCELLED
+            report.save()
+
+    assert Enrolment.objects.filter(updated_at__gte=latest_sync).count() == 4
+    assert EnrolmentReport.objects.filter(updated_at__lte=latest_sync).count() == len(
+        no_sync_need
+    ) + len(needs_sync)
+    assert EnrolmentReport.objects.filter(updated_at__gte=latest_sync).count() == len(
+        in_sync
+    )
+    assert EnrolmentReport.objects.unsynced().count() == len(needs_sync)

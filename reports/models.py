@@ -12,6 +12,60 @@ from common.models import TimestampedModel
 logger = logging.getLogger(__name__)
 
 
+class UnsyncedQueryset(models.QuerySet):
+    def unsynced(self):
+        # Get latest update from enrolment reports table
+        latest_sync = self.aggregate(models.Max("updated_at"))["updated_at__max"]
+
+        # Even if the enrolment instance has updated,
+        # we do not want to update it's related enrolment report instance,
+        # until the status of enrolment has changed.
+        enrolment_ids_with_statuses = list(
+            {"_enrolment_id": id, "enrolment_status": status}
+            for id, status in occurrences_models.Enrolment.objects.filter(
+                updated_at__gt=latest_sync
+            ).values_list("id", "status")
+        )
+
+        separator = ":"
+
+        return (
+            # Filter all reports that are related to enrolments
+            self.filter(
+                _enrolment_id__in=[
+                    entry["_enrolment_id"] for entry in enrolment_ids_with_statuses
+                ]
+            )
+            # Exclude from the queryset all the report instances
+            # that are in the enrolment_ids_with_statuses list
+            # by using the annotated concat-field
+            .annotate(
+                # Annotate a new field that concatenates enrolment id and status
+                enrolment_id_status=models.functions.Concat(
+                    "_enrolment_id",
+                    models.Value(separator),
+                    "enrolment_status",
+                    output_field=models.CharField(),
+                ),
+            ).exclude(
+                enrolment_id_status__in=[
+                    "{}{}{}".format(
+                        entry["_enrolment_id"], separator, entry["enrolment_status"]
+                    )
+                    for entry in enrolment_ids_with_statuses
+                ]
+            )
+        )
+
+
+class EnrolmentReportManager(models.Manager):
+    def get_queryset(self):
+        return UnsyncedQueryset(self.model, using=self._db)
+
+    def unsynced(self):
+        return self.get_queryset().unsynced()
+
+
 class EnrolmentReport(TimestampedModel):
     """
     Enrolment report model is used to offer some exportable data related to enrolments.
@@ -179,6 +233,8 @@ class EnrolmentReport(TimestampedModel):
         verbose_name=_("distance from unit to event place"),
         null=True,
     )
+
+    objects = EnrolmentReportManager()
 
     @property
     def study_group_group_size(self):
