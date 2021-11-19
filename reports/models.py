@@ -7,6 +7,7 @@ from django.contrib.postgres.fields import ArrayField
 from django.db import models
 from django.utils.translation import ugettext_lazy as _
 from occurrences.event_api_services import fetch_event_as_json
+from reports.exceptions import EnrolmentReportCouldNotHydrateLinkedEventsData
 from reports.utils import haversine
 
 from common.models import TimestampedModel
@@ -410,11 +411,19 @@ class EnrolmentReport(TimestampedModel):
         # self._hydrate_linkedevents_event()
 
     def _hydrate_linkedevents_event(self):
-        event = fetch_event_as_json(self.linked_event_id, includes=["keywords"])
-        self.provider = event["provider"]
-        self.publisher = event["publisher"]
-        self.keywords = (
-            [(kw["id"], kw.get("name", {"en": ""})["en"]) for kw in event["keywords"]]
-            if event["keywords"]
-            else []
-        )
+        try:
+            event = fetch_event_as_json(self.linked_event_id, includes=["keywords"])
+            self.provider = event["provider"]
+            self.publisher = event["publisher"]
+            self.keywords = (
+                [
+                    (kw["id"], kw.get("name", {"en": ""})["en"])
+                    for kw in event["keywords"]
+                ]
+                if event["keywords"]
+                else []
+            )
+        except Exception:
+            raise EnrolmentReportCouldNotHydrateLinkedEventsData(
+                "Could not rehydrate Linked Events data!"
+            )
