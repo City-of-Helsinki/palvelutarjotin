@@ -15,6 +15,21 @@ if TYPE_CHECKING:
 logger = logging.getLogger(__name__)
 
 
+def fetch_place_as_json(place_id: str, **filter_params):
+    result = api_client.retrieve("place", place_id, params=filter_params, is_staff=True)
+
+    if result.status_code == 400:
+        raise ApiBadRequestError("Bad request to LinkedEvents API.")
+
+    if result.status_code == 404:
+        raise ObjectDoesNotExistError("Could not find the place from the API.")
+
+    result.raise_for_status()
+
+    place_obj = json.loads(result.text)
+    return place_obj
+
+
 def fetch_event_as_json(linked_event_id: str, **filter_params):
     result = api_client.retrieve(
         "event", linked_event_id, params=filter_params, is_staff=True

@@ -22,12 +22,20 @@ class Command(BaseCommand):
             type=str,
             help="Determine the date from where to start the sync",
         )
+        parser.add_argument(
+            "--ignore_linkedevents",
+            action="store_true",
+            help="Determine the date from where to start the sync",
+        )
 
     def handle(self, *args, **options):
         sync_from = None
         if options["sync_from"]:
             sync_from = datetime.fromisoformat(options["sync_from"][0])
-        sync_enrolment_reports(sync_from=sync_from)
+        sync_enrolment_reports(
+            hydrate_linkedevents_event=not options["ignore_linkedevents"],
+            sync_from=sync_from,
+        )
 
         self.stdout.write(
             self.style.SUCCESS("Successfully synced the enrolment reports!")

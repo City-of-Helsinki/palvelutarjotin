@@ -114,6 +114,7 @@ class EnrolmentReportAdminForm(forms.ModelForm):
 
 @admin.register(EnrolmentReport)
 class EnrolmentReportAdmin(admin.ModelAdmin):
+    change_list_template = "reports/admin/enrolmentreport_changelist.html"
     form = EnrolmentReportAdminForm
     list_display = [
         "id",
@@ -128,7 +129,9 @@ class EnrolmentReportAdmin(admin.ModelAdmin):
         "enrolment_start_time",
         "occurrence_start_time",
         "occurrence_end_time",
+        "occurrence_place_id",
         "study_group_unit_id",
+        "distance_from_unit_to_event_place",
         "study_group_amount_of_children",
         "study_group_amount_of_adult",
         "occurrence_amount_of_seats",
@@ -154,7 +157,12 @@ class EnrolmentReportAdmin(admin.ModelAdmin):
         HasOccurrenceListFilter,
         HasStudyGroupListFilter,
     ]
-    search_fields = ["study_group_unit_id", "publisher", "provider"]
+    search_fields = [
+        "study_group_unit_id",
+        "occurrence_place_id",
+        "publisher",
+        "provider",
+    ]
     date_hierarchy = "updated_at"
     actions = (
         "sync_enrolment_reports",
@@ -180,7 +188,7 @@ class EnrolmentReportAdmin(admin.ModelAdmin):
     get_occurrence_languages.short_description = _("Occurrence languages")
 
     def get_keywords(self, obj):
-        return ",".join([kw[1] for kw in obj.keywords or []])
+        return ",".join([dict(enumerate(kw)).get(1, "") for kw in obj.keywords or []])
 
     get_keywords.short_description = _("Keywords")
 
@@ -189,7 +197,7 @@ class EnrolmentReportAdmin(admin.ModelAdmin):
     ):
         try:
             for report in queryset:
-                report._rehydrate(hydrate_linkedevents_event=False)
+                report._rehydrate(hydrate_linkedevents_event=hydrate_linkedevents_event)
                 report.save()
         except EnrolmentReportCouldNotHydrateLinkedEventsData as e:
             self._send_error_message(request, e)

@@ -6,7 +6,8 @@ from django.conf import settings
 from django.contrib import messages
 from django.contrib.admin.views.decorators import staff_member_required
 from django.db.models.query import Prefetch
-from django.http.response import HttpResponse
+from django.http.response import HttpResponse, HttpResponseRedirect
+from django.urls import reverse
 from django.utils import timezone
 from django.utils.decorators import method_decorator
 from django.utils.translation import gettext as _
@@ -14,6 +15,7 @@ from django.views.generic import ListView
 from occurrences.models import Enrolment, PalvelutarjotinEvent
 from organisations.models import Organisation, Person
 from reports.models import EnrolmentReport
+from reports.services import sync_enrolment_reports
 from rest_framework.authentication import SessionAuthentication
 from rest_framework.permissions import IsAdminUser
 from rest_framework.views import APIView
@@ -355,3 +357,10 @@ class PalvelutarjotinEventEnrolmentsCsvView(
 
 class EnrolmentReportCsvView(ExportReportCsvView):
     model = EnrolmentReport
+
+
+@staff_member_required
+def sync_enrolment_reports_view(request):
+    sync_enrolment_reports(hydrate_linkedevents_event=True)
+    messages.add_message(request, messages.SUCCESS, _("Enrolment reports synced!"))
+    return HttpResponseRedirect(reverse("admin:reports_enrolmentreport_changelist"))

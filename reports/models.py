@@ -3,10 +3,10 @@ from datetime import datetime
 from typing import List, Optional, Union
 
 import occurrences.models as occurrences_models
+import reports.services as reports_services
 from django.contrib.postgres.fields import ArrayField
 from django.db import models
 from django.utils.translation import ugettext_lazy as _
-from occurrences.event_api_services import fetch_event_as_json
 from reports.exceptions import EnrolmentReportCouldNotHydrateLinkedEventsData
 from reports.utils import haversine
 
@@ -101,12 +101,16 @@ class EnrolmentReportManager(models.Manager):
         """Query unsynced enrolment report instances"""
         return self.get_queryset().unsynced()
 
-    def create_missing(self, sync_from: datetime = None):
+    def create_missing(
+        self, hydrate_linkedevents_event=False, sync_from: datetime = None
+    ):
         """Create missing enrolment report instances."""
         enrolments = self.model.enrolment_objects.missing(sync_from=sync_from)
-        return self.bulk_create(
-            [EnrolmentReport(enrolment=enrolment) for enrolment in enrolments]
-        )
+        reports = [self.model(_enrolment=enrolment) for enrolment in enrolments]
+        for report in reports:
+            report._rehydrate(hydrate_linkedevents_event=hydrate_linkedevents_event)
+
+        return self.bulk_create(reports)
 
     def update_unsynced(
         self, hydrate_linkedevents_event=False, sync_from: datetime = None
@@ -214,6 +218,9 @@ class EnrolmentReport(TimestampedModel):
         on_delete=models.SET_NULL,
         null=True,
         db_column="occurrence_id",
+    )
+    occurrence_place_id = models.CharField(
+        max_length=255, verbose_name=_("place id"), blank=True
     )
     # The position of the (event) place from LinkedEvents API
     occurrence_place_position = ArrayField(
@@ -324,14 +331,14 @@ class EnrolmentReport(TimestampedModel):
     def _rehydrate(self, hydrate_linkedevents_event=False):
         try:
             # enrolment setter hydrates everything
-            if getattr(self, "enrolment"):
+            if getattr(self, "_enrolment"):
                 # Trigger the setter
-                self.enrolment = getattr(self, "enrolment")
+                self.enrolment = getattr(self, "_enrolment")
             # If enrolment instance is not available,
             # hydrate with occurrence setter is the 2nd best thing
-            elif getattr(self, "occurrence"):
+            elif getattr(self, "_occurrence"):
                 # Trigger the setter
-                self.occurrence = getattr(self, "occurrence")
+                self.occurrence = getattr(self, "_occurrence")
             # Hydrate Event data from LinkedEvents API
             if hydrate_linkedevents_event:
                 self._hydrate_linkedevents_event()
@@ -349,8 +356,6 @@ class EnrolmentReport(TimestampedModel):
     def study_group(self, obj: occurrences_models.StudyGroup):
         self._study_group = obj
         self.study_group_unit_id = obj.unit_id
-        # self.study_group_unit_position = TODO
-        # self.study_group_unit_divisions = TODO
         self.study_group_amount_of_children = obj.group_size
         self.study_group_amount_of_adult = obj.amount_of_adult
         self.study_group_study_levels = (
@@ -358,6 +363,13 @@ class EnrolmentReport(TimestampedModel):
             if obj.id and obj.study_levels.exists()
             else []
         )
+        (unit_coordinates, unit_divisions) = reports_services.get_place_location_data(
+            self._study_group.unit_id
+        )
+        self.study_group_unit_position = (
+            list(unit_coordinates) if unit_coordinates else None
+        )
+        self.study_group_unit_divisions = unit_divisions
 
     @property
     def enrolment(self):
@@ -388,8 +400,6 @@ class EnrolmentReport(TimestampedModel):
     @occurrence.setter
     def occurrence(self, obj: occurrences_models.Occurrence):
         self._occurrence = obj
-        # self.occurrence_place_position = TODO
-        # self.occurrence_place_divisions = TODO
         self.occurrence_languages = (
             [(lng.id, lng.name) for lng in obj.languages.all()]
             if obj.id and obj.languages.exists()
@@ -400,6 +410,14 @@ class EnrolmentReport(TimestampedModel):
         self.occurrence_start_time = obj.start_time
         self.occurrence_end_time = obj.end_time
 
+        (place_coordinates, place_divisions) = reports_services.get_place_location_data(
+            obj.place_id
+        )
+        self.occurrence_place_position = (
+            list(place_coordinates) if place_coordinates else None
+        )
+        self.occurrence_place_divisions = place_divisions
+
         self._set_palvelutarjotin_event(obj.p_event)
 
     def _set_palvelutarjotin_event(self, obj: occurrences_models.PalvelutarjotinEvent):
@@ -407,17 +425,16 @@ class EnrolmentReport(TimestampedModel):
         self.enrolment_start_time = getattr(obj, "enrolment_start", None)
         self.enrolment_externally = bool(getattr(obj, "external_enrolment_url", None))
 
-        # Populate the events data from LinkedEvents API
-        # self._hydrate_linkedevents_event()
-
     def _hydrate_linkedevents_event(self):
         try:
-            event = fetch_event_as_json(self.linked_event_id, includes=["keywords"])
-            self.provider = event["provider"]
-            self.publisher = event["publisher"]
+            event = reports_services.get_event_json_from_linkedevents(
+                self.linked_event_id
+            )
+            self.provider = event["provider"]["fi"] if event["provider"] else None
+            self.publisher = event["publisher"] or None
             self.keywords = (
                 [
-                    (kw["id"], kw.get("name", {"en": ""})["en"])
+                    (kw["id"], kw.get("name", {"fi": ""})["fi"]) if kw else ""
                     for kw in event["keywords"]
                 ]
                 if event["keywords"]

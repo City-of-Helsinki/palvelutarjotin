@@ -5,6 +5,7 @@ from reports.views import (
     OrganisationPersonsCsvView,
     PalvelutarjotinEventEnrolmentsAdminView,
     PalvelutarjotinEventEnrolmentsCsvView,
+    sync_enrolment_reports_view,
 )
 
 # Admin views
@@ -18,6 +19,11 @@ urlpatterns = [
         "palvelutarjotinevent/enrolments/",
         PalvelutarjotinEventEnrolmentsAdminView.as_view(),
         name="report_event_enrolments",
+    ),
+    path(
+        "enrolmentreport/sync_enrolment_reports/",
+        sync_enrolment_reports_view,
+        name="sync_enrolment_reports",
     ),
 ]
 

@@ -5,6 +5,7 @@ from graphene_linked_events.tests.mock_data import (
     CREATED_EVENT_DATA,
     DRAFT_EVENT_DATA,
     EVENT_DATA,
+    EVENT_DATA_WITH_LOCATIONS_AND_KEYWORDS,
     EVENTS_DATA,
     IMAGE_DATA,
     IMAGES_DATA,
@@ -44,6 +45,27 @@ def mock_get_event_data(monkeypatch):
     # Mock the published event update
     monkeypatch.setattr(
         LinkedEventsApiClient, "update", _get_mock_function(EVENT_DATA),
+    )
+
+
+@pytest.fixture
+def mock_get_event_data_with_locations_and_keywords(monkeypatch):
+    """
+    Mocks a published event data fetch from LinkedEvents API.
+    Also mocks the update, because Occurrences app's signals
+    updates the event status to LinkedEvents API,
+    when the event is published
+    """
+    monkeypatch.setattr(
+        LinkedEventsApiClient,
+        "retrieve",
+        _get_mock_function(EVENT_DATA_WITH_LOCATIONS_AND_KEYWORDS),
+    )
+    # Mock the published event update
+    monkeypatch.setattr(
+        LinkedEventsApiClient,
+        "update",
+        _get_mock_function(EVENT_DATA_WITH_LOCATIONS_AND_KEYWORDS),
     )
 
 
