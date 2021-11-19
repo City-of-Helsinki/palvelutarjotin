@@ -2,6 +2,8 @@ import logging
 
 from django import forms
 from django.contrib import admin, messages
+from django.http import HttpResponseRedirect
+from django.urls import reverse
 from django.utils.translation import gettext as _
 from django.utils.translation import ngettext_lazy
 from occurrences.models import Language, StudyLevel
@@ -154,7 +156,11 @@ class EnrolmentReportAdmin(admin.ModelAdmin):
     ]
     search_fields = ["study_group_unit_id", "publisher", "provider"]
     date_hierarchy = "updated_at"
-    actions = ("sync_enrolment_reports", "sync_enrolment_reports_with_le")
+    actions = (
+        "sync_enrolment_reports",
+        "sync_enrolment_reports_with_le",
+        "export_event_enrolments_csv",
+    )
 
     def get_study_level_labels(self, obj):
         return ",".join(
@@ -219,6 +225,18 @@ class EnrolmentReportAdmin(admin.ModelAdmin):
     sync_enrolment_reports_with_le.short_description = _(
         "Rehydrate the enrolment report instances with LinkedEvent data."
     )
+
+    def export_event_enrolments_csv(self, request, queryset):
+        selected = queryset.values_list("pk", flat=True)
+        return HttpResponseRedirect(
+            "%s?ids=%s"
+            % (
+                reverse("report_enrolment_report_csv", current_app="reports"),
+                ",".join(str(pk) for pk in selected),
+            )
+        )
+
+    export_event_enrolments_csv.short_description = _("Export enrolment reports (csv)")
 
     def _send_error_message(self, request, message):
         logger.error(message)

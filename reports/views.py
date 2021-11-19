@@ -13,6 +13,7 @@ from django.utils.translation import gettext as _
 from django.views.generic import ListView
 from occurrences.models import Enrolment, PalvelutarjotinEvent
 from organisations.models import Organisation, Person
+from reports.models import EnrolmentReport
 from rest_framework.authentication import SessionAuthentication
 from rest_framework.permissions import IsAdminUser
 from rest_framework.views import APIView
@@ -350,3 +351,7 @@ class PalvelutarjotinEventEnrolmentsCsvView(
                 ]
             )
         return response
+
+
+class EnrolmentReportCsvView(ExportReportCsvView):
+    model = EnrolmentReport

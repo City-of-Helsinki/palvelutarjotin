@@ -1,5 +1,6 @@
 from django.urls import path
 from reports.views import (
+    EnrolmentReportCsvView,
     OrganisationPersonsAdminView,
     OrganisationPersonsCsvView,
     PalvelutarjotinEventEnrolmentsAdminView,
@@ -31,5 +32,10 @@ urlpatterns += [
         "palvelutarjotinevent/enrolments/csv/",
         PalvelutarjotinEventEnrolmentsCsvView.as_view(),
         name="report_event_enrolments_csv",
+    ),
+    path(
+        "enrolmentreports/csv/",
+        EnrolmentReportCsvView.as_view(),
+        name="report_enrolment_report_csv",
     ),
 ]
