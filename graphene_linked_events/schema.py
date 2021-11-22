@@ -340,6 +340,13 @@ class Query:
         EventListResponse,
         page=Int(default_value=1),
         page_size=Int(default_value=10),
+        include=List(
+            String,
+            description=_(
+                "Include the complete data from related resources in the current "
+                "response e.g. keywords or location."
+            ),
+        ),
         description=_("Get upcoming events sorted by the next occurrence."),
     )
 
@@ -469,6 +476,7 @@ class Query:
         """Return a list of upcoming events based on occurrence start time."""
         page = kwargs.get("page")
         page_size = kwargs.get("page_size")
+        include = kwargs.get("include")
 
         start = page_size * (page - 1)
         end = page * page_size
@@ -490,7 +498,11 @@ class Query:
         linked_event_ids = [p_event.linked_event_id for p_event in p_events]
 
         if linked_event_ids:
-            response = api_client.list("event", filter_list={"ids": linked_event_ids})
+            params = {"ids": linked_event_ids}
+            if include:
+                params["include"] = include
+
+            response = api_client.list("event", filter_list=params)
 
             events = json.loads(
                 format_response(response), object_hook=lambda d: SimpleNamespace(**d)
