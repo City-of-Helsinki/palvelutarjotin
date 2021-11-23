@@ -17,7 +17,7 @@ from reports.utils import haversine
 @pytest.mark.parametrize(
     "lon1,lat1,lon2,lat2,distance_km",
     [
-        [(24.9384), 60.1699, 22.2666, 60.4518, 150.4375814968687]
+        [24.9384, 60.1699, 22.2666, 60.4518, 150.4375814968687]
     ],  # From Helsinki to Turku, it's 150.4km
 )
 def test_haversine(

@@ -6,7 +6,11 @@ from occurrences.event_api_services import fetch_event_as_json, fetch_place_as_j
 from palvelutarjotin.exceptions import ApiBadRequestError, ObjectDoesNotExistError
 
 
-def sync_enrolment_reports(hydrate_linkedevents_event=True, sync_from: datetime = None):
+def sync_enrolment_reports(
+    hydrate_linkedevents_event=True,
+    sync_from: datetime = None,
+    create_from: datetime = None,
+):
     """
     Synchronize the enrolemnts report table with enrolments table:
     1. Update the unsynced enrolment report instances.
@@ -15,12 +19,14 @@ def sync_enrolment_reports(hydrate_linkedevents_event=True, sync_from: datetime 
     for each event of the enrolments from LinkedEvents API
     """
     sync_from = sync_from or report_models.EnrolmentReport.objects.latest_sync()
+    if not create_from and sync_from is not None:
+        create_from = sync_from
     if report_models.EnrolmentReport.objects.exists():
         report_models.EnrolmentReport.objects.update_unsynced(
             sync_from=sync_from, hydrate_linkedevents_event=hydrate_linkedevents_event
         )
     report_models.EnrolmentReport.objects.create_missing(
-        hydrate_linkedevents_event=hydrate_linkedevents_event, sync_from=sync_from
+        hydrate_linkedevents_event=hydrate_linkedevents_event, sync_from=create_from
     )
 
 
@@ -49,7 +55,10 @@ def resolve_place_divisions(place_json) -> list:
     if not place_json:
         return None
     try:
-        divisions = place_json["location"]["divisions"]
+        # When fetching the event, the division field is under location
+        if "location" in place_json:
+            place_json = place_json["location"]
+        divisions = place_json["divisions"]
         return [d["ocd_id"] for d in divisions]
     except KeyError:
         return None
@@ -59,6 +68,9 @@ def resolve_place_coordinates(place_json) -> tuple:
     if not place_json:
         return None
     try:
-        return place_json["location"]["position"]["coordinates"]
+        # When fetching the event, the position field is under location
+        if "location" in place_json:
+            place_json = place_json["location"]
+        return place_json["position"]["coordinates"]
     except KeyError:
         return None

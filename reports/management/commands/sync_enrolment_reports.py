@@ -7,11 +7,11 @@ from reports.services import sync_enrolment_reports
 class Command(BaseCommand):
     help = (
         "Synchronize enrolment reports from enrolment table. "
-        + "Latest sync time will be determined from "
-        + "updated_at -field in a enrolment_reports table. "
-        + "Enrolments after that date will be updated "
-        + "if the enrolment status has changed "
-        + "and created if they are totally missing from the table content."
+        "Latest sync time will be determined from "
+        "updated_at -field in a enrolment_reports table. "
+        "Enrolments after that date will be updated "
+        "if the enrolment status has changed "
+        "and created if they are totally missing from the table content."
     )
 
     def add_arguments(self, parser):

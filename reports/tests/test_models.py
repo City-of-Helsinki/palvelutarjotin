@@ -34,8 +34,6 @@ def test_enrolment_report_occurrence_hydration(
     assert occurrence.p_event.enrolment_start is not None
     assert report.enrolment_start_time is not None
     assert report.linked_event_id != ""
-    assert report.occurrence_place_position is not None
-    assert report.occurrence_place_divisions is not None
 
 
 @pytest.mark.django_db
@@ -50,8 +48,6 @@ def test_enrolment_report_study_group_hydration(
     assert [(id, label) for id, label in report.study_group_study_levels] == [
         (sl.id, sl.label) for sl in study_group.study_levels.all()
     ]
-    assert report.study_group_unit_position is not None
-    assert report.study_group_unit_divisions is not None
 
 
 @pytest.mark.django_db
@@ -206,5 +202,20 @@ def test_update_unsynced(mock_get_event_data):
 def test_pre_save_set_distance_from_unit_to_event_place(
     mock_get_event_data_with_locations_and_keywords,
 ):
-    enrolment = EnrolmentReportFactory()
-    assert enrolment.distance_from_unit_to_event_place is not None
+    report = EnrolmentReportFactory(
+        occurrence_place_position=(24.9384, 60.1699),
+        study_group_unit_position=(22.2666, 60.4518),
+    )
+    assert report.distance_from_unit_to_event_place is not None
+
+
+@pytest.mark.django_db
+def test_has_missing(mock_get_event_data):
+    EnrolmentFactory()
+    assert EnrolmentReport.objects.has_missing()
+
+
+@pytest.mark.django_db
+def test_count_missing(mock_get_event_data):
+    EnrolmentFactory()
+    assert EnrolmentReport.objects.count_missing() == 1

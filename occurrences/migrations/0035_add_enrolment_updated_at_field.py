@@ -4,7 +4,7 @@ from django.db import migrations, models
 from django.db.models import F
 
 
-def set_enrolment_time_tom_updated_at(apps, schema_editor):
+def set_enrolment_time_to_updated_at(apps, schema_editor):
     """Set enrolment time to Enrolment instances empty updated at fields."""
     Enrolment = apps.get_model("occurrences", "Enrolment")
     Enrolment.objects.all().update(updated_at=F("enrolment_time"))
@@ -29,5 +29,7 @@ class Migration(migrations.Migration):
                 auto_now_add=True, verbose_name="enrolment time"
             ),
         ),
-        migrations.RunPython(set_enrolment_time_tom_updated_at),
+        migrations.RunPython(
+            set_enrolment_time_to_updated_at, migrations.RunPython.noop
+        ),
     ]

@@ -2,6 +2,7 @@ import logging
 
 from django import forms
 from django.contrib import admin, messages
+from django.db.models import F
 from django.http import HttpResponseRedirect
 from django.urls import reverse
 from django.utils.translation import gettext as _
@@ -91,6 +92,17 @@ class HasStudyGroupListFilter(BooleanListFilterBase):
             return queryset.filter(_study_group_id__isnull=True)
 
 
+class IsOutOfSyncListFilter(BooleanListFilterBase):
+    title = _("is out of sync with enrolment")
+    parameter_name = "is-out-of-sync"
+
+    def queryset(self, request, queryset):
+        if self.value() == "True":
+            return queryset.exclude(_enrolment__status=F("enrolment_status"))
+        if self.value() == "False":
+            return queryset.filter(_enrolment__status=F("enrolment_status"))
+
+
 class EnrolmentReportAdminForm(forms.ModelForm):
     class Meta:
         model = EnrolmentReport
@@ -120,6 +132,7 @@ class EnrolmentReportAdmin(admin.ModelAdmin):
         "id",
         "created_at",
         "updated_at",
+        "get_sync_status",
         "_enrolment_id",
         "_study_group_id",
         "_occurrence_id",
@@ -141,7 +154,7 @@ class EnrolmentReportAdmin(admin.ModelAdmin):
         "enrolment_externally",
         "provider",
         "publisher",
-        # "get_keywords",
+        "get_keywords",
     ]
 
     list_filter = [
@@ -149,6 +162,7 @@ class EnrolmentReportAdmin(admin.ModelAdmin):
         "enrolment_start_time",
         "enrolment_status",
         "enrolment_externally",
+        IsOutOfSyncListFilter,
         HasUnitIdStudyGroupListFilter,
         StudyLevelFilter,
         OccurrenceLanguageFilter,
@@ -162,6 +176,7 @@ class EnrolmentReportAdmin(admin.ModelAdmin):
         "occurrence_place_id",
         "publisher",
         "provider",
+        "keywords",
     ]
     date_hierarchy = "updated_at"
     actions = (
@@ -169,6 +184,26 @@ class EnrolmentReportAdmin(admin.ModelAdmin):
         "sync_enrolment_reports_with_le",
         "export_event_enrolments_csv",
     )
+
+    def changelist_view(self, request, *args, **kwargs):
+        count_missing = EnrolmentReport.objects.count_missing()
+        if count_missing:
+            message = ngettext_lazy(
+                f"""There is {count_missing} enrolment without a report.
+                Please sync to create the missing enrolment reports!""",
+                f"""There are {count_missing} enrolments without a report.
+                Please sync to create the missing enrolment reports!""",
+                count_missing,
+            )
+            self.message_user(request, message, messages.WARNING)
+        return super().changelist_view(request, *args, **kwargs)
+
+    def get_sync_status(self, obj):
+        # TODO: Cache needed? - May be too heavy to load for each
+        return obj._enrolment.status == obj.enrolment_status
+
+    get_sync_status.short_description = _("in sync with the enrolment")
+    get_sync_status.boolean = True
 
     def get_study_level_labels(self, obj):
         return ",".join(
@@ -188,7 +223,7 @@ class EnrolmentReportAdmin(admin.ModelAdmin):
     get_occurrence_languages.short_description = _("Occurrence languages")
 
     def get_keywords(self, obj):
-        return ",".join([dict(enumerate(kw)).get(1, "") for kw in obj.keywords or []])
+        return ", ".join([dict(enumerate(kw)).get(1, "") for kw in obj.keywords or []])
 
     get_keywords.short_description = _("Keywords")
 

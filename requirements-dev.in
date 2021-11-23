@@ -13,3 +13,4 @@ pre-commit
 responses
 idna==2.8
 requests==2.22.0
+parameterized

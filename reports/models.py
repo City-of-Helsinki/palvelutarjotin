@@ -101,6 +101,16 @@ class EnrolmentReportManager(models.Manager):
         """Query unsynced enrolment report instances"""
         return self.get_queryset().unsynced()
 
+    def has_missing(self) -> bool:
+        # TODO: Find n effective and more reliable query to check this.
+        return bool(self.count_missing())
+
+    def count_missing(self) -> int:
+        return (
+            occurrences_models.Enrolment.objects.all().count()
+            - self.model.objects.all().exclude(_enrolment__isnull=True).count()
+        )
+
     def create_missing(
         self, hydrate_linkedevents_event=False, sync_from: datetime = None
     ):
@@ -135,17 +145,16 @@ class EnrolmentReport(TimestampedModel):
     capacity information, event keywords, etc.
     """
 
-    """
-    Study group
-    - Store the foreign key to fetch all data
-    - If the foreign key integrity is gone,
-    keep some information so the data is still available for reports:
-        1. Group sizes: Kids and adults
-        2. Study levels
-    - Store the unit position (coordinates) and divisions to normalise the data.
-    Place data must be fetched from LinkedEvents API
-    (or from other service like the servicemap API)
-    """
+    # Study group
+    # - Store the foreign key to fetch all data
+    # - If the foreign key integrity is gone,
+    # keep some information so the data is still available for reports:
+    #     1. Group sizes: Kids and adults
+    #     2. Study levels
+    # - Store the unit position (coordinates) and divisions to normalise the data.
+    # Place data must be fetched from LinkedEvents API
+    # (or from other service like the servicemap API)
+
     _study_group = models.ForeignKey(
         occurrences_models.StudyGroup,
         on_delete=models.SET_NULL,
@@ -168,7 +177,8 @@ class EnrolmentReport(TimestampedModel):
     )
     # The position of the (unit) place from LinkedEvents API
     study_group_unit_position = ArrayField(
-        ArrayField(models.DecimalField(max_digits=9, decimal_places=6), size=2),
+        models.DecimalField(max_digits=9, decimal_places=6),
+        size=2,
         null=True,
         verbose_name=_("coordinates of the study group unit"),
     )
@@ -180,16 +190,14 @@ class EnrolmentReport(TimestampedModel):
         null=True,
     )
 
-    """
-    Enrolment
-    - Store the foreign key to fetch all data
-    - If the foreign key integrity is gone,
-    keep some information so the data is still available for reports:
-        1. enrolment time
-        2. enrolment status
-    - Enrolment status is also used to check whether or not
-    the db row should be updated.
-    """
+    # Enrolment
+    # - Store the foreign key to fetch all data
+    # - If the foreign key integrity is gone,
+    # keep some information so the data is still available for reports:
+    #     1. enrolment time
+    #     2. enrolment status
+    # - Enrolment status is also used to check whether or not
+    # the db row should be updated.
     _enrolment = models.ForeignKey(
         occurrences_models.Enrolment,
         on_delete=models.SET_NULL,
@@ -201,18 +209,16 @@ class EnrolmentReport(TimestampedModel):
         max_length=255, verbose_name=_("enrolment status")
     )
 
-    """
-    Occurrence
-    - Store the foreign key to fetch all data
-    - If the foreign key integrity is gone,
-    keep some information so the data is still available for reports:
-        1. Amount of the seats
-        2. cancelled status
-    - Store the occurrence languages
-    - Store the event position (coordinates) and divisions to normalise the data.
-    Place data must be fetched from LinkedEvents API
-    (or from other service like the servicemap API)
-    """
+    # Occurrence
+    # - Store the foreign key to fetch all data
+    # - If the foreign key integrity is gone,
+    # keep some information so the data is still available for reports:
+    #     1. Amount of the seats
+    #     2. cancelled status
+    # - Store the occurrence languages
+    # - Store the event position (coordinates) and divisions to normalise the data.
+    # Place data must be fetched from LinkedEvents API
+    # (or from other service like the servicemap API)
     _occurrence = models.ForeignKey(
         occurrences_models.Occurrence,
         on_delete=models.SET_NULL,
@@ -224,7 +230,8 @@ class EnrolmentReport(TimestampedModel):
     )
     # The position of the (event) place from LinkedEvents API
     occurrence_place_position = ArrayField(
-        ArrayField(models.DecimalField(max_digits=9, decimal_places=6), size=2),
+        models.DecimalField(max_digits=9, decimal_places=6),
+        size=2,
         verbose_name=_("coordinates of the event occurrence place"),
         null=True,
     )
@@ -252,14 +259,12 @@ class EnrolmentReport(TimestampedModel):
     )
     occurrence_end_time = models.DateTimeField(verbose_name=_("occurrence end time"))
 
-    """
-    PalvelutarjotinEvent
-    - If the foreign key integrity is gone,
-    keep some information so the data is still available for reports:
-        1. Enrolment start time
-        2. LinkedEvent id
-    - Store the status of the type of the enrolment
-    """
+    # PalvelutarjotinEvent
+    # - If the foreign key integrity is gone,
+    # keep some information so the data is still available for reports:
+    #     1. Enrolment start time
+    #     2. LinkedEvent id
+    # - Store the status of the type of the enrolment
     linked_event_id = models.CharField(
         max_length=255, verbose_name=_("linked event id")
     )
@@ -288,12 +293,10 @@ class EnrolmentReport(TimestampedModel):
         null=True,
     )
 
-    """
-    Distance
-    """
+    # Distance
     distance_from_unit_to_event_place = models.DecimalField(
         max_digits=9,
-        decimal_places=6,
+        decimal_places=2,
         verbose_name=_("distance from unit to event place"),
         null=True,
     )
@@ -309,7 +312,7 @@ class EnrolmentReport(TimestampedModel):
     def study_group_group_size(self, value):
         self.study_group_amount_of_children = value
 
-    def __pre_save_set_distance_from_unit_to_event_place(self):
+    def set_distance_from_unit_to_event_place(self):
         """
         Calculate the distance between
         the study group unit and the event occurrence place.
@@ -325,7 +328,7 @@ class EnrolmentReport(TimestampedModel):
             self.distance_from_unit_to_event_place = None
 
     def save(self, *args, **kwargs):
-        self.__pre_save_set_distance_from_unit_to_event_place()
+        self.set_distance_from_unit_to_event_place()
         super().save(*args, **kwargs)
 
     def _rehydrate(self, hydrate_linkedevents_event=False):
@@ -342,6 +345,9 @@ class EnrolmentReport(TimestampedModel):
             # Hydrate Event data from LinkedEvents API
             if hydrate_linkedevents_event:
                 self._hydrate_linkedevents_event()
+
+            # calculate the distance
+            self.set_distance_from_unit_to_event_place()
         except AttributeError:
             pass
 
@@ -363,13 +369,6 @@ class EnrolmentReport(TimestampedModel):
             if obj.id and obj.study_levels.exists()
             else []
         )
-        (unit_coordinates, unit_divisions) = reports_services.get_place_location_data(
-            self._study_group.unit_id
-        )
-        self.study_group_unit_position = (
-            list(unit_coordinates) if unit_coordinates else None
-        )
-        self.study_group_unit_divisions = unit_divisions
 
     @property
     def enrolment(self):
@@ -409,14 +408,7 @@ class EnrolmentReport(TimestampedModel):
         self.occurrence_amount_of_seats = obj.amount_of_seats
         self.occurrence_start_time = obj.start_time
         self.occurrence_end_time = obj.end_time
-
-        (place_coordinates, place_divisions) = reports_services.get_place_location_data(
-            obj.place_id
-        )
-        self.occurrence_place_position = (
-            list(place_coordinates) if place_coordinates else None
-        )
-        self.occurrence_place_divisions = place_divisions
+        self.occurrence_place_id = obj.place_id
 
         self._set_palvelutarjotin_event(obj.p_event)
 
@@ -427,6 +419,27 @@ class EnrolmentReport(TimestampedModel):
 
     def _hydrate_linkedevents_event(self):
         try:
+            if self.study_group_unit_id:
+                (
+                    unit_coordinates,
+                    unit_divisions,
+                ) = reports_services.get_place_location_data(self.study_group_unit_id)
+                self.study_group_unit_position = (
+                    unit_coordinates if unit_coordinates else None
+                )
+                self.study_group_unit_divisions = unit_divisions
+
+            if self.occurrence_place_id:
+                (
+                    place_coordinates,
+                    place_divisions,
+                ) = reports_services.get_place_location_data(self.occurrence_place_id)
+
+                self.occurrence_place_position = (
+                    place_coordinates if place_coordinates else None
+                )
+                self.occurrence_place_divisions = place_divisions
+
             event = reports_services.get_event_json_from_linkedevents(
                 self.linked_event_id
             )
