@@ -1,6 +1,9 @@
 from datetime import datetime
+from typing import List, Union
 
+import occurrences.models as occurrences_models
 import reports.models as report_models
+from django.db import models
 from occurrences.event_api_services import fetch_event_as_json, fetch_place_as_json
 
 from palvelutarjotin.exceptions import ApiBadRequestError, ObjectDoesNotExistError
@@ -28,6 +31,27 @@ def sync_enrolment_reports(
     report_models.EnrolmentReport.objects.create_missing(
         hydrate_linkedevents_event=hydrate_linkedevents_event, sync_from=create_from
     )
+
+
+def get_unsynced_enrollments(
+    sync_from: datetime = None,
+) -> Union[models.QuerySet, List[occurrences_models.Enrolment]]:
+    """Get a list of enrolments which are updated after latest report updates."""
+    sync_from = sync_from or report_models.EnrolmentReport.objects.latest_sync()
+    if sync_from:
+        return occurrences_models.Enrolment.objects.filter(updated_at__gte=sync_from)
+    return occurrences_models.Enrolment.objects.all()
+
+
+def get_missing_enrollments(
+    sync_from: datetime = None,
+) -> Union[models.QuerySet, List[occurrences_models.Enrolment]]:
+    """Get a list of enrolments which are missing from EnrolmentReport db-table."""
+    enrolments = get_unsynced_enrollments(sync_from=sync_from)
+    reports_enrolment_ids = report_models.EnrolmentReport.objects.filter(
+        _enrolment_id__in=[e.id for e in enrolments]
+    ).values_list("_enrolment_id", flat=True)
+    return enrolments.exclude(id__in=reports_enrolment_ids)
 
 
 def get_event_json_from_linkedevents(linked_event_id: str):

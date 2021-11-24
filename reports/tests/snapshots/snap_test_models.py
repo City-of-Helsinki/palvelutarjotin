@@ -7,10 +7,10 @@ from snapshottest import GenericRepr, Snapshot
 snapshots = Snapshot()
 
 snapshots["test_enrolment_report 1"] = {
-    "_enrolment_id": 97,
-    "_occurrence_id": 1377,
+    "_enrolment_id": 1,
+    "_occurrence_id": 1,
     "_state": GenericRepr("<django.db.models.base.ModelState object at 0x100000000>"),
-    "_study_group_id": 129,
+    "_study_group_id": 1,
     "created_at": GenericRepr("FakeDatetime(2020, 1, 4, 0, 0, tzinfo=<UTC>)"),
     "distance_from_unit_to_event_place": None,
     "enrolment_externally": False,

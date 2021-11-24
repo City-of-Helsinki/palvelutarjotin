@@ -1,6 +1,6 @@
 import logging
 from datetime import datetime
-from typing import List, Optional, Union
+from typing import Optional
 
 import occurrences.models as occurrences_models
 import reports.services as reports_services
@@ -15,29 +15,6 @@ from common.models import TimestampedModel
 logger = logging.getLogger(__name__)
 
 
-class EnrolmentQuerySet(models.QuerySet):
-    def unsynced(
-        self, sync_from: datetime = None
-    ) -> Union[models.QuerySet, List[occurrences_models.Enrolment]]:
-        """Get a list of enrolments which are updated after latest report updates."""
-        sync_from = sync_from or UnsyncedQuerySet.latest_sync(self)
-        if sync_from:
-            return occurrences_models.Enrolment.objects.filter(
-                updated_at__gte=sync_from
-            )
-        return occurrences_models.Enrolment.objects.all()
-
-    def missing(
-        self, sync_from: datetime = None
-    ) -> Union[models.QuerySet, List[occurrences_models.Enrolment]]:
-        """Get a list of enrolments which are missing from EnrolmentReport db-table."""
-        enrolments = EnrolmentQuerySet.unsynced(self, sync_from=sync_from)
-        reports_enrolment_ids = self.filter(
-            _enrolment_id__in=[e.id for e in enrolments]
-        ).values_list("_enrolment_id", flat=True)
-        return enrolments.exclude(id__in=reports_enrolment_ids)
-
-
 class UnsyncedQuerySet(models.QuerySet):
     def latest_sync(self) -> Optional[datetime]:
         """Returns latest updated_at, which represents the date of the last sync made"""
@@ -50,42 +27,9 @@ class UnsyncedQuerySet(models.QuerySet):
         has an updated_at -field value greater than
         report instances updated_at -field value.
         """
-        # Even if the enrolment instance has updated,
-        # we do not want to update it's related enrolment report instance,
-        # until the status of enrolment has changed.
-        enrolment_ids_with_statuses = list(
-            {"_enrolment_id": id, "enrolment_status": status}
-            for id, status in EnrolmentQuerySet.unsynced(self).values_list(
-                "id", "status"
-            )
-        )
-        separator = ":"
-        return (
-            # Filter all reports that are related to enrolments
-            self.filter(
-                _enrolment_id__in=[
-                    entry["_enrolment_id"] for entry in enrolment_ids_with_statuses
-                ]
-            )
-            # Exclude from the queryset all the report instances
-            # that are in the enrolment_ids_with_statuses list
-            # by using the annotated concat-field
-            .annotate(
-                # Annotate a new field that concatenates enrolment id and status
-                enrolment_id_status=models.functions.Concat(
-                    "_enrolment_id",
-                    models.Value(separator),
-                    "enrolment_status",
-                    output_field=models.CharField(),
-                ),
-            ).exclude(
-                enrolment_id_status__in=[
-                    "{}{}{}".format(
-                        entry["_enrolment_id"], separator, entry["enrolment_status"]
-                    )
-                    for entry in enrolment_ids_with_statuses
-                ]
-            )
+        enrollments = reports_services.get_unsynced_enrollments()
+        return self.filter(_enrolment__in=enrollments).exclude(
+            enrolment_status=models.F("_enrolment__status")
         )
 
 
@@ -115,7 +59,7 @@ class EnrolmentReportManager(models.Manager):
         self, hydrate_linkedevents_event=False, sync_from: datetime = None
     ):
         """Create missing enrolment report instances."""
-        enrolments = self.model.enrolment_objects.missing(sync_from=sync_from)
+        enrolments = reports_services.get_missing_enrollments(sync_from=sync_from)
         reports = [self.model(_enrolment=enrolment) for enrolment in enrolments]
         for report in reports:
             report._rehydrate(hydrate_linkedevents_event=hydrate_linkedevents_event)
@@ -302,7 +246,6 @@ class EnrolmentReport(TimestampedModel):
     )
 
     objects = EnrolmentReportManager()
-    enrolment_objects = EnrolmentQuerySet.as_manager()
 
     @property
     def study_group_group_size(self):
