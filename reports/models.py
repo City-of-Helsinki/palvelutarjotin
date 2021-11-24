@@ -142,7 +142,7 @@ class EnrolmentReport(TimestampedModel):
     #     2. enrolment status
     # - Enrolment status is also used to check whether or not
     # the db row should be updated.
-    _enrolment = models.ForeignKey(
+    _enrolment = models.OneToOneField(
         occurrences_models.Enrolment,
         on_delete=models.SET_NULL,
         null=True,

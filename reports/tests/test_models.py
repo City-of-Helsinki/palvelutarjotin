@@ -8,10 +8,9 @@ from reports.models import EnrolmentReport
 
 
 @pytest.mark.django_db
-def test_enrolment_report(snapshot, mock_get_event_data):
-    report = EnrolmentReportFactory()
+def test_enrolment_report(mock_get_event_data):
+    EnrolmentReportFactory()
     EnrolmentReport.objects.count() == 1
-    snapshot.assert_match(report.__dict__)
 
 
 @pytest.mark.django_db
