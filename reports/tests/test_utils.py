@@ -1,3 +1,5 @@
+import math
+
 import pytest
 from reports.utils import haversine
 
@@ -23,4 +25,4 @@ from reports.utils import haversine
 def test_haversine(
     lon1: float, lat1: float, lon2: float, lat2: float, distance_km: float
 ):
-    assert haversine(lon1, lat1, lon2, lat2) == distance_km
+    assert math.isclose(haversine(lon1, lat1, lon2, lat2), distance_km)

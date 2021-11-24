@@ -291,8 +291,10 @@ class EnrolmentReport(TimestampedModel):
 
             # calculate the distance
             self.set_distance_from_unit_to_event_place()
-        except AttributeError:
-            pass
+        except (AttributeError, EnrolmentReportCouldNotHydrateLinkedEventsData) as e:
+            logger.warning(
+                f"Error in rehydration of enrolment report (id: {self.id}) - {e}"
+            )
 
     @property
     def study_group(self):

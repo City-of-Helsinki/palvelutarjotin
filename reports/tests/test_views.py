@@ -380,6 +380,7 @@ class EnrolmentReportListViewTest(TestCase):
         assert response.status_code == status.HTTP_403_FORBIDDEN
 
     def test_all_enrolment_reports_are_in_single_page(self):
+        # FIXME: slow
         EnrolmentReportFactory.create_batch(60)
         self._authenticate()
         response = self._goto_reports()
