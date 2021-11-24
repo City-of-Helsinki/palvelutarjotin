@@ -219,3 +219,20 @@ After that, formatting hooks will run against all changed files before committin
 ## Issues board
 
 https://helsinkisolutionoffice.atlassian.net/projects/PT/issues
+
+## Maintaining
+
+### Enrolment reports
+
+_Enrolment report instances are for data utilizing. They are provided through a JSON view used by external parties. The external parties will need credentials that has the enrolment report view permission to use the view!_
+
+Enrolment reports should maintain themselves automatically with nightly running cronjobs, but sometimes some manual syncing might be needed. There are some tools for that in enrolment reports admin page:
+
+- Sync unsynced enrolment reports -button can be used to create all the missing enrolment reports and to sync all the enrolment reports out of sync after the date of the last sync done. If the date of the last sync is greater than the updated_at -field's value in an instance that needs the sync, the sync must be done by selecting the instance from admin list view and using the rehydrate -sync actions.
+- Rehydrate the enrolment report instances with LinkedEvent data -action can be used to sync the enrolment report instance with the related enrolment instance. This action also fetches the data from LinkedEvents API, which can lead to some heavy API usage, so please use carefully. All the selected enrolment report instances will be affected.
+- Rehydrate the enrolment report instances without LinkedEvent data -action can be used to sync the enrolment report instance with the related enrolment instance without fetching any data from the LinkedEvent API. This action should be used when the sync needs no data from LiknedEvents, for example when only the enrolment status is wanted to be updated.
+
+Enrolment reports can be initialized with the same management command that the cronjob runs: `sync_enrolment_reports`. It will create the missing enrolment reports and sync the enrolment report instances that are out of sync with the related enrolment instance. The `sync_enrolment_reports` command takes in 2 optional parameters:
+
+- --sync_from, which can be used to set the date of the updated_at -field that will be used to fetch the enrolments being handled in the sync process.
+- --ignore_linkedevents, which can be used to prevent data fetching from LinkedEvents API.

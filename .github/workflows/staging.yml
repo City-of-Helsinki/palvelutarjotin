@@ -135,3 +135,16 @@ jobs:
           schedule: '0 8 * * *' # every day 8 AM
           command: "{/app/manage.py}"
           args: "{clean_invalid_tokens}"
+
+      - name: Deploy Sync Enrolment Report Table Cronjob
+        uses: City-of-Helsinki/setup-cronjob-action@main
+        with:
+          image_repository: ghcr.io/city-of-helsinki/${{ github.event.repository.name }}
+          image_tag:  ${{ github.sha }}
+          secret_name: "project-staging-palvelutarjotin-secret"
+          name: "sync-enrolment-reports"
+          kubeconfig_raw: ${{ secrets.KUBECONFIG_RAW_STAGING}}
+          target_namespace: ${{ secrets.K8S_NAMESPACE_STAGING }}
+          schedule: '0 2 * * *' # every day 2 AM
+          command: "{/app/manage.py}"
+          args: "{sync_enrolment_reports}"

@@ -76,6 +76,8 @@ packaging==21.0
     # via
     #   -r requirements-dev.in
     #   pytest
+parameterized==0.8.1
+    # via -r requirements-dev.in
 parso==0.5.1
     # via jedi
 pathspec==0.6.0

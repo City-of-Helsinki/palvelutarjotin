@@ -550,7 +550,11 @@ class Enrolment(models.Model):
         related_name="enrolments",
         on_delete=models.CASCADE,
     )
-    enrolment_time = models.DateTimeField(auto_now_add=True)
+    enrolment_time = models.DateTimeField(
+        verbose_name=_("enrolment time"), auto_now_add=True
+    )
+    updated_at = models.DateTimeField(verbose_name=_("updated at"), auto_now=True)
+
     person = models.ForeignKey(
         "organisations.Person",
         verbose_name=_("person"),

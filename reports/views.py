@@ -5,16 +5,23 @@ import logging
 from django.conf import settings
 from django.contrib import messages
 from django.contrib.admin.views.decorators import staff_member_required
+from django.db.models import Min
 from django.db.models.query import Prefetch
-from django.http.response import HttpResponse
+from django.http.response import HttpResponse, HttpResponseRedirect
+from django.urls import reverse
 from django.utils import timezone
 from django.utils.decorators import method_decorator
 from django.utils.translation import gettext as _
+from django.views.decorators.http import require_http_methods
 from django.views.generic import ListView
 from occurrences.models import Enrolment, PalvelutarjotinEvent
 from organisations.models import Organisation, Person
+from reports.models import EnrolmentReport
+from reports.serializers import EnrolmentReportSerializer
+from reports.services import sync_enrolment_reports
+from rest_framework import generics
 from rest_framework.authentication import SessionAuthentication
-from rest_framework.permissions import IsAdminUser
+from rest_framework.permissions import DjangoModelPermissions, IsAdminUser
 from rest_framework.views import APIView
 
 from common.utils import get_node_id_from_global_id
@@ -350,3 +357,78 @@ class PalvelutarjotinEventEnrolmentsCsvView(
                 ]
             )
         return response
+
+
+class EnrolmentReportCsvView(ExportReportCsvView):
+    model = EnrolmentReport
+
+
+@staff_member_required
+@require_http_methods(["POST"])
+def sync_enrolment_reports_view(request):
+    create_from = Enrolment.objects.aggregate(Min("enrolment_time"))[
+        "enrolment_time__min"
+    ]
+    sync_enrolment_reports(hydrate_linkedevents_event=True, create_from=create_from)
+    messages.add_message(request, messages.SUCCESS, _("Enrolment reports synced!"))
+    return HttpResponseRedirect(reverse("admin:reports_enrolmentreport_changelist"))
+
+
+class EnrolmentReportListView(generics.ListAPIView):
+    """
+    Return a list of all the enrolment reports.
+
+    There are some query parameters available that can be used as filters to
+    narrow the result of the queryset.
+    E.g you can use `?updated_at__gte=2021-11-23` to filter the results where
+    the updated_at -field value should be greater than or equal to the given
+    date in ISO-format (2021-11-23). The `__lte` stands for less than or equal.
+
+    The available filters:
+        - `updated_at__gte`, to filter with a report update date
+        - `updated_at__lte`,
+        - `created_at__gte`, to filter with a report creation date
+        - `created_at__lte`
+        - `enrolment_start_time__gte`, to filter with a report enrolment time
+        - `enrolment_start_time__lte`
+        - `enrolment_status`, to filter with an enrolment status:
+        approved, pending. cancelled. declined
+
+    The result set can also be ordered by with an `order_by` -query parameter.
+    E.g `?order_by=updated_at` will order the resultset by updated_at -field.
+    The order will be ascending by default but can be set to be descending,
+    by adding a "-" (minus) in front of the field name,
+    e.g `?order_by=-updated_at`.
+    """
+
+    serializer_class = EnrolmentReportSerializer
+    # Must be allowed only with model permissions (for 1 power bi user).
+    # Should not be allowed for every staff member,
+    # but only the ones with special permission.
+    permission_classes = [DjangoModelPermissions]
+    # It is wanted from Power bi reports creator,
+    # that there should be no pagination
+    pagination_class = None
+
+    def get_queryset(self):
+        # Allow the following filter parameters
+        allowed_filter_keys = [
+            "updated_at__gte",
+            "updated_at__lte",
+            "created_at__gte",
+            "created_at__lte",
+            "enrolment_status",
+            "enrolment_start_time__gte",
+            "enrolment_start_time__lte",
+        ]
+        queryset = EnrolmentReport.objects.all()
+        filter_params = {
+            k: self.request.query_params.get(k)
+            for k in allowed_filter_keys
+            if self.request.query_params.get(k)
+        }
+        if filter_params:
+            # Filter with allowed params
+            queryset = queryset.filter(**filter_params)
+
+        return queryset.order_by(self.request.query_params.get("order_by", "id"))

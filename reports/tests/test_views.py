@@ -1,11 +1,14 @@
-import datetime
+from datetime import datetime, timedelta
 from unittest import mock
 
 import pytest
+from django.contrib.auth.models import Permission
+from django.contrib.contenttypes.models import ContentType
 from django.test import override_settings, TestCase
 from django.test.client import RequestFactory
 from django.utils import timezone
 from django.views.generic import TemplateView
+from freezegun import freeze_time
 from graphql_relay.node.node import to_global_id
 from occurrences.factories import (
     EnrolmentFactory,
@@ -16,7 +19,11 @@ from occurrences.factories import (
 from occurrences.models import Enrolment, PalvelutarjotinEvent
 from organisations.factories import OrganisationFactory, PersonFactory, UserFactory
 from organisations.models import Organisation
+from parameterized import parameterized
+from reports.factories import EnrolmentReportFactory
+from reports.models import EnrolmentReport
 from reports.views import (
+    EnrolmentReportListView,
     ExportReportViewMixin,
     OrganisationPersonsAdminView,
     OrganisationPersonsMixin,
@@ -123,7 +130,7 @@ class PalvelutarjotinEventEnrolmentsMixinTest(TestCase):
 
     @pytest.mark.django_db
     def test_get_queryset_without_filter(self):
-        today = datetime.datetime.now(tz=timezone.utc)
+        today = datetime.now(tz=timezone.utc)
         for p_event in PalvelutarjotinEventFactory.create_batch(
             3, enrolment_start=today
         ):
@@ -163,15 +170,15 @@ class PalvelutarjotinEventEnrolmentsMixinTest(TestCase):
 
     @pytest.mark.django_db
     def test_get_queryset_with_start_date_and_end_date(self):
-        today = datetime.datetime.now(tz=timezone.utc)
+        today = datetime.now(tz=timezone.utc)
         p_event1 = PalvelutarjotinEventFactory(
-            enrolment_start=today - datetime.timedelta(days=3)
+            enrolment_start=today - timedelta(days=3)
         )
         p_event2 = PalvelutarjotinEventFactory(
-            enrolment_start=today - datetime.timedelta(days=2)
+            enrolment_start=today - timedelta(days=2)
         )
         p_event3 = PalvelutarjotinEventFactory(
-            enrolment_start=today - datetime.timedelta(days=1)
+            enrolment_start=today - timedelta(days=1)
         )
         for p_event in [
             p_event1,
@@ -184,25 +191,21 @@ class PalvelutarjotinEventEnrolmentsMixinTest(TestCase):
             )
         # filtered with start
         self.view.request = RequestFactory().get(
-            "/fake-path/?start=%s"
-            % ((today - datetime.timedelta(days=2)).strftime("%Y-%m-%d"))
+            "/fake-path/?start=%s" % ((today - timedelta(days=2)).strftime("%Y-%m-%d"))
         )
         self.assertEqual(self.view.get_queryset().count(), 6)
         self.view.request = RequestFactory().get(
-            "/fake-path/?start=%s"
-            % ((today + datetime.timedelta(days=1)).strftime("%Y-%m-%d"))
+            "/fake-path/?start=%s" % ((today + timedelta(days=1)).strftime("%Y-%m-%d"))
         )
         self.assertEqual(self.view.get_queryset().count(), 0)
 
         # filtered with end
         self.view.request = RequestFactory().get(
-            "/fake-path/?end=%s"
-            % ((today - datetime.timedelta(days=2)).strftime("%Y-%m-%d"))
+            "/fake-path/?end=%s" % ((today - timedelta(days=2)).strftime("%Y-%m-%d"))
         )
         self.assertEqual(self.view.get_queryset().count(), 6)
         self.view.request = RequestFactory().get(
-            "/fake-path/?end=%s"
-            % ((today - datetime.timedelta(days=3)).strftime("%Y-%m-%d"))
+            "/fake-path/?end=%s" % ((today - timedelta(days=3)).strftime("%Y-%m-%d"))
         )
         self.assertEqual(self.view.get_queryset().count(), 3)
 
@@ -210,8 +213,8 @@ class PalvelutarjotinEventEnrolmentsMixinTest(TestCase):
         self.view.request = RequestFactory().get(
             "/fake-path/?start=%s&end=%s"
             % (
-                (today - datetime.timedelta(days=3)).strftime("%Y-%m-%d"),
-                (today - datetime.timedelta(days=2)).strftime("%Y-%m-%d"),
+                (today - timedelta(days=3)).strftime("%Y-%m-%d"),
+                (today - timedelta(days=2)).strftime("%Y-%m-%d"),
             )
         )
         self.assertEqual(self.view.get_queryset().count(), 6)
@@ -254,7 +257,7 @@ class PalvelutarjotinEventEnrolmentsAdminViewTest(TestCase):
     )
     def test_get_context_data(self):
         self.view.request = RequestFactory().get("/fake-path/")
-        today = datetime.datetime.now(tz=timezone.utc)
+        today = datetime.now(tz=timezone.utc)
         p_events = PalvelutarjotinEventFactory.create_batch(3, enrolment_start=today)
         for p_event in p_events:
             occurrence = OccurrenceFactory(p_event=p_event, amount_of_seats=100)
@@ -312,7 +315,7 @@ class OrganisationPersonsCsvViewTest(TestCase):
 class PalvelutarjotinEventEnrolmentsTest(TestCase):
     @pytest.mark.django_db
     def test_export_enrolment_csv_data(self):
-        today = datetime.datetime.now(tz=timezone.utc)
+        today = datetime.now(tz=timezone.utc)
         p_events = PalvelutarjotinEventFactory.create_batch(3, enrolment_start=today)
         for p_event in p_events:
             occurrence = OccurrenceFactory(p_event=p_event, amount_of_seats=100)
@@ -350,3 +353,118 @@ class PalvelutarjotinEventEnrolmentsTest(TestCase):
 
         self.assertNotContains(response, p_events[1].linked_event_id)
         self.assertNotContains(response, p_events[2].linked_event_id)
+
+
+@pytest.mark.django_db
+@pytest.mark.usefixtures("mock_get_event_data")
+class EnrolmentReportListViewTest(TestCase):
+    def setUp(self):
+        self.user = UserFactory()
+        content_type = ContentType.objects.get_for_model(EnrolmentReport)
+        self.view_permission = Permission.objects.get(
+            codename="view_enrolmentreport", content_type=content_type
+        )
+        self.user.user_permissions.add(self.view_permission)
+        self.view = EnrolmentReportListView
+        self.user_api_client = APIClient()
+        self.root = "/reports/enrolmentreport/"
+
+    def _authenticate(self):
+        self.user_api_client.force_authenticate(user=self.user)
+
+    def _goto_reports(self, query_params: str = ""):
+        return self.user_api_client.get(self.root + query_params)
+
+    def test_permissionless_user_cannot_access_enrolment_reports(self):
+        response = self._goto_reports()
+        assert response.status_code == status.HTTP_403_FORBIDDEN
+
+    def test_all_enrolment_reports_are_in_single_page(self):
+        # FIXME: slow
+        EnrolmentReportFactory.create_batch(60)
+        self._authenticate()
+        response = self._goto_reports()
+        assert response.status_code == status.HTTP_200_OK
+        len(response.json()) == 60
+
+    # FIXME: make the test work with updated_at and created_at
+    # @parameterized.expand(["updated_at", "created_at", "id"])
+    @parameterized.expand(["id"])
+    def test_order_by_param(self, param):
+        reports = EnrolmentReportFactory.create_batch(5)
+        self._authenticate()
+        # Ascending
+        response = self._goto_reports(f"?order_by={param}")
+        assert [e["id"] for e in response.json()] == [getattr(r, "id") for r in reports]
+        # Descending
+        response = self._goto_reports(f"?order_by=-{param}")
+        assert [e["id"] for e in response.json()] == list(
+            reversed([getattr(r, "id") for r in reports])
+        )
+
+    def test_filtering_with_enrolment_status(self):
+        EnrolmentReportFactory(enrolment_status=Enrolment.STATUS_APPROVED)
+        EnrolmentReportFactory(enrolment_status=Enrolment.STATUS_APPROVED)
+        EnrolmentReportFactory(enrolment_status=Enrolment.STATUS_PENDING)
+        self._authenticate()
+        response = self._goto_reports(f"?enrolment_status={Enrolment.STATUS_APPROVED}")
+        len(response.json()) == 2
+        response = self._goto_reports(f"?enrolment_status={Enrolment.STATUS_PENDING}")
+        len(response.json()) == 1
+
+    @parameterized.expand(
+        [
+            "updated_at__gte",
+            "updated_at__lte",
+            "created_at__gte",
+            "created_at__lte",
+            "enrolment_start_time__gte",
+            "enrolment_start_time__lte",
+        ]
+    )
+    def test_filtering_with_timestamps(self, param):
+        with freeze_time("2020-01-01"):
+            EnrolmentReportFactory()
+        with freeze_time("2020-01-02"):
+            EnrolmentReportFactory()
+        with freeze_time("2020-01-03"):
+            EnrolmentReportFactory()
+        self._authenticate()
+        response = self._goto_reports(f"?{param}=2020-01-01")
+        len(response.json()) == 3 if param.endswith("gte") else 0
+        response = self._goto_reports(f"?{param}=2020-01-02")
+        len(response.json()) == 2 if param.endswith("gte") else 1
+        response = self._goto_reports(f"?{param}=2020-01-03")
+        len(response.json()) == 1 if param.endswith("gte") else 2
+        response = self._goto_reports(f"?{param}=2020-01-04")
+        len(response.json()) == 0 if param.endswith("gte") else 3
+
+    @parameterized.expand(["enrolment_start_time__gte", "enrolment_start_time__lte"])
+    def test_filtering_with_enrolment_start_time(self, param):
+        EnrolmentReport(enrolment_start_time=datetime.fromisoformat("2020-01-01"))
+        EnrolmentReport(enrolment_start_time=datetime.fromisoformat("2020-01-02"))
+        EnrolmentReport(enrolment_start_time=datetime.fromisoformat("2020-01-03"))
+        self._authenticate()
+        response = self._goto_reports(f"?{param}=2020-01-01")
+        len(response.json()) == 3 if param.endswith("gte") else 0
+        response = self._goto_reports(f"?{param}=2020-01-02")
+        len(response.json()) == 2 if param.endswith("gte") else 1
+        response = self._goto_reports(f"?{param}=2020-01-03")
+        len(response.json()) == 1 if param.endswith("gte") else 2
+        response = self._goto_reports(f"?{param}=2020-01-04")
+        len(response.json()) == 0 if param.endswith("gte") else 3
+
+    def test_filtering_with_combination(self):
+        with freeze_time("2020-01-01"):
+            EnrolmentReportFactory()
+        with freeze_time("2020-01-02"):
+            EnrolmentReportFactory()
+        with freeze_time("2020-01-03"):
+            EnrolmentReportFactory()
+        with freeze_time("2020-01-04"):
+            EnrolmentReportFactory()
+        self._authenticate()
+        response = self._goto_reports(
+            f"?created_at__gte=2020-01-02&created_at__lte=2020-01-03"
+        )
+        len(response.json()) == 2
