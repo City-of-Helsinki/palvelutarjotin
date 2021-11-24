@@ -1,5 +1,5 @@
 from datetime import datetime
-from typing import List, Union
+from typing import List, Optional, Union
 
 import occurrences.models as occurrences_models
 import reports.models as report_models
@@ -75,7 +75,7 @@ def get_place_json_from_linkedevents(place_id: str):
         return None
 
 
-def resolve_place_divisions(place_json) -> list:
+def resolve_place_divisions(place_json) -> Optional[list]:
     if not place_json:
         return None
     try:
@@ -88,7 +88,7 @@ def resolve_place_divisions(place_json) -> list:
         return None
 
 
-def resolve_place_coordinates(place_json) -> tuple:
+def resolve_place_coordinates(place_json) -> Optional[list]:
     if not place_json:
         return None
     try:
