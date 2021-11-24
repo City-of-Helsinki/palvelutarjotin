@@ -293,7 +293,8 @@ class EnrolmentReport(TimestampedModel):
             self.set_distance_from_unit_to_event_place()
         except (AttributeError, EnrolmentReportCouldNotHydrateLinkedEventsData) as e:
             logger.warning(
-                f"Error in rehydration of enrolment report (id: {self.id}) - {e}"
+                "Error in rehydration of enrolment report "
+                f"(id: {self.id}, _enrolment.id: {self._enrolment.id}) - {e}."
             )
 
     @property
