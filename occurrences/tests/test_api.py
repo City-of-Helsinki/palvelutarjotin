@@ -220,6 +220,7 @@ query StudyGroup($id: ID!){
 OCCURRENCES_QUERY = """
 query Occurrences(
     $upcoming: Boolean,
+    $enrollable: Boolean,
     $date: Date,
     $time: Time,
     $cancelled: Boolean,
@@ -228,6 +229,7 @@ query Occurrences(
 ){
   occurrences(
       upcoming: $upcoming,
+      enrollable: $enrollable,
       date: $date,
       time: $time,
       cancelled: $cancelled,
@@ -2343,8 +2345,39 @@ def test_occurrences_filter_by_time(
     snapshot.assert_match(executed)
 
 
-@pytest.mark.parametrize("enrolment_end_days,count", [(None, 3), (0, 3), (1, 2)])
 def test_occurrences_filter_by_upcoming(
+    snapshot, api_client, mock_get_event_data, mock_update_event_data,
+):
+    p_event_1 = PalvelutarjotinEventFactory(
+        enrolment_start=datetime(2020, 1, 5, 0, 0, 0, tzinfo=timezone.now().tzinfo),
+        enrolment_end_days=10,
+    )
+    # Current date froze on 2020-01-04:
+    # Past occurrences
+    OccurrenceFactory(
+        start_time=datetime(2020, 1, 3, 0, 0, 0, tzinfo=timezone.now().tzinfo),
+        p_event=p_event_1,
+    )
+    OccurrenceFactory(
+        start_time=datetime(2020, 1, 7, 0, 0, 0, tzinfo=timezone.now().tzinfo),
+        p_event=p_event_1,
+    )
+    OccurrenceFactory(
+        start_time=datetime(2020, 1, 6, 0, 0, 0, tzinfo=timezone.now().tzinfo),
+        p_event=p_event_1,
+    )
+    OccurrenceFactory(
+        start_time=datetime(2020, 1, 5, 0, 0, 0, tzinfo=timezone.now().tzinfo),
+        p_event=p_event_1,
+    )
+
+    executed = api_client.execute(OCCURRENCES_QUERY, variables={"upcoming": True})
+    snapshot.assert_match(executed)
+    assert len(executed["data"]["occurrences"]["edges"]) == 3
+
+
+@pytest.mark.parametrize("enrolment_end_days,count", [(None, 3), (0, 3), (1, 2)])
+def test_occurrences_filter_by_enrollable(
     enrolment_end_days,
     count,
     snapshot,
@@ -2373,7 +2406,7 @@ def test_occurrences_filter_by_upcoming(
         p_event=p_event_1,
     )
 
-    executed = api_client.execute(OCCURRENCES_QUERY, variables={"upcoming": True})
+    executed = api_client.execute(OCCURRENCES_QUERY, variables={"enrollable": True})
     snapshot.assert_match(executed)
     assert len(executed["data"]["occurrences"]["edges"]) == count
 

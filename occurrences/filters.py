@@ -13,14 +13,30 @@ class OccurrenceFilter(django_filters.FilterSet):
     upcoming = django_filters.BooleanFilter(
         method="filter_by_upcoming", field_name="start_time"
     )
+    enrollable = django_filters.BooleanFilter(
+        method="filter_by_enrollable", field_name="start_time"
+    )
     date = django_filters.DateFilter(lookup_expr="date", field_name="start_time")
     time = django_filters.TimeFilter(method="filter_by_time", field_name="start_time")
 
     class Meta:
         model = Occurrence
-        fields = ["upcoming", "date", "time", "p_event", "cancelled"]
+        fields = [
+            "upcoming",
+            "enrollable",
+            "date",
+            "time",
+            "p_event",
+            "cancelled",
+        ]
 
     def filter_by_upcoming(self, qs, name, value):
+        if value:
+            # Only work with PostgreSQL
+            return qs.filter(**{name + "__gt": timezone.now()})
+        return qs
+
+    def filter_by_enrollable(self, qs, name, value):
         if value:
             # Only work with PostgreSQL
             return qs.annotate(
