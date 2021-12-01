@@ -1181,7 +1181,14 @@ snapshots["test_get_upcoming_events[True-True-True] 1"] = {
                 {"id": "kultus:2", "pEvent": {"linkedEventId": "kultus:2"}},
                 {"id": "kultus:1", "pEvent": {"linkedEventId": "kultus:1"}},
             ],
-            "meta": {"count": 3},
+            "pageInfo": {
+                "hasNextPage": False,
+                "hasPreviousPage": False,
+                "page": 1,
+                "pageSize": 10,
+                "pages": 1,
+                "totalCount": 3,
+            },
         }
     }
 }
@@ -1194,7 +1201,14 @@ snapshots["test_get_upcoming_events[True-True-False] 1"] = {
                 {"id": "kultus:2", "pEvent": {"linkedEventId": "kultus:2"}},
                 {"id": "kultus:1", "pEvent": {"linkedEventId": "kultus:1"}},
             ],
-            "meta": {"count": 3},
+            "pageInfo": {
+                "hasNextPage": False,
+                "hasPreviousPage": False,
+                "page": 1,
+                "pageSize": 10,
+                "pages": 1,
+                "totalCount": 3,
+            },
         }
     }
 }
@@ -1207,7 +1221,14 @@ snapshots["test_get_upcoming_events[True-False-True] 1"] = {
                 {"id": "kultus:2", "pEvent": {"linkedEventId": "kultus:2"}},
                 {"id": "kultus:1", "pEvent": {"linkedEventId": "kultus:1"}},
             ],
-            "meta": {"count": 3},
+            "pageInfo": {
+                "hasNextPage": False,
+                "hasPreviousPage": False,
+                "page": 1,
+                "pageSize": 10,
+                "pages": 1,
+                "totalCount": 3,
+            },
         }
     }
 }
@@ -1220,23 +1241,78 @@ snapshots["test_get_upcoming_events[True-False-False] 1"] = {
                 {"id": "kultus:2", "pEvent": {"linkedEventId": "kultus:2"}},
                 {"id": "kultus:1", "pEvent": {"linkedEventId": "kultus:1"}},
             ],
-            "meta": {"count": 3},
+            "pageInfo": {
+                "hasNextPage": False,
+                "hasPreviousPage": False,
+                "page": 1,
+                "pageSize": 10,
+                "pages": 1,
+                "totalCount": 3,
+            },
         }
     }
 }
 
 snapshots["test_get_upcoming_events[False-True-True] 1"] = {
-    "data": {"upcomingEvents": {"data": [], "meta": {"count": 0}}}
+    "data": {
+        "upcomingEvents": {
+            "data": [],
+            "pageInfo": {
+                "hasNextPage": False,
+                "hasPreviousPage": False,
+                "page": 0,
+                "pageSize": 10,
+                "pages": 0,
+                "totalCount": 0,
+            },
+        }
+    }
 }
 
 snapshots["test_get_upcoming_events[False-True-False] 1"] = {
-    "data": {"upcomingEvents": {"data": [], "meta": {"count": 0}}}
+    "data": {
+        "upcomingEvents": {
+            "data": [],
+            "pageInfo": {
+                "hasNextPage": False,
+                "hasPreviousPage": False,
+                "page": 0,
+                "pageSize": 10,
+                "pages": 0,
+                "totalCount": 0,
+            },
+        }
+    }
 }
 
 snapshots["test_get_upcoming_events[False-False-True] 1"] = {
-    "data": {"upcomingEvents": {"data": [], "meta": {"count": 0}}}
+    "data": {
+        "upcomingEvents": {
+            "data": [],
+            "pageInfo": {
+                "hasNextPage": False,
+                "hasPreviousPage": False,
+                "page": 0,
+                "pageSize": 10,
+                "pages": 0,
+                "totalCount": 0,
+            },
+        }
+    }
 }
 
 snapshots["test_get_upcoming_events[False-False-False] 1"] = {
-    "data": {"upcomingEvents": {"data": [], "meta": {"count": 0}}}
+    "data": {
+        "upcomingEvents": {
+            "data": [],
+            "pageInfo": {
+                "hasNextPage": False,
+                "hasPreviousPage": False,
+                "page": 0,
+                "pageSize": 10,
+                "pages": 0,
+                "totalCount": 0,
+            },
+        }
+    }
 }

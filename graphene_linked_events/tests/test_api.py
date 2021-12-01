@@ -1583,8 +1583,13 @@ def test_get_event_with_occurrences_limit(
 GET_UPCOMING_EVENTS_QUERY = """
 query UpcomingEvents {
   upcomingEvents {
-    meta {
-      count
+    pageInfo {
+      totalCount
+      page
+      pages
+      pageSize
+      hasNextPage
+      hasPreviousPage
     }
     data {
       id
