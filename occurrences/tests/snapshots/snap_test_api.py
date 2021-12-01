@@ -1741,249 +1741,6 @@ snapshots["test_occurrences_ordering_by_order_by_end_time 2"] = {
     }
 }
 
-snapshots["test_occurrences_filter_by_upcoming[None-3] 1"] = {
-    "data": {
-        "occurrences": {
-            "edges": [
-                {
-                    "node": {
-                        "amountOfSeats": 18,
-                        "contactPersons": {"edges": []},
-                        "endTime": "1975-02-09T12:33:37+00:00",
-                        "maxGroupSize": 75,
-                        "minGroupSize": 879,
-                        "pEvent": {
-                            "autoAcceptance": False,
-                            "contactEmail": "codyramirez@gmail.com",
-                            "contactPhoneNumber": "+1-333-457-7355x777",
-                            "enrolmentEndDays": None,
-                            "enrolmentStart": "2020-01-05T00:00:00+00:00",
-                            "externalEnrolmentUrl": None,
-                            "linkedEventId": "aAVEa",
-                            "mandatoryAdditionalInformation": False,
-                            "neededOccurrences": 6,
-                        },
-                        "placeId": "Throw wrong party wall agency customer clear.",
-                        "remainingSeats": 18,
-                        "seatType": "CHILDREN_COUNT",
-                        "seatsApproved": 0,
-                        "seatsTaken": 0,
-                        "startTime": "2020-01-05T00:00:00+00:00",
-                        "studyGroups": {"edges": []},
-                    }
-                },
-                {
-                    "node": {
-                        "amountOfSeats": 18,
-                        "contactPersons": {"edges": []},
-                        "endTime": "2004-11-01T19:25:53+00:00",
-                        "maxGroupSize": 53,
-                        "minGroupSize": 312,
-                        "pEvent": {
-                            "autoAcceptance": False,
-                            "contactEmail": "codyramirez@gmail.com",
-                            "contactPhoneNumber": "+1-333-457-7355x777",
-                            "enrolmentEndDays": None,
-                            "enrolmentStart": "2020-01-05T00:00:00+00:00",
-                            "externalEnrolmentUrl": None,
-                            "linkedEventId": "aAVEa",
-                            "mandatoryAdditionalInformation": False,
-                            "neededOccurrences": 6,
-                        },
-                        "placeId": "Figure foreign go age member.",
-                        "remainingSeats": 18,
-                        "seatType": "CHILDREN_COUNT",
-                        "seatsApproved": 0,
-                        "seatsTaken": 0,
-                        "startTime": "2020-01-06T00:00:00+00:00",
-                        "studyGroups": {"edges": []},
-                    }
-                },
-                {
-                    "node": {
-                        "amountOfSeats": 37,
-                        "contactPersons": {"edges": []},
-                        "endTime": "2000-04-01T13:16:53+00:00",
-                        "maxGroupSize": 808,
-                        "minGroupSize": 974,
-                        "pEvent": {
-                            "autoAcceptance": False,
-                            "contactEmail": "codyramirez@gmail.com",
-                            "contactPhoneNumber": "+1-333-457-7355x777",
-                            "enrolmentEndDays": None,
-                            "enrolmentStart": "2020-01-05T00:00:00+00:00",
-                            "externalEnrolmentUrl": None,
-                            "linkedEventId": "aAVEa",
-                            "mandatoryAdditionalInformation": False,
-                            "neededOccurrences": 6,
-                        },
-                        "placeId": "Think significant land especially can quite.",
-                        "remainingSeats": 37,
-                        "seatType": "CHILDREN_COUNT",
-                        "seatsApproved": 0,
-                        "seatsTaken": 0,
-                        "startTime": "2020-01-07T00:00:00+00:00",
-                        "studyGroups": {"edges": []},
-                    }
-                },
-            ]
-        }
-    }
-}
-
-snapshots["test_occurrences_filter_by_upcoming[0-3] 1"] = {
-    "data": {
-        "occurrences": {
-            "edges": [
-                {
-                    "node": {
-                        "amountOfSeats": 18,
-                        "contactPersons": {"edges": []},
-                        "endTime": "1975-02-09T12:33:37+00:00",
-                        "maxGroupSize": 75,
-                        "minGroupSize": 879,
-                        "pEvent": {
-                            "autoAcceptance": False,
-                            "contactEmail": "codyramirez@gmail.com",
-                            "contactPhoneNumber": "+1-333-457-7355x777",
-                            "enrolmentEndDays": 0,
-                            "enrolmentStart": "2020-01-05T00:00:00+00:00",
-                            "externalEnrolmentUrl": None,
-                            "linkedEventId": "aAVEa",
-                            "mandatoryAdditionalInformation": False,
-                            "neededOccurrences": 6,
-                        },
-                        "placeId": "Throw wrong party wall agency customer clear.",
-                        "remainingSeats": 18,
-                        "seatType": "CHILDREN_COUNT",
-                        "seatsApproved": 0,
-                        "seatsTaken": 0,
-                        "startTime": "2020-01-05T00:00:00+00:00",
-                        "studyGroups": {"edges": []},
-                    }
-                },
-                {
-                    "node": {
-                        "amountOfSeats": 18,
-                        "contactPersons": {"edges": []},
-                        "endTime": "2004-11-01T19:25:53+00:00",
-                        "maxGroupSize": 53,
-                        "minGroupSize": 312,
-                        "pEvent": {
-                            "autoAcceptance": False,
-                            "contactEmail": "codyramirez@gmail.com",
-                            "contactPhoneNumber": "+1-333-457-7355x777",
-                            "enrolmentEndDays": 0,
-                            "enrolmentStart": "2020-01-05T00:00:00+00:00",
-                            "externalEnrolmentUrl": None,
-                            "linkedEventId": "aAVEa",
-                            "mandatoryAdditionalInformation": False,
-                            "neededOccurrences": 6,
-                        },
-                        "placeId": "Figure foreign go age member.",
-                        "remainingSeats": 18,
-                        "seatType": "CHILDREN_COUNT",
-                        "seatsApproved": 0,
-                        "seatsTaken": 0,
-                        "startTime": "2020-01-06T00:00:00+00:00",
-                        "studyGroups": {"edges": []},
-                    }
-                },
-                {
-                    "node": {
-                        "amountOfSeats": 37,
-                        "contactPersons": {"edges": []},
-                        "endTime": "2000-04-01T13:16:53+00:00",
-                        "maxGroupSize": 808,
-                        "minGroupSize": 974,
-                        "pEvent": {
-                            "autoAcceptance": False,
-                            "contactEmail": "codyramirez@gmail.com",
-                            "contactPhoneNumber": "+1-333-457-7355x777",
-                            "enrolmentEndDays": 0,
-                            "enrolmentStart": "2020-01-05T00:00:00+00:00",
-                            "externalEnrolmentUrl": None,
-                            "linkedEventId": "aAVEa",
-                            "mandatoryAdditionalInformation": False,
-                            "neededOccurrences": 6,
-                        },
-                        "placeId": "Think significant land especially can quite.",
-                        "remainingSeats": 37,
-                        "seatType": "CHILDREN_COUNT",
-                        "seatsApproved": 0,
-                        "seatsTaken": 0,
-                        "startTime": "2020-01-07T00:00:00+00:00",
-                        "studyGroups": {"edges": []},
-                    }
-                },
-            ]
-        }
-    }
-}
-
-snapshots["test_occurrences_filter_by_upcoming[1-2] 1"] = {
-    "data": {
-        "occurrences": {
-            "edges": [
-                {
-                    "node": {
-                        "amountOfSeats": 18,
-                        "contactPersons": {"edges": []},
-                        "endTime": "2004-11-01T19:25:53+00:00",
-                        "maxGroupSize": 53,
-                        "minGroupSize": 312,
-                        "pEvent": {
-                            "autoAcceptance": False,
-                            "contactEmail": "codyramirez@gmail.com",
-                            "contactPhoneNumber": "+1-333-457-7355x777",
-                            "enrolmentEndDays": 1,
-                            "enrolmentStart": "2020-01-05T00:00:00+00:00",
-                            "externalEnrolmentUrl": None,
-                            "linkedEventId": "aAVEa",
-                            "mandatoryAdditionalInformation": False,
-                            "neededOccurrences": 6,
-                        },
-                        "placeId": "Figure foreign go age member.",
-                        "remainingSeats": 18,
-                        "seatType": "CHILDREN_COUNT",
-                        "seatsApproved": 0,
-                        "seatsTaken": 0,
-                        "startTime": "2020-01-06T00:00:00+00:00",
-                        "studyGroups": {"edges": []},
-                    }
-                },
-                {
-                    "node": {
-                        "amountOfSeats": 37,
-                        "contactPersons": {"edges": []},
-                        "endTime": "2000-04-01T13:16:53+00:00",
-                        "maxGroupSize": 808,
-                        "minGroupSize": 974,
-                        "pEvent": {
-                            "autoAcceptance": False,
-                            "contactEmail": "codyramirez@gmail.com",
-                            "contactPhoneNumber": "+1-333-457-7355x777",
-                            "enrolmentEndDays": 1,
-                            "enrolmentStart": "2020-01-05T00:00:00+00:00",
-                            "externalEnrolmentUrl": None,
-                            "linkedEventId": "aAVEa",
-                            "mandatoryAdditionalInformation": False,
-                            "neededOccurrences": 6,
-                        },
-                        "placeId": "Think significant land especially can quite.",
-                        "remainingSeats": 37,
-                        "seatType": "CHILDREN_COUNT",
-                        "seatsApproved": 0,
-                        "seatsTaken": 0,
-                        "startTime": "2020-01-07T00:00:00+00:00",
-                        "studyGroups": {"edges": []},
-                    }
-                },
-            ]
-        }
-    }
-}
-
 snapshots["test_delete_unpublished_occurrence 1"] = {
     "data": {"deleteOccurrence": {"__typename": "DeleteOccurrenceMutationPayload"}}
 }
@@ -2142,6 +1899,339 @@ snapshots["test_study_group_query_without_unit 1"] = {
             "unitId": "",
             "unitName": "",
             "updatedAt": "2020-01-04T00:00:00+00:00",
+        }
+    }
+}
+
+snapshots["test_occurrences_filter_by_upcoming 1"] = {
+    "data": {
+        "occurrences": {
+            "edges": [
+                {
+                    "node": {
+                        "amountOfSeats": 3,
+                        "contactPersons": {"edges": []},
+                        "endTime": "2006-07-09T05:17:34+00:00",
+                        "maxGroupSize": 419,
+                        "minGroupSize": 902,
+                        "pEvent": {
+                            "autoAcceptance": False,
+                            "contactEmail": "codyramirez@gmail.com",
+                            "contactPhoneNumber": "+1-333-457-7355x777",
+                            "enrolmentEndDays": 10,
+                            "enrolmentStart": "2020-01-05T00:00:00+00:00",
+                            "externalEnrolmentUrl": None,
+                            "linkedEventId": "aAVEa",
+                            "mandatoryAdditionalInformation": False,
+                            "neededOccurrences": 6,
+                        },
+                        "placeId": "Around year off town call participant. Probably deep center.",
+                        "remainingSeats": 3,
+                        "seatType": "CHILDREN_COUNT",
+                        "seatsApproved": 0,
+                        "seatsTaken": 0,
+                        "startTime": "2020-01-05T00:00:00+00:00",
+                        "studyGroups": {"edges": []},
+                    }
+                },
+                {
+                    "node": {
+                        "amountOfSeats": 18,
+                        "contactPersons": {"edges": []},
+                        "endTime": "1975-02-09T12:33:37+00:00",
+                        "maxGroupSize": 75,
+                        "minGroupSize": 879,
+                        "pEvent": {
+                            "autoAcceptance": False,
+                            "contactEmail": "codyramirez@gmail.com",
+                            "contactPhoneNumber": "+1-333-457-7355x777",
+                            "enrolmentEndDays": 10,
+                            "enrolmentStart": "2020-01-05T00:00:00+00:00",
+                            "externalEnrolmentUrl": None,
+                            "linkedEventId": "aAVEa",
+                            "mandatoryAdditionalInformation": False,
+                            "neededOccurrences": 6,
+                        },
+                        "placeId": "Throw wrong party wall agency customer clear.",
+                        "remainingSeats": 18,
+                        "seatType": "CHILDREN_COUNT",
+                        "seatsApproved": 0,
+                        "seatsTaken": 0,
+                        "startTime": "2020-01-06T00:00:00+00:00",
+                        "studyGroups": {"edges": []},
+                    }
+                },
+                {
+                    "node": {
+                        "amountOfSeats": 18,
+                        "contactPersons": {"edges": []},
+                        "endTime": "2004-11-01T19:25:53+00:00",
+                        "maxGroupSize": 53,
+                        "minGroupSize": 312,
+                        "pEvent": {
+                            "autoAcceptance": False,
+                            "contactEmail": "codyramirez@gmail.com",
+                            "contactPhoneNumber": "+1-333-457-7355x777",
+                            "enrolmentEndDays": 10,
+                            "enrolmentStart": "2020-01-05T00:00:00+00:00",
+                            "externalEnrolmentUrl": None,
+                            "linkedEventId": "aAVEa",
+                            "mandatoryAdditionalInformation": False,
+                            "neededOccurrences": 6,
+                        },
+                        "placeId": "Figure foreign go age member.",
+                        "remainingSeats": 18,
+                        "seatType": "CHILDREN_COUNT",
+                        "seatsApproved": 0,
+                        "seatsTaken": 0,
+                        "startTime": "2020-01-07T00:00:00+00:00",
+                        "studyGroups": {"edges": []},
+                    }
+                },
+            ]
+        }
+    }
+}
+
+snapshots["test_occurrences_filter_by_enrollable[None-3] 1"] = {
+    "data": {
+        "occurrences": {
+            "edges": [
+                {
+                    "node": {
+                        "amountOfSeats": 18,
+                        "contactPersons": {"edges": []},
+                        "endTime": "1975-02-09T12:33:37+00:00",
+                        "maxGroupSize": 75,
+                        "minGroupSize": 879,
+                        "pEvent": {
+                            "autoAcceptance": False,
+                            "contactEmail": "codyramirez@gmail.com",
+                            "contactPhoneNumber": "+1-333-457-7355x777",
+                            "enrolmentEndDays": None,
+                            "enrolmentStart": "2020-01-05T00:00:00+00:00",
+                            "externalEnrolmentUrl": None,
+                            "linkedEventId": "aAVEa",
+                            "mandatoryAdditionalInformation": False,
+                            "neededOccurrences": 6,
+                        },
+                        "placeId": "Throw wrong party wall agency customer clear.",
+                        "remainingSeats": 18,
+                        "seatType": "CHILDREN_COUNT",
+                        "seatsApproved": 0,
+                        "seatsTaken": 0,
+                        "startTime": "2020-01-05T00:00:00+00:00",
+                        "studyGroups": {"edges": []},
+                    }
+                },
+                {
+                    "node": {
+                        "amountOfSeats": 18,
+                        "contactPersons": {"edges": []},
+                        "endTime": "2004-11-01T19:25:53+00:00",
+                        "maxGroupSize": 53,
+                        "minGroupSize": 312,
+                        "pEvent": {
+                            "autoAcceptance": False,
+                            "contactEmail": "codyramirez@gmail.com",
+                            "contactPhoneNumber": "+1-333-457-7355x777",
+                            "enrolmentEndDays": None,
+                            "enrolmentStart": "2020-01-05T00:00:00+00:00",
+                            "externalEnrolmentUrl": None,
+                            "linkedEventId": "aAVEa",
+                            "mandatoryAdditionalInformation": False,
+                            "neededOccurrences": 6,
+                        },
+                        "placeId": "Figure foreign go age member.",
+                        "remainingSeats": 18,
+                        "seatType": "CHILDREN_COUNT",
+                        "seatsApproved": 0,
+                        "seatsTaken": 0,
+                        "startTime": "2020-01-06T00:00:00+00:00",
+                        "studyGroups": {"edges": []},
+                    }
+                },
+                {
+                    "node": {
+                        "amountOfSeats": 37,
+                        "contactPersons": {"edges": []},
+                        "endTime": "2000-04-01T13:16:53+00:00",
+                        "maxGroupSize": 808,
+                        "minGroupSize": 974,
+                        "pEvent": {
+                            "autoAcceptance": False,
+                            "contactEmail": "codyramirez@gmail.com",
+                            "contactPhoneNumber": "+1-333-457-7355x777",
+                            "enrolmentEndDays": None,
+                            "enrolmentStart": "2020-01-05T00:00:00+00:00",
+                            "externalEnrolmentUrl": None,
+                            "linkedEventId": "aAVEa",
+                            "mandatoryAdditionalInformation": False,
+                            "neededOccurrences": 6,
+                        },
+                        "placeId": "Think significant land especially can quite.",
+                        "remainingSeats": 37,
+                        "seatType": "CHILDREN_COUNT",
+                        "seatsApproved": 0,
+                        "seatsTaken": 0,
+                        "startTime": "2020-01-07T00:00:00+00:00",
+                        "studyGroups": {"edges": []},
+                    }
+                },
+            ]
+        }
+    }
+}
+
+snapshots["test_occurrences_filter_by_enrollable[0-3] 1"] = {
+    "data": {
+        "occurrences": {
+            "edges": [
+                {
+                    "node": {
+                        "amountOfSeats": 18,
+                        "contactPersons": {"edges": []},
+                        "endTime": "1975-02-09T12:33:37+00:00",
+                        "maxGroupSize": 75,
+                        "minGroupSize": 879,
+                        "pEvent": {
+                            "autoAcceptance": False,
+                            "contactEmail": "codyramirez@gmail.com",
+                            "contactPhoneNumber": "+1-333-457-7355x777",
+                            "enrolmentEndDays": 0,
+                            "enrolmentStart": "2020-01-05T00:00:00+00:00",
+                            "externalEnrolmentUrl": None,
+                            "linkedEventId": "aAVEa",
+                            "mandatoryAdditionalInformation": False,
+                            "neededOccurrences": 6,
+                        },
+                        "placeId": "Throw wrong party wall agency customer clear.",
+                        "remainingSeats": 18,
+                        "seatType": "CHILDREN_COUNT",
+                        "seatsApproved": 0,
+                        "seatsTaken": 0,
+                        "startTime": "2020-01-05T00:00:00+00:00",
+                        "studyGroups": {"edges": []},
+                    }
+                },
+                {
+                    "node": {
+                        "amountOfSeats": 18,
+                        "contactPersons": {"edges": []},
+                        "endTime": "2004-11-01T19:25:53+00:00",
+                        "maxGroupSize": 53,
+                        "minGroupSize": 312,
+                        "pEvent": {
+                            "autoAcceptance": False,
+                            "contactEmail": "codyramirez@gmail.com",
+                            "contactPhoneNumber": "+1-333-457-7355x777",
+                            "enrolmentEndDays": 0,
+                            "enrolmentStart": "2020-01-05T00:00:00+00:00",
+                            "externalEnrolmentUrl": None,
+                            "linkedEventId": "aAVEa",
+                            "mandatoryAdditionalInformation": False,
+                            "neededOccurrences": 6,
+                        },
+                        "placeId": "Figure foreign go age member.",
+                        "remainingSeats": 18,
+                        "seatType": "CHILDREN_COUNT",
+                        "seatsApproved": 0,
+                        "seatsTaken": 0,
+                        "startTime": "2020-01-06T00:00:00+00:00",
+                        "studyGroups": {"edges": []},
+                    }
+                },
+                {
+                    "node": {
+                        "amountOfSeats": 37,
+                        "contactPersons": {"edges": []},
+                        "endTime": "2000-04-01T13:16:53+00:00",
+                        "maxGroupSize": 808,
+                        "minGroupSize": 974,
+                        "pEvent": {
+                            "autoAcceptance": False,
+                            "contactEmail": "codyramirez@gmail.com",
+                            "contactPhoneNumber": "+1-333-457-7355x777",
+                            "enrolmentEndDays": 0,
+                            "enrolmentStart": "2020-01-05T00:00:00+00:00",
+                            "externalEnrolmentUrl": None,
+                            "linkedEventId": "aAVEa",
+                            "mandatoryAdditionalInformation": False,
+                            "neededOccurrences": 6,
+                        },
+                        "placeId": "Think significant land especially can quite.",
+                        "remainingSeats": 37,
+                        "seatType": "CHILDREN_COUNT",
+                        "seatsApproved": 0,
+                        "seatsTaken": 0,
+                        "startTime": "2020-01-07T00:00:00+00:00",
+                        "studyGroups": {"edges": []},
+                    }
+                },
+            ]
+        }
+    }
+}
+
+snapshots["test_occurrences_filter_by_enrollable[1-2] 1"] = {
+    "data": {
+        "occurrences": {
+            "edges": [
+                {
+                    "node": {
+                        "amountOfSeats": 18,
+                        "contactPersons": {"edges": []},
+                        "endTime": "2004-11-01T19:25:53+00:00",
+                        "maxGroupSize": 53,
+                        "minGroupSize": 312,
+                        "pEvent": {
+                            "autoAcceptance": False,
+                            "contactEmail": "codyramirez@gmail.com",
+                            "contactPhoneNumber": "+1-333-457-7355x777",
+                            "enrolmentEndDays": 1,
+                            "enrolmentStart": "2020-01-05T00:00:00+00:00",
+                            "externalEnrolmentUrl": None,
+                            "linkedEventId": "aAVEa",
+                            "mandatoryAdditionalInformation": False,
+                            "neededOccurrences": 6,
+                        },
+                        "placeId": "Figure foreign go age member.",
+                        "remainingSeats": 18,
+                        "seatType": "CHILDREN_COUNT",
+                        "seatsApproved": 0,
+                        "seatsTaken": 0,
+                        "startTime": "2020-01-06T00:00:00+00:00",
+                        "studyGroups": {"edges": []},
+                    }
+                },
+                {
+                    "node": {
+                        "amountOfSeats": 37,
+                        "contactPersons": {"edges": []},
+                        "endTime": "2000-04-01T13:16:53+00:00",
+                        "maxGroupSize": 808,
+                        "minGroupSize": 974,
+                        "pEvent": {
+                            "autoAcceptance": False,
+                            "contactEmail": "codyramirez@gmail.com",
+                            "contactPhoneNumber": "+1-333-457-7355x777",
+                            "enrolmentEndDays": 1,
+                            "enrolmentStart": "2020-01-05T00:00:00+00:00",
+                            "externalEnrolmentUrl": None,
+                            "linkedEventId": "aAVEa",
+                            "mandatoryAdditionalInformation": False,
+                            "neededOccurrences": 6,
+                        },
+                        "placeId": "Think significant land especially can quite.",
+                        "remainingSeats": 37,
+                        "seatType": "CHILDREN_COUNT",
+                        "seatsApproved": 0,
+                        "seatsTaken": 0,
+                        "startTime": "2020-01-07T00:00:00+00:00",
+                        "studyGroups": {"edges": []},
+                    }
+                },
+            ]
         }
     }
 }

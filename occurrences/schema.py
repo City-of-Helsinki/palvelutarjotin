@@ -153,7 +153,9 @@ class OccurrenceNode(DjangoObjectType):
 class PalvelutarjotinEventNode(DjangoObjectType):
     next_occurrence_datetime = graphene.DateTime()
     last_occurrence_datetime = graphene.DateTime()
-    occurrences = DjangoFilterConnectionField(OccurrenceNode, max_limit=400)
+    occurrences = OrderedDjangoFilterConnectionField(
+        OccurrenceNode, orderBy=graphene.List(of_type=graphene.String), max_limit=400
+    )
 
     class Meta:
         model = PalvelutarjotinEvent
