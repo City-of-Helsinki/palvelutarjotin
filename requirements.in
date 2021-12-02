@@ -7,9 +7,11 @@ django-ilmoitin[graphql_api]>=0.6.0
 django-filter>=2.4
 django-axes
 factory-boy
+geopy
 graphene-django
 graphene-file-upload
 psycopg2-binary
+requests
 sentry-sdk
 importlib_metadata
 django-utils-six
