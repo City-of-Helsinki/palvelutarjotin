@@ -46,7 +46,7 @@ def test_occurrence_enrolment_notifications_email_only(
 
 
 @pytest.mark.django_db
-@patch("occurrences.utils.notification_service.send_sms")
+@patch("occurrences.services.notification_service.send_sms")
 def test_occurrence_enrolment_notification_sms_only(
     mock_send_sms,
     snapshot,
@@ -70,7 +70,7 @@ def test_occurrence_enrolment_notification_sms_only(
 
 
 @pytest.mark.django_db
-@patch("occurrences.utils.notification_service.send_sms")
+@patch("occurrences.services.notification_service.send_sms")
 def test_occurrence_enrolment_notification_sms_and_email(
     mock_send_sms,
     snapshot,
