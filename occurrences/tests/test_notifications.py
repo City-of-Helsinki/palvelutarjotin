@@ -280,10 +280,17 @@ def test_only_send_approved_notification(
 def test_send_enrolment_summary_report(
     snapshot, mock_get_event_data, notification_template_enrolment_summary_report_fi,
 ):
+    date_in_future = datetime.now() + timedelta(days=10)
     p_event_1 = PalvelutarjotinEventFactory.create()
-    occurrence_1_1 = OccurrenceFactory.create(id=11, p_event=p_event_1)
-    occurrence_1_2 = OccurrenceFactory.create(id=12, p_event=p_event_1)
-    occurrence_1_3 = OccurrenceFactory.create(id=13, p_event=p_event_1)
+    occurrence_1_1 = OccurrenceFactory.create(
+        id=11, p_event=p_event_1, start_time=date_in_future
+    )
+    occurrence_1_2 = OccurrenceFactory.create(
+        id=12, p_event=p_event_1, start_time=date_in_future
+    )
+    occurrence_1_3 = OccurrenceFactory.create(
+        id=13, p_event=p_event_1, start_time=date_in_future
+    )
 
     EnrolmentFactory.create(status=Enrolment.STATUS_APPROVED, occurrence=occurrence_1_1)
     EnrolmentFactory.create_batch(
@@ -295,8 +302,12 @@ def test_send_enrolment_summary_report(
     )
 
     p_event_2 = PalvelutarjotinEventFactory.create()
-    occurrence_2_1 = OccurrenceFactory.create(id=21, p_event=p_event_2)
-    occurrence_2_2 = OccurrenceFactory.create(id=22, p_event=p_event_2)
+    occurrence_2_1 = OccurrenceFactory.create(
+        id=21, p_event=p_event_2, start_time=date_in_future
+    )
+    occurrence_2_2 = OccurrenceFactory.create(
+        id=22, p_event=p_event_2, start_time=date_in_future
+    )
 
     EnrolmentFactory.create(status=Enrolment.STATUS_PENDING, occurrence=occurrence_2_1)
     EnrolmentFactory.create(status=Enrolment.STATUS_PENDING, occurrence=occurrence_2_2)
@@ -305,14 +316,18 @@ def test_send_enrolment_summary_report(
     p_event_3 = PalvelutarjotinEventFactory.create(
         contact_email=p_event_2.contact_email
     )
-    occurrence_3_1 = OccurrenceFactory.create(id=31, p_event=p_event_3)
+    occurrence_3_1 = OccurrenceFactory.create(
+        id=31, p_event=p_event_3, start_time=date_in_future
+    )
     EnrolmentFactory.create(status=Enrolment.STATUS_PENDING, occurrence=occurrence_3_1)
 
     # Event with auto_acceptance is True
     p_event_4 = PalvelutarjotinEventFactory.create(
         auto_acceptance=True, contact_email=p_event_2.contact_email
     )
-    occurrence_4_1 = OccurrenceFactory.create(id=41, p_event=p_event_4)
+    occurrence_4_1 = OccurrenceFactory.create(
+        id=41, p_event=p_event_4, start_time=date_in_future
+    )
     EnrolmentFactory.create(status=Enrolment.STATUS_APPROVED, occurrence=occurrence_4_1)
     old_enrolment = EnrolmentFactory.create(
         status=Enrolment.STATUS_APPROVED, occurrence=occurrence_4_1
@@ -322,6 +337,21 @@ def test_send_enrolment_summary_report(
     Enrolment.send_enrolment_summary_report_to_providers()
     assert len(mail.outbox) == 2
     assert_mails_match_snapshot(snapshot)
+
+
+@pytest.mark.django_db
+def test_old_pending_enrolments_excluded_from_enrolment_summary_report(
+    mock_get_event_data, notification_template_enrolment_summary_report_fi
+):
+    occurrence = OccurrenceFactory.create(start_time=datetime.now() - timedelta(days=1))
+    EnrolmentFactory.create(status=Enrolment.STATUS_PENDING, occurrence=occurrence)
+    Enrolment.send_enrolment_summary_report_to_providers()
+    assert len(mail.outbox) == 0
+
+    occurrence = OccurrenceFactory.create(start_time=datetime.now() + timedelta(days=1))
+    EnrolmentFactory.create(status=Enrolment.STATUS_PENDING, occurrence=occurrence)
+    Enrolment.send_enrolment_summary_report_to_providers()
+    assert len(mail.outbox) == 1
 
 
 @pytest.mark.django_db
