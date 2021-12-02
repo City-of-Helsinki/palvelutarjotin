@@ -7,8 +7,9 @@ import reports.services as reports_services
 from django.contrib.postgres.fields import ArrayField
 from django.db import models
 from django.utils.translation import ugettext_lazy as _
+from geopy import distance
 from reports.exceptions import EnrolmentReportCouldNotHydrateLinkedEventsData
-from reports.utils import get_event_keywords, get_event_provider, haversine
+from reports.utils import get_event_keywords, get_event_provider
 
 from common.models import TimestampedModel
 
@@ -261,12 +262,10 @@ class EnrolmentReport(TimestampedModel):
         the study group unit and the event occurrence place.
         """
         if self.occurrence_place_position and self.study_group_unit_position:
-            self.distance_from_unit_to_event_place = haversine(
-                self.occurrence_place_position[0],
-                self.occurrence_place_position[1],
-                self.study_group_unit_position[0],
-                self.study_group_unit_position[1],
-            )
+            self.distance_from_unit_to_event_place = distance.distance(
+                (self.occurrence_place_position[1], self.occurrence_place_position[0]),
+                (self.study_group_unit_position[1], self.study_group_unit_position[0]),
+            ).kilometers
         else:
             self.distance_from_unit_to_event_place = None
 
