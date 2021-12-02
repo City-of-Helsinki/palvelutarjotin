@@ -22,7 +22,6 @@ from occurrences.event_api_services import (
     send_event_republish,
     send_event_unpublish,
 )
-from occurrences.utils import send_event_notifications_to_person
 from parler.models import TranslatedFields
 from verification_token.models import VerificationToken
 
@@ -593,7 +592,7 @@ class Enrolment(models.Model):
         if self.person != self.study_group.person:
             contact_people.append(self.study_group.person)
         for p in contact_people:
-            send_event_notifications_to_person(
+            occurrences_services.send_event_notifications_to_person(
                 p,
                 self.occurrence,
                 self.study_group,
