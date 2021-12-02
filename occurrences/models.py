@@ -481,7 +481,7 @@ class EnrolmentQuerySet(models.QuerySet):
         Query all pending enrolments and
         any new auto accepted enrolments during the last `days`
         """
-        return self.filter(
+        return self.filter(occurrence__start_time__gte=(timezone.now())).filter(
             Q(
                 enrolment_time__gte=(timezone.now() - timedelta(days=days)),
                 status=Enrolment.STATUS_APPROVED,
