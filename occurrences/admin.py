@@ -49,6 +49,11 @@ class StudyGroupAdmin(admin.ModelAdmin):
     list_filter = ["created_at", HasUnitIdStudyGroupListFilter]
     search_fields = ["unit_id", "unit_name", "person"]
 
+    def get_form(self, request, obj=None, **kwargs):
+        form = super().get_form(request, obj, **kwargs)
+        form.base_fields["unit_id"].required = False
+        return form
+
 
 @admin.register(StudyLevel)
 class StudyLevelAdmin(admin.ModelAdmin):
