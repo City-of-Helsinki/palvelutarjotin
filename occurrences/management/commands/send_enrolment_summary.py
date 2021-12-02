@@ -9,4 +9,4 @@ class Command(BaseCommand):
 
     def handle(self, *args, **kwargs):
         if settings.ENABLE_SUMMARY_REPORT:
-            Enrolment.objects.send_enrolment_summary_report_to_providers()
+            Enrolment.send_enrolment_summary_report_to_providers()

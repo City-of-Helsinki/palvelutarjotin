@@ -465,3 +465,49 @@ def test_delete_queryset(mock_send_event_unpublish, mock_get_event_data):
     OccurrenceFactory.create_batch(10)
     Occurrence.objects.all().delete()
     assert mock_send_event_unpublish.call_count == 10
+
+
+@pytest.mark.django_db
+def test_enrolment_pending_enrolments_by_email():
+    email = "test@test-example.com"
+    enrolment = EnrolmentFactory(
+        occurrence=OccurrenceFactory(
+            p_event=PalvelutarjotinEventFactory(contact_email=email)
+        ),
+        status=Enrolment.STATUS_PENDING,
+    )
+    # approved - should be excluded
+    EnrolmentFactory(
+        occurrence=OccurrenceFactory(
+            p_event=PalvelutarjotinEventFactory(contact_email=email)
+        ),
+        status=Enrolment.STATUS_APPROVED,
+    )
+    # email does not match - should be excluded
+    EnrolmentFactory(status=Enrolment.STATUS_PENDING)
+    assert list(Enrolment.objects.all().pending_enrolments_by_email(email=email)) == [
+        enrolment
+    ]
+
+
+@pytest.mark.django_db
+def test_enrolment_new_enrolments_by_email():
+    email = "test@test-example.com"
+    enrolment = EnrolmentFactory(
+        occurrence=OccurrenceFactory(
+            p_event=PalvelutarjotinEventFactory(contact_email=email)
+        ),
+        status=Enrolment.STATUS_APPROVED,
+    )
+    # pending - should be excluded
+    EnrolmentFactory(
+        occurrence=OccurrenceFactory(
+            p_event=PalvelutarjotinEventFactory(contact_email=email)
+        ),
+        status=Enrolment.STATUS_PENDING,
+    )
+    # email does not match - should be excluded
+    EnrolmentFactory(status=Enrolment.STATUS_APPROVED)
+    assert list(Enrolment.objects.all().new_enrolments_by_email(email=email)) == [
+        enrolment
+    ]

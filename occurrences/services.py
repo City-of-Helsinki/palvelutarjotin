@@ -36,10 +36,10 @@ def send_enrolment_summary_report_to_providers(
             )
         context = {
             "report": context_report,
-            "total_pending_enrolments": enrolments.count_pending_enrolments_by_email(
+            "total_pending_enrolments": enrolments.pending_enrolments_by_email(
                 address
-            ),
-            "total_new_enrolments": enrolments.count_new_enrolments_by_email(address),
+            ).count(),
+            "total_new_enrolments": enrolments.new_enrolments_by_email(address).count(),
         }
         send_notification(
             address, NotificationTemplate.ENROLMENT_SUMMARY_REPORT, context
