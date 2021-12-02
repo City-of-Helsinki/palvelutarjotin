@@ -432,7 +432,9 @@ class StudyGroup(TimestampedModel):
         blank=True,
         related_name="study_groups",
     )
-    extra_needs = models.CharField(max_length=1000, blank=True, verbose_name=_("name"))
+    extra_needs = models.TextField(
+        max_length=1000, blank=True, verbose_name=_("extra needs")
+    )
 
     # TODO: Add audience/keyword/target group
 
