@@ -82,7 +82,7 @@ class EnrolmentAdmin(admin.ModelAdmin):
     list_display = ("id", "linked_event_id", "enrolment_time", "study_group", "status")
     readonly_fields = ("enrolment_time",)
     list_filter = ["enrolment_time", "status"]
-    search_fields = ["occurrence__p_event__linked_event_id", "study_group__name"]
+    search_fields = ["occurrence__p_event__linked_event_id", "study_group__unit_name"]
 
     def linked_event_id(self, obj):
         return obj.occurrence.p_event.linked_event_id
