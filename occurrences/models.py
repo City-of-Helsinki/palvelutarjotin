@@ -477,7 +477,7 @@ class EnrolmentQuerySet(models.QuerySet):
         enrolment_id, ts = compound_id.split("_")
         return self.get(id=enrolment_id, enrolment_time=ts)
 
-    def pending_enrolments(self, days=1):
+    def pending_and_auto_accepted_enrolments(self, days=1):
         """
         Query all pending enrolments and
         any new auto accepted enrolments during the last `days`
@@ -491,32 +491,15 @@ class EnrolmentQuerySet(models.QuerySet):
             | Q(status=Enrolment.STATUS_PENDING)
         )
 
-    def count_pending_enrolments_by_email(self, email: str):
+    def pending_enrolments_by_email(self, email: str):
         return self.filter(
             occurrence__p_event__contact_email=email, status=Enrolment.STATUS_PENDING,
-        ).count()
+        )
 
-    def count_new_enrolments_by_email(self, email: str):
+    def new_enrolments_by_email(self, email: str):
         return self.filter(
             occurrence__p_event__contact_email=email, status=Enrolment.STATUS_APPROVED,
-        ).count()
-
-
-class EnrolmentManager(models.Manager):
-    def get_queryset(self):
-        return EnrolmentQuerySet(self.model, using=self._db)
-
-    def send_enrolment_summary_report_to_providers(self, days=1):
-        enrolments = (
-            self.get_queryset()
-            .pending_enrolments(days=days)
-            .select_related("occurrence", "occurrence__p_event")
         )
-        # Send enrolment summary
-        occurrences_services.send_enrolment_summary_report_to_providers(enrolments)
-
-    def get_by_unique_id(self, unique_id):
-        return self.get_queryset().get_by_unique_id(unique_id)
 
 
 class Enrolment(models.Model):
@@ -570,7 +553,7 @@ class Enrolment(models.Model):
     verification_tokens = GenericRelation(
         VerificationToken, related_query_name="enrolment"
     )
-    objects = EnrolmentManager()
+    objects = EnrolmentQuerySet.as_manager()
 
     class Meta:
         verbose_name = _("enrolment")
@@ -594,6 +577,14 @@ class Enrolment(models.Model):
             raise ApiUsageError(f"Enrolment status is already set to {status}")
         self.status = status
         self.save()
+
+    @classmethod
+    def send_enrolment_summary_report_to_providers(cls, days=1):
+        enrolments = cls.objects.pending_and_auto_accepted_enrolments(
+            days=days
+        ).select_related("occurrence", "occurrence__p_event")
+        # Send enrolment summary
+        occurrences_services.send_enrolment_summary_report_to_providers(enrolments)
 
     def send_event_notifications_to_contact_people(
         self, notification_template_id, notification_template_id_sms, custom_message

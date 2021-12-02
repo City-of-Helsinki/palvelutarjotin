@@ -319,7 +319,7 @@ def test_send_enrolment_summary_report(
     )
     old_enrolment.enrolment_time = timezone.now() - timedelta(days=10)
     old_enrolment.save()
-    Enrolment.objects.send_enrolment_summary_report_to_providers()
+    Enrolment.send_enrolment_summary_report_to_providers()
     assert len(mail.outbox) == 2
     assert_mails_match_snapshot(snapshot)
 
