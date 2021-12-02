@@ -2,13 +2,13 @@ import logging
 import warnings
 from datetime import timedelta
 
+import occurrences.services as occurrences_services
 from django.contrib.contenttypes.fields import GenericRelation
 from django.db import models, transaction
 from django.db.models import F, Q, Sum
 from django.utils import timezone
 from django.utils.timezone import localtime
 from django.utils.translation import gettext_lazy as _
-from django_ilmoitin.utils import send_notification
 from graphene_linked_events.utils import retrieve_linked_events_data
 from graphql_relay import to_global_id
 from occurrences.consts import (
@@ -472,60 +472,51 @@ class StudyGroup(TimestampedModel):
 
 
 class EnrolmentQuerySet(models.QuerySet):
-    def send_enrolment_summary_report_to_providers(self, days=1):
-        reports = {}
-        # Query all pending enrolments and
-        # any new auto accepted enrolments during the last `days`
-        enrolments = self.filter(
+    def get_by_unique_id(self, unique_id):
+        compound_id = get_node_id_from_global_id(unique_id, "EnrolmentNode")
+        enrolment_id, ts = compound_id.split("_")
+        return self.get(id=enrolment_id, enrolment_time=ts)
+
+    def pending_enrolments(self, days=1):
+        """
+        Query all pending enrolments and
+        any new auto accepted enrolments during the last `days`
+        """
+        return self.filter(
             Q(
                 enrolment_time__gte=(timezone.now() - timedelta(days=days)),
                 status=Enrolment.STATUS_APPROVED,
                 occurrence__p_event__auto_acceptance=True,
             )
             | Q(status=Enrolment.STATUS_PENDING)
-        ).select_related("occurrence", "occurrence__p_event")
-        p_events = (
-            PalvelutarjotinEvent.objects.filter(occurrences__enrolments__in=enrolments)
-            .prefetch_related("occurrences__enrolments")
-            .distinct()
         )
 
-        for p_event in p_events:
-            # Group by contact_email address:
-            reports.setdefault(p_event.contact_email, []).append(p_event)
+    def count_pending_enrolments_by_email(self, email: str):
+        return self.filter(
+            occurrence__p_event__contact_email=email, status=Enrolment.STATUS_PENDING,
+        ).count()
 
-        for address, report in reports.items():
-            context_report = []
-            for p_event in report:
-                context_report.append(
-                    {
-                        "event": p_event.get_event_data(),
-                        "p_event": p_event,
-                        "occurrences": p_event.occurrences.filter(
-                            enrolments__in=enrolments
-                        ).distinct(),
-                    }
-                )
+    def count_new_enrolments_by_email(self, email: str):
+        return self.filter(
+            occurrence__p_event__contact_email=email, status=Enrolment.STATUS_APPROVED,
+        ).count()
 
-            context = {
-                "report": context_report,
-                "total_pending_enrolments": enrolments.filter(
-                    occurrence__p_event__contact_email=address,
-                    status=Enrolment.STATUS_PENDING,
-                ).count(),
-                "total_new_enrolments": enrolments.filter(
-                    occurrence__p_event__contact_email=address,
-                    status=Enrolment.STATUS_APPROVED,
-                ).count(),
-            }
-            send_notification(
-                address, NotificationTemplate.ENROLMENT_SUMMARY_REPORT, context
-            )
+
+class EnrolmentManager(models.Manager):
+    def get_queryset(self):
+        return EnrolmentQuerySet(self.model, using=self._db)
+
+    def send_enrolment_summary_report_to_providers(self, days=1):
+        enrolments = (
+            self.get_queryset()
+            .pending_enrolments(days=days)
+            .select_related("occurrence", "occurrence__p_event")
+        )
+        # Send enrolment summary
+        occurrences_services.send_enrolment_summary_report_to_providers(enrolments)
 
     def get_by_unique_id(self, unique_id):
-        compound_id = get_node_id_from_global_id(unique_id, "EnrolmentNode")
-        enrolment_id, ts = compound_id.split("_")
-        return self.get(id=enrolment_id, enrolment_time=ts)
+        return self.get_queryset().get_by_unique_id(unique_id)
 
 
 class Enrolment(models.Model):
@@ -579,7 +570,7 @@ class Enrolment(models.Model):
     verification_tokens = GenericRelation(
         VerificationToken, related_query_name="enrolment"
     )
-    objects = EnrolmentQuerySet.as_manager()
+    objects = EnrolmentManager()
 
     class Meta:
         verbose_name = _("enrolment")
