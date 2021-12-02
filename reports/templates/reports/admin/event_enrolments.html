@@ -23,6 +23,7 @@
             <th>{% trans "Study levels" %}</th>
             <th>{% trans "Amount of children" %}</th>
             <th>{% trans "Amount of adults" %}</th>
+            <th>{% trans "Extra needs" %}</th>
             <th>{% trans "Contact mail" %}</th>
         </tr>
     </thead>
@@ -43,6 +44,7 @@
             </td>
             <td>{{enrolment.study_group.group_size}}</td>
             <td>{{enrolment.study_group.amount_of_adult}}</td>
+            <td>{{enrolment.study_group.extra_needs}}</td>
             <td>{{enrolment.person.email_address}}</td>
         </tr>
         {% endfor %}
@@ -57,6 +59,7 @@
             <td></td>
             <td>{{total_children}}</td>
             <td>{{total_adults}}</td>
+            <td></td>
             <td></td>
         </tr>
     </tfoot>

@@ -330,6 +330,7 @@ class PalvelutarjotinEventEnrolmentsCsvView(
                 _("Study levels"),
                 _("Amount of children"),
                 _("Amount of adults"),
+                _("Extra needs"),
                 _("Contact mail"),
             ]
         )
@@ -353,6 +354,7 @@ class PalvelutarjotinEventEnrolmentsCsvView(
                     ),
                     enrolment.study_group.group_size,
                     enrolment.study_group.amount_of_adult,
+                    enrolment.study_group.extra_needs,
                     enrolment.person.email_address,
                 ]
             )
