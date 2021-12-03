@@ -1427,7 +1427,7 @@ def test_enrol_invalid_group_size(
     assert_match_error_code(executed, INVALID_STUDY_GROUP_SIZE_ERROR)
 
 
-def test_enrol_full_children_occurrence(
+def test_enrol_full_people_count_seat_type_occurrence(
     api_client, mock_update_event_data, mock_get_event_data, occurrence
 ):
     study_group_15 = StudyGroupFactory(group_size=15)
@@ -1446,10 +1446,13 @@ def test_enrol_full_children_occurrence(
         amount_of_seats=34,
     )
 
+    # After 20 people there are 14 seats left
     EnrolmentFactory(occurrence=occurrence, study_group=study_group_20)
     # Approve the enrolment to reduce the remaining seat
-    Enrolment.objects.first().approve()
+    # NOTE: currently also the pending enrolments takes seats
+    # Enrolment.objects.first().approve()
 
+    # A group of 15 woul make the event over booked by 1!
     variables = {
         "input": {
             "occurrenceIds": [to_global_id("OccurrenceNode", occurrence.id)],
@@ -1471,7 +1474,7 @@ def test_enrol_full_children_occurrence(
     assert_match_error_code(executed, NOT_ENOUGH_CAPACITY_ERROR)
 
 
-def test_enrol_full_enrolment_occurrence(
+def test_enrol_full_enrolment_count_seat_type_occurrence(
     api_client, mock_update_event_data, mock_get_event_data, occurrence
 ):
     study_group_15 = StudyGroupFactory(group_size=15)
@@ -1492,11 +1495,14 @@ def test_enrol_full_enrolment_occurrence(
         seat_type=Occurrence.OCCURRENCE_SEAT_TYPE_ENROLMENT_COUNT,
     )
 
+    # 2 enrolments makes the occurrence full!
     EnrolmentFactory(occurrence=occurrence, study_group=study_group_20)
     EnrolmentFactory(occurrence=occurrence, study_group=study_group_100)
     # Approve the enrolment to reduce the remaining seat
-    Enrolment.objects.first().approve()
+    # NOTE: currently also the pending enrolments takes seats
+    # Enrolment.objects.first().approve()
 
+    # 3rd enrolment will make the occurrence over booked
     variables = {
         "input": {
             "occurrenceIds": [to_global_id("OccurrenceNode", occurrence.id)],
