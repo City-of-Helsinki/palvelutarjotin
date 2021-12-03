@@ -1,4 +1,5 @@
 import json
+import math
 from types import SimpleNamespace
 
 from django.core.exceptions import PermissionDenied
@@ -283,7 +284,30 @@ class Response(ObjectType):
     meta = Field(Meta, required=True)
 
 
+class PaginatedType(ObjectType):
+    total_count = Int()
+    page_size = Int()
+    page = Int()
+    pages = Int()
+    has_next_page = Boolean()
+    has_previous_page = Boolean()
+
+
+class PaginatedTypeResponse(ObjectType):
+    class Meta:
+        description = _(
+            "The custom `PageInfo` type, containing data necessary to"
+            " paginate this connection."
+        )
+
+    page_info = Field(PaginatedType, required=True)
+
+
 class EventListResponse(Response):
+    data = NonNull(List(NonNull(Event)))
+
+
+class EventListPaginatedTypeResponse(PaginatedTypeResponse):
     data = NonNull(List(NonNull(Event)))
 
 
@@ -337,7 +361,7 @@ class Query:
     )
     event = Field(Event, id=ID(required=True), include=List(String))
     upcoming_events = Field(
-        EventListResponse,
+        EventListPaginatedTypeResponse,
         page=Int(default_value=1),
         page_size=Int(default_value=10),
         include=List(
@@ -493,9 +517,10 @@ class Query:
             )
             .filter(next_occurrence_start_time__isnull=False)
             .order_by("next_occurrence_start_time")
-            .prefetch_related("occurrences")[start:end]
+            .prefetch_related("occurrences")
         )
-        linked_event_ids = [p_event.linked_event_id for p_event in p_events]
+        count = p_events.count()
+        linked_event_ids = [p_event.linked_event_id for p_event in p_events[start:end]]
 
         if linked_event_ids:
             params = {"ids": linked_event_ids}
@@ -517,7 +542,17 @@ class Query:
         else:
             events = []
 
-        return {"data": events, "meta": {"count": len(events)}}
+        return {
+            "data": events,
+            "page_info": {
+                "total_count": count,
+                "page": page if count > 0 else 0,
+                "pages": math.ceil(count / page_size),
+                "page_size": page_size,
+                "has_next_page": count > end,
+                "has_previous_page": start >= page_size,
+            },
+        }
 
     @staticmethod
     def resolve_place(parent, info, **kwargs):
