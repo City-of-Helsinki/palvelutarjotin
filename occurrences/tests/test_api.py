@@ -1427,8 +1427,11 @@ def test_enrol_invalid_group_size(
     assert_match_error_code(executed, INVALID_STUDY_GROUP_SIZE_ERROR)
 
 
+# The auto_acceptance calls Enrolment.approve,
+# so it needs to be tested with both the boolean values.
+@pytest.mark.parametrize("auto_acceptance", [True, False])
 def test_enrol_full_people_count_seat_type_occurrence(
-    api_client, mock_update_event_data, mock_get_event_data, occurrence
+    auto_acceptance, api_client, mock_update_event_data, mock_get_event_data, occurrence
 ):
     study_group_15 = StudyGroupFactory(group_size=15)
     study_group_20 = StudyGroupFactory(group_size=20)
@@ -1436,7 +1439,7 @@ def test_enrol_full_people_count_seat_type_occurrence(
     p_event_1 = PalvelutarjotinEventFactory(
         enrolment_start=datetime(2020, 1, 3, 0, 0, 0, tzinfo=timezone.now().tzinfo),
         enrolment_end_days=2,
-        auto_acceptance=True,
+        auto_acceptance=auto_acceptance,
     )
     occurrence = OccurrenceFactory(
         start_time=datetime(2020, 1, 6, 0, 0, 0, tzinfo=timezone.now().tzinfo),
@@ -1474,8 +1477,11 @@ def test_enrol_full_people_count_seat_type_occurrence(
     assert_match_error_code(executed, NOT_ENOUGH_CAPACITY_ERROR)
 
 
+# The auto_acceptance calls Enrolment.approve,
+# so it needs to be tested with both the boolean values.
+@pytest.mark.parametrize("auto_acceptance", [True, False])
 def test_enrol_full_enrolment_count_seat_type_occurrence(
-    api_client, mock_update_event_data, mock_get_event_data, occurrence
+    auto_acceptance, api_client, mock_update_event_data, mock_get_event_data, occurrence
 ):
     study_group_15 = StudyGroupFactory(group_size=15)
     study_group_100 = StudyGroupFactory(group_size=100)
@@ -1484,7 +1490,7 @@ def test_enrol_full_enrolment_count_seat_type_occurrence(
     p_event_1 = PalvelutarjotinEventFactory(
         enrolment_start=datetime(2020, 1, 3, 0, 0, 0, tzinfo=timezone.now().tzinfo),
         enrolment_end_days=2,
-        auto_acceptance=True,
+        auto_acceptance=auto_acceptance,
     )
     occurrence = OccurrenceFactory(
         start_time=datetime(2020, 1, 6, 0, 0, 0, tzinfo=timezone.now().tzinfo),
