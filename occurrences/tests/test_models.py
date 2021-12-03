@@ -491,7 +491,7 @@ def test_enrolment_pending_enrolments_by_email():
 
 
 @pytest.mark.django_db
-def test_enrolment_new_enrolments_by_email():
+def test_enrolment_approved_enrolments_by_email():
     email = "test@test-example.com"
     enrolment = EnrolmentFactory(
         occurrence=OccurrenceFactory(
@@ -508,6 +508,6 @@ def test_enrolment_new_enrolments_by_email():
     )
     # email does not match - should be excluded
     EnrolmentFactory(status=Enrolment.STATUS_APPROVED)
-    assert list(Enrolment.objects.all().new_enrolments_by_email(email=email)) == [
+    assert list(Enrolment.objects.all().approved_enrolments_by_email(email=email)) == [
         enrolment
     ]
