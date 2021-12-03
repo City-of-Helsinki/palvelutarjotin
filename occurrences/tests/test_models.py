@@ -26,6 +26,8 @@ from occurrences.models import (
 from organisations.models import Organisation, Person
 from verification_token.models import VerificationToken
 
+from palvelutarjotin.exceptions import EnrolmentNotEnoughCapacityError
+
 User = get_user_model()
 
 
@@ -221,6 +223,38 @@ def test_occurrence_seat_approved(mock_get_event_data):
         occurrence.seats_approved
         == study_group.group_size + study_group.amount_of_adult
     )
+
+
+@pytest.mark.django_db
+def test_enrolment_approve(
+    api_client, mock_update_event_data, mock_get_event_data, occurrence
+):
+    study_group_15 = StudyGroupFactory(group_size=15)
+    study_group_20 = StudyGroupFactory(group_size=20)
+    # Current date froze on 2020-01-04:
+    p_event_1 = PalvelutarjotinEventFactory(
+        enrolment_start=datetime(2020, 1, 3, 0, 0, 0, tzinfo=timezone.now().tzinfo),
+        enrolment_end_days=2,
+        auto_acceptance=True,
+    )
+    occurrence = OccurrenceFactory(
+        start_time=datetime(2020, 1, 6, 0, 0, 0, tzinfo=timezone.now().tzinfo),
+        p_event=p_event_1,
+        min_group_size=10,
+        max_group_size=20,
+        amount_of_seats=34,
+    )
+
+    # After 20 people there are 14 seats left
+    enrolment1 = EnrolmentFactory(occurrence=occurrence, study_group=study_group_20)
+    enrolment1.approve()
+    assert occurrence.amount_of_seats - occurrence.seats_taken == 14
+
+    # pending occurrence can "overbook", but it cannot be approved
+    # study group of 15 overbooks the occurrence by 1 after group of 20
+    enrolment2 = EnrolmentFactory(occurrence=occurrence, study_group=study_group_15)
+    with pytest.raises(EnrolmentNotEnoughCapacityError):
+        enrolment2.approve()
 
 
 @pytest.mark.django_db
