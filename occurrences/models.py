@@ -495,7 +495,7 @@ class EnrolmentQuerySet(models.QuerySet):
             occurrence__p_event__contact_email=email, status=Enrolment.STATUS_PENDING,
         )
 
-    def new_enrolments_by_email(self, email: str):
+    def approved_enrolments_by_email(self, email: str):
         return self.filter(
             occurrence__p_event__contact_email=email, status=Enrolment.STATUS_APPROVED,
         )
