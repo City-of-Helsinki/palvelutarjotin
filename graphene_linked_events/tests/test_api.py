@@ -1688,6 +1688,53 @@ def test_get_upcoming_events(
     snapshot.assert_match(executed)
 
 
+GET_NEARBY_EVENTS_QUERY = """
+query NearbyEvents($placeId: ID, $distance: Float) {
+  events(nearbyPlaceId: $placeId, nearbyDistance: $distance) {
+    meta {
+      count
+      next
+      previous
+    }
+    data {
+      id
+      internalId
+      name {
+        fi
+        sv
+        en
+      }
+    }
+  }
+}
+"""
+
+
+def test_nearby_events(
+    api_client, organisation, snapshot, mocked_responses, mock_get_place_data, settings
+):
+    """
+    Searching for nearby events by place ID should put bbox parameter to the
+    LinkedEvents query.
+    """
+    mocked_responses.add(
+        responses.GET,
+        url=settings.LINKED_EVENTS_API_CONFIG["ROOT"] + f"event/",
+        json=EVENTS_DATA,
+    )
+    linked_event_id = EVENTS_DATA["data"][0]["id"]
+    PalvelutarjotinEventFactory(
+        linked_event_id=linked_event_id, organisation=organisation
+    )
+
+    executed = api_client.execute(
+        GET_NEARBY_EVENTS_QUERY, variables={"placeId": "tprek:15417", "distance": 3.0},
+    )
+
+    snapshot.assert_match(executed)
+    assert "bbox" in mocked_responses.calls[0].request.params
+
+
 GET_KEYWORD_SET_QUERY = """
 query getKeywordSet($setType: KeywordSetType!){
   keywordSet(setType: $setType){
