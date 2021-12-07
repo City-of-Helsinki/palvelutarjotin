@@ -199,6 +199,8 @@ class EnrolmentReportAdmin(admin.ModelAdmin):
         return super().changelist_view(request, *args, **kwargs)
 
     def get_sync_status(self, obj):
+        if not obj._enrolment:
+            return obj.enrolment_status is None
         # TODO: Cache needed? - May be too heavy to load for each
         return obj._enrolment.status == obj.enrolment_status
 
