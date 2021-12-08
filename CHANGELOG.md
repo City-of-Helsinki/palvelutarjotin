@@ -1,6 +1,24 @@
 <!-- REMINDER: While updating changelog, also remember to update
 the version in palvelutarjotin/__init.py__ -->
 
+## [1.0.0] - 8 December 2021
+
+### Added
+
+- Enrolment reports model and interfaces.
+- Extra needs -field added to the Enrolment report cvs's.
+
+### Updated
+
+- Schools and kindergartens query makes a recursive load from the Service map and returns all the results with a single query.
+- Occurrences "upcoming" -filter is now renamed to "enrollable" and a new upcoming -filter that ignores the enrolmen days is created.
+- Upcoming occurrences meta -field is replaced with a new pageInfo Node.
+
+### Fixed
+
+- Refactored and fixed the enrolment summary notifications: Only the upcoming occurrences are now summarized.
+- Fixed the Graphql API enrolment groups size validation.
+
 ## [0.8.0] - 11 November 2021
 
 ### Added
