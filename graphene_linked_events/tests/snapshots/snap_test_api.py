@@ -1316,3 +1316,26 @@ snapshots["test_get_upcoming_events[False-False-False] 1"] = {
         }
     }
 }
+
+snapshots["test_nearby_events 1"] = {
+    "data": {
+        "events": {
+            "data": [
+                {
+                    "id": "helsinki:afy6ikna3u",
+                    "internalId": "https://api.hel.fi/linkedevents/v1/event/helsinki:afy6ikna3u/",
+                    "name": {
+                        "en": None,
+                        "fi": "Uutta Koillis-Helsinkiä verkkotilaisuus",
+                        "sv": None,
+                    },
+                }
+            ],
+            "meta": {
+                "count": 151775,
+                "next": "https://api.hel.fi/linkedevents/v1/event/?page=2",
+                "previous": None,
+            },
+        }
+    }
+}

@@ -126,6 +126,6 @@ class LinkedEventsApiClient(object):
             return None
         for k, v in params.items():
             if type(v) == list:
-                list_to_string = ",".join(v)
+                list_to_string = ",".join(str(x) for x in v)
                 params[k] = list_to_string
         return params

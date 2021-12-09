@@ -5,3 +5,4 @@
 #    pip-compile requirements-prod.in
 #
 uwsgi==2.0.18
+    # via -r requirements-prod.in

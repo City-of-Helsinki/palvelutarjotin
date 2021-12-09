@@ -25,6 +25,7 @@ from graphene import (
 from graphene_file_upload.scalars import Upload
 from graphene_linked_events.utils import (
     api_client,
+    bbox_for_coordinates,
     format_request,
     format_response,
     get_keyword_set_by_id,
@@ -38,6 +39,7 @@ from occurrences.event_api_services import (
 )
 from occurrences.models import Occurrence, PalvelutarjotinEvent, VenueCustomData
 from organisations.models import Organisation, Person
+from reports.services import get_place_location_data
 
 from common.utils import (
     format_linked_event_datetime,
@@ -336,7 +338,13 @@ class Query:
         EventListResponse,
         division=List(String),
         end=String(),
-        include=List(String),
+        include=List(
+            String,
+            description=_(
+                "Include the complete data from related resources in the current "
+                "response e.g. keywords or location."
+            ),
+        ),
         in_language=String(),
         is_free=Boolean(),
         keyword=List(String),
@@ -358,6 +366,14 @@ class Query:
         organisation_id=String(),
         show_all=Boolean(),
         publication_status=String(),
+        nearby_place_id=ID(description=_("Get nearby events for the given place.")),
+        nearby_distance=Float(
+            default_value=3,
+            description=_(
+                "Distance (km) to the bounding box corner, which will be used to limit "
+                "the search area for nearby events."
+            ),
+        ),
     )
     event = Field(Event, id=ID(required=True), include=List(String))
     upcoming_events = Field(
@@ -373,7 +389,6 @@ class Query:
         ),
         description=_("Get upcoming events sorted by the next occurrence."),
     )
-
     places = Field(
         PlaceListResponse,
         data_source=String(),
@@ -486,6 +501,21 @@ class Query:
             kwargs["all_ongoing_AND"] = kwargs.pop("all_ongoing_and")
         if kwargs.get("all_ongoing_or"):
             kwargs["all_ongoing_OR"] = kwargs.pop("all_ongoing_or")
+
+        # Nearby events from a place
+        nearby_distance_km = kwargs.pop("nearby_distance")
+        if kwargs.get("nearby_place_id"):
+            place_id = kwargs.pop("nearby_place_id")
+            coordinates, _ = get_place_location_data(place_id)
+
+            if not coordinates:
+                raise DataValidationError(
+                    f"Cannot determine coordinates for place {place_id}."
+                )
+            bbox = bbox_for_coordinates(
+                coordinates[0], coordinates[1], nearby_distance_km
+            )
+            kwargs["bbox"] = bbox
 
         response = api_client.list(
             "event", filter_list=kwargs, is_staff=info.context.user.is_staff

@@ -1,3 +1,5 @@
+import math
+
 import dateutil.parser
 import pytest
 from freezegun import freeze_time
@@ -205,7 +207,9 @@ def test_pre_save_set_distance_from_unit_to_event_place(
         occurrence_place_position=(24.9384, 60.1699),
         study_group_unit_position=(22.2666, 60.4518),
     )
+    report.refresh_from_db()
     assert report.distance_from_unit_to_event_place is not None
+    assert math.isclose(report.distance_from_unit_to_event_place, 150.98)
 
 
 @pytest.mark.django_db
