@@ -355,6 +355,16 @@ def test_old_pending_enrolments_excluded_from_enrolment_summary_report(
 
 
 @pytest.mark.django_db
+def test_event_not_found_from_linkedevents_when_sending_enrolment_summary_report(
+    mock_get_event_data_not_found, notification_template_enrolment_summary_report_fi
+):
+    occurrence = OccurrenceFactory.create(start_time=datetime.now() + timedelta(days=1))
+    EnrolmentFactory.create(status=Enrolment.STATUS_PENDING, occurrence=occurrence)
+    Enrolment.send_enrolment_summary_report_to_providers()
+    assert len(mail.outbox) == 1
+
+
+@pytest.mark.django_db
 def test_decline_enrolment_notification_email_to_multiple_contact_person(
     mock_get_event_data,
     notification_template_enrolment_declined_en,

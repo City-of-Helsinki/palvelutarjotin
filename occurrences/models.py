@@ -23,6 +23,7 @@ from occurrences.event_api_services import (
     send_event_unpublish,
 )
 from parler.models import TranslatedFields
+from requests.exceptions import HTTPError
 from verification_token.models import VerificationToken
 
 from common.models import TimestampedModel, TranslatableModel
@@ -122,6 +123,12 @@ class PalvelutarjotinEvent(TimestampedModel):
                 "event", self.linked_event_id, params=params, is_staff=is_staff
             )
         except ObjectDoesNotExistError:
+            return None
+        except HTTPError as e:
+            logger.warning(
+                "Could not retrieve the linked events data "
+                f"with linked_event_id {self.linked_event_id}. Error: {e}"
+            )
             return None
 
         return data

@@ -32,6 +32,18 @@ def _get_mock_function(data, status_code=200):
 
 
 @pytest.fixture
+def mock_get_event_data_not_found(monkeypatch):
+    """
+    Mocks HTTP410 - Not found for get event data query.
+    This happens when the event is deleted from LinkedEvents, but exists in Kultus
+    """
+    monkeypatch.setattr(
+        LinkedEventsApiClient, "retrieve", _get_mock_function(410, None)
+    )
+    monkeypatch.setattr(LinkedEventsApiClient, "update", _get_mock_function(410, None))
+
+
+@pytest.fixture
 def mock_get_event_data(monkeypatch):
     """
     Mocks a published event data fetch from LinkedEvents API.

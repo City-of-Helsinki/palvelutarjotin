@@ -37,18 +37,23 @@ def send_enrolment_summary_report_to_providers(
         # Group by contact_email address:
         reports.setdefault(p_event.contact_email, []).append(p_event)
 
+    context_for_address = {}
+
     for address, report in reports.items():
         context_report = []
         for p_event in report:
-            context_report.append(
-                {
-                    "event": p_event.get_event_data(),
-                    "p_event": p_event,
-                    "occurrences": p_event.occurrences.filter(
-                        enrolments__in=enrolments
-                    ).distinct(),
-                }
-            )
+            linked_events_event_data = p_event.get_event_data()
+            if linked_events_event_data:
+                context_report.append(
+                    {
+                        "event": linked_events_event_data,
+                        "p_event": p_event,
+                        "occurrences": p_event.occurrences.filter(
+                            enrolments__in=enrolments
+                        ).distinct(),
+                    }
+                )
+
         context = {
             "report": context_report,
             "total_pending_enrolments": enrolments.pending_enrolments_by_email(
@@ -58,6 +63,15 @@ def send_enrolment_summary_report_to_providers(
                 address
             ).count(),
         }
+        context_for_address[address] = context
+
+    # NOTE: Instead of sending the notification in the previous loop,
+    # lets first collect the mail contexts to a dictionary and
+    # send the mails after all the contexts have been handled properly.
+    # This way we can prevent flooding the recipients with the mails
+    # when some of the contexts cannot be handled because of any reason.
+    # For more details, see https://helsinkisolutionoffice.atlassian.net/browse/PT-1414.
+    for address, context in context_for_address.items():
         send_notification(
             address, NotificationTemplateConstants.ENROLMENT_SUMMARY_REPORT, context
         )
