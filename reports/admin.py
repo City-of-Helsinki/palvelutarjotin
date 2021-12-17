@@ -172,6 +172,7 @@ class EnrolmentReportAdmin(admin.ModelAdmin):
         HasStudyGroupListFilter,
     ]
     search_fields = [
+        "linked_event_id",
         "study_group_unit_id",
         "occurrence_place_id",
         "publisher",
