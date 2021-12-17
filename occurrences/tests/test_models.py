@@ -468,7 +468,7 @@ def test_delete_queryset(mock_send_event_unpublish, mock_get_event_data):
 
 
 @pytest.mark.django_db
-def test_enrolment_pending_enrolments_by_email():
+def test_enrolment_pending_enrolments_by_email(mock_get_event_data):
     email = "test@test-example.com"
     enrolment = EnrolmentFactory(
         occurrence=OccurrenceFactory(
@@ -491,7 +491,7 @@ def test_enrolment_pending_enrolments_by_email():
 
 
 @pytest.mark.django_db
-def test_enrolment_approved_enrolments_by_email():
+def test_enrolment_approved_enrolments_by_email(mock_get_event_data):
     email = "test@test-example.com"
     enrolment = EnrolmentFactory(
         occurrence=OccurrenceFactory(
