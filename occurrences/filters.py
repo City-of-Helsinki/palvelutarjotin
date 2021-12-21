@@ -11,7 +11,7 @@ from common.utils import convert_to_localtime_tz
 
 class OccurrenceFilter(django_filters.FilterSet):
     upcoming = django_filters.BooleanFilter(
-        method="filter_by_upcoming", field_name="start_time"
+        method="filter_by_upcoming", field_name="end_time"
     )
     enrollable = django_filters.BooleanFilter(
         method="filter_by_enrollable", field_name="start_time"
@@ -32,13 +32,11 @@ class OccurrenceFilter(django_filters.FilterSet):
 
     def filter_by_upcoming(self, qs, name, value):
         if value:
-            # Only work with PostgreSQL
             return qs.filter(**{name + "__gt": timezone.now()})
         return qs
 
     def filter_by_enrollable(self, qs, name, value):
         if value:
-            # Only work with PostgreSQL
             return qs.annotate(
                 # Nulls should be treated as 0, because null returns nothing
                 enrolment_end_days=Coalesce("p_event__enrolment_end_days", 0)

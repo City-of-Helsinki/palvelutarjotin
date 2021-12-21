@@ -2367,19 +2367,23 @@ def test_occurrences_filter_by_upcoming(
     # Current date froze on 2020-01-04:
     # Past occurrences
     OccurrenceFactory(
-        start_time=datetime(2020, 1, 3, 0, 0, 0, tzinfo=timezone.now().tzinfo),
-        p_event=p_event_1,
-    )
-    OccurrenceFactory(
-        start_time=datetime(2020, 1, 7, 0, 0, 0, tzinfo=timezone.now().tzinfo),
+        start_time=datetime(2020, 1, 2, 0, 0, 0, tzinfo=timezone.now().tzinfo),
+        end_time=datetime(2020, 1, 3, 0, 0, 0, tzinfo=timezone.now().tzinfo),
         p_event=p_event_1,
     )
     OccurrenceFactory(
         start_time=datetime(2020, 1, 6, 0, 0, 0, tzinfo=timezone.now().tzinfo),
+        end_time=datetime(2020, 1, 7, 0, 0, 0, tzinfo=timezone.now().tzinfo),
         p_event=p_event_1,
     )
     OccurrenceFactory(
         start_time=datetime(2020, 1, 5, 0, 0, 0, tzinfo=timezone.now().tzinfo),
+        end_time=datetime(2020, 1, 6, 0, 0, 0, tzinfo=timezone.now().tzinfo),
+        p_event=p_event_1,
+    )
+    OccurrenceFactory(
+        start_time=datetime(2020, 1, 4, 0, 0, 0, tzinfo=timezone.now().tzinfo),
+        end_time=datetime(2020, 1, 5, 0, 0, 0, tzinfo=timezone.now().tzinfo),
         p_event=p_event_1,
     )
 
