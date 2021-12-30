@@ -18,6 +18,7 @@ from occurrences.models import (
     Occurrence,
     StudyGroup,
     StudyLevel,
+    TranslatedPalvelutarjotinEvent,
     VenueCustomData,
 )
 from occurrences.schema import StudyGroupNode
@@ -1838,6 +1839,57 @@ def test_enrol_max_needed_occurrences(snapshot, api_client, mock_get_event_data)
     }
     executed = api_client.execute(ENROL_OCCURRENCE_MUTATION, variables=variables)
     assert_match_error_code(executed, MAX_NEEDED_OCCURRENCES_REACHED_ERROR)
+
+
+@pytest.mark.django_db
+def test_auto_accept_message_is_used_as_custom_message_in_auto_approved_enrolments(
+    snapshot,
+    api_client,
+    mock_get_event_data,
+    notification_template_enrolment_approved_en,
+    notification_template_enrolment_approved_fi,
+):
+    study_group_15 = StudyGroupFactory(group_size=15)
+    # Current date froze on 2020-01-04:
+    auto_acceptance_message = "Testing auto acceptance message"
+    auto_accept_p_event: TranslatedPalvelutarjotinEvent = PalvelutarjotinEventFactory(
+        enrolment_start=datetime(2020, 1, 3, 0, 0, 0, tzinfo=timezone.now().tzinfo),
+        enrolment_end_days=2,
+        auto_acceptance=True,
+        auto_acceptance_message=auto_acceptance_message,
+    )
+    auto_accept_occurrence = OccurrenceFactory(
+        start_time=datetime(2020, 1, 6, 0, 0, 0, tzinfo=timezone.now().tzinfo),
+        p_event=auto_accept_p_event,
+        min_group_size=10,
+        max_group_size=20,
+        amount_of_seats=50,
+    )
+    variables = {
+        "input": {
+            "occurrenceIds": [
+                to_global_id("OccurrenceNode", auto_accept_occurrence.id),
+            ],
+            "studyGroup": {
+                "person": {
+                    "id": to_global_id("PersonNode", study_group_15.person.id),
+                    "name": study_group_15.person.name,
+                    "emailAddress": study_group_15.person.email_address,
+                },
+                "unitName": "To be created group",
+                "groupSize": study_group_15.group_size,
+                "groupName": study_group_15.group_name,
+                "studyLevels": [sl.upper() for sl in study_group_15.study_levels.all()],
+                "amountOfAdult": study_group_15.amount_of_adult,
+            },
+        }
+    }
+    executed = api_client.execute(ENROL_OCCURRENCE_MUTATION, variables=variables)
+    snapshot.assert_match(executed)
+    assert len(mail.outbox) == 1
+    body = mail.outbox[0].body
+    assert auto_acceptance_message in body
+    assert_mails_match_snapshot(snapshot)
 
 
 UNENROL_OCCURRENCE_MUTATION = """

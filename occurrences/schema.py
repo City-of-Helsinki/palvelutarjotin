@@ -762,12 +762,15 @@ class EnrolOccurrenceMutation(graphene.relay.ClientIDMutation):
 
             validate_enrolment(study_group, occurrence)
 
-            enrolment = Enrolment.objects.create(
+            enrolment: Enrolment = Enrolment.objects.create(
                 study_group=study_group, occurrence=occurrence, person=person, **kwargs
             )
 
             if occurrence.p_event.auto_acceptance:
-                enrolment.approve()
+                custom_message = enrolment.occurrence.p_event.safe_translation_getter(
+                    "auto_acceptance_message", language_code=person.language
+                )
+                enrolment.approve(custom_message=custom_message)
             enrolments.append(enrolment)
 
         return EnrolOccurrenceMutation(enrolments=enrolments)
