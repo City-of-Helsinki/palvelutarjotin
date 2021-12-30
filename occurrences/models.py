@@ -103,7 +103,6 @@ class PalvelutarjotinEvent(TimestampedModel):
     auto_acceptance = models.BooleanField(
         default=False, verbose_name=_("auto acceptance")
     )
-
     mandatory_additional_information = models.BooleanField(
         default=False, verbose_name=_("mandatory additional information")
     )
@@ -164,6 +163,22 @@ class PalvelutarjotinEvent(TimestampedModel):
         ).distinct()
 
 
+class TranslatedPalvelutarjotinEvent(TranslatableModel, PalvelutarjotinEvent):
+    translations = TranslatedFields(
+        auto_acceptance_message=models.TextField(
+            _("custom message in auto acceptance"),
+            blank=True,
+            null=True,
+            help_text=_(
+                "A custom message included in notification template when auto acceptance is set on."  # noqa
+            ),
+        )
+    )
+
+    class Meta:
+        proxy = True
+
+
 class OccurrenceQueryset(models.QuerySet):
     def delete(self, *args, **kwargs):
         for obj in self:
@@ -179,7 +194,7 @@ class Occurrence(TimestampedModel):
         (OCCURRENCE_SEAT_TYPE_ENROLMENT_COUNT, _("enrolment count")),
     )
     p_event = models.ForeignKey(
-        PalvelutarjotinEvent,
+        TranslatedPalvelutarjotinEvent,
         verbose_name=_("palvelutarjotin event"),
         related_name="occurrences",
         on_delete=models.CASCADE,

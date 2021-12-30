@@ -22,6 +22,7 @@ from occurrences.models import (
     PalvelutarjotinEvent,
     StudyGroup,
     StudyLevel,
+    TranslatedPalvelutarjotinEvent,
 )
 from organisations.models import Organisation, Person
 from verification_token.models import VerificationToken
@@ -39,6 +40,26 @@ def test_palvelutarjotin_event(mock_get_event_data):
     assert PalvelutarjotinEvent.objects.count() == 1
     assert Organisation.objects.count() == 1
     assert Person.objects.count() == 1
+
+
+@pytest.mark.django_db
+def test_palvelutarjotin_event_translations(mock_get_event_data):
+    p_event = PalvelutarjotinEventFactory(auto_acceptance_message="automaattiviesti")
+    assert PalvelutarjotinEvent.objects.count() == 1
+    p_event.get_current_language() == "fi"
+    assert p_event.auto_acceptance_message == "automaattiviesti"
+    p_event.set_current_language("en")
+    p_event.auto_acceptance_message = "auto acceptance message"
+    p_event.save()
+    TranslatedPalvelutarjotinEvent.objects.active_translations(
+        auto_acceptance_message="auto acceptance message"
+    ).count() == 1
+    TranslatedPalvelutarjotinEvent.objects.active_translations(
+        auto_acceptance_message="automaattiviesti"
+    ).count() == 0
+    TranslatedPalvelutarjotinEvent.objects.translated(
+        auto_acceptance_message="automaattiviesti"
+    ).count() == 1
 
 
 @pytest.mark.django_db

@@ -37,7 +37,12 @@ from occurrences.event_api_services import (
     get_enrollable_event_time_range_from_occurrences,
     get_event_time_range_from_occurrences,
 )
-from occurrences.models import Occurrence, PalvelutarjotinEvent, VenueCustomData
+from occurrences.models import (
+    Occurrence,
+    PalvelutarjotinEvent,
+    TranslatedPalvelutarjotinEvent,
+    VenueCustomData,
+)
 from organisations.models import Organisation, Person
 from reports.services import get_place_location_data
 
@@ -45,7 +50,7 @@ from common.utils import (
     format_linked_event_datetime,
     get_editable_obj_from_global_id,
     get_obj_from_global_id,
-    update_object,
+    update_object_with_translations,
 )
 from palvelutarjotin import settings
 from palvelutarjotin.exceptions import (
@@ -245,10 +250,10 @@ class Event(IdObject):
             return self.p_event
 
         try:
-            return PalvelutarjotinEvent.objects.prefetch_related("occurrences").get(
-                linked_event_id=self.id
-            )
-        except PalvelutarjotinEvent.DoesNotExist:
+            return TranslatedPalvelutarjotinEvent.objects.prefetch_related(
+                "occurrences"
+            ).get(linked_event_id=self.id)
+        except TranslatedPalvelutarjotinEvent.DoesNotExist:
             return None
 
     def resolve_venue(self, info, **kwargs):
@@ -444,9 +449,9 @@ class Query:
         events = json.loads(events_json, object_hook=lambda d: SimpleNamespace(**d))
 
         # Get related palvelutarjotin events
-        p_events = PalvelutarjotinEvent.objects.prefetch_related("occurrences").filter(
-            linked_event_id__in=[e.id for e in events.data]
-        )
+        p_events = TranslatedPalvelutarjotinEvent.objects.prefetch_related(
+            "occurrences"
+        ).filter(linked_event_id__in=[e.id for e in events.data])
 
         # Prune a list of events which have a link to a palvelutarjotin event
         tested_events = [
@@ -540,7 +545,7 @@ class Query:
         ).order_by("start_time")
 
         p_events = (
-            PalvelutarjotinEvent.objects.annotate(
+            TranslatedPalvelutarjotinEvent.objects.annotate(
                 next_occurrence_start_time=Subquery(
                     next_occurrences.values("start_time")[:1]
                 )
@@ -800,13 +805,25 @@ class AddEventMutation(Mutation):
         event_obj = json2obj(format_response(result))
         if result.status_code == 201:
             # Create palvelutarjotin event if event created successful
-            p_event_data["linked_event_id"] = event_obj.id
-            p_event_data["organisation_id"] = organisation.id
-            PalvelutarjotinEvent.objects.create(**p_event_data)
+            AddEventMutation._create_p_event(event_obj, organisation, p_event_data)
+
         response = EventMutationResponse(
             status_code=result.status_code, body=event_obj, result_text=result.text
         )
         return AddEventMutation(response=response)
+
+    def _create_p_event(
+        event_obj, organisation, p_event_data
+    ) -> TranslatedPalvelutarjotinEvent:
+        p_event_data["linked_event_id"] = event_obj.id
+        p_event_data["organisation_id"] = organisation.id
+        p_event_data["organisation_id"] = organisation.id
+        translations = p_event_data.pop("translations")
+        p_event, _ = TranslatedPalvelutarjotinEvent.objects.get_or_create(
+            **p_event_data
+        )
+        p_event.create_or_update_translations(translations)
+        return p_event
 
 
 class UpdateEventMutation(Mutation):
@@ -837,7 +854,7 @@ class UpdateEventMutation(Mutation):
                     )
                 p_event_data["contact_person_id"] = person.id
         try:
-            p_event = PalvelutarjotinEvent.objects.get(
+            p_event = TranslatedPalvelutarjotinEvent.objects.get(
                 linked_event_id=event_id, organisation=organisation
             )
             # Compare to the current p_event.auto_acceptance if p_event update data
@@ -849,7 +866,7 @@ class UpdateEventMutation(Mutation):
                     "Cannot create manual approval for multi-occurrences enrolment "
                     "event"
                 )
-        except PalvelutarjotinEvent.DoesNotExist:
+        except TranslatedPalvelutarjotinEvent.DoesNotExist:
             raise PermissionDenied(
                 f"User does not have permission to edit this "
                 f"{PalvelutarjotinEvent.__name__}"
@@ -869,7 +886,7 @@ class UpdateEventMutation(Mutation):
         # TODO: proper validation if necessary
         result = api_client.update("event", event_id, body)
         if result.status_code == 200 and p_event_data:
-            update_object(p_event, p_event_data)
+            update_object_with_translations(p_event, p_event_data)
         response = EventMutationResponse(
             status_code=result.status_code,
             body=json2obj(format_response(result)),

@@ -768,6 +768,11 @@ mutation addEvent($input: AddEventMutationInput!){
               name
           }
           autoAcceptance
+          autoAcceptanceMessage
+          translations {
+            autoAcceptanceMessage
+            languageCode
+          }
           mandatoryAdditionalInformation
         }
       }
@@ -787,6 +792,16 @@ CREATE_EVENT_VARIABLES = {
             "contactPhoneNumber": "123123",
             "contactEmail": "contact@email.me",
             "autoAcceptance": True,
+            "translations": [
+                {
+                    "autoAcceptanceMessage": "Automaattisen hyväksynnän viesti",
+                    "languageCode": "FI",
+                },
+                {
+                    "autoAcceptanceMessage": "Custom message of auto approvance",
+                    "languageCode": "EN",
+                },
+            ],
             "mandatoryAdditionalInformation": True,
         },
         "name": {"fi": "testaus"},
@@ -991,6 +1006,11 @@ mutation addEvent($input: UpdateEventMutationInput!){
               name
           }
           autoAcceptance
+          autoAcceptanceMessage
+          translations {
+            autoAcceptanceMessage
+            languageCode
+          }
           mandatoryAdditionalInformation
         }
       }
@@ -1010,6 +1030,13 @@ UPDATE_EVENT_VARIABLES = {
             "contactPhoneNumber": "123123",
             "contactEmail": "contact@email.me",
             "autoAcceptance": True,
+            "translations": [
+                {"autoAcceptanceMessage": "Päivitetty viesti", "languageCode": "FI"},
+                {
+                    "autoAcceptanceMessage": "Updated custom message",
+                    "languageCode": "EN",
+                },
+            ],
             "mandatoryAdditionalInformation": True,
         },
         "name": {"fi": "testaus"},
@@ -1541,7 +1568,7 @@ def test_get_events_with_occurrences(
     snapshot.assert_match(executed)
 
 
-@pytest.mark.parametrize("occurrences_count", [5, 100, 150, 400, 500])
+@pytest.mark.parametrize("occurrences_count", [5, 400, 500])
 def test_get_event_with_occurrences_limit(
     occurrences_count, api_client, mock_get_event_data, organisation
 ):

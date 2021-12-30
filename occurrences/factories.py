@@ -4,9 +4,9 @@ from occurrences.models import (
     Enrolment,
     Language,
     Occurrence,
-    PalvelutarjotinEvent,
     StudyGroup,
     StudyLevel,
+    TranslatedPalvelutarjotinEvent,
     VenueCustomData,
 )
 from organisations.factories import OrganisationFactory, PersonFactory
@@ -33,7 +33,7 @@ class PalvelutarjotinEventFactory(factory.django.DjangoModelFactory):
     contact_person = factory.SubFactory(PersonFactory)
 
     class Meta:
-        model = PalvelutarjotinEvent
+        model = TranslatedPalvelutarjotinEvent
 
 
 class OccurrenceFactory(factory.django.DjangoModelFactory):

@@ -11,7 +11,7 @@ from django.utils.translation import get_language
 from graphene.utils.str_converters import to_snake_case
 from graphene_django import DjangoConnectionField, DjangoObjectType
 from graphene_django.filter import DjangoFilterConnectionField
-from graphene_linked_events.schema import Place
+from graphene_linked_events.schema import LocalisedObject, Place
 from graphene_linked_events.utils import api_client, format_response, json2obj
 from graphql_jwt.decorators import staff_member_required
 from occurrences.consts import NOTIFICATION_TYPES
@@ -20,9 +20,9 @@ from occurrences.models import (
     Enrolment,
     Language,
     Occurrence,
-    PalvelutarjotinEvent,
     StudyGroup,
     StudyLevel,
+    TranslatedPalvelutarjotinEvent,
     VenueCustomData,
 )
 from organisations.models import Organisation, Person
@@ -106,6 +106,9 @@ class OrderedDjangoFilterConnectionField(DjangoFilterConnectionField):
 
 StudyLevelTranslation = apps.get_model("occurrences", "StudyLevelTranslation")
 VenueTranslation = apps.get_model("occurrences", "VenueCustomDataTranslation")
+PalvelutarjotinEventTranslation = apps.get_model(
+    "occurrences", "TranslatedPalvelutarjotinEventTranslation"
+)
 
 NotificationTypeEnum = graphene.Enum(
     "NotificationType", [(t[0].upper(), t[0]) for t in NOTIFICATION_TYPES]
@@ -150,15 +153,29 @@ class OccurrenceNode(DjangoObjectType):
         return self.amount_of_seats - self.seats_taken
 
 
+class PalvelutarjotinEventTranslationType(DjangoObjectType):
+    language_code = LanguageEnum(required=True)
+    auto_acceptance_message = graphene.String(required=True)
+
+    class Meta:
+        model = PalvelutarjotinEventTranslation
+        exclude = ("id", "master")
+
+
 class PalvelutarjotinEventNode(DjangoObjectType):
     next_occurrence_datetime = graphene.DateTime()
     last_occurrence_datetime = graphene.DateTime()
     occurrences = OrderedDjangoFilterConnectionField(
         OccurrenceNode, orderBy=graphene.List(of_type=graphene.String), max_limit=400
     )
+    auto_acceptance_message = graphene.String(
+        description="Translated field in the language defined in request "
+        "ACCEPT-LANGUAGE header "
+    )
+    translations = graphene.List(PalvelutarjotinEventTranslationType)
 
     class Meta:
-        model = PalvelutarjotinEvent
+        model = TranslatedPalvelutarjotinEvent
         interfaces = (graphene.relay.Node,)
 
     def resolve_next_occurrence_datetime(self, info, **kwargs):
@@ -179,6 +196,26 @@ class PalvelutarjotinEventNode(DjangoObjectType):
         except Occurrence.DoesNotExist:
             return None
 
+    def resolve_translations(self, info, **kwargs):
+        return self.translations.all()
+
+    @classmethod
+    def get_queryset(cls, queryset, info):
+        lang = get_language()
+        return queryset.language(lang)
+
+    @classmethod
+    def get_node(cls, info, id):
+        return super().get_node(info, id)
+
+
+class PalvelutarjotinEventTranslationsInput(graphene.InputObjectType):
+    auto_acceptance_message = graphene.String(
+        description="A custom message included in notification template "
+        "when auto acceptance is set on.",
+    )
+    language_code = LanguageEnum(required=True)
+
 
 class PalvelutarjotinEventInput(graphene.InputObjectType):
     enrolment_start = graphene.DateTime()
@@ -190,6 +227,7 @@ class PalvelutarjotinEventInput(graphene.InputObjectType):
     contact_email = graphene.String()
     auto_acceptance = graphene.Boolean()
     mandatory_additional_information = graphene.Boolean()
+    translations = graphene.List(PalvelutarjotinEventTranslationsInput)
 
 
 class StudyLevelTranslationType(DjangoObjectType):
@@ -219,7 +257,7 @@ class StudyLevelNode(DjangoObjectType):
 
 
 class ExternalPlace(graphene.ObjectType):
-    name = graphene.Field("graphene_linked_events.schema.LocalisedObject")
+    name = graphene.Field(LocalisedObject)
 
 
 class UnitNode(graphene.Union):
@@ -296,10 +334,6 @@ class VenueNode(DjangoObjectType):
         return super().get_node(info, id)
 
 
-class VenueNodeInput(graphene.InputObjectType):
-    translations = graphene.List(VenueTranslationsInput)
-
-
 def validate_occurrence_data(p_event, kwargs, updated_obj=None):
     end_time = (
         kwargs.get("end_time", updated_obj.end_time)
@@ -367,7 +401,7 @@ class AddOccurrenceMutation(graphene.relay.ClientIDMutation):
     @transaction.atomic
     def mutate_and_get_payload(cls, root, info, **kwargs):
         p_event = get_editable_obj_from_global_id(
-            info, kwargs["p_event_id"], PalvelutarjotinEvent
+            info, kwargs["p_event_id"], TranslatedPalvelutarjotinEvent
         )
         validate_occurrence_data(p_event, kwargs)
         contact_persons = kwargs.pop("contact_persons", None)
@@ -422,7 +456,7 @@ class UpdateOccurrenceMutation(graphene.relay.ClientIDMutation):
         languages = kwargs.pop("languages", None)
         if kwargs.get("p_event_id"):
             p_event = get_editable_obj_from_global_id(
-                info, kwargs["p_event_id"], PalvelutarjotinEvent
+                info, kwargs["p_event_id"], TranslatedPalvelutarjotinEvent
             )
             kwargs["p_event_id"] = p_event.id
         """
