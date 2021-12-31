@@ -42,7 +42,7 @@ def update_object(obj, data):
 @transaction.atomic
 def update_object_with_translations(model, model_data):
     translations_input = model_data.pop("translations", None)
-    if translations_input:
+    if translations_input is not None:
         model.create_or_update_translations(translations_input)
     update_object(model, model_data)
 
