@@ -28,7 +28,19 @@ class Size2ArrayField(serializers.Field):
         return [self._dict_to_array(entry) for entry in data] if data else None
 
 
+class PositionField(serializers.Field):
+    def to_representation(self, value):
+        if value:
+            return {"longitude": value[0], "latitude": value[1]}
+        return None
+
+    def to_internal_value(self, data):
+        return [data["longitude"], data["latitude"]]
+
+
 class EnrolmentReportSerializer(serializers.ModelSerializer):
+    occurrence_place_position = PositionField()
+    study_group_unit_position = PositionField()
     study_group_study_levels = Size2ArrayField(
         first_value_name="id", second_value_name="label"
     )
