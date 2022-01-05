@@ -7,6 +7,8 @@ def test_enrolment_report_to_representation():
         occurrence_languages=[["fi", "Finnish"]],
         study_group_study_levels=[["age_0_2", "age 0-2"]],
         keywords=[["kultus:5", "Musiikki"]],
+        occurrence_place_position=[24.670147, 60.20042],
+        study_group_unit_position=[24.862606, 60.251762],
     )
     serializer = EnrolmentReportSerializer(instance=report)
     assert serializer.data["study_group_study_levels"][0] == {
@@ -15,6 +17,14 @@ def test_enrolment_report_to_representation():
     }
     assert serializer.data["occurrence_languages"][0] == {"id": "fi", "name": "Finnish"}
     assert serializer.data["keywords"][0] == {"id": "kultus:5", "name": "Musiikki"}
+    assert serializer.data["occurrence_place_position"] == {
+        "longitude": 24.670147,
+        "latitude": 60.20042,
+    }
+    assert serializer.data["study_group_unit_position"] == {
+        "longitude": 24.862606,
+        "latitude": 60.251762,
+    }
 
 
 def test_enrolment_report_to_internal():
@@ -34,6 +44,8 @@ def test_enrolment_report_to_internal():
         "occurrence_end_time": "2021-11-14T01:00:00+02:00",
         "linked_event_id": "local-kultus:af6p5lyfxu",
         "enrolment_start_time": "2021-11-08T10:45:38.439000+02:00",
+        "occurrence_place_position": {"longitude": 24.670147, "latitude": 60.20042},
+        "study_group_unit_position": {"longitude": 24.862606, "latitude": 60.251762},
     }
     report = EnrolmentReportSerializer(data=report_json)
     report.is_valid()
@@ -41,3 +53,5 @@ def test_enrolment_report_to_internal():
     assert data["occurrence_languages"][0] == ["fi", "Finnish"]
     assert data["study_group_study_levels"][0] == ["age_0_2", "age 0-2"]
     assert data["keywords"][0] == ["kultus:5", "Musiikki"]
+    assert data["occurrence_place_position"] == [24.670147, 60.20042]
+    assert data["study_group_unit_position"] == [24.862606, 60.251762]
