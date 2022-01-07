@@ -20,9 +20,9 @@ from occurrences.models import (
     Enrolment,
     Language,
     Occurrence,
+    PalvelutarjotinEvent,
     StudyGroup,
     StudyLevel,
-    TranslatedPalvelutarjotinEvent,
     VenueCustomData,
 )
 from organisations.models import Organisation, Person
@@ -107,7 +107,7 @@ class OrderedDjangoFilterConnectionField(DjangoFilterConnectionField):
 StudyLevelTranslation = apps.get_model("occurrences", "StudyLevelTranslation")
 VenueTranslation = apps.get_model("occurrences", "VenueCustomDataTranslation")
 PalvelutarjotinEventTranslation = apps.get_model(
-    "occurrences", "TranslatedPalvelutarjotinEventTranslation"
+    "occurrences", "PalvelutarjotinEventTranslation"
 )
 
 NotificationTypeEnum = graphene.Enum(
@@ -175,7 +175,7 @@ class PalvelutarjotinEventNode(DjangoObjectType):
     translations = graphene.List(PalvelutarjotinEventTranslationType)
 
     class Meta:
-        model = TranslatedPalvelutarjotinEvent
+        model = PalvelutarjotinEvent
         interfaces = (graphene.relay.Node,)
 
     def resolve_next_occurrence_datetime(self, info, **kwargs):
@@ -401,7 +401,7 @@ class AddOccurrenceMutation(graphene.relay.ClientIDMutation):
     @transaction.atomic
     def mutate_and_get_payload(cls, root, info, **kwargs):
         p_event = get_editable_obj_from_global_id(
-            info, kwargs["p_event_id"], TranslatedPalvelutarjotinEvent
+            info, kwargs["p_event_id"], PalvelutarjotinEvent
         )
         validate_occurrence_data(p_event, kwargs)
         contact_persons = kwargs.pop("contact_persons", None)
@@ -456,7 +456,7 @@ class UpdateOccurrenceMutation(graphene.relay.ClientIDMutation):
         languages = kwargs.pop("languages", None)
         if kwargs.get("p_event_id"):
             p_event = get_editable_obj_from_global_id(
-                info, kwargs["p_event_id"], TranslatedPalvelutarjotinEvent
+                info, kwargs["p_event_id"], PalvelutarjotinEvent
             )
             kwargs["p_event_id"] = p_event.id
         """

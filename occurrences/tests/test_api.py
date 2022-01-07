@@ -16,9 +16,9 @@ from occurrences.factories import (
 from occurrences.models import (
     Enrolment,
     Occurrence,
+    PalvelutarjotinEvent,
     StudyGroup,
     StudyLevel,
-    TranslatedPalvelutarjotinEvent,
     VenueCustomData,
 )
 from occurrences.schema import StudyGroupNode
@@ -1852,7 +1852,7 @@ def test_auto_accept_message_is_used_as_custom_message_in_auto_approved_enrolmen
     study_group_15 = StudyGroupFactory(group_size=15)
     # Current date froze on 2020-01-04:
     auto_acceptance_message = "Testing auto acceptance message"
-    auto_accept_p_event: TranslatedPalvelutarjotinEvent = PalvelutarjotinEventFactory(
+    auto_accept_p_event: PalvelutarjotinEvent = PalvelutarjotinEventFactory(
         enrolment_start=datetime(2020, 1, 3, 0, 0, 0, tzinfo=timezone.now().tzinfo),
         enrolment_end_days=2,
         auto_acceptance=True,
