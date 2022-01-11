@@ -1,6 +1,24 @@
 <!-- REMINDER: While updating changelog, also remember to update
 the version in palvelutarjotin/__init.py__ -->
 
+## [1.1.0] - 11 January 2022
+
+### Added
+
+- Search nearby events feature in API.
+- Enrolment reports can be filtered with a LinkedEvent id (in admin).
+- Enrolment report divisions information given in more detailed format.
+- Enrolment report location information given in more detailed format.
+- Added translatable auto acceptance message field to PalvelutarjotinEvent.
+
+### Updated
+
+- Upcoming occurrences filter returns also the ongoing occurrences.
+
+### Fixed
+
+- Handle HTTP410 from LinkedEvents when sending enrolment reports summary.
+
 ## [1.0.0] - 8 December 2021
 
 ### Added
