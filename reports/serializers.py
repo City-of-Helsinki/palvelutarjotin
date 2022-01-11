@@ -42,7 +42,6 @@ class OCDIDField(serializers.Field):
     """A serializer for Open Civic Data ID"""
 
     translations = {
-        "maa": "country",
         "peruspiiri": "district",
         "osa-alue": "sub_district",
         "kaupunginosa": "neighborhood",
@@ -73,7 +72,7 @@ class OCDIDField(serializers.Field):
                 "ocd-division/country:fi/kunta:helsinki/peruspiiri:pasila",
                 "ocd-division/country:fi/kunta:helsinki",
             ],
-            "country": "Fi",
+            "country": "FI",
             "municipality": "Helsinki",
             "sub_district": "Keski-pasila",
             "neighborhood": "Pasila",
@@ -83,7 +82,7 @@ class OCDIDField(serializers.Field):
         if value:
             joined = "/".join(value).replace("ocd-division/", "")
             pairs = [tuple(pair.split(":")) for pair in set(joined.split("/"))]
-            return {
+            result = {
                 "ocd_ids": value,
                 **{
                     self.translations[key]
@@ -92,6 +91,9 @@ class OCDIDField(serializers.Field):
                     for (key, value) in pairs
                 },
             }
+            # Countries are uppercased in ISO-format
+            result["country"] = result["country"].upper()
+            return result
         return None
 
     def to_internal_value(self, data: dict) -> list:
@@ -107,7 +109,7 @@ class OCDIDField(serializers.Field):
                 "ocd-division/country:fi/kunta:helsinki/peruspiiri:pasila",
                 "ocd-division/country:fi/kunta:helsinki",
             ],
-            "country": "Fi",
+            "country": "FI",
             "municipality": "Helsinki",
             "sub_district": "Keski-pasila",
             "neighborhood": "Pasila",
