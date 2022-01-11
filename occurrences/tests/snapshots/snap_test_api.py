@@ -723,7 +723,7 @@ snapshots["test_approve_enrolment_with_custom_message 2"] = [
     Occurrence: 06.01.2020 02.00
     Person: qlee@hotmail.com
     Click this link to cancel the enrolment:
-    https://beta.kultus.fi/fi/enrolments/cancel/RW5yb2xtZW50Tm9kZToyM18yMDIwLTAxLTA0IDAwOjAwOjAwKzAwOjAw
+    https://beta.kultus.fi/fi/enrolments/cancel/RW5yb2xtZW50Tm9kZToyNF8yMDIwLTAxLTA0IDAwOjAwOjAwKzAwOjAw
 
     Custom message: custom message
 """
@@ -737,7 +737,7 @@ snapshots["test_approve_enrolment 2"] = [
     Occurrence: 06.01.2020 02.00
     Person: qlee@hotmail.com
     Click this link to cancel the enrolment:
-    https://beta.kultus.fi/fi/enrolments/cancel/RW5yb2xtZW50Tm9kZToyMV8yMDIwLTAxLTA0IDAwOjAwOjAwKzAwOjAw
+    https://beta.kultus.fi/fi/enrolments/cancel/RW5yb2xtZW50Tm9kZToyMl8yMDIwLTAxLTA0IDAwOjAwOjAwKzAwOjAw
 
 """
 ]
@@ -2235,3 +2235,41 @@ snapshots["test_occurrences_filter_by_enrollable[1-2] 1"] = {
         }
     }
 }
+
+snapshots[
+    "test_auto_accept_message_is_used_as_custom_message_in_auto_approved_enrolments 1"
+] = {
+    "data": {
+        "enrolOccurrence": {
+            "enrolments": [
+                {
+                    "notificationType": "EMAIL",
+                    "occurrence": {
+                        "amountOfSeats": 50,
+                        "remainingSeats": 35,
+                        "seatType": "CHILDREN_COUNT",
+                        "seatsApproved": 15,
+                        "seatsTaken": 15,
+                        "startTime": "2020-01-06T00:00:00+00:00",
+                    },
+                    "status": "APPROVED",
+                    "studyGroup": {"unitName": "To be created group"},
+                }
+            ]
+        }
+    }
+}
+
+snapshots[
+    "test_auto_accept_message_is_used_as_custom_message_in_auto_approved_enrolments 2"
+] = [
+    """no-reply@hel.ninja|['stephanieskinner@gmail.com']|Enrolment approved FI|
+    Event FI: Raija Malka & Kaija Saariaho: Blick
+    Extra event info: IHoLA
+    Study group: To be created group
+    Occurrence: 06.01.2020 02.00
+    Person: stephanieskinner@gmail.com
+
+    Custom message: Testing auto acceptance message
+"""
+]

@@ -603,6 +603,7 @@ snapshots["test_update_event 1"] = {
                     "offers": [{"isFree": False}],
                     "pEvent": {
                         "autoAcceptance": True,
+                        "autoAcceptanceMessage": "Päivitetty viesti",
                         "contactEmail": "contact@email.me",
                         "contactPerson": {"name": "Jason Berg"},
                         "contactPhoneNumber": "123123",
@@ -613,6 +614,16 @@ snapshots["test_update_event 1"] = {
                         "mandatoryAdditionalInformation": True,
                         "neededOccurrences": 1,
                         "organisation": {"name": "Navarro-Morton"},
+                        "translations": [
+                            {
+                                "autoAcceptanceMessage": "Päivitetty viesti",
+                                "languageCode": "FI",
+                            },
+                            {
+                                "autoAcceptanceMessage": "Updated custom message",
+                                "languageCode": "EN",
+                            },
+                        ],
                     },
                     "shortDescription": {
                         "en": "short desc en",
@@ -739,6 +750,7 @@ snapshots["test_create_event 1"] = {
                     "offers": [{"isFree": False}],
                     "pEvent": {
                         "autoAcceptance": True,
+                        "autoAcceptanceMessage": "Automaattisen hyväksynnän viesti",
                         "contactEmail": "contact@email.me",
                         "contactPerson": {"name": "Jason Berg"},
                         "contactPhoneNumber": "123123",
@@ -749,6 +761,16 @@ snapshots["test_create_event 1"] = {
                         "mandatoryAdditionalInformation": True,
                         "neededOccurrences": 1,
                         "organisation": {"name": "Navarro-Morton"},
+                        "translations": [
+                            {
+                                "autoAcceptanceMessage": "Automaattisen hyväksynnän viesti",
+                                "languageCode": "FI",
+                            },
+                            {
+                                "autoAcceptanceMessage": "Custom message of auto approvance",
+                                "languageCode": "EN",
+                            },
+                        ],
                     },
                     "shortDescription": {
                         "en": "short desc en",
@@ -872,6 +894,7 @@ snapshots["test_create_event_with_external_enrolment 1"] = {
                     "offers": [{"isFree": False}],
                     "pEvent": {
                         "autoAcceptance": False,
+                        "autoAcceptanceMessage": "Automaattisen hyväksynnän viesti",
                         "contactEmail": "contact@email.me",
                         "contactPerson": {"name": "Jason Berg"},
                         "contactPhoneNumber": "123123",
@@ -882,6 +905,16 @@ snapshots["test_create_event_with_external_enrolment 1"] = {
                         "mandatoryAdditionalInformation": True,
                         "neededOccurrences": 0,
                         "organisation": {"name": "Navarro-Morton"},
+                        "translations": [
+                            {
+                                "autoAcceptanceMessage": "Automaattisen hyväksynnän viesti",
+                                "languageCode": "FI",
+                            },
+                            {
+                                "autoAcceptanceMessage": "Custom message of auto approvance",
+                                "languageCode": "EN",
+                            },
+                        ],
                     },
                     "shortDescription": {
                         "en": "short desc en",
@@ -909,6 +942,7 @@ snapshots["test_create_event_without_enrolment 1"] = {
                     "offers": [{"isFree": False}],
                     "pEvent": {
                         "autoAcceptance": False,
+                        "autoAcceptanceMessage": "Automaattisen hyväksynnän viesti",
                         "contactEmail": "contact@email.me",
                         "contactPerson": {"name": "Jason Berg"},
                         "contactPhoneNumber": "123123",
@@ -919,6 +953,16 @@ snapshots["test_create_event_without_enrolment 1"] = {
                         "mandatoryAdditionalInformation": True,
                         "neededOccurrences": 0,
                         "organisation": {"name": "Navarro-Morton"},
+                        "translations": [
+                            {
+                                "autoAcceptanceMessage": "Automaattisen hyväksynnän viesti",
+                                "languageCode": "FI",
+                            },
+                            {
+                                "autoAcceptanceMessage": "Custom message of auto approvance",
+                                "languageCode": "EN",
+                            },
+                        ],
                     },
                     "shortDescription": {
                         "en": "short desc en",

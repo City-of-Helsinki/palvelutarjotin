@@ -54,7 +54,7 @@ class Language(models.Model):
         )
 
 
-class PalvelutarjotinEvent(TimestampedModel):
+class PalvelutarjotinEvent(TranslatableModel, TimestampedModel):
     PUBLICATION_STATUS_PUBLIC = "public"
     PUBLICATION_STATUS_DRAFT = "draft"
     PUBLICATION_STATUSES = (
@@ -103,9 +103,19 @@ class PalvelutarjotinEvent(TimestampedModel):
     auto_acceptance = models.BooleanField(
         default=False, verbose_name=_("auto acceptance")
     )
-
     mandatory_additional_information = models.BooleanField(
         default=False, verbose_name=_("mandatory additional information")
+    )
+
+    translations = TranslatedFields(
+        auto_acceptance_message=models.TextField(
+            _("custom message in auto acceptance"),
+            blank=True,
+            null=True,
+            help_text=_(
+                "A custom message included in notification template when auto acceptance is set on."  # noqa
+            ),
+        )
     )
 
     class Meta:

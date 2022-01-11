@@ -45,7 +45,7 @@ from common.utils import (
     format_linked_event_datetime,
     get_editable_obj_from_global_id,
     get_obj_from_global_id,
-    update_object,
+    update_object_with_translations,
 )
 from palvelutarjotin import settings
 from palvelutarjotin.exceptions import (
@@ -800,13 +800,21 @@ class AddEventMutation(Mutation):
         event_obj = json2obj(format_response(result))
         if result.status_code == 201:
             # Create palvelutarjotin event if event created successful
-            p_event_data["linked_event_id"] = event_obj.id
-            p_event_data["organisation_id"] = organisation.id
-            PalvelutarjotinEvent.objects.create(**p_event_data)
+            AddEventMutation._create_p_event(event_obj, organisation, p_event_data)
+
         response = EventMutationResponse(
             status_code=result.status_code, body=event_obj, result_text=result.text
         )
         return AddEventMutation(response=response)
+
+    def _create_p_event(event_obj, organisation, p_event_data) -> PalvelutarjotinEvent:
+        p_event_data["linked_event_id"] = event_obj.id
+        p_event_data["organisation_id"] = organisation.id
+        p_event_data["organisation_id"] = organisation.id
+        translations = p_event_data.pop("translations")
+        p_event, _ = PalvelutarjotinEvent.objects.get_or_create(**p_event_data)
+        p_event.create_or_update_translations(translations)
+        return p_event
 
 
 class UpdateEventMutation(Mutation):
@@ -869,7 +877,7 @@ class UpdateEventMutation(Mutation):
         # TODO: proper validation if necessary
         result = api_client.update("event", event_id, body)
         if result.status_code == 200 and p_event_data:
-            update_object(p_event, p_event_data)
+            update_object_with_translations(p_event, p_event_data)
         response = EventMutationResponse(
             status_code=result.status_code,
             body=json2obj(format_response(result)),
