@@ -1,4 +1,4 @@
-from typing import List
+from typing import List, Optional
 
 from reports.models import EnrolmentReport
 from rest_framework import serializers
@@ -38,9 +38,115 @@ class PositionField(serializers.Field):
         return [data["longitude"], data["latitude"]]
 
 
+class OCDIDField(serializers.Field):
+    """A serializer for Open Civic Data ID"""
+
+    translations = {
+        "peruspiiri": "district",
+        "osa-alue": "sub_district",
+        "kaupunginosa": "neighborhood",
+        "kunta": "municipality",
+    }
+
+    def to_representation(self, value: list) -> Optional[dict]:
+        """OCD id paths to a more detailed dict
+
+        Args:
+            value (list): A list of OCD ids, e.g.
+            ```
+            [
+                "ocd-division/country:fi/kunta:helsinki/osa-alue:keski-pasila",
+                "ocd-division/country:fi/kunta:helsinki/kaupunginosa:pasila",
+                "ocd-division/country:fi/kunta:helsinki/peruspiiri:pasila",
+                "ocd-division/country:fi/kunta:helsinki",
+            ]
+            ```
+
+        Returns:
+            dict: the original OCD ids list in the key "ocd-ids" and
+            all the key-value -pairs of OCD id path, e.g.
+            ```
+            "ocd_ids": [
+                "ocd-division/country:fi/kunta:helsinki/osa-alue:keski-pasila",
+                "ocd-division/country:fi/kunta:helsinki/kaupunginosa:pasila",
+                "ocd-division/country:fi/kunta:helsinki/peruspiiri:pasila",
+                "ocd-division/country:fi/kunta:helsinki",
+            ],
+            "country": "FI",
+            "municipality": "Helsinki",
+            "sub_district": "Keski-pasila",
+            "neighborhood": "Pasila",
+            "district": "Pasila",
+            ```
+        """
+        if value:
+            joined = "/".join(value).replace("ocd-division/", "")
+            pairs = [tuple(pair.split(":")) for pair in set(joined.split("/"))]
+            result = {
+                "ocd_ids": value,
+                **{
+                    self.translations[key]
+                    if key in self.translations
+                    else key: value.capitalize()
+                    for (key, value) in pairs
+                },
+            }
+            # Countries are uppercased in ISO-format
+            result["country"] = result["country"].upper()
+            return result
+        return None
+
+    def to_internal_value(self, data: dict) -> list:
+        """A detailed dict represented in a JSON view back to original OCD ids list format
+
+        Args:
+            data (dict): the original OCD ids list in the key "ocd-ids" and
+            all the key-value -pairs of OCD id path, e.g.
+            ```
+            "ocd_ids": [
+                "ocd-division/country:fi/kunta:helsinki/osa-alue:keski-pasila",
+                "ocd-division/country:fi/kunta:helsinki/kaupunginosa:pasila",
+                "ocd-division/country:fi/kunta:helsinki/peruspiiri:pasila",
+                "ocd-division/country:fi/kunta:helsinki",
+            ],
+            "country": "FI",
+            "municipality": "Helsinki",
+            "sub_district": "Keski-pasila",
+            "neighborhood": "Pasila",
+            "district": "Pasila",
+            ```
+
+        Returns:
+            list: A list of OCD ids, e.g.
+            ```
+            [
+                "ocd-division/country:fi/kunta:helsinki/osa-alue:keski-pasila",
+                "ocd-division/country:fi/kunta:helsinki/kaupunginosa:pasila",
+                "ocd-division/country:fi/kunta:helsinki/peruspiiri:pasila",
+                "ocd-division/country:fi/kunta:helsinki",
+            ]
+        """
+        if "ocd_ids" in data:
+            return data["ocd_ids"]
+
+        country_and_city = (
+            f"ocd-division/country:{data.pop('country').lower()}"
+            f"/municipality:{data.pop('municipality').lower()}"
+        )
+        return [
+            country_and_city,
+            *[
+                f"{country_and_city}/{key}:{value.lower()}"
+                for (key, value) in data.items()
+            ],
+        ]
+
+
 class EnrolmentReportSerializer(serializers.ModelSerializer):
     occurrence_place_position = PositionField()
     study_group_unit_position = PositionField()
+    study_group_unit_divisions = OCDIDField()
+    occurrence_place_divisions = OCDIDField()
     study_group_study_levels = Size2ArrayField(
         first_value_name="id", second_value_name="label"
     )
