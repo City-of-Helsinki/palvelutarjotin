@@ -26,6 +26,7 @@ class PersonNode(DjangoObjectType):
 
     class Meta:
         model = Person
+        exclude = ("p_event",)
         interfaces = (relay.Node,)
 
     @classmethod
@@ -53,6 +54,7 @@ class OrganisationNode(DjangoObjectType):
     class Meta:
         model = Organisation
         filter_fields = ["type"]
+        exclude = ("p_event",)
         interfaces = (relay.Node,)
 
 
