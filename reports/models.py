@@ -293,7 +293,7 @@ class EnrolmentReport(TimestampedModel):
         except (AttributeError, EnrolmentReportCouldNotHydrateLinkedEventsData) as e:
             logger.warning(
                 "Error in rehydration of enrolment report "
-                f"(id: {self.id}, _enrolment.id: {self._enrolment.id}) - {e}."
+                f"(id: {self.id}, _enrolment.id: {self._enrolment_id}) - {e}."
             )
 
     @property
