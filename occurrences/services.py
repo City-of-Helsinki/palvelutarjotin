@@ -24,6 +24,7 @@ logger = logging.getLogger(__name__)
 def send_enrolment_summary_report_to_providers(
     enrolments: Union[models.QuerySet, List["occurrences_models.Enrolment"]]
 ):
+    logger.info("Creating enrolment report summaries...")
     reports = {}
     p_events = (
         occurrences_models.PalvelutarjotinEvent.objects.filter(
@@ -32,7 +33,7 @@ def send_enrolment_summary_report_to_providers(
         .prefetch_related("occurrences__enrolments")
         .distinct()
     )
-
+    logger.debug(f"Collected {len(p_events)} PalvelutarjotinEvents.")
     for p_event in p_events:
         # Group by contact_email address:
         reports.setdefault(p_event.contact_email, []).append(p_event)
@@ -65,6 +66,9 @@ def send_enrolment_summary_report_to_providers(
         }
         context_for_address[address] = context
 
+    emails = ",".join([address for address in context_for_address.keys()])
+    logger.debug(f"Reports will be sent to these addresses: {emails}")
+
     # NOTE: Instead of sending the notification in the previous loop,
     # lets first collect the mail contexts to a dictionary and
     # send the mails after all the contexts have been handled properly.
@@ -72,9 +76,11 @@ def send_enrolment_summary_report_to_providers(
     # when some of the contexts cannot be handled because of any reason.
     # For more details, see https://helsinkisolutionoffice.atlassian.net/browse/PT-1414.
     for address, context in context_for_address.items():
+        logger.debug(f"Sending enrolment summary report to {address}.")
         send_notification(
             address, NotificationTemplateConstants.ENROLMENT_SUMMARY_REPORT, context
         )
+        logger.info(f"Enrolment summary report sent to {address}.")
 
 
 def send_event_notifications_to_person(

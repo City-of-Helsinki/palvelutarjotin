@@ -252,7 +252,7 @@ class Event(IdObject):
             return None
 
     def resolve_venue(self, info, **kwargs):
-        if hasattr(self.location, "id"):
+        if hasattr(self.location, "id") and self.location.id:
             try:
                 return VenueCustomData.objects.get(pk=self.location.id)
             except VenueCustomData.DoesNotExist:
@@ -476,6 +476,7 @@ class Query:
             params=kwargs,
             is_staff=info.context.user.is_staff,
         )
+        response.raise_for_status()
         obj = json2obj(format_response(response))
         return obj
 
@@ -520,9 +521,8 @@ class Query:
         response = api_client.list(
             "event", filter_list=kwargs, is_staff=info.context.user.is_staff
         )
-
+        response.raise_for_status()
         events_json = format_response(response)
-
         return Query._test_events_p_event_relations(events_json)
 
     @staticmethod
@@ -587,21 +587,25 @@ class Query:
     @staticmethod
     def resolve_place(parent, info, **kwargs):
         response = api_client.retrieve("place", kwargs["id"])
+        response.raise_for_status()
         return json2obj(format_response(response))
 
     @staticmethod
     def resolve_places(parent, info, **kwargs):
         response = api_client.list("place", filter_list=kwargs)
+        response.raise_for_status()
         return json2obj(format_response(response))
 
     @staticmethod
     def resolve_keyword(parent, info, **kwargs):
         response = api_client.retrieve("keyword", kwargs["id"])
+        response.raise_for_status()
         return json2obj(format_response(response))
 
     @staticmethod
     def resolve_keywords(parent, info, **kwargs):
         response = api_client.list("keyword", filter_list=kwargs)
+        response.raise_for_status()
         return json2obj(format_response(response))
 
     @staticmethod
@@ -645,28 +649,33 @@ class Query:
         response = api_client.retrieve(
             "keyword_set", keyword_set_id, params={"include": "keywords"}
         )
+        response.raise_for_status()
         return json2obj(format_response(response))
 
     @staticmethod
     def resolve_image(parent, info, **kwargs):
         response = api_client.retrieve("image", kwargs["id"])
+        response.raise_for_status()
         return json2obj(format_response(response))
 
     @staticmethod
     def resolve_images(parent, info, **kwargs):
         response = api_client.list("image", filter_list=kwargs)
+        response.raise_for_status()
         return json2obj(format_response(response))
 
     @staticmethod
     def resolve_events_search(parent, info, **kwargs):
         search_params = {"type": "event", **kwargs}
         response = api_client.search(search_params=search_params)
+        response.raise_for_status()
         return json2obj(format_response(response))
 
     @staticmethod
     def resolve_places_search(parent, info, **kwargs):
         search_params = {"type": "place", **kwargs}
         response = api_client.search(search_params=search_params)
+        response.raise_for_status()
         return json2obj(format_response(response))
 
 
