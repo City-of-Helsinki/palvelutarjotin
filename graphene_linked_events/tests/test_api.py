@@ -690,6 +690,43 @@ def test_get_event(api_client, snapshot, monkeypatch):
     snapshot.assert_match(executed)
 
 
+def test_get_event_without_location(api_client, snapshot, monkeypatch):
+    def _get_mock_function(event_data, keyword_data, status_code=200):
+        def mock_data(*args, **kwargs):
+            if args[1] == "event":
+                data = event_data.copy()
+                del event_data["location"]
+            else:
+                data = keyword_data
+            return MockResponse(status_code=status_code, json_data=data)
+
+        return mock_data
+
+    monkeypatch.setattr(
+        graphene_linked_events.rest_client.LinkedEventsApiClient,
+        "retrieve",
+        _get_mock_function(EVENT_DATA, KEYWORD_SET_DATA),
+    )
+    executed = api_client.execute(GET_EVENT_QUERY)
+    snapshot.assert_match(executed)
+
+
+def test_get_event_not_found(api_client, snapshot, monkeypatch):
+    def _get_mock_function(event_data, keyword_data, status_code=404):
+        def mock_data(*args, **kwargs):
+            return MockResponse(status_code=status_code, json_data={})
+
+        return mock_data
+
+    monkeypatch.setattr(
+        graphene_linked_events.rest_client.LinkedEventsApiClient,
+        "retrieve",
+        _get_mock_function(EVENT_DATA, KEYWORD_SET_DATA),
+    )
+    executed = api_client.execute(GET_EVENT_QUERY)
+    snapshot.assert_match(executed)
+
+
 def test_get_places(api_client, snapshot, mock_get_places_data):
     executed = api_client.execute(GET_PLACES_QUERY)
     snapshot.assert_match(executed)
