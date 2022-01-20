@@ -1014,6 +1014,38 @@ def test_create_event_without_p_event_translations(
     snapshot.assert_match(executed)
 
 
+@patch("graphene_linked_events.schema.api_client.delete")
+def test_create_event_with_p_event_creation_exception_raised(
+    spy_api_client_delete,
+    staff_api_client,
+    person,
+    mock_create_event_data,
+    mock_delete_event_data,
+    organisation,
+):
+    def mock_get_or_create(p_event_data):
+        raise Exception("A creation exception from get_or_create -method.")
+
+    variables = deepcopy(CREATE_EVENT_VARIABLES)
+    variables["input"]["organisationId"] = to_global_id(
+        "OrganisationNode", organisation.id
+    )
+    variables["input"]["pEvent"]["contactPersonId"] = to_global_id(
+        "PersonNode", person.id
+    )
+    del variables["input"]["pEvent"]["translations"]
+    staff_api_client.user.person.organisations.add(organisation)
+    person.organisations.add(organisation)
+
+    with patch(
+        "occurrences.models.PalvelutarjotinEvent.objects.get_or_create",
+        mock_get_or_create,
+    ):
+        staff_api_client.execute(CREATE_EVENT_MUTATION, variables=variables)
+        spy_api_client_delete.assert_called_once()
+    assert PalvelutarjotinEvent.objects.count() == 0
+
+
 UPDATE_EVENT_MUTATION = """
 mutation addEvent($input: UpdateEventMutationInput!){
   updateEventMutation(event: $input){
