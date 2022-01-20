@@ -1,4 +1,5 @@
 import json
+import logging
 import math
 from types import SimpleNamespace
 
@@ -55,6 +56,8 @@ from palvelutarjotin.exceptions import (
     UploadImageSizeExceededError,
 )
 from palvelutarjotin.settings import KEYWORD_SET_ID_MAPPING, LINKED_EVENTS_API_CONFIG
+
+logger = logging.getLogger(__name__)
 
 PublicationStatusEnum = Enum(
     "PublicationStatus",
@@ -809,7 +812,20 @@ class AddEventMutation(Mutation):
         event_obj = json2obj(format_response(result))
         if result.status_code == 201:
             # Create palvelutarjotin event if event created successful
-            AddEventMutation._create_p_event(event_obj, organisation, p_event_data)
+            try:
+                AddEventMutation._create_p_event(event_obj, organisation, p_event_data)
+            except Exception:
+                logger.exception(
+                    "An error raised while creating PalvelutarjotinEvent "
+                    "after the event was created to the LinkedEvents API, "
+                    "so the event was left one sided."
+                )
+                logger.info(
+                    "Deleting the (one sided) event from the LinkedEvents API. "
+                    f"id: {event_obj.id}. organisation: {organisation.id}"
+                )
+                api_client.delete("event", event_obj.id)
+                raise
 
         response = EventMutationResponse(
             status_code=result.status_code, body=event_obj, result_text=result.text
