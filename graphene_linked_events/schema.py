@@ -2,6 +2,7 @@ import json
 import math
 from types import SimpleNamespace
 
+from django.conf import settings
 from django.core.exceptions import PermissionDenied
 from django.db import transaction
 from django.db.models import OuterRef, Subquery
@@ -47,7 +48,6 @@ from common.utils import (
     get_obj_from_global_id,
     update_object_with_translations,
 )
-from palvelutarjotin import settings
 from palvelutarjotin.exceptions import (
     ApiUsageError,
     DataValidationError,

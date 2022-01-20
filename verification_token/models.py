@@ -1,6 +1,7 @@
 from datetime import timedelta
 from secrets import token_urlsafe
 
+from django.conf import settings
 from django.contrib.contenttypes.fields import GenericForeignKey
 from django.contrib.contenttypes.models import ContentType
 from django.db import models
@@ -8,8 +9,6 @@ from django.db.models import Q
 from django.utils import timezone
 from django.utils.translation import gettext_lazy as _
 from organisations.models import Person
-
-from palvelutarjotin import settings
 
 
 class VerificationTokenManager(models.Manager):
