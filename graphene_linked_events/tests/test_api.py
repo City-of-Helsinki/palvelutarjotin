@@ -996,6 +996,24 @@ def test_create_event_without_enrolment(
     snapshot.assert_match(executed)
 
 
+def test_create_event_without_p_event_translations(
+    staff_api_client, snapshot, person, mock_create_event_data, organisation
+):
+    variables = deepcopy(CREATE_EVENT_VARIABLES)
+    variables["input"]["organisationId"] = to_global_id(
+        "OrganisationNode", organisation.id
+    )
+    variables["input"]["pEvent"]["contactPersonId"] = to_global_id(
+        "PersonNode", person.id
+    )
+    del variables["input"]["pEvent"]["translations"]
+    staff_api_client.user.person.organisations.add(organisation)
+    person.organisations.add(organisation)
+    executed = staff_api_client.execute(CREATE_EVENT_MUTATION, variables=variables)
+    assert PalvelutarjotinEvent.objects.count() == 1
+    snapshot.assert_match(executed)
+
+
 UPDATE_EVENT_MUTATION = """
 mutation addEvent($input: UpdateEventMutationInput!){
   updateEventMutation(event: $input){
