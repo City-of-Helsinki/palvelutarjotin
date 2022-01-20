@@ -819,10 +819,10 @@ class AddEventMutation(Mutation):
     def _create_p_event(event_obj, organisation, p_event_data) -> PalvelutarjotinEvent:
         p_event_data["linked_event_id"] = event_obj.id
         p_event_data["organisation_id"] = organisation.id
-        p_event_data["organisation_id"] = organisation.id
-        translations = p_event_data.pop("translations")
+        translations = p_event_data.pop("translations", None)
         p_event, _ = PalvelutarjotinEvent.objects.get_or_create(**p_event_data)
-        p_event.create_or_update_translations(translations)
+        if translations:
+            p_event.create_or_update_translations(translations)
         return p_event
 
 
