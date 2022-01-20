@@ -3,6 +3,7 @@ import warnings
 from datetime import timedelta
 
 import occurrences.services as occurrences_services
+from django.conf import settings
 from django.contrib.contenttypes.fields import GenericRelation
 from django.db import models, transaction
 from django.db.models import F, Q, Sum
@@ -28,7 +29,6 @@ from verification_token.models import VerificationToken
 
 from common.models import TimestampedModel, TranslatableModel
 from common.utils import get_node_id_from_global_id
-from palvelutarjotin import settings
 from palvelutarjotin.exceptions import (
     ApiUsageError,
     EnrolmentNotEnoughCapacityError,
