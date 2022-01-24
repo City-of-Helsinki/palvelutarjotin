@@ -58,14 +58,12 @@ def test_own_places():
     person3 = PersonFactory(name="person3", place_ids=[place3, place2])
     assert person1.place_ids == [place1, place2]
     assert Person.objects.all().count() == 4
-    assert list(Person.objects.filter(place_ids__contains=[place1])) == [
-        person1,
-        person2,
-    ]
-    assert list(Person.objects.filter(place_ids__contains=[place2])) == [
-        person1,
-        person3,
-    ]
+    assert list(
+        Person.objects.filter(place_ids__contains=[place1]).order_by("name")
+    ) == [person1, person2]
+    assert list(
+        Person.objects.filter(place_ids__contains=[place2]).order_by("name")
+    ) == [person1, person3]
     assert list(Person.objects.filter(place_ids__contains=[place1, place2])) == [
         person1
     ]
@@ -73,29 +71,25 @@ def test_own_places():
         Person.objects.filter(place_ids__contains=[place1, place2, place3]).count() == 0
     )
 
-    assert list(Person.objects.filter(place_ids__contained_by=[place1, place2])) == [
-        person1,
-        person2,
-    ]
     assert list(
-        Person.objects.exclude(place_ids=[]).filter(
-            place_ids__contained_by=[place1, place2]
-        )
+        Person.objects.filter(place_ids__contained_by=[place1, place2]).order_by("name")
+    ) == [person1, person2]
+    assert list(
+        Person.objects.exclude(place_ids=[])
+        .filter(place_ids__contained_by=[place1, place2])
+        .order_by("name")
     ) == [person1, person2]
     assert (
         Person.objects.filter(place_ids__contained_by=[place1, place2, place3]).count()
         == 3
     )
 
-    assert list(Person.objects.filter(place_ids__overlap=[place1])) == [
-        person1,
-        person2,
-    ]
-    assert list(Person.objects.filter(place_ids__overlap=[place1, place3])) == [
-        person1,
-        person2,
-        person3,
-    ]
+    assert list(
+        Person.objects.filter(place_ids__overlap=[place1]).order_by("name")
+    ) == [person1, person2]
+    assert list(
+        Person.objects.filter(place_ids__overlap=[place1, place3]).order_by("name")
+    ) == [person1, person2, person3]
 
     assert list(Person.objects.filter(place_ids__len=1)) == [person2]
 
