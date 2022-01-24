@@ -1,6 +1,19 @@
 <!-- REMINDER: While updating changelog, also remember to update
 the version in palvelutarjotin/__init.py__ -->
 
+## [1.1.1] - 24 January 2022
+
+### Updated
+
+- Raising the errors from connection issues to LinkedEvents API when fetching data from there.
+- Added more memory to production service.
+- Deleting the one sided events from LinkedEvents API if an error occures while creating a PalvelutarjotinEvent to Kultus DB.
+
+### Fixed
+
+- Some fixes to possible null pointers.
+- Fixed some setting imports for better testing abilities.
+
 ## [1.1.0] - 11 January 2022
 
 ### Added
