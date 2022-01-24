@@ -589,7 +589,10 @@ class Query:
 
     @staticmethod
     def resolve_place(parent, info, **kwargs):
-        response = api_client.retrieve("place", kwargs["id"])
+        place_id = kwargs["id"]
+        if not place_id:
+            return None
+        response = api_client.retrieve("place", place_id)
         response.raise_for_status()
         return json2obj(format_response(response))
 
@@ -601,7 +604,10 @@ class Query:
 
     @staticmethod
     def resolve_keyword(parent, info, **kwargs):
-        response = api_client.retrieve("keyword", kwargs["id"])
+        keyword_id = kwargs["id"]
+        if not keyword_id:
+            return None
+        response = api_client.retrieve("keyword", keyword_id)
         response.raise_for_status()
         return json2obj(format_response(response))
 
@@ -657,7 +663,10 @@ class Query:
 
     @staticmethod
     def resolve_image(parent, info, **kwargs):
-        response = api_client.retrieve("image", kwargs["id"])
+        image_id = kwargs["id"]
+        if not image_id:
+            return None
+        response = api_client.retrieve("image", image_id)
         response.raise_for_status()
         return json2obj(format_response(response))
 
