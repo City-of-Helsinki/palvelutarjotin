@@ -1118,9 +1118,11 @@ class Query:
             )
         except ObjectDoesNotExistError:
             return None
-        qs = Enrolment.objects.filter(occurrence__p_event__organisation=organisation)
+        qs = Enrolment.objects.filter(
+            occurrence__p_event__organisation=organisation
+        ).order_by("status")
         if kwargs.get("status"):
-            qs = qs.filter(status=kwargs["status"]).order_by("status")
+            qs = qs.filter(status=kwargs["status"])
         return qs
 
 
