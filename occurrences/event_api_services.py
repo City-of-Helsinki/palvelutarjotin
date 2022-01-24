@@ -16,6 +16,9 @@ logger = logging.getLogger(__name__)
 
 
 def fetch_place_as_json(place_id: str, **filter_params):
+    if not place_id:
+        return None
+
     result = api_client.retrieve("place", place_id, params=filter_params, is_staff=True)
 
     if result.status_code == 400:
@@ -31,6 +34,9 @@ def fetch_place_as_json(place_id: str, **filter_params):
 
 
 def fetch_event_as_json(linked_event_id: str, **filter_params):
+    if not linked_event_id:
+        return None
+
     result = api_client.retrieve(
         "event", linked_event_id, params=filter_params, is_staff=True
     )
@@ -48,6 +54,12 @@ def fetch_event_as_json(linked_event_id: str, **filter_params):
 
 
 def update_event_to_linkedevents_api(linked_event_id: str, event_obj) -> None:
+
+    if not linked_event_id:
+        raise ObjectDoesNotExistError(
+            "Could not find the event from the API. No linked_event_id given!"
+        )
+
     # Call API to update event
     result = api_client.update("event", linked_event_id, json.dumps(event_obj))
 

@@ -13,6 +13,7 @@ the version in palvelutarjotin/__init.py__ -->
 
 - Some fixes to possible null pointers.
 - Fixed some setting imports for better testing abilities.
+- Places and events should not be fetched when the place ids are not given
 
 ## [1.1.0] - 11 January 2022
 

@@ -838,9 +838,9 @@ snapshots["test_enrolments_summary 1"] = {
         "enrolmentSummary": {
             "count": 4,
             "edges": [
+                {"node": {"status": "APPROVED"}},
                 {"node": {"status": "CANCELLED"}},
                 {"node": {"status": "DECLINED"}},
-                {"node": {"status": "APPROVED"}},
                 {"node": {"status": "PENDING"}},
             ],
         }
