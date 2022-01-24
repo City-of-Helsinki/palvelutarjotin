@@ -1,6 +1,12 @@
 <!-- REMINDER: While updating changelog, also remember to update
 the version in palvelutarjotin/__init.py__ -->
 
+## [1.1.2] - 24 January 2022
+
+### Fixed
+
+- Prevent calling LinkedEvents API with illegal null ids
+
 ## [1.1.1] - 24 January 2022
 
 ### Updated
