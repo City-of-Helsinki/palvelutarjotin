@@ -55,7 +55,6 @@ from palvelutarjotin.exceptions import (
     ObjectDoesNotExistError,
     UploadImageSizeExceededError,
 )
-from palvelutarjotin.settings import KEYWORD_SET_ID_MAPPING, LINKED_EVENTS_API_CONFIG
 
 logger = logging.getLogger(__name__)
 
@@ -65,7 +64,7 @@ PublicationStatusEnum = Enum(
 )
 
 KeywordSetEnum = Enum(
-    "KeywordSetType", [(s.upper(), s) for s in KEYWORD_SET_ID_MAPPING.keys()]
+    "KeywordSetType", [(s.upper(), s) for s in settings.KEYWORD_SET_ID_MAPPING.keys()]
 )
 
 
@@ -495,7 +494,7 @@ class Query:
         else:
             # If no organisation id specified, return all events from
             # palvelutarjotin data source
-            kwargs["data_source"] = LINKED_EVENTS_API_CONFIG["DATA_SOURCE"]
+            kwargs["data_source"] = settings.LINKED_EVENTS_API_CONFIG["DATA_SOURCE"]
         # Some arguments in LinkedEvent are not fully supported in graphene arguments
         if kwargs.get("keyword_and"):
             kwargs["keyword_AND"] = kwargs.pop("keyword_and")
@@ -628,9 +627,9 @@ class Query:
         amount = kwargs.get("amount")
         show_all_keywords = kwargs.get("show_all_keywords")
         set_ids = [
-            KEYWORD_SET_ID_MAPPING["CATEGORY"],
-            KEYWORD_SET_ID_MAPPING["ADDITIONAL_CRITERIA"],
-            KEYWORD_SET_ID_MAPPING["TARGET_GROUP"],
+            settings.KEYWORD_SET_ID_MAPPING["CATEGORY"],
+            settings.KEYWORD_SET_ID_MAPPING["ADDITIONAL_CRITERIA"],
+            settings.KEYWORD_SET_ID_MAPPING["TARGET_GROUP"],
         ]
         keywords = {}
 
@@ -654,7 +653,7 @@ class Query:
     @staticmethod
     def resolve_keyword_set(parent, info, **kwargs):
         set_type = kwargs["set_type"]
-        keyword_set_id = KEYWORD_SET_ID_MAPPING.get(set_type)
+        keyword_set_id = settings.KEYWORD_SET_ID_MAPPING.get(set_type)
         response = api_client.retrieve(
             "keyword_set", keyword_set_id, params={"include": "keywords"}
         )

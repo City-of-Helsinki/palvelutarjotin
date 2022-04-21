@@ -14,7 +14,6 @@ from palvelutarjotin.exceptions import (
     IncorrectGlobalIdError,
     ObjectDoesNotExistError,
 )
-from palvelutarjotin.settings import REVISION
 
 LINKED_EVENT_DATE_FORMAT = "%Y-%m-%d"
 
@@ -48,7 +47,7 @@ def update_object_with_translations(model, model_data):
 
 
 def get_api_version():
-    return " | ".join((__version__, REVISION.decode("utf-8")))
+    return " | ".join((__version__, settings.REVISION.decode("utf-8")))
 
 
 def get_node_id_from_global_id(global_id, node_name):

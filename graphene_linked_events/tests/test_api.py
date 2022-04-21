@@ -36,7 +36,6 @@ from common.tests.utils import (
 )
 from palvelutarjotin.consts import API_USAGE_ERROR, DATA_VALIDATION_ERROR
 from palvelutarjotin.exceptions import ApiBadRequestError, ObjectDoesNotExistError
-from palvelutarjotin.settings import KEYWORD_SET_ID_MAPPING
 
 
 def __eq_dt_with_tz(dt1: Optional[datetime], dt2: Optional[datetime]) -> bool:
@@ -1868,8 +1867,8 @@ query getKeywordSet($setType: KeywordSetType!){
 """
 
 
-def test_get_keyword_set(api_client, snapshot, mock_get_keyword_set_data):
-    for set_type in KEYWORD_SET_ID_MAPPING:
+def test_get_keyword_set(api_client, snapshot, mock_get_keyword_set_data, settings):
+    for set_type in settings.KEYWORD_SET_ID_MAPPING:
         executed = api_client.execute(
             GET_KEYWORD_SET_QUERY, variables={"setType": set_type}
         )
