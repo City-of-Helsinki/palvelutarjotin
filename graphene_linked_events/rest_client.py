@@ -8,6 +8,7 @@ class LinkedEventsApiClient(object):
     def __init__(self, config) -> None:
         self.root = config["ROOT"]
         self.api_key = config["API_KEY"]
+        self.data_source = config["DATA_SOURCE"]
         super().__init__()
 
     def get_actions(self, resource=None):
@@ -46,6 +47,12 @@ class LinkedEventsApiClient(object):
     def list(self, resource, filter_list=None, is_staff=False):
         actions = self.get_actions(resource)
         filter_params = self.convert_to_string_param(filter_list)
+
+        # Data source is required for the LinkedEvents production API to return any
+        # palvelutarjotin related events.
+        if resource == "event" and filter_params and "data_source" not in filter_params:
+            filter_params["data_source"] = self.data_source
+
         if is_staff:
             headers = {"apikey": self.api_key, "Cache-Control": "no-cache"}
             cookies = dict(nocache="meow")

@@ -1775,7 +1775,8 @@ def test_get_upcoming_events(
             UPCOMING_MOCKED_EVENTS.append(MOCK_EVENT_DATA)
 
     if upcoming:
-        query_string = "ids=kultus:3,kultus:2,kultus:1"
+        ds = settings.LINKED_EVENTS_API_CONFIG["DATA_SOURCE"]
+        query_string = f"ids=kultus:3,kultus:2,kultus:1&data_source={ds}"
         mocked_responses.add(
             responses.GET,
             url=f"{settings.LINKED_EVENTS_API_CONFIG['ROOT']}event/?{query_string}",

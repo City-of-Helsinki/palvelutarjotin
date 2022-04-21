@@ -491,10 +491,7 @@ class Query:
                 info, organisation_global_id, Organisation
             )
             kwargs["publisher"] = organisation.publisher_id
-        else:
-            # If no organisation id specified, return all events from
-            # palvelutarjotin data source
-            kwargs["data_source"] = settings.LINKED_EVENTS_API_CONFIG["DATA_SOURCE"]
+
         # Some arguments in LinkedEvent are not fully supported in graphene arguments
         if kwargs.get("keyword_and"):
             kwargs["keyword_AND"] = kwargs.pop("keyword_and")
