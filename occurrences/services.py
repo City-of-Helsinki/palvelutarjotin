@@ -10,13 +10,9 @@ from occurrences.consts import NOTIFICATION_TYPE_EMAIL, NOTIFICATION_TYPE_SMS
 from occurrences.consts import NotificationTemplate as NotificationTemplateConstants
 
 from common.notification_service import NotificationService
-from palvelutarjotin.settings import (
-    NOTIFICATION_SERVICE_API_TOKEN,
-    NOTIFICATION_SERVICE_API_URL,
-)
 
 notification_service = NotificationService(
-    NOTIFICATION_SERVICE_API_TOKEN, NOTIFICATION_SERVICE_API_URL
+    settings.NOTIFICATION_SERVICE_API_TOKEN, settings.NOTIFICATION_SERVICE_API_URL
 )
 logger = logging.getLogger(__name__)
 
