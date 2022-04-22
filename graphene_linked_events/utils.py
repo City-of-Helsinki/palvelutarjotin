@@ -15,8 +15,20 @@ api_client = LinkedEventsApiClient(config=settings.LINKED_EVENTS_API_CONFIG)
 
 
 def format_response(response):
-    # Some fields from api have @prefix that need to be converted
-    return response.text.replace("@", "internal_")
+    """Remove @ sign from API response JSON keys."""
+
+    def format_values(value):
+        if isinstance(value, list):
+            return [format_values(v) for v in value]
+        elif isinstance(value, dict):
+            return {
+                key.replace("@", "internal_"): format_values(value)
+                for key, value in value.items()
+            }
+        return value
+
+    formatted = format_values(json.loads(response.text))
+    return json.dumps(formatted)
 
 
 def json_object_hook(d):

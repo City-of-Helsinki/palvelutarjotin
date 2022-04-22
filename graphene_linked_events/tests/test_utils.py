@@ -1,6 +1,9 @@
+import json
 import math
 
-from graphene_linked_events.utils import bbox_for_coordinates
+import requests
+import responses
+from graphene_linked_events.utils import bbox_for_coordinates, format_response
 
 
 def test_bbox_for_coordinates():
@@ -13,3 +16,23 @@ def test_bbox_for_coordinates():
     assert math.isclose(bbox[1], 60.16764173276239)
     assert math.isclose(bbox[2], 25.00194624440269)
     assert math.isclose(bbox[3], 60.20572118886215)
+
+
+def test_format_response(mocked_responses, snapshot):
+    url = "http://localhost"
+    response_data = {
+        "data": [
+            {
+                "@id": 123,
+                "email": "email1@example.com",
+                "emails": ["email2@example.com", "email3@example.com"],
+            },
+            {"@key": "@@@", "@keys": [{"@key": "value"}, {"key": "@value"}]},
+        ]
+    }
+    mocked_responses.add(responses.GET, url=url, json=response_data)
+
+    response = requests.get(url)
+    formatted = format_response(response)
+
+    snapshot.assert_match(json.loads(formatted))

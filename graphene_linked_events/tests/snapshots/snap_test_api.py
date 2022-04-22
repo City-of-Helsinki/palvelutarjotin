@@ -94,7 +94,7 @@ snapshots["test_get_places 1"] = {
                     "deleted": False,
                     "description": None,
                     "divisions": [{"municipality": None, "ocdId": None}],
-                    "email": "sellonkirjastointernal_espoo.fi",
+                    "email": "sellonkirjasto@espoo.fi",
                     "id": "tprek:15417",
                     "image": 54259,
                     "infoUrl": {
@@ -136,7 +136,7 @@ snapshots["test_get_places 1"] = {
                     "deleted": False,
                     "description": None,
                     "divisions": [{"municipality": None, "ocdId": None}],
-                    "email": "kirjasto.entresseinternal_espoo.fi",
+                    "email": "kirjasto.entresse@espoo.fi",
                     "id": "tprek:15321",
                     "image": 54251,
                     "infoUrl": {
@@ -193,7 +193,7 @@ snapshots["test_get_place 1"] = {
             "deleted": False,
             "description": None,
             "divisions": [{"municipality": None, "ocdId": None}],
-            "email": "sellonkirjastointernal_espoo.fi",
+            "email": "sellonkirjasto@espoo.fi",
             "id": "tprek:15417",
             "image": 54259,
             "infoUrl": {
@@ -323,7 +323,7 @@ snapshots["test_search_places 1"] = {
                     "deleted": False,
                     "description": None,
                     "divisions": [{"municipality": None, "ocdId": None}],
-                    "email": "sellonkirjastointernal_espoo.fi",
+                    "email": "sellonkirjasto@espoo.fi",
                     "id": "tprek:15417",
                     "image": 54259,
                     "infoUrl": {
@@ -365,7 +365,7 @@ snapshots["test_search_places 1"] = {
                     "deleted": False,
                     "description": None,
                     "divisions": [{"municipality": None, "ocdId": None}],
-                    "email": "kirjasto.entresseinternal_espoo.fi",
+                    "email": "kirjasto.entresse@espoo.fi",
                     "id": "tprek:15321",
                     "image": 54251,
                     "infoUrl": {
