@@ -1,6 +1,19 @@
 <!-- REMINDER: While updating changelog, also remember to update
 the version in palvelutarjotin/__init.py__ -->
 
+## [1.1.4] - 22 April 2022
+
+### Fixed
+
+- Event list requests to Linked events always include data source parameter
+- Only sanitize keys in JSON responses from linked events
+
+## [1.1.3] - 15 March 2022
+
+### Updated
+
+- Added more resources to the production environment
+
 ## [1.1.2] - 24 January 2022
 
 ### Fixed
