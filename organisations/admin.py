@@ -8,6 +8,7 @@ from django.contrib.auth.forms import UserChangeForm
 from django.http import HttpResponseRedirect
 from django.urls import reverse
 from django.utils.translation import gettext as _
+from django_admin_listfilter_dropdown.filters import RelatedDropdownFilter
 from organisations.models import Organisation, OrganisationProposal, Person, User
 
 
@@ -139,6 +140,7 @@ class PersonAdmin(admin.ModelAdmin):
     list_filter = [
         "created_at",
         UserExistenceListFilter,
+        ("organisations", RelatedDropdownFilter),
     ]
     search_fields = ["name", "email_address"]
     form = PersonAdminForm

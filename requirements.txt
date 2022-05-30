@@ -47,6 +47,8 @@ django==3.2.13
     #   djangorestframework
     #   drf-oidc-auth
     #   graphene-django
+django-admin-list-filter-dropdown==1.0.3
+    # via -r requirements.in
 django-anymail==7.0.0
     # via django-ilmoitin
 django-appconf==1.0.4
