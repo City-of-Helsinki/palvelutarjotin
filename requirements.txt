@@ -32,7 +32,7 @@ defusedxml==0.7.1
     #   social-auth-core
 deprecation==2.1.0
     # via django-helusers
-django==3.2.5
+django==3.2.13
     # via
     #   -r requirements.in
     #   django-anymail
