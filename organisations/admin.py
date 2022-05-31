@@ -59,7 +59,7 @@ class OrganisationProposalAdminForm(forms.ModelForm):
         fields = "__all__"
 
     def __init__(self, *args, **kwargs):
-        super(OrganisationProposalAdminForm, self).__init__(*args, **kwargs)
+        super().__init__(*args, **kwargs)
         self.fields["applicant"].queryset = Person.objects.all().order_by(
             "name", "-created_at"
         )
@@ -112,7 +112,7 @@ class PersonAdminForm(forms.ModelForm):
         fields = "__all__"
 
     def __init__(self, *args, **kwargs):
-        super(PersonAdminForm, self).__init__(*args, **kwargs)
+        super().__init__(*args, **kwargs)
         user = self.fields["user"]
         # Show only users without any links to a person
         user.queryset = User.objects.filter(person__isnull=True)
@@ -198,7 +198,7 @@ class UserAdminForm(UserChangeForm):
         }
 
     def __init__(self, *args, **kwargs):
-        super(UserAdminForm, self).__init__(*args, **kwargs)
+        super().__init__(*args, **kwargs)
         if self.instance.pk:
             try:
                 self.fields[
@@ -208,7 +208,7 @@ class UserAdminForm(UserChangeForm):
                 self.fields["organisations"].disabled = True
 
     def save(self, commit=True):
-        user = super(UserAdminForm, self).save(commit=False)
+        user = super().save(commit=False)
         if commit:
             user.save()
 
@@ -287,7 +287,7 @@ class UserAdmin(DjangoUserAdmin):
                 original_user.person, form
             ) or self._has_is_staff_changed(form)
 
-        user = super(UserAdmin, self).save_form(request, form, change)
+        user = super().save_form(request, form, change)
 
         # And the organisations or is_staff status are changed...
         if is_notifiable_changes_done:
