@@ -1,4 +1,5 @@
-Django>=3.2.5
+Django~=3.2.5
+django-admin-list-filter-dropdown
 django-cors-headers
 django-environ
 django-graphql-jwt

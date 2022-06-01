@@ -39,7 +39,7 @@ class ExportReportViewMixinTest(TestCase):
         model = PalvelutarjotinEvent
 
     def setUp(self):
-        super(ExportReportViewMixinTest, self).setUp()
+        super().setUp()
 
         # Setup request and view.
         self.view = self.DummyExportReportView()
@@ -65,7 +65,7 @@ class OrganisationPersonsMixinTest(TestCase):
         model = Organisation
 
     def setUp(self):
-        super(OrganisationPersonsMixinTest, self).setUp()
+        super().setUp()
 
         # Setup request and view.
         self.view = self.DummyOrganisationPersonsMixinView()
@@ -96,7 +96,7 @@ class PalvelutarjotinEventEnrolmentsMixinTest(TestCase):
         max_results = 10
 
     def setUp(self):
-        super(PalvelutarjotinEventEnrolmentsMixinTest, self).setUp()
+        super().setUp()
         # Setup request and view.
         self.view = self.DummyPalvelutarjotinEventEnrolmentCsvView()
 
@@ -223,7 +223,7 @@ class PalvelutarjotinEventEnrolmentsMixinTest(TestCase):
 @pytest.mark.usefixtures("mock_get_event_data")
 class OrganisationPersonsAdminViewTest(TestCase):
     def setUp(self):
-        super(OrganisationPersonsAdminViewTest, self).setUp()
+        super().setUp()
         # Setup request and view.
         self.view = OrganisationPersonsAdminView()
 
@@ -243,7 +243,7 @@ class OrganisationPersonsAdminViewTest(TestCase):
 @pytest.mark.usefixtures("mock_get_event_data")
 class PalvelutarjotinEventEnrolmentsAdminViewTest(TestCase):
     def setUp(self):
-        super(PalvelutarjotinEventEnrolmentsAdminViewTest, self).setUp()
+        super().setUp()
         # Setup request and view.
         self.view = PalvelutarjotinEventEnrolmentsAdminView()
 

@@ -62,7 +62,7 @@ class ExportReportViewMixin:
 
 class OrganisationPersonsMixin(ExportReportViewMixin):
     def get_queryset(self):
-        queryset = super(OrganisationPersonsMixin, self).get_queryset()
+        queryset = super().get_queryset()
         # TODO: Prefetching persons might just be enough.
         # It may be needless to filter persons without users.
         return queryset.prefetch_related(
@@ -168,13 +168,13 @@ class OrganisationPersonsAdminView(OrganisationPersonsMixin, ListView):
     context_object_name = "organisations"
 
     def get_context_data(self, **kwargs):
-        context = super(OrganisationPersonsAdminView, self).get_context_data(**kwargs)
+        context = super().get_context_data(**kwargs)
         context["opts"] = self.model._meta
         return context
 
     # @staff_member_required
     def get(self, request, *args, **kwargs):
-        return super(OrganisationPersonsAdminView, self).get(request, *args, **kwargs)
+        return super().get(request, *args, **kwargs)
 
 
 @method_decorator(staff_member_required, name="dispatch")
@@ -194,14 +194,10 @@ class PalvelutarjotinEventEnrolmentsAdminView(
         # Inform the user if not all the data was included
         self.message_max_result(request)
 
-        return super(PalvelutarjotinEventEnrolmentsAdminView, self).get(
-            request, *args, **kwargs
-        )
+        return super().get(request, *args, **kwargs)
 
     def get_context_data(self, **kwargs):
-        context = super(PalvelutarjotinEventEnrolmentsAdminView, self).get_context_data(
-            **kwargs
-        )
+        context = super().get_context_data(**kwargs)
         context["linked_events_root"] = settings.LINKED_EVENTS_API_CONFIG["ROOT"]
         context["total_children"] = sum(
             enrolment.study_group.group_size for enrolment in self.get_queryset()

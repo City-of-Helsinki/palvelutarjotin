@@ -30,7 +30,7 @@ class User(AbstractUser):
     # When creating an user, the name and the email can be left to blank.
     # In those cases, return username.
     def __str__(self):
-        display_name = super(User, self).__str__()
+        display_name = super().__str__()
         if not display_name:
             return self.username
         return display_name
@@ -69,7 +69,7 @@ class Organisation(models.Model):
         verbose_name_plural = _("organisations")
 
     def __str__(self):
-        return f"{self.id} {self.name}"
+        return f"{self.name} ({self.id})"
 
     def is_editable_by_user(self, user):
         return user.person.organisations.filter(id=self.id).exists()

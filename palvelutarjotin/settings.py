@@ -177,6 +177,7 @@ INSTALLED_APPS = [
     "django_ilmoitin",
     "django_filters",
     "axes",
+    "django_admin_listfilter_dropdown",
     # local apps under this line
     "utils",
     "organisations",
