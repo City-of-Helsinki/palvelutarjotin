@@ -69,7 +69,7 @@ class Organisation(models.Model):
         verbose_name_plural = _("organisations")
 
     def __str__(self):
-        return f"{self.id} {self.name}"
+        return f"{self.name} ({self.id})"
 
     def is_editable_by_user(self, user):
         return user.person.organisations.filter(id=self.id).exists()
