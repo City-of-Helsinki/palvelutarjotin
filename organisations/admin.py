@@ -104,6 +104,11 @@ class UserExistenceListFilter(admin.SimpleListFilter):
             return queryset.filter(user__isnull=True)
 
 
+class RelatedNameDropdownFilter(RelatedDropdownFilter):
+    def field_admin_ordering(self, field, request, model_admin):
+        return ["name"]
+
+
 class PersonAdminForm(forms.ModelForm):
     language = forms.ChoiceField(choices=settings.LANGUAGES)
 
@@ -140,7 +145,7 @@ class PersonAdmin(admin.ModelAdmin):
     list_filter = [
         "created_at",
         UserExistenceListFilter,
-        ("organisations", RelatedDropdownFilter),
+        ("organisations", RelatedNameDropdownFilter),
     ]
     search_fields = ["name", "email_address"]
     form = PersonAdminForm
