@@ -149,6 +149,30 @@ class PersonAdmin(admin.ModelAdmin):
     ]
     search_fields = ["name", "email_address"]
     form = PersonAdminForm
+    actions = (
+        "export_persons",
+        "export_persons_csv",
+    )
+
+    def export_persons(self, request, queryset):
+        selected = queryset.values_list("pk", flat=True)
+        return HttpResponseRedirect(
+            "%s?ids=%s"
+            % (
+                reverse("report_persons", current_app="reports"),
+                ",".join(str(pk) for pk in selected),
+            )
+        )
+
+    def export_persons_csv(self, request, queryset):
+        selected = queryset.values_list("pk", flat=True)
+        return HttpResponseRedirect(
+            "%s?ids=%s"
+            % (
+                reverse("report_persons_csv", current_app="reports"),
+                ",".join(str(pk) for pk in selected),
+            )
+        )
 
 
 class UserPersonInLine(admin.StackedInline):
