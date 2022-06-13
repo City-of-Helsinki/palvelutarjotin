@@ -1,0 +1,37 @@
+{% extends "admin/base.html" %}
+{% load i18n admin_urls %}
+
+{% block breadcrumbs %}
+<div class="breadcrumbs">
+    <a href="{% url 'admin:index' %}">{% trans 'Home' %}</a>
+    &rsaquo; <a href="{% url 'admin:app_list' app_label=opts.app_label %}">{{ opts.app_config.verbose_name }}</a>
+    &rsaquo; <a href="{% url opts|admin_urlname:'changelist' %}">{{opts.verbose_name_plural|capfirst }}</a>
+    &rsaquo; {% trans "Persons report"%}
+</div>
+{% endblock %}
+
+{% block content %}
+<table>
+    <caption>{% trans "Persons" %}</caption>
+    <thead>
+        <tr>
+            <th>{% trans "Name" %}</th>
+            <th>{% trans "Email" %}</th>
+            <th>{% trans "Phone" %}</th>
+            <th>{% trans "Organisations" %}</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for person in persons %}
+            
+            <tr>
+                <td>{{person.name}}</td>
+                <td>{{person.email}}</td>
+                <td>{{person.phone_number}}</td>
+                <td>{% for org in person.organisations.all %}{{org.name}}{% if not forloop.last %}, {% endif %}{% endfor %}</td>
+            </tr>
+            
+        {% endfor %}
+    </tbody>
+</table>
+{% endblock %}

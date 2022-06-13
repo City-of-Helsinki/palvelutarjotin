@@ -44,13 +44,19 @@ class ExportReportViewMixin:
         )
     """
 
+    def __convert_id_value(self, value):
+        try:
+            return int(value)
+        except ValueError:
+            return value
+
     def get_queryset(self):
         # Get URL parameter as a string, if exists
         ids = self.request.GET.get("ids", None)
         # Get organisations for ids if they exist
         if ids is not None:
             # Convert parameter string to list of integers
-            ids = [int(x) for x in ids.split(",")]
+            ids = [self.__convert_id_value(x) for x in ids.split(",")]
             # Get objects for all parameter ids
             queryset = self.model.objects.filter(pk__in=ids)
         else:
@@ -58,6 +64,18 @@ class ExportReportViewMixin:
             queryset = self.model.objects.all()
 
         return queryset
+
+
+class PersonsMixin(ExportReportViewMixin):
+    def get_queryset(self):
+        queryset = super().get_queryset()
+        # TODO: Prefetching persons might just be enough.
+        # It may be needless to filter persons without users.
+        return queryset.prefetch_related(
+            Prefetch(
+                "organisations", queryset=Organisation.objects.all().order_by("name"),
+            )
+        )
 
 
 class OrganisationPersonsMixin(ExportReportViewMixin):
@@ -155,6 +173,26 @@ class PalvelutarjotinEventEnrolmentsMixin(ExportReportViewMixin):
 """
 Admin views...
 """
+
+
+@method_decorator(staff_member_required, name="dispatch")
+class PersonsAdminView(PersonsMixin, ListView):
+    """
+    The admin view which renders a table of organisations persons.
+    """
+
+    model = Person
+    template_name = "reports/admin/persons.html"
+    context_object_name = "persons"
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["opts"] = self.model._meta
+        return context
+
+    # @staff_member_required
+    def get(self, request, *args, **kwargs):
+        return super().get(request, *args, **kwargs)
 
 
 @method_decorator(staff_member_required, name="dispatch")
@@ -272,6 +310,29 @@ class ExportReportCsvView(ExportReportViewMixin, APIView):
         for obj in queryset:
             writer.writerow([getattr(obj, field) for field in field_names])
 
+        return response
+
+
+class PersonsCsvView(PersonsMixin, ExportReportCsvView):
+    """
+    A csv of persons.
+    """
+
+    model = Person
+
+    def get(self, request, *args, **kwargs):
+        writer, response = self._create_csv_response_writer("kultus_persons")
+        writer.writerow([_("Name"), _("Email"), _("Phone"), _("Organisations")])
+        for person in self.get_queryset().order_by("name"):
+
+            writer.writerow(
+                [
+                    person.name,
+                    person.email_address,
+                    person.phone_number,
+                    ", ".join([o.name for o in person.organisations.all()]),
+                ]
+            )
         return response
 
 

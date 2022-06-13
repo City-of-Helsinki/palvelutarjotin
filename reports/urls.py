@@ -6,6 +6,8 @@ from reports.views import (
     OrganisationPersonsCsvView,
     PalvelutarjotinEventEnrolmentsAdminView,
     PalvelutarjotinEventEnrolmentsCsvView,
+    PersonsAdminView,
+    PersonsCsvView,
     sync_enrolment_reports_view,
 )
 
@@ -18,6 +20,7 @@ urlpatterns = [
 
 # Admin views
 urlpatterns += [
+    path("persons/", PersonsAdminView.as_view(), name="report_persons",),
     path(
         "organisation/persons/",
         OrganisationPersonsAdminView.as_view(),
@@ -46,6 +49,7 @@ urlpatterns += [
 
 # CSV views
 urlpatterns += [
+    path("persons/csv/", PersonsCsvView.as_view(), name="report_persons_csv",),
     path(
         "organisation/persons/csv/",
         OrganisationPersonsCsvView.as_view(),
