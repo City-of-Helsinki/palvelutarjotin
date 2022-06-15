@@ -1,6 +1,11 @@
 <!-- REMINDER: While updating changelog, also remember to update
 the version in palvelutarjotin/__init.py__ -->
 
+## [1.2.0] - 15 June 2022
+
+- Dropdown filter for organisations in the person admin view
+- Export features for persons in the person admin view
+
 ## [1.1.4] - 22 April 2022
 
 ### Fixed
