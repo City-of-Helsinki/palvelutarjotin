@@ -58,7 +58,3 @@ jobs:
           K8S_SECRET_DEBUG: 1
           K8S_SECRET_TOKEN_AUTH_AUTHSERVER_URL: "https://tunnistamo.test.kuva.hel.ninja/openid"
           K8S_SECRET_CORS_ORIGIN_ALLOW_ALL: 1
-          K8S_SECRET_ENABLE_GRAPHIQL: 1
-          K8S_SECRET_LINKED_EVENTS_API_ROOT: "https://api.hel.fi/linkedevents-test/v1/"
-          K8S_SECRET_LINKED_EVENTS_API_KEY: ${{ secrets.GH_QA_LINKED_EVENTS_API_KEY }}
-          K8S_SECRET_LINKED_EVENTS_DATA_SOURCE: "palvelutarjotin"
