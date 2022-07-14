@@ -14,7 +14,7 @@ export const options = {
 
 export default () => {
   const url = 'https://palvelutarjotin-api.test.kuva.hel.ninja/graphql';
-  const data = 'query=query Places {places(showAllPlaces: true){data{id}}}';
+  const data = 'query=query Organisations {organisations {edges {node {id } } } }';
   const res = http.post(url, data, {
     headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
   });
