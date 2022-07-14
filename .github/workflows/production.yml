@@ -15,10 +15,15 @@ env:
   SERVICE_ARTIFACT_FOLDER: 'service_artifacts'
   APP_MIGRATE_COMMAND: /app/.prod/on_deploy.sh
   K8S_REQUEST_CPU: 70m
-  K8S_REQUEST_RAM: 400Mi
-  K8S_LIMIT_CPU: 1000m
+  K8S_REQUEST_RAM: 700Mi
+  K8S_LIMIT_CPU: 500m
   K8S_LIMIT_RAM: 900Mi
-  K8S_REPLICACOUNT: 3
+  # horizontal pod autoscaler
+  K8S_HPA_ENABLED: true
+  K8S_HPA_MAX_REPLICAS: 6
+  K8S_HPA_MIN_REPLICAS: 2
+  K8S_HPA_MAX_CPU_AVG: 100 # 100% from request
+#  K8S_HPA_MAX_RAM_AVG: 80 # 80% from request
 
 jobs:
   build:
