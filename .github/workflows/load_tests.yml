@@ -1,11 +1,14 @@
 name: k6 Load Tests
+
+# Only trigger when the staging workflow succeeded
 on:
-#  schedule:
-#  # Mon-Fri 5AM Finnish time (UTC+3)
-#  - cron: '0 2 * * 1-5'
-  push:
-    branches:
-      - master
+  workflow_run:
+    workflows: ["Build & Staging"]
+    types:
+      - completed
+
+# allow only one run at a time
+concurrency: ${{ github.workflow }}
 
 jobs:
   k6_load_test:
