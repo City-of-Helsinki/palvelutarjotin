@@ -7,37 +7,37 @@ from snapshottest import Snapshot
 
 snapshots = Snapshot()
 
-snapshots['test_occurrence_enrolment_notifications_email_only 1'] = [
-    '''no-reply@hel.ninja|['tonyjimenez@yahoo.com']|Occurrence enrolment FI|
+snapshots["test_occurrence_enrolment_notifications_email_only 1"] = [
+    """no-reply@hel.ninja|['tonyjimenez@yahoo.com']|Occurrence enrolment FI|
     Event FI: Raija Malka & Kaija Saariaho: Blick
     Extra event info: xytHj
     Study group: Family around year off. Sense person the probably.
     Occurrence: 12.12.2013 06.37
     Person: tonyjimenez@yahoo.com
-''',
-    '''no-reply@hel.ninja|['tonyjimenez@yahoo.com']|Occurrence unenrolment FI|
+""",
+    """no-reply@hel.ninja|['tonyjimenez@yahoo.com']|Occurrence unenrolment FI|
     Event FI: Raija Malka & Kaija Saariaho: Blick
     Extra event info: xytHj
     Study group: Family around year off. Sense person the probably.
     Occurrence: 12.12.2013 06.57
     Person: tonyjimenez@yahoo.com
-''',
-    '''no-reply@hel.ninja|['tonyjimenez@yahoo.com']|Occurrence enrolment EN|
+""",
+    """no-reply@hel.ninja|['tonyjimenez@yahoo.com']|Occurrence enrolment EN|
     Event EN: Raija Malka & Kaija Saariaho: Blick
     Extra event info: xytHj
     Study group: Work early property your stage receive. Determine sort under car.
     Occurrence: 12.12.2013 06.37
-    Person: richardsanchez@yahoo.com''',
-    '''no-reply@hel.ninja|['tonyjimenez@yahoo.com']|Occurrence unenrolment EN|
+    Person: richardsanchez@yahoo.com""",
+    """no-reply@hel.ninja|['tonyjimenez@yahoo.com']|Occurrence unenrolment EN|
     Event EN: Raija Malka & Kaija Saariaho: Blick
     Extra event info: xytHj
     Study group: Work early property your stage receive. Determine sort under car.
     Occurrence: 12.12.2013 06.57
-    Person: richardsanchez@yahoo.com'''
+    Person: richardsanchez@yahoo.com""",
 ]
 
-snapshots['test_approve_enrolment_notification_email 1'] = [
-    '''no-reply@hel.ninja|['stephanieskinner@gmail.com']|Enrolment approved FI|
+snapshots["test_approve_enrolment_notification_email 1"] = [
+    """no-reply@hel.ninja|['stephanieskinner@gmail.com']|Enrolment approved FI|
     Event FI: Raija Malka & Kaija Saariaho: Blick
     Extra event info: dlvJG
     Study group: Age else myself yourself.
@@ -48,11 +48,11 @@ Range north skin watch.
     https://beta.kultus.fi/fi/enrolments/cancel/mock-enrolment-unique-id-abc123xyz456
 
     Custom message: custom message
-'''
+"""
 ]
 
-snapshots['test_cancel_enrolment_notification_email 1'] = [
-    '''no-reply@hel.ninja|['tonyjimenez@yahoo.com']|Enrolment cancellation confirmation FI|
+snapshots["test_cancel_enrolment_notification_email 1"] = [
+    """no-reply@hel.ninja|['tonyjimenez@yahoo.com']|Enrolment cancellation confirmation FI|
     Event FI: Raija Malka & Kaija Saariaho: Blick
     Extra event info: xytHj
     Study group: Family around year off. Sense person the probably.
@@ -60,11 +60,11 @@ snapshots['test_cancel_enrolment_notification_email 1'] = [
     Person: tonyjimenez@yahoo.com
 
     Custom message: custom message
-'''
+"""
 ]
 
-snapshots['test_cancelled_enrolment_notification_email 1'] = [
-    '''no-reply@hel.ninja|['email_me@dommain.com']|Enrolment cancelled FI|
+snapshots["test_cancelled_enrolment_notification_email 1"] = [
+    """no-reply@hel.ninja|['email_me@dommain.com']|Enrolment cancelled FI|
     Event FI: Raija Malka & Kaija Saariaho: Blick
     Extra event info: xytHj
     Study group: Challenge school rule wish book significant minute. Special far magazine.
@@ -72,40 +72,40 @@ snapshots['test_cancelled_enrolment_notification_email 1'] = [
     Person: email_me@dommain.com
 
     Custom message: custom message
-'''
+"""
 ]
 
-snapshots['test_occurrence_enrolment_notifications_to_contact_person 1'] = [
-    '''no-reply@hel.ninja|['email_me@dommain.com']|Occurrence enrolment FI|
+snapshots["test_occurrence_enrolment_notifications_to_contact_person 1"] = [
+    """no-reply@hel.ninja|['email_me@dommain.com']|Occurrence enrolment FI|
     Event FI: Raija Malka & Kaija Saariaho: Blick
     Extra event info: xytHj
     Study group: Family around year off. Sense person the probably.
     Occurrence: 12.12.2013 06.37
     Person: email_me@dommain.com
-''',
-    '''no-reply@hel.ninja|['email_me@dommain.com']|Occurrence unenrolment FI|
+""",
+    """no-reply@hel.ninja|['email_me@dommain.com']|Occurrence unenrolment FI|
     Event FI: Raija Malka & Kaija Saariaho: Blick
     Extra event info: xytHj
     Study group: Family around year off. Sense person the probably.
     Occurrence: 12.12.2013 06.57
     Person: email_me@dommain.com
-''',
-    '''no-reply@hel.ninja|['email_me@dommain.com']|Occurrence enrolment EN|
+""",
+    """no-reply@hel.ninja|['email_me@dommain.com']|Occurrence enrolment EN|
     Event EN: Raija Malka & Kaija Saariaho: Blick
     Extra event info: xytHj
     Study group: Key crime trial investment difference. Let join might player example environment.
     Occurrence: 12.12.2013 06.37
-    Person: do_not_email_me@domain.com''',
-    '''no-reply@hel.ninja|['email_me@dommain.com']|Occurrence unenrolment EN|
+    Person: do_not_email_me@domain.com""",
+    """no-reply@hel.ninja|['email_me@dommain.com']|Occurrence unenrolment EN|
     Event EN: Raija Malka & Kaija Saariaho: Blick
     Extra event info: xytHj
     Study group: Key crime trial investment difference. Let join might player example environment.
     Occurrence: 12.12.2013 06.57
-    Person: do_not_email_me@domain.com'''
+    Person: do_not_email_me@domain.com""",
 ]
 
-snapshots['test_cancel_occurrence_notification 1'] = [
-    '''no-reply@hel.ninja|['wlopez@dominguez-myers.net']|Occurrence cancelled FI|
+snapshots["test_cancel_occurrence_notification 1"] = [
+    """no-reply@hel.ninja|['wlopez@dominguez-myers.net']|Occurrence cancelled FI|
     Event FI: Raija Malka & Kaija Saariaho: Blick
     Extra event info: xytHj
     Study group: Pressure yes others.
@@ -114,8 +114,8 @@ Form you standard live. Responsibility dinner leg window old lawyer the say.
     Person: wlopez@dominguez-myers.net
 
     Custom message: Occurrence cancel reason
-''',
-    '''no-reply@hel.ninja|['troy79@hotmail.com']|Occurrence cancelled FI|
+""",
+    """no-reply@hel.ninja|['troy79@hotmail.com']|Occurrence cancelled FI|
     Event FI: Raija Malka & Kaija Saariaho: Blick
     Extra event info: xytHj
     Study group: A into hold project month. Line argue try unit.
@@ -123,8 +123,8 @@ Form you standard live. Responsibility dinner leg window old lawyer the say.
     Person: troy79@hotmail.com
 
     Custom message: Occurrence cancel reason
-''',
-    '''no-reply@hel.ninja|['richardsanchez@yahoo.com']|Occurrence cancelled FI|
+""",
+    """no-reply@hel.ninja|['richardsanchez@yahoo.com']|Occurrence cancelled FI|
     Event FI: Raija Malka & Kaija Saariaho: Blick
     Extra event info: xytHj
     Study group: Work early property your stage receive. Determine sort under car.
@@ -132,8 +132,8 @@ Form you standard live. Responsibility dinner leg window old lawyer the say.
     Person: richardsanchez@yahoo.com
 
     Custom message: Occurrence cancel reason
-''',
-    '''no-reply@hel.ninja|['tonyjimenez@yahoo.com']|Occurrence cancelled FI|
+""",
+    """no-reply@hel.ninja|['tonyjimenez@yahoo.com']|Occurrence cancelled FI|
     Event FI: Raija Malka & Kaija Saariaho: Blick
     Extra event info: xytHj
     Study group: Family around year off. Sense person the probably.
@@ -141,44 +141,44 @@ Form you standard live. Responsibility dinner leg window old lawyer the say.
     Person: tonyjimenez@yahoo.com
 
     Custom message: Occurrence cancel reason
-'''
+""",
 ]
 
-snapshots['test_local_time_notification[tz0] 1'] = [
-    '''no-reply@hel.ninja|['stephanieskinner@gmail.com']|Occurrence enrolment FI|
+snapshots["test_local_time_notification[tz0] 1"] = [
+    """no-reply@hel.ninja|['stephanieskinner@gmail.com']|Occurrence enrolment FI|
     Event FI: Raija Malka & Kaija Saariaho: Blick
     Extra event info: fvBni
     Study group: Age else myself yourself.
 Range north skin watch.
     Occurrence: 04.01.2020 00.00
     Person: stephanieskinner@gmail.com
-'''
+"""
 ]
 
-snapshots['test_local_time_notification[tz1] 1'] = [
-    '''no-reply@hel.ninja|['stephanieskinner@gmail.com']|Occurrence enrolment FI|
+snapshots["test_local_time_notification[tz1] 1"] = [
+    """no-reply@hel.ninja|['stephanieskinner@gmail.com']|Occurrence enrolment FI|
     Event FI: Raija Malka & Kaija Saariaho: Blick
     Extra event info: fvBni
     Study group: Age else myself yourself.
 Range north skin watch.
     Occurrence: 04.01.2020 00.00
     Person: stephanieskinner@gmail.com
-'''
+"""
 ]
 
-snapshots['test_local_time_notification[tz2] 1'] = [
-    '''no-reply@hel.ninja|['stephanieskinner@gmail.com']|Occurrence enrolment FI|
+snapshots["test_local_time_notification[tz2] 1"] = [
+    """no-reply@hel.ninja|['stephanieskinner@gmail.com']|Occurrence enrolment FI|
     Event FI: Raija Malka & Kaija Saariaho: Blick
     Extra event info: fvBni
     Study group: Age else myself yourself.
 Range north skin watch.
     Occurrence: 04.01.2020 00.00
     Person: stephanieskinner@gmail.com
-'''
+"""
 ]
 
-snapshots['test_only_send_approved_notification[True] 1'] = [
-    '''no-reply@hel.ninja|['stephanieskinner@gmail.com']|Enrolment approved FI|
+snapshots["test_only_send_approved_notification[True] 1"] = [
+    """no-reply@hel.ninja|['stephanieskinner@gmail.com']|Enrolment approved FI|
     Event FI: Raija Malka & Kaija Saariaho: Blick
     Extra event info: dlvJG
     Study group: Age else myself yourself.
@@ -186,19 +186,19 @@ Range north skin watch.
     Occurrence: 15.07.2008 03.29
     Person: stephanieskinner@gmail.com
 
-'''
+"""
 ]
 
-snapshots['test_only_send_approved_notification[False] 1'] = [
-    '''no-reply@hel.ninja|['stephanieskinner@gmail.com']|Occurrence enrolment FI|
+snapshots["test_only_send_approved_notification[False] 1"] = [
+    """no-reply@hel.ninja|['stephanieskinner@gmail.com']|Occurrence enrolment FI|
     Event FI: Raija Malka & Kaija Saariaho: Blick
     Extra event info: dlvJG
     Study group: Age else myself yourself.
 Range north skin watch.
     Occurrence: 15.07.2008 03.29
     Person: stephanieskinner@gmail.com
-''',
-    '''no-reply@hel.ninja|['stephanieskinner@gmail.com']|Enrolment approved FI|
+""",
+    """no-reply@hel.ninja|['stephanieskinner@gmail.com']|Enrolment approved FI|
     Event FI: Raija Malka & Kaija Saariaho: Blick
     Extra event info: dlvJG
     Study group: Age else myself yourself.
@@ -206,11 +206,11 @@ Range north skin watch.
     Occurrence: 15.07.2008 03.29
     Person: stephanieskinner@gmail.com
 
-'''
+""",
 ]
 
-snapshots['test_decline_enrolment_notification_email 1'] = [
-    '''no-reply@hel.ninja|['tonyjimenez@yahoo.com']|Enrolment declined FI|
+snapshots["test_decline_enrolment_notification_email 1"] = [
+    """no-reply@hel.ninja|['tonyjimenez@yahoo.com']|Enrolment declined FI|
     Event FI: Raija Malka & Kaija Saariaho: Blick
     Extra event info: xytHj
     Study group: Family around year off. Sense person the probably.
@@ -218,11 +218,11 @@ snapshots['test_decline_enrolment_notification_email 1'] = [
     Person: tonyjimenez@yahoo.com
 
     Custom message: custom message
-'''
+"""
 ]
 
-snapshots['test_decline_enrolment_notification_email_to_multiple_contact_person 1'] = [
-    '''no-reply@hel.ninja|['tonyjimenez@yahoo.com']|Enrolment declined FI|
+snapshots["test_decline_enrolment_notification_email_to_multiple_contact_person 1"] = [
+    """no-reply@hel.ninja|['tonyjimenez@yahoo.com']|Enrolment declined FI|
     Event FI: Raija Malka & Kaija Saariaho: Blick
     Extra event info: xytHj
     Study group: Family around year off. Sense person the probably.
@@ -230,11 +230,11 @@ snapshots['test_decline_enrolment_notification_email_to_multiple_contact_person 
     Person: tonyjimenez@yahoo.com
 
     Custom message: custom message
-'''
+"""
 ]
 
-snapshots['test_decline_enrolment_notification_email_to_multiple_contact_person 2'] = [
-    '''no-reply@hel.ninja|['tonyjimenez@yahoo.com']|Enrolment declined FI|
+snapshots["test_decline_enrolment_notification_email_to_multiple_contact_person 2"] = [
+    """no-reply@hel.ninja|['tonyjimenez@yahoo.com']|Enrolment declined FI|
     Event FI: Raija Malka & Kaija Saariaho: Blick
     Extra event info: xytHj
     Study group: Family around year off. Sense person the probably.
@@ -242,8 +242,8 @@ snapshots['test_decline_enrolment_notification_email_to_multiple_contact_person 
     Person: tonyjimenez@yahoo.com
 
     Custom message: custom message
-''',
-    '''no-reply@hel.ninja|['bradshawpaul@gmail.com']|Enrolment declined FI|
+""",
+    """no-reply@hel.ninja|['bradshawpaul@gmail.com']|Enrolment declined FI|
     Event FI: Raija Malka & Kaija Saariaho: Blick
     Extra event info: TDEBK
     Study group: Work early property your stage receive. Determine sort under car.
@@ -251,8 +251,8 @@ snapshots['test_decline_enrolment_notification_email_to_multiple_contact_person 
     Person: bradshawpaul@gmail.com
 
     Custom message: custom message
-''',
-    '''no-reply@hel.ninja|['richardsanchez@yahoo.com']|Enrolment declined FI|
+""",
+    """no-reply@hel.ninja|['richardsanchez@yahoo.com']|Enrolment declined FI|
     Event FI: Raija Malka & Kaija Saariaho: Blick
     Extra event info: TDEBK
     Study group: Work early property your stage receive. Determine sort under car.
@@ -260,11 +260,11 @@ snapshots['test_decline_enrolment_notification_email_to_multiple_contact_person 
     Person: richardsanchez@yahoo.com
 
     Custom message: custom message
-'''
+""",
 ]
 
-snapshots['test_mass_approve_enrolment_mutation 1'] = [
-    '''no-reply@hel.ninja|['barnettdiana@perry.com']|Enrolment approved FI|
+snapshots["test_mass_approve_enrolment_mutation 1"] = [
+    """no-reply@hel.ninja|['barnettdiana@perry.com']|Enrolment approved FI|
     Event FI: Raija Malka & Kaija Saariaho: Blick
     Extra event info: MTVcH
     Study group: Decade better attorney six. Shoulder decade address have. Serve me every traditional.
@@ -274,8 +274,8 @@ snapshots['test_mass_approve_enrolment_mutation 1'] = [
     https://beta.kultus.fi/fi/enrolments/cancel/mock-enrolment-unique-id-abc123xyz456
 
     Custom message: Custom message
-''',
-    '''no-reply@hel.ninja|['byrdbrandon@newton-miranda.info']|Enrolment approved FI|
+""",
+    """no-reply@hel.ninja|['byrdbrandon@newton-miranda.info']|Enrolment approved FI|
     Event FI: Raija Malka & Kaija Saariaho: Blick
     Extra event info: MTVcH
     Study group: Decade better attorney six. Shoulder decade address have. Serve me every traditional.
@@ -285,8 +285,8 @@ snapshots['test_mass_approve_enrolment_mutation 1'] = [
     https://beta.kultus.fi/fi/enrolments/cancel/mock-enrolment-unique-id-abc123xyz456
 
     Custom message: Custom message
-''',
-    '''no-reply@hel.ninja|['scott76@cameron-hansen.com']|Enrolment approved FI|
+""",
+    """no-reply@hel.ninja|['scott76@cameron-hansen.com']|Enrolment approved FI|
     Event FI: Raija Malka & Kaija Saariaho: Blick
     Extra event info: MTVcH
     Study group: Eat design give per kind history ahead. Herself consider fight us claim. Age feeling speech eye.
@@ -296,8 +296,8 @@ snapshots['test_mass_approve_enrolment_mutation 1'] = [
     https://beta.kultus.fi/fi/enrolments/cancel/mock-enrolment-unique-id-abc123xyz456
 
     Custom message: Custom message
-''',
-    '''no-reply@hel.ninja|['jensenjulia@hotmail.com']|Enrolment approved FI|
+""",
+    """no-reply@hel.ninja|['jensenjulia@hotmail.com']|Enrolment approved FI|
     Event FI: Raija Malka & Kaija Saariaho: Blick
     Extra event info: MTVcH
     Study group: Eat design give per kind history ahead. Herself consider fight us claim. Age feeling speech eye.
@@ -307,8 +307,8 @@ snapshots['test_mass_approve_enrolment_mutation 1'] = [
     https://beta.kultus.fi/fi/enrolments/cancel/mock-enrolment-unique-id-abc123xyz456
 
     Custom message: Custom message
-''',
-    '''no-reply@hel.ninja|['robert99@hotmail.com']|Enrolment approved FI|
+""",
+    """no-reply@hel.ninja|['robert99@hotmail.com']|Enrolment approved FI|
     Event FI: Raija Malka & Kaija Saariaho: Blick
     Extra event info: MTVcH
     Study group: Civil find learn follow. Tend practice other poor.
@@ -318,8 +318,8 @@ snapshots['test_mass_approve_enrolment_mutation 1'] = [
     https://beta.kultus.fi/fi/enrolments/cancel/mock-enrolment-unique-id-abc123xyz456
 
     Custom message: Custom message
-''',
-    '''no-reply@hel.ninja|['newmanmelinda@yahoo.com']|Enrolment approved FI|
+""",
+    """no-reply@hel.ninja|['newmanmelinda@yahoo.com']|Enrolment approved FI|
     Event FI: Raija Malka & Kaija Saariaho: Blick
     Extra event info: MTVcH
     Study group: Civil find learn follow. Tend practice other poor.
@@ -329,11 +329,11 @@ snapshots['test_mass_approve_enrolment_mutation 1'] = [
     https://beta.kultus.fi/fi/enrolments/cancel/mock-enrolment-unique-id-abc123xyz456
 
     Custom message: Custom message
-'''
+""",
 ]
 
-snapshots['test_send_enrolment_summary_report 1'] = [
-    '''no-reply@hel.ninja|['underwoodtracy@roach-cruz.biz']|Enrolment approved FI|
+snapshots["test_send_enrolment_summary_report 1"] = [
+    """no-reply@hel.ninja|['underwoodtracy@roach-cruz.biz']|Enrolment approved FI|
         Total pending enrolments: 4
         Total new accepted enrolments: 0
             Event name: Raija Malka & Kaija Saariaho: Blick
@@ -342,8 +342,8 @@ snapshots['test_send_enrolment_summary_report 1'] = [
                     Link to occurrence: https://provider.kultus.fi/fi/events/aAVEa/occurrences/T2NjdXJyZW5jZU5vZGU6MTE=
                     Occurrence: #2020-01-13 22:00:00+00:00 (1 pending)
                     Link to occurrence: https://provider.kultus.fi/fi/events/aAVEa/occurrences/T2NjdXJyZW5jZU5vZGU6MTI=
-        ''',
-    '''no-reply@hel.ninja|['marc09@blackburn.com']|Enrolment approved FI|
+        """,
+    """no-reply@hel.ninja|['marc09@blackburn.com']|Enrolment approved FI|
         Total pending enrolments: 3
         Total new accepted enrolments: 1
             Event name: Raija Malka & Kaija Saariaho: Blick
@@ -360,5 +360,5 @@ snapshots['test_send_enrolment_summary_report 1'] = [
             Event link: https://provider.kultus.fi/fi/events/HIraz
                     Occurrence: #2020-01-13 22:00:00+00:00 (1 new enrolments)
                     Link to occurrence: https://provider.kultus.fi/fi/events/HIraz/occurrences/T2NjdXJyZW5jZU5vZGU6NDE=
-        '''
+        """,
 ]
