@@ -4,32 +4,33 @@ from __future__ import unicode_literals
 
 from snapshottest import Snapshot
 
+
 snapshots = Snapshot()
 
 snapshots["test_occurrence_enrolment_notifications_email_only 1"] = [
     """no-reply@hel.ninja|['tonyjimenez@yahoo.com']|Occurrence enrolment FI|
     Event FI: Raija Malka & Kaija Saariaho: Blick
-    Extra event info: zVxeo
+    Extra event info: xytHj
     Study group: Family around year off. Sense person the probably.
     Occurrence: 12.12.2013 06.37
     Person: tonyjimenez@yahoo.com
 """,
     """no-reply@hel.ninja|['tonyjimenez@yahoo.com']|Occurrence unenrolment FI|
     Event FI: Raija Malka & Kaija Saariaho: Blick
-    Extra event info: zVxeo
+    Extra event info: xytHj
     Study group: Family around year off. Sense person the probably.
     Occurrence: 12.12.2013 06.57
     Person: tonyjimenez@yahoo.com
 """,
     """no-reply@hel.ninja|['tonyjimenez@yahoo.com']|Occurrence enrolment EN|
     Event EN: Raija Malka & Kaija Saariaho: Blick
-    Extra event info: zVxeo
+    Extra event info: xytHj
     Study group: Work early property your stage receive. Determine sort under car.
     Occurrence: 12.12.2013 06.37
     Person: richardsanchez@yahoo.com""",
     """no-reply@hel.ninja|['tonyjimenez@yahoo.com']|Occurrence unenrolment EN|
     Event EN: Raija Malka & Kaija Saariaho: Blick
-    Extra event info: zVxeo
+    Extra event info: xytHj
     Study group: Work early property your stage receive. Determine sort under car.
     Occurrence: 12.12.2013 06.57
     Person: richardsanchez@yahoo.com""",
@@ -53,7 +54,7 @@ Range north skin watch.
 snapshots["test_cancel_enrolment_notification_email 1"] = [
     """no-reply@hel.ninja|['tonyjimenez@yahoo.com']|Enrolment cancellation confirmation FI|
     Event FI: Raija Malka & Kaija Saariaho: Blick
-    Extra event info: zVxeo
+    Extra event info: xytHj
     Study group: Family around year off. Sense person the probably.
     Occurrence: 12.12.2013 06.37
     Person: tonyjimenez@yahoo.com
@@ -65,7 +66,7 @@ snapshots["test_cancel_enrolment_notification_email 1"] = [
 snapshots["test_cancelled_enrolment_notification_email 1"] = [
     """no-reply@hel.ninja|['email_me@dommain.com']|Enrolment cancelled FI|
     Event FI: Raija Malka & Kaija Saariaho: Blick
-    Extra event info: zVxeo
+    Extra event info: xytHj
     Study group: Challenge school rule wish book significant minute. Special far magazine.
     Occurrence: 12.12.2013 06.37
     Person: email_me@dommain.com
@@ -77,27 +78,27 @@ snapshots["test_cancelled_enrolment_notification_email 1"] = [
 snapshots["test_occurrence_enrolment_notifications_to_contact_person 1"] = [
     """no-reply@hel.ninja|['email_me@dommain.com']|Occurrence enrolment FI|
     Event FI: Raija Malka & Kaija Saariaho: Blick
-    Extra event info: zVxeo
+    Extra event info: xytHj
     Study group: Family around year off. Sense person the probably.
     Occurrence: 12.12.2013 06.37
     Person: email_me@dommain.com
 """,
     """no-reply@hel.ninja|['email_me@dommain.com']|Occurrence unenrolment FI|
     Event FI: Raija Malka & Kaija Saariaho: Blick
-    Extra event info: zVxeo
+    Extra event info: xytHj
     Study group: Family around year off. Sense person the probably.
     Occurrence: 12.12.2013 06.57
     Person: email_me@dommain.com
 """,
     """no-reply@hel.ninja|['email_me@dommain.com']|Occurrence enrolment EN|
     Event EN: Raija Malka & Kaija Saariaho: Blick
-    Extra event info: zVxeo
+    Extra event info: xytHj
     Study group: Key crime trial investment difference. Let join might player example environment.
     Occurrence: 12.12.2013 06.37
     Person: do_not_email_me@domain.com""",
     """no-reply@hel.ninja|['email_me@dommain.com']|Occurrence unenrolment EN|
     Event EN: Raija Malka & Kaija Saariaho: Blick
-    Extra event info: zVxeo
+    Extra event info: xytHj
     Study group: Key crime trial investment difference. Let join might player example environment.
     Occurrence: 12.12.2013 06.57
     Person: do_not_email_me@domain.com""",
@@ -106,7 +107,7 @@ snapshots["test_occurrence_enrolment_notifications_to_contact_person 1"] = [
 snapshots["test_cancel_occurrence_notification 1"] = [
     """no-reply@hel.ninja|['wlopez@dominguez-myers.net']|Occurrence cancelled FI|
     Event FI: Raija Malka & Kaija Saariaho: Blick
-    Extra event info: zVxeo
+    Extra event info: xytHj
     Study group: Pressure yes others.
 Form you standard live. Responsibility dinner leg window old lawyer the say.
     Occurrence: 12.12.2013 06.37
@@ -116,7 +117,7 @@ Form you standard live. Responsibility dinner leg window old lawyer the say.
 """,
     """no-reply@hel.ninja|['troy79@hotmail.com']|Occurrence cancelled FI|
     Event FI: Raija Malka & Kaija Saariaho: Blick
-    Extra event info: zVxeo
+    Extra event info: xytHj
     Study group: A into hold project month. Line argue try unit.
     Occurrence: 12.12.2013 06.37
     Person: troy79@hotmail.com
@@ -125,7 +126,7 @@ Form you standard live. Responsibility dinner leg window old lawyer the say.
 """,
     """no-reply@hel.ninja|['richardsanchez@yahoo.com']|Occurrence cancelled FI|
     Event FI: Raija Malka & Kaija Saariaho: Blick
-    Extra event info: zVxeo
+    Extra event info: xytHj
     Study group: Work early property your stage receive. Determine sort under car.
     Occurrence: 12.12.2013 06.37
     Person: richardsanchez@yahoo.com
@@ -134,7 +135,7 @@ Form you standard live. Responsibility dinner leg window old lawyer the say.
 """,
     """no-reply@hel.ninja|['tonyjimenez@yahoo.com']|Occurrence cancelled FI|
     Event FI: Raija Malka & Kaija Saariaho: Blick
-    Extra event info: zVxeo
+    Extra event info: xytHj
     Study group: Family around year off. Sense person the probably.
     Occurrence: 12.12.2013 06.37
     Person: tonyjimenez@yahoo.com
@@ -211,7 +212,7 @@ Range north skin watch.
 snapshots["test_decline_enrolment_notification_email 1"] = [
     """no-reply@hel.ninja|['tonyjimenez@yahoo.com']|Enrolment declined FI|
     Event FI: Raija Malka & Kaija Saariaho: Blick
-    Extra event info: zVxeo
+    Extra event info: xytHj
     Study group: Family around year off. Sense person the probably.
     Occurrence: 12.12.2013 06.37
     Person: tonyjimenez@yahoo.com
@@ -223,7 +224,7 @@ snapshots["test_decline_enrolment_notification_email 1"] = [
 snapshots["test_decline_enrolment_notification_email_to_multiple_contact_person 1"] = [
     """no-reply@hel.ninja|['tonyjimenez@yahoo.com']|Enrolment declined FI|
     Event FI: Raija Malka & Kaija Saariaho: Blick
-    Extra event info: zVxeo
+    Extra event info: xytHj
     Study group: Family around year off. Sense person the probably.
     Occurrence: 12.12.2013 06.37
     Person: tonyjimenez@yahoo.com
@@ -235,7 +236,7 @@ snapshots["test_decline_enrolment_notification_email_to_multiple_contact_person 
 snapshots["test_decline_enrolment_notification_email_to_multiple_contact_person 2"] = [
     """no-reply@hel.ninja|['tonyjimenez@yahoo.com']|Enrolment declined FI|
     Event FI: Raija Malka & Kaija Saariaho: Blick
-    Extra event info: zVxeo
+    Extra event info: xytHj
     Study group: Family around year off. Sense person the probably.
     Occurrence: 12.12.2013 06.37
     Person: tonyjimenez@yahoo.com

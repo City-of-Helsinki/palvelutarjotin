@@ -4,6 +4,7 @@ from __future__ import unicode_literals
 
 from snapshottest import Snapshot
 
+
 snapshots = Snapshot()
 
 snapshots["test_study_groups_query 1"] = {
@@ -65,19 +66,19 @@ snapshots["test_occurrences_query 1"] = {
                     "node": {
                         "amountOfSeats": 43,
                         "contactPersons": {"edges": []},
-                        "endTime": "2000-08-18T23:27:03+00:00",
+                        "endTime": "2022-08-12T15:02:52+00:00",
                         "maxGroupSize": 383,
                         "minGroupSize": 341,
                         "pEvent": {
                             "autoAcceptance": False,
-                            "contactEmail": "smithpaige@hotmail.com",
-                            "contactPhoneNumber": "+1-064-976-3803x4669",
-                            "enrolmentEndDays": 1,
-                            "enrolmentStart": "1971-08-19T21:08:32+00:00",
+                            "contactEmail": "bthomas@charles.com",
+                            "contactPhoneNumber": "+1-750-649-7638x0346",
+                            "enrolmentEndDays": 0,
+                            "enrolmentStart": "2019-09-22T21:52:37+00:00",
                             "externalEnrolmentUrl": None,
-                            "linkedEventId": "zVxeo",
+                            "linkedEventId": "xytHj",
                             "mandatoryAdditionalInformation": False,
-                            "neededOccurrences": 7,
+                            "neededOccurrences": 6,
                         },
                         "placeId": "Record card my. Sure sister return.",
                         "remainingSeats": 43,
@@ -98,7 +99,7 @@ snapshots["test_occurrence_query 1"] = {
         "occurrence": {
             "amountOfSeats": 43,
             "contactPersons": {"edges": []},
-            "endTime": "2000-08-18T23:27:03+00:00",
+            "endTime": "2022-08-12T15:02:52+00:00",
             "languages": {"edges": []},
             "linkedEvent": {
                 "name": {
@@ -111,14 +112,14 @@ snapshots["test_occurrence_query 1"] = {
             "minGroupSize": 341,
             "pEvent": {
                 "autoAcceptance": False,
-                "contactEmail": "smithpaige@hotmail.com",
-                "contactPhoneNumber": "+1-064-976-3803x4669",
-                "enrolmentEndDays": 1,
-                "enrolmentStart": "1971-08-19T21:08:32+00:00",
+                "contactEmail": "bthomas@charles.com",
+                "contactPhoneNumber": "+1-750-649-7638x0346",
+                "enrolmentEndDays": 0,
+                "enrolmentStart": "2019-09-22T21:52:37+00:00",
                 "externalEnrolmentUrl": None,
-                "linkedEventId": "zVxeo",
+                "linkedEventId": "xytHj",
                 "mandatoryAdditionalInformation": False,
-                "neededOccurrences": 7,
+                "neededOccurrences": 6,
             },
             "placeId": "Record card my. Sure sister return.",
             "remainingSeats": 43,
