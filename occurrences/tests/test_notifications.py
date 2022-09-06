@@ -1,11 +1,12 @@
-from datetime import datetime, timedelta
-from unittest.mock import patch
-
 import pytest
 import pytz
+from datetime import datetime, timedelta
 from django.core import mail
 from django.utils import timezone
 from graphql_relay import to_global_id
+from unittest.mock import patch
+
+from common.tests.utils import assert_mails_match_snapshot
 from occurrences.consts import NOTIFICATION_TYPE_ALL, NOTIFICATION_TYPE_SMS
 from occurrences.factories import (
     EnrolmentFactory,
@@ -16,8 +17,6 @@ from occurrences.factories import (
 from occurrences.models import Enrolment
 from occurrences.tests.test_api import MASS_APPROVE_ENROLMENTS_MUTATION
 from organisations.factories import PersonFactory
-
-from common.tests.utils import assert_mails_match_snapshot
 
 
 @pytest.mark.django_db
@@ -46,9 +45,15 @@ def test_occurrence_enrolment_notifications_email_only(
 
 
 @pytest.mark.django_db
+@pytest.mark.parametrize(
+    "sms_service_enabled",
+    [True, False],
+)
 @patch("occurrences.services.notification_service.send_sms")
 def test_occurrence_enrolment_notification_sms_only(
     mock_send_sms,
+    sms_service_enabled,
+    settings,
     snapshot,
     notification_sms_template_occurrence_enrolment_en,
     notification_sms_template_occurrence_enrolment_fi,
@@ -57,7 +62,9 @@ def test_occurrence_enrolment_notification_sms_only(
     mock_get_event_data,
     occurrence,
     study_group,
+    caplog,
 ):
+    settings.NOTIFICATION_SERVICE_SMS_ENABLED = sms_service_enabled
     EnrolmentFactory(
         study_group=study_group,
         occurrence=occurrence,
@@ -66,7 +73,12 @@ def test_occurrence_enrolment_notification_sms_only(
     )
     occurrence.study_groups.remove(study_group)
     assert len(mail.outbox) == 0
-    assert mock_send_sms.call_count == 2
+    if sms_service_enabled:
+        assert mock_send_sms.call_count == 2
+    else:
+        # The SMS are not sent if the service is disabled
+        assert mock_send_sms.call_count == 0
+        assert "Not sending SMS, because the service disabled." in caplog.text
 
 
 @pytest.mark.django_db
@@ -229,7 +241,8 @@ def test_cancel_occurrence_notification(
 
 
 @pytest.mark.parametrize(
-    "tz", [pytz.timezone("Europe/Helsinki"), pytz.utc, pytz.timezone("US/Eastern")],
+    "tz",
+    [pytz.timezone("Europe/Helsinki"), pytz.utc, pytz.timezone("US/Eastern")],
 )
 @pytest.mark.django_db
 def test_local_time_notification(
@@ -250,7 +263,8 @@ def test_local_time_notification(
 
 
 @pytest.mark.parametrize(
-    "auto_acceptance", [True, False],
+    "auto_acceptance",
+    [True, False],
 )
 @pytest.mark.django_db
 def test_only_send_approved_notification(
@@ -278,7 +292,9 @@ def test_only_send_approved_notification(
 
 @pytest.mark.django_db
 def test_send_enrolment_summary_report(
-    snapshot, mock_get_event_data, notification_template_enrolment_summary_report_fi,
+    snapshot,
+    mock_get_event_data,
+    notification_template_enrolment_summary_report_fi,
 ):
     date_in_future = datetime.now() + timedelta(days=10)
     p_event_1 = PalvelutarjotinEventFactory.create()

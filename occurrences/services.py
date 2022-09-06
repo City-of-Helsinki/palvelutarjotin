@@ -1,15 +1,14 @@
 import logging
-from typing import List, Union
-
-import occurrences.models as occurrences_models
 from django.conf import settings
 from django.db import models
 from django_ilmoitin.models import NotificationTemplate, NotificationTemplateException
 from django_ilmoitin.utils import render_notification_template, send_notification
+from typing import List, Union
+
+import occurrences.models as occurrences_models
+from common.notification_service import NotificationService
 from occurrences.consts import NOTIFICATION_TYPE_EMAIL, NOTIFICATION_TYPE_SMS
 from occurrences.consts import NotificationTemplate as NotificationTemplateConstants
-
-from common.notification_service import NotificationService
 
 notification_service = NotificationService(
     settings.NOTIFICATION_SERVICE_API_TOKEN, settings.NOTIFICATION_SERVICE_API_URL
@@ -124,23 +123,30 @@ def send_event_notifications_to_person(
             language=study_group.person.language,
             context=context,
         )
-    if NOTIFICATION_TYPE_SMS in notification_type and person.phone_number:
-        context = {
-            "person": person,
-            "occurrence": occurrence,
-            "study_group": study_group,
-            "preview_mode": False,
-            "trans": translation,
-            **kwargs,
-        }
-        destinations = [
-            person.phone_number,
-        ]
-        send_sms_notification(
-            destinations,
-            notification_sms_template_id,
-            context,
-            study_group.person.language,
+
+    if settings.NOTIFICATION_SERVICE_SMS_ENABLED:
+        if NOTIFICATION_TYPE_SMS in notification_type and person.phone_number:
+            context = {
+                "person": person,
+                "occurrence": occurrence,
+                "study_group": study_group,
+                "preview_mode": False,
+                "trans": translation,
+                **kwargs,
+            }
+            destinations = [
+                person.phone_number,
+            ]
+            send_sms_notification(
+                destinations,
+                notification_sms_template_id,
+                context,
+                study_group.person.language,
+            )
+    else:
+        logger.info(
+            "Not sending SMS, because the service disabled. "
+            "Enable it from the settings. NOTIFICATION_SERVICE_SMS_ENABLED=True"
         )
 
 
@@ -190,4 +196,4 @@ def send_sms_notification(
     )
     # TODO: Do we need to store the delivery log in Palvelutarjotin
     if resp.status_code != 200:
-        logger.warning(f"SMS message sent failed")
+        logger.warning("SMS message sent failed")
