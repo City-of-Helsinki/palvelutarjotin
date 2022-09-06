@@ -1,5 +1,6 @@
 import factory
 from django.contrib.auth import get_user_model
+
 from organisations.models import Organisation, OrganisationProposal, Person
 
 
@@ -46,7 +47,8 @@ class OrganisationFactory(factory.django.DjangoModelFactory):
     name = factory.Faker("company")
     phone_number = factory.Faker("phone_number")
     type = factory.Faker(
-        "random_element", elements=[t[0] for t in Organisation.ORGANISATION_TYPES],
+        "random_element",
+        elements=[t[0] for t in Organisation.ORGANISATION_TYPES],
     )
     publisher_id = factory.Faker("pystr", max_chars=5)
 

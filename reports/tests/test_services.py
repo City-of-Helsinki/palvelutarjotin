@@ -1,6 +1,7 @@
 import pytest
-import reports.services as report_services
 from freezegun import freeze_time
+
+import reports.services as report_services
 from occurrences.factories import EnrolmentFactory
 from occurrences.models import Enrolment
 from reports.factories import EnrolmentReportFactory
@@ -16,7 +17,7 @@ def test_sync_enrolment_reports_initializes_reports_table(mock_get_event_data):
 
 @pytest.mark.django_db
 def test_sync_enrolment_reports_makes_full_sync(mock_get_event_data):
-    """ it fully syncs (creates and updates) the enrolment report with enrolments"""
+    """it fully syncs (creates and updates) the enrolment report with enrolments"""
     with freeze_time("2020-01-01"):
         enrolments = EnrolmentFactory.create_batch(10, status=Enrolment.STATUS_PENDING)
         for e in enrolments:

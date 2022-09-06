@@ -1,7 +1,7 @@
-from datetime import timedelta
-
 import pytest
+from datetime import timedelta
 from django.utils import timezone
+
 from occurrences.factories import EnrolmentFactory
 from occurrences.models import Enrolment
 from verification_token.factories import EnrolmentVerificationTokenFactory
@@ -134,7 +134,9 @@ def test_verification_token_create_token_with_manager(mock_get_event_data):
 
 
 @pytest.mark.django_db
-def test_verification_token_deactivate_and_create_token(mock_get_event_data,):
+def test_verification_token_deactivate_and_create_token(
+    mock_get_event_data,
+):
     enrolment = EnrolmentFactory()
     person = enrolment.person
     token1 = VerificationToken.objects.create_token(

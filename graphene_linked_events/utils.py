@@ -2,13 +2,12 @@
 # -into-a-python-object/15882054#15882054
 import json
 from collections import namedtuple
-from typing import List
-
 from django.conf import settings
 from geopy import distance as geopy_distance
 from geopy import Point
-from graphene_linked_events.rest_client import LinkedEventsApiClient
+from typing import List
 
+from graphene_linked_events.rest_client import LinkedEventsApiClient
 from palvelutarjotin.exceptions import ApiBadRequestError, ObjectDoesNotExistError
 
 api_client = LinkedEventsApiClient(config=settings.LINKED_EVENTS_API_CONFIG)
@@ -63,7 +62,11 @@ def retrieve_linked_events_data(resource, resource_id, params=None, is_staff=Fal
 
 def get_keyword_set_by_id(keyword_set_id):
     params = {"include": "keywords"}
-    return retrieve_linked_events_data("keyword_set", keyword_set_id, params=params,)
+    return retrieve_linked_events_data(
+        "keyword_set",
+        keyword_set_id,
+        params=params,
+    )
 
 
 def bbox_for_coordinates(

@@ -1,8 +1,6 @@
 import logging
 import warnings
 from datetime import timedelta
-
-import occurrences.services as occurrences_services
 from django.conf import settings
 from django.contrib.contenttypes.fields import GenericRelation
 from django.db import models, transaction
@@ -10,8 +8,14 @@ from django.db.models import F, Q, Sum
 from django.utils import timezone
 from django.utils.timezone import localtime
 from django.utils.translation import gettext_lazy as _
-from graphene_linked_events.utils import retrieve_linked_events_data
 from graphql_relay import to_global_id
+from parler.models import TranslatedFields
+from requests.exceptions import HTTPError
+
+import occurrences.services as occurrences_services
+from common.models import TimestampedModel, TranslatableModel
+from common.utils import get_node_id_from_global_id
+from graphene_linked_events.utils import retrieve_linked_events_data
 from occurrences.consts import (
     NOTIFICATION_TYPE_EMAIL,
     NOTIFICATION_TYPES,
@@ -23,17 +27,12 @@ from occurrences.event_api_services import (
     send_event_republish,
     send_event_unpublish,
 )
-from parler.models import TranslatedFields
-from requests.exceptions import HTTPError
-from verification_token.models import VerificationToken
-
-from common.models import TimestampedModel, TranslatableModel
-from common.utils import get_node_id_from_global_id
 from palvelutarjotin.exceptions import (
     ApiUsageError,
     EnrolmentNotEnoughCapacityError,
     ObjectDoesNotExistError,
 )
+from verification_token.models import VerificationToken
 
 logger = logging.getLogger(__name__)
 
@@ -509,12 +508,14 @@ class EnrolmentQuerySet(models.QuerySet):
 
     def pending_enrolments_by_email(self, email: str):
         return self.filter(
-            occurrence__p_event__contact_email=email, status=Enrolment.STATUS_PENDING,
+            occurrence__p_event__contact_email=email,
+            status=Enrolment.STATUS_PENDING,
         )
 
     def approved_enrolments_by_email(self, email: str):
         return self.filter(
-            occurrence__p_event__contact_email=email, status=Enrolment.STATUS_APPROVED,
+            occurrence__p_event__contact_email=email,
+            status=Enrolment.STATUS_APPROVED,
         )
 
 
@@ -681,7 +682,7 @@ class Enrolment(models.Model):
         ].format(lang=language, unique_id=self.get_unique_id())
 
     def get_active_verification_tokens(self, verification_type=None):
-        """ Filter active verification tokens """
+        """Filter active verification tokens"""
 
         return VerificationToken.objects.filter_active_tokens(
             self, verification_type=verification_type, person=self.person
@@ -702,7 +703,7 @@ class Enrolment(models.Model):
                 )[0]
         except IndexError:
             logger.warning(
-                f"No cancellation token created when there should be one!"
+                "No cancellation token created when there should be one!"
                 + f" Enrolment id: {self.id}"
             )
             return ""

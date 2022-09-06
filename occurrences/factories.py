@@ -1,5 +1,6 @@
 import factory
 import pytz
+
 from occurrences.models import (
     Enrolment,
     Language,
@@ -23,7 +24,8 @@ class LanguageFactory(factory.django.DjangoModelFactory):
 class PalvelutarjotinEventFactory(factory.django.DjangoModelFactory):
     linked_event_id = factory.Faker("pystr", max_chars=5)
     enrolment_start = factory.Faker(
-        "date_time", tzinfo=pytz.timezone("Europe/Helsinki"),
+        "date_time",
+        tzinfo=pytz.timezone("Europe/Helsinki"),
     )
     enrolment_end_days = factory.Faker("random_int", max=2)
     needed_occurrences = factory.Faker("random_int", max=10)

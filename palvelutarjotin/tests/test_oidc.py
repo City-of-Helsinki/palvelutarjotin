@@ -1,10 +1,9 @@
 import datetime
-from unittest import mock
-
 import jwt
 from authlib.jose.rfc7519.claims import JWTClaims
 from django.test import TestCase
 from django.test.client import RequestFactory
+from unittest import mock
 
 from palvelutarjotin.oidc import GraphQLApiTokenAuthentication
 
@@ -65,7 +64,8 @@ class TestOIDC(TestCase):
             ),
         ):
             request = RequestFactory().get(
-                "/fake-path", HTTP_AUTHORIZATION="Bearer {}".format(self.encoded_jwt),
+                "/fake-path",
+                HTTP_AUTHORIZATION="Bearer {}".format(self.encoded_jwt),
             )
             user = self.auth_backend.authenticate(request)
             self.assertEqual(user.email, self.id_token_payload["email"])

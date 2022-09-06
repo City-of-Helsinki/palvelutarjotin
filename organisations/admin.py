@@ -9,6 +9,7 @@ from django.http import HttpResponseRedirect
 from django.urls import reverse
 from django.utils.translation import gettext as _
 from django_admin_listfilter_dropdown.filters import RelatedDropdownFilter
+
 from organisations.models import Organisation, OrganisationProposal, Person, User
 
 
@@ -267,7 +268,12 @@ class UserAdmin(DjangoUserAdmin):
         (
             _("Advanced permission settings"),
             {
-                "fields": ("is_admin", "is_superuser", "groups", "user_permissions",),
+                "fields": (
+                    "is_admin",
+                    "is_superuser",
+                    "groups",
+                    "user_permissions",
+                ),
                 "classes": ["collapse in"],
             },
         ),
@@ -279,7 +285,10 @@ class UserAdmin(DjangoUserAdmin):
             },
         ),
     )
-    list_display = DjangoUserAdmin.list_display + ("date_joined", "has_person",)
+    list_display = DjangoUserAdmin.list_display + (
+        "date_joined",
+        "has_person",
+    )
     list_filter = ("date_joined", "is_staff", "is_admin", "is_superuser", "is_active")
     readonly_fields = (
         "last_login",  # "last_login" is a nice to know, but shouldn't be editable

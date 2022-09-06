@@ -10,7 +10,10 @@ class Migration(migrations.Migration):
     ]
 
     operations = [
-        migrations.RemoveField(model_name="occurrence", name="auto_acceptance",),
+        migrations.RemoveField(
+            model_name="occurrence",
+            name="auto_acceptance",
+        ),
         migrations.AddField(
             model_name="palvelutarjotinevent",
             name="auto_acceptance",

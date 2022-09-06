@@ -26,7 +26,10 @@ class Migration(migrations.Migration):
                 ),
                 ("enrolment_time", models.DateTimeField(auto_now_add=True)),
             ],
-            options={"verbose_name": "enrolment", "verbose_name_plural": "enrolments",},
+            options={
+                "verbose_name": "enrolment",
+                "verbose_name_plural": "enrolments",
+            },
         ),
         migrations.CreateModel(
             name="Occurrence",

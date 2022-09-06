@@ -1,15 +1,22 @@
 import itertools
 import json
+import pytest
+import responses
 from copy import deepcopy
 from datetime import datetime, timedelta
+from django.utils import timezone
+from graphene.utils.str_converters import to_snake_case
+from graphql_relay import to_global_id
+from requests.models import HTTPError
 from typing import Optional
 from unittest.mock import patch
 
 import graphene_linked_events
-import pytest
-import responses
-from django.utils import timezone
-from graphene.utils.str_converters import to_snake_case
+from common.tests.utils import (
+    assert_match_error_code,
+    assert_permission_denied,
+    mocked_json_response,
+)
 from graphene_linked_events.rest_client import LinkedEventsApiClient
 from graphene_linked_events.schema import (
     api_client as graphene_linked_events_api_client,
@@ -23,17 +30,9 @@ from graphene_linked_events.tests.mock_data import (
 )
 from graphene_linked_events.tests.utils import MockResponse
 from graphene_linked_events.utils import retrieve_linked_events_data
-from graphql_relay import to_global_id
 from occurrences.event_api_services import update_event_to_linkedevents_api
 from occurrences.factories import OccurrenceFactory, PalvelutarjotinEventFactory
 from occurrences.models import PalvelutarjotinEvent
-from requests.models import HTTPError
-
-from common.tests.utils import (
-    assert_match_error_code,
-    assert_permission_denied,
-    mocked_json_response,
-)
 from palvelutarjotin.consts import API_USAGE_ERROR, DATA_VALIDATION_ERROR
 from palvelutarjotin.exceptions import ApiBadRequestError, ObjectDoesNotExistError
 
@@ -1833,7 +1832,7 @@ def test_nearby_events(
     """
     mocked_responses.add(
         responses.GET,
-        url=settings.LINKED_EVENTS_API_CONFIG["ROOT"] + f"event/",
+        url=settings.LINKED_EVENTS_API_CONFIG["ROOT"] + "event/",
         json=EVENTS_DATA,
     )
     linked_event_id = EVENTS_DATA["data"][0]["id"]
@@ -1842,7 +1841,8 @@ def test_nearby_events(
     )
 
     executed = api_client.execute(
-        GET_NEARBY_EVENTS_QUERY, variables={"placeId": "tprek:15417", "distance": 3.0},
+        GET_NEARBY_EVENTS_QUERY,
+        variables={"placeId": "tprek:15417", "distance": 3.0},
     )
 
     snapshot.assert_match(executed)
