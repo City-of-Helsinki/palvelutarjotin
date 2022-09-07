@@ -10,7 +10,7 @@ from graphene.utils.str_converters import to_snake_case
 from graphene_django import DjangoConnectionField, DjangoObjectType
 from graphene_django.filter import DjangoFilterConnectionField
 from graphql_jwt.decorators import staff_member_required
-from typing import List, Union
+from typing import List, Optional, Tuple, Union
 
 from common.utils import (
     get_editable_obj_from_global_id,
@@ -747,6 +747,7 @@ class EnrolOccurrenceMutation(graphene.relay.ClientIDMutation):
         study_group = _create_study_group(kwargs.pop("study_group"))
         contact_person_data = kwargs.pop("person", None)
         enrolments = []
+        notifiable_enrolments: List[Tuple[Enrolment, Optional[str]]] = []
         for occurrence_gid in occurrence_gids:
             occurrence_id = get_node_id_from_global_id(occurrence_gid, "OccurrenceNode")
             try:
@@ -766,11 +767,17 @@ class EnrolOccurrenceMutation(graphene.relay.ClientIDMutation):
             )
 
             if occurrence.p_event.auto_acceptance:
-                custom_message = enrolment.occurrence.p_event.safe_translation_getter(
+                custom_message: Optional[
+                    str
+                ] = enrolment.occurrence.p_event.safe_translation_getter(
                     "auto_acceptance_message", language_code=person.language
                 )
-                enrolment.approve(custom_message=custom_message)
+                enrolment.approve(send_notification=False)
+                notifiable_enrolments.append((enrolment, custom_message))
             enrolments.append(enrolment)
+
+        for enrolment, custom_message in notifiable_enrolments:
+            enrolment.send_approve_notification(custom_message=custom_message)
 
         return EnrolOccurrenceMutation(enrolments=enrolments)
 
@@ -889,10 +896,12 @@ class MassApproveEnrolmentsMutation(graphene.relay.ClientIDMutation):
     @staff_member_required
     @transaction.atomic
     def mutate_and_get_payload(cls, root, info, **kwargs):
-        enrolments = []
+        enrolments: List[Enrolment] = []
         custom_message = kwargs.pop("custom_message", None)
         for enrolment_global_id in kwargs["enrolment_ids"]:
-            e = get_editable_obj_from_global_id(info, enrolment_global_id, Enrolment)
+            e: Enrolment = get_editable_obj_from_global_id(
+                info, enrolment_global_id, Enrolment
+            )
             if e.occurrence.p_event.needed_occurrences > 1:
                 raise ApiUsageError(
                     "Cannot mass approve enrolment that requires more than 1 "

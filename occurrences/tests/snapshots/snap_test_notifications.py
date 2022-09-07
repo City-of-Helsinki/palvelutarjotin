@@ -262,7 +262,38 @@ snapshots["test_decline_enrolment_notification_email_to_multiple_contact_person 
 """,
 ]
 
-snapshots["test_mass_approve_enrolment_mutation 1"] = [
+snapshots["test_send_enrolment_summary_report 1"] = [
+    """no-reply@hel.ninja|['underwoodtracy@roach-cruz.biz']|Enrolment approved FI|
+        Total pending enrolments: 4
+        Total new accepted enrolments: 0
+            Event name: Raija Malka & Kaija Saariaho: Blick
+            Event link: https://provider.kultus.fi/fi/events/aAVEa
+                    Occurrence: #2020-01-13 22:00:00+00:00 (3 pending)
+                    Link to occurrence: https://provider.kultus.fi/fi/events/aAVEa/occurrences/T2NjdXJyZW5jZU5vZGU6MTE=
+                    Occurrence: #2020-01-13 22:00:00+00:00 (1 pending)
+                    Link to occurrence: https://provider.kultus.fi/fi/events/aAVEa/occurrences/T2NjdXJyZW5jZU5vZGU6MTI=
+        """,
+    """no-reply@hel.ninja|['marc09@blackburn.com']|Enrolment approved FI|
+        Total pending enrolments: 3
+        Total new accepted enrolments: 1
+            Event name: Raija Malka & Kaija Saariaho: Blick
+            Event link: https://provider.kultus.fi/fi/events/yJgqk
+                    Occurrence: #2020-01-13 22:00:00+00:00 (1 pending)
+                    Link to occurrence: https://provider.kultus.fi/fi/events/yJgqk/occurrences/T2NjdXJyZW5jZU5vZGU6MjE=
+                    Occurrence: #2020-01-13 22:00:00+00:00 (1 pending)
+                    Link to occurrence: https://provider.kultus.fi/fi/events/yJgqk/occurrences/T2NjdXJyZW5jZU5vZGU6MjI=
+            Event name: Raija Malka & Kaija Saariaho: Blick
+            Event link: https://provider.kultus.fi/fi/events/UQLhZ
+                    Occurrence: #2020-01-13 22:00:00+00:00 (1 pending)
+                    Link to occurrence: https://provider.kultus.fi/fi/events/UQLhZ/occurrences/T2NjdXJyZW5jZU5vZGU6MzE=
+            Event name: Raija Malka & Kaija Saariaho: Blick
+            Event link: https://provider.kultus.fi/fi/events/HIraz
+                    Occurrence: #2020-01-13 22:00:00+00:00 (1 new enrolments)
+                    Link to occurrence: https://provider.kultus.fi/fi/events/HIraz/occurrences/T2NjdXJyZW5jZU5vZGU6NDE=
+        """,
+]
+
+snapshots["test_mass_approve_enrolment_mutation[False] 1"] = [
     """no-reply@hel.ninja|['barnettdiana@perry.com']|Enrolment approved FI|
     Event FI: Raija Malka & Kaija Saariaho: Blick
     Extra event info: MTVcH
@@ -329,35 +360,4 @@ snapshots["test_mass_approve_enrolment_mutation 1"] = [
 
     Custom message: Custom message
 """,
-]
-
-snapshots["test_send_enrolment_summary_report 1"] = [
-    """no-reply@hel.ninja|['underwoodtracy@roach-cruz.biz']|Enrolment approved FI|
-        Total pending enrolments: 4
-        Total new accepted enrolments: 0
-            Event name: Raija Malka & Kaija Saariaho: Blick
-            Event link: https://provider.kultus.fi/fi/events/aAVEa
-                    Occurrence: #2020-01-13 22:00:00+00:00 (3 pending)
-                    Link to occurrence: https://provider.kultus.fi/fi/events/aAVEa/occurrences/T2NjdXJyZW5jZU5vZGU6MTE=
-                    Occurrence: #2020-01-13 22:00:00+00:00 (1 pending)
-                    Link to occurrence: https://provider.kultus.fi/fi/events/aAVEa/occurrences/T2NjdXJyZW5jZU5vZGU6MTI=
-        """,
-    """no-reply@hel.ninja|['marc09@blackburn.com']|Enrolment approved FI|
-        Total pending enrolments: 3
-        Total new accepted enrolments: 1
-            Event name: Raija Malka & Kaija Saariaho: Blick
-            Event link: https://provider.kultus.fi/fi/events/yJgqk
-                    Occurrence: #2020-01-13 22:00:00+00:00 (1 pending)
-                    Link to occurrence: https://provider.kultus.fi/fi/events/yJgqk/occurrences/T2NjdXJyZW5jZU5vZGU6MjE=
-                    Occurrence: #2020-01-13 22:00:00+00:00 (1 pending)
-                    Link to occurrence: https://provider.kultus.fi/fi/events/yJgqk/occurrences/T2NjdXJyZW5jZU5vZGU6MjI=
-            Event name: Raija Malka & Kaija Saariaho: Blick
-            Event link: https://provider.kultus.fi/fi/events/UQLhZ
-                    Occurrence: #2020-01-13 22:00:00+00:00 (1 pending)
-                    Link to occurrence: https://provider.kultus.fi/fi/events/UQLhZ/occurrences/T2NjdXJyZW5jZU5vZGU6MzE=
-            Event name: Raija Malka & Kaija Saariaho: Blick
-            Event link: https://provider.kultus.fi/fi/events/HIraz
-                    Occurrence: #2020-01-13 22:00:00+00:00 (1 new enrolments)
-                    Link to occurrence: https://provider.kultus.fi/fi/events/HIraz/occurrences/T2NjdXJyZW5jZU5vZGU6NDE=
-        """,
 ]

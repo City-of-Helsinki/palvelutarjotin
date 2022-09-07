@@ -11,6 +11,7 @@ from django.utils.translation import gettext_lazy as _
 from graphql_relay import to_global_id
 from parler.models import TranslatedFields
 from requests.exceptions import HTTPError
+from typing import Optional
 
 import occurrences.services as occurrences_services
 from common.models import TimestampedModel, TranslatableModel
@@ -604,7 +605,10 @@ class Enrolment(models.Model):
         occurrences_services.send_enrolment_summary_report_to_providers(enrolments)
 
     def send_event_notifications_to_contact_people(
-        self, notification_template_id, notification_template_id_sms, custom_message
+        self,
+        notification_template_id: NotificationTemplate,
+        notification_template_id_sms: NotificationTemplate,
+        custom_message: Optional[str] = None,
     ):
         contact_people = [self.person]
         if self.person != self.study_group.person:
@@ -622,19 +626,43 @@ class Enrolment(models.Model):
                 enrolment=self,
             )
 
-    def approve(self, custom_message=None):
+    def approve(self, send_notification=True, custom_message: Optional[str] = None):
+        """Set the enrolment status to approved.
+        In some cases e.g. in multi enrolment situations,
+        the approvance notification sending should be called separately.
+
+        Args:
+            send_notification (bool, optional): should a notification be sent
+            after approvance. Defaults to True.
+            custom_message (Optional[str], optional): should there be a custom message.
+            Defaults to None.
+
+        Raises:
+            EnrolmentNotEnoughCapacityError: Not enough space for the group
+        """
         if self.occurrence.seats_taken > self.occurrence.amount_of_seats:
             raise EnrolmentNotEnoughCapacityError(
                 "Not enough space for this study group"
             )
         self.set_status(self.STATUS_APPROVED)
+
+        # In some cases e.g. in multi enrolment situations,
+        # the approvance notification sending should be called separately.
+        if send_notification:
+            self.send_approve_notification(custom_message)
+
+    def send_approve_notification(self, custom_message: Optional[str] = None):
+        """Send the approvance notification. In some cases e.g. in multi enrolment situations,
+        the approvance notification sending should be called separated
+        from the actual approvance process.
+        """
         self.send_event_notifications_to_contact_people(
             NotificationTemplate.ENROLMENT_APPROVED,
             NotificationTemplate.ENROLMENT_APPROVED_SMS,
             custom_message=custom_message,
         )
 
-    def decline(self, custom_message=None):
+    def decline(self, custom_message: Optional[str] = None):
         self.set_status(self.STATUS_DECLINED)
         self.send_event_notifications_to_contact_people(
             NotificationTemplate.ENROLMENT_DECLINED,
@@ -642,14 +670,14 @@ class Enrolment(models.Model):
             custom_message=custom_message,
         )
 
-    def ask_cancel_confirmation(self, custom_message=None):
+    def ask_cancel_confirmation(self, custom_message: Optional[str] = None):
         self.send_event_notifications_to_contact_people(
             NotificationTemplate.ENROLMENT_CANCELLATION,
             NotificationTemplate.ENROLMENT_CANCELLATION_SMS,
             custom_message=custom_message,
         )
 
-    def cancel(self, custom_message=None):
+    def cancel(self, custom_message: Optional[str] = None):
         """
         Deactivate the used cancellation tokens and
         notify about successful cancellation.

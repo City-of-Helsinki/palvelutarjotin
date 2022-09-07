@@ -161,6 +161,28 @@ def notification_template_enrolment_approved_fi():
 
 
 @pytest.fixture
+def notification_sms_template_enrolment_approved_fi():
+    return create_notification_template_in_language(
+        NotificationTemplate.ENROLMENT_APPROVED_SMS,
+        "fi",
+        subject="Enrolment approved SMS FI",
+        body_text=NOTIFICATION_WITH_CUSTOM_MESSAGE_TEXT_FI,
+        body_html=NOTIFICATION_WITH_CUSTOM_MESSAGE_HTML_FI,
+    )
+
+
+@pytest.fixture
+def notification_sms_template_enrolment_approved_en():
+    return create_notification_template_in_language(
+        NotificationTemplate.ENROLMENT_APPROVED_SMS,
+        "en",
+        subject="Enrolment approved SMS EN",
+        body_text=NOTIFICATION_WITH_CUSTOM_MESSAGE_TEXT_EN,
+        body_html=NOTIFICATION_WITH_CUSTOM_MESSAGE_HTML_EN,
+    )
+
+
+@pytest.fixture
 def notification_template_enrolment_declined_en():
     return create_notification_template_in_language(
         NotificationTemplate.ENROLMENT_DECLINED,
