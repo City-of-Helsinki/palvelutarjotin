@@ -11,9 +11,14 @@ class Migration(migrations.Migration):
 
     operations = [
         migrations.RenameField(
-            model_name="enrolment", old_name="group", new_name="study_group",
+            model_name="enrolment",
+            old_name="group",
+            new_name="study_group",
         ),
-        migrations.RemoveField(model_name="occurrence", name="groups",),
+        migrations.RemoveField(
+            model_name="occurrence",
+            name="groups",
+        ),
         migrations.AddField(
             model_name="occurrence",
             name="amount_of_seats",

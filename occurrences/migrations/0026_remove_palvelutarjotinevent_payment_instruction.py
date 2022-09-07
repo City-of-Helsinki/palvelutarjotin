@@ -11,6 +11,7 @@ class Migration(migrations.Migration):
 
     operations = [
         migrations.RemoveField(
-            model_name="palvelutarjotinevent", name="payment_instruction",
+            model_name="palvelutarjotinevent",
+            name="payment_instruction",
         ),
     ]

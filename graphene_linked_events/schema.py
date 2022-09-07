@@ -1,8 +1,6 @@
 import json
 import logging
 import math
-from types import SimpleNamespace
-
 from django.conf import settings
 from django.core.exceptions import PermissionDenied
 from django.db import transaction
@@ -25,6 +23,15 @@ from graphene import (
     String,
 )
 from graphene_file_upload.scalars import Upload
+from graphql_jwt.decorators import staff_member_required
+from types import SimpleNamespace
+
+from common.utils import (
+    format_linked_event_datetime,
+    get_editable_obj_from_global_id,
+    get_obj_from_global_id,
+    update_object_with_translations,
+)
 from graphene_linked_events.utils import (
     api_client,
     bbox_for_coordinates,
@@ -34,27 +41,19 @@ from graphene_linked_events.utils import (
     json2obj,
     json_object_hook,
 )
-from graphql_jwt.decorators import staff_member_required
 from occurrences.event_api_services import (
     get_enrollable_event_time_range_from_occurrences,
     get_event_time_range_from_occurrences,
 )
 from occurrences.models import Occurrence, PalvelutarjotinEvent, VenueCustomData
 from organisations.models import Organisation, Person
-from reports.services import get_place_location_data
-
-from common.utils import (
-    format_linked_event_datetime,
-    get_editable_obj_from_global_id,
-    get_obj_from_global_id,
-    update_object_with_translations,
-)
 from palvelutarjotin.exceptions import (
     ApiUsageError,
     DataValidationError,
     ObjectDoesNotExistError,
     UploadImageSizeExceededError,
 )
+from reports.services import get_place_location_data
 
 logger = logging.getLogger(__name__)
 

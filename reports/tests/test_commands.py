@@ -1,8 +1,8 @@
-from unittest.mock import patch
-
 import pytest
 from django.core.management import call_command
 from django.test import TestCase
+from unittest.mock import patch
+
 from occurrences.event_api_services import fetch_event_as_json
 from occurrences.factories import EnrolmentFactory
 from reports.models import EnrolmentReport
@@ -17,7 +17,8 @@ class CommandsTestCase(TestCase):
         args = []
         opts = {}
         with patch(
-            "reports.services.fetch_event_as_json", wraps=fetch_event_as_json,
+            "reports.services.fetch_event_as_json",
+            wraps=fetch_event_as_json,
         ) as mock_fetch_event_as_json:
             call_command("sync_enrolment_reports", *args, **opts)
             assert EnrolmentReport.objects.count() == 1
@@ -39,7 +40,8 @@ class CommandsTestCase(TestCase):
         args = []
         opts = {"ignore_linkedevents": True}
         with patch(
-            "reports.services.fetch_event_as_json", wraps=fetch_event_as_json,
+            "reports.services.fetch_event_as_json",
+            wraps=fetch_event_as_json,
         ) as mock_fetch_event_as_json:
             call_command("sync_enrolment_reports", *args, **opts)
             assert EnrolmentReport.objects.count() == 1

@@ -1,4 +1,5 @@
 from django.core.management import BaseCommand
+
 from notification_importers.notification_importer import (
     NotificationFileImporter,
     NotificationImporterException,
@@ -10,7 +11,7 @@ class Command(BaseCommand):
     help = "Import notifications from template files."
 
     def handle(self, *args, **options):
-        self.stdout.write(f"Importing notifications from template files...")
+        self.stdout.write("Importing notifications from template files...")
 
         try:
             importer = NotificationFileImporter()

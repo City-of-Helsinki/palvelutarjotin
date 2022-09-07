@@ -3,6 +3,8 @@ from django.contrib.admin.filters import DateFieldListFilter
 from django.http import HttpResponseRedirect
 from django.urls import reverse
 from django.utils.translation import gettext as _
+from parler.admin import TranslatableAdmin
+
 from occurrences.models import (
     Enrolment,
     Occurrence,
@@ -11,7 +13,6 @@ from occurrences.models import (
     StudyLevel,
     VenueCustomData,
 )
-from parler.admin import TranslatableAdmin
 
 
 class OccurrenceInline(admin.TabularInline):

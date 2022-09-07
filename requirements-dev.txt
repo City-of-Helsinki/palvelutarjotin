@@ -36,13 +36,11 @@ decorator==4.4.0
     #   traitlets
 distlib==0.3.2
     # via virtualenv
-entrypoints==0.3
-    # via flake8
 fastdiff==0.2.0
     # via snapshottest
 filelock==3.0.12
     # via virtualenv
-flake8==3.7.8
+flake8==3.9.2
     # via -r requirements-dev.in
 freezegun==0.3.12
     # via -r requirements-dev.in
@@ -56,6 +54,7 @@ importlib-metadata==4.6.1
     # via
     #   -c requirements.txt
     #   click
+    #   flake8
     #   pluggy
     #   pre-commit
     #   pytest
@@ -64,7 +63,7 @@ ipython==7.8.0
     # via -r requirements-dev.in
 ipython-genutils==0.2.0
     # via traitlets
-isort==4.3.21
+isort==5.10.1
     # via -r requirements-dev.in
 jedi==0.15.1
     # via ipython
@@ -104,9 +103,9 @@ ptyprocess==0.6.0
     # via pexpect
 py==1.10.0
     # via pytest
-pycodestyle==2.5.0
+pycodestyle==2.7.0
     # via flake8
-pyflakes==2.1.1
+pyflakes==2.3.1
     # via flake8
 pygments==2.7.4
     # via ipython

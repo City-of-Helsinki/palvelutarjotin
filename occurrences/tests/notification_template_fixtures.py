@@ -1,7 +1,7 @@
 import pytest
-from occurrences.consts import NotificationTemplate
 
 from common.tests.utils import create_notification_template_in_language
+from occurrences.consts import NotificationTemplate
 
 DEFAULT_NOTIFICATION_BODY_TEXT_FI = """
     Event FI: {{ event.name.fi }}

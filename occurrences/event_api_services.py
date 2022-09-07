@@ -3,9 +3,8 @@ import logging
 from datetime import timedelta
 from typing import List, Optional, TYPE_CHECKING
 
-from graphene_linked_events.utils import api_client, format_response, json2obj
-
 from common.utils import format_linked_event_datetime
+from graphene_linked_events.utils import api_client, format_response, json2obj
 from palvelutarjotin.exceptions import ApiBadRequestError, ObjectDoesNotExistError
 
 if TYPE_CHECKING:

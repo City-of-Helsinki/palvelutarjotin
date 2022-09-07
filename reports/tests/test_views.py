@@ -1,7 +1,5 @@
-from datetime import datetime, timedelta
-from unittest import mock
-
 import pytest
+from datetime import datetime, timedelta
 from django.contrib.auth.models import Permission
 from django.contrib.contenttypes.models import ContentType
 from django.test import override_settings, TestCase
@@ -10,6 +8,11 @@ from django.utils import timezone
 from django.views.generic import TemplateView
 from freezegun import freeze_time
 from graphql_relay.node.node import to_global_id
+from parameterized import parameterized
+from rest_framework import status
+from rest_framework.test import APIClient
+from unittest import mock
+
 from occurrences.factories import (
     EnrolmentFactory,
     OccurrenceFactory,
@@ -19,7 +22,6 @@ from occurrences.factories import (
 from occurrences.models import Enrolment, PalvelutarjotinEvent
 from organisations.factories import OrganisationFactory, PersonFactory, UserFactory
 from organisations.models import Organisation
-from parameterized import parameterized
 from reports.factories import EnrolmentReportFactory
 from reports.models import EnrolmentReport
 from reports.views import (
@@ -30,8 +32,6 @@ from reports.views import (
     PalvelutarjotinEventEnrolmentsAdminView,
     PalvelutarjotinEventEnrolmentsMixin,
 )
-from rest_framework import status
-from rest_framework.test import APIClient
 
 
 class ExportReportViewMixinTest(TestCase):
@@ -465,6 +465,6 @@ class EnrolmentReportListViewTest(TestCase):
             EnrolmentReportFactory()
         self._authenticate()
         response = self._goto_reports(
-            f"?created_at__gte=2020-01-02&created_at__lte=2020-01-03"
+            "?created_at__gte=2020-01-02&created_at__lte=2020-01-03"
         )
         len(response.json()) == 2

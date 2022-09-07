@@ -11,5 +11,8 @@ class Migration(migrations.Migration):
 
     operations = [
         # The old study_level field cannot be removed until data migration is done!
-        migrations.RemoveField(model_name="studygroup", name="study_level",),
+        migrations.RemoveField(
+            model_name="studygroup",
+            name="study_level",
+        ),
     ]

@@ -1,12 +1,11 @@
-from copy import deepcopy
-
 import pytest
+from copy import deepcopy
 from django.core import mail
 from graphql_relay import to_global_id
-from organisations.factories import OrganisationFactory, PersonFactory, UserFactory
-from organisations.models import Organisation
 
 from common.tests.utils import assert_match_error_code, assert_permission_denied
+from organisations.factories import OrganisationFactory, PersonFactory, UserFactory
+from organisations.models import Organisation
 from palvelutarjotin.consts import (
     API_USAGE_ERROR,
     INVALID_EMAIL_FORMAT_ERROR,

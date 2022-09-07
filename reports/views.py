@@ -1,7 +1,6 @@
 import csv
 import datetime
 import logging
-
 from django.conf import settings
 from django.contrib import messages
 from django.contrib.admin.views.decorators import staff_member_required
@@ -14,18 +13,18 @@ from django.utils.decorators import method_decorator
 from django.utils.translation import gettext as _
 from django.views.decorators.http import require_http_methods
 from django.views.generic import ListView
-from occurrences.models import Enrolment, PalvelutarjotinEvent
-from organisations.models import Organisation, Person
-from reports.models import EnrolmentReport
-from reports.serializers import EnrolmentReportSerializer
-from reports.services import sync_enrolment_reports
 from rest_framework import generics
 from rest_framework.authentication import SessionAuthentication
 from rest_framework.permissions import DjangoModelPermissions, IsAdminUser
 from rest_framework.views import APIView
 
 from common.utils import get_node_id_from_global_id
+from occurrences.models import Enrolment, PalvelutarjotinEvent
+from organisations.models import Organisation, Person
 from palvelutarjotin.oidc import KultusApiTokenAuthentication
+from reports.models import EnrolmentReport
+from reports.serializers import EnrolmentReportSerializer
+from reports.services import sync_enrolment_reports
 
 logger = logging.getLogger(__name__)
 
@@ -73,7 +72,8 @@ class PersonsMixin(ExportReportViewMixin):
         # It may be needless to filter persons without users.
         return queryset.prefetch_related(
             Prefetch(
-                "organisations", queryset=Organisation.objects.all().order_by("name"),
+                "organisations",
+                queryset=Organisation.objects.all().order_by("name"),
             )
         )
 

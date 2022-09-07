@@ -1,17 +1,16 @@
 import logging
 from datetime import datetime
-from typing import Optional
-
-import occurrences.models as occurrences_models
-import reports.services as reports_services
 from django.contrib.postgres.fields import ArrayField
 from django.db import models
 from django.utils.translation import ugettext_lazy as _
 from geopy import distance
+from typing import Optional
+
+import occurrences.models as occurrences_models
+import reports.services as reports_services
+from common.models import TimestampedModel
 from reports.exceptions import EnrolmentReportCouldNotHydrateLinkedEventsData
 from reports.utils import get_event_keywords, get_event_provider
-
-from common.models import TimestampedModel
 
 logger = logging.getLogger(__name__)
 
@@ -324,7 +323,8 @@ class EnrolmentReport(TimestampedModel):
 
     @enrolment.setter
     def enrolment(
-        self, obj: occurrences_models.Enrolment,
+        self,
+        obj: occurrences_models.Enrolment,
     ):
         self._enrolment = obj
         self.enrolment_time = obj.enrolment_time

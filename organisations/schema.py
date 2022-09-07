@@ -8,9 +8,9 @@ from graphene_django import DjangoConnectionField
 from graphene_django.filter import DjangoFilterConnectionField
 from graphene_django.types import DjangoObjectType
 from graphql_jwt.decorators import login_required, superuser_required
-from organisations.models import Organisation, OrganisationProposal, Person
 
 from common.utils import get_node_id_from_global_id, LanguageEnum, update_object
+from organisations.models import Organisation, OrganisationProposal, Person
 from palvelutarjotin.exceptions import (
     ApiUsageError,
     InvalidEmailFormatError,

@@ -1,6 +1,4 @@
 from datetime import timedelta
-from secrets import token_urlsafe
-
 from django.conf import settings
 from django.contrib.contenttypes.fields import GenericForeignKey
 from django.contrib.contenttypes.models import ContentType
@@ -8,6 +6,8 @@ from django.db import models
 from django.db.models import Q
 from django.utils import timezone
 from django.utils.translation import gettext_lazy as _
+from secrets import token_urlsafe
+
 from organisations.models import Person
 
 
@@ -136,11 +136,11 @@ class VerificationToken(models.Model):
 
     @classmethod
     def generate_key(cls):
-        """ Generates a new key for a verification token. """
+        """Generates a new key for a verification token."""
         return token_urlsafe(getattr(settings, "VERIFICATION_TOKEN_LENGTH", 32))
 
     def is_valid(self):
-        """ Validates token state. """
+        """Validates token state."""
         return bool(
             self.is_active
             and self.key
