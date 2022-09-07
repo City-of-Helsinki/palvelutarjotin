@@ -403,23 +403,35 @@ def test_decline_enrolment_notification_email_to_multiple_contact_person(
     assert_mails_match_snapshot(snapshot)
 
 
+@pytest.mark.parametrize(
+    "full_event",
+    [True, False],
+)
 @pytest.mark.django_db
+@patch("occurrences.services.notification_service.send_sms")
 def test_mass_approve_enrolment_mutation(
+    mock_send_sms,
+    full_event,
     snapshot,
     staff_api_client,
     mock_get_event_data,
     mock_enrolment_unique_id,
     notification_template_enrolment_approved_en,
     notification_template_enrolment_approved_fi,
+    notification_sms_template_enrolment_approved_en,
+    notification_sms_template_enrolment_approved_fi,
 ):
     occurrence = OccurrenceFactory(
         p_event__needed_occurrences=1,
         p_event__auto_acceptance=False,
-        amount_of_seats=100,
+        amount_of_seats=20 if full_event else 100,
     )
-    enrolment_1 = EnrolmentFactory(occurrence=occurrence, study_group__group_size=10)
-    enrolment_2 = EnrolmentFactory(occurrence=occurrence, study_group__group_size=10)
-    enrolment_3 = EnrolmentFactory(occurrence=occurrence, study_group__group_size=10)
+    enrolment_1, enrolment_2, enrolment_3 = EnrolmentFactory.create_batch(
+        3,
+        occurrence=occurrence,
+        study_group__group_size=10,
+        notification_type=NOTIFICATION_TYPE_ALL,
+    )
     staff_api_client.user.person.organisations.add(occurrence.p_event.organisation)
     staff_api_client.execute(
         MASS_APPROVE_ENROLMENTS_MUTATION,
@@ -437,5 +449,10 @@ def test_mass_approve_enrolment_mutation(
 
     # Two people got email for each enrolment
     # (study group contact person & enrolment teacher)
-    assert len(mail.outbox) == 6
-    assert_mails_match_snapshot(snapshot)
+    if full_event:
+        assert mock_send_sms.call_count == 0
+        assert len(mail.outbox) == 0
+    else:
+        assert mock_send_sms.call_count == 6
+        assert len(mail.outbox) == 6
+        assert_mails_match_snapshot(snapshot)
