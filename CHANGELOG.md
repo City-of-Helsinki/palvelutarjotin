@@ -1,6 +1,11 @@
 <!-- REMINDER: While updating changelog, also remember to update
 the version in palvelutarjotin/__init.py__ -->
 
+## [1.3.0] - 7 September 2022
+
+- SMS-service can be configured off
+- On multi occurrence enrolment, the related notifications are sent after all the enrolments are validated and saved
+
 ## [1.2.0] - 15 June 2022
 
 - Dropdown filter for organisations in the person admin view
