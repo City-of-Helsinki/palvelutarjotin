@@ -1,8 +1,7 @@
-import os
-import subprocess
-
 import environ
+import os
 import sentry_sdk
+import subprocess
 from django.utils.translation import gettext_lazy as _
 from sentry_sdk.integrations.django import DjangoIntegration
 
@@ -62,6 +61,7 @@ env = environ.Env(
     LINKED_EVENTS_API_KEY=(str, ""),
     LINKED_EVENTS_DATA_SOURCE=(str, "palvelutarjotin"),
     SERVICEMAP_API_ROOT=(str, "https://api.hel.fi/servicemap/v2/unit/"),
+    NOTIFICATION_SERVICE_SMS_ENABLED=(bool, True),
     NOTIFICATION_SERVICE_API_TOKEN=(str, ""),
     NOTIFICATION_SERVICE_API_URL=(str, "https://notification-service.hel.fi/v1/"),
     CAPTCHA_ENABLED=(bool, False),
@@ -99,6 +99,7 @@ if env.str("DEFAULT_FROM_EMAIL"):
 if env.str("DEFAULT_SMS_SENDER"):
     DEFAULT_SMS_SENDER = env.str("DEFAULT_SMS_SENDER")
 
+NOTIFICATION_SERVICE_SMS_ENABLED = env.bool("NOTIFICATION_SERVICE_SMS_ENABLED")
 NOTIFICATION_SERVICE_API_TOKEN = env.str("NOTIFICATION_SERVICE_API_TOKEN")
 NOTIFICATION_SERVICE_API_URL = env.str("NOTIFICATION_SERVICE_API_URL")
 
