@@ -1,12 +1,11 @@
+import pytest
 from unittest.mock import patch
 
-import pytest
+from common.tests.utils import mocked_json_response
 from graphene_linked_events.utils import api_client
 from occurrences.factories import LanguageFactory, OccurrenceFactory
 from occurrences.models import Occurrence
 from occurrences.signals import update_event_languages_on_occurrence_delete
-
-from common.tests.utils import mocked_json_response
 from palvelutarjotin.exceptions import ApiBadRequestError, ObjectDoesNotExistError
 
 

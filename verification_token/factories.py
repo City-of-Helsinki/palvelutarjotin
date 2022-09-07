@@ -1,6 +1,7 @@
 import factory.django
 import pytz
 from django.contrib.contenttypes.models import ContentType
+
 from occurrences.factories import EnrolmentFactory
 from organisations.factories import PersonFactory
 

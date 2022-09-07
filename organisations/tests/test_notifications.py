@@ -1,14 +1,14 @@
 import pytest
 from django.contrib.auth import get_user_model
 from django.core import mail
+
+from common.tests.utils import assert_mails_match_snapshot
 from organisations.factories import (
     OrganisationFactory,
     OrganisationProposalFactory,
     PersonFactory,
     UserFactory,
 )
-
-from common.tests.utils import assert_mails_match_snapshot
 
 
 @pytest.mark.django_db

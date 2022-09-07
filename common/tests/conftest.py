@@ -1,13 +1,14 @@
-from unittest.mock import patch
-
 import factory.random
-import occurrences.signals
 import pytest
 import responses
 from django.contrib.auth.models import AnonymousUser
 from django.test import RequestFactory
 from freezegun import freeze_time
 from graphene.test import Client
+from unittest.mock import patch
+
+import occurrences.signals
+from common.tests.json_fixtures import *  # noqa
 from occurrences.factories import (
     EnrolmentFactory,
     LanguageFactory,
@@ -20,11 +21,9 @@ from occurrences.models import Enrolment
 from occurrences.tests.notification_template_fixtures import *  # noqa
 from organisations.factories import OrganisationFactory, PersonFactory, UserFactory
 from organisations.tests.notification_template_fixtures import *  # noqa
-from verification_token.factories import EnrolmentVerificationTokenFactory
-
-from common.tests.json_fixtures import *  # noqa
 from palvelutarjotin.schema import schema
 from palvelutarjotin.views import SentryGraphQLView
+from verification_token.factories import EnrolmentVerificationTokenFactory
 
 
 @pytest.fixture(autouse=True)

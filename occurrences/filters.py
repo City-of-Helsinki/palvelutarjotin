@@ -1,12 +1,11 @@
-from datetime import timedelta
-
 import django_filters
+from datetime import timedelta
 from django.db.models import F
 from django.db.models.functions import Coalesce
 from django.utils import timezone
-from occurrences.models import Occurrence
 
 from common.utils import convert_to_localtime_tz
+from occurrences.models import Occurrence
 
 
 class OccurrenceFilter(django_filters.FilterSet):

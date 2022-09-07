@@ -1,8 +1,10 @@
+import pytest
 from datetime import timedelta
+from django.utils import timezone
 from unittest.mock import patch
 
-import pytest
-from django.utils import timezone
+from common.tests.utils import mocked_json_response
+from common.utils import format_linked_event_datetime
 from occurrences.event_api_services import api_client as le_api_client
 from occurrences.event_api_services import (
     get_enrollable_event_time_range_from_occurrences,
@@ -11,9 +13,6 @@ from occurrences.event_api_services import (
     send_event_unpublish,
 )
 from occurrences.factories import OccurrenceFactory, PalvelutarjotinEventFactory
-
-from common.tests.utils import mocked_json_response
-from common.utils import format_linked_event_datetime
 from palvelutarjotin.exceptions import ApiBadRequestError, ObjectDoesNotExistError
 
 

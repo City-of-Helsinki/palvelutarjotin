@@ -1,5 +1,6 @@
 from django.db import migrations
 from django.utils import translation
+
 from occurrences.consts import StudyGroupStudyLevels
 from occurrences.models import StudyLevel
 

@@ -1,4 +1,5 @@
 from django.core.management import BaseCommand
+
 from notification_importers.notification_importer import (
     NotificationGoogleSheetImporter,
     NotificationImporterException,
@@ -10,7 +11,7 @@ class Command(BaseCommand):
     help = "Import notifications from Google Sheets."
 
     def handle(self, *args, **options):
-        self.stdout.write(f"Importing notifications from Google Sheets...")
+        self.stdout.write("Importing notifications from Google Sheets...")
 
         try:
             importer = NotificationGoogleSheetImporter()

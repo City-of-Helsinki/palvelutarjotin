@@ -1,15 +1,14 @@
 import logging
-
 from anymail.signals import pre_send
 from django.core.exceptions import ObjectDoesNotExist
 from django.db import transaction
 from django.db.models.signals import m2m_changed, post_delete, post_save
 from django.dispatch import receiver
+
 from occurrences.consts import NotificationTemplate
 from occurrences.event_api_services import send_event_languages_update
 from occurrences.models import Enrolment, Occurrence
 from occurrences.services import send_event_notifications_to_person
-
 from palvelutarjotin.exceptions import ObjectDoesNotExistError
 
 logger = logging.getLogger(__name__)
