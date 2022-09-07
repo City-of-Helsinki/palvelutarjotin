@@ -1,5 +1,4 @@
 import logging
-
 from django import forms
 from django.contrib import admin, messages
 from django.db.models import F
@@ -7,6 +6,7 @@ from django.http import HttpResponseRedirect
 from django.urls import reverse
 from django.utils.translation import gettext as _
 from django.utils.translation import ngettext_lazy
+
 from occurrences.models import Language, StudyLevel
 from reports.exceptions import EnrolmentReportCouldNotHydrateLinkedEventsData
 from reports.models import EnrolmentReport

@@ -11,7 +11,8 @@ class Migration(migrations.Migration):
 
     operations = [
         migrations.RemoveConstraint(
-            model_name="enrolment", name="unq_group_occurrence",
+            model_name="enrolment",
+            name="unq_group_occurrence",
         ),
         migrations.AddConstraint(
             model_name="enrolment",

@@ -1,4 +1,5 @@
 import graphene
+
 from servicemap.utils import api_client, get_params_from_url, json2obj, json_object_hook
 
 
@@ -24,7 +25,8 @@ class Query:
         return [
             {
                 "id": "{data_source}:{place_id}".format(
-                    data_source=api_client.DATA_SOURCE, place_id=unit.id,
+                    data_source=api_client.DATA_SOURCE,
+                    place_id=unit.id,
                 ),
                 "name": {
                     "en": getattr(unit.name, "en", unit.name.fi).capitalize(),

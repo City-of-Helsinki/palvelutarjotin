@@ -59,7 +59,10 @@ class Migration(migrations.Migration):
                 "verbose_name_plural": "palvelutarjotin events",
             },
         ),
-        migrations.RemoveField(model_name="occurrence", name="linked_event_id",),
+        migrations.RemoveField(
+            model_name="occurrence",
+            name="linked_event_id",
+        ),
         migrations.AddField(
             model_name="occurrence",
             name="place_id",

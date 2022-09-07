@@ -1,5 +1,6 @@
 import pytest
 import requests
+
 from graphene_linked_events.rest_client import LinkedEventsApiClient
 from graphene_linked_events.tests.mock_data import (
     CREATED_EVENT_DATA,
@@ -52,11 +53,15 @@ def mock_get_event_data(monkeypatch):
     when the event is published
     """
     monkeypatch.setattr(
-        LinkedEventsApiClient, "retrieve", _get_mock_function(EVENT_DATA),
+        LinkedEventsApiClient,
+        "retrieve",
+        _get_mock_function(EVENT_DATA),
     )
     # Mock the published event update
     monkeypatch.setattr(
-        LinkedEventsApiClient, "update", _get_mock_function(EVENT_DATA),
+        LinkedEventsApiClient,
+        "update",
+        _get_mock_function(EVENT_DATA),
     )
 
 
@@ -87,70 +92,90 @@ def mock_get_draft_event_data(monkeypatch):
     Mocks an unpublished / draft event data fetch from LinkedEvents API.
     """
     monkeypatch.setattr(
-        LinkedEventsApiClient, "retrieve", _get_mock_function(DRAFT_EVENT_DATA),
+        LinkedEventsApiClient,
+        "retrieve",
+        _get_mock_function(DRAFT_EVENT_DATA),
     )
 
 
 @pytest.fixture
 def mock_get_events_data(monkeypatch):
     monkeypatch.setattr(
-        LinkedEventsApiClient, "list", _get_mock_function(EVENTS_DATA),
+        LinkedEventsApiClient,
+        "list",
+        _get_mock_function(EVENTS_DATA),
     )
 
 
 @pytest.fixture
 def mock_get_image_data(monkeypatch):
     monkeypatch.setattr(
-        LinkedEventsApiClient, "retrieve", _get_mock_function(IMAGE_DATA),
+        LinkedEventsApiClient,
+        "retrieve",
+        _get_mock_function(IMAGE_DATA),
     )
 
 
 @pytest.fixture
 def mock_get_images_data(monkeypatch):
     monkeypatch.setattr(
-        LinkedEventsApiClient, "list", _get_mock_function(IMAGES_DATA),
+        LinkedEventsApiClient,
+        "list",
+        _get_mock_function(IMAGES_DATA),
     )
 
 
 @pytest.fixture
 def mock_get_place_data(monkeypatch):
     monkeypatch.setattr(
-        LinkedEventsApiClient, "retrieve", _get_mock_function(PLACE_DATA),
+        LinkedEventsApiClient,
+        "retrieve",
+        _get_mock_function(PLACE_DATA),
     )
 
 
 @pytest.fixture
 def mock_get_places_data(monkeypatch):
     monkeypatch.setattr(
-        LinkedEventsApiClient, "list", _get_mock_function(PLACES_DATA),
+        LinkedEventsApiClient,
+        "list",
+        _get_mock_function(PLACES_DATA),
     )
 
 
 @pytest.fixture
 def mock_get_keyword_data(monkeypatch):
     monkeypatch.setattr(
-        LinkedEventsApiClient, "retrieve", _get_mock_function(KEYWORD_DATA),
+        LinkedEventsApiClient,
+        "retrieve",
+        _get_mock_function(KEYWORD_DATA),
     )
 
 
 @pytest.fixture
 def mock_get_keywords_data(monkeypatch):
     monkeypatch.setattr(
-        LinkedEventsApiClient, "list", _get_mock_function(KEYWORDS_DATA),
+        LinkedEventsApiClient,
+        "list",
+        _get_mock_function(KEYWORDS_DATA),
     )
 
 
 @pytest.fixture
 def mock_search_places_data(monkeypatch):
     monkeypatch.setattr(
-        LinkedEventsApiClient, "search", _get_mock_function(PLACES_DATA),
+        LinkedEventsApiClient,
+        "search",
+        _get_mock_function(PLACES_DATA),
     )
 
 
 @pytest.fixture
 def mock_search_events_data(monkeypatch):
     monkeypatch.setattr(
-        LinkedEventsApiClient, "search", _get_mock_function(EVENTS_DATA),
+        LinkedEventsApiClient,
+        "search",
+        _get_mock_function(EVENTS_DATA),
     )
 
 
@@ -166,56 +191,72 @@ def mock_create_event_data(monkeypatch):
 @pytest.fixture
 def mock_update_event_data(monkeypatch):
     monkeypatch.setattr(
-        LinkedEventsApiClient, "update", _get_mock_function(UPDATE_EVENT_DATA),
+        LinkedEventsApiClient,
+        "update",
+        _get_mock_function(UPDATE_EVENT_DATA),
     )
 
 
 @pytest.fixture
 def mock_unpublish_event_data(monkeypatch):
     monkeypatch.setattr(
-        LinkedEventsApiClient, "update", _get_mock_function(UNPUBLISH_EVENT_DATA),
+        LinkedEventsApiClient,
+        "update",
+        _get_mock_function(UNPUBLISH_EVENT_DATA),
     )
 
 
 @pytest.fixture
 def mock_delete_event_data(monkeypatch):
     monkeypatch.setattr(
-        LinkedEventsApiClient, "delete", _get_mock_function(None, status_code=204),
+        LinkedEventsApiClient,
+        "delete",
+        _get_mock_function(None, status_code=204),
     )
 
 
 @pytest.fixture
 def mock_delete_image_data(monkeypatch):
     monkeypatch.setattr(
-        LinkedEventsApiClient, "delete", _get_mock_function(None, status_code=204),
+        LinkedEventsApiClient,
+        "delete",
+        _get_mock_function(None, status_code=204),
     )
 
 
 @pytest.fixture
 def mock_update_image_data(monkeypatch):
     monkeypatch.setattr(
-        LinkedEventsApiClient, "update", _get_mock_function(IMAGE_DATA),
+        LinkedEventsApiClient,
+        "update",
+        _get_mock_function(IMAGE_DATA),
     )
 
 
 @pytest.fixture
 def mock_recaptcha_data(monkeypatch):
     monkeypatch.setattr(
-        requests, "post", _get_mock_function(RECAPTCHA_DATA),
+        requests,
+        "post",
+        _get_mock_function(RECAPTCHA_DATA),
     )
 
 
 @pytest.fixture
 def mock_get_keyword_set_data(monkeypatch):
     monkeypatch.setattr(
-        LinkedEventsApiClient, "retrieve", _get_mock_function(KEYWORD_SET_DATA),
+        LinkedEventsApiClient,
+        "retrieve",
+        _get_mock_function(KEYWORD_SET_DATA),
     )
 
 
 @pytest.fixture
 def mock_get_popular_kultus_keywords(monkeypatch):
     monkeypatch.setattr(
-        LinkedEventsApiClient, "retrieve", _get_mock_function(POPULAR_KEYWORD_SET_DATA),
+        LinkedEventsApiClient,
+        "retrieve",
+        _get_mock_function(POPULAR_KEYWORD_SET_DATA),
     )
 
 

@@ -1,6 +1,5 @@
-from datetime import datetime
-
 import graphene
+from datetime import datetime
 from django.conf import settings
 from django.core.exceptions import PermissionDenied
 from django.db import transaction
@@ -18,7 +17,7 @@ from palvelutarjotin.exceptions import (
 LINKED_EVENT_DATE_FORMAT = "%Y-%m-%d"
 
 LanguageEnum = graphene.Enum(
-    "Language", [(l[0].upper(), l[0]) for l in settings.LANGUAGES]
+    "Language", [(lang[0].upper(), lang[0]) for lang in settings.LANGUAGES]
 )
 
 

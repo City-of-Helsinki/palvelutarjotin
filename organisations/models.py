@@ -4,12 +4,12 @@ from django.contrib.postgres.fields import ArrayField
 from django.db import models
 from django.utils.translation import gettext_lazy as _
 from helusers.models import AbstractUser
+
+from common.models import TimestampedModel, UUIDPrimaryKeyModel
 from organisations.services import (
     send_myprofile_creation_notification_to_admins,
     send_myprofile_organisations_accepted_notification,
 )
-
-from common.models import TimestampedModel, UUIDPrimaryKeyModel
 
 
 class PersonQuerySet(models.QuerySet):
@@ -39,7 +39,10 @@ class User(AbstractUser):
         verbose_name = _("user")
         verbose_name_plural = _("users")
         permissions = [
-            ("can_administrate_user_permissions", "Can administrate user permissions",),
+            (
+                "can_administrate_user_permissions",
+                "Can administrate user permissions",
+            ),
         ]
 
 
@@ -151,7 +154,8 @@ class Person(UUIDPrimaryKeyModel, TimestampedModel):
 
     def notify_myprofile_creation(self, custom_message=None):
         send_myprofile_creation_notification_to_admins(
-            self, custom_message=custom_message,
+            self,
+            custom_message=custom_message,
         )
 
     def notify_myprofile_accepted(self, custom_message=None):

@@ -1,10 +1,10 @@
-from datetime import datetime, timedelta
-from unittest.mock import patch
-
 import pytest
+from datetime import datetime, timedelta
 from django.contrib.auth import get_user_model
 from django.core.exceptions import ValidationError
 from django.utils import timezone
+from unittest.mock import patch
+
 from graphene_linked_events.tests.mock_data import EVENT_DATA
 from occurrences.consts import StudyGroupStudyLevels
 from occurrences.factories import (
@@ -24,9 +24,8 @@ from occurrences.models import (
     StudyLevel,
 )
 from organisations.models import Organisation, Person
-from verification_token.models import VerificationToken
-
 from palvelutarjotin.exceptions import EnrolmentNotEnoughCapacityError
+from verification_token.models import VerificationToken
 
 User = get_user_model()
 
@@ -177,7 +176,9 @@ def test_enrolment_create_cancellation_token(mock_get_event_data):
 
 
 @pytest.mark.django_db
-def test_enrolment_create_cancellation_token_with_deactivation(mock_get_event_data,):
+def test_enrolment_create_cancellation_token_with_deactivation(
+    mock_get_event_data,
+):
     enrolment = EnrolmentFactory()
     enrolment.create_cancellation_token()
     VerificationToken.objects.count() == 1
@@ -193,7 +194,12 @@ def test_enrolment_get_cancellation_url(mock_get_event_data):
     cancellation_url = enrolment.get_cancellation_url()
     assert token.key is not None and token.key != ""
     assert token.key in cancellation_url
-    assert cancellation_url.startswith(("http://", "https://",))
+    assert cancellation_url.startswith(
+        (
+            "http://",
+            "https://",
+        )
+    )
     # test with a given token
     cancellation_url = enrolment.get_cancellation_url(cancellation_token=token)
     assert token.key in cancellation_url
@@ -295,7 +301,7 @@ def test_get_event_languages_from_occurrence(
 def test_languages_are_sorted_by_name_and_id(mock_get_event_data):
     languages = LanguageFactory.create_batch(size=10)
     Language.objects.count() == 10
-    [l for l in Language.objects.all()] == sorted(
+    [lang for lang in Language.objects.all()] == sorted(
         languages, key=lambda x: (x.name, x.id)
     )
 
@@ -326,7 +332,8 @@ def test_republish_event_to_sync_times_on_save_calls_republish_when_published(
     enrolment_start = datetime(2020, 1, 10, 0, 0, 0, tzinfo=timezone.now().tzinfo)
     enrolment_end_days = 1
     p_event = PalvelutarjotinEventFactory(
-        enrolment_start=enrolment_start, enrolment_end_days=enrolment_end_days,
+        enrolment_start=enrolment_start,
+        enrolment_end_days=enrolment_end_days,
     )
 
     # First occurrence, starts earliest possible, is a 1 day event
@@ -345,7 +352,9 @@ def test_republish_event_to_sync_times_on_save_calls_republish_when_published(
 
     # new parametrized occurrence
     OccurrenceFactory(
-        p_event=p_event, start_time=occurrence_start_time, end_time=occurrence_end_time,
+        p_event=p_event,
+        start_time=occurrence_start_time,
+        end_time=occurrence_end_time,
     )
     assert Occurrence.objects.count() == 3
     assert mock_send_event_republish.call_count == 3
@@ -354,12 +363,14 @@ def test_republish_event_to_sync_times_on_save_calls_republish_when_published(
 @pytest.mark.django_db
 @patch("occurrences.models.send_event_republish")
 def test_republish_event_to_sync_times_on_update_calls_republish_when_published(
-    mock_send_event_republish, mock_get_event_data,
+    mock_send_event_republish,
+    mock_get_event_data,
 ):
     enrolment_start = datetime(2020, 1, 10, 0, 0, 0, tzinfo=timezone.now().tzinfo)
     enrolment_end_days = 1
     p_event = PalvelutarjotinEventFactory(
-        enrolment_start=enrolment_start, enrolment_end_days=enrolment_end_days,
+        enrolment_start=enrolment_start,
+        enrolment_end_days=enrolment_end_days,
     )
 
     # First occurrence, starts earliest possible, is a 1 day event
@@ -428,7 +439,9 @@ def test_republish_event_to_sync_times_on_update_calls_republish_when_published(
 @pytest.mark.django_db
 @patch("occurrences.models.send_event_unpublish")
 def test_unpublish_event_to_sync_times_on_delete_does_nothing_when_many_occurrences(
-    mock_send_event_unpublish, mock_get_event_data, p_event,
+    mock_send_event_unpublish,
+    mock_get_event_data,
+    p_event,
 ):
     OccurrenceFactory(p_event=p_event)
     occurrence = OccurrenceFactory(p_event=p_event)
@@ -456,7 +469,9 @@ def test_unpublish_event_to_sync_times_on_delete_does_nothing_when_draft(
 @pytest.mark.django_db
 @patch("occurrences.models.send_event_unpublish")
 def test_unpublish_event_to_sync_times_on_delete_when_last_occurrence_is_cancelled(
-    mock_send_event_unpublish, mock_get_event_data, p_event,
+    mock_send_event_unpublish,
+    mock_get_event_data,
+    p_event,
 ):
     OccurrenceFactory(p_event=p_event, cancelled=True)
     occurrence = OccurrenceFactory(p_event=p_event)
@@ -470,7 +485,9 @@ def test_unpublish_event_to_sync_times_on_delete_when_last_occurrence_is_cancell
 @pytest.mark.django_db
 @patch("occurrences.models.send_event_unpublish")
 def test_unpublish_event_to_sync_times_on_delete_when_last_occurrence(
-    mock_send_event_unpublish, mock_get_event_data, p_event,
+    mock_send_event_unpublish,
+    mock_get_event_data,
+    p_event,
 ):
     occurrence = OccurrenceFactory(p_event=p_event)
     assert Occurrence.objects.count() == 1

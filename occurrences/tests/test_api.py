@@ -1,11 +1,16 @@
+import pytest
 from copy import deepcopy
 from datetime import datetime, timedelta
-
-import pytest
 from django.core import mail
 from django.utils import timezone
-from graphene_linked_events.tests.mock_data import EVENT_DATA, PLACE_DATA
 from graphql_relay import to_global_id
+
+from common.tests.utils import (
+    assert_mails_match_snapshot,
+    assert_match_error_code,
+    assert_permission_denied,
+)
+from graphene_linked_events.tests.mock_data import EVENT_DATA, PLACE_DATA
 from occurrences.consts import NOTIFICATION_TYPE_EMAIL
 from occurrences.factories import (
     EnrolmentFactory,
@@ -23,13 +28,6 @@ from occurrences.models import (
 )
 from occurrences.schema import StudyGroupNode
 from organisations.factories import PersonFactory
-from verification_token.models import VerificationToken
-
-from common.tests.utils import (
-    assert_mails_match_snapshot,
-    assert_match_error_code,
-    assert_permission_denied,
-)
 from palvelutarjotin.consts import (
     API_USAGE_ERROR,
     CAPTCHA_VALIDATION_FAILED_ERROR,
@@ -44,6 +42,7 @@ from palvelutarjotin.consts import (
     MISSING_MANDATORY_INFORMATION_ERROR,
     NOT_ENOUGH_CAPACITY_ERROR,
 )
+from verification_token.models import VerificationToken
 
 
 @pytest.fixture(autouse=True)
@@ -80,7 +79,10 @@ def test_languagess_query(snapshot, language, api_client):
 
 
 def test_language_query(snapshot, language, api_client):
-    executed = api_client.execute(LANGUAGE_QUERY, variables={"id": language.id},)
+    executed = api_client.execute(
+        LANGUAGE_QUERY,
+        variables={"id": language.id},
+    )
     snapshot.assert_match(executed)
 
 
@@ -465,7 +467,10 @@ def test_study_levels_query(snapshot, api_client):
 
 def test_study_level_query(snapshot, api_client):
     study_level = StudyLevel.objects.first()
-    executed = api_client.execute(STUDY_LEVEL_QUERY, variables={"id": study_level.id},)
+    executed = api_client.execute(
+        STUDY_LEVEL_QUERY,
+        variables={"id": study_level.id},
+    )
     snapshot.assert_match(executed)
 
 
@@ -1035,7 +1040,8 @@ def test_delete_venue_permission_denied(api_client, user_api_client):
 
 def test_delete_venue_staff_user(staff_api_client, venue):
     staff_api_client.execute(
-        DELETE_VENUE_MUTATION, variables={"input": {"id": venue.place_id}},
+        DELETE_VENUE_MUTATION,
+        variables={"input": {"id": venue.place_id}},
     )
     assert VenueCustomData.objects.count() == 0
 
@@ -1125,7 +1131,11 @@ def test_add_study_group(
 
 
 def test_add_study_group_without_unit_info_raises_error(
-    api_client, mock_update_event_data, mock_get_event_data, occurrence, person,
+    api_client,
+    mock_update_event_data,
+    mock_get_event_data,
+    occurrence,
+    person,
 ):
     variables = deepcopy(ADD_STUDY_GROUP_VARIABLES)
     variables["input"]["unitName"] = None
@@ -2410,7 +2420,10 @@ def test_occurrences_filter_by_time(
 
 
 def test_occurrences_filter_by_upcoming(
-    snapshot, api_client, mock_get_event_data, mock_update_event_data,
+    snapshot,
+    api_client,
+    mock_get_event_data,
+    mock_update_event_data,
 ):
     p_event_1 = PalvelutarjotinEventFactory(
         enrolment_start=datetime(2020, 1, 5, 0, 0, 0, tzinfo=timezone.now().tzinfo),
@@ -2484,7 +2497,8 @@ def test_occurrences_filter_by_cancelled(
 ):
     p_event_1 = PalvelutarjotinEventFactory()
     OccurrenceFactory(
-        p_event=p_event_1, cancelled=True,
+        p_event=p_event_1,
+        cancelled=True,
     )
     OccurrenceFactory.create_batch(2, p_event=p_event_1, cancelled=False)
 
@@ -2830,13 +2844,16 @@ def test_enrolments_summary(
     )
     EnrolmentFactory(occurrence=occurrence)
     EnrolmentFactory(
-        occurrence=occurrence, status=Enrolment.STATUS_APPROVED,
+        occurrence=occurrence,
+        status=Enrolment.STATUS_APPROVED,
     )
     EnrolmentFactory(
-        occurrence=occurrence, status=Enrolment.STATUS_DECLINED,
+        occurrence=occurrence,
+        status=Enrolment.STATUS_DECLINED,
     )
     EnrolmentFactory(
-        occurrence=occurrence, status=Enrolment.STATUS_CANCELLED,
+        occurrence=occurrence,
+        status=Enrolment.STATUS_CANCELLED,
     )
 
     assert Enrolment.objects.count() == 4

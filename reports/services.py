@@ -1,11 +1,10 @@
 from datetime import datetime
+from django.db import models
 from typing import List, Optional, Union
 
 import occurrences.models as occurrences_models
 import reports.models as report_models
-from django.db import models
 from occurrences.event_api_services import fetch_event_as_json, fetch_place_as_json
-
 from palvelutarjotin.exceptions import ApiBadRequestError, ObjectDoesNotExistError
 
 

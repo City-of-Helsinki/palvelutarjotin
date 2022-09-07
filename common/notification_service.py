@@ -1,6 +1,5 @@
 import json
 import logging
-
 import requests
 
 logger = logging.getLogger(__name__)
@@ -37,6 +36,6 @@ class NotificationService:
 
             response.raise_for_status()
         except requests.exceptions.HTTPError:
-            logger.exception(f"SMS message sent failed!")
+            logger.exception("SMS message sent failed!")
 
         return response

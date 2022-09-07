@@ -1,4 +1,5 @@
 import pytest
+
 from reports.utils import get_event_keywords, get_event_provider
 
 

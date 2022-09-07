@@ -1,8 +1,8 @@
-import math
-
 import dateutil.parser
+import math
 import pytest
 from freezegun import freeze_time
+
 from occurrences.factories import EnrolmentFactory, StudyGroupFactory, StudyLevelFactory
 from occurrences.models import Enrolment
 from reports.factories import EnrolmentReportFactory
@@ -112,7 +112,9 @@ def test_unsynced_queryset(mock_get_event_data):
 
     def create_enrolment(updated_at_str):
         with freeze_time(updated_at_str):
-            return EnrolmentFactory(status=Enrolment.STATUS_APPROVED,)
+            return EnrolmentFactory(
+                status=Enrolment.STATUS_APPROVED,
+            )
 
     enrolment1, enrolment2, enrolment3, enrolment4 = [
         create_enrolment(updated_at_str)
@@ -123,18 +125,27 @@ def test_unsynced_queryset(mock_get_event_data):
     with freeze_time(latest_sync):
         in_sync = [
             EnrolmentReportFactory(
-                updated_at=dateutil.parser.isoparse("20200101"), enrolment=enrolment1,
+                updated_at=dateutil.parser.isoparse("20200101"),
+                enrolment=enrolment1,
             )
         ]
 
     with freeze_time("2019-12-30"):
         # Not in sync, but status unchanged
-        no_sync_need = [EnrolmentReportFactory(enrolment=enrolment2,)]
+        no_sync_need = [
+            EnrolmentReportFactory(
+                enrolment=enrolment2,
+            )
+        ]
 
         # Not in sync and status updated
         needs_sync = [
-            EnrolmentReportFactory(enrolment=enrolment3,),
-            EnrolmentReportFactory(enrolment=enrolment4,),
+            EnrolmentReportFactory(
+                enrolment=enrolment3,
+            ),
+            EnrolmentReportFactory(
+                enrolment=enrolment4,
+            ),
         ]
         for report in needs_sync:
             # Update the enrolment status gets overriden

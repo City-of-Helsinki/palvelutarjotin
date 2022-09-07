@@ -1,7 +1,7 @@
+from rest_framework import serializers
 from typing import List, Optional
 
 from reports.models import EnrolmentReport
-from rest_framework import serializers
 
 
 class Size2ArrayField(serializers.Field):

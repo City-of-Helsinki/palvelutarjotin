@@ -1,6 +1,6 @@
 import importlib
-import logging
 
+import logging
 from django.conf import settings
 from django.contrib import admin, messages
 from django.http import HttpResponseRedirect

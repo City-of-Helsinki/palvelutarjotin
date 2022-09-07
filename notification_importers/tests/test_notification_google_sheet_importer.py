@@ -2,9 +2,9 @@ import pytest
 import responses
 from django.conf import settings
 from django_ilmoitin.models import NotificationTemplate
-from occurrences.consts import NotificationTemplate as NotificationType
 
 from common.tests.utils import create_notification_template_in_language
+from occurrences.consts import NotificationTemplate as NotificationType
 
 from ..notification_importer import NotificationGoogleSheetImporter
 from .utils import serialize_notifications

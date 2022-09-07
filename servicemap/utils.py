@@ -1,8 +1,8 @@
 import json
 from collections import namedtuple
+from django.conf import settings
 from urllib.parse import parse_qs, urlsplit
 
-from django.conf import settings
 from servicemap.rest_client import ServicemapApiClient
 
 api_client = ServicemapApiClient(config=settings.SERVICEMAP_API_CONFIG)

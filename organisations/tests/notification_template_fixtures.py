@@ -1,7 +1,7 @@
 import pytest
-from organisations.consts import NotificationTemplate
 
 from common.tests.utils import create_notification_template_in_language
+from organisations.consts import NotificationTemplate
 
 MYPROFILE_CREATED_NOTIFICATION_BODY_TEXT_FI = """
 <p>Hyvä Kultus ylläpitäjä!</p>

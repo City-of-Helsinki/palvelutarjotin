@@ -1,8 +1,8 @@
 import pytest
 from django_ilmoitin.models import NotificationTemplate
-from occurrences.consts import NotificationTemplate as NotificationType
 
 from common.tests.utils import create_notification_template_in_language
+from occurrences.consts import NotificationTemplate as NotificationType
 
 from ..notification_importer import NotificationFileImporter
 from .utils import serialize_notifications

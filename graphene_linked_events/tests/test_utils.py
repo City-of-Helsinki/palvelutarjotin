@@ -1,8 +1,8 @@
 import json
 import math
-
 import requests
 import responses
+
 from graphene_linked_events.utils import bbox_for_coordinates, format_response
 
 

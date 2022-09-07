@@ -1,8 +1,6 @@
-from datetime import timedelta
-from typing import List, Union
-
 import graphene
 import requests
+from datetime import timedelta
 from django.apps import apps
 from django.conf import settings
 from django.db import transaction
@@ -11,9 +9,19 @@ from django.utils.translation import get_language
 from graphene.utils.str_converters import to_snake_case
 from graphene_django import DjangoConnectionField, DjangoObjectType
 from graphene_django.filter import DjangoFilterConnectionField
+from graphql_jwt.decorators import staff_member_required
+from typing import List, Union
+
+from common.utils import (
+    get_editable_obj_from_global_id,
+    get_node_id_from_global_id,
+    get_obj_from_global_id,
+    LanguageEnum,
+    update_object,
+    update_object_with_translations,
+)
 from graphene_linked_events.schema import LocalisedObject, Place
 from graphene_linked_events.utils import api_client, format_response, json2obj
-from graphql_jwt.decorators import staff_member_required
 from occurrences.consts import NOTIFICATION_TYPES
 from occurrences.filters import OccurrenceFilter
 from occurrences.models import (
@@ -27,16 +35,6 @@ from occurrences.models import (
 )
 from organisations.models import Organisation, Person
 from organisations.schema import PersonNodeInput
-from verification_token.models import VerificationToken
-
-from common.utils import (
-    get_editable_obj_from_global_id,
-    get_node_id_from_global_id,
-    get_obj_from_global_id,
-    LanguageEnum,
-    update_object,
-    update_object_with_translations,
-)
 from palvelutarjotin.exceptions import (
     ApiUsageError,
     CaptchaValidationFailedError,
@@ -52,6 +50,7 @@ from palvelutarjotin.exceptions import (
     MissingMantatoryInformationError,
     ObjectDoesNotExistError,
 )
+from verification_token.models import VerificationToken
 
 
 # TODO: Get rid of this when the graphene and django_filters gives the support.

@@ -3,19 +3,18 @@ import glob
 import io
 import os
 import re
-from collections import defaultdict
-from logging import getLogger
-from typing import DefaultDict, Dict, Mapping, Optional, Sequence, Tuple
-
 import requests
+from collections import defaultdict
 from django.conf import settings
 from django.core.exceptions import ObjectDoesNotExist
 from django.db import transaction
 from django_ilmoitin.dummy_context import dummy_context
 from django_ilmoitin.models import NotificationTemplate, NotificationTemplateException
 from django_ilmoitin.utils import render_notification_template
+from logging import getLogger
 from parler.utils.context import switch_language
 from requests import RequestException
+from typing import DefaultDict, Dict, Mapping, Optional, Sequence, Tuple
 
 # {
 #     "<notification type>": {

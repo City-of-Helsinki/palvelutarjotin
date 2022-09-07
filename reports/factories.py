@@ -1,4 +1,5 @@
 import factory
+
 from occurrences.factories import EnrolmentFactory
 from reports.models import EnrolmentReport
 
