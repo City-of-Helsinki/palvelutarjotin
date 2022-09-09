@@ -1442,10 +1442,12 @@ def test_enrol_invalid_group_size(
 # The auto_acceptance calls Enrolment.approve,
 # so it needs to be tested with both the boolean values.
 @pytest.mark.parametrize("auto_acceptance", [True, False])
+@pytest.mark.parametrize("is_multi_enrolment", [True, False])
 @patch("occurrences.services.notification_service.send_sms")
 def test_enrol_full_people_count_seat_type_occurrence(
     mock_send_sms,
     auto_acceptance,
+    is_multi_enrolment,
     api_client,
     mock_update_event_data,
     mock_get_event_data,
@@ -1463,76 +1465,8 @@ def test_enrol_full_people_count_seat_type_occurrence(
         enrolment_end_days=2,
         auto_acceptance=auto_acceptance,
     )
-    occurrence = OccurrenceFactory(
-        start_time=datetime(2020, 1, 6, 0, 0, 0, tzinfo=timezone.now().tzinfo),
-        p_event=p_event_1,
-        min_group_size=10,
-        max_group_size=20,
-        amount_of_seats=34,
-    )
 
-    # After 20 people there are 14 seats left
-    EnrolmentFactory(occurrence=occurrence, study_group=study_group_20)
-    # Approve the enrolment to reduce the remaining seat
-    # NOTE: currently also the pending enrolments takes seats
-    # Enrolment.objects.first().approve()
-
-    # A group of 15 woul make the event over booked by 1!
-    variables = {
-        "input": {
-            "occurrenceIds": [to_global_id("OccurrenceNode", occurrence.id)],
-            "studyGroup": {
-                "person": {
-                    "id": to_global_id("PersonNode", study_group_15.person.id),
-                    "name": study_group_15.person.name,
-                    "emailAddress": study_group_15.person.email_address,
-                },
-                "unitName": "To be created group",
-                "groupSize": study_group_15.group_size,
-                "groupName": study_group_15.group_name,
-                "studyLevels": [sl.upper() for sl in study_group_15.study_levels.all()],
-                "amountOfAdult": study_group_15.amount_of_adult,
-            },
-        }
-    }
-    executed = api_client.execute(ENROL_OCCURRENCE_MUTATION, variables=variables)
-    assert_match_error_code(executed, NOT_ENOUGH_CAPACITY_ERROR)
-    assert mock_send_sms.call_count == 0
-    assert len(mail.outbox) == 0
-
-
-# The auto_acceptance calls Enrolment.approve,
-# so it needs to be tested with both the boolean values.
-@pytest.mark.parametrize("auto_acceptance", [True, False])
-@patch("occurrences.services.notification_service.send_sms")
-def test_multi_enrol_full_people_count_seat_type_occurrence(
-    mock_send_sms,
-    auto_acceptance,
-    api_client,
-    mock_update_event_data,
-    mock_get_event_data,
-    occurrence,
-    notification_template_enrolment_approved_en,
-    notification_template_enrolment_approved_fi,
-    notification_sms_template_enrolment_approved_en,
-    notification_sms_template_enrolment_approved_fi,
-):
-    study_group_15 = StudyGroupFactory(group_size=15)
-    study_group_20 = StudyGroupFactory(group_size=20)
-    # Current date froze on 2020-01-04:
-    p_event_1 = PalvelutarjotinEventFactory(
-        enrolment_start=datetime(2020, 1, 3, 0, 0, 0, tzinfo=timezone.now().tzinfo),
-        enrolment_end_days=2,
-        auto_acceptance=auto_acceptance,
-    )
-    valid_occurrence = OccurrenceFactory(
-        start_time=datetime(2020, 1, 6, 0, 0, 0, tzinfo=timezone.now().tzinfo),
-        p_event=p_event_1,
-        min_group_size=10,
-        max_group_size=20,
-        amount_of_seats=100,  # enough for 2 enrolments
-    )
-
+    # Invalid occurrence which does not support such a large study group
     invalid_occurrence = OccurrenceFactory(
         start_time=datetime(2020, 1, 6, 0, 0, 0, tzinfo=timezone.now().tzinfo),
         p_event=p_event_1,
@@ -1541,19 +1475,30 @@ def test_multi_enrol_full_people_count_seat_type_occurrence(
         amount_of_seats=34,
     )
 
+    # if is_multi_enrolment is True, multiple occurrences are needed
+    if is_multi_enrolment:
+        valid_occurrence = OccurrenceFactory(
+            start_time=datetime(2020, 1, 6, 0, 0, 0, tzinfo=timezone.now().tzinfo),
+            p_event=p_event_1,
+            min_group_size=10,
+            max_group_size=20,
+            amount_of_seats=100,  # enough for 2 enrolments
+        )
+        occurrence_ids = [
+            to_global_id("OccurrenceNode", valid_occurrence.id),
+            to_global_id("OccurrenceNode", invalid_occurrence.id),
+        ]
+    else:
+        occurrence_ids = [
+            to_global_id("OccurrenceNode", invalid_occurrence.id),
+        ]
     # After 20 people there are 14 seats left
     EnrolmentFactory(occurrence=invalid_occurrence, study_group=study_group_20)
-    # Approve the enrolment to reduce the remaining seat
-    # NOTE: currently also the pending enrolments takes seats
-    # Enrolment.objects.first().approve()
 
     # A group of 15 woul make the event over booked by 1!
     variables = {
         "input": {
-            "occurrenceIds": [
-                to_global_id("OccurrenceNode", valid_occurrence.id),
-                to_global_id("OccurrenceNode", invalid_occurrence.id),
-            ],
+            "occurrenceIds": occurrence_ids,
             "studyGroup": {
                 "person": {
                     "id": to_global_id("PersonNode", study_group_15.person.id),
@@ -1601,9 +1546,6 @@ def test_enrol_full_enrolment_count_seat_type_occurrence(
     # 2 enrolments makes the occurrence full!
     EnrolmentFactory(occurrence=occurrence, study_group=study_group_20)
     EnrolmentFactory(occurrence=occurrence, study_group=study_group_100)
-    # Approve the enrolment to reduce the remaining seat
-    # NOTE: currently also the pending enrolments takes seats
-    # Enrolment.objects.first().approve()
 
     # 3rd enrolment will make the occurrence over booked
     variables = {
@@ -2225,6 +2167,34 @@ def test_approve_enrolment_with_custom_message(
     snapshot.assert_match(executed)
     assert len(mail.outbox) == 1
     assert_mails_match_snapshot(snapshot)
+
+
+def test_approve_enrolment_with_single_enrolment_when_multiple_needed(
+    snapshot, staff_api_client, mock_get_event_data
+):
+    study_group_15 = StudyGroupFactory(group_size=15)
+    # Current date froze on 2020-01-04:
+    p_event_1 = PalvelutarjotinEventFactory(
+        enrolment_start=datetime(2020, 1, 3, 0, 0, 0, tzinfo=timezone.now().tzinfo),
+        enrolment_end_days=2,
+        needed_occurrences=2,
+        auto_acceptance=False,
+    )
+    occurrence = OccurrenceFactory(
+        start_time=datetime(2020, 1, 6, 0, 0, 0, tzinfo=timezone.now().tzinfo),
+        p_event=p_event_1,
+        min_group_size=10,
+        max_group_size=20,
+        amount_of_seats=50,
+    )
+    enrolment = EnrolmentFactory(
+        occurrence=occurrence, study_group=study_group_15, person=study_group_15.person
+    )
+    variables = {"input": {"enrolmentId": to_global_id("EnrolmentNode", enrolment.id)}}
+    staff_api_client.user.person.organisations.add(occurrence.p_event.organisation)
+    executed = staff_api_client.execute(APPROVE_ENROLMENT_MUTATION, variables=variables)
+    # Do not approve enrolment if needed_occurrences > 1
+    assert_match_error_code(executed, API_USAGE_ERROR)
 
 
 def test_decline_enrolment(
@@ -3186,33 +3156,5 @@ def test_mass_approve_multi_occurrences_enrolment_mutation(
             }
         },
     )
-    # Do not approve enrolment if needed_occurrences > 1
-    assert_match_error_code(executed, API_USAGE_ERROR)
-
-
-def test_approve_multi_occurrences_enrolment_when_multiple_needed_occurrences(
-    snapshot, staff_api_client, mock_get_event_data
-):
-    study_group_15 = StudyGroupFactory(group_size=15)
-    # Current date froze on 2020-01-04:
-    p_event_1 = PalvelutarjotinEventFactory(
-        enrolment_start=datetime(2020, 1, 3, 0, 0, 0, tzinfo=timezone.now().tzinfo),
-        enrolment_end_days=2,
-        needed_occurrences=2,
-        auto_acceptance=False,
-    )
-    occurrence = OccurrenceFactory(
-        start_time=datetime(2020, 1, 6, 0, 0, 0, tzinfo=timezone.now().tzinfo),
-        p_event=p_event_1,
-        min_group_size=10,
-        max_group_size=20,
-        amount_of_seats=50,
-    )
-    enrolment = EnrolmentFactory(
-        occurrence=occurrence, study_group=study_group_15, person=study_group_15.person
-    )
-    variables = {"input": {"enrolmentId": to_global_id("EnrolmentNode", enrolment.id)}}
-    staff_api_client.user.person.organisations.add(occurrence.p_event.organisation)
-    executed = staff_api_client.execute(APPROVE_ENROLMENT_MUTATION, variables=variables)
     # Do not approve enrolment if needed_occurrences > 1
     assert_match_error_code(executed, API_USAGE_ERROR)
