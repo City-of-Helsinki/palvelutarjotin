@@ -1439,6 +1439,43 @@ def test_enrol_invalid_group_size(
     assert_match_error_code(executed, INVALID_STUDY_GROUP_SIZE_ERROR)
 
 
+def test_enrol_without_participants(
+    api_client, mock_update_event_data, mock_get_event_data
+):
+    empty_study_group = StudyGroupFactory(group_size=0, amount_of_adult=0)
+    # Current date froze on 2020-01-04:
+    p_event_1 = PalvelutarjotinEventFactory(
+        enrolment_start=datetime(2020, 1, 3, 0, 0, 0, tzinfo=timezone.now().tzinfo),
+        enrolment_end_days=2,
+    )
+    occurrence = OccurrenceFactory(
+        start_time=datetime(2020, 1, 6, 0, 0, 0, tzinfo=timezone.now().tzinfo),
+        p_event=p_event_1,
+    )
+
+    variables = {
+        "input": {
+            "occurrenceIds": [to_global_id("OccurrenceNode", occurrence.id)],
+            "studyGroup": {
+                "person": {
+                    "id": to_global_id("PersonNode", empty_study_group.person.id),
+                    "name": empty_study_group.person.name,
+                    "emailAddress": empty_study_group.person.email_address,
+                },
+                "unitName": "To be created group",
+                "groupSize": empty_study_group.group_size,
+                "groupName": empty_study_group.group_name,
+                "studyLevels": [
+                    sl.upper() for sl in empty_study_group.study_levels.all()
+                ],
+                "amountOfAdult": empty_study_group.amount_of_adult,
+            },
+        }
+    }
+    executed = api_client.execute(ENROL_OCCURRENCE_MUTATION, variables=variables)
+    assert_match_error_code(executed, INVALID_STUDY_GROUP_SIZE_ERROR)
+
+
 # The auto_acceptance calls Enrolment.approve,
 # so it needs to be tested with both the boolean values.
 @pytest.mark.parametrize("auto_acceptance", [True, False])
