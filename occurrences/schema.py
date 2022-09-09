@@ -618,7 +618,9 @@ def validate_study_group(study_group: Union[StudyGroup, dict]):
         )
 
 
-def validate_enrolment(study_group, occurrence, new_enrolment=True):
+def validate_enrolment(  # noqa: C901
+    study_group: StudyGroup, occurrence: Occurrence, new_enrolment=True
+):
     validate_study_group(study_group)
 
     # Expensive validation are sorted to bottom
@@ -631,7 +633,11 @@ def validate_enrolment(study_group, occurrence, new_enrolment=True):
         )
     if occurrence.cancelled:
         raise EnrolCancelledOccurrenceError("Cannot enrol cancelled occurrence")
-    if (
+    if study_group.group_size_with_adults() < 1:
+        raise InvalidStudyGroupSizeError(
+            "Study group should contain at least 1 participant"
+        )
+    elif (
         occurrence.max_group_size
         and study_group.group_size_with_adults() > occurrence.max_group_size
     ) or (
