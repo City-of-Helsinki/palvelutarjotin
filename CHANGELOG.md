@@ -1,6 +1,10 @@
 <!-- REMINDER: While updating changelog, also remember to update
 the version in palvelutarjotin/__init.py__ -->
 
+## [1.4.0] - 19 September 2022
+
+- Disallow enrolling with an empty group
+
 ## [1.3.0] - 7 September 2022
 
 - SMS-service can be configured off
