@@ -1780,7 +1780,7 @@ snapshots["test_update_occurrence_of_published_event_without_enrolments 1"] = {
     "data": {
         "updateOccurrence": {
             "occurrence": {
-                "contactPersons": {"edges": [{"node": {"name": "Corey Holland"}}]},
+                "contactPersons": {"edges": [{"node": {"name": "Brett Jones"}}]},
                 "endTime": "2020-05-06T00:00:00+00:00",
                 "languages": {
                     "edges": [
@@ -1792,14 +1792,14 @@ snapshots["test_update_occurrence_of_published_event_without_enrolments 1"] = {
                 "maxGroupSize": 10,
                 "minGroupSize": 10,
                 "pEvent": {
-                    "contactEmail": "molinamichael@mccoy.com",
-                    "contactPhoneNumber": "636-588-2540x3891",
+                    "contactEmail": "ppatrick@yahoo.com",
+                    "contactPhoneNumber": "476-372-1510x585",
                     "enrolmentEndDays": 0,
-                    "enrolmentStart": "2021-07-24T21:32:11+00:00",
+                    "enrolmentStart": "1998-02-02T11:27:17+00:00",
                     "externalEnrolmentUrl": None,
                     "linkedEventId": "helsinki:afxp6tv4xa",
                     "mandatoryAdditionalInformation": False,
-                    "neededOccurrences": 3,
+                    "neededOccurrences": 0,
                 },
                 "startTime": "2020-05-05T00:00:00+00:00",
             }

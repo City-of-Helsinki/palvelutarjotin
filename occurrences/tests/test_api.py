@@ -769,7 +769,9 @@ def test_update_unpublished_occurrence(
 ):
     variables = deepcopy(UPDATE_OCCURRENCE_VARIABLES)
     occurrence = OccurrenceFactory(
-        contact_persons=[person], p_event__organisation=organisation
+        contact_persons=[person],
+        p_event__organisation=organisation,
+        start_time=datetime(2020, 1, 1, 12, 0, tzinfo=timezone.utc),
     )
     p_event = PalvelutarjotinEventFactory(organisation=organisation)
     variables["input"]["id"] = to_global_id("OccurrenceNode", occurrence.id)
