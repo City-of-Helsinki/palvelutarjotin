@@ -437,7 +437,7 @@
                                       Tapahtuman tiedot:</h4>
                                     <ul>
                                       <li>Aika: {{ occurrence.local_start_time.strftime('%d.%m.%Y klo %H.%M')}}</li>
-                                      <li>Paikkoja: {{ study_group.group_size }}</li>
+                                      <li>Paikkoja: Lapset: {{ study_group.group_size }} Aikuiset: {{ study_group.amount_of_adult }}</li>
                                       <li>Kieli: {{occurrence.languages.all() | join (", ")}}</li>
                                       {% if event.location is defined %}
                                       <li>Paikka: <a href="#"

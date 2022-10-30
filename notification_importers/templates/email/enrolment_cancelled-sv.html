@@ -436,11 +436,11 @@
                                     <ul>
                                       {% if not preview_mode %}
                                       <li>Tidpunkt: {{ occurrence.local_start_time.strftime('%d.%m.%Y klo %H.%M')}}</li>
-                                      <li>Platser: {{ study_group.group_size }}</li>
+                                      <li>Plats: Barn: {{ study_group.group_size }} Vuxna: {{ study_group.amount_of_adult }}</li>
                                       <li>Språk: {{occurrence.languages.all() | join (", ")}}</li>
                                       {% else %}
                                       <li>Tidpunkt: {{ occurrence.start_time}}</li>
-                                      <li>Platser: {{ study_group.group_size }}</li>
+                                      <li>Plats: Barn: {{ study_group.group_size }} Vuxna: {{ study_group.amount_of_adult }}</li>
                                       <li>Språk: {{ occurrence.languages | join (", ")}}</li>
                                       {% endif %}
                                       {% if event.location is defined %}

@@ -442,11 +442,11 @@
                                     <ul>
                                       {% if not preview_mode %}
                                       <li>Aika: {{ occurrence.local_start_time.strftime('%d.%m.%Y klo %H.%M')}}</li>
-                                      <li>Paikkoja: {{ study_group.group_size }}</li>
+                                      <li>Paikkoja: Lapset: {{ study_group.group_size }} Aikuiset: {{ study_group.amount_of_adult }}</li>
                                       <li>Kieli: {{occurrence.languages.all() | join (", ")}}</li>
                                       {% else %}
                                       <li>Aika: {{ occurrence.start_time}}</li>
-                                      <li>Paikkoja: {{ study_group.group_size }}</li>
+                                      <li>Paikkoja: Lapset: {{ study_group.group_size }} Aikuiset: {{ study_group.amount_of_adult }}</li>
                                       <li>Kieli: {{ occurrence.languages | join (", ")}}</li>
                                       {% endif %}
                                       {% if event.location is defined %}

@@ -449,7 +449,7 @@ enrolment_cancellation|Ilmoittautumisen peruuttaminen|Enrolment cancellation|Avb
                                       Tapahtuman tiedot:</h4>
                                     <ul>
                                       <li>Aika: {{ occurrence.local_start_time.strftime('%d.%m.%Y klo %H.%M')}}</li>
-                                      <li>Paikkoja: {{ study_group.group_size }}</li>
+                                      <li>Paikkoja: Lapset: {{ study_group.group_size }} Aikuiset: {{ study_group.amount_of_adult }}</li>
                                       <li>Kieli: {{occurrence.languages.all() | join (", ")}}</li>
                                       {% if event.location is defined %}
                                       <li>Paikka: <a href="#"
@@ -503,7 +503,8 @@ enrolment_cancellation|Ilmoittautumisen peruuttaminen|Enrolment cancellation|Avb
 
 </body>
 
-</html>|<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+</html>
+|<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 
 <head>
@@ -943,11 +944,11 @@ enrolment_cancellation|Ilmoittautumisen peruuttaminen|Enrolment cancellation|Avb
                                     <ul>
                                       {% if not preview_mode %}
                                       <li>Time: {{ occurrence.local_start_time.strftime('%d.%m.%Y klo %H.%M')}}</li>
-                                      <li>Places: {{ study_group.group_size }}</li>
+                                      <li>Places: Children: {{ study_group.group_size }} Adults: {{ study_group.amount_of_adult }}</li>
                                       <li>Language: {{occurrence.languages.all() | join (", ")}}</li>
                                       {% else %}
                                       <li>Time: {{ occurrence.start_time}}</li>
-                                      <li>Places: {{ study_group.group_size }}</li>
+                                      <li>Places: Children: {{ study_group.group_size }} Adults: {{ study_group.amount_of_adult }}</li>
                                       <li>Language: {{ occurrence.languages | join (", ")}}</li>
                                       {% endif %}
                                       {% if event.location is defined %}
@@ -1002,7 +1003,8 @@ enrolment_cancellation|Ilmoittautumisen peruuttaminen|Enrolment cancellation|Avb
 
 </body>
 
-</html>|<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+</html>
+|<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 
 <head>
@@ -1442,11 +1444,11 @@ enrolment_cancellation|Ilmoittautumisen peruuttaminen|Enrolment cancellation|Avb
                                     <ul>
                                       {% if not preview_mode %}
                                       <li>Tidpunkt: {{ occurrence.local_start_time.strftime('%d.%m.%Y klo %H.%M')}}</li>
-                                      <li>Platser: {{ study_group.group_size }}</li>
+                                      <li>Plats: Barn: {{ study_group.group_size }} Vuxna: {{ study_group.amount_of_adult }}</li>
                                       <li>Språk: {{occurrence.languages.all() | join (", ")}}</li>
                                       {% else %}
                                       <li>Tidpunkt: {{ occurrence.start_time}}</li>
-                                      <li>Platser: {{ study_group.group_size }}</li>
+                                      <li>Plats: Barn: {{ study_group.group_size }} Vuxna: {{ study_group.amount_of_adult }}</li>
                                       <li>Språk: {{ occurrence.languages | join (", ")}}</li>
                                       {% endif %}
                                       {% if event.location is defined %}
@@ -1502,6 +1504,7 @@ enrolment_cancellation|Ilmoittautumisen peruuttaminen|Enrolment cancellation|Avb
 </body>
 
 </html>
+
 enrolment_cancellation_sms|enrolment cancellation sms|enrolment cancellation sms|enrolment cancellation sms|Hei. Voitte vahvistaa peruutuksenne liittyen tapahtumaan {{trans(event.name)}} seuraavalla linkillä: {{enrolment.get_cancellation_url(language='fi')}}. {{ occurrence.local_start_time.strftime('%d.%m.%Y klo %H.%M')}}. {% if event.location is defined %}{{trans(event.location.name)}}, {{trans(event.location.street_address)}}. {% endif %}Lisätietoja: {{occurrence.p_event.contact_email}}|Hi. You can confirm your cancellation to the event {{trans(event.name)}} at the following link: {{enrolment.get_cancellation_url(language='en')}}. {{ occurrence.local_start_time.strftime('%d.%m.%Y at %H.%M')}}. {% if event.location is defined %}{{trans(event.location.name)}}, {{trans(event.location.street_address)}}. {% endif %}Info: {{occurrence.p_event.contact_email}}|Hej. Du kan bekräfta din avbokning till evenemanget {{trans(event.name)}} på följande länk: {{enrolment.get_cancellation_url(language='sv')}}. {{ occurrence.local_start_time.strftime('%d.%m.%Y at %H.%M')}}. {% if event.location is defined %}{{trans(event.location.name)}}, {{trans(event.location.street_address)}}. {% endif %}Mer information: {{occurrence.p_event.contact_email}}|||
 enrolment_cancelled|Ilmoittautumisen peruuttaminen vahvistettu|Enrolment cancellation confirmed|Avbokning av anmälan bekräftad||||<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
@@ -1941,11 +1944,11 @@ enrolment_cancelled|Ilmoittautumisen peruuttaminen vahvistettu|Enrolment cancell
                                     <ul>
                                       {% if not preview_mode %}
                                       <li>Aika: {{ occurrence.local_start_time.strftime('%d.%m.%Y klo %H.%M')}}</li>
-                                      <li>Paikkoja: {{ study_group.group_size }}</li>
+                                      <li>Paikkoja: Lapset: {{ study_group.group_size }} Aikuiset: {{ study_group.amount_of_adult }}</li>
                                       <li>Kieli: {{occurrence.languages.all() | join (", ")}}</li>
                                       {% else %}
                                       <li>Aika: {{ occurrence.start_time}}</li>
-                                      <li>Paikkoja: {{ study_group.group_size }}</li>
+                                      <li>Paikkoja: Lapset: {{ study_group.group_size }} Aikuiset: {{ study_group.amount_of_adult }}</li>
                                       <li>Kieli: {{ occurrence.languages | join (", ")}}</li>
                                       {% endif %}
                                       {% if event.location is defined %}
@@ -2000,7 +2003,8 @@ enrolment_cancelled|Ilmoittautumisen peruuttaminen vahvistettu|Enrolment cancell
 
 </body>
 
-</html>|<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+</html>
+|<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 
 <head>
@@ -2438,11 +2442,11 @@ enrolment_cancelled|Ilmoittautumisen peruuttaminen vahvistettu|Enrolment cancell
                                     <ul>
                                       {% if not preview_mode %}
                                       <li>Time: {{ occurrence.local_start_time.strftime('%d.%m.%Y klo %H.%M')}}</li>
-                                      <li>Places: {{ study_group.group_size }}</li>
+                                      <li>Places: Children: {{ study_group.group_size }} Adults: {{ study_group.amount_of_adult }}</li>
                                       <li>Language: {{occurrence.languages.all() | join (", ")}}</li>
                                       {% else %}
                                       <li>Time: {{ occurrence.start_time}}</li>
-                                      <li>Places: {{ study_group.group_size }}</li>
+                                      <li>Places: Children: {{ study_group.group_size }} Adults: {{ study_group.amount_of_adult }}</li>
                                       <li>Language: {{ occurrence.languages | join (", ")}}</li>
                                       {% endif %}
                                       {% if event.location is defined %}
@@ -2497,7 +2501,8 @@ enrolment_cancelled|Ilmoittautumisen peruuttaminen vahvistettu|Enrolment cancell
 
 </body>
 
-</html>|<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+</html>
+|<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 
 <head>
@@ -2935,11 +2940,11 @@ enrolment_cancelled|Ilmoittautumisen peruuttaminen vahvistettu|Enrolment cancell
                                     <ul>
                                       {% if not preview_mode %}
                                       <li>Tidpunkt: {{ occurrence.local_start_time.strftime('%d.%m.%Y klo %H.%M')}}</li>
-                                      <li>Platser: {{ study_group.group_size }}</li>
+                                      <li>Plats: Barn: {{ study_group.group_size }} Vuxna: {{ study_group.amount_of_adult }}</li>
                                       <li>Språk: {{occurrence.languages.all() | join (", ")}}</li>
                                       {% else %}
                                       <li>Tidpunkt: {{ occurrence.start_time}}</li>
-                                      <li>Platser: {{ study_group.group_size }}</li>
+                                      <li>Plats: Barn: {{ study_group.group_size }} Vuxna: {{ study_group.amount_of_adult }}</li>
                                       <li>Språk: {{ occurrence.languages | join (", ")}}</li>
                                       {% endif %}
                                       {% if event.location is defined %}
@@ -2995,6 +3000,7 @@ enrolment_cancelled|Ilmoittautumisen peruuttaminen vahvistettu|Enrolment cancell
 </body>
 
 </html>
+
 enrolment_cancelled_sms|enrolment cancelled sms|enrolment cancelled sms|enrolment cancelled sms|Hei. Peruutuksenne tapahtumaan {{trans(event.name)}} on vahvistettu. {{ occurrence.local_start_time.strftime('%d.%m.%Y klo %H.%M')}}. {% if event.location is defined %}{{trans(event.location.name)}}, {{trans(event.location.street_address)}}. {% endif %}Lisätietoja: {{occurrence.p_event.contact_email}}|Hi. Your cancellation to the event {{trans(event.name)}} is confirmed. {{ occurrence.local_start_time.strftime('%d.%m.%Y at %H.%M')}}. {% if event.location is defined %}{{trans(event.location.name)}}, {{trans(event.location.street_address)}}. {% endif %}Info: {{occurrence.p_event.contact_email}}|Hej. Avbokningen av anmälan till evenemanget {{trans(event.name)}} har bekräftats. {{ occurrence.local_start_time.strftime('%d.%m.%Y at %H.%M')}}. {% if event.location is defined %}{{trans(event.location.name)}}, {{trans(event.location.street_address)}}. {% endif %}Mer information: {{occurrence.p_event.contact_email}}|||
 enrolment_declined|Ilmoittautumisen peruutusilmoitus|Enrolment declined|Meddelande om avbokning||||<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
@@ -3440,11 +3446,11 @@ enrolment_declined|Ilmoittautumisen peruutusilmoitus|Enrolment declined|Meddelan
                                     <ul>
                                       {% if not preview_mode %}
                                       <li>Aika: {{ occurrence.local_start_time.strftime('%d.%m.%Y klo %H.%M')}}</li>
-                                      <li>Paikkoja: {{ study_group.group_size }}</li>
+                                      <li>Paikkoja: Lapset: {{ study_group.group_size }} Aikuiset: {{ study_group.amount_of_adult }}</li>
                                       <li>Kieli: {{occurrence.languages.all() | join (", ")}}</li>
                                       {% else %}
                                       <li>Aika: {{ occurrence.start_time}}</li>
-                                      <li>Paikkoja: {{ study_group.group_size }}</li>
+                                      <li>Paikkoja: Lapset: {{ study_group.group_size }} Aikuiset: {{ study_group.amount_of_adult }}</li>
                                       <li>Kieli: {{ occurrence.languages | join (", ")}}</li>
                                       {% endif %}
                                       {% if event.location is defined %}
@@ -3499,7 +3505,8 @@ enrolment_declined|Ilmoittautumisen peruutusilmoitus|Enrolment declined|Meddelan
 
 </body>
 
-</html>|<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+</html>
+|<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 
 <head>
@@ -3944,11 +3951,11 @@ enrolment_declined|Ilmoittautumisen peruutusilmoitus|Enrolment declined|Meddelan
                                     <ul>
                                       {% if not preview_mode %}
                                       <li>Time: {{ occurrence.local_start_time.strftime('%d.%m.%Y %H.%M')}}</li>
-                                      <li>Places: {{ study_group.group_size }}</li>
+                                      <li>Places: Children: {{ study_group.group_size }} Adults: {{ study_group.amount_of_adult }}</li>
                                       <li>Language: {{occurrence.languages.all() | join (", ")}}</li>
                                       {% else %}
                                       <li>Time: {{ occurrence.start_time}}</li>
-                                      <li>Places: {{ study_group.group_size }}</li>
+                                      <li>Places: Children: {{ study_group.group_size }} Adults: {{ study_group.amount_of_adult }}</li>
                                       <li>Language: {{ occurrence.languages | join (", ")}}</li>
                                       {% endif %}
                                       {% if event.location is defined %}
@@ -4003,7 +4010,8 @@ enrolment_declined|Ilmoittautumisen peruutusilmoitus|Enrolment declined|Meddelan
 
 </body>
 
-</html>|<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+</html>
+|<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 
 <head>
@@ -4447,11 +4455,11 @@ enrolment_declined|Ilmoittautumisen peruutusilmoitus|Enrolment declined|Meddelan
                                     <ul>
                                       {% if not preview_mode %}
                                       <li>Tidpunkt: {{ occurrence.local_start_time.strftime('%d.%m.%Y kl %H.%M')}}</li>
-                                      <li>Platser: {{ study_group.group_size }}</li>
+                                      <li>Plats: Barn: {{ study_group.group_size }} Vuxna: {{ study_group.amount_of_adult }}</li>
                                       <li>Språk: {{occurrence.languages.all() | join (", ")}}</li>
                                       {% else %}
                                       <li>Tidpunkt: {{ occurrence.start_time}}</li>
-                                      <li>Platser: {{ study_group.group_size }}</li>
+                                      <li>Plats: Barn: {{ study_group.group_size }} Vuxna: {{ study_group.amount_of_adult }}</li>
                                       <li>Språk: {{ occurrence.languages | join (", ")}}</li>
                                       {% endif %}
                                       {% if event.location is defined %}
@@ -4507,6 +4515,7 @@ enrolment_declined|Ilmoittautumisen peruutusilmoitus|Enrolment declined|Meddelan
 </body>
 
 </html>
+
 enrolment_declined_sms|enrolment declined sms|enrolment declined sms|enrolment declined sms|Hei. Valitettavasti emme pysty tarjoamaan paikkaa tapahtumaan {{trans(event.name)}}. {{ occurrence.local_start_time.strftime('%d.%m.%Y klo %H.%M')}}. Ryhmä {{ study_group.name }} {{study_group.group_size}} hlö. {% if event.location is defined %}{{trans(event.location.name)}}, {{trans(event.location.street_address)}}. {% endif %}Lisätietoja: {{occurrence.p_event.contact_email}}|Hi. Unfortunately, we cannot offer you a place at the event {{trans(event.name)}}. {{ occurrence.local_start_time.strftime('%d.%m.%Y at %H.%M')}}. Group {{ study_group.name }} {{study_group.group_size}} ppl. {% if event.location is defined %}{{trans(event.location.name)}}, {{trans(event.location.street_address)}}. {% endif %}Info: {{occurrence.p_event.contact_email}}|Hej. Vi kan tyvärr inte erbjuda en plats på evenemanget {{trans(event.name)}}. {{ occurrence.local_start_time.strftime('%d.%m.%Y kl %H.%M')}} Grupp {{ study_group.name }} {{study_group.group_size}} personer. {% if event.location is defined %}{{trans(event.location.name)}}, {{trans(event.location.street_address)}}. {% endif %}Mer information: {{occurrence.p_event.contact_email}}|||
 enrolment_summary_report|Ilmoittautumisen yhteenvetoraportti|Enrolment summary report|Sammanfattningsrapport för inskrivning||||<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
@@ -6367,12 +6376,12 @@ occurrence_cancelled|Peruutusilmoitus|Cancellation notification|Meddelande om in
                                       {% if not preview_mode %}
                                       <li style="color: #c8224b;">Aika: <span style=" text-decoration: line-through;">{{
                                           occurrence.local_start_time.strftime('%d.%m.%Y klo %H.%M')}}</span></li>
-                                      <li>Paikkoja: {{ study_group.group_size }}</li>
+                                      <li>Paikkoja: Lapset: {{ study_group.group_size }} Aikuiset: {{ study_group.amount_of_adult }}</li>
                                       <li>Kieli: {{occurrence.languages.all() | join (", ")}}</li>
                                       {% else %}
                                       <li style="color: #c8224b;">Aika: <span style=" text-decoration: line-through;">{{
                                           occurrence.start_time}}</span></li>
-                                      <li>Paikkoja: {{ study_group.group_size }}</li>
+                                      <li>Paikkoja: Lapset: {{ study_group.group_size }} Aikuiset: {{ study_group.amount_of_adult }}</li>
                                       <li>Kieli: {{ occurrence.languages | join (", ")}}</li>
                                       {% endif %}
                                       {% if event.location is defined %}
@@ -6427,7 +6436,8 @@ occurrence_cancelled|Peruutusilmoitus|Cancellation notification|Meddelande om in
 
 </body>
 
-</html>|<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+</html>
+|<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 
 <head>
@@ -6865,12 +6875,12 @@ occurrence_cancelled|Peruutusilmoitus|Cancellation notification|Meddelande om in
                                       {% if not preview_mode %}
                                       <li style="color: #c8224b;">Time: <span style=" text-decoration: line-through;">{{
                                           occurrence.local_start_time.strftime('%d.%m.%Y klo %H.%M')}}</span></li>
-                                      <li>Places: {{ study_group.group_size }}</li>
+                                      <li>Places: Children: {{ study_group.group_size }} Adults: {{ study_group.amount_of_adult }}</li>
                                       <li>Language: {{occurrence.languages.all() | join (", ")}}</li>
                                       {% else %}
                                       <li style="color: #c8224b;">Time: <span style=" text-decoration: line-through;">{{
                                           occurrence.start_time}}</span></li>
-                                      <li>Places: {{ study_group.group_size }}</li>
+                                      <li>Places: Children: {{ study_group.group_size }} Adults: {{ study_group.amount_of_adult }}</li>
                                       <li>Language: {{ occurrence.languages | join (", ")}}</li>
                                       {% endif %}
                                       {% if event.location is defined %}
@@ -6925,7 +6935,8 @@ occurrence_cancelled|Peruutusilmoitus|Cancellation notification|Meddelande om in
 
 </body>
 
-</html>|<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+</html>
+|<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 
 <head>
@@ -7364,12 +7375,12 @@ occurrence_cancelled|Peruutusilmoitus|Cancellation notification|Meddelande om in
                                       <li style="color: #c8224b;">Tidpunkt: <span
                                           style=" text-decoration: line-through;">{{
                                           occurrence.local_start_time.strftime('%d.%m.%Y klo %H.%M')}}</span></li>
-                                      <li>Platser: {{ study_group.group_size }}</li>
+                                      <li>Plats: Barn: {{ study_group.group_size }} Vuxna: {{ study_group.amount_of_adult }}</li>
                                       <li>Språk: {{occurrence.languages.all() | join (", ")}}</li>
                                       {% else %}
                                       <li style="color: #c8224b;">Tidpunkt: <span
                                           style=" text-decoration: line-through;">{{ occurrence.start_time}}</span></li>
-                                      <li>Platser: {{ study_group.group_size }}</li>
+                                      <li>Plats: Barn: {{ study_group.group_size }} Vuxna: {{ study_group.amount_of_adult }}</li>
                                       <li>Språk: {{ occurrence.languages | join (", ")}}</li>
                                       {% endif %}
                                       {% if event.location is defined %}
@@ -7425,6 +7436,7 @@ occurrence_cancelled|Peruutusilmoitus|Cancellation notification|Meddelande om in
 </body>
 
 </html>
+
 occurrence_cancelled_sms|occurrence cancelled sms|occurrence cancelled sms|occurrence cancelled sms|Hei. Valitettavasti tapahtuma on peruttu. {{trans(event.name)}}. {{ occurrence.local_start_time.strftime('%d.%m.%Y klo %H.%M')}}. Ryhmä {{ study_group.name }} {{study_group.group_size}} hlö. {% if event.location is defined %}{{trans(event.location.name)}}, {{trans(event.location.street_address)}}. {% endif %}Lisätietoja: {{occurrence.p_event.contact_email}}|Hi. Unfortunately, the event is cancelled. {{trans(event.name)}}. {{ occurrence.local_start_time.strftime('%d.%m.%Y at %H.%M')}}. Group {{ study_group.name }} {{study_group.group_size}} ppl. {% if event.location is defined %}{{trans(event.location.name)}}, {{trans(event.location.street_address)}}. {% endif %}Info: {{occurrence.p_event.contact_email}}|Hej. Evenemanget har tyvärr ställts in. {{trans(event.name)}}. {{ occurrence.local_start_time.strftime('%d.%m.%Y kl %H.%M')}} Grupp {{ study_group.name }} {{study_group.group_size}} personer. {% if event.location is defined %}{{trans(event.location.name)}}, {{trans(event.location.street_address)}}. {% endif %}Mer information: {{occurrence.p_event.contact_email}}|||
 occurrence_enrolment|Ilmoittautuminen vastaanotettu|Enrolment received|Anmälan mottagen||||<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
@@ -7861,11 +7873,11 @@ occurrence_enrolment|Ilmoittautuminen vastaanotettu|Enrolment received|Anmälan 
                                     <ul>
                                       {% if not preview_mode %}
                                       <li>Aika: {{ occurrence.local_start_time.strftime('%d.%m.%Y klo %H.%M')}}</li>
-                                      <li>Paikkoja: {{ study_group.group_size }}</li>
+                                      <li>Paikkoja: Lapset: {{ study_group.group_size }} Aikuiset: {{ study_group.amount_of_adult }}</li>
                                       <li>Kieli: {{occurrence.languages.all() | join (", ")}}</li>
                                       {% else %}
                                       <li>Aika: {{ occurrence.start_time}}</li>
-                                      <li>Paikkoja: {{ study_group.group_size }}</li>
+                                      <li>Paikkoja: Lapset: {{ study_group.group_size }} Aikuiset: {{ study_group.amount_of_adult }}</li>
                                       <li>Kieli: {{ occurrence.languages | join (", ")}}</li>
                                       {% endif %}
                                       {% if event.location is defined %}
@@ -7913,7 +7925,8 @@ occurrence_enrolment|Ilmoittautuminen vastaanotettu|Enrolment received|Anmälan 
 
 </body>
 
-</html>|<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+</html>
+|<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 
 <head>
@@ -8348,11 +8361,11 @@ occurrence_enrolment|Ilmoittautuminen vastaanotettu|Enrolment received|Anmälan 
                                     <ul>
                                       {% if not preview_mode %}
                                       <li>Time: {{ occurrence.local_start_time.strftime('%d.%m.%Y klo %H.%M')}}</li>
-                                      <li>Places: {{ study_group.group_size }}</li>
+                                      <li>Places: Children: {{ study_group.group_size }} Adults: {{ study_group.amount_of_adult }}</li>
                                       <li>Language: {{occurrence.languages.all() | join (", ")}}</li>
                                       {% else %}
                                       <li>Time: {{ occurrence.start_time}}</li>
-                                      <li>Places: {{ study_group.group_size }}</li>
+                                      <li>Places: Children: {{ study_group.group_size }} Adults: {{ study_group.amount_of_adult }}</li>
                                       <li>Language: {{ occurrence.languages | join (", ")}}</li>
                                       {% endif %}
                                       {% if event.location is defined %}
@@ -8400,7 +8413,8 @@ occurrence_enrolment|Ilmoittautuminen vastaanotettu|Enrolment received|Anmälan 
 
 </body>
 
-</html>|<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+</html>
+|<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 
 <head>
@@ -8835,11 +8849,11 @@ occurrence_enrolment|Ilmoittautuminen vastaanotettu|Enrolment received|Anmälan 
                                     <ul>
                                       {% if not preview_mode %}
                                       <li>Tidpunkt: {{ occurrence.local_start_time.strftime('%d.%m.%Y klo %H.%M')}}</li>
-                                      <li>Platser: {{ study_group.group_size }}</li>
+                                      <li>Plats: Barn: {{ study_group.group_size }} Vuxna: {{ study_group.amount_of_adult }}</li>
                                       <li>Språk: {{occurrence.languages.all() | join (", ")}}</li>
                                       {% else %}
                                       <li>Tidpunkt: {{ occurrence.start_time}}</li>
-                                      <li>Platser: {{ study_group.group_size }}</li>
+                                      <li>Plats: Barn: {{ study_group.group_size }} Vuxna: {{ study_group.amount_of_adult }}</li>
                                       <li>Språk: {{ occurrence.languages | join (", ")}}</li>
                                       {% endif %}
                                       {% if event.location is defined %}
@@ -8888,6 +8902,7 @@ occurrence_enrolment|Ilmoittautuminen vastaanotettu|Enrolment received|Anmälan 
 </body>
 
 </html>
+
 occurrence_enrolment_sms|occurrence enrolment sms|occurrence enrolment sms|occurrence enrolment sms|Hei. Viesti vastaanotettu tapahtumaan {{trans(event.name)}}. {{ occurrence.local_start_time.strftime('%d.%m.%Y klo %H.%M')}}. Ryhmä {{ study_group.name }} {{study_group.group_size}} hlö. {% if event.location is defined %}{{trans(event.location.name)}}, {{trans(event.location.street_address)}}. {% endif %}Lisätietoja: {{occurrence.p_event.contact_email}}|Message received. We will send you a confirmation for the event {{trans(event.name)}}. {{ occurrence.local_start_time.strftime('%d.%m.%Y at %H.%M')}}. Group {{ study_group.name }} {{study_group.group_size}} ppl. {% if event.location is defined %}{{trans(event.location.name)}}, {{trans(event.location.street_address)}}. {% endif %}Info: {{occurrence.p_event.contact_email}}|Hej. Meddelandet är mottaget. Du får ännu en separat bekräftelse för deltagandet i evenemanget {{trans(event.name)}}. {{ occurrence.local_start_time.strftime('%d.%m.%Y kl %H.%M')}} Grupp {{ study_group.name }} {{study_group.group_size}} personer. {% if event.location is defined %}{{trans(event.location.name)}}, {{trans(event.location.street_address)}}. {% endif %}Mer information: {{occurrence.p_event.contact_email}}|||
 person_myprofile_accepted|Käyttäjätilisi Kultuksessa on valmis käytettäväksi|Your user account in Kultus is ready for use|Ditt användarkonto i Kultus är klart för användning||||<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
@@ -12237,11 +12252,11 @@ snapshots[
                                     <ul>
                                       {% if not preview_mode %}
                                       <li>Aika: {{ occurrence.local_start_time.strftime('%d.%m.%Y klo %H.%M')}}</li>
-                                      <li>Paikkoja: {{ study_group.group_size }}</li>
+                                      <li>Paikkoja: Lapset: {{ study_group.group_size }} Aikuiset: {{ study_group.amount_of_adult }}</li>
                                       <li>Kieli: {{occurrence.languages.all() | join (", ")}}</li>
                                       {% else %}
                                       <li>Aika: {{ occurrence.start_time}}</li>
-                                      <li>Paikkoja: {{ study_group.group_size }}</li>
+                                      <li>Paikkoja: Lapset: {{ study_group.group_size }} Aikuiset: {{ study_group.amount_of_adult }}</li>
                                       <li>Kieli: {{ occurrence.languages | join (", ")}}</li>
                                       {% endif %}
                                       {% if event.location is defined %}
@@ -12296,7 +12311,8 @@ snapshots[
 
 </body>
 
-</html>|<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+</html>
+|<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 
 <head>
@@ -12738,11 +12754,11 @@ snapshots[
                                     <ul>
                                       {% if not preview_mode %}
                                       <li>Time: {{ occurrence.local_start_time.strftime('%d.%m.%Y %H.%M')}}</li>
-                                      <li>Places: {{ study_group.group_size }}</li>
+                                      <li>Places: Children: {{ study_group.group_size }} Adults: {{ study_group.amount_of_adult }}</li>
                                       <li>Language: {{occurrence.languages.all() | join (", ")}}</li>
                                       {% else %}
                                       <li>Time: {{ occurrence.start_time}}</li>
-                                      <li>Places: {{ study_group.group_size }}</li>
+                                      <li>Places: Children: {{ study_group.group_size }} Adults: {{ study_group.amount_of_adult }}</li>
                                       <li>Language: {{ occurrence.languages | join (", ")}}</li>
                                       {% endif %}
                                       {% if event.location is defined %}
@@ -12797,7 +12813,8 @@ snapshots[
 
 </body>
 
-</html>|<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+</html>
+|<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 
 <head>
@@ -13247,14 +13264,14 @@ snapshots[
                                                                             <li>Tidpunkt: {{
                                                                                 occurrence.local_start_time.strftime('%d.%m.%Y
                                                                                 kl %H.%M')}}</li>
-                                                                            <li>Platser: {{ study_group.group_size }}
+                                                                            <li>Plats: Barn: {{ study_group.group_size }} Vuxna: {{ study_group.amount_of_adult }}
                                                                             </li>
                                                                             <li>Språk: {{occurrence.languages.all() |
                                                                                 join (", ")}}</li>
                                                                             {% else %}
                                                                             <li>Tidpunkt: {{ occurrence.start_time}}
                                                                             </li>
-                                                                            <li>Platser: {{ study_group.group_size }}
+                                                                            <li>Plats: Barn: {{ study_group.group_size }} Vuxna: {{ study_group.amount_of_adult }}
                                                                             </li>
                                                                             <li>Språk: {{ occurrence.languages | join
                                                                                 (", ")}}</li>
@@ -13316,7 +13333,8 @@ snapshots[
 
 </body>
 
-</html>"""
+</html>
+"""
 
 snapshots[
     "test_create_non_existing_and_update_existing_notifications 1"
@@ -13760,7 +13778,7 @@ enrolment_cancellation|Ilmoittautumisen peruuttaminen|Enrolment cancellation|Avb
                                       Tapahtuman tiedot:</h4>
                                     <ul>
                                       <li>Aika: {{ occurrence.local_start_time.strftime('%d.%m.%Y klo %H.%M')}}</li>
-                                      <li>Paikkoja: {{ study_group.group_size }}</li>
+                                      <li>Paikkoja: Lapset: {{ study_group.group_size }} Aikuiset: {{ study_group.amount_of_adult }}</li>
                                       <li>Kieli: {{occurrence.languages.all() | join (", ")}}</li>
                                       {% if event.location is defined %}
                                       <li>Paikka: <a href="#"
@@ -13814,7 +13832,8 @@ enrolment_cancellation|Ilmoittautumisen peruuttaminen|Enrolment cancellation|Avb
 
 </body>
 
-</html>|<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+</html>
+|<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 
 <head>
@@ -14254,11 +14273,11 @@ enrolment_cancellation|Ilmoittautumisen peruuttaminen|Enrolment cancellation|Avb
                                     <ul>
                                       {% if not preview_mode %}
                                       <li>Time: {{ occurrence.local_start_time.strftime('%d.%m.%Y klo %H.%M')}}</li>
-                                      <li>Places: {{ study_group.group_size }}</li>
+                                      <li>Places: Children: {{ study_group.group_size }} Adults: {{ study_group.amount_of_adult }}</li>
                                       <li>Language: {{occurrence.languages.all() | join (", ")}}</li>
                                       {% else %}
                                       <li>Time: {{ occurrence.start_time}}</li>
-                                      <li>Places: {{ study_group.group_size }}</li>
+                                      <li>Places: Children: {{ study_group.group_size }} Adults: {{ study_group.amount_of_adult }}</li>
                                       <li>Language: {{ occurrence.languages | join (", ")}}</li>
                                       {% endif %}
                                       {% if event.location is defined %}
@@ -14313,7 +14332,8 @@ enrolment_cancellation|Ilmoittautumisen peruuttaminen|Enrolment cancellation|Avb
 
 </body>
 
-</html>|<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+</html>
+|<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 
 <head>
@@ -14753,11 +14773,11 @@ enrolment_cancellation|Ilmoittautumisen peruuttaminen|Enrolment cancellation|Avb
                                     <ul>
                                       {% if not preview_mode %}
                                       <li>Tidpunkt: {{ occurrence.local_start_time.strftime('%d.%m.%Y klo %H.%M')}}</li>
-                                      <li>Platser: {{ study_group.group_size }}</li>
+                                      <li>Plats: Barn: {{ study_group.group_size }} Vuxna: {{ study_group.amount_of_adult }}</li>
                                       <li>Språk: {{occurrence.languages.all() | join (", ")}}</li>
                                       {% else %}
                                       <li>Tidpunkt: {{ occurrence.start_time}}</li>
-                                      <li>Platser: {{ study_group.group_size }}</li>
+                                      <li>Plats: Barn: {{ study_group.group_size }} Vuxna: {{ study_group.amount_of_adult }}</li>
                                       <li>Språk: {{ occurrence.languages | join (", ")}}</li>
                                       {% endif %}
                                       {% if event.location is defined %}
@@ -14813,6 +14833,7 @@ enrolment_cancellation|Ilmoittautumisen peruuttaminen|Enrolment cancellation|Avb
 </body>
 
 </html>
+
 enrolment_cancellation_sms|enrolment cancellation sms|enrolment cancellation sms|enrolment cancellation sms|Hei. Voitte vahvistaa peruutuksenne liittyen tapahtumaan {{trans(event.name)}} seuraavalla linkillä: {{enrolment.get_cancellation_url(language='fi')}}. {{ occurrence.local_start_time.strftime('%d.%m.%Y klo %H.%M')}}. {% if event.location is defined %}{{trans(event.location.name)}}, {{trans(event.location.street_address)}}. {% endif %}Lisätietoja: {{occurrence.p_event.contact_email}}|Hi. You can confirm your cancellation to the event {{trans(event.name)}} at the following link: {{enrolment.get_cancellation_url(language='en')}}. {{ occurrence.local_start_time.strftime('%d.%m.%Y at %H.%M')}}. {% if event.location is defined %}{{trans(event.location.name)}}, {{trans(event.location.street_address)}}. {% endif %}Info: {{occurrence.p_event.contact_email}}|Hej. Du kan bekräfta din avbokning till evenemanget {{trans(event.name)}} på följande länk: {{enrolment.get_cancellation_url(language='sv')}}. {{ occurrence.local_start_time.strftime('%d.%m.%Y at %H.%M')}}. {% if event.location is defined %}{{trans(event.location.name)}}, {{trans(event.location.street_address)}}. {% endif %}Mer information: {{occurrence.p_event.contact_email}}|||
 enrolment_cancelled|Ilmoittautumisen peruuttaminen vahvistettu|Enrolment cancellation confirmed|Avbokning av anmälan bekräftad||||<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
@@ -15252,11 +15273,11 @@ enrolment_cancelled|Ilmoittautumisen peruuttaminen vahvistettu|Enrolment cancell
                                     <ul>
                                       {% if not preview_mode %}
                                       <li>Aika: {{ occurrence.local_start_time.strftime('%d.%m.%Y klo %H.%M')}}</li>
-                                      <li>Paikkoja: {{ study_group.group_size }}</li>
+                                      <li>Paikkoja: Lapset: {{ study_group.group_size }} Aikuiset: {{ study_group.amount_of_adult }}</li>
                                       <li>Kieli: {{occurrence.languages.all() | join (", ")}}</li>
                                       {% else %}
                                       <li>Aika: {{ occurrence.start_time}}</li>
-                                      <li>Paikkoja: {{ study_group.group_size }}</li>
+                                      <li>Paikkoja: Lapset: {{ study_group.group_size }} Aikuiset: {{ study_group.amount_of_adult }}</li>
                                       <li>Kieli: {{ occurrence.languages | join (", ")}}</li>
                                       {% endif %}
                                       {% if event.location is defined %}
@@ -15311,7 +15332,8 @@ enrolment_cancelled|Ilmoittautumisen peruuttaminen vahvistettu|Enrolment cancell
 
 </body>
 
-</html>|<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+</html>
+|<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 
 <head>
@@ -15749,11 +15771,11 @@ enrolment_cancelled|Ilmoittautumisen peruuttaminen vahvistettu|Enrolment cancell
                                     <ul>
                                       {% if not preview_mode %}
                                       <li>Time: {{ occurrence.local_start_time.strftime('%d.%m.%Y klo %H.%M')}}</li>
-                                      <li>Places: {{ study_group.group_size }}</li>
+                                      <li>Places: Children: {{ study_group.group_size }} Adults: {{ study_group.amount_of_adult }}</li>
                                       <li>Language: {{occurrence.languages.all() | join (", ")}}</li>
                                       {% else %}
                                       <li>Time: {{ occurrence.start_time}}</li>
-                                      <li>Places: {{ study_group.group_size }}</li>
+                                      <li>Places: Children: {{ study_group.group_size }} Adults: {{ study_group.amount_of_adult }}</li>
                                       <li>Language: {{ occurrence.languages | join (", ")}}</li>
                                       {% endif %}
                                       {% if event.location is defined %}
@@ -15808,7 +15830,8 @@ enrolment_cancelled|Ilmoittautumisen peruuttaminen vahvistettu|Enrolment cancell
 
 </body>
 
-</html>|<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+</html>
+|<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 
 <head>
@@ -16246,11 +16269,11 @@ enrolment_cancelled|Ilmoittautumisen peruuttaminen vahvistettu|Enrolment cancell
                                     <ul>
                                       {% if not preview_mode %}
                                       <li>Tidpunkt: {{ occurrence.local_start_time.strftime('%d.%m.%Y klo %H.%M')}}</li>
-                                      <li>Platser: {{ study_group.group_size }}</li>
+                                      <li>Plats: Barn: {{ study_group.group_size }} Vuxna: {{ study_group.amount_of_adult }}</li>
                                       <li>Språk: {{occurrence.languages.all() | join (", ")}}</li>
                                       {% else %}
                                       <li>Tidpunkt: {{ occurrence.start_time}}</li>
-                                      <li>Platser: {{ study_group.group_size }}</li>
+                                      <li>Plats: Barn: {{ study_group.group_size }} Vuxna: {{ study_group.amount_of_adult }}</li>
                                       <li>Språk: {{ occurrence.languages | join (", ")}}</li>
                                       {% endif %}
                                       {% if event.location is defined %}
@@ -16306,6 +16329,7 @@ enrolment_cancelled|Ilmoittautumisen peruuttaminen vahvistettu|Enrolment cancell
 </body>
 
 </html>
+
 enrolment_cancelled_sms|enrolment cancelled sms|enrolment cancelled sms|enrolment cancelled sms|Hei. Peruutuksenne tapahtumaan {{trans(event.name)}} on vahvistettu. {{ occurrence.local_start_time.strftime('%d.%m.%Y klo %H.%M')}}. {% if event.location is defined %}{{trans(event.location.name)}}, {{trans(event.location.street_address)}}. {% endif %}Lisätietoja: {{occurrence.p_event.contact_email}}|Hi. Your cancellation to the event {{trans(event.name)}} is confirmed. {{ occurrence.local_start_time.strftime('%d.%m.%Y at %H.%M')}}. {% if event.location is defined %}{{trans(event.location.name)}}, {{trans(event.location.street_address)}}. {% endif %}Info: {{occurrence.p_event.contact_email}}|Hej. Avbokningen av anmälan till evenemanget {{trans(event.name)}} har bekräftats. {{ occurrence.local_start_time.strftime('%d.%m.%Y at %H.%M')}}. {% if event.location is defined %}{{trans(event.location.name)}}, {{trans(event.location.street_address)}}. {% endif %}Mer information: {{occurrence.p_event.contact_email}}|||
 enrolment_declined|Ilmoittautumisen peruutusilmoitus|Enrolment declined|Meddelande om avbokning||||<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
@@ -16751,11 +16775,11 @@ enrolment_declined|Ilmoittautumisen peruutusilmoitus|Enrolment declined|Meddelan
                                     <ul>
                                       {% if not preview_mode %}
                                       <li>Aika: {{ occurrence.local_start_time.strftime('%d.%m.%Y klo %H.%M')}}</li>
-                                      <li>Paikkoja: {{ study_group.group_size }}</li>
+                                      <li>Paikkoja: Lapset: {{ study_group.group_size }} Aikuiset: {{ study_group.amount_of_adult }}</li>
                                       <li>Kieli: {{occurrence.languages.all() | join (", ")}}</li>
                                       {% else %}
                                       <li>Aika: {{ occurrence.start_time}}</li>
-                                      <li>Paikkoja: {{ study_group.group_size }}</li>
+                                      <li>Paikkoja: Lapset: {{ study_group.group_size }} Aikuiset: {{ study_group.amount_of_adult }}</li>
                                       <li>Kieli: {{ occurrence.languages | join (", ")}}</li>
                                       {% endif %}
                                       {% if event.location is defined %}
@@ -16810,7 +16834,8 @@ enrolment_declined|Ilmoittautumisen peruutusilmoitus|Enrolment declined|Meddelan
 
 </body>
 
-</html>|<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+</html>
+|<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 
 <head>
@@ -17255,11 +17280,11 @@ enrolment_declined|Ilmoittautumisen peruutusilmoitus|Enrolment declined|Meddelan
                                     <ul>
                                       {% if not preview_mode %}
                                       <li>Time: {{ occurrence.local_start_time.strftime('%d.%m.%Y %H.%M')}}</li>
-                                      <li>Places: {{ study_group.group_size }}</li>
+                                      <li>Places: Children: {{ study_group.group_size }} Adults: {{ study_group.amount_of_adult }}</li>
                                       <li>Language: {{occurrence.languages.all() | join (", ")}}</li>
                                       {% else %}
                                       <li>Time: {{ occurrence.start_time}}</li>
-                                      <li>Places: {{ study_group.group_size }}</li>
+                                      <li>Places: Children: {{ study_group.group_size }} Adults: {{ study_group.amount_of_adult }}</li>
                                       <li>Language: {{ occurrence.languages | join (", ")}}</li>
                                       {% endif %}
                                       {% if event.location is defined %}
@@ -17314,7 +17339,8 @@ enrolment_declined|Ilmoittautumisen peruutusilmoitus|Enrolment declined|Meddelan
 
 </body>
 
-</html>|<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+</html>
+|<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 
 <head>
@@ -17758,11 +17784,11 @@ enrolment_declined|Ilmoittautumisen peruutusilmoitus|Enrolment declined|Meddelan
                                     <ul>
                                       {% if not preview_mode %}
                                       <li>Tidpunkt: {{ occurrence.local_start_time.strftime('%d.%m.%Y kl %H.%M')}}</li>
-                                      <li>Platser: {{ study_group.group_size }}</li>
+                                      <li>Plats: Barn: {{ study_group.group_size }} Vuxna: {{ study_group.amount_of_adult }}</li>
                                       <li>Språk: {{occurrence.languages.all() | join (", ")}}</li>
                                       {% else %}
                                       <li>Tidpunkt: {{ occurrence.start_time}}</li>
-                                      <li>Platser: {{ study_group.group_size }}</li>
+                                      <li>Plats: Barn: {{ study_group.group_size }} Vuxna: {{ study_group.amount_of_adult }}</li>
                                       <li>Språk: {{ occurrence.languages | join (", ")}}</li>
                                       {% endif %}
                                       {% if event.location is defined %}
@@ -17818,6 +17844,7 @@ enrolment_declined|Ilmoittautumisen peruutusilmoitus|Enrolment declined|Meddelan
 </body>
 
 </html>
+
 enrolment_declined_sms|enrolment declined sms|enrolment declined sms|enrolment declined sms|Hei. Valitettavasti emme pysty tarjoamaan paikkaa tapahtumaan {{trans(event.name)}}. {{ occurrence.local_start_time.strftime('%d.%m.%Y klo %H.%M')}}. Ryhmä {{ study_group.name }} {{study_group.group_size}} hlö. {% if event.location is defined %}{{trans(event.location.name)}}, {{trans(event.location.street_address)}}. {% endif %}Lisätietoja: {{occurrence.p_event.contact_email}}|Hi. Unfortunately, we cannot offer you a place at the event {{trans(event.name)}}. {{ occurrence.local_start_time.strftime('%d.%m.%Y at %H.%M')}}. Group {{ study_group.name }} {{study_group.group_size}} ppl. {% if event.location is defined %}{{trans(event.location.name)}}, {{trans(event.location.street_address)}}. {% endif %}Info: {{occurrence.p_event.contact_email}}|Hej. Vi kan tyvärr inte erbjuda en plats på evenemanget {{trans(event.name)}}. {{ occurrence.local_start_time.strftime('%d.%m.%Y kl %H.%M')}} Grupp {{ study_group.name }} {{study_group.group_size}} personer. {% if event.location is defined %}{{trans(event.location.name)}}, {{trans(event.location.street_address)}}. {% endif %}Mer information: {{occurrence.p_event.contact_email}}|||
 enrolment_summary_report|Ilmoittautumisen yhteenvetoraportti|Enrolment summary report|Sammanfattningsrapport för inskrivning||||<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
@@ -19678,12 +19705,12 @@ occurrence_cancelled|Peruutusilmoitus|Cancellation notification|Meddelande om in
                                       {% if not preview_mode %}
                                       <li style="color: #c8224b;">Aika: <span style=" text-decoration: line-through;">{{
                                           occurrence.local_start_time.strftime('%d.%m.%Y klo %H.%M')}}</span></li>
-                                      <li>Paikkoja: {{ study_group.group_size }}</li>
+                                      <li>Paikkoja: Lapset: {{ study_group.group_size }} Aikuiset: {{ study_group.amount_of_adult }}</li>
                                       <li>Kieli: {{occurrence.languages.all() | join (", ")}}</li>
                                       {% else %}
                                       <li style="color: #c8224b;">Aika: <span style=" text-decoration: line-through;">{{
                                           occurrence.start_time}}</span></li>
-                                      <li>Paikkoja: {{ study_group.group_size }}</li>
+                                      <li>Paikkoja: Lapset: {{ study_group.group_size }} Aikuiset: {{ study_group.amount_of_adult }}</li>
                                       <li>Kieli: {{ occurrence.languages | join (", ")}}</li>
                                       {% endif %}
                                       {% if event.location is defined %}
@@ -19738,7 +19765,8 @@ occurrence_cancelled|Peruutusilmoitus|Cancellation notification|Meddelande om in
 
 </body>
 
-</html>|<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+</html>
+|<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 
 <head>
@@ -20176,12 +20204,12 @@ occurrence_cancelled|Peruutusilmoitus|Cancellation notification|Meddelande om in
                                       {% if not preview_mode %}
                                       <li style="color: #c8224b;">Time: <span style=" text-decoration: line-through;">{{
                                           occurrence.local_start_time.strftime('%d.%m.%Y klo %H.%M')}}</span></li>
-                                      <li>Places: {{ study_group.group_size }}</li>
+                                      <li>Places: Children: {{ study_group.group_size }} Adults: {{ study_group.amount_of_adult }}</li>
                                       <li>Language: {{occurrence.languages.all() | join (", ")}}</li>
                                       {% else %}
                                       <li style="color: #c8224b;">Time: <span style=" text-decoration: line-through;">{{
                                           occurrence.start_time}}</span></li>
-                                      <li>Places: {{ study_group.group_size }}</li>
+                                      <li>Places: Children: {{ study_group.group_size }} Adults: {{ study_group.amount_of_adult }}</li>
                                       <li>Language: {{ occurrence.languages | join (", ")}}</li>
                                       {% endif %}
                                       {% if event.location is defined %}
@@ -20236,7 +20264,8 @@ occurrence_cancelled|Peruutusilmoitus|Cancellation notification|Meddelande om in
 
 </body>
 
-</html>|<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+</html>
+|<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 
 <head>
@@ -20675,12 +20704,12 @@ occurrence_cancelled|Peruutusilmoitus|Cancellation notification|Meddelande om in
                                       <li style="color: #c8224b;">Tidpunkt: <span
                                           style=" text-decoration: line-through;">{{
                                           occurrence.local_start_time.strftime('%d.%m.%Y klo %H.%M')}}</span></li>
-                                      <li>Platser: {{ study_group.group_size }}</li>
+                                      <li>Plats: Barn: {{ study_group.group_size }} Vuxna: {{ study_group.amount_of_adult }}</li>
                                       <li>Språk: {{occurrence.languages.all() | join (", ")}}</li>
                                       {% else %}
                                       <li style="color: #c8224b;">Tidpunkt: <span
                                           style=" text-decoration: line-through;">{{ occurrence.start_time}}</span></li>
-                                      <li>Platser: {{ study_group.group_size }}</li>
+                                      <li>Plats: Barn: {{ study_group.group_size }} Vuxna: {{ study_group.amount_of_adult }}</li>
                                       <li>Språk: {{ occurrence.languages | join (", ")}}</li>
                                       {% endif %}
                                       {% if event.location is defined %}
@@ -20736,6 +20765,7 @@ occurrence_cancelled|Peruutusilmoitus|Cancellation notification|Meddelande om in
 </body>
 
 </html>
+
 occurrence_cancelled_sms|occurrence cancelled sms|occurrence cancelled sms|occurrence cancelled sms|Hei. Valitettavasti tapahtuma on peruttu. {{trans(event.name)}}. {{ occurrence.local_start_time.strftime('%d.%m.%Y klo %H.%M')}}. Ryhmä {{ study_group.name }} {{study_group.group_size}} hlö. {% if event.location is defined %}{{trans(event.location.name)}}, {{trans(event.location.street_address)}}. {% endif %}Lisätietoja: {{occurrence.p_event.contact_email}}|Hi. Unfortunately, the event is cancelled. {{trans(event.name)}}. {{ occurrence.local_start_time.strftime('%d.%m.%Y at %H.%M')}}. Group {{ study_group.name }} {{study_group.group_size}} ppl. {% if event.location is defined %}{{trans(event.location.name)}}, {{trans(event.location.street_address)}}. {% endif %}Info: {{occurrence.p_event.contact_email}}|Hej. Evenemanget har tyvärr ställts in. {{trans(event.name)}}. {{ occurrence.local_start_time.strftime('%d.%m.%Y kl %H.%M')}} Grupp {{ study_group.name }} {{study_group.group_size}} personer. {% if event.location is defined %}{{trans(event.location.name)}}, {{trans(event.location.street_address)}}. {% endif %}Mer information: {{occurrence.p_event.contact_email}}|||
 occurrence_enrolment_sms|occurrence enrolment sms|occurrence enrolment sms|occurrence enrolment sms|Hei. Viesti vastaanotettu tapahtumaan {{trans(event.name)}}. {{ occurrence.local_start_time.strftime('%d.%m.%Y klo %H.%M')}}. Ryhmä {{ study_group.name }} {{study_group.group_size}} hlö. {% if event.location is defined %}{{trans(event.location.name)}}, {{trans(event.location.street_address)}}. {% endif %}Lisätietoja: {{occurrence.p_event.contact_email}}|Message received. We will send you a confirmation for the event {{trans(event.name)}}. {{ occurrence.local_start_time.strftime('%d.%m.%Y at %H.%M')}}. Group {{ study_group.name }} {{study_group.group_size}} ppl. {% if event.location is defined %}{{trans(event.location.name)}}, {{trans(event.location.street_address)}}. {% endif %}Info: {{occurrence.p_event.contact_email}}|Hej. Meddelandet är mottaget. Du får ännu en separat bekräftelse för deltagandet i evenemanget {{trans(event.name)}}. {{ occurrence.local_start_time.strftime('%d.%m.%Y kl %H.%M')}} Grupp {{ study_group.name }} {{study_group.group_size}} personer. {% if event.location is defined %}{{trans(event.location.name)}}, {{trans(event.location.street_address)}}. {% endif %}Mer information: {{occurrence.p_event.contact_email}}|||
 person_myprofile_accepted|Käyttäjätilisi Kultuksessa on valmis käytettäväksi|Your user account in Kultus is ready for use|Ditt användarkonto i Kultus är klart för användning||||<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
@@ -24083,11 +24113,11 @@ enrolment_approved|Ilmoittautuminen vahvistettu|Enrolment approved|Anmälan har 
                                     <ul>
                                       {% if not preview_mode %}
                                       <li>Aika: {{ occurrence.local_start_time.strftime('%d.%m.%Y klo %H.%M')}}</li>
-                                      <li>Paikkoja: {{ study_group.group_size }}</li>
+                                      <li>Paikkoja: Lapset: {{ study_group.group_size }} Aikuiset: {{ study_group.amount_of_adult }}</li>
                                       <li>Kieli: {{occurrence.languages.all() | join (", ")}}</li>
                                       {% else %}
                                       <li>Aika: {{ occurrence.start_time}}</li>
-                                      <li>Paikkoja: {{ study_group.group_size }}</li>
+                                      <li>Paikkoja: Lapset: {{ study_group.group_size }} Aikuiset: {{ study_group.amount_of_adult }}</li>
                                       <li>Kieli: {{ occurrence.languages | join (", ")}}</li>
                                       {% endif %}
                                       {% if event.location is defined %}
@@ -24142,7 +24172,8 @@ enrolment_approved|Ilmoittautuminen vahvistettu|Enrolment approved|Anmälan har 
 
 </body>
 
-</html>|<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+</html>
+|<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 
 <head>
@@ -24584,11 +24615,11 @@ enrolment_approved|Ilmoittautuminen vahvistettu|Enrolment approved|Anmälan har 
                                     <ul>
                                       {% if not preview_mode %}
                                       <li>Time: {{ occurrence.local_start_time.strftime('%d.%m.%Y %H.%M')}}</li>
-                                      <li>Places: {{ study_group.group_size }}</li>
+                                      <li>Places: Children: {{ study_group.group_size }} Adults: {{ study_group.amount_of_adult }}</li>
                                       <li>Language: {{occurrence.languages.all() | join (", ")}}</li>
                                       {% else %}
                                       <li>Time: {{ occurrence.start_time}}</li>
-                                      <li>Places: {{ study_group.group_size }}</li>
+                                      <li>Places: Children: {{ study_group.group_size }} Adults: {{ study_group.amount_of_adult }}</li>
                                       <li>Language: {{ occurrence.languages | join (", ")}}</li>
                                       {% endif %}
                                       {% if event.location is defined %}
@@ -24643,7 +24674,8 @@ enrolment_approved|Ilmoittautuminen vahvistettu|Enrolment approved|Anmälan har 
 
 </body>
 
-</html>|<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+</html>
+|<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 
 <head>
@@ -25093,14 +25125,14 @@ enrolment_approved|Ilmoittautuminen vahvistettu|Enrolment approved|Anmälan har 
                                                                             <li>Tidpunkt: {{
                                                                                 occurrence.local_start_time.strftime('%d.%m.%Y
                                                                                 kl %H.%M')}}</li>
-                                                                            <li>Platser: {{ study_group.group_size }}
+                                                                            <li>Plats: Barn: {{ study_group.group_size }} Vuxna: {{ study_group.amount_of_adult }}
                                                                             </li>
                                                                             <li>Språk: {{occurrence.languages.all() |
                                                                                 join (", ")}}</li>
                                                                             {% else %}
                                                                             <li>Tidpunkt: {{ occurrence.start_time}}
                                                                             </li>
-                                                                            <li>Platser: {{ study_group.group_size }}
+                                                                            <li>Plats: Barn: {{ study_group.group_size }} Vuxna: {{ study_group.amount_of_adult }}
                                                                             </li>
                                                                             <li>Språk: {{ occurrence.languages | join
                                                                                 (", ")}}</li>
@@ -25163,6 +25195,7 @@ enrolment_approved|Ilmoittautuminen vahvistettu|Enrolment approved|Anmälan har 
 </body>
 
 </html>
+
 occurrence_enrolment|Ilmoittautuminen vastaanotettu|Enrolment received|Anmälan mottagen||||<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 
@@ -25598,11 +25631,11 @@ occurrence_enrolment|Ilmoittautuminen vastaanotettu|Enrolment received|Anmälan 
                                     <ul>
                                       {% if not preview_mode %}
                                       <li>Aika: {{ occurrence.local_start_time.strftime('%d.%m.%Y klo %H.%M')}}</li>
-                                      <li>Paikkoja: {{ study_group.group_size }}</li>
+                                      <li>Paikkoja: Lapset: {{ study_group.group_size }} Aikuiset: {{ study_group.amount_of_adult }}</li>
                                       <li>Kieli: {{occurrence.languages.all() | join (", ")}}</li>
                                       {% else %}
                                       <li>Aika: {{ occurrence.start_time}}</li>
-                                      <li>Paikkoja: {{ study_group.group_size }}</li>
+                                      <li>Paikkoja: Lapset: {{ study_group.group_size }} Aikuiset: {{ study_group.amount_of_adult }}</li>
                                       <li>Kieli: {{ occurrence.languages | join (", ")}}</li>
                                       {% endif %}
                                       {% if event.location is defined %}
@@ -25650,7 +25683,8 @@ occurrence_enrolment|Ilmoittautuminen vastaanotettu|Enrolment received|Anmälan 
 
 </body>
 
-</html>|<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+</html>
+|<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 
 <head>
@@ -26085,11 +26119,11 @@ occurrence_enrolment|Ilmoittautuminen vastaanotettu|Enrolment received|Anmälan 
                                     <ul>
                                       {% if not preview_mode %}
                                       <li>Time: {{ occurrence.local_start_time.strftime('%d.%m.%Y klo %H.%M')}}</li>
-                                      <li>Places: {{ study_group.group_size }}</li>
+                                      <li>Places: Children: {{ study_group.group_size }} Adults: {{ study_group.amount_of_adult }}</li>
                                       <li>Language: {{occurrence.languages.all() | join (", ")}}</li>
                                       {% else %}
                                       <li>Time: {{ occurrence.start_time}}</li>
-                                      <li>Places: {{ study_group.group_size }}</li>
+                                      <li>Places: Children: {{ study_group.group_size }} Adults: {{ study_group.amount_of_adult }}</li>
                                       <li>Language: {{ occurrence.languages | join (", ")}}</li>
                                       {% endif %}
                                       {% if event.location is defined %}
@@ -26137,7 +26171,8 @@ occurrence_enrolment|Ilmoittautuminen vastaanotettu|Enrolment received|Anmälan 
 
 </body>
 
-</html>|<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+</html>
+|<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 
 <head>
@@ -26572,11 +26607,11 @@ occurrence_enrolment|Ilmoittautuminen vastaanotettu|Enrolment received|Anmälan 
                                     <ul>
                                       {% if not preview_mode %}
                                       <li>Tidpunkt: {{ occurrence.local_start_time.strftime('%d.%m.%Y klo %H.%M')}}</li>
-                                      <li>Platser: {{ study_group.group_size }}</li>
+                                      <li>Plats: Barn: {{ study_group.group_size }} Vuxna: {{ study_group.amount_of_adult }}</li>
                                       <li>Språk: {{occurrence.languages.all() | join (", ")}}</li>
                                       {% else %}
                                       <li>Tidpunkt: {{ occurrence.start_time}}</li>
-                                      <li>Platser: {{ study_group.group_size }}</li>
+                                      <li>Plats: Barn: {{ study_group.group_size }} Vuxna: {{ study_group.amount_of_adult }}</li>
                                       <li>Språk: {{ occurrence.languages | join (", ")}}</li>
                                       {% endif %}
                                       {% if event.location is defined %}
@@ -26624,4 +26659,5 @@ occurrence_enrolment|Ilmoittautuminen vastaanotettu|Enrolment received|Anmälan 
 
 </body>
 
-</html>"""
+</html>
+"""
