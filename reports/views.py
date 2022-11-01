@@ -429,7 +429,7 @@ class PalvelutarjotinEventEnrolmentsCsvView(
                     enrolment_datetime.strftime(self.DATE_FORMAT),
                     enrolment_datetime.strftime(self.TIME_FORMAT),
                     enrolment.study_group.unit_name,
-                    enrolment.study_group.name,
+                    enrolment.study_group.group_name,
                     ", ".join(
                         [
                             study_level.label
