@@ -311,7 +311,7 @@ class OrganisationPersonsCsvViewTest(TestCase):
         self.assertNotContains(response, person_2.name)
 
 
-@pytest.mark.usefixtures("mock_get_event_data")
+@pytest.mark.usefixtures("mock_get_event_or_place_data")
 class PalvelutarjotinEventEnrolmentsTest(TestCase):
     @pytest.mark.django_db
     def test_export_enrolment_csv_data(self):
@@ -350,6 +350,8 @@ class PalvelutarjotinEventEnrolmentsTest(TestCase):
         assert response.status_code == status.HTTP_200_OK
 
         self.assertContains(response, p_events[0].linked_event_id)
+        # comes from LE place data
+        self.assertContains(response, "Sellon kirjasto")
 
         self.assertNotContains(response, p_events[1].linked_event_id)
         self.assertNotContains(response, p_events[2].linked_event_id)
