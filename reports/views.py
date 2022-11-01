@@ -13,6 +13,7 @@ from django.utils.decorators import method_decorator
 from django.utils.translation import gettext as _
 from django.views.decorators.http import require_http_methods
 from django.views.generic import ListView
+from functools import lru_cache
 from rest_framework import generics
 from rest_framework.authentication import SessionAuthentication
 from rest_framework.permissions import DjangoModelPermissions, IsAdminUser
@@ -24,7 +25,7 @@ from organisations.models import Organisation, Person
 from palvelutarjotin.oidc import KultusApiTokenAuthentication
 from reports.models import EnrolmentReport
 from reports.serializers import EnrolmentReportSerializer
-from reports.services import sync_enrolment_reports
+from reports.services import get_place_json_from_linkedevents, sync_enrolment_reports
 
 logger = logging.getLogger(__name__)
 
@@ -369,6 +370,8 @@ class PalvelutarjotinEventEnrolmentsCsvView(
     """
 
     model = PalvelutarjotinEvent
+    DATE_FORMAT = "%d.%m.%y"
+    TIME_FORMAT = "%H:%M:%S"
 
     def get(self, request, *args, **kwargs):
         # Inform the user if not all the data was included
@@ -381,17 +384,36 @@ class PalvelutarjotinEventEnrolmentsCsvView(
                 _("Enrolment id"),
                 _("LinkedEvents id"),
                 _("LinkedEvents uri"),
-                _("Occurrence starting (date)"),
+                _("Event starting date"),
+                _("Event starting time"),
+                _("Event ending date"),
+                _("Event ending time"),
                 _("Enrolment date"),
+                _("Enrolment time"),
+                _("Kindergarten / school / college"),
                 _("Group name"),
                 _("Study levels"),
                 _("Amount of children"),
                 _("Amount of adults"),
+                _("Event location"),
                 _("Extra needs"),
                 _("Contact mail"),
+                _("Contact phone"),
             ]
         )
+
+        # fetch every place_id only once
+        @lru_cache()
+        def get_place_from_linkedevents_or_cache(place_id):
+            return get_place_json_from_linkedevents(place_id)
+
         for enrolment in self.get_queryset():
+            start_datetime = timezone.localtime(enrolment.occurrence.start_time)
+            end_datetime = timezone.localtime(enrolment.occurrence.end_time)
+            enrolment_datetime = timezone.localtime(enrolment.enrolment_time)
+
+            place = get_place_from_linkedevents_or_cache(enrolment.occurrence.place_id)
+
             writer.writerow(
                 [
                     enrolment.id,
@@ -400,8 +422,12 @@ class PalvelutarjotinEventEnrolmentsCsvView(
                         linked_events_root=settings.LINKED_EVENTS_API_CONFIG["ROOT"],
                         linked_event_id=enrolment.occurrence.p_event.linked_event_id,
                     ),
-                    enrolment.occurrence.start_time,
-                    enrolment.enrolment_time,
+                    start_datetime.strftime(self.DATE_FORMAT),
+                    start_datetime.strftime(self.TIME_FORMAT),
+                    end_datetime.strftime(self.DATE_FORMAT),
+                    end_datetime.strftime(self.TIME_FORMAT),
+                    enrolment_datetime.strftime(self.DATE_FORMAT),
+                    enrolment_datetime.strftime(self.TIME_FORMAT),
                     enrolment.study_group.name,
                     ", ".join(
                         [
@@ -411,8 +437,12 @@ class PalvelutarjotinEventEnrolmentsCsvView(
                     ),
                     enrolment.study_group.group_size,
                     enrolment.study_group.amount_of_adult,
+                    place["name"].get("fi")
+                    or place["name"].get("sv")
+                    or place["name"].get("en"),
                     enrolment.study_group.extra_needs,
                     enrolment.person.email_address,
+                    enrolment.person.phone_number,
                 ]
             )
         return response

@@ -267,3 +267,24 @@ def mock_get_servicemap_schools_and_kindergartens_data(monkeypatch):
         "list_helsinki_schools_and_kindergartens",
         _get_mock_function(SCHOOL_AND_KINDERGARTEN_NAMES_DATA),
     )
+
+
+@pytest.fixture
+def mock_get_event_or_place_data(monkeypatch):
+    def wrapper(_, resource, *args, **kwargs):
+        if resource == "place":
+            data = PLACE_DATA
+        else:
+            data = EVENT_DATA
+        return _get_mock_function(data)(*args, **kwargs)
+
+    monkeypatch.setattr(
+        LinkedEventsApiClient,
+        "retrieve",
+        wrapper,
+    )
+    monkeypatch.setattr(
+        LinkedEventsApiClient,
+        "update",
+        wrapper,
+    )
