@@ -436,12 +436,12 @@
                                       {% if not preview_mode %}
                                       <li style="color: #c8224b;">Time: <span style=" text-decoration: line-through;">{{
                                           occurrence.local_start_time.strftime('%d.%m.%Y klo %H.%M')}}</span></li>
-                                      <li>Places: {{ study_group.group_size }}</li>
+                                      <li>Places: Children: {{ study_group.group_size }} Adults: {{ study_group.amount_of_adult }}</li>
                                       <li>Language: {{occurrence.languages.all() | join (", ")}}</li>
                                       {% else %}
                                       <li style="color: #c8224b;">Time: <span style=" text-decoration: line-through;">{{
                                           occurrence.start_time}}</span></li>
-                                      <li>Places: {{ study_group.group_size }}</li>
+                                      <li>Places: Children: {{ study_group.group_size }} Adults: {{ study_group.amount_of_adult }}</li>
                                       <li>Language: {{ occurrence.languages | join (", ")}}</li>
                                       {% endif %}
                                       {% if event.location is defined %}

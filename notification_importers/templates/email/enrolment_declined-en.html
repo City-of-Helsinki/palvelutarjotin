@@ -443,11 +443,11 @@
                                     <ul>
                                       {% if not preview_mode %}
                                       <li>Time: {{ occurrence.local_start_time.strftime('%d.%m.%Y %H.%M')}}</li>
-                                      <li>Places: {{ study_group.group_size }}</li>
+                                      <li>Places: Children: {{ study_group.group_size }} Adults: {{ study_group.amount_of_adult }}</li>
                                       <li>Language: {{occurrence.languages.all() | join (", ")}}</li>
                                       {% else %}
                                       <li>Time: {{ occurrence.start_time}}</li>
-                                      <li>Places: {{ study_group.group_size }}</li>
+                                      <li>Places: Children: {{ study_group.group_size }} Adults: {{ study_group.amount_of_adult }}</li>
                                       <li>Language: {{ occurrence.languages | join (", ")}}</li>
                                       {% endif %}
                                       {% if event.location is defined %}

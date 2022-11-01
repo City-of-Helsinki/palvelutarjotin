@@ -437,12 +437,12 @@
                                       <li style="color: #c8224b;">Tidpunkt: <span
                                           style=" text-decoration: line-through;">{{
                                           occurrence.local_start_time.strftime('%d.%m.%Y klo %H.%M')}}</span></li>
-                                      <li>Platser: {{ study_group.group_size }}</li>
+                                      <li>Plats: Barn: {{ study_group.group_size }} Vuxna: {{ study_group.amount_of_adult }}</li>
                                       <li>Språk: {{occurrence.languages.all() | join (", ")}}</li>
                                       {% else %}
                                       <li style="color: #c8224b;">Tidpunkt: <span
                                           style=" text-decoration: line-through;">{{ occurrence.start_time}}</span></li>
-                                      <li>Platser: {{ study_group.group_size }}</li>
+                                      <li>Plats: Barn: {{ study_group.group_size }} Vuxna: {{ study_group.amount_of_adult }}</li>
                                       <li>Språk: {{ occurrence.languages | join (", ")}}</li>
                                       {% endif %}
                                       {% if event.location is defined %}
