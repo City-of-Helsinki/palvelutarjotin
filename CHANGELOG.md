@@ -1,6 +1,11 @@
 <!-- REMINDER: While updating changelog, also remember to update
 the version in palvelutarjotin/__init.py__ -->
 
+## [1.5.0] - 8 November 2022
+
+- Tweak event enrolments CSV
+- Add amount of adults to notifications
+
 ## [1.4.0] - 19 September 2022
 
 - Disallow enrolling with an empty group
