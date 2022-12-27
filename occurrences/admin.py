@@ -1,7 +1,9 @@
 from django.contrib import admin
 from django.contrib.admin.filters import DateFieldListFilter
 from django.http import HttpResponseRedirect
+from django.template.defaultfilters import date
 from django.urls import reverse
+from django.utils.safestring import mark_safe
 from django.utils.translation import gettext as _
 from parler.admin import TranslatableAdmin
 
@@ -44,16 +46,35 @@ class HasUnitIdStudyGroupListFilter(admin.SimpleListFilter):
 
 @admin.register(StudyGroup)
 class StudyGroupAdmin(admin.ModelAdmin):
-    list_display = ("id", "unit_id", "unit_name", "created_at", "group_size", "person")
+    list_display = (
+        "id",
+        "unit_id",
+        "unit_name",
+        "created_at",
+        "group_size",
+        "get_person",
+    )
     exclude = ("id",)
     inlines = (OccurrenceInline,)
     list_filter = ["created_at", HasUnitIdStudyGroupListFilter]
     search_fields = ["unit_id", "unit_name", "person"]
+    readonly_fields = ("person_deleted_at",)
 
     def get_form(self, request, obj=None, **kwargs):
         form = super().get_form(request, obj, **kwargs)
         form.base_fields["unit_id"].required = False
         return form
+
+    def get_person(self, obj):
+        if obj.person_deleted_at:
+            return mark_safe(
+                f'<span style="color: gray">{_("Deleted")} '
+                f"{date(obj.person_deleted_at)}</span>"
+            )
+        else:
+            return obj.person
+
+    get_person.short_description = _("person")
 
 
 @admin.register(StudyLevel)
@@ -86,7 +107,7 @@ class OccurrenceAdmin(admin.ModelAdmin):
 @admin.register(Enrolment)
 class EnrolmentAdmin(admin.ModelAdmin):
     list_display = ("id", "linked_event_id", "enrolment_time", "study_group", "status")
-    readonly_fields = ("enrolment_time",)
+    readonly_fields = ("enrolment_time", "person_deleted_at")
     list_filter = ["enrolment_time", "status"]
     search_fields = ["occurrence__p_event__linked_event_id", "study_group__unit_name"]
 

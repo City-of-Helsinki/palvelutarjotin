@@ -414,6 +414,16 @@ class PalvelutarjotinEventEnrolmentsCsvView(
 
             place = get_place_from_linkedevents_or_cache(enrolment.occurrence.place_id)
 
+            if enrolment.person:
+                person_email_address = enrolment.person.email_address
+                person_phone_number = enrolment.person.phone_number
+            elif enrolment.person_deleted_at:
+                person_email_address = (
+                    person_phone_number
+                ) = f"{_('Deleted')} {enrolment.person_deleted_at.strftime(self.DATE_FORMAT)}"  # noqa: E501
+            else:
+                person_email_address = person_phone_number = ""
+
             writer.writerow(
                 [
                     enrolment.id,
@@ -442,8 +452,8 @@ class PalvelutarjotinEventEnrolmentsCsvView(
                     or place["name"].get("sv")
                     or place["name"].get("en"),
                     enrolment.study_group.extra_needs,
-                    enrolment.person.email_address,
-                    enrolment.person.phone_number,
+                    person_email_address,
+                    person_phone_number,
                 ]
             )
         return response

@@ -14,7 +14,7 @@ from requests.exceptions import HTTPError
 from typing import Optional
 
 import occurrences.services as occurrences_services
-from common.models import TimestampedModel, TranslatableModel
+from common.models import TimestampedModel, TranslatableModel, WithDeletablePersonModel
 from common.utils import get_node_id_from_global_id
 from graphene_linked_events.utils import retrieve_linked_events_data
 from occurrences.consts import (
@@ -426,10 +426,7 @@ class StudyLevel(TranslatableModel):
         return f"{self.id}"
 
 
-class StudyGroup(TimestampedModel):
-    person = models.ForeignKey(
-        "organisations.Person", verbose_name=_("person"), on_delete=models.PROTECT
-    )
+class StudyGroup(TimestampedModel, WithDeletablePersonModel):
     # Tprek / Service map id for school or kindergarten from the city of Helsinki
     unit_id = models.CharField(max_length=255, verbose_name=_("unit id"), null=True)
     unit_name = models.CharField(
@@ -520,7 +517,7 @@ class EnrolmentQuerySet(models.QuerySet):
         )
 
 
-class Enrolment(models.Model):
+class Enrolment(WithDeletablePersonModel):
     STATUS_APPROVED = "approved"
     STATUS_PENDING = "pending"
     STATUS_CANCELLED = "cancelled"
@@ -549,13 +546,6 @@ class Enrolment(models.Model):
     )
     updated_at = models.DateTimeField(verbose_name=_("updated at"), auto_now=True)
 
-    person = models.ForeignKey(
-        "organisations.Person",
-        verbose_name=_("person"),
-        on_delete=models.PROTECT,
-        blank=True,
-        null=True,
-    )
     notification_type = models.CharField(
         max_length=250,
         choices=NOTIFICATION_TYPES,
@@ -571,6 +561,7 @@ class Enrolment(models.Model):
     verification_tokens = GenericRelation(
         VerificationToken, related_query_name="enrolment"
     )
+
     objects = EnrolmentQuerySet.as_manager()
 
     class Meta:

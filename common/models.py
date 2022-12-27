@@ -85,3 +85,26 @@ class TranslatableModel(ParlerTranslatableModel):
     def clear_translations(self):
         for code in self.get_available_languages():
             self.delete_translation(code)
+
+
+class WithDeletablePersonModel(models.Model):
+    person = models.ForeignKey(
+        "organisations.Person",
+        verbose_name=_("person"),
+        on_delete=models.SET_NULL,
+        blank=True,
+        null=True,
+    )
+    person_deleted_at = models.DateTimeField(
+        verbose_name=_("person deleted at"), blank=True, null=True
+    )
+
+    class Meta:
+        abstract = True
+
+    def save(self, *args, **kwargs):
+        if self.person and self.person_deleted_at:
+            # Make sure person_deleted_at is nullified if person is set again for some
+            # reason. Should not be needed in normal usage.
+            self.person_deleted_at = None
+        return super().save(*args, **kwargs)

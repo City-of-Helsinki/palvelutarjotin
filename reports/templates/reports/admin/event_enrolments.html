@@ -45,7 +45,11 @@
             <td>{{enrolment.study_group.group_size}}</td>
             <td>{{enrolment.study_group.amount_of_adult}}</td>
             <td>{{enrolment.study_group.extra_needs}}</td>
+            {% if enrolment.person %}
             <td>{{enrolment.person.email_address}}</td>
+            {% else %}
+            <td><span style="color: gray">{% trans "Deleted" %} {{enrolment.person_deleted_at|date:"d.m.Y"}}</span></td>
+            {% endif %}
         </tr>
         {% endfor %}
     </tbody>
