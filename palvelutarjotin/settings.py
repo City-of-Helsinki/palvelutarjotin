@@ -74,6 +74,7 @@ env = environ.Env(
     KULTUS_TEACHER_UI_BASE_URL=(str, "https://beta.kultus.fi/"),
     ENABLE_SUMMARY_REPORT=(bool, False),
     VERIFICATION_TOKEN_VALID_MINUTES=(int, 15),
+    PERSONAL_DATA_RETENTION_PERIOD_MONTHS=(int, 24),
 )
 
 if os.path.exists(env_file):
@@ -336,6 +337,8 @@ VERIFICATION_TOKEN_URL_MAPPING = {
 }
 
 MAX_UPLOAD_SIZE = 2621440  # 2MB
+
+PERSONAL_DATA_RETENTION_PERIOD_MONTHS = env("PERSONAL_DATA_RETENTION_PERIOD_MONTHS")
 
 # local_settings.py can be used to override environment-specific settings
 # like database and email that differ between development and production.

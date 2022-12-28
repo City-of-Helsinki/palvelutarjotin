@@ -30,6 +30,7 @@ from verification_token.factories import EnrolmentVerificationTokenFactory
 def setup_test_environment(settings):
     settings.NOTIFICATION_SERVICE_SMS_ENABLED = True
     settings.CAPTCHA_ENABLED = False
+    settings.PERSONAL_DATA_RETENTION_PERIOD_MONTHS = 24
     factory.random.reseed_random("777")
     with freeze_time("2020-01-04"):
         yield

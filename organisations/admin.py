@@ -105,6 +105,18 @@ class UserExistenceListFilter(admin.SimpleListFilter):
             return queryset.filter(user__isnull=True)
 
 
+class RetentionPeriodExceededListFilter(admin.SimpleListFilter):
+    title = _("retention period exceeded")
+    parameter_name = "retention-period-exceeded"
+
+    def lookups(self, request, model_admin):
+        return ((True, _("True")),)
+
+    def queryset(self, request, queryset):
+        if self.value() == "True":
+            return queryset.retention_period_exceeded()
+
+
 class RelatedNameDropdownFilter(RelatedDropdownFilter):
     def field_admin_ordering(self, field, request, model_admin):
         return ["name"]
@@ -147,6 +159,7 @@ class PersonAdmin(admin.ModelAdmin):
         "created_at",
         UserExistenceListFilter,
         ("organisations", RelatedNameDropdownFilter),
+        RetentionPeriodExceededListFilter,
     ]
     search_fields = ["name", "email_address"]
     form = PersonAdminForm
