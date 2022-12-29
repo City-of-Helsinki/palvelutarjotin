@@ -228,3 +228,21 @@ class Person(UUIDPrimaryKeyModel, TimestampedModel):
         send_myprofile_organisations_accepted_notification(
             self, custom_message=custom_message
         )
+
+
+class EnrolleePersonalDataManager(models.Manager):
+    def get_queryset(self):
+        return super().get_queryset().filter(user=None)
+
+
+class EnrolleePersonalData(Person):
+    objects = EnrolleePersonalDataManager.from_queryset(PersonQuerySet)()
+
+    class Meta:
+        proxy = True
+        # Move these under "occurrences" group in the admin UI. That is not a perfect
+        # place for these either, but "organisations" would have been misleading
+        # because these have nothing to do with organisations.
+        app_label = "occurrences"
+        verbose_name = pgettext_lazy("singular", "Enrollee personal data")
+        verbose_name_plural = pgettext_lazy("plural", "Enrollee personal data")

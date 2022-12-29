@@ -15,6 +15,8 @@ from occurrences.models import (
     StudyLevel,
     VenueCustomData,
 )
+from organisations.admin import RetentionPeriodExceededListFilter
+from organisations.models import EnrolleePersonalData
 
 
 class OccurrenceInline(admin.TabularInline):
@@ -199,3 +201,35 @@ class PalvelutarjotinEventAdmin(admin.ModelAdmin):
             return obj.contact_email
 
     get_contact_email.short_description = _("contact email")
+
+
+class EnrolmentInline(admin.TabularInline):
+    model = Enrolment
+    extra = 0
+    exclude = ("person_deleted_at",)
+
+
+class StudyGroupInline(admin.TabularInline):
+    model = StudyGroup
+    extra = 0
+    exclude = ("person_deleted_at",)
+
+
+@admin.register(EnrolleePersonalData)
+class EnrolleePersonalDataAdmin(admin.ModelAdmin):
+    list_display = (
+        "name",
+        "phone_number",
+        "email_address",
+        "language",
+        "created_at",
+        "updated_at",
+    )
+    fields = ("name", "phone_number", "email_address", "language")
+    ordering = ("-created_at",)
+    list_filter = [
+        "created_at",
+        RetentionPeriodExceededListFilter,
+    ]
+    search_fields = ["name", "email_address"]
+    inlines = (EnrolmentInline, StudyGroupInline)
