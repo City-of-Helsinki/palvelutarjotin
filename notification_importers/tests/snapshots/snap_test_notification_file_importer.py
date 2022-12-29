@@ -470,6 +470,7 @@ enrolment_cancellation|Ilmoittautumisen peruuttaminen|Enrolment cancellation|Avb
                                       style="Margin: 0; Margin-bottom: 10px; color: #0a0a0a; font-family: Helvetica, Arial, sans-serif; font-size: 16px; font-weight: normal; line-height: 1.3; margin: 0; margin-bottom: 10px; padding: 0; text-align: left;">
                                       {{custom_message}}</p>
                                     {% endif %} \u200b
+                                    {% if not occurrence.p_event.contact_info_deleted_at %}
                                     <h4
                                       style="Margin: 0; Margin-bottom: 10px; color: inherit; font-family: Helvetica, Arial, sans-serif; font-size: 24px; font-weight: normal; line-height: 1.3; margin: 0; margin-bottom: 10px; padding: 0; text-align: left; word-wrap: normal;">
                                       Järjestäjän yhteystiedot</h4>
@@ -480,6 +481,7 @@ enrolment_cancellation|Ilmoittautumisen peruuttaminen|Enrolment cancellation|Avb
                                           style="Margin: 0; color: #2199e8; font-family: Helvetica, Arial, sans-serif; font-weight: normal; line-height: 1.3; margin: 0; padding: 0; text-align: left; text-decoration: none;">{{occurrence.p_event.contact_email}}</a>
                                       </li>
                                     </ul>
+                                    {% endif %}
                                   </th>
                                   <th class="expander"
                                     style="color: #0a0a0a; font-family: Helvetica, Arial, sans-serif; font-size: 16px; font-weight: normal; line-height: 1.3; margin: 0; padding: 0 !important; text-align: left; visibility: hidden; width: 0;">
@@ -970,6 +972,7 @@ enrolment_cancellation|Ilmoittautumisen peruuttaminen|Enrolment cancellation|Avb
                                       style="Margin: 0; Margin-bottom: 10px; color: #0a0a0a; font-family: Helvetica, Arial, sans-serif; font-size: 16px; font-weight: normal; line-height: 1.3; margin: 0; margin-bottom: 10px; padding: 0; text-align: left;">
                                       {{custom_message}}</p>
                                     {% endif %} \u200b
+                                    {% if not occurrence.p_event.contact_info_deleted_at %}
                                     <h4
                                       style="Margin: 0; Margin-bottom: 10px; color: inherit; font-family: Helvetica, Arial, sans-serif; font-size: 24px; font-weight: normal; line-height: 1.3; margin: 0; margin-bottom: 10px; padding: 0; text-align: left; word-wrap: normal;">
                                       Organiser’s contact information</h4>
@@ -980,6 +983,7 @@ enrolment_cancellation|Ilmoittautumisen peruuttaminen|Enrolment cancellation|Avb
                                           style="Margin: 0; color: #2199e8; font-family: Helvetica, Arial, sans-serif; font-weight: normal; line-height: 1.3; margin: 0; padding: 0; text-align: left; text-decoration: none;">{{occurrence.p_event.contact_email}}</a>
                                       </li>
                                     </ul>
+                                    {% endif %}
                                   </th>
                                   <th class="expander"
                                     style="color: #0a0a0a; font-family: Helvetica, Arial, sans-serif; font-size: 16px; font-weight: normal; line-height: 1.3; margin: 0; padding: 0 !important; text-align: left; visibility: hidden; width: 0;">
@@ -1470,6 +1474,7 @@ enrolment_cancellation|Ilmoittautumisen peruuttaminen|Enrolment cancellation|Avb
                                       style="Margin: 0; Margin-bottom: 10px; color: #0a0a0a; font-family: Helvetica, Arial, sans-serif; font-size: 16px; font-weight: normal; line-height: 1.3; margin: 0; margin-bottom: 10px; padding: 0; text-align: left;">
                                       {{custom_message}}</p>
                                     {% endif %} \u200b
+                                    {% if not occurrence.p_event.contact_info_deleted_at %}
                                     <h4
                                       style="Margin: 0; Margin-bottom: 10px; color: inherit; font-family: Helvetica, Arial, sans-serif; font-size: 24px; font-weight: normal; line-height: 1.3; margin: 0; margin-bottom: 10px; padding: 0; text-align: left; word-wrap: normal;">
                                       Arrangörens kontaktuppgifter</h4>
@@ -1480,6 +1485,7 @@ enrolment_cancellation|Ilmoittautumisen peruuttaminen|Enrolment cancellation|Avb
                                           style="Margin: 0; color: #2199e8; font-family: Helvetica, Arial, sans-serif; font-weight: normal; line-height: 1.3; margin: 0; padding: 0; text-align: left; text-decoration: none;">{{occurrence.p_event.contact_email}}</a>
                                       </li>
                                     </ul>
+                                    {% endif %}
                                   </th>
                                   <th class="expander"
                                     style="color: #0a0a0a; font-family: Helvetica, Arial, sans-serif; font-size: 16px; font-weight: normal; line-height: 1.3; margin: 0; padding: 0 !important; text-align: left; visibility: hidden; width: 0;">
@@ -1970,6 +1976,7 @@ enrolment_cancelled|Ilmoittautumisen peruuttaminen vahvistettu|Enrolment cancell
                                       style="Margin: 0; Margin-bottom: 10px; color: #0a0a0a; font-family: Helvetica, Arial, sans-serif; font-size: 16px; font-weight: normal; line-height: 1.3; margin: 0; margin-bottom: 10px; padding: 0; text-align: left;">
                                       {{custom_message}}</p>
                                     {% endif %} \u200b
+                                    {% if not occurrence.p_event.contact_info_deleted_at %}
                                     <h4
                                       style="Margin: 0; Margin-bottom: 10px; color: inherit; font-family: Helvetica, Arial, sans-serif; font-size: 24px; font-weight: normal; line-height: 1.3; margin: 0; margin-bottom: 10px; padding: 0; text-align: left; word-wrap: normal;">
                                       Järjestäjän yhteystiedot</h4>
@@ -1980,6 +1987,7 @@ enrolment_cancelled|Ilmoittautumisen peruuttaminen vahvistettu|Enrolment cancell
                                           style="Margin: 0; color: #2199e8; font-family: Helvetica, Arial, sans-serif; font-weight: normal; line-height: 1.3; margin: 0; padding: 0; text-align: left; text-decoration: none;">{{occurrence.p_event.contact_email}}</a>
                                       </li>
                                     </ul>
+                                    {% endif %}
                                   </th>
                                   <th class="expander"
                                     style="color: #0a0a0a; font-family: Helvetica, Arial, sans-serif; font-size: 16px; font-weight: normal; line-height: 1.3; margin: 0; padding: 0 !important; text-align: left; visibility: hidden; width: 0;">
@@ -2468,6 +2476,7 @@ enrolment_cancelled|Ilmoittautumisen peruuttaminen vahvistettu|Enrolment cancell
                                       style="Margin: 0; Margin-bottom: 10px; color: #0a0a0a; font-family: Helvetica, Arial, sans-serif; font-size: 16px; font-weight: normal; line-height: 1.3; margin: 0; margin-bottom: 10px; padding: 0; text-align: left;">
                                       {{custom_message}}</p>
                                     {% endif %} \u200b
+                                    {% if not occurrence.p_event.contact_info_deleted_at %}
                                     <h4
                                       style="Margin: 0; Margin-bottom: 10px; color: inherit; font-family: Helvetica, Arial, sans-serif; font-size: 24px; font-weight: normal; line-height: 1.3; margin: 0; margin-bottom: 10px; padding: 0; text-align: left; word-wrap: normal;">
                                       Organiser’s contact information</h4>
@@ -2478,6 +2487,7 @@ enrolment_cancelled|Ilmoittautumisen peruuttaminen vahvistettu|Enrolment cancell
                                           style="Margin: 0; color: #2199e8; font-family: Helvetica, Arial, sans-serif; font-weight: normal; line-height: 1.3; margin: 0; padding: 0; text-align: left; text-decoration: none;">{{occurrence.p_event.contact_email}}</a>
                                       </li>
                                     </ul>
+                                    {% endif %}
                                   </th>
                                   <th class="expander"
                                     style="color: #0a0a0a; font-family: Helvetica, Arial, sans-serif; font-size: 16px; font-weight: normal; line-height: 1.3; margin: 0; padding: 0 !important; text-align: left; visibility: hidden; width: 0;">
@@ -2966,6 +2976,7 @@ enrolment_cancelled|Ilmoittautumisen peruuttaminen vahvistettu|Enrolment cancell
                                       style="Margin: 0; Margin-bottom: 10px; color: #0a0a0a; font-family: Helvetica, Arial, sans-serif; font-size: 16px; font-weight: normal; line-height: 1.3; margin: 0; margin-bottom: 10px; padding: 0; text-align: left;">
                                       {{custom_message}}</p>
                                     {% endif %} \u200b
+                                    {% if not occurrence.p_event.contact_info_deleted_at %}
                                     <h4
                                       style="Margin: 0; Margin-bottom: 10px; color: inherit; font-family: Helvetica, Arial, sans-serif; font-size: 24px; font-weight: normal; line-height: 1.3; margin: 0; margin-bottom: 10px; padding: 0; text-align: left; word-wrap: normal;">
                                       Arrangörens kontaktuppgifter</h4>
@@ -2976,6 +2987,7 @@ enrolment_cancelled|Ilmoittautumisen peruuttaminen vahvistettu|Enrolment cancell
                                           style="Margin: 0; color: #2199e8; font-family: Helvetica, Arial, sans-serif; font-weight: normal; line-height: 1.3; margin: 0; padding: 0; text-align: left; text-decoration: none;">{{occurrence.p_event.contact_email}}</a>
                                       </li>
                                     </ul>
+                                    {% endif %}
                                   </th>
                                   <th class="expander"
                                     style="color: #0a0a0a; font-family: Helvetica, Arial, sans-serif; font-size: 16px; font-weight: normal; line-height: 1.3; margin: 0; padding: 0 !important; text-align: left; visibility: hidden; width: 0;">
@@ -3472,6 +3484,7 @@ enrolment_declined|Ilmoittautumisen peruutusilmoitus|Enrolment declined|Meddelan
                                       style="Margin: 0; Margin-bottom: 10px; color: #0a0a0a; font-family: Helvetica, Arial, sans-serif; font-size: 16px; font-weight: normal; line-height: 1.3; margin: 0; margin-bottom: 10px; padding: 0; text-align: left;">
                                       {{custom_message}}</p>
                                     {% endif %} \u200b
+                                    {% if not occurrence.p_event.contact_info_deleted_at %}
                                     <h4
                                       style="Margin: 0; Margin-bottom: 10px; color: inherit; font-family: Helvetica, Arial, sans-serif; font-size: 24px; font-weight: normal; line-height: 1.3; margin: 0; margin-bottom: 10px; padding: 0; text-align: left; word-wrap: normal;">
                                       Järjestäjän yhteystiedot</h4>
@@ -3482,6 +3495,7 @@ enrolment_declined|Ilmoittautumisen peruutusilmoitus|Enrolment declined|Meddelan
                                           style="Margin: 0; color: #2199e8; font-family: Helvetica, Arial, sans-serif; font-weight: normal; line-height: 1.3; margin: 0; padding: 0; text-align: left; text-decoration: none;">{{occurrence.p_event.contact_email}}</a>
                                       </li>
                                     </ul>
+                                    {% endif %}
                                   </th>
                                   <th class="expander"
                                     style="color: #0a0a0a; font-family: Helvetica, Arial, sans-serif; font-size: 16px; font-weight: normal; line-height: 1.3; margin: 0; padding: 0 !important; text-align: left; visibility: hidden; width: 0;">
@@ -3977,6 +3991,7 @@ enrolment_declined|Ilmoittautumisen peruutusilmoitus|Enrolment declined|Meddelan
                                       style="Margin: 0; Margin-bottom: 10px; color: #0a0a0a; font-family: Helvetica, Arial, sans-serif; font-size: 16px; font-weight: normal; line-height: 1.3; margin: 0; margin-bottom: 10px; padding: 0; text-align: left;">
                                       {{custom_message}}</p>
                                     {% endif %} \u200b
+                                    {% if not occurrence.p_event.contact_info_deleted_at %}
                                     <h4
                                       style="Margin: 0; Margin-bottom: 10px; color: inherit; font-family: Helvetica, Arial, sans-serif; font-size: 24px; font-weight: normal; line-height: 1.3; margin: 0; margin-bottom: 10px; padding: 0; text-align: left; word-wrap: normal;">
                                       Organiser’s contact information</h4>
@@ -3987,6 +4002,7 @@ enrolment_declined|Ilmoittautumisen peruutusilmoitus|Enrolment declined|Meddelan
                                           style="Margin: 0; color: #2199e8; font-family: Helvetica, Arial, sans-serif; font-weight: normal; line-height: 1.3; margin: 0; padding: 0; text-align: left; text-decoration: none;">{{occurrence.p_event.contact_email}}</a>
                                       </li>
                                     </ul>
+                                    {% endif %}
                                   </th>
                                   <th class="expander"
                                     style="color: #0a0a0a; font-family: Helvetica, Arial, sans-serif; font-size: 16px; font-weight: normal; line-height: 1.3; margin: 0; padding: 0 !important; text-align: left; visibility: hidden; width: 0;">
@@ -4481,6 +4497,7 @@ enrolment_declined|Ilmoittautumisen peruutusilmoitus|Enrolment declined|Meddelan
                                       style="Margin: 0; Margin-bottom: 10px; color: #0a0a0a; font-family: Helvetica, Arial, sans-serif; font-size: 16px; font-weight: normal; line-height: 1.3; margin: 0; margin-bottom: 10px; padding: 0; text-align: left;">
                                       {{custom_message}}</p>
                                     {% endif %} \u200b
+                                    {% if not occurrence.p_event.contact_info_deleted_at %}
                                     <h4
                                       style="Margin: 0; Margin-bottom: 10px; color: inherit; font-family: Helvetica, Arial, sans-serif; font-size: 24px; font-weight: normal; line-height: 1.3; margin: 0; margin-bottom: 10px; padding: 0; text-align: left; word-wrap: normal;">
                                       Arrangörens kontaktuppgifter</h4>
@@ -4491,6 +4508,7 @@ enrolment_declined|Ilmoittautumisen peruutusilmoitus|Enrolment declined|Meddelan
                                           style="Margin: 0; color: #2199e8; font-family: Helvetica, Arial, sans-serif; font-weight: normal; line-height: 1.3; margin: 0; padding: 0; text-align: left; text-decoration: none;">{{occurrence.p_event.contact_email}}</a>
                                       </li>
                                     </ul>
+                                    {% endif %}
                                   </th>
                                   <th class="expander"
                                     style="color: #0a0a0a; font-family: Helvetica, Arial, sans-serif; font-size: 16px; font-weight: normal; line-height: 1.3; margin: 0; padding: 0 !important; text-align: left; visibility: hidden; width: 0;">
@@ -6403,6 +6421,7 @@ occurrence_cancelled|Peruutusilmoitus|Cancellation notification|Meddelande om in
                                       style="Margin: 0; Margin-bottom: 10px; color: #0a0a0a; font-family: Helvetica, Arial, sans-serif; font-size: 16px; font-weight: normal; line-height: 1.3; margin: 0; margin-bottom: 10px; padding: 0; text-align: left;">
                                       {{custom_message}}</p>
                                     {% endif %}
+                                    {% if not occurrence.p_event.contact_info_deleted_at %}
                                     <h4
                                       style="Margin: 0; Margin-bottom: 10px; color: inherit; font-family: Helvetica, Arial, sans-serif; font-size: 24px; font-weight: normal; line-height: 1.3; margin: 0; margin-bottom: 10px; padding: 0; text-align: left; word-wrap: normal;">
                                       Järjestäjän yhteystiedot</h4>
@@ -6413,6 +6432,7 @@ occurrence_cancelled|Peruutusilmoitus|Cancellation notification|Meddelande om in
                                           style="Margin: 0; color: #2199e8; font-family: Helvetica, Arial, sans-serif; font-weight: normal; line-height: 1.3; margin: 0; padding: 0; text-align: left; text-decoration: none;">{{occurrence.p_event.contact_email}}</a>
                                       </li>
                                     </ul>
+                                    {% endif %}
                                   </th>
                                   <th class="expander"
                                     style="color: #0a0a0a; font-family: Helvetica, Arial, sans-serif; font-size: 16px; font-weight: normal; line-height: 1.3; margin: 0; padding: 0 !important; text-align: left; visibility: hidden; width: 0;">
@@ -6902,6 +6922,7 @@ occurrence_cancelled|Peruutusilmoitus|Cancellation notification|Meddelande om in
                                       style="Margin: 0; Margin-bottom: 10px; color: #0a0a0a; font-family: Helvetica, Arial, sans-serif; font-size: 16px; font-weight: normal; line-height: 1.3; margin: 0; margin-bottom: 10px; padding: 0; text-align: left;">
                                       {{custom_message}}</p>
                                     {% endif %}
+                                    {% if not occurrence.p_event.contact_info_deleted_at %}
                                     <h4
                                       style="Margin: 0; Margin-bottom: 10px; color: inherit; font-family: Helvetica, Arial, sans-serif; font-size: 24px; font-weight: normal; line-height: 1.3; margin: 0; margin-bottom: 10px; padding: 0; text-align: left; word-wrap: normal;">
                                       Organiser’s contact information</h4>
@@ -6912,6 +6933,7 @@ occurrence_cancelled|Peruutusilmoitus|Cancellation notification|Meddelande om in
                                           style="Margin: 0; color: #2199e8; font-family: Helvetica, Arial, sans-serif; font-weight: normal; line-height: 1.3; margin: 0; padding: 0; text-align: left; text-decoration: none;">{{occurrence.p_event.contact_email}}</a>
                                       </li>
                                     </ul>
+                                    {% endif %}
                                   </th>
                                   <th class="expander"
                                     style="color: #0a0a0a; font-family: Helvetica, Arial, sans-serif; font-size: 16px; font-weight: normal; line-height: 1.3; margin: 0; padding: 0 !important; text-align: left; visibility: hidden; width: 0;">
@@ -7402,6 +7424,7 @@ occurrence_cancelled|Peruutusilmoitus|Cancellation notification|Meddelande om in
                                       style="Margin: 0; Margin-bottom: 10px; color: #0a0a0a; font-family: Helvetica, Arial, sans-serif; font-size: 16px; font-weight: normal; line-height: 1.3; margin: 0; margin-bottom: 10px; padding: 0; text-align: left;">
                                       {{custom_message}}</p>
                                     {% endif %}
+                                    {% if not occurrence.p_event.contact_info_deleted_at %}
                                     <h4
                                       style="Margin: 0; Margin-bottom: 10px; color: inherit; font-family: Helvetica, Arial, sans-serif; font-size: 24px; font-weight: normal; line-height: 1.3; margin: 0; margin-bottom: 10px; padding: 0; text-align: left; word-wrap: normal;">
                                       Arrangörens kontaktuppgifter</h4>
@@ -7412,6 +7435,7 @@ occurrence_cancelled|Peruutusilmoitus|Cancellation notification|Meddelande om in
                                           style="Margin: 0; color: #2199e8; font-family: Helvetica, Arial, sans-serif; font-weight: normal; line-height: 1.3; margin: 0; padding: 0; text-align: left; text-decoration: none;">{{occurrence.p_event.contact_email}}</a>
                                       </li>
                                     </ul>
+                                    {% endif %}
                                   </th>
                                   <th class="expander"
                                     style="color: #0a0a0a; font-family: Helvetica, Arial, sans-serif; font-size: 16px; font-weight: normal; line-height: 1.3; margin: 0; padding: 0 !important; text-align: left; visibility: hidden; width: 0;">
@@ -7891,6 +7915,7 @@ occurrence_enrolment|Ilmoittautuminen vastaanotettu|Enrolment received|Anmälan 
                                       {% endif %}
                                     </ul>
                                     \u200b
+                                    {% if not occurrence.p_event.contact_info_deleted_at %}
                                     <h4
                                       style="Margin: 0; Margin-bottom: 10px; color: inherit; font-family: Helvetica, Arial, sans-serif; font-size: 24px; font-weight: normal; line-height: 1.3; margin: 0; margin-bottom: 10px; padding: 0; text-align: left; word-wrap: normal;">
                                       Järjestäjän yhteystiedot</h4>
@@ -7901,6 +7926,7 @@ occurrence_enrolment|Ilmoittautuminen vastaanotettu|Enrolment received|Anmälan 
                                           style="Margin: 0; color: #2199e8; font-family: Helvetica, Arial, sans-serif; font-weight: normal; line-height: 1.3; margin: 0; padding: 0; text-align: left; text-decoration: none;">{{occurrence.p_event.contact_email}}</a>
                                       </li>
                                     </ul>
+                                    {% endif %}
                                   </th>
                                   <th class="expander"
                                     style="color: #0a0a0a; font-family: Helvetica, Arial, sans-serif; font-size: 16px; font-weight: normal; line-height: 1.3; margin: 0; padding: 0 !important; text-align: left; visibility: hidden; width: 0;">
@@ -8379,6 +8405,7 @@ occurrence_enrolment|Ilmoittautuminen vastaanotettu|Enrolment received|Anmälan 
                                       {% endif %}
                                     </ul>
                                     \u200b
+                                    {% if not occurrence.p_event.contact_info_deleted_at %}
                                     <h4
                                       style="Margin: 0; Margin-bottom: 10px; color: inherit; font-family: Helvetica, Arial, sans-serif; font-size: 24px; font-weight: normal; line-height: 1.3; margin: 0; margin-bottom: 10px; padding: 0; text-align: left; word-wrap: normal;">
                                       Organiser’s contact information</h4>
@@ -8389,6 +8416,7 @@ occurrence_enrolment|Ilmoittautuminen vastaanotettu|Enrolment received|Anmälan 
                                           style="Margin: 0; color: #2199e8; font-family: Helvetica, Arial, sans-serif; font-weight: normal; line-height: 1.3; margin: 0; padding: 0; text-align: left; text-decoration: none;">{{occurrence.p_event.contact_email}}</a>
                                       </li>
                                     </ul>
+                                    {% endif %}
                                   </th>
                                   <th class="expander"
                                     style="color: #0a0a0a; font-family: Helvetica, Arial, sans-serif; font-size: 16px; font-weight: normal; line-height: 1.3; margin: 0; padding: 0 !important; text-align: left; visibility: hidden; width: 0;">
@@ -8867,6 +8895,7 @@ occurrence_enrolment|Ilmoittautuminen vastaanotettu|Enrolment received|Anmälan 
                                       {% endif %}
                                     </ul>
                                     \u200b
+                                    {% if not occurrence.p_event.contact_info_deleted_at %}
                                     <h4
                                       style="Margin: 0; Margin-bottom: 10px; color: inherit; font-family: Helvetica, Arial, sans-serif; font-size: 24px; font-weight: normal; line-height: 1.3; margin: 0; margin-bottom: 10px; padding: 0; text-align: left; word-wrap: normal;">
                                       Arrangörens kontaktuppgifter</h4>
@@ -8877,6 +8906,7 @@ occurrence_enrolment|Ilmoittautuminen vastaanotettu|Enrolment received|Anmälan 
                                           style="Margin: 0; color: #2199e8; font-family: Helvetica, Arial, sans-serif; font-weight: normal; line-height: 1.3; margin: 0; padding: 0; text-align: left; text-decoration: none;">{{occurrence.p_event.contact_email}}</a>
                                       </li>
                                     </ul>
+                                    {% endif %}
                                   </th>
                                   <th class="expander"
                                     style="color: #0a0a0a; font-family: Helvetica, Arial, sans-serif; font-size: 16px; font-weight: normal; line-height: 1.3; margin: 0; padding: 0 !important; text-align: left; visibility: hidden; width: 0;">
@@ -12278,6 +12308,7 @@ snapshots[
                                       style="Margin: 0; Margin-bottom: 10px; color: #0a0a0a; font-family: Helvetica, Arial, sans-serif; font-size: 16px; font-weight: normal; line-height: 1.3; margin: 0; margin-bottom: 10px; padding: 0; text-align: left;">
                                       {{custom_message}}</p>
                                     {% endif %} \u200b
+                                    {% if not occurrence.p_event.contact_info_deleted_at %}
                                     <h4
                                       style="Margin: 0; Margin-bottom: 10px; color: inherit; font-family: Helvetica, Arial, sans-serif; font-size: 24px; font-weight: normal; line-height: 1.3; margin: 0; margin-bottom: 10px; padding: 0; text-align: left; word-wrap: normal;">
                                       Järjestäjän yhteystiedot</h4>
@@ -12288,6 +12319,7 @@ snapshots[
                                           style="Margin: 0; color: #2199e8; font-family: Helvetica, Arial, sans-serif; font-weight: normal; line-height: 1.3; margin: 0; padding: 0; text-align: left; text-decoration: none;">{{occurrence.p_event.contact_email}}</a>
                                       </li>
                                     </ul>
+                                    {% endif %}
                                   </th>
                                   <th class="expander"
                                     style="color: #0a0a0a; font-family: Helvetica, Arial, sans-serif; font-size: 16px; font-weight: normal; line-height: 1.3; margin: 0; padding: 0 !important; text-align: left; visibility: hidden; width: 0;">
@@ -12780,6 +12812,7 @@ snapshots[
                                       style="Margin: 0; Margin-bottom: 10px; color: #0a0a0a; font-family: Helvetica, Arial, sans-serif; font-size: 16px; font-weight: normal; line-height: 1.3; margin: 0; margin-bottom: 10px; padding: 0; text-align: left;">
                                       {{custom_message}}</p>
                                     {% endif %} \u200b
+                                    {% if not occurrence.p_event.contact_info_deleted_at %}
                                     <h4
                                       style="Margin: 0; Margin-bottom: 10px; color: inherit; font-family: Helvetica, Arial, sans-serif; font-size: 24px; font-weight: normal; line-height: 1.3; margin: 0; margin-bottom: 10px; padding: 0; text-align: left; word-wrap: normal;">
                                       Organiser’s contact information</h4>
@@ -12790,6 +12823,7 @@ snapshots[
                                           style="Margin: 0; color: #2199e8; font-family: Helvetica, Arial, sans-serif; font-weight: normal; line-height: 1.3; margin: 0; padding: 0; text-align: left; text-decoration: none;">{{occurrence.p_event.contact_email}}</a>
                                       </li>
                                     </ul>
+                                    {% endif %}
                                   </th>
                                   <th class="expander"
                                     style="color: #0a0a0a; font-family: Helvetica, Arial, sans-serif; font-size: 16px; font-weight: normal; line-height: 1.3; margin: 0; padding: 0 !important; text-align: left; visibility: hidden; width: 0;">
@@ -13298,6 +13332,7 @@ snapshots[
                                                                             style="Margin: 0; Margin-bottom: 10px; color: #0a0a0a; font-family: Helvetica, Arial, sans-serif; font-size: 16px; font-weight: normal; line-height: 1.3; margin: 0; margin-bottom: 10px; padding: 0; text-align: left;">
                                                                             {{custom_message}}</p>
                                                                         {% endif %} \u200b
+                                                                        {% if not occurrence.p_event.contact_info_deleted_at %}
                                                                         <h4
                                                                             style="Margin: 0; Margin-bottom: 10px; color: inherit; font-family: Helvetica, Arial, sans-serif; font-size: 24px; font-weight: normal; line-height: 1.3; margin: 0; margin-bottom: 10px; padding: 0; text-align: left; word-wrap: normal;">
                                                                             Arrangörens kontaktuppgifter</h4>
@@ -13310,6 +13345,7 @@ snapshots[
                                                                                     style="Margin: 0; color: #2199e8; font-family: Helvetica, Arial, sans-serif; font-weight: normal; line-height: 1.3; margin: 0; padding: 0; text-align: left; text-decoration: none;">{{occurrence.p_event.contact_email}}</a>
                                                                             </li>
                                                                         </ul>
+                                                                        {% endif %}
                                                                     </th>
                                                                     <th class="expander"
                                                                         style="color: #0a0a0a; font-family: Helvetica, Arial, sans-serif; font-size: 16px; font-weight: normal; line-height: 1.3; margin: 0; padding: 0 !important; text-align: left; visibility: hidden; width: 0;">
@@ -13799,6 +13835,7 @@ enrolment_cancellation|Ilmoittautumisen peruuttaminen|Enrolment cancellation|Avb
                                       style="Margin: 0; Margin-bottom: 10px; color: #0a0a0a; font-family: Helvetica, Arial, sans-serif; font-size: 16px; font-weight: normal; line-height: 1.3; margin: 0; margin-bottom: 10px; padding: 0; text-align: left;">
                                       {{custom_message}}</p>
                                     {% endif %} \u200b
+                                    {% if not occurrence.p_event.contact_info_deleted_at %}
                                     <h4
                                       style="Margin: 0; Margin-bottom: 10px; color: inherit; font-family: Helvetica, Arial, sans-serif; font-size: 24px; font-weight: normal; line-height: 1.3; margin: 0; margin-bottom: 10px; padding: 0; text-align: left; word-wrap: normal;">
                                       Järjestäjän yhteystiedot</h4>
@@ -13809,6 +13846,7 @@ enrolment_cancellation|Ilmoittautumisen peruuttaminen|Enrolment cancellation|Avb
                                           style="Margin: 0; color: #2199e8; font-family: Helvetica, Arial, sans-serif; font-weight: normal; line-height: 1.3; margin: 0; padding: 0; text-align: left; text-decoration: none;">{{occurrence.p_event.contact_email}}</a>
                                       </li>
                                     </ul>
+                                    {% endif %}
                                   </th>
                                   <th class="expander"
                                     style="color: #0a0a0a; font-family: Helvetica, Arial, sans-serif; font-size: 16px; font-weight: normal; line-height: 1.3; margin: 0; padding: 0 !important; text-align: left; visibility: hidden; width: 0;">
@@ -14299,6 +14337,7 @@ enrolment_cancellation|Ilmoittautumisen peruuttaminen|Enrolment cancellation|Avb
                                       style="Margin: 0; Margin-bottom: 10px; color: #0a0a0a; font-family: Helvetica, Arial, sans-serif; font-size: 16px; font-weight: normal; line-height: 1.3; margin: 0; margin-bottom: 10px; padding: 0; text-align: left;">
                                       {{custom_message}}</p>
                                     {% endif %} \u200b
+                                    {% if not occurrence.p_event.contact_info_deleted_at %}
                                     <h4
                                       style="Margin: 0; Margin-bottom: 10px; color: inherit; font-family: Helvetica, Arial, sans-serif; font-size: 24px; font-weight: normal; line-height: 1.3; margin: 0; margin-bottom: 10px; padding: 0; text-align: left; word-wrap: normal;">
                                       Organiser’s contact information</h4>
@@ -14309,6 +14348,7 @@ enrolment_cancellation|Ilmoittautumisen peruuttaminen|Enrolment cancellation|Avb
                                           style="Margin: 0; color: #2199e8; font-family: Helvetica, Arial, sans-serif; font-weight: normal; line-height: 1.3; margin: 0; padding: 0; text-align: left; text-decoration: none;">{{occurrence.p_event.contact_email}}</a>
                                       </li>
                                     </ul>
+                                    {% endif %}
                                   </th>
                                   <th class="expander"
                                     style="color: #0a0a0a; font-family: Helvetica, Arial, sans-serif; font-size: 16px; font-weight: normal; line-height: 1.3; margin: 0; padding: 0 !important; text-align: left; visibility: hidden; width: 0;">
@@ -14799,6 +14839,7 @@ enrolment_cancellation|Ilmoittautumisen peruuttaminen|Enrolment cancellation|Avb
                                       style="Margin: 0; Margin-bottom: 10px; color: #0a0a0a; font-family: Helvetica, Arial, sans-serif; font-size: 16px; font-weight: normal; line-height: 1.3; margin: 0; margin-bottom: 10px; padding: 0; text-align: left;">
                                       {{custom_message}}</p>
                                     {% endif %} \u200b
+                                    {% if not occurrence.p_event.contact_info_deleted_at %}
                                     <h4
                                       style="Margin: 0; Margin-bottom: 10px; color: inherit; font-family: Helvetica, Arial, sans-serif; font-size: 24px; font-weight: normal; line-height: 1.3; margin: 0; margin-bottom: 10px; padding: 0; text-align: left; word-wrap: normal;">
                                       Arrangörens kontaktuppgifter</h4>
@@ -14809,6 +14850,7 @@ enrolment_cancellation|Ilmoittautumisen peruuttaminen|Enrolment cancellation|Avb
                                           style="Margin: 0; color: #2199e8; font-family: Helvetica, Arial, sans-serif; font-weight: normal; line-height: 1.3; margin: 0; padding: 0; text-align: left; text-decoration: none;">{{occurrence.p_event.contact_email}}</a>
                                       </li>
                                     </ul>
+                                    {% endif %}
                                   </th>
                                   <th class="expander"
                                     style="color: #0a0a0a; font-family: Helvetica, Arial, sans-serif; font-size: 16px; font-weight: normal; line-height: 1.3; margin: 0; padding: 0 !important; text-align: left; visibility: hidden; width: 0;">
@@ -15299,6 +15341,7 @@ enrolment_cancelled|Ilmoittautumisen peruuttaminen vahvistettu|Enrolment cancell
                                       style="Margin: 0; Margin-bottom: 10px; color: #0a0a0a; font-family: Helvetica, Arial, sans-serif; font-size: 16px; font-weight: normal; line-height: 1.3; margin: 0; margin-bottom: 10px; padding: 0; text-align: left;">
                                       {{custom_message}}</p>
                                     {% endif %} \u200b
+                                    {% if not occurrence.p_event.contact_info_deleted_at %}
                                     <h4
                                       style="Margin: 0; Margin-bottom: 10px; color: inherit; font-family: Helvetica, Arial, sans-serif; font-size: 24px; font-weight: normal; line-height: 1.3; margin: 0; margin-bottom: 10px; padding: 0; text-align: left; word-wrap: normal;">
                                       Järjestäjän yhteystiedot</h4>
@@ -15309,6 +15352,7 @@ enrolment_cancelled|Ilmoittautumisen peruuttaminen vahvistettu|Enrolment cancell
                                           style="Margin: 0; color: #2199e8; font-family: Helvetica, Arial, sans-serif; font-weight: normal; line-height: 1.3; margin: 0; padding: 0; text-align: left; text-decoration: none;">{{occurrence.p_event.contact_email}}</a>
                                       </li>
                                     </ul>
+                                    {% endif %}
                                   </th>
                                   <th class="expander"
                                     style="color: #0a0a0a; font-family: Helvetica, Arial, sans-serif; font-size: 16px; font-weight: normal; line-height: 1.3; margin: 0; padding: 0 !important; text-align: left; visibility: hidden; width: 0;">
@@ -15797,6 +15841,7 @@ enrolment_cancelled|Ilmoittautumisen peruuttaminen vahvistettu|Enrolment cancell
                                       style="Margin: 0; Margin-bottom: 10px; color: #0a0a0a; font-family: Helvetica, Arial, sans-serif; font-size: 16px; font-weight: normal; line-height: 1.3; margin: 0; margin-bottom: 10px; padding: 0; text-align: left;">
                                       {{custom_message}}</p>
                                     {% endif %} \u200b
+                                    {% if not occurrence.p_event.contact_info_deleted_at %}
                                     <h4
                                       style="Margin: 0; Margin-bottom: 10px; color: inherit; font-family: Helvetica, Arial, sans-serif; font-size: 24px; font-weight: normal; line-height: 1.3; margin: 0; margin-bottom: 10px; padding: 0; text-align: left; word-wrap: normal;">
                                       Organiser’s contact information</h4>
@@ -15807,6 +15852,7 @@ enrolment_cancelled|Ilmoittautumisen peruuttaminen vahvistettu|Enrolment cancell
                                           style="Margin: 0; color: #2199e8; font-family: Helvetica, Arial, sans-serif; font-weight: normal; line-height: 1.3; margin: 0; padding: 0; text-align: left; text-decoration: none;">{{occurrence.p_event.contact_email}}</a>
                                       </li>
                                     </ul>
+                                    {% endif %}
                                   </th>
                                   <th class="expander"
                                     style="color: #0a0a0a; font-family: Helvetica, Arial, sans-serif; font-size: 16px; font-weight: normal; line-height: 1.3; margin: 0; padding: 0 !important; text-align: left; visibility: hidden; width: 0;">
@@ -16295,6 +16341,7 @@ enrolment_cancelled|Ilmoittautumisen peruuttaminen vahvistettu|Enrolment cancell
                                       style="Margin: 0; Margin-bottom: 10px; color: #0a0a0a; font-family: Helvetica, Arial, sans-serif; font-size: 16px; font-weight: normal; line-height: 1.3; margin: 0; margin-bottom: 10px; padding: 0; text-align: left;">
                                       {{custom_message}}</p>
                                     {% endif %} \u200b
+                                    {% if not occurrence.p_event.contact_info_deleted_at %}
                                     <h4
                                       style="Margin: 0; Margin-bottom: 10px; color: inherit; font-family: Helvetica, Arial, sans-serif; font-size: 24px; font-weight: normal; line-height: 1.3; margin: 0; margin-bottom: 10px; padding: 0; text-align: left; word-wrap: normal;">
                                       Arrangörens kontaktuppgifter</h4>
@@ -16305,6 +16352,7 @@ enrolment_cancelled|Ilmoittautumisen peruuttaminen vahvistettu|Enrolment cancell
                                           style="Margin: 0; color: #2199e8; font-family: Helvetica, Arial, sans-serif; font-weight: normal; line-height: 1.3; margin: 0; padding: 0; text-align: left; text-decoration: none;">{{occurrence.p_event.contact_email}}</a>
                                       </li>
                                     </ul>
+                                    {% endif %}
                                   </th>
                                   <th class="expander"
                                     style="color: #0a0a0a; font-family: Helvetica, Arial, sans-serif; font-size: 16px; font-weight: normal; line-height: 1.3; margin: 0; padding: 0 !important; text-align: left; visibility: hidden; width: 0;">
@@ -16801,6 +16849,7 @@ enrolment_declined|Ilmoittautumisen peruutusilmoitus|Enrolment declined|Meddelan
                                       style="Margin: 0; Margin-bottom: 10px; color: #0a0a0a; font-family: Helvetica, Arial, sans-serif; font-size: 16px; font-weight: normal; line-height: 1.3; margin: 0; margin-bottom: 10px; padding: 0; text-align: left;">
                                       {{custom_message}}</p>
                                     {% endif %} \u200b
+                                    {% if not occurrence.p_event.contact_info_deleted_at %}
                                     <h4
                                       style="Margin: 0; Margin-bottom: 10px; color: inherit; font-family: Helvetica, Arial, sans-serif; font-size: 24px; font-weight: normal; line-height: 1.3; margin: 0; margin-bottom: 10px; padding: 0; text-align: left; word-wrap: normal;">
                                       Järjestäjän yhteystiedot</h4>
@@ -16811,6 +16860,7 @@ enrolment_declined|Ilmoittautumisen peruutusilmoitus|Enrolment declined|Meddelan
                                           style="Margin: 0; color: #2199e8; font-family: Helvetica, Arial, sans-serif; font-weight: normal; line-height: 1.3; margin: 0; padding: 0; text-align: left; text-decoration: none;">{{occurrence.p_event.contact_email}}</a>
                                       </li>
                                     </ul>
+                                    {% endif %}
                                   </th>
                                   <th class="expander"
                                     style="color: #0a0a0a; font-family: Helvetica, Arial, sans-serif; font-size: 16px; font-weight: normal; line-height: 1.3; margin: 0; padding: 0 !important; text-align: left; visibility: hidden; width: 0;">
@@ -17306,6 +17356,7 @@ enrolment_declined|Ilmoittautumisen peruutusilmoitus|Enrolment declined|Meddelan
                                       style="Margin: 0; Margin-bottom: 10px; color: #0a0a0a; font-family: Helvetica, Arial, sans-serif; font-size: 16px; font-weight: normal; line-height: 1.3; margin: 0; margin-bottom: 10px; padding: 0; text-align: left;">
                                       {{custom_message}}</p>
                                     {% endif %} \u200b
+                                    {% if not occurrence.p_event.contact_info_deleted_at %}
                                     <h4
                                       style="Margin: 0; Margin-bottom: 10px; color: inherit; font-family: Helvetica, Arial, sans-serif; font-size: 24px; font-weight: normal; line-height: 1.3; margin: 0; margin-bottom: 10px; padding: 0; text-align: left; word-wrap: normal;">
                                       Organiser’s contact information</h4>
@@ -17316,6 +17367,7 @@ enrolment_declined|Ilmoittautumisen peruutusilmoitus|Enrolment declined|Meddelan
                                           style="Margin: 0; color: #2199e8; font-family: Helvetica, Arial, sans-serif; font-weight: normal; line-height: 1.3; margin: 0; padding: 0; text-align: left; text-decoration: none;">{{occurrence.p_event.contact_email}}</a>
                                       </li>
                                     </ul>
+                                    {% endif %}
                                   </th>
                                   <th class="expander"
                                     style="color: #0a0a0a; font-family: Helvetica, Arial, sans-serif; font-size: 16px; font-weight: normal; line-height: 1.3; margin: 0; padding: 0 !important; text-align: left; visibility: hidden; width: 0;">
@@ -17810,6 +17862,7 @@ enrolment_declined|Ilmoittautumisen peruutusilmoitus|Enrolment declined|Meddelan
                                       style="Margin: 0; Margin-bottom: 10px; color: #0a0a0a; font-family: Helvetica, Arial, sans-serif; font-size: 16px; font-weight: normal; line-height: 1.3; margin: 0; margin-bottom: 10px; padding: 0; text-align: left;">
                                       {{custom_message}}</p>
                                     {% endif %} \u200b
+                                    {% if not occurrence.p_event.contact_info_deleted_at %}
                                     <h4
                                       style="Margin: 0; Margin-bottom: 10px; color: inherit; font-family: Helvetica, Arial, sans-serif; font-size: 24px; font-weight: normal; line-height: 1.3; margin: 0; margin-bottom: 10px; padding: 0; text-align: left; word-wrap: normal;">
                                       Arrangörens kontaktuppgifter</h4>
@@ -17820,6 +17873,7 @@ enrolment_declined|Ilmoittautumisen peruutusilmoitus|Enrolment declined|Meddelan
                                           style="Margin: 0; color: #2199e8; font-family: Helvetica, Arial, sans-serif; font-weight: normal; line-height: 1.3; margin: 0; padding: 0; text-align: left; text-decoration: none;">{{occurrence.p_event.contact_email}}</a>
                                       </li>
                                     </ul>
+                                    {% endif %}
                                   </th>
                                   <th class="expander"
                                     style="color: #0a0a0a; font-family: Helvetica, Arial, sans-serif; font-size: 16px; font-weight: normal; line-height: 1.3; margin: 0; padding: 0 !important; text-align: left; visibility: hidden; width: 0;">
@@ -19732,6 +19786,7 @@ occurrence_cancelled|Peruutusilmoitus|Cancellation notification|Meddelande om in
                                       style="Margin: 0; Margin-bottom: 10px; color: #0a0a0a; font-family: Helvetica, Arial, sans-serif; font-size: 16px; font-weight: normal; line-height: 1.3; margin: 0; margin-bottom: 10px; padding: 0; text-align: left;">
                                       {{custom_message}}</p>
                                     {% endif %}
+                                    {% if not occurrence.p_event.contact_info_deleted_at %}
                                     <h4
                                       style="Margin: 0; Margin-bottom: 10px; color: inherit; font-family: Helvetica, Arial, sans-serif; font-size: 24px; font-weight: normal; line-height: 1.3; margin: 0; margin-bottom: 10px; padding: 0; text-align: left; word-wrap: normal;">
                                       Järjestäjän yhteystiedot</h4>
@@ -19742,6 +19797,7 @@ occurrence_cancelled|Peruutusilmoitus|Cancellation notification|Meddelande om in
                                           style="Margin: 0; color: #2199e8; font-family: Helvetica, Arial, sans-serif; font-weight: normal; line-height: 1.3; margin: 0; padding: 0; text-align: left; text-decoration: none;">{{occurrence.p_event.contact_email}}</a>
                                       </li>
                                     </ul>
+                                    {% endif %}
                                   </th>
                                   <th class="expander"
                                     style="color: #0a0a0a; font-family: Helvetica, Arial, sans-serif; font-size: 16px; font-weight: normal; line-height: 1.3; margin: 0; padding: 0 !important; text-align: left; visibility: hidden; width: 0;">
@@ -20231,6 +20287,7 @@ occurrence_cancelled|Peruutusilmoitus|Cancellation notification|Meddelande om in
                                       style="Margin: 0; Margin-bottom: 10px; color: #0a0a0a; font-family: Helvetica, Arial, sans-serif; font-size: 16px; font-weight: normal; line-height: 1.3; margin: 0; margin-bottom: 10px; padding: 0; text-align: left;">
                                       {{custom_message}}</p>
                                     {% endif %}
+                                    {% if not occurrence.p_event.contact_info_deleted_at %}
                                     <h4
                                       style="Margin: 0; Margin-bottom: 10px; color: inherit; font-family: Helvetica, Arial, sans-serif; font-size: 24px; font-weight: normal; line-height: 1.3; margin: 0; margin-bottom: 10px; padding: 0; text-align: left; word-wrap: normal;">
                                       Organiser’s contact information</h4>
@@ -20241,6 +20298,7 @@ occurrence_cancelled|Peruutusilmoitus|Cancellation notification|Meddelande om in
                                           style="Margin: 0; color: #2199e8; font-family: Helvetica, Arial, sans-serif; font-weight: normal; line-height: 1.3; margin: 0; padding: 0; text-align: left; text-decoration: none;">{{occurrence.p_event.contact_email}}</a>
                                       </li>
                                     </ul>
+                                    {% endif %}
                                   </th>
                                   <th class="expander"
                                     style="color: #0a0a0a; font-family: Helvetica, Arial, sans-serif; font-size: 16px; font-weight: normal; line-height: 1.3; margin: 0; padding: 0 !important; text-align: left; visibility: hidden; width: 0;">
@@ -20731,6 +20789,7 @@ occurrence_cancelled|Peruutusilmoitus|Cancellation notification|Meddelande om in
                                       style="Margin: 0; Margin-bottom: 10px; color: #0a0a0a; font-family: Helvetica, Arial, sans-serif; font-size: 16px; font-weight: normal; line-height: 1.3; margin: 0; margin-bottom: 10px; padding: 0; text-align: left;">
                                       {{custom_message}}</p>
                                     {% endif %}
+                                    {% if not occurrence.p_event.contact_info_deleted_at %}
                                     <h4
                                       style="Margin: 0; Margin-bottom: 10px; color: inherit; font-family: Helvetica, Arial, sans-serif; font-size: 24px; font-weight: normal; line-height: 1.3; margin: 0; margin-bottom: 10px; padding: 0; text-align: left; word-wrap: normal;">
                                       Arrangörens kontaktuppgifter</h4>
@@ -20741,6 +20800,7 @@ occurrence_cancelled|Peruutusilmoitus|Cancellation notification|Meddelande om in
                                           style="Margin: 0; color: #2199e8; font-family: Helvetica, Arial, sans-serif; font-weight: normal; line-height: 1.3; margin: 0; padding: 0; text-align: left; text-decoration: none;">{{occurrence.p_event.contact_email}}</a>
                                       </li>
                                     </ul>
+                                    {% endif %}
                                   </th>
                                   <th class="expander"
                                     style="color: #0a0a0a; font-family: Helvetica, Arial, sans-serif; font-size: 16px; font-weight: normal; line-height: 1.3; margin: 0; padding: 0 !important; text-align: left; visibility: hidden; width: 0;">
@@ -24139,6 +24199,7 @@ enrolment_approved|Ilmoittautuminen vahvistettu|Enrolment approved|Anmälan har 
                                       style="Margin: 0; Margin-bottom: 10px; color: #0a0a0a; font-family: Helvetica, Arial, sans-serif; font-size: 16px; font-weight: normal; line-height: 1.3; margin: 0; margin-bottom: 10px; padding: 0; text-align: left;">
                                       {{custom_message}}</p>
                                     {% endif %} \u200b
+                                    {% if not occurrence.p_event.contact_info_deleted_at %}
                                     <h4
                                       style="Margin: 0; Margin-bottom: 10px; color: inherit; font-family: Helvetica, Arial, sans-serif; font-size: 24px; font-weight: normal; line-height: 1.3; margin: 0; margin-bottom: 10px; padding: 0; text-align: left; word-wrap: normal;">
                                       Järjestäjän yhteystiedot</h4>
@@ -24149,6 +24210,7 @@ enrolment_approved|Ilmoittautuminen vahvistettu|Enrolment approved|Anmälan har 
                                           style="Margin: 0; color: #2199e8; font-family: Helvetica, Arial, sans-serif; font-weight: normal; line-height: 1.3; margin: 0; padding: 0; text-align: left; text-decoration: none;">{{occurrence.p_event.contact_email}}</a>
                                       </li>
                                     </ul>
+                                    {% endif %}
                                   </th>
                                   <th class="expander"
                                     style="color: #0a0a0a; font-family: Helvetica, Arial, sans-serif; font-size: 16px; font-weight: normal; line-height: 1.3; margin: 0; padding: 0 !important; text-align: left; visibility: hidden; width: 0;">
@@ -24641,6 +24703,7 @@ enrolment_approved|Ilmoittautuminen vahvistettu|Enrolment approved|Anmälan har 
                                       style="Margin: 0; Margin-bottom: 10px; color: #0a0a0a; font-family: Helvetica, Arial, sans-serif; font-size: 16px; font-weight: normal; line-height: 1.3; margin: 0; margin-bottom: 10px; padding: 0; text-align: left;">
                                       {{custom_message}}</p>
                                     {% endif %} \u200b
+                                    {% if not occurrence.p_event.contact_info_deleted_at %}
                                     <h4
                                       style="Margin: 0; Margin-bottom: 10px; color: inherit; font-family: Helvetica, Arial, sans-serif; font-size: 24px; font-weight: normal; line-height: 1.3; margin: 0; margin-bottom: 10px; padding: 0; text-align: left; word-wrap: normal;">
                                       Organiser’s contact information</h4>
@@ -24651,6 +24714,7 @@ enrolment_approved|Ilmoittautuminen vahvistettu|Enrolment approved|Anmälan har 
                                           style="Margin: 0; color: #2199e8; font-family: Helvetica, Arial, sans-serif; font-weight: normal; line-height: 1.3; margin: 0; padding: 0; text-align: left; text-decoration: none;">{{occurrence.p_event.contact_email}}</a>
                                       </li>
                                     </ul>
+                                    {% endif %}
                                   </th>
                                   <th class="expander"
                                     style="color: #0a0a0a; font-family: Helvetica, Arial, sans-serif; font-size: 16px; font-weight: normal; line-height: 1.3; margin: 0; padding: 0 !important; text-align: left; visibility: hidden; width: 0;">
@@ -25159,6 +25223,7 @@ enrolment_approved|Ilmoittautuminen vahvistettu|Enrolment approved|Anmälan har 
                                                                             style="Margin: 0; Margin-bottom: 10px; color: #0a0a0a; font-family: Helvetica, Arial, sans-serif; font-size: 16px; font-weight: normal; line-height: 1.3; margin: 0; margin-bottom: 10px; padding: 0; text-align: left;">
                                                                             {{custom_message}}</p>
                                                                         {% endif %} \u200b
+                                                                        {% if not occurrence.p_event.contact_info_deleted_at %}
                                                                         <h4
                                                                             style="Margin: 0; Margin-bottom: 10px; color: inherit; font-family: Helvetica, Arial, sans-serif; font-size: 24px; font-weight: normal; line-height: 1.3; margin: 0; margin-bottom: 10px; padding: 0; text-align: left; word-wrap: normal;">
                                                                             Arrangörens kontaktuppgifter</h4>
@@ -25171,6 +25236,7 @@ enrolment_approved|Ilmoittautuminen vahvistettu|Enrolment approved|Anmälan har 
                                                                                     style="Margin: 0; color: #2199e8; font-family: Helvetica, Arial, sans-serif; font-weight: normal; line-height: 1.3; margin: 0; padding: 0; text-align: left; text-decoration: none;">{{occurrence.p_event.contact_email}}</a>
                                                                             </li>
                                                                         </ul>
+                                                                        {% endif %}
                                                                     </th>
                                                                     <th class="expander"
                                                                         style="color: #0a0a0a; font-family: Helvetica, Arial, sans-serif; font-size: 16px; font-weight: normal; line-height: 1.3; margin: 0; padding: 0 !important; text-align: left; visibility: hidden; width: 0;">
@@ -25649,6 +25715,7 @@ occurrence_enrolment|Ilmoittautuminen vastaanotettu|Enrolment received|Anmälan 
                                       {% endif %}
                                     </ul>
                                     \u200b
+                                    {% if not occurrence.p_event.contact_info_deleted_at %}
                                     <h4
                                       style="Margin: 0; Margin-bottom: 10px; color: inherit; font-family: Helvetica, Arial, sans-serif; font-size: 24px; font-weight: normal; line-height: 1.3; margin: 0; margin-bottom: 10px; padding: 0; text-align: left; word-wrap: normal;">
                                       Järjestäjän yhteystiedot</h4>
@@ -25659,6 +25726,7 @@ occurrence_enrolment|Ilmoittautuminen vastaanotettu|Enrolment received|Anmälan 
                                           style="Margin: 0; color: #2199e8; font-family: Helvetica, Arial, sans-serif; font-weight: normal; line-height: 1.3; margin: 0; padding: 0; text-align: left; text-decoration: none;">{{occurrence.p_event.contact_email}}</a>
                                       </li>
                                     </ul>
+                                    {% endif %}
                                   </th>
                                   <th class="expander"
                                     style="color: #0a0a0a; font-family: Helvetica, Arial, sans-serif; font-size: 16px; font-weight: normal; line-height: 1.3; margin: 0; padding: 0 !important; text-align: left; visibility: hidden; width: 0;">
@@ -26137,6 +26205,7 @@ occurrence_enrolment|Ilmoittautuminen vastaanotettu|Enrolment received|Anmälan 
                                       {% endif %}
                                     </ul>
                                     \u200b
+                                    {% if not occurrence.p_event.contact_info_deleted_at %}
                                     <h4
                                       style="Margin: 0; Margin-bottom: 10px; color: inherit; font-family: Helvetica, Arial, sans-serif; font-size: 24px; font-weight: normal; line-height: 1.3; margin: 0; margin-bottom: 10px; padding: 0; text-align: left; word-wrap: normal;">
                                       Organiser’s contact information</h4>
@@ -26147,6 +26216,7 @@ occurrence_enrolment|Ilmoittautuminen vastaanotettu|Enrolment received|Anmälan 
                                           style="Margin: 0; color: #2199e8; font-family: Helvetica, Arial, sans-serif; font-weight: normal; line-height: 1.3; margin: 0; padding: 0; text-align: left; text-decoration: none;">{{occurrence.p_event.contact_email}}</a>
                                       </li>
                                     </ul>
+                                    {% endif %}
                                   </th>
                                   <th class="expander"
                                     style="color: #0a0a0a; font-family: Helvetica, Arial, sans-serif; font-size: 16px; font-weight: normal; line-height: 1.3; margin: 0; padding: 0 !important; text-align: left; visibility: hidden; width: 0;">
@@ -26625,6 +26695,7 @@ occurrence_enrolment|Ilmoittautuminen vastaanotettu|Enrolment received|Anmälan 
                                       {% endif %}
                                     </ul>
                                     \u200b
+                                    {% if not occurrence.p_event.contact_info_deleted_at %}
                                     <h4
                                       style="Margin: 0; Margin-bottom: 10px; color: inherit; font-family: Helvetica, Arial, sans-serif; font-size: 24px; font-weight: normal; line-height: 1.3; margin: 0; margin-bottom: 10px; padding: 0; text-align: left; word-wrap: normal;">
                                       Arrangörens kontaktuppgifter</h4>
@@ -26635,6 +26706,7 @@ occurrence_enrolment|Ilmoittautuminen vastaanotettu|Enrolment received|Anmälan 
                                           style="Margin: 0; color: #2199e8; font-family: Helvetica, Arial, sans-serif; font-weight: normal; line-height: 1.3; margin: 0; padding: 0; text-align: left; text-decoration: none;">{{occurrence.p_event.contact_email}}</a>
                                       </li>
                                     </ul>
+                                    {% endif %}
                                   </th>
                                   <th class="expander"
                                     style="color: #0a0a0a; font-family: Helvetica, Arial, sans-serif; font-size: 16px; font-weight: normal; line-height: 1.3; margin: 0; padding: 0 !important; text-align: left; visibility: hidden; width: 0;">

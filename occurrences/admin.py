@@ -151,7 +151,7 @@ class PalvelutarjotinEventAdmin(admin.ModelAdmin):
         "enrolment_start",
         "enrolment_end_days",
         "needed_occurrences",
-        "contact_email",
+        "get_contact_email",
     )
     list_filter = [("enrolment_start", DateFieldListFilter)]
     date_hierarchy = "enrolment_start"
@@ -160,6 +160,7 @@ class PalvelutarjotinEventAdmin(admin.ModelAdmin):
         "export_event_enrolments",
         "export_event_enrolments_csv",
     )
+    readonly_fields = ["contact_info_deleted_at"]
 
     def occurrences_count(self, obj):
         return obj.occurrences.count()
@@ -187,3 +188,14 @@ class PalvelutarjotinEventAdmin(admin.ModelAdmin):
     export_event_enrolments_csv.short_description = _(
         "Export organisation persons (csv)"
     )
+
+    def get_contact_email(self, obj):
+        if obj.contact_info_deleted_at:
+            return mark_safe(
+                f'<span style="color: gray">{_("Deleted")} '
+                f"{date(obj.contact_info_deleted_at)}</span>"
+            )
+        else:
+            return obj.contact_email
+
+    get_contact_email.short_description = _("contact email")

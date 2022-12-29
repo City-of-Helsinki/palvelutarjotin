@@ -571,3 +571,34 @@ def test_enrolment_and_study_group_person_deletion(delete_via_queryset):
     assert enrolment.person_deleted_at is not None
     assert study_group.person is None
     assert study_group.person_deleted_at is not None
+
+
+@pytest.mark.django_db
+def test_palvelutarjotin_event_contact_info_deletion():
+    event_1 = PalvelutarjotinEventFactory(contact_person=PersonFactory())
+    event_2 = PalvelutarjotinEventFactory(
+        contact_email="shouldbedeleted@example.com", contact_phone_number="12345"
+    )
+    event_3 = PalvelutarjotinEventFactory(
+        contact_email="contact@example.com", contact_phone_number="54321"
+    )
+
+    PalvelutarjotinEvent.objects.filter(
+        id__in=[event_1.pk, event_2.pk]
+    ).delete_contact_info()
+
+    event_1.refresh_from_db()
+    event_2.refresh_from_db()
+    event_3.refresh_from_db()
+
+    assert event_1.contact_person is None
+    assert event_1.contact_email == event_1.contact_phone_number == ""
+    assert event_1.contact_info_deleted_at
+    assert event_2.contact_person is None
+    assert event_2.contact_email == event_2.contact_phone_number == ""
+    assert event_2.contact_info_deleted_at
+
+    assert event_3.contact_person is not None
+    assert event_3.contact_email == "contact@example.com"
+    assert event_3.contact_phone_number == "54321"
+    assert not event_3.contact_info_deleted_at

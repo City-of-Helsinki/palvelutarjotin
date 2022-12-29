@@ -3,7 +3,7 @@ from dateutil.relativedelta import relativedelta
 from django.contrib.auth import get_user_model
 from django.utils import timezone
 
-from occurrences.factories import EnrolmentFactory
+from occurrences.factories import EnrolmentFactory, PalvelutarjotinEventFactory
 from organisations.factories import (
     OrganisationFactory,
     OrganisationProposalFactory,
@@ -190,3 +190,26 @@ def test_too_old_personal_data():
     results = Person.objects.retention_period_exceeded()
     assert len(results) == len(expected_people)
     assert all(person in results for person in expected_people)
+
+
+@pytest.mark.django_db
+def test_user_deletion_deletes_palvelutarjotin_event_contact_info():
+    event = PalvelutarjotinEventFactory(
+        contact_email="test_event@example.com", contact_phone_number="1234567"
+    )
+    another_event = PalvelutarjotinEventFactory(
+        contact_email="test_another_event@example.com", contact_phone_number="7654321"
+    )
+    event.contact_person.user.delete()
+
+    event.refresh_from_db()
+    another_event.refresh_from_db()
+
+    assert event.contact_person is None
+    assert event.contact_email == event.contact_phone_number == ""
+    assert event.contact_info_deleted_at
+
+    assert another_event.contact_person
+    assert another_event.contact_email == "test_another_event@example.com"
+    assert another_event.contact_phone_number == "7654321"
+    assert not another_event.contact_info_deleted_at
