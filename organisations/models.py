@@ -1,7 +1,9 @@
+from dateutil.relativedelta import relativedelta
 from django.conf import settings
 from django.contrib.auth import get_user_model
 from django.contrib.postgres.fields import ArrayField
 from django.db import models, transaction
+from django.db.models import Max, Q
 from django.utils import timezone
 from django.utils.translation import gettext_lazy as _
 from helusers.models import AbstractUser
@@ -22,6 +24,30 @@ class PersonQuerySet(models.QuerySet):
             return self.filter(user=user)
         else:
             return self.none()
+
+    def retention_period_exceeded(self):
+        earliest_valid_timestamp = timezone.now() - relativedelta(
+            months=settings.PERSONAL_DATA_RETENTION_PERIOD_MONTHS
+        )
+
+        all_enrolments_too_old = Q(max_enrolment_end_time=None) | Q(
+            max_enrolment_end_time__lt=earliest_valid_timestamp
+        )
+        all_study_groups_too_old = Q(max_studygroup_end_time=None) | Q(
+            max_studygroup_end_time__lt=earliest_valid_timestamp
+        )
+
+        return (
+            # At least for now returns only unauthenticated Person's
+            self.filter(user=None)
+            .annotate(
+                max_enrolment_end_time=Max("enrolment__occurrence__end_time"),
+                max_studygroup_end_time=Max(
+                    "studygroup__enrolments__occurrence__end_time"
+                ),
+            )
+            .filter(all_enrolments_too_old & all_study_groups_too_old)
+        )
 
     @transaction.atomic
     def delete(self):

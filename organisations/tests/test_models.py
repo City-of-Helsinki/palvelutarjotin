@@ -1,6 +1,9 @@
 import pytest
+from dateutil.relativedelta import relativedelta
 from django.contrib.auth import get_user_model
+from django.utils import timezone
 
+from occurrences.factories import EnrolmentFactory
 from organisations.factories import (
     OrganisationFactory,
     OrganisationProposalFactory,
@@ -127,3 +130,63 @@ def test_user_str():
         email="",
     )
     assert user_without_name_and_email.__str__() == user_without_name_and_email.username
+
+
+@pytest.mark.django_db
+def test_too_old_personal_data():
+    too_old = timezone.now() - relativedelta(months=24, days=1)
+    still_valid = timezone.now() - relativedelta(months=24, days=-1)
+
+    # ### EXPECTED PERSON OBJECTS IN RESULTS
+
+    (
+        old_enrolment_person,
+        old_study_group_person,
+        old_enrolment_and_study_group_person,
+        no_enrolment_or_study_group_person,
+    ) = expected_people = PersonFactory.create_batch(4, user=None)
+
+    # person with a too old enrolment
+    EnrolmentFactory(person=old_enrolment_person, occurrence__end_time=too_old)
+
+    # person with a too old study group
+    EnrolmentFactory(
+        study_group__person=old_study_group_person, occurrence__end_time=too_old
+    )
+
+    # person with too old enrolment and study group
+    EnrolmentFactory(
+        person=old_enrolment_and_study_group_person,
+        study_group__person=old_enrolment_and_study_group_person,
+        occurrence__end_time=too_old,
+    )
+
+    # no_enrolment_or_study_group_person has no enrolment nor study group
+
+    # ### NOT EXPECTED PERSON OBJECTS IN RESULTS
+
+    (
+        valid_enrolment_person,
+        valid_study_group_person,
+        valid_enrolment_and_study_group_person,
+    ) = PersonFactory.create_batch(3, user=None)
+    PersonFactory(user=UserFactory())  # person with a user
+
+    # person with a valid enrolment
+    EnrolmentFactory(person=valid_enrolment_person, occurrence__end_time=still_valid)
+
+    # person with a valid study group
+    EnrolmentFactory(
+        study_group__person=valid_study_group_person, occurrence__end_time=still_valid
+    )
+
+    # person with valid enrolment and study group
+    EnrolmentFactory(
+        person=valid_enrolment_and_study_group_person,
+        study_group__person=valid_enrolment_and_study_group_person,
+        occurrence__end_time=still_valid,
+    )
+
+    results = Person.objects.retention_period_exceeded()
+    assert len(results) == len(expected_people)
+    assert all(person in results for person in expected_people)
