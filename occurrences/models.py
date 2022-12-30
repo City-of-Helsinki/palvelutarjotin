@@ -1,10 +1,11 @@
 import logging
 import warnings
 from datetime import timedelta
+from dateutil.relativedelta import relativedelta
 from django.conf import settings
 from django.contrib.contenttypes.fields import GenericRelation
 from django.db import models, transaction
-from django.db.models import F, Q, Sum
+from django.db.models import F, Max, Q, Sum
 from django.utils import timezone
 from django.utils.timezone import localtime
 from django.utils.translation import gettext_lazy as _
@@ -60,6 +61,23 @@ class Language(models.Model):
 
 
 class PalvelutarjotinEventQueryset(TranslatableQuerySet):
+    def contact_info_retention_period_exceeded(self):
+        earliest_valid_timestamp = timezone.now() - relativedelta(
+            months=settings.PERSONAL_DATA_RETENTION_PERIOD_MONTHS
+        )
+
+        return (
+            self.annotate(max_occurrence_end_time=Max("occurrences__end_time"))
+            .filter(contact_info_deleted_at=None)
+            .filter(
+                Q(max_occurrence_end_time__lt=earliest_valid_timestamp)
+                | (
+                    Q(max_occurrence_end_time=None)
+                    & Q(created_at__lt=earliest_valid_timestamp)
+                )
+            )
+        )
+
     def delete_contact_info(self, now=None):
         if not now:
             now = timezone.now()
