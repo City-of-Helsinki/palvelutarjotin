@@ -1,7 +1,8 @@
 from django.conf import settings
 from django.contrib.auth import get_user_model
 from django.contrib.postgres.fields import ArrayField
-from django.db import models
+from django.db import models, transaction
+from django.utils import timezone
 from django.utils.translation import gettext_lazy as _
 from helusers.models import AbstractUser
 
@@ -21,6 +22,12 @@ class PersonQuerySet(models.QuerySet):
             return self.filter(user=user)
         else:
             return self.none()
+
+    @transaction.atomic
+    def delete(self):
+        for obj in self:
+            obj.set_related_objects_person_deleted_at()
+        return super().delete()
 
 
 class User(AbstractUser):
@@ -144,6 +151,18 @@ class Person(UUIDPrimaryKeyModel, TimestampedModel):
         if username:
             return f"{self.name} ({username})"
         return f"{self.name}"
+
+    @transaction.atomic
+    def delete(self, *args, **kwargs):
+        self.set_related_objects_person_deleted_at()
+        return super().delete(*args, **kwargs)
+
+    def set_related_objects_person_deleted_at(self):
+        from occurrences.models import Enrolment, StudyGroup
+
+        now = timezone.now()
+        Enrolment.objects.filter(person=self).update(person_deleted_at=now)
+        StudyGroup.objects.filter(person=self).update(person_deleted_at=now)
 
     def is_editable_by_user(self, user):
         return (

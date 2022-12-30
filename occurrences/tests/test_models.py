@@ -23,6 +23,7 @@ from occurrences.models import (
     StudyGroup,
     StudyLevel,
 )
+from organisations.factories import PersonFactory
 from organisations.models import Organisation, Person
 from palvelutarjotin.exceptions import EnrolmentNotEnoughCapacityError
 from verification_token.models import VerificationToken
@@ -548,3 +549,25 @@ def test_enrolment_approved_enrolments_by_email(mock_get_event_data):
     assert list(Enrolment.objects.all().approved_enrolments_by_email(email=email)) == [
         enrolment
     ]
+
+
+@pytest.mark.django_db
+@pytest.mark.parametrize("delete_via_queryset", (False, True))
+def test_enrolment_and_study_group_person_deletion(delete_via_queryset):
+    person = PersonFactory()
+    study_group = StudyGroupFactory(person=person)
+    enrolment = EnrolmentFactory(study_group=study_group, person=person)
+
+    if delete_via_queryset:
+        Person.objects.filter(pk=person.pk).delete()
+    else:
+        person.delete()
+
+    enrolment.refresh_from_db()
+    study_group.refresh_from_db()
+
+    assert not Person.objects.filter(pk=person.pk).exists()
+    assert enrolment.person is None
+    assert enrolment.person_deleted_at is not None
+    assert study_group.person is None
+    assert study_group.person_deleted_at is not None
