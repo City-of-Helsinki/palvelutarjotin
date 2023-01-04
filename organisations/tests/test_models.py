@@ -193,14 +193,19 @@ def test_too_old_personal_data():
 
 
 @pytest.mark.django_db
-def test_user_deletion_deletes_palvelutarjotin_event_contact_info():
+@pytest.mark.parametrize("delete_via_queryset", (False, True))
+def test_user_deletion_deletes_palvelutarjotin_event_contact_info(delete_via_queryset):
     event = PalvelutarjotinEventFactory(
         contact_email="test_event@example.com", contact_phone_number="1234567"
     )
     another_event = PalvelutarjotinEventFactory(
         contact_email="test_another_event@example.com", contact_phone_number="7654321"
     )
-    event.contact_person.user.delete()
+
+    if delete_via_queryset:
+        User.objects.filter(pk=event.contact_person.user.pk).delete()
+    else:
+        event.contact_person.user.delete()
 
     event.refresh_from_db()
     another_event.refresh_from_db()
