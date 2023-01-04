@@ -1,11 +1,13 @@
 from dateutil.relativedelta import relativedelta
 from django.conf import settings
 from django.contrib.auth import get_user_model
+from django.contrib.auth.models import UserManager
 from django.contrib.postgres.fields import ArrayField
 from django.db import models, transaction
 from django.db.models import Max, Q
 from django.utils import timezone
 from django.utils.translation import gettext_lazy as _
+from django.utils.translation import pgettext_lazy
 from helusers.models import AbstractUser
 
 from common.models import TimestampedModel, UUIDPrimaryKeyModel
@@ -56,9 +58,19 @@ class PersonQuerySet(models.QuerySet):
         return super().delete()
 
 
+class UserQueryset(models.QuerySet):
+    @transaction.atomic
+    def delete(self):
+        for obj in self:
+            obj.delete_related_p_events_contact_info()
+        return super().delete()
+
+
 class User(AbstractUser):
 
     is_admin = models.BooleanField(_("admin status"), default=False)
+
+    objects = UserManager.from_queryset(UserQueryset)()
 
     # When creating an user, the name and the email can be left to blank.
     # In those cases, return username.
@@ -77,6 +89,15 @@ class User(AbstractUser):
                 "Can administrate user permissions",
             ),
         ]
+
+    @transaction.atomic
+    def delete(self, *args, **kwargs):
+        self.delete_related_p_event_contact_info()
+        return super().delete(*args, **kwargs)
+
+    def delete_related_p_event_contact_info(self):
+        if hasattr(self, "person"):
+            self.person.p_event.delete_contact_info()
 
 
 class Organisation(models.Model):
@@ -207,3 +228,21 @@ class Person(UUIDPrimaryKeyModel, TimestampedModel):
         send_myprofile_organisations_accepted_notification(
             self, custom_message=custom_message
         )
+
+
+class EnrolleePersonalDataManager(models.Manager):
+    def get_queryset(self):
+        return super().get_queryset().filter(user=None)
+
+
+class EnrolleePersonalData(Person):
+    objects = EnrolleePersonalDataManager.from_queryset(PersonQuerySet)()
+
+    class Meta:
+        proxy = True
+        # Move these under "occurrences" group in the admin UI. That is not a perfect
+        # place for these either, but "organisations" would have been misleading
+        # because these have nothing to do with organisations.
+        app_label = "occurrences"
+        verbose_name = pgettext_lazy("singular", "Enrollee personal data")
+        verbose_name_plural = pgettext_lazy("plural", "Enrollee personal data")

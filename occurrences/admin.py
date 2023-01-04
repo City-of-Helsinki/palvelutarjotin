@@ -15,6 +15,8 @@ from occurrences.models import (
     StudyLevel,
     VenueCustomData,
 )
+from organisations.admin import RetentionPeriodExceededListFilter
+from organisations.models import EnrolleePersonalData
 
 
 class OccurrenceInline(admin.TabularInline):
@@ -151,7 +153,7 @@ class PalvelutarjotinEventAdmin(admin.ModelAdmin):
         "enrolment_start",
         "enrolment_end_days",
         "needed_occurrences",
-        "contact_email",
+        "get_contact_email",
     )
     list_filter = [("enrolment_start", DateFieldListFilter)]
     date_hierarchy = "enrolment_start"
@@ -160,6 +162,7 @@ class PalvelutarjotinEventAdmin(admin.ModelAdmin):
         "export_event_enrolments",
         "export_event_enrolments_csv",
     )
+    readonly_fields = ["contact_info_deleted_at"]
 
     def occurrences_count(self, obj):
         return obj.occurrences.count()
@@ -187,3 +190,46 @@ class PalvelutarjotinEventAdmin(admin.ModelAdmin):
     export_event_enrolments_csv.short_description = _(
         "Export organisation persons (csv)"
     )
+
+    def get_contact_email(self, obj):
+        if obj.contact_info_deleted_at:
+            return mark_safe(
+                f'<span style="color: gray">{_("Deleted")} '
+                f"{date(obj.contact_info_deleted_at)}</span>"
+            )
+        else:
+            return obj.contact_email
+
+    get_contact_email.short_description = _("contact email")
+
+
+class EnrolmentInline(admin.TabularInline):
+    model = Enrolment
+    extra = 0
+    exclude = ("person_deleted_at",)
+
+
+class StudyGroupInline(admin.TabularInline):
+    model = StudyGroup
+    extra = 0
+    exclude = ("person_deleted_at",)
+
+
+@admin.register(EnrolleePersonalData)
+class EnrolleePersonalDataAdmin(admin.ModelAdmin):
+    list_display = (
+        "name",
+        "phone_number",
+        "email_address",
+        "language",
+        "created_at",
+        "updated_at",
+    )
+    fields = ("name", "phone_number", "email_address", "language")
+    ordering = ("-created_at",)
+    list_filter = [
+        "created_at",
+        RetentionPeriodExceededListFilter,
+    ]
+    search_fields = ["name", "email_address"]
+    inlines = (EnrolmentInline, StudyGroupInline)

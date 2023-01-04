@@ -1,10 +1,11 @@
 import logging
 import warnings
 from datetime import timedelta
+from dateutil.relativedelta import relativedelta
 from django.conf import settings
 from django.contrib.contenttypes.fields import GenericRelation
 from django.db import models, transaction
-from django.db.models import F, Q, Sum
+from django.db.models import F, Max, Q, Sum
 from django.utils import timezone
 from django.utils.timezone import localtime
 from django.utils.translation import gettext_lazy as _
@@ -14,7 +15,12 @@ from requests.exceptions import HTTPError
 from typing import Optional
 
 import occurrences.services as occurrences_services
-from common.models import TimestampedModel, TranslatableModel, WithDeletablePersonModel
+from common.models import (
+    TimestampedModel,
+    TranslatableModel,
+    TranslatableQuerySet,
+    WithDeletablePersonModel,
+)
 from common.utils import get_node_id_from_global_id
 from graphene_linked_events.utils import retrieve_linked_events_data
 from occurrences.consts import (
@@ -54,6 +60,35 @@ class Language(models.Model):
         )
 
 
+class PalvelutarjotinEventQueryset(TranslatableQuerySet):
+    def contact_info_retention_period_exceeded(self):
+        earliest_valid_timestamp = timezone.now() - relativedelta(
+            months=settings.PERSONAL_DATA_RETENTION_PERIOD_MONTHS
+        )
+
+        return (
+            self.annotate(max_occurrence_end_time=Max("occurrences__end_time"))
+            .filter(contact_info_deleted_at=None)
+            .filter(
+                Q(max_occurrence_end_time__lt=earliest_valid_timestamp)
+                | (
+                    Q(max_occurrence_end_time=None)
+                    & Q(created_at__lt=earliest_valid_timestamp)
+                )
+            )
+        )
+
+    def delete_contact_info(self, now=None):
+        if not now:
+            now = timezone.now()
+        return self.update(
+            contact_person=None,
+            contact_email="",
+            contact_phone_number="",
+            contact_info_deleted_at=now,
+        )
+
+
 class PalvelutarjotinEvent(TranslatableModel, TimestampedModel):
     PUBLICATION_STATUS_PUBLIC = "public"
     PUBLICATION_STATUS_DRAFT = "draft"
@@ -90,7 +125,7 @@ class PalvelutarjotinEvent(TranslatableModel, TimestampedModel):
         "organisations.Person",
         verbose_name=_("contact person"),
         related_name="p_event",
-        on_delete=models.PROTECT,
+        on_delete=models.SET_NULL,
         blank=True,
         null=True,
     )
@@ -99,6 +134,9 @@ class PalvelutarjotinEvent(TranslatableModel, TimestampedModel):
     )
     contact_email = models.EmailField(
         max_length=255, verbose_name=_("contact email"), blank=True
+    )
+    contact_info_deleted_at = models.DateTimeField(
+        verbose_name=_("contact info deleted at"), blank=True, null=True
     )
     auto_acceptance = models.BooleanField(
         default=False, verbose_name=_("auto acceptance")
@@ -118,12 +156,21 @@ class PalvelutarjotinEvent(TranslatableModel, TimestampedModel):
         )
     )
 
+    objects = PalvelutarjotinEventQueryset.as_manager()
+
     class Meta:
         verbose_name = _("palvelutarjotin event")
         verbose_name_plural = _("palvelutarjotin events")
 
     def __str__(self):
         return f"{self.id} {self.linked_event_id}"
+
+    def save(self, *args, **kwargs):
+        if self.contact_info_deleted_at and (
+            self.contact_person or self.contact_email or self.contact_phone_number
+        ):
+            self.contact_info_deleted_at = None
+        return super().save(*args, **kwargs)
 
     def get_event_data(self, is_staff=False):
         # We need query event location as well
