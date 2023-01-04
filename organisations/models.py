@@ -62,7 +62,7 @@ class UserQueryset(models.QuerySet):
     @transaction.atomic
     def delete(self):
         for obj in self:
-            obj.delete_related_p_events_contact_info()
+            obj.delete_related_p_event_contact_info()
         return super().delete()
 
 
