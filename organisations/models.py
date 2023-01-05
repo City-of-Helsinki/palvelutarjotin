@@ -66,11 +66,15 @@ class UserQueryset(models.QuerySet):
         return super().delete()
 
 
+class CustomUserManager(UserManager.from_queryset(UserQueryset)):
+    pass
+
+
 class User(AbstractUser):
 
     is_admin = models.BooleanField(_("admin status"), default=False)
 
-    objects = UserManager.from_queryset(UserQueryset)()
+    objects = CustomUserManager()
 
     # When creating an user, the name and the email can be left to blank.
     # In those cases, return username.
