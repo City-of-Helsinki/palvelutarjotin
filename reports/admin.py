@@ -92,6 +92,17 @@ class HasStudyGroupListFilter(BooleanListFilterBase):
             return queryset.filter(_study_group_id__isnull=True)
 
 
+class HasPublisherListFilter(BooleanListFilterBase):
+    title = _("has publisher")
+    parameter_name = "has-publisher"
+
+    def queryset(self, request, queryset):
+        if self.value() == "True":
+            return queryset.filter(publisher__isnull=False)
+        if self.value() == "False":
+            return queryset.filter(publisher__isnull=True)
+
+
 class IsOutOfSyncListFilter(BooleanListFilterBase):
     title = _("is out of sync with enrolment")
     parameter_name = "is-out-of-sync"
@@ -170,6 +181,7 @@ class EnrolmentReportAdmin(admin.ModelAdmin):
         HasEnrolmentListFilter,
         HasOccurrenceListFilter,
         HasStudyGroupListFilter,
+        HasPublisherListFilter,
     ]
     search_fields = [
         "linked_event_id",
