@@ -86,7 +86,9 @@ def resolve_place_divisions(place_json) -> Optional[list]:
 def resolve_place_coordinates(place_json) -> Optional[list]:
     # When fetching the event, the position field is under location
     # NOTE: Some places, e.g helsinki:internet, might not have coordinates
+    if "location" in place_json:
+        place_json = place_json["location"]
     try:
-        return place_json["location"]["position"]["coordinates"]
+        return place_json["position"]["coordinates"]
     except (IndexError, KeyError, TypeError):
         return None

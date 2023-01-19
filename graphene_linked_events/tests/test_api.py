@@ -1829,7 +1829,6 @@ def test_nearby_events(
     snapshot,
     mocked_responses,
     mock_get_place_data,
-    mock_get_event_data,
     settings,
 ):
     """
