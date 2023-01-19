@@ -553,7 +553,9 @@ def test_enrolment_approved_enrolments_by_email(mock_get_event_data):
 
 @pytest.mark.django_db
 @pytest.mark.parametrize("delete_via_queryset", (False, True))
-def test_enrolment_and_study_group_person_deletion(delete_via_queryset):
+def test_enrolment_and_study_group_person_deletion(
+    delete_via_queryset, mock_get_event_data
+):
     person = PersonFactory()
     study_group = StudyGroupFactory(person=person)
     enrolment = EnrolmentFactory(study_group=study_group, person=person)
@@ -574,7 +576,7 @@ def test_enrolment_and_study_group_person_deletion(delete_via_queryset):
 
 
 @pytest.mark.django_db
-def test_palvelutarjotin_event_contact_info_deletion():
+def test_palvelutarjotin_event_contact_info_deletion(mock_update_event_data):
     event_1 = PalvelutarjotinEventFactory(contact_person=PersonFactory())
     event_2 = PalvelutarjotinEventFactory(
         contact_email="shouldbedeleted@example.com", contact_phone_number="12345"
