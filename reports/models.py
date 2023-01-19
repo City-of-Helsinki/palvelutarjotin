@@ -285,7 +285,9 @@ class EnrolmentReport(TimestampedModel):
                 self.occurrence = getattr(self, "_occurrence")
             # Hydrate Event data from LinkedEvents API
             if hydrate_linkedevents_event:
-                self._hydrate_linkedevents_event()
+                self._hydrate_study_group_unit_from_linkedevents()
+                self._hydrate_occurrence_place_from_linkedevents()
+                self._hydrate_event_from_linkedevents()
 
             # calculate the distance
             self.set_distance_from_unit_to_event_place()
@@ -362,7 +364,7 @@ class EnrolmentReport(TimestampedModel):
         self.enrolment_start_time = getattr(obj, "enrolment_start", None)
         self.enrolment_externally = bool(getattr(obj, "external_enrolment_url", None))
 
-    def _hydrate_linkedevents_event(self):
+    def _hydrate_study_group_unit_from_linkedevents(self):
         try:
             if self.study_group_unit_id:
                 (
@@ -373,7 +375,19 @@ class EnrolmentReport(TimestampedModel):
                     unit_coordinates if unit_coordinates else None
                 )
                 self.study_group_unit_divisions = unit_divisions
+        except KeyError:
+            logger.info(
+                "No study group unit location data available "
+                "when rehydrating Linked Events data!"
+            )
+        except Exception:
+            logger.exception(
+                "Could not rehydrate Linked Events data: "
+                "Problem with study unit group handling!"
+            )
 
+    def _hydrate_occurrence_place_from_linkedevents(self):
+        try:
             if self.occurrence_place_id:
                 (
                     place_coordinates,
@@ -384,7 +398,19 @@ class EnrolmentReport(TimestampedModel):
                     place_coordinates if place_coordinates else None
                 )
                 self.occurrence_place_divisions = place_divisions
+        except KeyError:
+            logger.info(
+                "No place location data given available "
+                "when rehydrating Linked Events data!"
+            )
+        except Exception:
+            logger.exception(
+                "Could not rehydrate Linked Events data: "
+                "Problem with occurrence place handling!"
+            )
 
+    def _hydrate_event_from_linkedevents(self):
+        try:
             event = reports_services.get_event_json_from_linkedevents(
                 self.linked_event_id
             )
@@ -392,6 +418,7 @@ class EnrolmentReport(TimestampedModel):
             self.publisher = event["publisher"] or None
             self.keywords = get_event_keywords(event)
         except Exception:
-            raise EnrolmentReportCouldNotHydrateLinkedEventsData(
-                "Could not rehydrate Linked Events data!"
+            logger.exception(
+                "Could not rehydrate Linked Events data: "
+                "Problem in event data handling!"
             )

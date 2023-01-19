@@ -75,25 +75,18 @@ def get_place_json_from_linkedevents(place_id: str):
 
 
 def resolve_place_divisions(place_json) -> Optional[list]:
-    if not place_json:
-        return None
+    # When fetching the event, the division field is under location
+    # NOTE: Some places, e.g helsinki:internet, might not have divisions
     try:
-        # When fetching the event, the division field is under location
-        if "location" in place_json:
-            place_json = place_json["location"]
-        divisions = place_json["divisions"]
-        return [d["ocd_id"] for d in divisions]
-    except KeyError:
+        return [d["ocd_id"] for d in place_json["location"]["divisions"]]
+    except (IndexError, KeyError, TypeError):
         return None
 
 
 def resolve_place_coordinates(place_json) -> Optional[list]:
-    if not place_json:
-        return None
+    # When fetching the event, the position field is under location
+    # NOTE: Some places, e.g helsinki:internet, might not have coordinates
     try:
-        # When fetching the event, the position field is under location
-        if "location" in place_json:
-            place_json = place_json["location"]
-        return place_json["position"]["coordinates"]
-    except KeyError:
+        return place_json["location"]["position"]["coordinates"]
+    except (IndexError, KeyError, TypeError):
         return None
