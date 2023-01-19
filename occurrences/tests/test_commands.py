@@ -9,7 +9,7 @@ from occurrences.models import PalvelutarjotinEvent
 
 
 @pytest.mark.django_db
-def test_delete_retention_period_exceeding_contact_info_command():
+def test_delete_retention_period_exceeding_contact_info_command(mock_get_event_data):
     too_old_1 = timezone.now() - relativedelta(months=24, days=1, minutes=60)
     too_old_2 = timezone.now() - relativedelta(months=24, days=1)
     still_valid_1 = timezone.now() - relativedelta(months=24, days=-1)

@@ -133,7 +133,7 @@ def test_user_str():
 
 
 @pytest.mark.django_db
-def test_too_old_personal_data():
+def test_too_old_personal_data(mock_get_event_data):
     too_old = timezone.now() - relativedelta(months=24, days=1)
     still_valid = timezone.now() - relativedelta(months=24, days=-1)
 

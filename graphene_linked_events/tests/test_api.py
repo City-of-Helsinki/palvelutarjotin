@@ -1824,7 +1824,13 @@ query NearbyEvents($placeId: ID, $distance: Float) {
 
 
 def test_nearby_events(
-    api_client, organisation, snapshot, mocked_responses, mock_get_place_data, settings
+    api_client,
+    organisation,
+    snapshot,
+    mocked_responses,
+    mock_get_place_data,
+    mock_get_event_data,
+    settings,
 ):
     """
     Searching for nearby events by place ID should put bbox parameter to the
