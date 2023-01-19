@@ -300,9 +300,17 @@ class UserAdmin(DjangoUserAdmin):
     )
     list_display = DjangoUserAdmin.list_display + (
         "date_joined",
+        "last_login",
         "has_person",
     )
-    list_filter = ("date_joined", "is_staff", "is_admin", "is_superuser", "is_active")
+    list_filter = (
+        "date_joined",
+        "last_login",
+        "is_staff",
+        "is_admin",
+        "is_superuser",
+        "is_active",
+    )
     readonly_fields = (
         "last_login",  # "last_login" is a nice to know, but shouldn't be editable
         "date_joined",  # "date_joined" is a nice to know, but shouldn't be editable

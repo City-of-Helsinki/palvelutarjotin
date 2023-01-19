@@ -75,6 +75,8 @@ env = environ.Env(
     ENABLE_SUMMARY_REPORT=(bool, False),
     VERIFICATION_TOKEN_VALID_MINUTES=(int, 15),
     PERSONAL_DATA_RETENTION_PERIOD_MONTHS=(int, 24),
+    UPDATE_LAST_LOGIN_ENABLED=(bool, True),
+    UPDATE_LAST_LOGIN_INTERVAL_MINUTES=(int, 60),
 )
 
 if os.path.exists(env_file):
@@ -315,6 +317,7 @@ if DEBUG is True:
         "django": {"handlers": ["console"], "level": "WARNING"},
         "occurrences": {"handlers": ["console"], "level": "DEBUG"},
         "organisations": {"handlers": ["console"], "level": "DEBUG"},
+        "palvelutarjotin": {"handlers": ["console"], "level": "DEBUG"},
     }
 
 CAPTCHA_ENABLED = env.bool("CAPTCHA_ENABLED")
@@ -353,3 +356,8 @@ DEFAULT_AUTO_FIELD = "django.db.models.AutoField"
 NOTIFICATIONS_IMPORTER = (
     "notification_importers.notification_importer.NotificationFileImporter"
 )
+
+UPDATE_LAST_LOGIN = {
+    "ENABLED": env.bool("UPDATE_LAST_LOGIN_ENABLED"),
+    "UPDATE_INTERVAL_MINUTES": env.int("UPDATE_LAST_LOGIN_INTERVAL_MINUTES"),
+}
