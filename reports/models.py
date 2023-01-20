@@ -364,6 +364,17 @@ class EnrolmentReport(TimestampedModel):
         self.enrolment_start_time = getattr(obj, "enrolment_start", None)
         self.enrolment_externally = bool(getattr(obj, "external_enrolment_url", None))
 
+    def _get_publisher_id_from_occurrence(self) -> Optional[str]:
+        if self.occurrence:
+            try:
+                return self.occurrence.p_event.organisation.publisher_id
+            except Exception:
+                logger.warn(
+                    "Could not get the event publisher id "
+                    f"from the occurrence {self.occurrence.id}"
+                )
+        return None
+
     def _hydrate_study_group_unit_from_linkedevents(self):
         try:
             if self.study_group_unit_id:
@@ -414,8 +425,12 @@ class EnrolmentReport(TimestampedModel):
             event = reports_services.get_event_json_from_linkedevents(
                 self.linked_event_id
             )
-            self.provider = get_event_provider(event)
-            self.publisher = event["publisher"] or None
+            self.provider = get_event_provider(
+                event
+            )  # NOTE: Provider is quite often, if not always, a None or an empty string
+            self.publisher = (
+                event["publisher"] or self._get_publisher_id_from_occurrence()
+            )
             self.keywords = get_event_keywords(event)
         except Exception:
             logger.exception(

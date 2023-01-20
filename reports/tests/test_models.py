@@ -38,6 +38,16 @@ def test_enrolment_report_occurrence_hydration(
 
 
 @pytest.mark.django_db
+def test_get_publisher_from_occurrence(
+    mock_get_event_data_with_locations_and_keywords, occurrence
+):
+    publisher_id = "test_hydration"
+    occurrence.p_event.organisation.publisher_id = publisher_id
+    report = EnrolmentReport(occurrence=occurrence)
+    report._get_publisher_id_from_occurrence() == publisher_id
+
+
+@pytest.mark.django_db
 def test_enrolment_report_study_group_hydration(
     mock_get_event_data_with_locations_and_keywords,
 ):
