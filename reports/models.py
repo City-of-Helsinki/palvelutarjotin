@@ -284,8 +284,8 @@ class EnrolmentReport(TimestampedModel):
                 # Trigger the setter
                 self.occurrence = getattr(self, "_occurrence")
 
-                if self.occurrence and not self.publisher:
-                    self.publisher = self._get_publisher_id_from_occurrence()
+            if self.occurrence and not self.publisher:
+                self.publisher = self._get_publisher_id_from_occurrence()
 
             # Hydrate Event data from LinkedEvents API
             if hydrate_linkedevents_event:

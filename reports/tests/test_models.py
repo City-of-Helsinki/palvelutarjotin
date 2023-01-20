@@ -44,6 +44,7 @@ def test_get_publisher_from_occurrence(
     publisher_id = "test_hydration"
     occurrence.p_event.organisation.publisher_id = publisher_id
     report = EnrolmentReport(occurrence=occurrence)
+    report.publisher == publisher_id
     report._get_publisher_id_from_occurrence() == publisher_id
 
 
