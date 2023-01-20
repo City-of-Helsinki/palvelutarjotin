@@ -77,8 +77,10 @@ def get_place_json_from_linkedevents(place_id: str):
 def resolve_place_divisions(place_json) -> Optional[list]:
     # When fetching the event, the division field is under location
     # NOTE: Some places, e.g helsinki:internet, might not have divisions
+    if "location" in place_json:
+        place_json = place_json["location"]
     try:
-        return [d["ocd_id"] for d in place_json["location"]["divisions"]]
+        return [d["ocd_id"] for d in place_json["divisions"]]
     except (IndexError, KeyError, TypeError):
         return None
 
