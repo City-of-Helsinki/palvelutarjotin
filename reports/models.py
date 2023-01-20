@@ -283,6 +283,10 @@ class EnrolmentReport(TimestampedModel):
             elif getattr(self, "_occurrence"):
                 # Trigger the setter
                 self.occurrence = getattr(self, "_occurrence")
+
+                if self.occurrence and not self.publisher:
+                    self.publisher = self._get_publisher_id_from_occurrence()
+
             # Hydrate Event data from LinkedEvents API
             if hydrate_linkedevents_event:
                 self._hydrate_study_group_unit_from_linkedevents()
@@ -428,9 +432,7 @@ class EnrolmentReport(TimestampedModel):
             self.provider = get_event_provider(
                 event
             )  # NOTE: Provider is quite often, if not always, a None or an empty string
-            self.publisher = (
-                event["publisher"] or self._get_publisher_id_from_occurrence()
-            )
+            self.publisher = event["publisher"]
             self.keywords = get_event_keywords(event)
         except Exception:
             logger.exception(
