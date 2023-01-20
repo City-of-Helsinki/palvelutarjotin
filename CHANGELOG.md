@@ -1,6 +1,17 @@
 <!-- REMINDER: While updating changelog, also remember to update
 the version in palvelutarjotin/__init.py__ -->
 
+## [1.6.0] - 20 January 2023
+
+- Support for person deletion
+- Support for event contact info deletion
+- Add management command for deleting too old contact info
+- Add enrollee person data to admin UI
+- Add retention period exceeding contact info deletion cronjobs
+- Filter the enrolment reports in admin by "has publisher" -filter
+- Save user's last activity if the configured interval has passed
+- Important fixes to test mocks
+
 ## [1.5.0] - 8 November 2022
 
 - Tweak event enrolments CSV
