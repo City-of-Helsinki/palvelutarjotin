@@ -42,6 +42,9 @@ FROM appbase as production
 
 COPY --chown=appuser:appuser . /app/
 
+# fatal: detected dubious ownership in repository at '/app'
+RUN git config --system --add safe.directory /app
+
 RUN SECRET_KEY="only-used-for-collectstatic" python manage.py collectstatic
 
 USER appuser
