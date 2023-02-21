@@ -5008,7 +5008,8 @@ enrolment_summary_report|Ilmoittautumisen yhteenvetoraportti|Enrolment summary r
 
 </body>
 
-</html>|<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+</html>
+|<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 
 <head>
@@ -5482,7 +5483,8 @@ enrolment_summary_report|Ilmoittautumisen yhteenvetoraportti|Enrolment summary r
 
 </body>
 
-</html>|<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+</html>
+|<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 
 <head>
@@ -5956,6 +5958,7 @@ enrolment_summary_report|Ilmoittautumisen yhteenvetoraportti|Enrolment summary r
 </body>
 
 </html>
+
 occurrence_cancelled|Peruutusilmoitus|Cancellation notification|Meddelande om inställt evenemang||||<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 
@@ -9403,7 +9406,8 @@ person_myprofile_accepted|Käyttäjätilisi Kultuksessa on valmis käytettäväk
 
 </body>
 
-</html>|<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+</html>
+|<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 
 <head>
@@ -9873,7 +9877,8 @@ person_myprofile_accepted|Käyttäjätilisi Kultuksessa on valmis käytettäväk
 
 </body>
 
-</html>|<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+</html>
+|<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 
 <head>
@@ -10344,6 +10349,7 @@ person_myprofile_accepted|Käyttäjätilisi Kultuksessa on valmis käytettäväk
 </body>
 
 </html>
+
 person_myprofile_creation|Uusi käyttäjä luotu Kultukseen|New user created for Kultus|Ny användare skapad för Kultus||||<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 
@@ -10841,7 +10847,8 @@ person_myprofile_creation|Uusi käyttäjä luotu Kultukseen|New user created for
 
 </body>
 
-</html>|<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+</html>
+|<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 
 <head>
@@ -11339,7 +11346,8 @@ person_myprofile_creation|Uusi käyttäjä luotu Kultukseen|New user created for
 
 </body>
 
-</html>|<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+</html>
+|<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 
 <head>
@@ -11837,7 +11845,8 @@ person_myprofile_creation|Uusi käyttäjä luotu Kultukseen|New user created for
 
 </body>
 
-</html>"""
+</html>
+"""
 
 snapshots[
     "test_update_notifications 1"
@@ -18373,7 +18382,8 @@ enrolment_summary_report|Ilmoittautumisen yhteenvetoraportti|Enrolment summary r
 
 </body>
 
-</html>|<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+</html>
+|<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 
 <head>
@@ -18847,7 +18857,8 @@ enrolment_summary_report|Ilmoittautumisen yhteenvetoraportti|Enrolment summary r
 
 </body>
 
-</html>|<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+</html>
+|<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 
 <head>
@@ -19321,6 +19332,7 @@ enrolment_summary_report|Ilmoittautumisen yhteenvetoraportti|Enrolment summary r
 </body>
 
 </html>
+
 occurrence_cancelled|Peruutusilmoitus|Cancellation notification|Meddelande om inställt evenemang||||<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 
@@ -21297,7 +21309,8 @@ person_myprofile_accepted|Käyttäjätilisi Kultuksessa on valmis käytettäväk
 
 </body>
 
-</html>|<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+</html>
+|<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 
 <head>
@@ -21767,7 +21780,8 @@ person_myprofile_accepted|Käyttäjätilisi Kultuksessa on valmis käytettäväk
 
 </body>
 
-</html>|<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+</html>
+|<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 
 <head>
@@ -22238,6 +22252,7 @@ person_myprofile_accepted|Käyttäjätilisi Kultuksessa on valmis käytettäväk
 </body>
 
 </html>
+
 person_myprofile_creation|Uusi käyttäjä luotu Kultukseen|New user created for Kultus|Ny användare skapad för Kultus||||<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 
@@ -22735,7 +22750,8 @@ person_myprofile_creation|Uusi käyttäjä luotu Kultukseen|New user created for
 
 </body>
 
-</html>|<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+</html>
+|<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 
 <head>
@@ -23233,7 +23249,8 @@ person_myprofile_creation|Uusi käyttäjä luotu Kultukseen|New user created for
 
 </body>
 
-</html>|<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+</html>
+|<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 
 <head>
@@ -23732,6 +23749,7 @@ person_myprofile_creation|Uusi käyttäjä luotu Kultukseen|New user created for
 </body>
 
 </html>
+
 enrolment_approved|Ilmoittautuminen vahvistettu|Enrolment approved|Anmälan har bekräftats||||<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 
