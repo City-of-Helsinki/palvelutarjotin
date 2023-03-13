@@ -44,7 +44,7 @@ Range north skin watch.
     Occurrence: 15.07.2008 03.29
     Person: stephanieskinner@gmail.com
     Click this link to cancel the enrolment:
-    https://beta.kultus.fi/fi/enrolments/cancel/mock-enrolment-unique-id-abc123xyz456
+    https://kultus.fi/fi/enrolments/cancel/mock-enrolment-unique-id-abc123xyz456
 
     Custom message: custom message
 """
@@ -301,7 +301,7 @@ snapshots["test_mass_approve_enrolment_mutation[False] 1"] = [
     Occurrence: 30.11.2020 14.06
     Person: barnettdiana@perry.com
     Click this link to cancel the enrolment:
-    https://beta.kultus.fi/fi/enrolments/cancel/mock-enrolment-unique-id-abc123xyz456
+    https://kultus.fi/fi/enrolments/cancel/mock-enrolment-unique-id-abc123xyz456
 
     Custom message: Custom message
 """,
@@ -312,7 +312,7 @@ snapshots["test_mass_approve_enrolment_mutation[False] 1"] = [
     Occurrence: 30.11.2020 14.06
     Person: byrdbrandon@newton-miranda.info
     Click this link to cancel the enrolment:
-    https://beta.kultus.fi/fi/enrolments/cancel/mock-enrolment-unique-id-abc123xyz456
+    https://kultus.fi/fi/enrolments/cancel/mock-enrolment-unique-id-abc123xyz456
 
     Custom message: Custom message
 """,
@@ -323,7 +323,7 @@ snapshots["test_mass_approve_enrolment_mutation[False] 1"] = [
     Occurrence: 30.11.2020 14.06
     Person: scott76@cameron-hansen.com
     Click this link to cancel the enrolment:
-    https://beta.kultus.fi/fi/enrolments/cancel/mock-enrolment-unique-id-abc123xyz456
+    https://kultus.fi/fi/enrolments/cancel/mock-enrolment-unique-id-abc123xyz456
 
     Custom message: Custom message
 """,
@@ -334,7 +334,7 @@ snapshots["test_mass_approve_enrolment_mutation[False] 1"] = [
     Occurrence: 30.11.2020 14.06
     Person: jensenjulia@hotmail.com
     Click this link to cancel the enrolment:
-    https://beta.kultus.fi/fi/enrolments/cancel/mock-enrolment-unique-id-abc123xyz456
+    https://kultus.fi/fi/enrolments/cancel/mock-enrolment-unique-id-abc123xyz456
 
     Custom message: Custom message
 """,
@@ -345,7 +345,7 @@ snapshots["test_mass_approve_enrolment_mutation[False] 1"] = [
     Occurrence: 30.11.2020 14.06
     Person: robert99@hotmail.com
     Click this link to cancel the enrolment:
-    https://beta.kultus.fi/fi/enrolments/cancel/mock-enrolment-unique-id-abc123xyz456
+    https://kultus.fi/fi/enrolments/cancel/mock-enrolment-unique-id-abc123xyz456
 
     Custom message: Custom message
 """,
@@ -356,7 +356,7 @@ snapshots["test_mass_approve_enrolment_mutation[False] 1"] = [
     Occurrence: 30.11.2020 14.06
     Person: newmanmelinda@yahoo.com
     Click this link to cancel the enrolment:
-    https://beta.kultus.fi/fi/enrolments/cancel/mock-enrolment-unique-id-abc123xyz456
+    https://kultus.fi/fi/enrolments/cancel/mock-enrolment-unique-id-abc123xyz456
 
     Custom message: Custom message
 """,

@@ -381,7 +381,7 @@ enrolment_cancellation|Ilmoittautumisen peruuttaminen|Enrolment cancellation|Avb
                                             style="color: #0a0a0a; font-family: Helvetica, Arial, sans-serif; font-size: 16px; font-weight: normal; line-height: 1.3; margin: 0; padding: 0; text-align: left;">
                                             <p class="text-right"
                                               style="Margin: 0; Margin-bottom: 10px; color: black; font-family: Helvetica, Arial, sans-serif; font-size: 16px; font-weight: normal; line-height: 1.3; margin: 0; margin-bottom: 0; padding: 0; text-align: right;">
-                                              BETA KULTUS</p>
+                                              KULTUS</p>
                                           </th>
                                         </tr>
                                       </tbody>
@@ -877,7 +877,7 @@ enrolment_cancellation|Ilmoittautumisen peruuttaminen|Enrolment cancellation|Avb
                                             style="color: #0a0a0a; font-family: Helvetica, Arial, sans-serif; font-size: 16px; font-weight: normal; line-height: 1.3; margin: 0; padding: 0; text-align: left;">
                                             <p class="text-right"
                                               style="Margin: 0; Margin-bottom: 10px; color: black; font-family: Helvetica, Arial, sans-serif; font-size: 16px; font-weight: normal; line-height: 1.3; margin: 0; margin-bottom: 0; padding: 0; text-align: right;">
-                                              BETA KULTUS</p>
+                                              KULTUS</p>
                                           </th>
                                         </tr>
                                       </tbody>
@@ -1379,7 +1379,7 @@ enrolment_cancellation|Ilmoittautumisen peruuttaminen|Enrolment cancellation|Avb
                                             style="color: #0a0a0a; font-family: Helvetica, Arial, sans-serif; font-size: 16px; font-weight: normal; line-height: 1.3; margin: 0; padding: 0; text-align: left;">
                                             <p class="text-right"
                                               style="Margin: 0; Margin-bottom: 10px; color: black; font-family: Helvetica, Arial, sans-serif; font-size: 16px; font-weight: normal; line-height: 1.3; margin: 0; margin-bottom: 0; padding: 0; text-align: right;">
-                                              BETA KULTUS</p>
+                                              KULTUS</p>
                                           </th>
                                         </tr>
                                       </tbody>
@@ -1883,7 +1883,7 @@ enrolment_cancelled|Ilmoittautumisen peruuttaminen vahvistettu|Enrolment cancell
                                             style="color: #0a0a0a; font-family: Helvetica, Arial, sans-serif; font-size: 16px; font-weight: normal; line-height: 1.3; margin: 0; padding: 0; text-align: left;">
                                             <p class="text-right"
                                               style="Margin: 0; Margin-bottom: 10px; color: black; font-family: Helvetica, Arial, sans-serif; font-size: 16px; font-weight: normal; line-height: 1.3; margin: 0; margin-bottom: 0; padding: 0; text-align: right;">
-                                              BETA KULTUS</p>
+                                              KULTUS</p>
                                           </th>
                                         </tr>
                                       </tbody>
@@ -2383,7 +2383,7 @@ enrolment_cancelled|Ilmoittautumisen peruuttaminen vahvistettu|Enrolment cancell
                                             style="color: #0a0a0a; font-family: Helvetica, Arial, sans-serif; font-size: 16px; font-weight: normal; line-height: 1.3; margin: 0; padding: 0; text-align: left;">
                                             <p class="text-right"
                                               style="Margin: 0; Margin-bottom: 10px; color: black; font-family: Helvetica, Arial, sans-serif; font-size: 16px; font-weight: normal; line-height: 1.3; margin: 0; margin-bottom: 0; padding: 0; text-align: right;">
-                                              BETA KULTUS</p>
+                                              KULTUS</p>
                                           </th>
                                         </tr>
                                       </tbody>
@@ -2883,7 +2883,7 @@ enrolment_cancelled|Ilmoittautumisen peruuttaminen vahvistettu|Enrolment cancell
                                             style="color: #0a0a0a; font-family: Helvetica, Arial, sans-serif; font-size: 16px; font-weight: normal; line-height: 1.3; margin: 0; padding: 0; text-align: left;">
                                             <p class="text-right"
                                               style="Margin: 0; Margin-bottom: 10px; color: black; font-family: Helvetica, Arial, sans-serif; font-size: 16px; font-weight: normal; line-height: 1.3; margin: 0; margin-bottom: 0; padding: 0; text-align: right;">
-                                              BETA KULTUS</p>
+                                              KULTUS</p>
                                           </th>
                                         </tr>
                                       </tbody>
@@ -3385,7 +3385,7 @@ enrolment_declined|Ilmoittautumisen peruutusilmoitus|Enrolment declined|Meddelan
                                             style="color: #0a0a0a; font-family: Helvetica, Arial, sans-serif; font-size: 16px; font-weight: normal; line-height: 1.3; margin: 0; padding: 0; text-align: left;">
                                             <p class="text-right"
                                               style="Margin: 0; Margin-bottom: 10px; color: black; font-family: Helvetica, Arial, sans-serif; font-size: 16px; font-weight: normal; line-height: 1.3; margin: 0; margin-bottom: 0; padding: 0; text-align: right;">
-                                              BETA KULTUS</p>
+                                              KULTUS</p>
                                           </th>
                                         </tr>
                                       </tbody>
@@ -3891,7 +3891,7 @@ enrolment_declined|Ilmoittautumisen peruutusilmoitus|Enrolment declined|Meddelan
                                             style="color: #0a0a0a; font-family: Helvetica, Arial, sans-serif; font-size: 16px; font-weight: normal; line-height: 1.3; margin: 0; padding: 0; text-align: left;">
                                             <p class="text-right"
                                               style="Margin: 0; Margin-bottom: 10px; color: black; font-family: Helvetica, Arial, sans-serif; font-size: 16px; font-weight: normal; line-height: 1.3; margin: 0; margin-bottom: 0; padding: 0; text-align: right;">
-                                              BETA KULTUS</p>
+                                              KULTUS</p>
                                           </th>
                                         </tr>
                                       </tbody>
@@ -4398,7 +4398,7 @@ enrolment_declined|Ilmoittautumisen peruutusilmoitus|Enrolment declined|Meddelan
                                             style="color: #0a0a0a; font-family: Helvetica, Arial, sans-serif; font-size: 16px; font-weight: normal; line-height: 1.3; margin: 0; padding: 0; text-align: left;">
                                             <p class="text-right"
                                               style="Margin: 0; Margin-bottom: 10px; color: black; font-family: Helvetica, Arial, sans-serif; font-size: 16px; font-weight: normal; line-height: 1.3; margin: 0; margin-bottom: 0; padding: 0; text-align: right;">
-                                              BETA KULTUS</p>
+                                              KULTUS</p>
                                           </th>
                                         </tr>
                                       </tbody>
@@ -4905,7 +4905,7 @@ enrolment_summary_report|Ilmoittautumisen yhteenvetoraportti|Enrolment summary r
                                             style="color: #0a0a0a; font-family: Helvetica, Arial, sans-serif; font-size: 16px; font-weight: normal; line-height: 1.3; margin: 0; padding: 0; text-align: left;">
                                             <p class="text-right"
                                               style="Margin: 0; Margin-bottom: 10px; color: black; font-family: Helvetica, Arial, sans-serif; font-size: 16px; font-weight: normal; line-height: 1.3; margin: 0; margin-bottom: 0; padding: 0; text-align: right;">
-                                              BETA KULTUS</p>
+                                              KULTUS</p>
                                           </th>
                                         </tr>
                                       </tbody>
@@ -5008,7 +5008,8 @@ enrolment_summary_report|Ilmoittautumisen yhteenvetoraportti|Enrolment summary r
 
 </body>
 
-</html>|<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+</html>
+|<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 
 <head>
@@ -5378,7 +5379,7 @@ enrolment_summary_report|Ilmoittautumisen yhteenvetoraportti|Enrolment summary r
                                             style="color: #0a0a0a; font-family: Helvetica, Arial, sans-serif; font-size: 16px; font-weight: normal; line-height: 1.3; margin: 0; padding: 0; text-align: left;">
                                             <p class="text-right"
                                               style="Margin: 0; Margin-bottom: 10px; color: black; font-family: Helvetica, Arial, sans-serif; font-size: 16px; font-weight: normal; line-height: 1.3; margin: 0; margin-bottom: 0; padding: 0; text-align: right;">
-                                              BETA KULTUS</p>
+                                              KULTUS</p>
                                           </th>
                                         </tr>
                                       </tbody>
@@ -5482,7 +5483,8 @@ enrolment_summary_report|Ilmoittautumisen yhteenvetoraportti|Enrolment summary r
 
 </body>
 
-</html>|<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+</html>
+|<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 
 <head>
@@ -5852,7 +5854,7 @@ enrolment_summary_report|Ilmoittautumisen yhteenvetoraportti|Enrolment summary r
                                             style="color: #0a0a0a; font-family: Helvetica, Arial, sans-serif; font-size: 16px; font-weight: normal; line-height: 1.3; margin: 0; padding: 0; text-align: left;">
                                             <p class="text-right"
                                               style="Margin: 0; Margin-bottom: 10px; color: black; font-family: Helvetica, Arial, sans-serif; font-size: 16px; font-weight: normal; line-height: 1.3; margin: 0; margin-bottom: 0; padding: 0; text-align: right;">
-                                              BETA KULTUS</p>
+                                              KULTUS</p>
                                           </th>
                                         </tr>
                                       </tbody>
@@ -5956,6 +5958,7 @@ enrolment_summary_report|Ilmoittautumisen yhteenvetoraportti|Enrolment summary r
 </body>
 
 </html>
+
 occurrence_cancelled|Peruutusilmoitus|Cancellation notification|Meddelande om inställt evenemang||||<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 
@@ -6326,7 +6329,7 @@ occurrence_cancelled|Peruutusilmoitus|Cancellation notification|Meddelande om in
                                             style="color: #0a0a0a; font-family: Helvetica, Arial, sans-serif; font-size: 16px; font-weight: normal; line-height: 1.3; margin: 0; padding: 0; text-align: left;">
                                             <p class="text-right"
                                               style="Margin: 0; Margin-bottom: 10px; color: black; font-family: Helvetica, Arial, sans-serif; font-size: 16px; font-weight: normal; line-height: 1.3; margin: 0; margin-bottom: 0; padding: 0; text-align: right;">
-                                              BETA KULTUS</p>
+                                              KULTUS</p>
                                           </th>
                                         </tr>
                                       </tbody>
@@ -6827,7 +6830,7 @@ occurrence_cancelled|Peruutusilmoitus|Cancellation notification|Meddelande om in
                                             style="color: #0a0a0a; font-family: Helvetica, Arial, sans-serif; font-size: 16px; font-weight: normal; line-height: 1.3; margin: 0; padding: 0; text-align: left;">
                                             <p class="text-right"
                                               style="Margin: 0; Margin-bottom: 10px; color: black; font-family: Helvetica, Arial, sans-serif; font-size: 16px; font-weight: normal; line-height: 1.3; margin: 0; margin-bottom: 0; padding: 0; text-align: right;">
-                                              BETA KULTUS</p>
+                                              KULTUS</p>
                                           </th>
                                         </tr>
                                       </tbody>
@@ -7328,7 +7331,7 @@ occurrence_cancelled|Peruutusilmoitus|Cancellation notification|Meddelande om in
                                             style="color: #0a0a0a; font-family: Helvetica, Arial, sans-serif; font-size: 16px; font-weight: normal; line-height: 1.3; margin: 0; padding: 0; text-align: left;">
                                             <p class="text-right"
                                               style="Margin: 0; Margin-bottom: 10px; color: black; font-family: Helvetica, Arial, sans-serif; font-size: 16px; font-weight: normal; line-height: 1.3; margin: 0; margin-bottom: 0; padding: 0; text-align: right;">
-                                              BETA KULTUS</p>
+                                              KULTUS</p>
                                           </th>
                                         </tr>
                                       </tbody>
@@ -7832,7 +7835,7 @@ occurrence_enrolment|Ilmoittautuminen vastaanotettu|Enrolment received|Anmälan 
                                             style="color: #0a0a0a; font-family: Helvetica, Arial, sans-serif; font-size: 16px; font-weight: normal; line-height: 1.3; margin: 0; padding: 0; text-align: left;">
                                             <p class="text-right"
                                               style="Margin: 0; Margin-bottom: 10px; color: black; font-family: Helvetica, Arial, sans-serif; font-size: 16px; font-weight: normal; line-height: 1.3; margin: 0; margin-bottom: 0; padding: 0; text-align: right;">
-                                              BETA KULTUS</p>
+                                              KULTUS</p>
                                           </th>
                                         </tr>
                                       </tbody>
@@ -8322,7 +8325,7 @@ occurrence_enrolment|Ilmoittautuminen vastaanotettu|Enrolment received|Anmälan 
                                             style="color: #0a0a0a; font-family: Helvetica, Arial, sans-serif; font-size: 16px; font-weight: normal; line-height: 1.3; margin: 0; padding: 0; text-align: left;">
                                             <p class="text-right"
                                               style="Margin: 0; Margin-bottom: 10px; color: black; font-family: Helvetica, Arial, sans-serif; font-size: 16px; font-weight: normal; line-height: 1.3; margin: 0; margin-bottom: 0; padding: 0; text-align: right;">
-                                              BETA KULTUS</p>
+                                              KULTUS</p>
                                           </th>
                                         </tr>
                                       </tbody>
@@ -8812,7 +8815,7 @@ occurrence_enrolment|Ilmoittautuminen vastaanotettu|Enrolment received|Anmälan 
                                             style="color: #0a0a0a; font-family: Helvetica, Arial, sans-serif; font-size: 16px; font-weight: normal; line-height: 1.3; margin: 0; padding: 0; text-align: left;">
                                             <p class="text-right"
                                               style="Margin: 0; Margin-bottom: 10px; color: black; font-family: Helvetica, Arial, sans-serif; font-size: 16px; font-weight: normal; line-height: 1.3; margin: 0; margin-bottom: 0; padding: 0; text-align: right;">
-                                              BETA KULTUS</p>
+                                              KULTUS</p>
                                           </th>
                                         </tr>
                                       </tbody>
@@ -9309,7 +9312,7 @@ person_myprofile_accepted|Käyttäjätilisi Kultuksessa on valmis käytettäväk
                                                                                         style="color: #0a0a0a; font-family: Helvetica, Arial, sans-serif; font-size: 16px; font-weight: normal; line-height: 1.3; margin: 0; padding: 0; text-align: left;">
                                                                                         <p class="text-right"
                                                                                             style="Margin: 0; Margin-bottom: 10px; color: black; font-family: Helvetica, Arial, sans-serif; font-size: 16px; font-weight: normal; line-height: 1.3; margin: 0; margin-bottom: 0; padding: 0; text-align: right;">
-                                                                                            BETA KULTUS</p>
+                                                                                            KULTUS</p>
                                                                                     </th>
                                                                                 </tr>
                                                                             </tbody>
@@ -9403,7 +9406,8 @@ person_myprofile_accepted|Käyttäjätilisi Kultuksessa on valmis käytettäväk
 
 </body>
 
-</html>|<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+</html>
+|<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 
 <head>
@@ -9778,7 +9782,7 @@ person_myprofile_accepted|Käyttäjätilisi Kultuksessa on valmis käytettäväk
                                                                                         style="color: #0a0a0a; font-family: Helvetica, Arial, sans-serif; font-size: 16px; font-weight: normal; line-height: 1.3; margin: 0; padding: 0; text-align: left;">
                                                                                         <p class="text-right"
                                                                                             style="Margin: 0; Margin-bottom: 10px; color: black; font-family: Helvetica, Arial, sans-serif; font-size: 16px; font-weight: normal; line-height: 1.3; margin: 0; margin-bottom: 0; padding: 0; text-align: right;">
-                                                                                            BETA KULTUS</p>
+                                                                                            KULTUS</p>
                                                                                     </th>
                                                                                 </tr>
                                                                             </tbody>
@@ -9873,7 +9877,8 @@ person_myprofile_accepted|Käyttäjätilisi Kultuksessa on valmis käytettäväk
 
 </body>
 
-</html>|<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+</html>
+|<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 
 <head>
@@ -10248,7 +10253,7 @@ person_myprofile_accepted|Käyttäjätilisi Kultuksessa on valmis käytettäväk
                                                                                         style="color: #0a0a0a; font-family: Helvetica, Arial, sans-serif; font-size: 16px; font-weight: normal; line-height: 1.3; margin: 0; padding: 0; text-align: left;">
                                                                                         <p class="text-right"
                                                                                             style="Margin: 0; Margin-bottom: 10px; color: black; font-family: Helvetica, Arial, sans-serif; font-size: 16px; font-weight: normal; line-height: 1.3; margin: 0; margin-bottom: 0; padding: 0; text-align: right;">
-                                                                                            BETA KULTUS</p>
+                                                                                            KULTUS</p>
                                                                                     </th>
                                                                                 </tr>
                                                                             </tbody>
@@ -10344,6 +10349,7 @@ person_myprofile_accepted|Käyttäjätilisi Kultuksessa on valmis käytettäväk
 </body>
 
 </html>
+
 person_myprofile_creation|Uusi käyttäjä luotu Kultukseen|New user created for Kultus|Ny användare skapad för Kultus||||<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 
@@ -10719,7 +10725,7 @@ person_myprofile_creation|Uusi käyttäjä luotu Kultukseen|New user created for
                                                                                         style="color: #0a0a0a; font-family: Helvetica, Arial, sans-serif; font-size: 16px; font-weight: normal; line-height: 1.3; margin: 0; padding: 0; text-align: left;">
                                                                                         <p class="text-right"
                                                                                             style="margin: 0; margin-bottom: 10px; color: black; font-family: Helvetica, Arial, sans-serif; font-size: 16px; font-weight: normal; line-height: 1.3; margin: 0; margin-bottom: 0; padding: 0; text-align: right;">
-                                                                                            BETA KULTUS</p>
+                                                                                            KULTUS</p>
                                                                                     </th>
                                                                                 </tr>
                                                                             </tbody>
@@ -10841,7 +10847,8 @@ person_myprofile_creation|Uusi käyttäjä luotu Kultukseen|New user created for
 
 </body>
 
-</html>|<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+</html>
+|<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 
 <head>
@@ -11216,7 +11223,7 @@ person_myprofile_creation|Uusi käyttäjä luotu Kultukseen|New user created for
                                                                                         style="color: #0a0a0a; font-family: Helvetica, Arial, sans-serif; font-size: 16px; font-weight: normal; line-height: 1.3; margin: 0; padding: 0; text-align: left;">
                                                                                         <p class="text-right"
                                                                                             style="margin: 0; margin-bottom: 10px; color: black; font-family: Helvetica, Arial, sans-serif; font-size: 16px; font-weight: normal; line-height: 1.3; margin: 0; margin-bottom: 0; padding: 0; text-align: right;">
-                                                                                            BETA KULTUS</p>
+                                                                                            KULTUS</p>
                                                                                     </th>
                                                                                 </tr>
                                                                             </tbody>
@@ -11339,7 +11346,8 @@ person_myprofile_creation|Uusi käyttäjä luotu Kultukseen|New user created for
 
 </body>
 
-</html>|<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+</html>
+|<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 
 <head>
@@ -11714,7 +11722,7 @@ person_myprofile_creation|Uusi käyttäjä luotu Kultukseen|New user created for
                                                                                         style="color: #0a0a0a; font-family: Helvetica, Arial, sans-serif; font-size: 16px; font-weight: normal; line-height: 1.3; margin: 0; padding: 0; text-align: left;">
                                                                                         <p class="text-right"
                                                                                             style="margin: 0; margin-bottom: 10px; color: black; font-family: Helvetica, Arial, sans-serif; font-size: 16px; font-weight: normal; line-height: 1.3; margin: 0; margin-bottom: 0; padding: 0; text-align: right;">
-                                                                                            BETA KULTUS</p>
+                                                                                            KULTUS</p>
                                                                                     </th>
                                                                                 </tr>
                                                                             </tbody>
@@ -11837,7 +11845,8 @@ person_myprofile_creation|Uusi käyttäjä luotu Kultukseen|New user created for
 
 </body>
 
-</html>"""
+</html>
+"""
 
 snapshots[
     "test_update_notifications 1"
@@ -12212,7 +12221,7 @@ snapshots[
                                             style="color: #0a0a0a; font-family: Helvetica, Arial, sans-serif; font-size: 16px; font-weight: normal; line-height: 1.3; margin: 0; padding: 0; text-align: left;">
                                             <p class="text-right"
                                               style="Margin: 0; Margin-bottom: 10px; color: black; font-family: Helvetica, Arial, sans-serif; font-size: 16px; font-weight: normal; line-height: 1.3; margin: 0; margin-bottom: 0; padding: 0; text-align: right;">
-                                              BETA KULTUS</p>
+                                              KULTUS</p>
                                           </th>
                                         </tr>
                                       </tbody>
@@ -12715,7 +12724,7 @@ snapshots[
                                             style="color: #0a0a0a; font-family: Helvetica, Arial, sans-serif; font-size: 16px; font-weight: normal; line-height: 1.3; margin: 0; padding: 0; text-align: left;">
                                             <p class="text-right"
                                               style="Margin: 0; Margin-bottom: 10px; color: black; font-family: Helvetica, Arial, sans-serif; font-size: 16px; font-weight: normal; line-height: 1.3; margin: 0; margin-bottom: 0; padding: 0; text-align: right;">
-                                              BETA KULTUS</p>
+                                              KULTUS</p>
                                           </th>
                                         </tr>
                                       </tbody>
@@ -13223,7 +13232,7 @@ snapshots[
                                                                                         style="color: #0a0a0a; font-family: Helvetica, Arial, sans-serif; font-size: 16px; font-weight: normal; line-height: 1.3; margin: 0; padding: 0; text-align: left;">
                                                                                         <p class="text-right"
                                                                                             style="Margin: 0; Margin-bottom: 10px; color: black; font-family: Helvetica, Arial, sans-serif; font-size: 16px; font-weight: normal; line-height: 1.3; margin: 0; margin-bottom: 0; padding: 0; text-align: right;">
-                                                                                            BETA KULTUS</p>
+                                                                                            KULTUS</p>
                                                                                     </th>
                                                                                 </tr>
                                                                             </tbody>
@@ -13746,7 +13755,7 @@ enrolment_cancellation|Ilmoittautumisen peruuttaminen|Enrolment cancellation|Avb
                                             style="color: #0a0a0a; font-family: Helvetica, Arial, sans-serif; font-size: 16px; font-weight: normal; line-height: 1.3; margin: 0; padding: 0; text-align: left;">
                                             <p class="text-right"
                                               style="Margin: 0; Margin-bottom: 10px; color: black; font-family: Helvetica, Arial, sans-serif; font-size: 16px; font-weight: normal; line-height: 1.3; margin: 0; margin-bottom: 0; padding: 0; text-align: right;">
-                                              BETA KULTUS</p>
+                                              KULTUS</p>
                                           </th>
                                         </tr>
                                       </tbody>
@@ -14242,7 +14251,7 @@ enrolment_cancellation|Ilmoittautumisen peruuttaminen|Enrolment cancellation|Avb
                                             style="color: #0a0a0a; font-family: Helvetica, Arial, sans-serif; font-size: 16px; font-weight: normal; line-height: 1.3; margin: 0; padding: 0; text-align: left;">
                                             <p class="text-right"
                                               style="Margin: 0; Margin-bottom: 10px; color: black; font-family: Helvetica, Arial, sans-serif; font-size: 16px; font-weight: normal; line-height: 1.3; margin: 0; margin-bottom: 0; padding: 0; text-align: right;">
-                                              BETA KULTUS</p>
+                                              KULTUS</p>
                                           </th>
                                         </tr>
                                       </tbody>
@@ -14744,7 +14753,7 @@ enrolment_cancellation|Ilmoittautumisen peruuttaminen|Enrolment cancellation|Avb
                                             style="color: #0a0a0a; font-family: Helvetica, Arial, sans-serif; font-size: 16px; font-weight: normal; line-height: 1.3; margin: 0; padding: 0; text-align: left;">
                                             <p class="text-right"
                                               style="Margin: 0; Margin-bottom: 10px; color: black; font-family: Helvetica, Arial, sans-serif; font-size: 16px; font-weight: normal; line-height: 1.3; margin: 0; margin-bottom: 0; padding: 0; text-align: right;">
-                                              BETA KULTUS</p>
+                                              KULTUS</p>
                                           </th>
                                         </tr>
                                       </tbody>
@@ -15248,7 +15257,7 @@ enrolment_cancelled|Ilmoittautumisen peruuttaminen vahvistettu|Enrolment cancell
                                             style="color: #0a0a0a; font-family: Helvetica, Arial, sans-serif; font-size: 16px; font-weight: normal; line-height: 1.3; margin: 0; padding: 0; text-align: left;">
                                             <p class="text-right"
                                               style="Margin: 0; Margin-bottom: 10px; color: black; font-family: Helvetica, Arial, sans-serif; font-size: 16px; font-weight: normal; line-height: 1.3; margin: 0; margin-bottom: 0; padding: 0; text-align: right;">
-                                              BETA KULTUS</p>
+                                              KULTUS</p>
                                           </th>
                                         </tr>
                                       </tbody>
@@ -15748,7 +15757,7 @@ enrolment_cancelled|Ilmoittautumisen peruuttaminen vahvistettu|Enrolment cancell
                                             style="color: #0a0a0a; font-family: Helvetica, Arial, sans-serif; font-size: 16px; font-weight: normal; line-height: 1.3; margin: 0; padding: 0; text-align: left;">
                                             <p class="text-right"
                                               style="Margin: 0; Margin-bottom: 10px; color: black; font-family: Helvetica, Arial, sans-serif; font-size: 16px; font-weight: normal; line-height: 1.3; margin: 0; margin-bottom: 0; padding: 0; text-align: right;">
-                                              BETA KULTUS</p>
+                                              KULTUS</p>
                                           </th>
                                         </tr>
                                       </tbody>
@@ -16248,7 +16257,7 @@ enrolment_cancelled|Ilmoittautumisen peruuttaminen vahvistettu|Enrolment cancell
                                             style="color: #0a0a0a; font-family: Helvetica, Arial, sans-serif; font-size: 16px; font-weight: normal; line-height: 1.3; margin: 0; padding: 0; text-align: left;">
                                             <p class="text-right"
                                               style="Margin: 0; Margin-bottom: 10px; color: black; font-family: Helvetica, Arial, sans-serif; font-size: 16px; font-weight: normal; line-height: 1.3; margin: 0; margin-bottom: 0; padding: 0; text-align: right;">
-                                              BETA KULTUS</p>
+                                              KULTUS</p>
                                           </th>
                                         </tr>
                                       </tbody>
@@ -16750,7 +16759,7 @@ enrolment_declined|Ilmoittautumisen peruutusilmoitus|Enrolment declined|Meddelan
                                             style="color: #0a0a0a; font-family: Helvetica, Arial, sans-serif; font-size: 16px; font-weight: normal; line-height: 1.3; margin: 0; padding: 0; text-align: left;">
                                             <p class="text-right"
                                               style="Margin: 0; Margin-bottom: 10px; color: black; font-family: Helvetica, Arial, sans-serif; font-size: 16px; font-weight: normal; line-height: 1.3; margin: 0; margin-bottom: 0; padding: 0; text-align: right;">
-                                              BETA KULTUS</p>
+                                              KULTUS</p>
                                           </th>
                                         </tr>
                                       </tbody>
@@ -17256,7 +17265,7 @@ enrolment_declined|Ilmoittautumisen peruutusilmoitus|Enrolment declined|Meddelan
                                             style="color: #0a0a0a; font-family: Helvetica, Arial, sans-serif; font-size: 16px; font-weight: normal; line-height: 1.3; margin: 0; padding: 0; text-align: left;">
                                             <p class="text-right"
                                               style="Margin: 0; Margin-bottom: 10px; color: black; font-family: Helvetica, Arial, sans-serif; font-size: 16px; font-weight: normal; line-height: 1.3; margin: 0; margin-bottom: 0; padding: 0; text-align: right;">
-                                              BETA KULTUS</p>
+                                              KULTUS</p>
                                           </th>
                                         </tr>
                                       </tbody>
@@ -17763,7 +17772,7 @@ enrolment_declined|Ilmoittautumisen peruutusilmoitus|Enrolment declined|Meddelan
                                             style="color: #0a0a0a; font-family: Helvetica, Arial, sans-serif; font-size: 16px; font-weight: normal; line-height: 1.3; margin: 0; padding: 0; text-align: left;">
                                             <p class="text-right"
                                               style="Margin: 0; Margin-bottom: 10px; color: black; font-family: Helvetica, Arial, sans-serif; font-size: 16px; font-weight: normal; line-height: 1.3; margin: 0; margin-bottom: 0; padding: 0; text-align: right;">
-                                              BETA KULTUS</p>
+                                              KULTUS</p>
                                           </th>
                                         </tr>
                                       </tbody>
@@ -18270,7 +18279,7 @@ enrolment_summary_report|Ilmoittautumisen yhteenvetoraportti|Enrolment summary r
                                             style="color: #0a0a0a; font-family: Helvetica, Arial, sans-serif; font-size: 16px; font-weight: normal; line-height: 1.3; margin: 0; padding: 0; text-align: left;">
                                             <p class="text-right"
                                               style="Margin: 0; Margin-bottom: 10px; color: black; font-family: Helvetica, Arial, sans-serif; font-size: 16px; font-weight: normal; line-height: 1.3; margin: 0; margin-bottom: 0; padding: 0; text-align: right;">
-                                              BETA KULTUS</p>
+                                              KULTUS</p>
                                           </th>
                                         </tr>
                                       </tbody>
@@ -18373,7 +18382,8 @@ enrolment_summary_report|Ilmoittautumisen yhteenvetoraportti|Enrolment summary r
 
 </body>
 
-</html>|<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+</html>
+|<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 
 <head>
@@ -18743,7 +18753,7 @@ enrolment_summary_report|Ilmoittautumisen yhteenvetoraportti|Enrolment summary r
                                             style="color: #0a0a0a; font-family: Helvetica, Arial, sans-serif; font-size: 16px; font-weight: normal; line-height: 1.3; margin: 0; padding: 0; text-align: left;">
                                             <p class="text-right"
                                               style="Margin: 0; Margin-bottom: 10px; color: black; font-family: Helvetica, Arial, sans-serif; font-size: 16px; font-weight: normal; line-height: 1.3; margin: 0; margin-bottom: 0; padding: 0; text-align: right;">
-                                              BETA KULTUS</p>
+                                              KULTUS</p>
                                           </th>
                                         </tr>
                                       </tbody>
@@ -18847,7 +18857,8 @@ enrolment_summary_report|Ilmoittautumisen yhteenvetoraportti|Enrolment summary r
 
 </body>
 
-</html>|<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+</html>
+|<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 
 <head>
@@ -19217,7 +19228,7 @@ enrolment_summary_report|Ilmoittautumisen yhteenvetoraportti|Enrolment summary r
                                             style="color: #0a0a0a; font-family: Helvetica, Arial, sans-serif; font-size: 16px; font-weight: normal; line-height: 1.3; margin: 0; padding: 0; text-align: left;">
                                             <p class="text-right"
                                               style="Margin: 0; Margin-bottom: 10px; color: black; font-family: Helvetica, Arial, sans-serif; font-size: 16px; font-weight: normal; line-height: 1.3; margin: 0; margin-bottom: 0; padding: 0; text-align: right;">
-                                              BETA KULTUS</p>
+                                              KULTUS</p>
                                           </th>
                                         </tr>
                                       </tbody>
@@ -19321,6 +19332,7 @@ enrolment_summary_report|Ilmoittautumisen yhteenvetoraportti|Enrolment summary r
 </body>
 
 </html>
+
 occurrence_cancelled|Peruutusilmoitus|Cancellation notification|Meddelande om inställt evenemang||||<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 
@@ -19691,7 +19703,7 @@ occurrence_cancelled|Peruutusilmoitus|Cancellation notification|Meddelande om in
                                             style="color: #0a0a0a; font-family: Helvetica, Arial, sans-serif; font-size: 16px; font-weight: normal; line-height: 1.3; margin: 0; padding: 0; text-align: left;">
                                             <p class="text-right"
                                               style="Margin: 0; Margin-bottom: 10px; color: black; font-family: Helvetica, Arial, sans-serif; font-size: 16px; font-weight: normal; line-height: 1.3; margin: 0; margin-bottom: 0; padding: 0; text-align: right;">
-                                              BETA KULTUS</p>
+                                              KULTUS</p>
                                           </th>
                                         </tr>
                                       </tbody>
@@ -20192,7 +20204,7 @@ occurrence_cancelled|Peruutusilmoitus|Cancellation notification|Meddelande om in
                                             style="color: #0a0a0a; font-family: Helvetica, Arial, sans-serif; font-size: 16px; font-weight: normal; line-height: 1.3; margin: 0; padding: 0; text-align: left;">
                                             <p class="text-right"
                                               style="Margin: 0; Margin-bottom: 10px; color: black; font-family: Helvetica, Arial, sans-serif; font-size: 16px; font-weight: normal; line-height: 1.3; margin: 0; margin-bottom: 0; padding: 0; text-align: right;">
-                                              BETA KULTUS</p>
+                                              KULTUS</p>
                                           </th>
                                         </tr>
                                       </tbody>
@@ -20693,7 +20705,7 @@ occurrence_cancelled|Peruutusilmoitus|Cancellation notification|Meddelande om in
                                             style="color: #0a0a0a; font-family: Helvetica, Arial, sans-serif; font-size: 16px; font-weight: normal; line-height: 1.3; margin: 0; padding: 0; text-align: left;">
                                             <p class="text-right"
                                               style="Margin: 0; Margin-bottom: 10px; color: black; font-family: Helvetica, Arial, sans-serif; font-size: 16px; font-weight: normal; line-height: 1.3; margin: 0; margin-bottom: 0; padding: 0; text-align: right;">
-                                              BETA KULTUS</p>
+                                              KULTUS</p>
                                           </th>
                                         </tr>
                                       </tbody>
@@ -21203,7 +21215,7 @@ person_myprofile_accepted|Käyttäjätilisi Kultuksessa on valmis käytettäväk
                                                                                         style="color: #0a0a0a; font-family: Helvetica, Arial, sans-serif; font-size: 16px; font-weight: normal; line-height: 1.3; margin: 0; padding: 0; text-align: left;">
                                                                                         <p class="text-right"
                                                                                             style="Margin: 0; Margin-bottom: 10px; color: black; font-family: Helvetica, Arial, sans-serif; font-size: 16px; font-weight: normal; line-height: 1.3; margin: 0; margin-bottom: 0; padding: 0; text-align: right;">
-                                                                                            BETA KULTUS</p>
+                                                                                            KULTUS</p>
                                                                                     </th>
                                                                                 </tr>
                                                                             </tbody>
@@ -21297,7 +21309,8 @@ person_myprofile_accepted|Käyttäjätilisi Kultuksessa on valmis käytettäväk
 
 </body>
 
-</html>|<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+</html>
+|<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 
 <head>
@@ -21672,7 +21685,7 @@ person_myprofile_accepted|Käyttäjätilisi Kultuksessa on valmis käytettäväk
                                                                                         style="color: #0a0a0a; font-family: Helvetica, Arial, sans-serif; font-size: 16px; font-weight: normal; line-height: 1.3; margin: 0; padding: 0; text-align: left;">
                                                                                         <p class="text-right"
                                                                                             style="Margin: 0; Margin-bottom: 10px; color: black; font-family: Helvetica, Arial, sans-serif; font-size: 16px; font-weight: normal; line-height: 1.3; margin: 0; margin-bottom: 0; padding: 0; text-align: right;">
-                                                                                            BETA KULTUS</p>
+                                                                                            KULTUS</p>
                                                                                     </th>
                                                                                 </tr>
                                                                             </tbody>
@@ -21767,7 +21780,8 @@ person_myprofile_accepted|Käyttäjätilisi Kultuksessa on valmis käytettäväk
 
 </body>
 
-</html>|<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+</html>
+|<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 
 <head>
@@ -22142,7 +22156,7 @@ person_myprofile_accepted|Käyttäjätilisi Kultuksessa on valmis käytettäväk
                                                                                         style="color: #0a0a0a; font-family: Helvetica, Arial, sans-serif; font-size: 16px; font-weight: normal; line-height: 1.3; margin: 0; padding: 0; text-align: left;">
                                                                                         <p class="text-right"
                                                                                             style="Margin: 0; Margin-bottom: 10px; color: black; font-family: Helvetica, Arial, sans-serif; font-size: 16px; font-weight: normal; line-height: 1.3; margin: 0; margin-bottom: 0; padding: 0; text-align: right;">
-                                                                                            BETA KULTUS</p>
+                                                                                            KULTUS</p>
                                                                                     </th>
                                                                                 </tr>
                                                                             </tbody>
@@ -22238,6 +22252,7 @@ person_myprofile_accepted|Käyttäjätilisi Kultuksessa on valmis käytettäväk
 </body>
 
 </html>
+
 person_myprofile_creation|Uusi käyttäjä luotu Kultukseen|New user created for Kultus|Ny användare skapad för Kultus||||<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 
@@ -22613,7 +22628,7 @@ person_myprofile_creation|Uusi käyttäjä luotu Kultukseen|New user created for
                                                                                         style="color: #0a0a0a; font-family: Helvetica, Arial, sans-serif; font-size: 16px; font-weight: normal; line-height: 1.3; margin: 0; padding: 0; text-align: left;">
                                                                                         <p class="text-right"
                                                                                             style="margin: 0; margin-bottom: 10px; color: black; font-family: Helvetica, Arial, sans-serif; font-size: 16px; font-weight: normal; line-height: 1.3; margin: 0; margin-bottom: 0; padding: 0; text-align: right;">
-                                                                                            BETA KULTUS</p>
+                                                                                            KULTUS</p>
                                                                                     </th>
                                                                                 </tr>
                                                                             </tbody>
@@ -22735,7 +22750,8 @@ person_myprofile_creation|Uusi käyttäjä luotu Kultukseen|New user created for
 
 </body>
 
-</html>|<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+</html>
+|<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 
 <head>
@@ -23110,7 +23126,7 @@ person_myprofile_creation|Uusi käyttäjä luotu Kultukseen|New user created for
                                                                                         style="color: #0a0a0a; font-family: Helvetica, Arial, sans-serif; font-size: 16px; font-weight: normal; line-height: 1.3; margin: 0; padding: 0; text-align: left;">
                                                                                         <p class="text-right"
                                                                                             style="margin: 0; margin-bottom: 10px; color: black; font-family: Helvetica, Arial, sans-serif; font-size: 16px; font-weight: normal; line-height: 1.3; margin: 0; margin-bottom: 0; padding: 0; text-align: right;">
-                                                                                            BETA KULTUS</p>
+                                                                                            KULTUS</p>
                                                                                     </th>
                                                                                 </tr>
                                                                             </tbody>
@@ -23233,7 +23249,8 @@ person_myprofile_creation|Uusi käyttäjä luotu Kultukseen|New user created for
 
 </body>
 
-</html>|<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+</html>
+|<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 
 <head>
@@ -23608,7 +23625,7 @@ person_myprofile_creation|Uusi käyttäjä luotu Kultukseen|New user created for
                                                                                         style="color: #0a0a0a; font-family: Helvetica, Arial, sans-serif; font-size: 16px; font-weight: normal; line-height: 1.3; margin: 0; padding: 0; text-align: left;">
                                                                                         <p class="text-right"
                                                                                             style="margin: 0; margin-bottom: 10px; color: black; font-family: Helvetica, Arial, sans-serif; font-size: 16px; font-weight: normal; line-height: 1.3; margin: 0; margin-bottom: 0; padding: 0; text-align: right;">
-                                                                                            BETA KULTUS</p>
+                                                                                            KULTUS</p>
                                                                                     </th>
                                                                                 </tr>
                                                                             </tbody>
@@ -23732,6 +23749,7 @@ person_myprofile_creation|Uusi käyttäjä luotu Kultukseen|New user created for
 </body>
 
 </html>
+
 enrolment_approved|Ilmoittautuminen vahvistettu|Enrolment approved|Anmälan har bekräftats||||<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 
@@ -24103,7 +24121,7 @@ enrolment_approved|Ilmoittautuminen vahvistettu|Enrolment approved|Anmälan har 
                                             style="color: #0a0a0a; font-family: Helvetica, Arial, sans-serif; font-size: 16px; font-weight: normal; line-height: 1.3; margin: 0; padding: 0; text-align: left;">
                                             <p class="text-right"
                                               style="Margin: 0; Margin-bottom: 10px; color: black; font-family: Helvetica, Arial, sans-serif; font-size: 16px; font-weight: normal; line-height: 1.3; margin: 0; margin-bottom: 0; padding: 0; text-align: right;">
-                                              BETA KULTUS</p>
+                                              KULTUS</p>
                                           </th>
                                         </tr>
                                       </tbody>
@@ -24606,7 +24624,7 @@ enrolment_approved|Ilmoittautuminen vahvistettu|Enrolment approved|Anmälan har 
                                             style="color: #0a0a0a; font-family: Helvetica, Arial, sans-serif; font-size: 16px; font-weight: normal; line-height: 1.3; margin: 0; padding: 0; text-align: left;">
                                             <p class="text-right"
                                               style="Margin: 0; Margin-bottom: 10px; color: black; font-family: Helvetica, Arial, sans-serif; font-size: 16px; font-weight: normal; line-height: 1.3; margin: 0; margin-bottom: 0; padding: 0; text-align: right;">
-                                              BETA KULTUS</p>
+                                              KULTUS</p>
                                           </th>
                                         </tr>
                                       </tbody>
@@ -25114,7 +25132,7 @@ enrolment_approved|Ilmoittautuminen vahvistettu|Enrolment approved|Anmälan har 
                                                                                         style="color: #0a0a0a; font-family: Helvetica, Arial, sans-serif; font-size: 16px; font-weight: normal; line-height: 1.3; margin: 0; padding: 0; text-align: left;">
                                                                                         <p class="text-right"
                                                                                             style="Margin: 0; Margin-bottom: 10px; color: black; font-family: Helvetica, Arial, sans-serif; font-size: 16px; font-weight: normal; line-height: 1.3; margin: 0; margin-bottom: 0; padding: 0; text-align: right;">
-                                                                                            BETA KULTUS</p>
+                                                                                            KULTUS</p>
                                                                                     </th>
                                                                                 </tr>
                                                                             </tbody>
@@ -25632,7 +25650,7 @@ occurrence_enrolment|Ilmoittautuminen vastaanotettu|Enrolment received|Anmälan 
                                             style="color: #0a0a0a; font-family: Helvetica, Arial, sans-serif; font-size: 16px; font-weight: normal; line-height: 1.3; margin: 0; padding: 0; text-align: left;">
                                             <p class="text-right"
                                               style="Margin: 0; Margin-bottom: 10px; color: black; font-family: Helvetica, Arial, sans-serif; font-size: 16px; font-weight: normal; line-height: 1.3; margin: 0; margin-bottom: 0; padding: 0; text-align: right;">
-                                              BETA KULTUS</p>
+                                              KULTUS</p>
                                           </th>
                                         </tr>
                                       </tbody>
@@ -26122,7 +26140,7 @@ occurrence_enrolment|Ilmoittautuminen vastaanotettu|Enrolment received|Anmälan 
                                             style="color: #0a0a0a; font-family: Helvetica, Arial, sans-serif; font-size: 16px; font-weight: normal; line-height: 1.3; margin: 0; padding: 0; text-align: left;">
                                             <p class="text-right"
                                               style="Margin: 0; Margin-bottom: 10px; color: black; font-family: Helvetica, Arial, sans-serif; font-size: 16px; font-weight: normal; line-height: 1.3; margin: 0; margin-bottom: 0; padding: 0; text-align: right;">
-                                              BETA KULTUS</p>
+                                              KULTUS</p>
                                           </th>
                                         </tr>
                                       </tbody>
@@ -26612,7 +26630,7 @@ occurrence_enrolment|Ilmoittautuminen vastaanotettu|Enrolment received|Anmälan 
                                             style="color: #0a0a0a; font-family: Helvetica, Arial, sans-serif; font-size: 16px; font-weight: normal; line-height: 1.3; margin: 0; padding: 0; text-align: left;">
                                             <p class="text-right"
                                               style="Margin: 0; Margin-bottom: 10px; color: black; font-family: Helvetica, Arial, sans-serif; font-size: 16px; font-weight: normal; line-height: 1.3; margin: 0; margin-bottom: 0; padding: 0; text-align: right;">
-                                              BETA KULTUS</p>
+                                              KULTUS</p>
                                           </th>
                                         </tr>
                                       </tbody>
