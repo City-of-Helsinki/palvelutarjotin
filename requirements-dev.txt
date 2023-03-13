@@ -4,8 +4,8 @@
 #
 #    pip-compile requirements-dev.in
 #
-appnope==0.1.2
-    # via ipython
+asttokens==2.2.1
+    # via stack-data
 atomicwrites==1.3.0
     # via pytest
 attrs==19.2.0
@@ -31,11 +31,11 @@ click==8.1.3
 coverage==4.5.4
     # via pytest-cov
 decorator==4.4.0
-    # via
-    #   ipython
-    #   traitlets
+    # via ipython
 distlib==0.3.2
     # via virtualenv
+executing==1.2.0
+    # via stack-data
 fastdiff==0.2.0
     # via snapshottest
 filelock==3.0.12
@@ -50,22 +50,13 @@ idna==2.8
     # via
     #   -c requirements.txt
     #   requests
-importlib-metadata==4.6.1
-    # via
-    #   -c requirements.txt
-    #   click
-    #   flake8
-    #   pluggy
-    #   pre-commit
-    #   pytest
-    #   virtualenv
-ipython==7.8.0
+ipython==8.10.0
     # via -r requirements-dev.in
-ipython-genutils==0.2.0
-    # via traitlets
 isort==5.10.1
     # via -r requirements-dev.in
-jedi==0.15.1
+jedi==0.18.2
+    # via ipython
+matplotlib-inline==0.1.6
     # via ipython
 mccabe==0.6.1
     # via flake8
@@ -81,7 +72,7 @@ packaging==21.0
     #   pytest
 parameterized==0.8.1
     # via -r requirements-dev.in
-parso==0.5.1
+parso==0.8.3
     # via jedi
 pathspec==0.10.1
     # via black
@@ -97,10 +88,12 @@ pluggy==0.13.0
     # via pytest
 pre-commit==2.13.0
     # via -r requirements-dev.in
-prompt-toolkit==2.0.10
+prompt-toolkit==3.0.38
     # via ipython
 ptyprocess==0.6.0
     # via pexpect
+pure-eval==0.2.2
+    # via stack-data
 py==1.10.0
     # via pytest
 pycodestyle==2.7.0
@@ -138,29 +131,22 @@ six==1.12.0
     # via
     #   -c requirements.txt
     #   freezegun
-    #   prompt-toolkit
     #   python-dateutil
     #   responses
     #   snapshottest
-    #   traitlets
     #   virtualenv
 snapshottest==0.5.1
     # via -r requirements-dev.in
+stack-data==0.6.2
+    # via ipython
 termcolor==1.1.0
     # via snapshottest
 toml==0.10.0
     # via pre-commit
-tomli==2.0.1
-    # via black
-traitlets==4.3.3
-    # via ipython
-typed-ast==1.5.4
-    # via black
-typing-extensions==4.0.1
+traitlets==5.9.0
     # via
-    #   -c requirements.txt
-    #   black
-    #   importlib-metadata
+    #   ipython
+    #   matplotlib-inline
 urllib3==1.25.11
     # via
     #   -c requirements.txt
@@ -174,10 +160,3 @@ wcwidth==0.1.7
     # via
     #   prompt-toolkit
     #   pytest
-zipp==3.5.0
-    # via
-    #   -c requirements.txt
-    #   importlib-metadata
-
-# The following packages are considered to be unsafe in a requirements file:
-# setuptools
