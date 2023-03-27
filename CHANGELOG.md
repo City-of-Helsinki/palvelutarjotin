@@ -1,6 +1,11 @@
 <!-- REMINDER: While updating changelog, also remember to update
 the version in palvelutarjotin/__init.py__ -->
 
+## [1.6.1] - 27 March 2023
+
+- Platta configurations
+- Remove beta status (affects notification templates)
+
 ## [1.6.0] - 20 January 2023
 
 - Support for person deletion
