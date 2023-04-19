@@ -5,7 +5,7 @@ from dateutil.relativedelta import relativedelta
 from django.conf import settings
 from django.contrib.contenttypes.fields import GenericRelation
 from django.db import models, transaction
-from django.db.models import F, Max, Q, Sum
+from django.db.models import Count, F, Max, OuterRef, Q, Subquery, Sum
 from django.utils import timezone
 from django.utils.timezone import localtime
 from django.utils.translation import gettext_lazy as _
@@ -473,6 +473,15 @@ class StudyLevel(TranslatableModel):
         return f"{self.id}"
 
 
+class StudyGroupQuerySet(models.QuerySet):
+    def with_enrolments_count(self):
+        """
+        Get the count of the enrolments that the group has done.
+        NOTE: This method is good for investigation for any support task.
+        """
+        return self.annotate(enrolments_count=Count("enrolments", distinct=True))
+
+
 class StudyGroup(TimestampedModel, WithDeletablePersonModel):
     # Tprek / Service map id for school or kindergarten from the city of Helsinki
     unit_id = models.CharField(max_length=255, verbose_name=_("unit id"), null=True)
@@ -497,6 +506,8 @@ class StudyGroup(TimestampedModel, WithDeletablePersonModel):
     )
 
     # TODO: Add audience/keyword/target group
+
+    objects = StudyGroupQuerySet.as_manager()
 
     class Meta:
         verbose_name = _("study group")
@@ -563,7 +574,109 @@ class EnrolmentQuerySet(models.QuerySet):
         )
 
 
-class Enrolment(WithDeletablePersonModel):
+class EnrolmentBase(WithDeletablePersonModel):
+    notification_type = models.CharField(
+        max_length=250,
+        choices=NOTIFICATION_TYPES,
+        default=NOTIFICATION_TYPE_EMAIL,
+        verbose_name=_("notification type"),
+    )
+    enrolment_time = models.DateTimeField(
+        verbose_name=_("enrolment time"), auto_now_add=True
+    )
+    updated_at = models.DateTimeField(verbose_name=_("updated at"), auto_now=True)
+
+    class Meta:
+        abstract = True
+
+
+class EventQueueEnrolmentQuerySet(models.QuerySet):
+    def get_by_unique_id(self, unique_id):
+        compound_id = get_node_id_from_global_id(unique_id, "EventQueueEnrolmentNode")
+        enrolment_id, ts = compound_id.split("_")
+        return self.get(id=enrolment_id, enrolment_time=ts)
+
+    def with_group_occurrence_enrolment_count(self):
+        """
+        Annotate the amount of enrolments done to any occurrences
+        of the same event with the same study group name.
+
+        NOTE: The study group name is a free text field,
+        so typos in the name may affect in the result.
+        """
+        occurrence_enrolments = Enrolment.objects.filter(
+            occurrence__p_event=OuterRef("p_event"),
+            study_group__group_name=OuterRef("study_group__group_name"),
+        )
+        return self.annotate(
+            occurrence_enrolments_count=Count(
+                Subquery(occurrence_enrolments.values("pk")[:1]), distinct=True
+            )
+        )
+
+
+class EventQueueEnrolment(EnrolmentBase):
+    STATUS_HAS_NO_ENROLMENTS = "has_not_enrolled"
+    STATUS_HAS_ENROLMENTS = "has_enrolled_to_some_occurrences"
+    QUEUE_STATUSES = (
+        (
+            STATUS_HAS_NO_ENROLMENTS,
+            _("has not enrolled to any of occurrences of the event"),
+        ),
+        (
+            STATUS_HAS_ENROLMENTS,
+            _("has not enrolled to any of occurrences of the event"),
+        ),
+    )
+
+    study_group = models.ForeignKey(
+        "StudyGroup",
+        verbose_name=_("study group"),
+        related_name="queued_enrolments",
+        on_delete=models.CASCADE,
+    )
+    p_event = models.ForeignKey(
+        "PalvelutarjotinEvent",
+        verbose_name=_("event"),
+        related_name="queued_enrolments",
+        on_delete=models.CASCADE,
+    )
+
+    objects = EventQueueEnrolmentQuerySet.as_manager()
+
+    class Meta:
+        verbose_name = _("event queue enrolment")
+        verbose_name_plural = _("event queue enrolments")
+        constraints = [
+            models.UniqueConstraint(
+                fields=["study_group", "p_event"], name="unq_group_event"
+            )
+        ]
+
+    def __str__(self):
+        return f"{self.id} {self.p_event.linked_event_id} {self.study_group.name}"
+
+    def get_unique_id(self):
+        # Unique id is the base64 encoded of enrolment_id and enrolment timestamp
+        # Added object timestamp so it'll be harder to guess, otherwise any one can
+        # build the unique id after reading this
+        return to_global_id(
+            "EventQueueEnrolmentNode",
+            "_".join([str(self.id), str(self.enrolment_time)]),
+        )
+
+    def get_status(self):
+        enrolments_count = Enrolment.objects.filter(
+            study_group=self.study_group, p_event=self.p_event
+        ).count()
+        return (
+            self.STATUS_HAS_ENROLMENTS
+            if enrolments_count > 0
+            else self.STATUS_HAS_NO_ENROLMENTS
+        )
+
+
+class Enrolment(EnrolmentBase):
     STATUS_APPROVED = "approved"
     STATUS_PENDING = "pending"
     STATUS_CANCELLED = "cancelled"
@@ -574,7 +687,6 @@ class Enrolment(WithDeletablePersonModel):
         (STATUS_CANCELLED, _("cancelled")),
         (STATUS_DECLINED, _("declined")),
     )
-
     study_group = models.ForeignKey(
         "StudyGroup",
         verbose_name=_("study group"),
@@ -586,17 +698,6 @@ class Enrolment(WithDeletablePersonModel):
         verbose_name=_("occurrences"),
         related_name="enrolments",
         on_delete=models.CASCADE,
-    )
-    enrolment_time = models.DateTimeField(
-        verbose_name=_("enrolment time"), auto_now_add=True
-    )
-    updated_at = models.DateTimeField(verbose_name=_("updated at"), auto_now=True)
-
-    notification_type = models.CharField(
-        max_length=250,
-        choices=NOTIFICATION_TYPES,
-        default=NOTIFICATION_TYPE_EMAIL,
-        verbose_name=_("notification type"),
     )
     status = models.CharField(
         choices=STATUSES,

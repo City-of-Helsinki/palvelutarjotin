@@ -9,6 +9,7 @@ from graphene_linked_events.tests.mock_data import EVENT_DATA
 from occurrences.consts import StudyGroupStudyLevels
 from occurrences.factories import (
     EnrolmentFactory,
+    EventQueueEnrolmentFactory,
     LanguageFactory,
     OccurrenceFactory,
     PalvelutarjotinEventFactory,
@@ -17,6 +18,7 @@ from occurrences.factories import (
 )
 from occurrences.models import (
     Enrolment,
+    EventQueueEnrolment,
     Language,
     Occurrence,
     PalvelutarjotinEvent,
@@ -133,6 +135,24 @@ def test_study_group_save_resolves_unit_name_from_unit_id(mock_get_place_data):
 
 
 @pytest.mark.django_db
+def test_study_group_with_enrolment_count(mock_get_place_data, mock_get_event_data):
+    study_group_1 = StudyGroupFactory(group_name="group1")
+    study_group_2 = StudyGroupFactory(group_name="group2")
+    EnrolmentFactory.create_batch(2, study_group=study_group_1)
+    EnrolmentFactory.create_batch(5, study_group=study_group_2)
+    groups_with_two_enrolments = StudyGroup.objects.with_enrolments_count().filter(
+        enrolments_count=2
+    )
+    groups_with_five_enrolments = StudyGroup.objects.with_enrolments_count().filter(
+        enrolments_count=5
+    )
+    assert groups_with_two_enrolments.count() == 1
+    assert groups_with_five_enrolments.count() == 1
+    assert groups_with_two_enrolments[0] == study_group_1
+    assert groups_with_five_enrolments[0] == study_group_2
+
+
+@pytest.mark.django_db
 def test_study_level_creation():
     assert StudyLevel.objects.count() == len(StudyGroupStudyLevels.STUDY_LEVELS)
     StudyLevelFactory()
@@ -154,6 +174,76 @@ def test_occurrence_creation(mock_get_event_data):
     assert Organisation.objects.count() == 1
     assert PalvelutarjotinEvent.objects.count() == 1
     assert Person.objects.count() == 1
+
+
+@pytest.mark.django_db
+def test_event_queue_enrolment_creation(mock_get_event_data):
+    EventQueueEnrolmentFactory()
+    assert EventQueueEnrolment.objects.count() == 1
+    assert PalvelutarjotinEvent.objects.count() == 1
+    assert StudyGroup.objects.count() == 1
+
+
+@pytest.mark.django_db
+def test_creating_enrolment_from_event_queue_enrolment(mock_get_event_data):
+    """
+    The event queue enrolment can be easily used as a base
+    for an enrolment to an occurrence.
+    """
+    queue = EventQueueEnrolmentFactory()
+    occurrence = OccurrenceFactory(p_event=queue.p_event)
+    enrolment = Enrolment(
+        occurrence=occurrence, study_group=queue.study_group, person=queue.person
+    )
+    enrolment.save()
+    assert Enrolment.objects.count() == 1
+
+
+@pytest.mark.django_db
+def test_event_queue_enrolment_with_group_occurrence_enrolment_count(
+    mock_get_event_data,
+):
+    """
+    The EventQueueEnrolment manager can use with_group_occurrence_enrolment_count
+    to annotate the count of the done occurrence enrolments to the returned instance.
+    """
+    p_event = PalvelutarjotinEventFactory()
+    [occ1, occ2, occ3] = OccurrenceFactory.create_batch(3, p_event=p_event)
+    person = PersonFactory()
+    # Person has 2 groups
+    group1 = StudyGroupFactory(person=person)
+    group2 = StudyGroupFactory(person=person)
+    # Person has 2 enrolments which occurrences are related to the event for group 1
+    EnrolmentFactory(person=person, study_group=group1, occurrence=occ1)
+    EnrolmentFactory(person=person, study_group=group1, occurrence=occ2)
+    # Person has 1 enrolment which occurrence is related to the event for group 2
+    EnrolmentFactory(person=person, study_group=group2, occurrence=occ3)
+    # Person has 1 enrolment in another event
+    EnrolmentFactory(person=person)
+    # There are some other enrolments also made by unknown persons
+    EnrolmentFactory.create_batch(5, occurrence=occ1)
+    EnrolmentFactory.create_batch(5, occurrence=occ2)
+    assert Enrolment.objects.filter(person=person).count() == 4
+    assert Enrolment.objects.filter(study_group=group1).count() == 2
+    assert Enrolment.objects.filter(study_group=group2).count() == 1
+    assert PalvelutarjotinEvent.objects.count() == 2
+    assert Occurrence.objects.count() == 4
+    # Person is also in queue to the p_event where there are some enrolments already
+    EventQueueEnrolmentFactory(p_event=p_event, study_group=group1)
+    # Person is also in another queue where he does not have any enrolments yet
+    EventQueueEnrolmentFactory(study_group=group1)
+    event_queue_enrolments = (
+        EventQueueEnrolment.objects.with_group_occurrence_enrolment_count().filter(
+            occurrence_enrolments_count__gt=0
+        )
+    )
+    assert EventQueueEnrolment.objects.count() == 2
+    assert EventQueueEnrolment.objects.filter(p_event=p_event).count() == 1
+    assert event_queue_enrolments.count() == 1
+    assert event_queue_enrolments[0].study_group == group1
+    # When the group2 is added to the event queue, the count is increased
+    EventQueueEnrolmentFactory(p_event=p_event, study_group=group2)
+    assert event_queue_enrolments.count() == 2
 
 
 @pytest.mark.django_db
