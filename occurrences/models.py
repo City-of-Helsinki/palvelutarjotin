@@ -14,7 +14,7 @@ from parler.models import TranslatedFields
 from requests.exceptions import HTTPError
 from typing import Optional
 
-import occurrences.services as occurrences_services
+import occurrences.notification_services as occurrences_services
 from common.models import (
     SQCount,
     TimestampedModel,
