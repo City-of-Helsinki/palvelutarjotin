@@ -5,7 +5,6 @@ from django.db import migrations, models
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
         ("organisations", "0010_fix_user_manager"),
         ("occurrences", "0040_enrolleepersonaldata"),
