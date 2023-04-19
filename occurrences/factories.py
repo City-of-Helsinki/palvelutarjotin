@@ -3,6 +3,7 @@ import pytz
 
 from occurrences.models import (
     Enrolment,
+    EventQueueEnrolment,
     Language,
     Occurrence,
     PalvelutarjotinEvent,
@@ -103,6 +104,15 @@ class StudyGroupFactory(factory.django.DjangoModelFactory):
 
     class Meta:
         model = StudyGroup
+
+
+class EventQueueEnrolmentFactory(factory.django.DjangoModelFactory):
+    study_group = factory.SubFactory(StudyGroupFactory)
+    p_event = factory.SubFactory(PalvelutarjotinEventFactory)
+    person = factory.SubFactory(PersonFactory)
+
+    class Meta:
+        model = EventQueueEnrolment
 
 
 class EnrolmentFactory(factory.django.DjangoModelFactory):
