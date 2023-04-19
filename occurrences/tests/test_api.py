@@ -28,6 +28,40 @@ from occurrences.models import (
     VenueCustomData,
 )
 from occurrences.schema import StudyGroupNode
+from occurrences.tests.mutations import (
+    ADD_OCCURRENCE_MUTATION,
+    ADD_STUDY_GROUP_MUTATION,
+    ADD_VENUE_MUTATION,
+    APPROVE_ENROLMENT_MUTATION,
+    CANCEL_ENROLMENT_MUTATION,
+    CANCEL_OCCURRENCE_MUTATION,
+    DECLINE_ENROLMENT_MUTATION,
+    DELETE_OCCURRENCE_MUTATION,
+    DELETE_STUDY_GROUP_MUTATION,
+    DELETE_VENUE_MUTATION,
+    ENROL_OCCURRENCE_MUTATION,
+    MASS_APPROVE_ENROLMENTS_MUTATION,
+    UNENROL_OCCURRENCE_MUTATION,
+    UPDATE_ENROLMENT_MUTATION,
+    UPDATE_OCCURRENCE_MUTATION,
+    UPDATE_STUDY_GROUP_MUTATION,
+    UPDATE_VENUE_MUTATION,
+)
+from occurrences.tests.queries import (
+    CANCEL_ENROLMENT_QUERY,
+    ENROLMENTS_SUMMARY_QUERY,
+    LANGUAGE_QUERY,
+    LANGUAGES_QUERY,
+    NOTIFICATION_TEMPLATE_QUERY,
+    OCCURRENCE_QUERY,
+    OCCURRENCES_QUERY,
+    STUDY_GROUP_QUERY,
+    STUDY_GROUPS_QUERY,
+    STUDY_LEVEL_QUERY,
+    STUDY_LEVELS_QUERY,
+    VENUE_QUERY,
+    VENUES_QUERY,
+)
 from organisations.factories import PersonFactory
 from palvelutarjotin.consts import (
     API_USAGE_ERROR,
@@ -51,29 +85,6 @@ def autouse_db(db):
     pass
 
 
-LANGUAGES_QUERY = """
-    query Languages{
-        languages {
-            edges {
-                node {
-                    id
-                    name
-                }
-            }
-        }
-    }
-"""
-
-LANGUAGE_QUERY = """
-    query Language($id: ID!){
-        language(id: $id) {
-            id
-            name
-        }
-    }
-"""
-
-
 def test_languagess_query(snapshot, language, api_client):
     executed = api_client.execute(LANGUAGES_QUERY)
     snapshot.assert_match(executed)
@@ -86,297 +97,6 @@ def test_language_query(snapshot, language, api_client):
     )
     snapshot.assert_match(executed)
 
-
-STUDY_LEVELS_QUERY = """
-    query StudyLevels{
-        studyLevels {
-            edges {
-                node {
-                    id
-                    label
-                    level
-                    translations {
-                        languageCode
-                        label
-                    }
-                }
-            }
-        }
-    }
-"""
-
-STUDY_LEVEL_QUERY = """
-    query StudyLevel($id: ID!){
-        studyLevel(id: $id){
-            id
-            label
-            level
-            translations {
-                languageCode
-                label
-            }
-        }
-    }
-"""
-
-STUDY_GROUPS_QUERY = """
-query StudyGroups{
-  studyGroups{
-    edges{
-      node{
-        unit {
-            ... on ExternalPlace {
-                name {
-                    fi
-                }
-            }
-            ... on Place {
-                internalId
-                name {
-                    fi
-                }
-            }
-        }
-        person {
-          name
-        }
-        updatedAt
-        groupSize
-        groupName
-        amountOfAdult
-        studyLevels {
-            edges {
-                node {
-                    id
-                    label
-                    level
-                    translations {
-                        languageCode
-                        label
-                    }
-                }
-            }
-        }
-        extraNeeds
-        occurrences {
-          edges {
-            node {
-              placeId
-            }
-          }
-        }
-      }
-    }
-  }
-}
-"""
-
-STUDY_GROUP_QUERY = """
-query StudyGroup($id: ID!){
-  studyGroup(id: $id){
-    unitId
-    unitName
-    unit {
-        ... on ExternalPlace {
-            name {
-                fi
-            }
-        }
-        ... on Place {
-            internalId
-            name {
-                fi
-            }
-        }
-    }
-    person {
-      name
-    }
-    updatedAt
-    groupSize
-    groupName
-    amountOfAdult
-    studyLevels {
-        edges {
-            node {
-                id
-                label
-                level
-                translations {
-                    languageCode
-                    label
-                }
-            }
-        }
-    }
-    extraNeeds
-    occurrences {
-      edges {
-        node {
-          placeId
-        }
-      }
-    }
-  }
-}
-"""
-
-OCCURRENCES_QUERY = """
-query Occurrences(
-    $upcoming: Boolean,
-    $enrollable: Boolean,
-    $date: Date,
-    $time: Time,
-    $cancelled: Boolean,
-    $pEvent: ID,
-    $orderBy: [String]
-){
-  occurrences(
-      upcoming: $upcoming,
-      enrollable: $enrollable,
-      date: $date,
-      time: $time,
-      cancelled: $cancelled,
-      pEvent: $pEvent,
-      orderBy: $orderBy
-  ){
-    edges{
-      node{
-        placeId
-        amountOfSeats
-        remainingSeats
-        seatsTaken
-        seatsApproved
-        seatType
-        pEvent{
-            contactEmail
-            contactPhoneNumber
-            neededOccurrences
-            enrolmentEndDays
-            enrolmentStart
-            externalEnrolmentUrl
-            linkedEventId
-            autoAcceptance
-            mandatoryAdditionalInformation
-        }
-        startTime
-        endTime
-        studyGroups {
-          edges {
-            node {
-              unitName
-            }
-          }
-        }
-        minGroupSize
-        maxGroupSize
-        contactPersons {
-          edges {
-            node {
-              name
-            }
-          }
-        }
-      }
-    }
-  }
-}
-"""
-
-OCCURRENCE_QUERY = """
-query Occurrence($id: ID!){
-  occurrence(id: $id){
-    placeId
-    pEvent{
-        contactEmail
-        contactPhoneNumber
-        neededOccurrences
-        enrolmentEndDays
-        enrolmentStart
-        externalEnrolmentUrl
-        linkedEventId
-        autoAcceptance
-        mandatoryAdditionalInformation
-    }
-    linkedEvent{
-        name {
-           en
-           fi
-           sv
-        }
-    }
-    startTime
-    endTime
-    studyGroups {
-      edges {
-        node {
-          unitName
-        }
-      }
-    }
-    amountOfSeats
-    remainingSeats
-    seatsTaken
-    seatsApproved
-    minGroupSize
-    maxGroupSize
-    contactPersons {
-      edges {
-        node {
-          name
-        }
-      }
-    }
-    languages{
-        edges {
-            node {
-                id
-                name
-            }
-        }
-    }
-  }
-}
-"""
-
-ADD_OCCURRENCE_MUTATION = """
-    mutation addOccurrence($input: AddOccurrenceMutationInput!){
-      addOccurrence(input: $input){
-        occurrence{
-          minGroupSize
-          maxGroupSize
-          contactPersons{
-            edges {
-              node {
-                name
-              }
-            }
-          }
-          startTime
-          endTime
-          pEvent{
-            contactEmail
-            contactPhoneNumber
-            neededOccurrences
-            enrolmentEndDays
-            enrolmentStart
-            externalEnrolmentUrl
-            linkedEventId
-            autoAcceptance
-            mandatoryAdditionalInformation
-          }
-          languages{
-            edges {
-              node {
-                id
-                name
-              }
-            }
-          }
-        }
-      }
-    }
-"""
 
 ADD_OCCURRENCE_VARIABLES = {
     "input": {
@@ -399,44 +119,6 @@ ADD_OCCURRENCE_VARIABLES = {
     }
 }
 
-UPDATE_OCCURRENCE_MUTATION = """
-mutation updateOccurrence($input: UpdateOccurrenceMutationInput!){
-  updateOccurrence(input: $input){
-    occurrence{
-      minGroupSize
-      maxGroupSize
-      contactPersons{
-        edges {
-          node {
-            name
-          }
-        }
-      }
-      startTime
-      endTime
-      pEvent{
-        contactEmail
-        contactPhoneNumber
-        neededOccurrences
-        enrolmentEndDays
-        enrolmentStart
-        externalEnrolmentUrl
-        linkedEventId
-        mandatoryAdditionalInformation
-      }
-      languages{
-        edges {
-          node {
-            id
-            name
-          }
-        }
-      }
-    }
-  }
-}
-"""
-
 UPDATE_OCCURRENCE_VARIABLES = {
     "input": {
         "placeId": "place_id",
@@ -451,14 +133,6 @@ UPDATE_OCCURRENCE_VARIABLES = {
         "languages": [{"id": "FI"}, {"id": "EN"}, {"id": "SV"}],
     }
 }
-
-DELETE_OCCURRENCE_MUTATION = """
-mutation DeleteOccurrence($input: DeleteOccurrenceMutationInput!) {
-  deleteOccurrence(input: $input) {
-    __typename
-  }
-}
-"""
 
 
 def test_study_levels_query(snapshot, api_client):
@@ -852,69 +526,6 @@ def test_delete_unpublished_occurrence(
     assert Occurrence.objects.count() == 0
 
 
-VENUES_QUERY = """
-query Venues {
-  venues {
-    edges {
-      node {
-        id
-        description
-        translations {
-          description
-        }
-        hasClothingStorage
-        hasSnackEatingPlace
-        outdoorActivity
-        hasToiletNearby
-        hasAreaForGroupWork
-        hasIndoorPlayingArea
-        hasOutdoorPlayingArea
-      }
-    }
-  }
-}
-"""
-
-VENUE_QUERY = """
-query venue($id:ID!){
-  venue(id: $id){
-    id
-    description,
-    translations{
-      description
-    }
-    hasClothingStorage
-    hasSnackEatingPlace
-    outdoorActivity
-    hasToiletNearby
-    hasAreaForGroupWork
-    hasIndoorPlayingArea
-    hasOutdoorPlayingArea
-  }
-}
-"""
-
-ADD_VENUE_MUTATION = """
-mutation AddVenue($input: AddVenueMutationInput!) {
-  addVenue(input: $input) {
-    venue {
-        id
-        description
-        translations {
-          description
-        }
-        hasClothingStorage
-        hasSnackEatingPlace
-        outdoorActivity
-        hasToiletNearby
-        hasAreaForGroupWork
-        hasIndoorPlayingArea
-        hasOutdoorPlayingArea
-    }
-  }
-}
-"""
-
 ADD_VENUE_VARIABLES = {
     "input": {
         "id": "place_id",
@@ -932,26 +543,6 @@ ADD_VENUE_VARIABLES = {
     }
 }
 
-UPDATE_VENUE_MUTATION = """
-mutation updateVenue($input: UpdateVenueMutationInput!) {
-  updateVenue(input: $input) {
-    venue {
-        id
-        description
-        translations {
-          description
-        }
-        hasClothingStorage
-        hasSnackEatingPlace
-        outdoorActivity
-        hasToiletNearby
-        hasAreaForGroupWork
-        hasIndoorPlayingArea
-        hasOutdoorPlayingArea
-    }
-  }
-}
-"""
 
 UPDATE_VENUE_VARIABLES = {
     "input": {
@@ -969,14 +560,6 @@ UPDATE_VENUE_VARIABLES = {
         "hasOutdoorPlayingArea": True,
     }
 }
-
-DELETE_VENUE_MUTATION = """
-mutation DeleteVenue($input: DeleteVenueMutationInput!) {
-  deleteVenue(input: $input) {
-    __typename
-  }
-}
-"""
 
 
 def test_venues_query(snapshot, user_api_client, venue):
@@ -1049,53 +632,6 @@ def test_delete_venue_staff_user(staff_api_client, venue):
     assert VenueCustomData.objects.count() == 0
 
 
-ADD_STUDY_GROUP_MUTATION = """
-mutation addStudyGroup($input: AddStudyGroupMutationInput!){
-  addStudyGroup(input:$input) {
-    studyGroup{
-      unitId
-      unitName
-      unit {
-        ... on ExternalPlace {
-            name {
-                fi
-            }
-        }
-        ... on Place {
-            internalId
-            name {
-                fi
-            }
-        }
-      }
-      person{
-        name
-        emailAddress
-        phoneNumber
-        language
-      }
-      groupSize
-      groupName
-      amountOfAdult
-      studyLevels {
-        edges {
-            node {
-                id
-                label
-                level
-                translations {
-                    languageCode
-                    label
-                }
-            }
-        }
-      }
-      extraNeeds
-    }
-  }
-}
-"""
-
 ADD_STUDY_GROUP_VARIABLES = {
     "input": {
         "person": {
@@ -1146,53 +682,6 @@ def test_add_study_group_without_unit_info_raises_error(
     executed = api_client.execute(ADD_STUDY_GROUP_MUTATION, variables=variables)
     assert_match_error_code(executed, INVALID_STUDY_GROUP_UNIT_INFO_ERROR)
 
-
-UPDATE_STUDY_GROUP_MUTATION = """
-mutation updateStudyGroup($input: UpdateStudyGroupMutationInput!){
-  updateStudyGroup(input:$input) {
-    studyGroup{
-      unitId
-      unitName
-      unit {
-        ... on ExternalPlace {
-            name {
-                fi
-            }
-        }
-        ... on Place {
-            internalId
-            name {
-                fi
-            }
-        }
-      }
-      person{
-        name
-        emailAddress
-        phoneNumber
-        language
-      }
-      groupSize
-      groupName
-      amountOfAdult
-      studyLevels {
-        edges {
-            node {
-                id
-                label
-                level
-                translations {
-                    languageCode
-                    label
-                }
-            }
-        }
-      }
-      extraNeeds
-    }
-  }
-}
-"""
 
 UPDATE_STUDY_GROUP_VARIABLES = {
     "input": {
@@ -1253,15 +742,6 @@ def test_update_study_group_without_unit_info_raises_error(
     assert_match_error_code(executed, INVALID_STUDY_GROUP_UNIT_INFO_ERROR)
 
 
-DELETE_STUDY_GROUP_MUTATION = """
-mutation deleteStudyGroup($input: DeleteStudyGroupMutationInput!){
-  deleteStudyGroup(input: $input){
-    __typename
-  }
-}
-"""
-
-
 def test_delete_study_group_permission_denied(api_client, user_api_client):
     executed = api_client.execute(
         DELETE_STUDY_GROUP_MUTATION, variables={"input": {"id": ""}}
@@ -1280,29 +760,6 @@ def test_delete_study_group_staff_user(staff_api_client, study_group):
         variables={"input": {"id": to_global_id("StudyGroupNode", study_group.id)}},
     )
     assert StudyGroup.objects.count() == 0
-
-
-ENROL_OCCURRENCE_MUTATION = """
-mutation enrolOccurrence($input: EnrolOccurrenceMutationInput!){
-  enrolOccurrence(input: $input){
-    enrolments{
-      studyGroup{
-        unitName
-      }
-      occurrence{
-        startTime
-        seatsTaken
-        seatsApproved
-        remainingSeats
-        amountOfSeats
-        seatType
-      }
-      notificationType
-      status
-    }
-  }
-}
-"""
 
 
 def test_enrol_not_started_occurrence(
@@ -1970,24 +1427,6 @@ def test_auto_accept_message_is_used_as_custom_message_in_auto_approved_enrolmen
     assert_mails_match_snapshot(snapshot)
 
 
-UNENROL_OCCURRENCE_MUTATION = """
-mutation unenrolOccurrence($input: UnenrolOccurrenceMutationInput!){
-  unenrolOccurrence(input: $input){
-    occurrence{
-       startTime
-       seatsTaken
-       seatsApproved
-       remainingSeats
-       amountOfSeats
-    }
-    studyGroup{
-        unitName
-    }
-  }
-}
-"""
-
-
 def test_unenrol_occurrence_unauthorized(
     snapshot, api_client, user_api_client, staff_api_client, mock_get_event_data
 ):
@@ -2067,27 +1506,6 @@ def test_unenrol_occurrence(snapshot, staff_api_client, mock_get_event_data):
     assert occurrence.study_groups.count() == 0
     assert occurrence_2.study_groups.count() == 0
     assert study_group_15.occurrences.count() == 0
-
-
-APPROVE_ENROLMENT_MUTATION = """
-mutation approveEnrolmentMutation($input: ApproveEnrolmentMutationInput!){
-  approveEnrolment(input: $input){
-    enrolment{
-       status
-    }
-  }
-}
-"""
-
-DECLINE_ENROLMENT_MUTATION = """
-mutation declineEnrolmentMutation($input: DeclineEnrolmentMutationInput!){
-  declineEnrolment(input: $input){
-    enrolment{
-       status
-    }
-  }
-}
-"""
 
 
 def test_approve_cancelled_occurrence_enrolment(
@@ -2343,38 +1761,6 @@ def test_decline_enrolment_with_custom_message(
     snapshot.assert_match(executed)
     assert len(mail.outbox) == 1
     assert_mails_match_snapshot(snapshot)
-
-
-UPDATE_ENROLMENT_MUTATION = """
-mutation updateEnrolmentMutation($input: UpdateEnrolmentMutationInput!){
-  updateEnrolment(input: $input){
-    enrolment{
-      studyGroup{
-        unitName
-        groupName
-        amountOfAdult
-        groupSize
-        enrolments{
-            edges{
-               node{
-                   notificationType
-               }
-            }
-        }
-      }
-      occurrence{
-        startTime
-        seatsTaken
-        seatsApproved
-        remainingSeats
-        amountOfSeats
-      }
-      notificationType
-      status
-    }
-  }
-}
-"""
 
 
 def test_update_enrolment_unauthorized(
@@ -2787,20 +2173,6 @@ def test_occurrences_next_and_last_occurrence(
         )
 
 
-NOTIFICATION_TEMPLATE_QUERY = """
-query NotificationTemplate($type: NotificationTemplateType!, $language: Language!,
-$context:JSONString!){
-  notificationTemplate(templateType: $type, language: $language, context: $context){
-    template{
-        type
-    }
-    customContextPreviewHtml
-    customContextPreviewText
-  }
-}
-"""
-
-
 def test_notification_template_query_error(
     snapshot, api_client, notification_template_enrolment_approved_en
 ):
@@ -2840,17 +2212,6 @@ def test_notification_template_query(
     }
     executed = api_client.execute(NOTIFICATION_TEMPLATE_QUERY, variables=variables)
     snapshot.assert_match(executed)
-
-
-CANCEL_OCCURRENCE_MUTATION = """
-mutation cancelOccurrenceMutation($input: CancelOccurrenceMutationInput!){
-    cancelOccurrence(input: $input){
-        occurrence{
-            cancelled
-        }
-    }
-}
-"""
 
 
 def test_cancel_occurrence_unauthorized(
@@ -2895,20 +2256,6 @@ def test_cancel_occurrence(
     for e in occurrence.enrolments.all():
         assert e.status == Enrolment.STATUS_CANCELLED
     assert_match_error_code(executed, API_USAGE_ERROR)
-
-
-ENROLMENTS_SUMMARY_QUERY = """
-query enrolmentSummary($organisationId: ID!, $status: EnrolmentStatus){
-  enrolmentSummary(organisationId: $organisationId, status:$status){
-    count
-    edges{
-      node{
-        status
-      }
-    }
-  }
-}
-"""
 
 
 def test_enrolments_summary_unauthorized(
@@ -2966,23 +2313,6 @@ def test_enrolments_summary(
         snapshot.assert_match(executed)
 
 
-CANCEL_ENROLMENT_QUERY = """
-query cancellingEnrolment($id: ID!){
-    cancellingEnrolment(id: $id){
-        enrolmentTime
-        status
-        occurrence{
-            seatsTaken
-        }
-        studyGroup{
-            unitName
-            groupSize
-        }
-    }
-}
-"""
-
-
 def test_cancel_enrolment_query(
     snapshot, api_client, mock_get_event_data, occurrence, study_group
 ):
@@ -2991,17 +2321,6 @@ def test_cancel_enrolment_query(
         CANCEL_ENROLMENT_QUERY, variables={"id": enrolment.get_unique_id()}
     )
     snapshot.assert_match(executed)
-
-
-CANCEL_ENROLMENT_MUTATION = """
-    mutation cancelEnrolmentMutation($input: CancelEnrolmentMutationInput!){
-        cancelEnrolment(input: $input){
-            enrolment{
-                status
-            }
-        }
-    }
-"""
 
 
 def test_ask_for_cancelled_confirmation_mutation_error(
@@ -3130,17 +2449,6 @@ def test_cancel_enrolment_mutation(
         },
     )
     snapshot.assert_match(executed)
-
-
-MASS_APPROVE_ENROLMENTS_MUTATION = """
-mutation massApproveEnrolmentsMutation($input: MassApproveEnrolmentsMutationInput!){
-  massApproveEnrolments(input: $input){
-    enrolments{
-       status
-    }
-  }
-}
-"""
 
 
 def test_mass_approve_enrolment_mutation(
