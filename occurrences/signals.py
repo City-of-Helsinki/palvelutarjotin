@@ -8,7 +8,7 @@ from django.dispatch import receiver
 from occurrences.consts import NotificationTemplate
 from occurrences.event_api_services import send_event_languages_update
 from occurrences.models import Enrolment, Occurrence
-from occurrences.services import send_event_notifications_to_person
+from occurrences.notification_services import send_event_notifications_to_person
 from palvelutarjotin.exceptions import ObjectDoesNotExistError
 
 logger = logging.getLogger(__name__)

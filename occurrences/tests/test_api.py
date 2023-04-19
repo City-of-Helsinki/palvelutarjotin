@@ -1482,7 +1482,7 @@ def test_enrol_without_participants(
 # so it needs to be tested with both the boolean values.
 @pytest.mark.parametrize("auto_acceptance", [True, False])
 @pytest.mark.parametrize("is_multi_enrolment", [True, False])
-@patch("occurrences.services.notification_service.send_sms")
+@patch("occurrences.notification_services.notification_service.send_sms")
 def test_enrol_full_people_count_seat_type_occurrence(
     mock_send_sms,
     auto_acceptance,
