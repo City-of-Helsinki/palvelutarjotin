@@ -31,7 +31,7 @@ class TestOIDC(TestCase):
         # Every test needs access to the request factory.
         self.auth_backend = GraphQLApiTokenAuthentication()
         self.id_token_payload = {
-            "iss": "https://tunnistamo.test.kuva.hel.ninja/openid",
+            "iss": "https://tunnistamo.test.hel.ninja/openid",
             "sub": "sub",
             "aud": "https://api.hel.fi/auth/palvelutarjotin",
             "exp": int(
