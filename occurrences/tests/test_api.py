@@ -15,6 +15,7 @@ from graphene_linked_events.tests.mock_data import EVENT_DATA, PLACE_DATA
 from occurrences.consts import NOTIFICATION_TYPE_EMAIL
 from occurrences.factories import (
     EnrolmentFactory,
+    EventQueueEnrolmentFactory,
     OccurrenceFactory,
     PalvelutarjotinEventFactory,
     StudyGroupFactory,
@@ -51,6 +52,7 @@ from occurrences.tests.mutations import (
 from occurrences.tests.queries import (
     CANCEL_ENROLMENT_QUERY,
     ENROLMENTS_SUMMARY_QUERY,
+    EVENT_QUEUE_ENROLMENTS_QUERY,
     LANGUAGE_QUERY,
     LANGUAGES_QUERY,
     NOTIFICATION_TEMPLATE_QUERY,
@@ -2507,6 +2509,35 @@ def test_mass_approve_multi_occurrences_enrolment_mutation(
     )
     # Do not approve enrolment if needed_occurrences > 1
     assert_match_error_code(executed, API_USAGE_ERROR)
+
+
+def test_event_queue_enrolments_query(
+    snapshot, organisation, api_client, mock_get_event_data
+):
+    p_event = PalvelutarjotinEventFactory(organisation=organisation)
+    EventQueueEnrolmentFactory.create_batch(15, p_event=p_event)
+
+    executed = api_client.execute(
+        EVENT_QUEUE_ENROLMENTS_QUERY,
+        variables={
+            "pEventId": to_global_id("PalvelutarjotinEventNode", p_event.id),
+            "first": 10,
+        },
+    )
+    assert executed["data"]["eventQueueEnrolments"]["count"] == 15
+    assert len(executed["data"]["eventQueueEnrolments"]["edges"]) == 10
+    snapshot.assert_match(executed)
+    executed = api_client.execute(
+        EVENT_QUEUE_ENROLMENTS_QUERY,
+        variables={
+            "pEventId": to_global_id("PalvelutarjotinEventNode", p_event.id),
+            "first": 10,
+            "after": executed["data"]["eventQueueEnrolments"]["edges"][9]["cursor"],
+        },
+    )
+    assert executed["data"]["eventQueueEnrolments"]["count"] == 15
+    assert len(executed["data"]["eventQueueEnrolments"]["edges"]) == 5
+    snapshot.assert_match(executed)
 
 
 def test_enrol_event_queue_mutation(

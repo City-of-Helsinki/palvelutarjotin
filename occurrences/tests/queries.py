@@ -358,3 +358,35 @@ query cancellingEnrolment($id: ID!){
     }
 }
 """
+
+
+EVENT_QUEUE_ENROLMENTS_QUERY = """
+query eventQueueEnrolments(
+  $pEventId: ID,
+  $orderBy: [String],
+  $first: Int,
+  $after: String
+){
+  eventQueueEnrolments(
+    pEventId: $pEventId,
+    orderBy: $orderBy,
+    first: $first,
+    after: $after
+  ){
+    count
+    edges{
+      cursor
+      node{
+        id
+        pEvent{
+          linkedEventId
+        }
+        studyGroup{
+          groupName
+        }
+        status
+      }
+    }
+  }
+}
+"""

@@ -391,7 +391,7 @@ snapshots["test_enrol_event_queue_mutation 1"] = {
                     "mandatoryAdditionalInformation": False,
                     "neededOccurrences": 2,
                 },
-                "status": "HAS_ENROLLED_TO_SOME_OCCURRENCES",
+                "status": "HAS_NOT_ENROLLED",
                 "studyGroup": {"unitName": "To be created group"},
             }
         }
@@ -490,6 +490,188 @@ snapshots["test_enrolments_summary 4"] = {
 snapshots["test_enrolments_summary 5"] = {
     "data": {
         "enrolmentSummary": {"count": 1, "edges": [{"node": {"status": "DECLINED"}}]}
+    }
+}
+
+snapshots["test_event_queue_enrolments_query 1"] = {
+    "data": {
+        "eventQueueEnrolments": {
+            "count": 15,
+            "edges": [
+                {
+                    "cursor": "YXJyYXljb25uZWN0aW9uOjA=",
+                    "node": {
+                        "id": "RXZlbnRRdWV1ZUVucm9sbWVudE5vZGU6MTU=",
+                        "pEvent": {"linkedEventId": "xeobQ"},
+                        "status": "HAS_NOT_ENROLLED",
+                        "studyGroup": {
+                            "groupName": "Pm PM indicate general put. Poor left president model character two coach."
+                        },
+                    },
+                },
+                {
+                    "cursor": "YXJyYXljb25uZWN0aW9uOjE=",
+                    "node": {
+                        "id": "RXZlbnRRdWV1ZUVucm9sbWVudE5vZGU6MTQ=",
+                        "pEvent": {"linkedEventId": "xeobQ"},
+                        "status": "HAS_NOT_ENROLLED",
+                        "studyGroup": {
+                            "groupName": "Account four degree return pick sister music result. Skill become open yes table."
+                        },
+                    },
+                },
+                {
+                    "cursor": "YXJyYXljb25uZWN0aW9uOjI=",
+                    "node": {
+                        "id": "RXZlbnRRdWV1ZUVucm9sbWVudE5vZGU6MTM=",
+                        "pEvent": {"linkedEventId": "xeobQ"},
+                        "status": "HAS_NOT_ENROLLED",
+                        "studyGroup": {
+                            "groupName": "Factor scene news democratic. Then amount morning training program provide various."
+                        },
+                    },
+                },
+                {
+                    "cursor": "YXJyYXljb25uZWN0aW9uOjM=",
+                    "node": {
+                        "id": "RXZlbnRRdWV1ZUVucm9sbWVudE5vZGU6MTI=",
+                        "pEvent": {"linkedEventId": "xeobQ"},
+                        "status": "HAS_NOT_ENROLLED",
+                        "studyGroup": {
+                            "groupName": """Them base although also partner fine. Yard word employee half.
+Commercial lose add bag."""
+                        },
+                    },
+                },
+                {
+                    "cursor": "YXJyYXljb25uZWN0aW9uOjQ=",
+                    "node": {
+                        "id": "RXZlbnRRdWV1ZUVucm9sbWVudE5vZGU6MTE=",
+                        "pEvent": {"linkedEventId": "xeobQ"},
+                        "status": "HAS_NOT_ENROLLED",
+                        "studyGroup": {"groupName": "Drop police change dinner."},
+                    },
+                },
+                {
+                    "cursor": "YXJyYXljb25uZWN0aW9uOjU=",
+                    "node": {
+                        "id": "RXZlbnRRdWV1ZUVucm9sbWVudE5vZGU6MTA=",
+                        "pEvent": {"linkedEventId": "xeobQ"},
+                        "status": "HAS_NOT_ENROLLED",
+                        "studyGroup": {
+                            "groupName": "Explain five him toward including animal. Good million late people oil."
+                        },
+                    },
+                },
+                {
+                    "cursor": "YXJyYXljb25uZWN0aW9uOjY=",
+                    "node": {
+                        "id": "RXZlbnRRdWV1ZUVucm9sbWVudE5vZGU6OQ==",
+                        "pEvent": {"linkedEventId": "xeobQ"},
+                        "status": "HAS_NOT_ENROLLED",
+                        "studyGroup": {
+                            "groupName": "Feeling consider catch believe cell. Drug her soon those analysis physical across."
+                        },
+                    },
+                },
+                {
+                    "cursor": "YXJyYXljb25uZWN0aW9uOjc=",
+                    "node": {
+                        "id": "RXZlbnRRdWV1ZUVucm9sbWVudE5vZGU6OA==",
+                        "pEvent": {"linkedEventId": "xeobQ"},
+                        "status": "HAS_NOT_ENROLLED",
+                        "studyGroup": {
+                            "groupName": "Budget political natural relate stage. However yes wear anyone vote."
+                        },
+                    },
+                },
+                {
+                    "cursor": "YXJyYXljb25uZWN0aW9uOjg=",
+                    "node": {
+                        "id": "RXZlbnRRdWV1ZUVucm9sbWVudE5vZGU6Nw==",
+                        "pEvent": {"linkedEventId": "xeobQ"},
+                        "status": "HAS_NOT_ENROLLED",
+                        "studyGroup": {
+                            "groupName": "Party with anything yet music. Court program song couple. Fast learn sense radio."
+                        },
+                    },
+                },
+                {
+                    "cursor": "YXJyYXljb25uZWN0aW9uOjk=",
+                    "node": {
+                        "id": "RXZlbnRRdWV1ZUVucm9sbWVudE5vZGU6Ng==",
+                        "pEvent": {"linkedEventId": "xeobQ"},
+                        "status": "HAS_NOT_ENROLLED",
+                        "studyGroup": {
+                            "groupName": "With hair take nation. Relate clear traditional much situation western."
+                        },
+                    },
+                },
+            ],
+        }
+    }
+}
+
+snapshots["test_event_queue_enrolments_query 2"] = {
+    "data": {
+        "eventQueueEnrolments": {
+            "count": 15,
+            "edges": [
+                {
+                    "cursor": "YXJyYXljb25uZWN0aW9uOjEw",
+                    "node": {
+                        "id": "RXZlbnRRdWV1ZUVucm9sbWVudE5vZGU6NQ==",
+                        "pEvent": {"linkedEventId": "xeobQ"},
+                        "status": "HAS_NOT_ENROLLED",
+                        "studyGroup": {
+                            "groupName": "Them letter certainly expert. Unit child environmental take."
+                        },
+                    },
+                },
+                {
+                    "cursor": "YXJyYXljb25uZWN0aW9uOjEx",
+                    "node": {
+                        "id": "RXZlbnRRdWV1ZUVucm9sbWVudE5vZGU6NA==",
+                        "pEvent": {"linkedEventId": "xeobQ"},
+                        "status": "HAS_NOT_ENROLLED",
+                        "studyGroup": {
+                            "groupName": "Culture most page reduce green conference front. Decide very data four."
+                        },
+                    },
+                },
+                {
+                    "cursor": "YXJyYXljb25uZWN0aW9uOjEy",
+                    "node": {
+                        "id": "RXZlbnRRdWV1ZUVucm9sbWVudE5vZGU6Mw==",
+                        "pEvent": {"linkedEventId": "xeobQ"},
+                        "status": "HAS_NOT_ENROLLED",
+                        "studyGroup": {
+                            "groupName": "Support thing song board strong government."
+                        },
+                    },
+                },
+                {
+                    "cursor": "YXJyYXljb25uZWN0aW9uOjEz",
+                    "node": {
+                        "id": "RXZlbnRRdWV1ZUVucm9sbWVudE5vZGU6Mg==",
+                        "pEvent": {"linkedEventId": "xeobQ"},
+                        "status": "HAS_NOT_ENROLLED",
+                        "studyGroup": {"groupName": "Region protect likely day."},
+                    },
+                },
+                {
+                    "cursor": "YXJyYXljb25uZWN0aW9uOjE0",
+                    "node": {
+                        "id": "RXZlbnRRdWV1ZUVucm9sbWVudE5vZGU6MQ==",
+                        "pEvent": {"linkedEventId": "xeobQ"},
+                        "status": "HAS_NOT_ENROLLED",
+                        "studyGroup": {
+                            "groupName": "Last in able local garden modern they."
+                        },
+                    },
+                },
+            ],
+        }
     }
 }
 

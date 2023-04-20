@@ -583,7 +583,9 @@ class EventQueueEnrolmentNode(DjangoObjectType):
 
     class Meta:
         model = EventQueueEnrolment
+        filter_fields = ["p_event_id"]
         interfaces = (graphene.relay.Node,)
+        connection_class = EnrolmentConnectionWithCount
 
 
 class StudyGroupInput(graphene.InputObjectType):
@@ -991,6 +993,11 @@ class Query:
 
     languages = DjangoConnectionField(LanguageNode)
     language = graphene.Field(LanguageNode, id=graphene.ID(required=True))
+
+    event_queue_enrolments = OrderedDjangoFilterConnectionField(
+        EventQueueEnrolmentNode,
+        orderBy=graphene.List(of_type=graphene.String),
+    )
 
     @staticmethod
     def resolve_language(parent, info, **kwargs):

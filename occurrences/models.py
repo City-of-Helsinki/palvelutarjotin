@@ -687,7 +687,7 @@ class EventQueueEnrolment(EnrolmentBase):
         has_enrolments = Enrolment.objects.filter(
             study_group__group_name=self.study_group.group_name,
             occurrence__p_event=self.p_event,
-        ).exists
+        ).exists()
         return (
             self.STATUS_HAS_ENROLMENTS
             if has_enrolments
