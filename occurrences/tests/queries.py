@@ -330,6 +330,45 @@ $context:JSONString!){
 }
 """
 
+ENROLMENTS_QUERY = """
+query enrolments(
+  $occurrenceId: ID,
+  $status: String,
+  $orderBy: [String]
+  $first: Int,
+  $after: String
+){
+  enrolments(
+    occurrenceId: $occurrenceId,
+    status:$status,
+    orderBy:$orderBy,
+    first: $first,
+    after: $after
+  ){
+    count
+    edges{
+      cursor
+      node{
+        id
+        occurrence{
+          id
+          seatsTaken
+          startTime
+          endTime
+          pEvent{
+            linkedEventId
+          }
+        }
+        studyGroup{
+          groupName
+        }
+        status
+      }
+    }
+  }
+}
+"""
+
 ENROLMENTS_SUMMARY_QUERY = """
 query enrolmentSummary($organisationId: ID!, $status: EnrolmentStatus){
   enrolmentSummary(organisationId: $organisationId, status:$status){
