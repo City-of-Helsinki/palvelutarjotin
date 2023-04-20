@@ -51,6 +51,7 @@ from occurrences.tests.mutations import (
 )
 from occurrences.tests.queries import (
     CANCEL_ENROLMENT_QUERY,
+    ENROLMENTS_QUERY,
     ENROLMENTS_SUMMARY_QUERY,
     EVENT_QUEUE_ENROLMENTS_QUERY,
     LANGUAGE_QUERY,
@@ -2312,6 +2313,62 @@ def test_enrolments_summary(
         executed = staff_api_client.execute(
             ENROLMENTS_SUMMARY_QUERY,
             variables={"organisationId": organisation_gid, "status": status.upper()},
+        )
+        snapshot.assert_match(executed)
+
+
+@pytest.mark.parametrize(
+    "order_by",
+    [
+        "status",
+        "-status",
+        "study_group__group_name",
+        "-study_group__group_name",
+    ],
+)
+def test_enrolments_query(
+    snapshot, order_by, staff_api_client, mock_get_event_data, occurrence
+):
+    occurrence_gid = to_global_id("OccurrenceNode", occurrence.id)
+    EnrolmentFactory(
+        occurrence=occurrence,
+        status=Enrolment.STATUS_APPROVED,
+        study_group__group_name="group A",
+    )
+    EnrolmentFactory(
+        occurrence=occurrence,
+        status=Enrolment.STATUS_APPROVED,
+        study_group__group_name="group B",
+    )
+    EnrolmentFactory(
+        occurrence=occurrence,
+        status=Enrolment.STATUS_DECLINED,
+        study_group__group_name="group A",
+    )
+    EnrolmentFactory(
+        occurrence=occurrence,
+        status=Enrolment.STATUS_CANCELLED,
+        study_group__group_name="group C",
+    )
+
+    assert Enrolment.objects.count() == 4
+    staff_api_client.user.person.organisations.add(occurrence.p_event.organisation)
+    executed = staff_api_client.execute(
+        ENROLMENTS_QUERY,
+        variables={
+            "occurrenceId": occurrence_gid,
+            "orderBy": order_by,
+        },
+    )
+    snapshot.assert_match(executed)
+    for status, _ in Enrolment.STATUSES:
+        executed = staff_api_client.execute(
+            ENROLMENTS_QUERY,
+            variables={
+                "occurrenceId": occurrence_gid,
+                "status": status,
+                "orderBy": order_by,
+            },
         )
         snapshot.assert_match(executed)
 

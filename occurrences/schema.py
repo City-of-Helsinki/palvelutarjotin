@@ -572,7 +572,7 @@ class EnrolmentNode(DjangoObjectType):
 
     class Meta:
         model = Enrolment
-        filter_fields = ["status"]
+        filter_fields = ["status", "occurrence_id"]
         interfaces = (graphene.relay.Node,)
         connection_class = EnrolmentConnectionWithCount
 
@@ -994,6 +994,18 @@ class Query:
     languages = DjangoConnectionField(LanguageNode)
     language = graphene.Field(LanguageNode, id=graphene.ID(required=True))
 
+    enrolments = OrderedDjangoFilterConnectionField(
+        EnrolmentNode,
+        orderBy=graphene.List(of_type=graphene.String),
+    )
+    enrolment = graphene.relay.Node.Field(EnrolmentNode)
+
+    enrolment_summary = DjangoConnectionField(
+        EnrolmentNode,
+        organisation_id=graphene.ID(required=True),
+        status=EnrolmentStatusEnum(),
+    )
+
     event_queue_enrolments = OrderedDjangoFilterConnectionField(
         EventQueueEnrolmentNode,
         orderBy=graphene.List(of_type=graphene.String),
@@ -1027,14 +1039,22 @@ class Query:
         except StudyLevel.DoesNotExist:
             return None
 
-    enrolments = DjangoConnectionField(EnrolmentNode)
-    enrolment = graphene.relay.Node.Field(EnrolmentNode)
-
-    enrolment_summary = DjangoConnectionField(
-        EnrolmentNode,
-        organisation_id=graphene.ID(required=True),
-        status=EnrolmentStatusEnum(),
-    )
+    def resolve_enrolments(self, info, **kwargs):
+        qs = Enrolment.objects.all()
+        if kwargs.get("occurrence_id"):
+            try:
+                occurrence = Occurrence.objects.get(
+                    pk=get_node_id_from_global_id(
+                        kwargs["occurrence_id"], "OccurrenceNode"
+                    )
+                )
+            except Occurrence.DoesNotExist:
+                return None
+            qs = qs.filter(occurrence=occurrence)
+        if kwargs.get("status"):
+            status = kwargs["status"].lower()
+            qs = qs.filter(status=status)
+        return qs
 
     @staff_member_required
     def resolve_enrolment_summary(self, info, **kwargs):
