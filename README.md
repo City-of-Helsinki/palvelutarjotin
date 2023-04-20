@@ -5,19 +5,21 @@
 
 ## Environments
 
-### Production environment:
+Production environment:
 
-- Platta environment: https://kultus.api.hel.fi/graphql
-  - 2023-02-24: This environment is not yet in production use.
-- KuVa environment (Deprecated): https://palvelutarjotin-api.prod.kuva.hel.ninja/graphql
-  - 2023-02-24: This environment is in production use, is deprecated and will be removed in the future.
+- https://kultus.api.hel.fi/graphql
+- Triggered by creation of release-\* tag, e.g. `release-v0.1.0`
+  - Needs to be manually approved in pipeline to be deployed
 
-### Testing environment:
+Staging environment:
 
-- Platta environment: https://kultus.api.test.hel.ninja/graphql
-  - 2023-02-24: This environment is in testing use and is the preferred environment for it.
-- KuVa environment (Deprecated): https://palvelutarjotin-api.test.kuva.hel.ninja/graphql
-  - 2023-02-24: This environment is in testing use, is deprecated and will be removed in the future.
+- https://kultus.api.stage.hel.ninja/graphql
+- Automatically deployed by creation of release-\* tag, e.g. `release-v0.1.0`
+
+Testing environment:
+
+- https://kultus.api.test.hel.ninja/graphql
+- Automatically deployed by any change to master branch
 
 ## Development with Docker
 
@@ -35,6 +37,7 @@ Prerequisites:
 - Python 3.7
 
 Steps:
+
 1. Install Python requirements, see [Installing Python requirements](#installing-python-requirements)
 2. Setup database, see [Database](#database)
 3. Configure settings, see [Configuration](#configuration)
@@ -80,6 +83,7 @@ Allow user to create test database
     ```
 
     - If you are not using local Linked Event, contact LinkedEvents team to provide these information.
+
       - Or you may find them on Azure DevOps if you have access to [kultus](https://dev.azure.com/City-of-Helsinki/kultus/) there:
         - From [Kultus API testing variables](https://dev.azure.com/City-of-Helsinki/kultus/_git/kultus-pipelines?path=/variables/kultus-api-testing.yml):
           - LINKED_EVENTS_API_ROOT=https://api.hel.fi/linkedevents-test/v1/
@@ -179,6 +183,7 @@ Allow user to create test database
     ```
 
 7.  (Optional) The notification templates can be imported via
+
     - a) Google sheet importer
     - b) Template file importer
 
