@@ -375,6 +375,29 @@ snapshots["test_enrol_auto_acceptance_occurrence 2"] = {
     }
 }
 
+snapshots["test_enrol_event_queue_mutation 1"] = {
+    "data": {
+        "enrolEventQueue": {
+            "eventQueueEnrolment": {
+                "notificationType": "EMAIL_SMS",
+                "pEvent": {
+                    "autoAcceptance": False,
+                    "contactEmail": "patriciacervantes@example.net",
+                    "contactPhoneNumber": "001-990-132-3213x16804",
+                    "enrolmentEndDays": 2,
+                    "enrolmentStart": "2020-01-01T02:17:13+00:00",
+                    "externalEnrolmentUrl": None,
+                    "linkedEventId": "kSRpd",
+                    "mandatoryAdditionalInformation": False,
+                    "neededOccurrences": 2,
+                },
+                "status": "HAS_ENROLLED_TO_SOME_OCCURRENCES",
+                "studyGroup": {"unitName": "To be created group"},
+            }
+        }
+    }
+}
+
 snapshots["test_enrol_occurrence 1"] = {
     "data": {
         "enrolOccurrence": {

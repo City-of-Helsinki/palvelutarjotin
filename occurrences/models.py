@@ -677,13 +677,20 @@ class EventQueueEnrolment(EnrolmentBase):
             "_".join([str(self.id), str(self.enrolment_time)]),
         )
 
-    def get_status(self):
-        enrolments_count = Enrolment.objects.filter(
-            study_group=self.study_group, p_event=self.p_event
-        ).count()
+    def is_editable_by_user(self, user):
+        return user.person.organisations.filter(
+            id=self.p_event.organisation.id
+        ).exists()
+
+    @property
+    def status(self):
+        has_enrolments = Enrolment.objects.filter(
+            study_group__group_name=self.study_group.group_name,
+            occurrence__p_event=self.p_event,
+        ).exists
         return (
             self.STATUS_HAS_ENROLMENTS
-            if enrolments_count > 0
+            if has_enrolments
             else self.STATUS_HAS_NO_ENROLMENTS
         )
 

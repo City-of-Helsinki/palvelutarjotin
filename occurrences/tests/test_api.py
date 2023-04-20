@@ -39,6 +39,7 @@ from occurrences.tests.mutations import (
     DELETE_OCCURRENCE_MUTATION,
     DELETE_STUDY_GROUP_MUTATION,
     DELETE_VENUE_MUTATION,
+    ENROL_EVENT_QUEUE_MUTATION,
     ENROL_OCCURRENCE_MUTATION,
     MASS_APPROVE_ENROLMENTS_MUTATION,
     UNENROL_OCCURRENCE_MUTATION,
@@ -2506,3 +2507,30 @@ def test_mass_approve_multi_occurrences_enrolment_mutation(
     )
     # Do not approve enrolment if needed_occurrences > 1
     assert_match_error_code(executed, API_USAGE_ERROR)
+
+
+def test_enrol_event_queue_mutation(
+    snapshot, api_client, organisation, mock_get_event_data
+):
+    study_group_15 = StudyGroupFactory(group_size=15)
+    p_event = PalvelutarjotinEventFactory(organisation=organisation)
+    variables = {
+        "input": {
+            "pEventId": to_global_id("PalvelutarjotinEventNode", p_event.id),
+            "notificationType": "EMAIL_SMS",
+            "studyGroup": {
+                "person": {
+                    "id": to_global_id("PersonNode", study_group_15.person.id),
+                    "name": study_group_15.person.name,
+                    "emailAddress": study_group_15.person.email_address,
+                },
+                "unitName": "To be created group",
+                "groupSize": study_group_15.group_size,
+                "groupName": study_group_15.group_name,
+                "studyLevels": [sl.upper() for sl in study_group_15.study_levels.all()],
+                "amountOfAdult": study_group_15.amount_of_adult,
+            },
+        }
+    }
+    executed = api_client.execute(ENROL_EVENT_QUEUE_MUTATION, variables=variables)
+    snapshot.assert_match(executed)

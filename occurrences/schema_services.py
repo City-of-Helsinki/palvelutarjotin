@@ -10,7 +10,14 @@ from common.utils import (
     get_obj_from_global_id,
     update_object,
 )
-from occurrences.models import Enrolment, Occurrence, StudyGroup, StudyLevel
+from occurrences.models import (
+    Enrolment,
+    EventQueueEnrolment,
+    Occurrence,
+    PalvelutarjotinEvent,
+    StudyGroup,
+    StudyLevel,
+)
 from organisations.models import Person
 from palvelutarjotin.exceptions import (
     CaptchaValidationFailedError,
@@ -280,3 +287,24 @@ def enrol_to_occurrence(
             enrolment.send_approve_notification(custom_message=custom_message)
 
     return enrolments
+
+
+def enrol_to_event_queue(
+    study_group: StudyGroup,
+    p_event: PalvelutarjotinEvent,
+    person: Person,
+    notification_type,
+):
+    validate_study_group(study_group)
+    try:
+        event_queue_enrolment = EventQueueEnrolment.objects.get(
+            p_event=p_event, study_group__group_name=study_group.group_name
+        )
+    except EventQueueEnrolment.DoesNotExist:
+        event_queue_enrolment = EventQueueEnrolment(
+            p_event=p_event,
+            study_group=study_group,
+            person=person,
+            notification_type=notification_type,
+        )
+    return event_queue_enrolment
