@@ -23,6 +23,7 @@ from occurrences.consts import NOTIFICATION_TYPES
 from occurrences.filters import OccurrenceFilter
 from occurrences.models import (
     Enrolment,
+    EventQueueEnrolment,
     Language,
     Occurrence,
     PalvelutarjotinEvent,
@@ -33,6 +34,7 @@ from occurrences.models import (
 from occurrences.schema_services import (
     add_contact_persons_to_object,
     create_study_group,
+    enrol_to_event_queue,
     enrol_to_occurrence,
     get_instance_list,
     get_or_create_contact_person,
@@ -113,6 +115,11 @@ NotificationTypeEnum = graphene.Enum(
 
 EnrolmentStatusEnum = graphene.Enum(
     "EnrolmentStatus", [(s[0].upper(), s[0]) for s in Enrolment.STATUSES]
+)
+
+EventQueueEnrolmentStatusEnum = graphene.Enum(
+    "EventQueueEnrolmentStatus",
+    [(s[0].upper(), s[0]) for s in EventQueueEnrolment.QUEUE_STATUSES],
 )
 
 OccurrenceSeatTypeEnum = graphene.Enum(
@@ -570,6 +577,15 @@ class EnrolmentNode(DjangoObjectType):
         connection_class = EnrolmentConnectionWithCount
 
 
+class EventQueueEnrolmentNode(DjangoObjectType):
+    notification_type = NotificationTypeEnum()
+    status = EventQueueEnrolmentStatusEnum()
+
+    class Meta:
+        model = EventQueueEnrolment
+        interfaces = (graphene.relay.Node,)
+
+
 class StudyGroupInput(graphene.InputObjectType):
     person = graphene.NonNull(
         PersonNodeInput,
@@ -586,21 +602,66 @@ class StudyGroupInput(graphene.InputObjectType):
     study_levels = graphene.List(graphene.String)
 
 
+class EnrolInputBase:
+    study_group = StudyGroupInput(description="Study group data", required=True)
+    notification_type = NotificationTypeEnum()
+    person = PersonNodeInput(
+        description="Leave blank if the contact person is "
+        "the same with group contact person"
+    )
+    captcha_key = graphene.String(
+        description="The user response token provided "
+        "by the reCAPTCHA client-side "
+        "integration",
+    )
+
+
+class EnrolEventQueueMutation(graphene.relay.ClientIDMutation):
+    class Input(EnrolInputBase):
+        p_event_id = graphene.ID(
+            required=True, description="The event that a group would like to queue to"
+        )
+
+    event_queue_enrolment = graphene.Field(EventQueueEnrolmentNode)
+
+    @classmethod
+    @transaction.atomic
+    def mutate_and_get_payload(cls, root, info, **kwargs):
+        if settings.CAPTCHA_ENABLED:
+            verify_captcha(kwargs.pop("captcha_key", None))
+        else:
+            # UI will always send the captcha,
+            # and if it is not removed,
+            # it will raise an error.
+            kwargs.pop("captcha_key", None)
+        p_event_id = get_node_id_from_global_id(
+            kwargs.pop("p_event_id"), "PalvelutarjotinEventNode"
+        )
+        p_event = PalvelutarjotinEvent.objects.get(id=p_event_id)
+        study_group = create_study_group(kwargs.pop("study_group"))
+        contact_person_data = kwargs.pop("person", None)
+        notification_type = kwargs.pop(
+            "notification_type",
+            EventQueueEnrolment._meta.get_field("notification_type").get_default(),
+        )
+        # Use group contact person if person data not submitted
+        if contact_person_data:
+            person = get_or_create_contact_person(contact_person_data)
+        else:
+            person = study_group.person
+        event_queue_enrolment = enrol_to_event_queue(
+            study_group=study_group,
+            p_event=p_event,
+            person=person,
+            notification_type=notification_type,
+        )
+        return EnrolEventQueueMutation(event_queue_enrolment=event_queue_enrolment)
+
+
 class EnrolOccurrenceMutation(graphene.relay.ClientIDMutation):
-    class Input:
+    class Input(EnrolInputBase):
         occurrence_ids = graphene.NonNull(
             graphene.List(graphene.ID), description="Occurrence ids of event"
-        )
-        study_group = StudyGroupInput(description="Study group data", required=True)
-        notification_type = NotificationTypeEnum()
-        person = PersonNodeInput(
-            description="Leave blank if the contact person is "
-            "the same with group contact person"
-        )
-        captcha_key = graphene.String(
-            description="The user response token provided "
-            "by the reCAPTCHA client-side "
-            "integration",
         )
 
     enrolments = graphene.List(EnrolmentNode)
@@ -1005,10 +1066,9 @@ class Mutation:
     unenrol_occurrence = UnenrolOccurrenceMutation.Field(
         description="Only staff can unenrol study group"
     )
-
     update_enrolment = UpdateEnrolmentMutation.Field()
     approve_enrolment = ApproveEnrolmentMutation.Field()
     mass_approve_enrolments = MassApproveEnrolmentsMutation.Field()
     decline_enrolment = DeclineEnrolmentMutation.Field()
-
     cancel_enrolment = CancelEnrolmentMutation.Field()
+    enrol_event_queue = EnrolEventQueueMutation.Field()

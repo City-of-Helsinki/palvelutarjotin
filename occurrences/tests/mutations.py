@@ -361,3 +361,28 @@ mutation massApproveEnrolmentsMutation($input: MassApproveEnrolmentsMutationInpu
   }
 }
 """
+
+ENROL_EVENT_QUEUE_MUTATION = """
+mutation enrolEventQueue($input: EnrolEventQueueMutationInput!){
+  enrolEventQueue(input: $input){
+    eventQueueEnrolment{
+      studyGroup{
+        unitName
+      }
+      pEvent{
+        contactEmail
+        contactPhoneNumber
+        neededOccurrences
+        enrolmentEndDays
+        enrolmentStart
+        externalEnrolmentUrl
+        linkedEventId
+        autoAcceptance
+        mandatoryAdditionalInformation
+      }
+      notificationType
+      status
+    }
+  }
+}
+"""
