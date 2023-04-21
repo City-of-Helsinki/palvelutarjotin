@@ -367,6 +367,25 @@ query enrolments(
 }
 """
 
+ENROMENT_QUERY = """
+query enrolment($id: ID!){
+  enrolment(id: $id){
+    occurrence{
+      seatsTaken
+      startTime
+      endTime
+      pEvent{
+        linkedEventId
+      }
+    }
+    studyGroup{
+      groupName
+    }
+    status
+  }
+}
+"""
+
 ENROLMENTS_SUMMARY_QUERY = """
 query enrolmentSummary($organisationId: ID!, $status: EnrolmentStatus){
   enrolmentSummary(organisationId: $organisationId, status:$status){
