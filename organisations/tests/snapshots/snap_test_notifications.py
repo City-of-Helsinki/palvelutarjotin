@@ -7,8 +7,8 @@ from snapshottest import Snapshot
 
 snapshots = Snapshot()
 
-snapshots['test_myprofile_accepted_email[en] 1'] = [
-    '''no-reply@hel.ninja|['roychristopher@example.org']|My profile accepted EN|
+snapshots["test_myprofile_accepted_email[en] 1"] = [
+    """no-reply@hel.ninja|['roychristopher@example.org']|My profile accepted EN|
 <p>Hi Chad Williams!</p>
 <p>Your account is now ready to be used in Kultus
 with the following organisations linked to your account:</p>
@@ -18,11 +18,11 @@ with the following organisations linked to your account:</p>
 </ul>
 
     <p>Custom message: custom message</p>
-    '''
+    """
 ]
 
-snapshots['test_myprofile_accepted_email[fi] 1'] = [
-    '''no-reply@hel.ninja|['roychristopher@example.org']|My profile accepted FI|
+snapshots["test_myprofile_accepted_email[fi] 1"] = [
+    """no-reply@hel.ninja|['roychristopher@example.org']|My profile accepted FI|
 <p>Hei Chad Williams!</p>
 <p>Sinun käyttäjäsi on nyt valmis käytettäväksi Kultuksessa
 seuraavilla organisaatioille:</p>
@@ -32,11 +32,11 @@ seuraavilla organisaatioille:</p>
 </ul>
 
     <p>Erityisviesti: custom message</p>
-    '''
+    """
 ]
 
-snapshots['test_myprofile_creation_email 1'] = [
-    '''no-reply@hel.ninja|['pereztimothy@example.org']|My profile creation FI|
+snapshots["test_myprofile_creation_email 1"] = [
+    """no-reply@hel.ninja|['pereztimothy@example.org']|My profile creation FI|
 <p>Hyvä Kultus ylläpitäjä!</p>
 <p>Uusi palveluntarjoajan tunnus on luotu!</p>
 <address>
@@ -64,8 +64,8 @@ klikkaa <a href="https://test-domain/admin/organisations/user/123/change/" targe
 <a href="https://test-domain/admin/organisations/user/" target="_blank">tästä</a>.</p>
 
     <p>Erityisviesti: custom message</p>
-''',
-    '''no-reply@hel.ninja|['kdorsey@example.com']|My profile creation FI|
+""",
+    """no-reply@hel.ninja|['kdorsey@example.com']|My profile creation FI|
 <p>Hyvä Kultus ylläpitäjä!</p>
 <p>Uusi palveluntarjoajan tunnus on luotu!</p>
 <address>
@@ -93,8 +93,8 @@ klikkaa <a href="https://test-domain/admin/organisations/user/123/change/" targe
 <a href="https://test-domain/admin/organisations/user/" target="_blank">tästä</a>.</p>
 
     <p>Erityisviesti: custom message</p>
-''',
-    '''no-reply@hel.ninja|['wrightkimberly@example.org']|My profile creation EN|
+""",
+    """no-reply@hel.ninja|['wrightkimberly@example.org']|My profile creation EN|
 <p>Dear Kultus Admin!</p>
 <p>A new Kultus provider user profile is created!</p>
 <address>
@@ -122,5 +122,5 @@ click <a href="https://test-domain/admin/organisations/user/123/change/" target=
 <a href="https://test-domain/admin/organisations/user/" target="_blank">here</a>.</p>
 
     <p>Custom message: custom message</p>
-'''
+""",
 ]

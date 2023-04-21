@@ -125,7 +125,7 @@ class OCDIDField(serializers.Field):
                 "ocd-division/country:fi/kunta:helsinki/peruspiiri:pasila",
                 "ocd-division/country:fi/kunta:helsinki",
             ]
-        """ # noqa
+        """  # noqa
         if "ocd_ids" in data:
             return data["ocd_ids"]
 
