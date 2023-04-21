@@ -9,7 +9,10 @@ django-filter>=2.4
 django-axes
 factory-boy
 geopy
-graphene-django
+#There are incompatible versions in the resolved dependencies:
+#  graphql-core<3,>=2.1 (from django-ilmoitin[graphql_api]==0.6.0->-r requirements.in (line 7))
+#  graphql-core<4,>=3.1.0 (from graphene-django==3.0.0->-r requirements.in (line 12))
+graphene-django<3.0.0  #Could not find a version that matches graphql-core<3,<4,>=2.1,>=3.1.0 (from graphene-django==3.0.0->-r requirements.in (line 12))
 graphene-file-upload
 psycopg2-binary
 requests
