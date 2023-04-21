@@ -43,7 +43,6 @@ class VerificationTokenManager(models.Manager):
         email=None,
         expiry_minutes=getattr(settings, "VERIFICATION_TOKEN_VALID_MINUTES", 15),
     ):
-
         key = self.model.generate_key()
 
         if expiry_minutes:
@@ -105,7 +104,6 @@ class VerificationTokenManager(models.Manager):
 
 
 class VerificationToken(models.Model):
-
     VERIFICATION_TYPE_CANCELLATION = "CANCELLATION"
 
     VERIFICATION_TOKEN_TYPE_CHOICES = [

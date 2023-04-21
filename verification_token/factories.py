@@ -26,7 +26,6 @@ class VerificationTokenFactory(factory.django.DjangoModelFactory):
 
 
 class EnrolmentVerificationTokenFactory(VerificationTokenFactory):
-
     content_object = factory.SubFactory(EnrolmentFactory)
     verification_type = factory.Faker(
         "random_element",

@@ -7,7 +7,6 @@ from notification_importers.notification_importer import (
 
 
 class Command(BaseCommand):
-
     help = "Import notifications from Google Sheets."
 
     def handle(self, *args, **options):

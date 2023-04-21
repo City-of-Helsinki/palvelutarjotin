@@ -4,7 +4,6 @@ from django.db import migrations
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
         ("organisations", "0009_alter_user_managers"),
         ("occurrences", "0039_deletable_contact_info_support"),

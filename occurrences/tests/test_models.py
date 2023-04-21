@@ -75,7 +75,6 @@ def test_palvelutarjotin_event_with_external_enrolment(mock_get_event_data):
 
 @pytest.mark.django_db
 def test_palvelutarjotin_event_with_valid_external_enrolment_url(mock_get_event_data):
-
     PalvelutarjotinEventFactory(external_enrolment_url="https://123.fi").full_clean()
     PalvelutarjotinEventFactory(
         external_enrolment_url="ftp://file-transfer-protocol.com/"
@@ -90,7 +89,6 @@ def test_palvelutarjotin_event_with_valid_external_enrolment_url(mock_get_event_
 
 @pytest.mark.django_db
 def test_palvelutarjotin_event_with_invalid_external_enrolment_url():
-
     p_events = [
         PalvelutarjotinEventFactory(external_enrolment_url="./asdfasdf"),
         PalvelutarjotinEventFactory(external_enrolment_url="//org/"),

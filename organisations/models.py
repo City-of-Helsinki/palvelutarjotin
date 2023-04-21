@@ -71,7 +71,6 @@ class CustomUserManager(UserManager.from_queryset(UserQueryset)):
 
 
 class User(AbstractUser):
-
     is_admin = models.BooleanField(_("admin status"), default=False)
 
     objects = CustomUserManager()

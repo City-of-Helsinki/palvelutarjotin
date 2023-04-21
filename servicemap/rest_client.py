@@ -2,7 +2,6 @@ import requests
 
 
 class ServicemapApiClient:
-
     CONNECTION_TIMEOUT = 20
     DATA_SOURCE = "tprek"
 

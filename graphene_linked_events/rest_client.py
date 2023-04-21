@@ -2,7 +2,6 @@ import requests
 
 
 class LinkedEventsApiClient(object):
-
     CONNECTION_TIMEOUT = 20
 
     def __init__(self, config) -> None:

@@ -21,7 +21,6 @@ class Query:
 
     @staticmethod
     def normalize_service_unit_node(units: list):
-
         return [
             {
                 "id": "{data_source}:{place_id}".format(

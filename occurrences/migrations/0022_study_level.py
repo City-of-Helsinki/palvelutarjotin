@@ -6,7 +6,6 @@ from django.db import migrations, models
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
         ("occurrences", "0021_palvelutarjotinevent_mandatory_additional_information"),
     ]

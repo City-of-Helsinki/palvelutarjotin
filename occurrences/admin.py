@@ -39,7 +39,6 @@ class HasUnitIdStudyGroupListFilter(admin.SimpleListFilter):
         )
 
     def queryset(self, request, queryset):
-
         if self.value() == "True":
             return queryset.filter(unit_id__isnull=False)
         if self.value() == "False":

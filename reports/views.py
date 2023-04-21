@@ -93,7 +93,6 @@ class OrganisationPersonsMixin(ExportReportViewMixin):
 
 
 class PalvelutarjotinEventEnrolmentsMixin(ExportReportViewMixin):
-
     max_results = 2000
 
     def message_max_result(self, request):
@@ -229,7 +228,6 @@ class PalvelutarjotinEventEnrolmentsAdminView(
     context_object_name = "enrolments"
 
     def get(self, request, *args, **kwargs):
-
         # Inform the user if not all the data was included
         self.message_max_result(request)
 
@@ -325,7 +323,6 @@ class PersonsCsvView(PersonsMixin, ExportReportCsvView):
         writer, response = self._create_csv_response_writer("kultus_persons")
         writer.writerow([_("Name"), _("Email"), _("Phone"), _("Organisations")])
         for person in self.get_queryset().order_by("name"):
-
             writer.writerow(
                 [
                     person.name,

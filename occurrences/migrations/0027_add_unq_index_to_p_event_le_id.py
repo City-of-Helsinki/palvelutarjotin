@@ -4,7 +4,6 @@ from django.db import migrations, models
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
         ("occurrences", "0026_remove_palvelutarjotinevent_payment_instruction"),
     ]

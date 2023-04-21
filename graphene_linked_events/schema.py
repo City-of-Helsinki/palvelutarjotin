@@ -240,7 +240,6 @@ class Event(IdObject):
     )
 
     def resolve_p_event(self, info, **kwargs):
-
         # Avoid needless palvelutarjotin event queries.
         if hasattr(self, "p_event"):
             return self.p_event

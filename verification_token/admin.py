@@ -14,7 +14,6 @@ verification_token_person_name.short_description = "Name"
 
 @admin.register(VerificationToken)
 class VerificationTokenAdmin(admin.ModelAdmin):
-
     list_display = (
         "key",
         "verification_type",

@@ -5,7 +5,6 @@ from django.db import migrations, models
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
         ("organisations", "0004_person_language"),
         ("verification_token", "0001_add_verification_token"),

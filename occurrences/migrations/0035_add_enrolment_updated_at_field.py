@@ -11,7 +11,6 @@ def set_enrolment_time_to_updated_at(apps, schema_editor):
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
         ("occurrences", "0034_alter_studygroup_unit_name"),
     ]
