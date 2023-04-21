@@ -22,6 +22,7 @@ from occurrences.factories import (
 )
 from occurrences.models import (
     Enrolment,
+    EventQueueEnrolment,
     Occurrence,
     PalvelutarjotinEvent,
     StudyGroup,
@@ -43,6 +44,7 @@ from occurrences.tests.mutations import (
     ENROL_EVENT_QUEUE_MUTATION,
     ENROL_OCCURRENCE_MUTATION,
     MASS_APPROVE_ENROLMENTS_MUTATION,
+    UNENROL_EVENT_QUEUE_MUTATION,
     UNENROL_OCCURRENCE_MUTATION,
     UPDATE_ENROLMENT_MUTATION,
     UPDATE_OCCURRENCE_MUTATION,
@@ -2664,3 +2666,40 @@ def test_enrol_event_queue_mutation(
     }
     executed = api_client.execute(ENROL_EVENT_QUEUE_MUTATION, variables=variables)
     snapshot.assert_match(executed)
+
+
+def test_unenrol_event_queue_mutation(
+    snapshot, staff_api_client, organisation, mock_get_event_data
+):
+    study_group_15 = StudyGroupFactory(group_size=15)
+    p_event = PalvelutarjotinEventFactory(organisation=organisation)
+    EventQueueEnrolmentFactory(study_group=study_group_15, p_event=p_event)
+    EventQueueEnrolmentFactory(study_group=study_group_15)
+    assert EventQueueEnrolment.objects.count() == 2
+    variables = {
+        "input": {
+            "pEventId": to_global_id("PalvelutarjotinEventNode", p_event.id),
+            "studyGroupId": to_global_id("StudyGroupNode", study_group_15.id),
+        }
+    }
+    staff_api_client.user.person.organisations.add(p_event.organisation)
+    executed = staff_api_client.execute(
+        UNENROL_EVENT_QUEUE_MUTATION, variables=variables
+    )
+    assert EventQueueEnrolment.objects.count() == 1
+    snapshot.assert_match(executed)
+
+
+def test_unenrol_event_queue_mutation_unauthorized(
+    api_client, organisation, mock_get_event_data
+):
+    study_group_15 = StudyGroupFactory(group_size=15)
+    p_event = PalvelutarjotinEventFactory(organisation=organisation)
+    variables = {
+        "input": {
+            "pEventId": to_global_id("PalvelutarjotinEventNode", p_event.id),
+            "studyGroupId": to_global_id("StudyGroupNode", study_group_15.id),
+        }
+    }
+    executed = api_client.execute(UNENROL_EVENT_QUEUE_MUTATION, variables=variables)
+    assert_permission_denied(executed)

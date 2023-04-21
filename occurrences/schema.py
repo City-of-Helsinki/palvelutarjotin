@@ -665,6 +665,35 @@ class EnrolEventQueueMutation(graphene.relay.ClientIDMutation):
         return EnrolEventQueueMutation(event_queue_enrolment=event_queue_enrolment)
 
 
+class UnenrolEventQueueMutation(graphene.relay.ClientIDMutation):
+    class Input:
+        p_event_id = graphene.GlobalID()
+        study_group_id = graphene.GlobalID(description="Study group id")
+
+    p_event = graphene.Field(PalvelutarjotinEventNode)
+    study_group = graphene.Field(StudyGroupNode)
+
+    @classmethod
+    @staff_member_required
+    @transaction.atomic
+    def mutate_and_get_payload(cls, root, info, **kwargs):
+        group_id = get_node_id_from_global_id(
+            kwargs["study_group_id"], "StudyGroupNode"
+        )
+        try:
+            study_group = StudyGroup.objects.get(pk=group_id)
+        except StudyGroup.DoesNotExist as e:
+            raise ObjectDoesNotExistError(e)
+        p_event = get_editable_obj_from_global_id(
+            info, kwargs["p_event_id"], PalvelutarjotinEvent
+        )
+        # Need to unenrol all related occurrence of the study group
+        enrolments = study_group.queued_enrolments.filter(p_event=p_event)
+        for e in enrolments:
+            e.delete()
+        return UnenrolEventQueueMutation(study_group=study_group, p_event=p_event)
+
+
 class EnrolOccurrenceMutation(graphene.relay.ClientIDMutation):
     class Input(EnrolInputBase):
         occurrence_ids = graphene.NonNull(
@@ -1109,3 +1138,4 @@ class Mutation:
     decline_enrolment = DeclineEnrolmentMutation.Field()
     cancel_enrolment = CancelEnrolmentMutation.Field()
     enrol_event_queue = EnrolEventQueueMutation.Field()
+    unenrol_event_queue = UnenrolEventQueueMutation.Field()

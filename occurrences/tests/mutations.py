@@ -386,3 +386,16 @@ mutation enrolEventQueue($input: EnrolEventQueueMutationInput!){
   }
 }
 """
+
+UNENROL_EVENT_QUEUE_MUTATION = """
+mutation unenrolEventQueue($input: UnenrolEventQueueMutationInput!){
+  unenrolEventQueue(input: $input){
+    pEvent{
+       linkedEventId
+    }
+    studyGroup{
+        unitName
+    }
+  }
+}
+"""
