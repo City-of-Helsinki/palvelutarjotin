@@ -55,6 +55,7 @@ from occurrences.tests.queries import (
     CANCEL_ENROLMENT_QUERY,
     ENROLMENTS_QUERY,
     ENROLMENTS_SUMMARY_QUERY,
+    ENROMENT_QUERY,
     EVENT_QUEUE_ENROLMENT_QUERY,
     EVENT_QUEUE_ENROLMENTS_QUERY,
     LANGUAGE_QUERY,
@@ -2355,7 +2356,6 @@ def test_enrolments_query(
     )
 
     assert Enrolment.objects.count() == 4
-    staff_api_client.user.person.organisations.add(occurrence.p_event.organisation)
     executed = staff_api_client.execute(
         ENROLMENTS_QUERY,
         variables={
@@ -2374,6 +2374,28 @@ def test_enrolments_query(
             },
         )
         snapshot.assert_match(executed)
+
+
+def test_enrolments_query_unauthorized(api_client, mock_get_event_data):
+    EnrolmentFactory.create_batch(5)
+    executed = api_client.execute(ENROLMENTS_QUERY, variables={})
+    assert_permission_denied(executed)
+
+
+def test_enrolment_query(snapshot, staff_api_client, mock_get_event_data):
+    enrolment = EnrolmentFactory()
+    executed = staff_api_client.execute(
+        ENROMENT_QUERY, variables={"id": to_global_id("EnrolmentNode", enrolment.id)}
+    )
+    snapshot.assert_match(executed)
+
+
+def test_enrolment_query_unauthorized(api_client, mock_get_event_data):
+    enrolment = EnrolmentFactory()
+    executed = api_client.execute(
+        ENROMENT_QUERY, variables={"id": to_global_id("EnrolmentNode", enrolment.id)}
+    )
+    assert_permission_denied(executed)
 
 
 def test_cancel_enrolment_query(

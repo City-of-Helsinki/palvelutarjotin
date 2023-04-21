@@ -576,6 +576,11 @@ class EnrolmentNode(DjangoObjectType):
         interfaces = (graphene.relay.Node,)
         connection_class = EnrolmentConnectionWithCount
 
+    @classmethod
+    @staff_member_required
+    def get_queryset(cls, queryset, info):
+        return super().get_queryset(queryset, info)
+
 
 class EventQueueEnrolmentNode(DjangoObjectType):
     notification_type = NotificationTypeEnum()
@@ -1031,8 +1036,11 @@ class Query:
     enrolments = OrderedDjangoFilterConnectionField(
         EnrolmentNode,
         orderBy=graphene.List(of_type=graphene.String),
+        description="Query for admin only",
     )
-    enrolment = graphene.relay.Node.Field(EnrolmentNode)
+    enrolment = graphene.relay.Node.Field(
+        EnrolmentNode, description="Query for admin only"
+    )
 
     enrolment_summary = DjangoConnectionField(
         EnrolmentNode,
@@ -1078,6 +1086,7 @@ class Query:
             return None
 
     @staticmethod
+    @staff_member_required
     def resolve_enrolments(parent, info, **kwargs):
         qs = Enrolment.objects.all()
         if kwargs.get("occurrence_id"):
