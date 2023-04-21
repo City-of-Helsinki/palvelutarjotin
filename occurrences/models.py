@@ -668,15 +668,6 @@ class EventQueueEnrolment(EnrolmentBase):
     def __str__(self):
         return f"{self.id} {self.p_event.linked_event_id} {self.study_group.name}"
 
-    def get_unique_id(self):
-        # Unique id is the base64 encoded of enrolment_id and enrolment timestamp
-        # Added object timestamp so it'll be harder to guess, otherwise any one can
-        # build the unique id after reading this
-        return to_global_id(
-            "EventQueueEnrolmentNode",
-            "_".join([str(self.id), str(self.enrolment_time)]),
-        )
-
     def is_editable_by_user(self, user):
         return user.person.organisations.filter(
             id=self.p_event.organisation.id

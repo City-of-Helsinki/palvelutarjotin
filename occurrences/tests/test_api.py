@@ -53,6 +53,7 @@ from occurrences.tests.queries import (
     CANCEL_ENROLMENT_QUERY,
     ENROLMENTS_QUERY,
     ENROLMENTS_SUMMARY_QUERY,
+    EVENT_QUEUE_ENROLMENT_QUERY,
     EVENT_QUEUE_ENROLMENTS_QUERY,
     LANGUAGE_QUERY,
     LANGUAGES_QUERY,
@@ -2594,6 +2595,20 @@ def test_event_queue_enrolments_query(
     )
     assert executed["data"]["eventQueueEnrolments"]["count"] == 15
     assert len(executed["data"]["eventQueueEnrolments"]["edges"]) == 5
+    snapshot.assert_match(executed)
+
+
+def test_event_queue_enrolment_query(
+    snapshot, organisation, api_client, mock_get_event_data
+):
+    p_event = PalvelutarjotinEventFactory(organisation=organisation)
+    event_queue_enrolment = EventQueueEnrolmentFactory(p_event=p_event)
+    executed = api_client.execute(
+        EVENT_QUEUE_ENROLMENT_QUERY,
+        variables={
+            "id": to_global_id("EventQueueEnrolmentNode", event_queue_enrolment.id),
+        },
+    )
     snapshot.assert_match(executed)
 
 

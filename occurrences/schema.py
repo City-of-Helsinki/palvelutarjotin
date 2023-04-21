@@ -1010,6 +1010,7 @@ class Query:
         EventQueueEnrolmentNode,
         orderBy=graphene.List(of_type=graphene.String),
     )
+    event_queue_enrolment = graphene.relay.Node.Field(EventQueueEnrolmentNode)
 
     @staticmethod
     def resolve_language(parent, info, **kwargs):
@@ -1039,7 +1040,8 @@ class Query:
         except StudyLevel.DoesNotExist:
             return None
 
-    def resolve_enrolments(self, info, **kwargs):
+    @staticmethod
+    def resolve_enrolments(parent, info, **kwargs):
         qs = Enrolment.objects.all()
         if kwargs.get("occurrence_id"):
             try:
