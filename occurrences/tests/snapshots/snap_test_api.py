@@ -1088,9 +1088,11 @@ snapshots["test_enrolments_summary 5"] = {
 snapshots["test_event_queue_enrolment_query 1"] = {
     "data": {
         "eventQueueEnrolment": {
-            "pEvent": {"linkedEventId": "xeobQ"},
+            "pEvent": {"linkedEventId": "UIrta"},
             "status": "HAS_NOT_ENROLLED",
-            "studyGroup": {"groupName": "Last in able local garden modern they."},
+            "studyGroup": {
+                "groupName": "Let join might player example environment. Then offer organization model."
+            },
         }
     }
 }
@@ -1103,99 +1105,100 @@ snapshots["test_event_queue_enrolments_query 1"] = {
                 {
                     "cursor": "YXJyYXljb25uZWN0aW9uOjA=",
                     "node": {
-                        "pEvent": {"linkedEventId": "xeobQ"},
+                        "pEvent": {"linkedEventId": "UIrta"},
                         "status": "HAS_NOT_ENROLLED",
                         "studyGroup": {
-                            "groupName": "Pm PM indicate general put. Poor left president model character two coach."
+                            "groupName": "The threat organization check may available. Offer much discuss."
                         },
                     },
                 },
                 {
                     "cursor": "YXJyYXljb25uZWN0aW9uOjE=",
                     "node": {
-                        "pEvent": {"linkedEventId": "xeobQ"},
+                        "pEvent": {"linkedEventId": "UIrta"},
                         "status": "HAS_NOT_ENROLLED",
                         "studyGroup": {
-                            "groupName": "Account four degree return pick sister music result. Skill become open yes table."
+                            "groupName": "Threat kitchen table along evening need line. Mission once pretty. Nor heavy well brother."
                         },
                     },
                 },
                 {
                     "cursor": "YXJyYXljb25uZWN0aW9uOjI=",
                     "node": {
-                        "pEvent": {"linkedEventId": "xeobQ"},
+                        "pEvent": {"linkedEventId": "UIrta"},
                         "status": "HAS_NOT_ENROLLED",
                         "studyGroup": {
-                            "groupName": "Factor scene news democratic. Then amount morning training program provide various."
+                            "groupName": "Network view dark understand close. First control education list full hotel."
                         },
                     },
                 },
                 {
                     "cursor": "YXJyYXljb25uZWN0aW9uOjM=",
                     "node": {
-                        "pEvent": {"linkedEventId": "xeobQ"},
+                        "pEvent": {"linkedEventId": "UIrta"},
                         "status": "HAS_NOT_ENROLLED",
                         "studyGroup": {
-                            "groupName": """Them base although also partner fine. Yard word employee half.
-Commercial lose add bag."""
+                            "groupName": "Degree keep wish crime parent. Find behind the. Identify second ready theory single."
                         },
                     },
                 },
                 {
                     "cursor": "YXJyYXljb25uZWN0aW9uOjQ=",
                     "node": {
-                        "pEvent": {"linkedEventId": "xeobQ"},
+                        "pEvent": {"linkedEventId": "UIrta"},
                         "status": "HAS_NOT_ENROLLED",
-                        "studyGroup": {"groupName": "Drop police change dinner."},
+                        "studyGroup": {
+                            "groupName": "Offer alone population vote human professional or draw. Easy since keep trial across dark share."
+                        },
                     },
                 },
                 {
                     "cursor": "YXJyYXljb25uZWN0aW9uOjU=",
                     "node": {
-                        "pEvent": {"linkedEventId": "xeobQ"},
+                        "pEvent": {"linkedEventId": "UIrta"},
                         "status": "HAS_NOT_ENROLLED",
                         "studyGroup": {
-                            "groupName": "Explain five him toward including animal. Good million late people oil."
+                            "groupName": "Friend clear focus operation its bar anyone he."
                         },
                     },
                 },
                 {
                     "cursor": "YXJyYXljb25uZWN0aW9uOjY=",
                     "node": {
-                        "pEvent": {"linkedEventId": "xeobQ"},
+                        "pEvent": {"linkedEventId": "UIrta"},
                         "status": "HAS_NOT_ENROLLED",
                         "studyGroup": {
-                            "groupName": "Feeling consider catch believe cell. Drug her soon those analysis physical across."
+                            "groupName": "Worker institution which open. But must thought into trip."
                         },
                     },
                 },
                 {
                     "cursor": "YXJyYXljb25uZWN0aW9uOjc=",
                     "node": {
-                        "pEvent": {"linkedEventId": "xeobQ"},
+                        "pEvent": {"linkedEventId": "UIrta"},
                         "status": "HAS_NOT_ENROLLED",
                         "studyGroup": {
-                            "groupName": "Budget political natural relate stage. However yes wear anyone vote."
+                            "groupName": "Itself green right science chair door suddenly paper. Drop street than."
                         },
                     },
                 },
                 {
                     "cursor": "YXJyYXljb25uZWN0aW9uOjg=",
                     "node": {
-                        "pEvent": {"linkedEventId": "xeobQ"},
+                        "pEvent": {"linkedEventId": "UIrta"},
                         "status": "HAS_NOT_ENROLLED",
                         "studyGroup": {
-                            "groupName": "Party with anything yet music. Court program song couple. Fast learn sense radio."
+                            "groupName": "Happy avoid head include. Form ahead center town least style above."
                         },
                     },
                 },
                 {
                     "cursor": "YXJyYXljb25uZWN0aW9uOjk=",
                     "node": {
-                        "pEvent": {"linkedEventId": "xeobQ"},
+                        "pEvent": {"linkedEventId": "UIrta"},
                         "status": "HAS_NOT_ENROLLED",
                         "studyGroup": {
-                            "groupName": "With hair take nation. Relate clear traditional much situation western."
+                            "groupName": "Take maintain reveal. Develop two send year home argue way. Style design five."
                         },
                     },
                 },
@@ -1212,48 +1215,50 @@ snapshots["test_event_queue_enrolments_query 2"] = {
                 {
                     "cursor": "YXJyYXljb25uZWN0aW9uOjEw",
                     "node": {
-                        "pEvent": {"linkedEventId": "xeobQ"},
+                        "pEvent": {"linkedEventId": "UIrta"},
                         "status": "HAS_NOT_ENROLLED",
                         "studyGroup": {
-                            "groupName": "Them letter certainly expert. Unit child environmental take."
+                            "groupName": "True month might yeah road. Couple bring pull someone."
                         },
                     },
                 },
                 {
                     "cursor": "YXJyYXljb25uZWN0aW9uOjEx",
                     "node": {
-                        "pEvent": {"linkedEventId": "xeobQ"},
+                        "pEvent": {"linkedEventId": "UIrta"},
                         "status": "HAS_NOT_ENROLLED",
                         "studyGroup": {
-                            "groupName": "Culture most page reduce green conference front. Decide very data four."
+                            "groupName": "Training series instead task. Within join bank worry."
                         },
                     },
                 },
                 {
                     "cursor": "YXJyYXljb25uZWN0aW9uOjEy",
                     "node": {
-                        "pEvent": {"linkedEventId": "xeobQ"},
+                        "pEvent": {"linkedEventId": "UIrta"},
                         "status": "HAS_NOT_ENROLLED",
                         "studyGroup": {
-                            "groupName": "Support thing song board strong government."
+                            "groupName": "Their start concern song social. Agency happen sure indicate."
                         },
                     },
                 },
                 {
                     "cursor": "YXJyYXljb25uZWN0aW9uOjEz",
                     "node": {
-                        "pEvent": {"linkedEventId": "xeobQ"},
+                        "pEvent": {"linkedEventId": "UIrta"},
                         "status": "HAS_NOT_ENROLLED",
-                        "studyGroup": {"groupName": "Region protect likely day."},
+                        "studyGroup": {
+                            "groupName": "Better majority behavior along pressure yes others. Trouble change world indeed always."
+                        },
                     },
                 },
                 {
                     "cursor": "YXJyYXljb25uZWN0aW9uOjE0",
                     "node": {
-                        "pEvent": {"linkedEventId": "xeobQ"},
+                        "pEvent": {"linkedEventId": "UIrta"},
                         "status": "HAS_NOT_ENROLLED",
                         "studyGroup": {
-                            "groupName": "Last in able local garden modern they."
+                            "groupName": "Let join might player example environment. Then offer organization model."
                         },
                     },
                 },

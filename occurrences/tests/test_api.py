@@ -2570,12 +2570,12 @@ def test_mass_approve_multi_occurrences_enrolment_mutation(
 
 
 def test_event_queue_enrolments_query(
-    snapshot, organisation, api_client, mock_get_event_data
+    snapshot, organisation, staff_api_client, mock_get_event_data
 ):
     p_event = PalvelutarjotinEventFactory(organisation=organisation)
     EventQueueEnrolmentFactory.create_batch(15, p_event=p_event)
 
-    executed = api_client.execute(
+    executed = staff_api_client.execute(
         EVENT_QUEUE_ENROLMENTS_QUERY,
         variables={
             "pEventId": to_global_id("PalvelutarjotinEventNode", p_event.id),
@@ -2585,7 +2585,7 @@ def test_event_queue_enrolments_query(
     assert executed["data"]["eventQueueEnrolments"]["count"] == 15
     assert len(executed["data"]["eventQueueEnrolments"]["edges"]) == 10
     snapshot.assert_match(executed)
-    executed = api_client.execute(
+    executed = staff_api_client.execute(
         EVENT_QUEUE_ENROLMENTS_QUERY,
         variables={
             "pEventId": to_global_id("PalvelutarjotinEventNode", p_event.id),
@@ -2598,8 +2598,35 @@ def test_event_queue_enrolments_query(
     snapshot.assert_match(executed)
 
 
+def test_event_queue_enrolments_query_unauthorized(api_client, organisation):
+    p_event = PalvelutarjotinEventFactory(organisation=organisation)
+    EventQueueEnrolmentFactory.create_batch(5, p_event=p_event)
+    executed = api_client.execute(
+        EVENT_QUEUE_ENROLMENTS_QUERY,
+        variables={
+            "pEventId": to_global_id("PalvelutarjotinEventNode", p_event.id),
+            "first": 10,
+        },
+    )
+    assert_permission_denied(executed)
+
+
 def test_event_queue_enrolment_query(
-    snapshot, organisation, api_client, mock_get_event_data
+    snapshot, organisation, staff_api_client, mock_get_event_data
+):
+    p_event = PalvelutarjotinEventFactory(organisation=organisation)
+    event_queue_enrolment = EventQueueEnrolmentFactory(p_event=p_event)
+    executed = staff_api_client.execute(
+        EVENT_QUEUE_ENROLMENT_QUERY,
+        variables={
+            "id": to_global_id("EventQueueEnrolmentNode", event_queue_enrolment.id),
+        },
+    )
+    snapshot.assert_match(executed)
+
+
+def test_event_queue_enrolment_query_unauthorized(
+    organisation, api_client, mock_get_event_data
 ):
     p_event = PalvelutarjotinEventFactory(organisation=organisation)
     event_queue_enrolment = EventQueueEnrolmentFactory(p_event=p_event)
@@ -2609,7 +2636,7 @@ def test_event_queue_enrolment_query(
             "id": to_global_id("EventQueueEnrolmentNode", event_queue_enrolment.id),
         },
     )
-    snapshot.assert_match(executed)
+    assert_permission_denied(executed)
 
 
 def test_enrol_event_queue_mutation(
