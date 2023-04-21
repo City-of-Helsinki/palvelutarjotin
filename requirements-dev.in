@@ -5,7 +5,6 @@ freezegun
 ipython
 isort
 pytest
-pytest-cov
 pytest-django
 snapshottest
 pre-commit
