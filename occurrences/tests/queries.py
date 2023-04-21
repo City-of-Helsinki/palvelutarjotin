@@ -349,9 +349,7 @@ query enrolments(
     edges{
       cursor
       node{
-        id
         occurrence{
-          id
           seatsTaken
           startTime
           endTime
@@ -416,7 +414,6 @@ query eventQueueEnrolments(
     edges{
       cursor
       node{
-        id
         pEvent{
           linkedEventId
         }
@@ -426,6 +423,24 @@ query eventQueueEnrolments(
         status
       }
     }
+  }
+}
+"""
+
+EVENT_QUEUE_ENROLMENT_QUERY = """
+query eventQueueEnrolment(
+  $id: ID!
+){
+  eventQueueEnrolment(
+    id: $id,
+  ){
+    pEvent{
+      linkedEventId
+    }
+    studyGroup{
+      groupName
+    }
+    status
   }
 }
 """

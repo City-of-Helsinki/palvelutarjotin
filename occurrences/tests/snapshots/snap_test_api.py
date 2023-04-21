@@ -463,10 +463,8 @@ snapshots["test_enrolments_query[-status] 1"] = {
                 {
                     "cursor": "YXJyYXljb25uZWN0aW9uOjA=",
                     "node": {
-                        "id": "RW5yb2xtZW50Tm9kZTo2MQ==",
                         "occurrence": {
                             "endTime": "2001-01-01T13:18:22+00:00",
-                            "id": "T2NjdXJyZW5jZU5vZGU6MTA2OA==",
                             "pEvent": {"linkedEventId": "bkihg"},
                             "seatsTaken": 1173,
                             "startTime": "1988-08-02T07:00:39+00:00",
@@ -478,10 +476,8 @@ snapshots["test_enrolments_query[-status] 1"] = {
                 {
                     "cursor": "YXJyYXljb25uZWN0aW9uOjE=",
                     "node": {
-                        "id": "RW5yb2xtZW50Tm9kZTo2Mg==",
                         "occurrence": {
                             "endTime": "2001-01-01T13:18:22+00:00",
-                            "id": "T2NjdXJyZW5jZU5vZGU6MTA2OA==",
                             "pEvent": {"linkedEventId": "bkihg"},
                             "seatsTaken": 1173,
                             "startTime": "1988-08-02T07:00:39+00:00",
@@ -493,10 +489,8 @@ snapshots["test_enrolments_query[-status] 1"] = {
                 {
                     "cursor": "YXJyYXljb25uZWN0aW9uOjI=",
                     "node": {
-                        "id": "RW5yb2xtZW50Tm9kZTo2MA==",
                         "occurrence": {
                             "endTime": "2001-01-01T13:18:22+00:00",
-                            "id": "T2NjdXJyZW5jZU5vZGU6MTA2OA==",
                             "pEvent": {"linkedEventId": "bkihg"},
                             "seatsTaken": 1173,
                             "startTime": "1988-08-02T07:00:39+00:00",
@@ -508,10 +502,8 @@ snapshots["test_enrolments_query[-status] 1"] = {
                 {
                     "cursor": "YXJyYXljb25uZWN0aW9uOjM=",
                     "node": {
-                        "id": "RW5yb2xtZW50Tm9kZTo1OQ==",
                         "occurrence": {
                             "endTime": "2001-01-01T13:18:22+00:00",
-                            "id": "T2NjdXJyZW5jZU5vZGU6MTA2OA==",
                             "pEvent": {"linkedEventId": "bkihg"},
                             "seatsTaken": 1173,
                             "startTime": "1988-08-02T07:00:39+00:00",
@@ -533,10 +525,8 @@ snapshots["test_enrolments_query[-status] 2"] = {
                 {
                     "cursor": "YXJyYXljb25uZWN0aW9uOjA=",
                     "node": {
-                        "id": "RW5yb2xtZW50Tm9kZTo2MA==",
                         "occurrence": {
                             "endTime": "2001-01-01T13:18:22+00:00",
-                            "id": "T2NjdXJyZW5jZU5vZGU6MTA2OA==",
                             "pEvent": {"linkedEventId": "bkihg"},
                             "seatsTaken": 1173,
                             "startTime": "1988-08-02T07:00:39+00:00",
@@ -548,10 +538,8 @@ snapshots["test_enrolments_query[-status] 2"] = {
                 {
                     "cursor": "YXJyYXljb25uZWN0aW9uOjE=",
                     "node": {
-                        "id": "RW5yb2xtZW50Tm9kZTo1OQ==",
                         "occurrence": {
                             "endTime": "2001-01-01T13:18:22+00:00",
-                            "id": "T2NjdXJyZW5jZU5vZGU6MTA2OA==",
                             "pEvent": {"linkedEventId": "bkihg"},
                             "seatsTaken": 1173,
                             "startTime": "1988-08-02T07:00:39+00:00",
@@ -577,10 +565,8 @@ snapshots["test_enrolments_query[-status] 4"] = {
                 {
                     "cursor": "YXJyYXljb25uZWN0aW9uOjA=",
                     "node": {
-                        "id": "RW5yb2xtZW50Tm9kZTo2Mg==",
                         "occurrence": {
                             "endTime": "2001-01-01T13:18:22+00:00",
-                            "id": "T2NjdXJyZW5jZU5vZGU6MTA2OA==",
                             "pEvent": {"linkedEventId": "bkihg"},
                             "seatsTaken": 1173,
                             "startTime": "1988-08-02T07:00:39+00:00",
@@ -602,10 +588,8 @@ snapshots["test_enrolments_query[-status] 5"] = {
                 {
                     "cursor": "YXJyYXljb25uZWN0aW9uOjA=",
                     "node": {
-                        "id": "RW5yb2xtZW50Tm9kZTo2MQ==",
                         "occurrence": {
                             "endTime": "2001-01-01T13:18:22+00:00",
-                            "id": "T2NjdXJyZW5jZU5vZGU6MTA2OA==",
                             "pEvent": {"linkedEventId": "bkihg"},
                             "seatsTaken": 1173,
                             "startTime": "1988-08-02T07:00:39+00:00",
@@ -627,10 +611,8 @@ snapshots["test_enrolments_query[-study_group__group_name] 1"] = {
                 {
                     "cursor": "YXJyYXljb25uZWN0aW9uOjA=",
                     "node": {
-                        "id": "RW5yb2xtZW50Tm9kZTo3MA==",
                         "occurrence": {
                             "endTime": "2001-01-01T13:18:22+00:00",
-                            "id": "T2NjdXJyZW5jZU5vZGU6MTA3MA==",
                             "pEvent": {"linkedEventId": "bkihg"},
                             "seatsTaken": 1173,
                             "startTime": "1988-08-02T07:00:39+00:00",
@@ -642,10 +624,8 @@ snapshots["test_enrolments_query[-study_group__group_name] 1"] = {
                 {
                     "cursor": "YXJyYXljb25uZWN0aW9uOjE=",
                     "node": {
-                        "id": "RW5yb2xtZW50Tm9kZTo2OA==",
                         "occurrence": {
                             "endTime": "2001-01-01T13:18:22+00:00",
-                            "id": "T2NjdXJyZW5jZU5vZGU6MTA3MA==",
                             "pEvent": {"linkedEventId": "bkihg"},
                             "seatsTaken": 1173,
                             "startTime": "1988-08-02T07:00:39+00:00",
@@ -657,10 +637,8 @@ snapshots["test_enrolments_query[-study_group__group_name] 1"] = {
                 {
                     "cursor": "YXJyYXljb25uZWN0aW9uOjI=",
                     "node": {
-                        "id": "RW5yb2xtZW50Tm9kZTo2OQ==",
                         "occurrence": {
                             "endTime": "2001-01-01T13:18:22+00:00",
-                            "id": "T2NjdXJyZW5jZU5vZGU6MTA3MA==",
                             "pEvent": {"linkedEventId": "bkihg"},
                             "seatsTaken": 1173,
                             "startTime": "1988-08-02T07:00:39+00:00",
@@ -672,10 +650,8 @@ snapshots["test_enrolments_query[-study_group__group_name] 1"] = {
                 {
                     "cursor": "YXJyYXljb25uZWN0aW9uOjM=",
                     "node": {
-                        "id": "RW5yb2xtZW50Tm9kZTo2Nw==",
                         "occurrence": {
                             "endTime": "2001-01-01T13:18:22+00:00",
-                            "id": "T2NjdXJyZW5jZU5vZGU6MTA3MA==",
                             "pEvent": {"linkedEventId": "bkihg"},
                             "seatsTaken": 1173,
                             "startTime": "1988-08-02T07:00:39+00:00",
@@ -697,10 +673,8 @@ snapshots["test_enrolments_query[-study_group__group_name] 2"] = {
                 {
                     "cursor": "YXJyYXljb25uZWN0aW9uOjA=",
                     "node": {
-                        "id": "RW5yb2xtZW50Tm9kZTo2OA==",
                         "occurrence": {
                             "endTime": "2001-01-01T13:18:22+00:00",
-                            "id": "T2NjdXJyZW5jZU5vZGU6MTA3MA==",
                             "pEvent": {"linkedEventId": "bkihg"},
                             "seatsTaken": 1173,
                             "startTime": "1988-08-02T07:00:39+00:00",
@@ -712,10 +686,8 @@ snapshots["test_enrolments_query[-study_group__group_name] 2"] = {
                 {
                     "cursor": "YXJyYXljb25uZWN0aW9uOjE=",
                     "node": {
-                        "id": "RW5yb2xtZW50Tm9kZTo2Nw==",
                         "occurrence": {
                             "endTime": "2001-01-01T13:18:22+00:00",
-                            "id": "T2NjdXJyZW5jZU5vZGU6MTA3MA==",
                             "pEvent": {"linkedEventId": "bkihg"},
                             "seatsTaken": 1173,
                             "startTime": "1988-08-02T07:00:39+00:00",
@@ -741,10 +713,8 @@ snapshots["test_enrolments_query[-study_group__group_name] 4"] = {
                 {
                     "cursor": "YXJyYXljb25uZWN0aW9uOjA=",
                     "node": {
-                        "id": "RW5yb2xtZW50Tm9kZTo3MA==",
                         "occurrence": {
                             "endTime": "2001-01-01T13:18:22+00:00",
-                            "id": "T2NjdXJyZW5jZU5vZGU6MTA3MA==",
                             "pEvent": {"linkedEventId": "bkihg"},
                             "seatsTaken": 1173,
                             "startTime": "1988-08-02T07:00:39+00:00",
@@ -766,10 +736,8 @@ snapshots["test_enrolments_query[-study_group__group_name] 5"] = {
                 {
                     "cursor": "YXJyYXljb25uZWN0aW9uOjA=",
                     "node": {
-                        "id": "RW5yb2xtZW50Tm9kZTo2OQ==",
                         "occurrence": {
                             "endTime": "2001-01-01T13:18:22+00:00",
-                            "id": "T2NjdXJyZW5jZU5vZGU6MTA3MA==",
                             "pEvent": {"linkedEventId": "bkihg"},
                             "seatsTaken": 1173,
                             "startTime": "1988-08-02T07:00:39+00:00",
@@ -791,10 +759,8 @@ snapshots["test_enrolments_query[status] 1"] = {
                 {
                     "cursor": "YXJyYXljb25uZWN0aW9uOjA=",
                     "node": {
-                        "id": "RW5yb2xtZW50Tm9kZTo1Ng==",
                         "occurrence": {
                             "endTime": "2001-01-01T13:18:22+00:00",
-                            "id": "T2NjdXJyZW5jZU5vZGU6MTA2Nw==",
                             "pEvent": {"linkedEventId": "bkihg"},
                             "seatsTaken": 1173,
                             "startTime": "1988-08-02T07:00:39+00:00",
@@ -806,10 +772,8 @@ snapshots["test_enrolments_query[status] 1"] = {
                 {
                     "cursor": "YXJyYXljb25uZWN0aW9uOjE=",
                     "node": {
-                        "id": "RW5yb2xtZW50Tm9kZTo1NQ==",
                         "occurrence": {
                             "endTime": "2001-01-01T13:18:22+00:00",
-                            "id": "T2NjdXJyZW5jZU5vZGU6MTA2Nw==",
                             "pEvent": {"linkedEventId": "bkihg"},
                             "seatsTaken": 1173,
                             "startTime": "1988-08-02T07:00:39+00:00",
@@ -821,10 +785,8 @@ snapshots["test_enrolments_query[status] 1"] = {
                 {
                     "cursor": "YXJyYXljb25uZWN0aW9uOjI=",
                     "node": {
-                        "id": "RW5yb2xtZW50Tm9kZTo1OA==",
                         "occurrence": {
                             "endTime": "2001-01-01T13:18:22+00:00",
-                            "id": "T2NjdXJyZW5jZU5vZGU6MTA2Nw==",
                             "pEvent": {"linkedEventId": "bkihg"},
                             "seatsTaken": 1173,
                             "startTime": "1988-08-02T07:00:39+00:00",
@@ -836,10 +798,8 @@ snapshots["test_enrolments_query[status] 1"] = {
                 {
                     "cursor": "YXJyYXljb25uZWN0aW9uOjM=",
                     "node": {
-                        "id": "RW5yb2xtZW50Tm9kZTo1Nw==",
                         "occurrence": {
                             "endTime": "2001-01-01T13:18:22+00:00",
-                            "id": "T2NjdXJyZW5jZU5vZGU6MTA2Nw==",
                             "pEvent": {"linkedEventId": "bkihg"},
                             "seatsTaken": 1173,
                             "startTime": "1988-08-02T07:00:39+00:00",
@@ -861,10 +821,8 @@ snapshots["test_enrolments_query[status] 2"] = {
                 {
                     "cursor": "YXJyYXljb25uZWN0aW9uOjA=",
                     "node": {
-                        "id": "RW5yb2xtZW50Tm9kZTo1Ng==",
                         "occurrence": {
                             "endTime": "2001-01-01T13:18:22+00:00",
-                            "id": "T2NjdXJyZW5jZU5vZGU6MTA2Nw==",
                             "pEvent": {"linkedEventId": "bkihg"},
                             "seatsTaken": 1173,
                             "startTime": "1988-08-02T07:00:39+00:00",
@@ -876,10 +834,8 @@ snapshots["test_enrolments_query[status] 2"] = {
                 {
                     "cursor": "YXJyYXljb25uZWN0aW9uOjE=",
                     "node": {
-                        "id": "RW5yb2xtZW50Tm9kZTo1NQ==",
                         "occurrence": {
                             "endTime": "2001-01-01T13:18:22+00:00",
-                            "id": "T2NjdXJyZW5jZU5vZGU6MTA2Nw==",
                             "pEvent": {"linkedEventId": "bkihg"},
                             "seatsTaken": 1173,
                             "startTime": "1988-08-02T07:00:39+00:00",
@@ -905,10 +861,8 @@ snapshots["test_enrolments_query[status] 4"] = {
                 {
                     "cursor": "YXJyYXljb25uZWN0aW9uOjA=",
                     "node": {
-                        "id": "RW5yb2xtZW50Tm9kZTo1OA==",
                         "occurrence": {
                             "endTime": "2001-01-01T13:18:22+00:00",
-                            "id": "T2NjdXJyZW5jZU5vZGU6MTA2Nw==",
                             "pEvent": {"linkedEventId": "bkihg"},
                             "seatsTaken": 1173,
                             "startTime": "1988-08-02T07:00:39+00:00",
@@ -930,10 +884,8 @@ snapshots["test_enrolments_query[status] 5"] = {
                 {
                     "cursor": "YXJyYXljb25uZWN0aW9uOjA=",
                     "node": {
-                        "id": "RW5yb2xtZW50Tm9kZTo1Nw==",
                         "occurrence": {
                             "endTime": "2001-01-01T13:18:22+00:00",
-                            "id": "T2NjdXJyZW5jZU5vZGU6MTA2Nw==",
                             "pEvent": {"linkedEventId": "bkihg"},
                             "seatsTaken": 1173,
                             "startTime": "1988-08-02T07:00:39+00:00",
@@ -955,10 +907,8 @@ snapshots["test_enrolments_query[study_group__group_name] 1"] = {
                 {
                     "cursor": "YXJyYXljb25uZWN0aW9uOjA=",
                     "node": {
-                        "id": "RW5yb2xtZW50Tm9kZTo2NQ==",
                         "occurrence": {
                             "endTime": "2001-01-01T13:18:22+00:00",
-                            "id": "T2NjdXJyZW5jZU5vZGU6MTA2OQ==",
                             "pEvent": {"linkedEventId": "bkihg"},
                             "seatsTaken": 1173,
                             "startTime": "1988-08-02T07:00:39+00:00",
@@ -970,10 +920,8 @@ snapshots["test_enrolments_query[study_group__group_name] 1"] = {
                 {
                     "cursor": "YXJyYXljb25uZWN0aW9uOjE=",
                     "node": {
-                        "id": "RW5yb2xtZW50Tm9kZTo2Mw==",
                         "occurrence": {
                             "endTime": "2001-01-01T13:18:22+00:00",
-                            "id": "T2NjdXJyZW5jZU5vZGU6MTA2OQ==",
                             "pEvent": {"linkedEventId": "bkihg"},
                             "seatsTaken": 1173,
                             "startTime": "1988-08-02T07:00:39+00:00",
@@ -985,10 +933,8 @@ snapshots["test_enrolments_query[study_group__group_name] 1"] = {
                 {
                     "cursor": "YXJyYXljb25uZWN0aW9uOjI=",
                     "node": {
-                        "id": "RW5yb2xtZW50Tm9kZTo2NA==",
                         "occurrence": {
                             "endTime": "2001-01-01T13:18:22+00:00",
-                            "id": "T2NjdXJyZW5jZU5vZGU6MTA2OQ==",
                             "pEvent": {"linkedEventId": "bkihg"},
                             "seatsTaken": 1173,
                             "startTime": "1988-08-02T07:00:39+00:00",
@@ -1000,10 +946,8 @@ snapshots["test_enrolments_query[study_group__group_name] 1"] = {
                 {
                     "cursor": "YXJyYXljb25uZWN0aW9uOjM=",
                     "node": {
-                        "id": "RW5yb2xtZW50Tm9kZTo2Ng==",
                         "occurrence": {
                             "endTime": "2001-01-01T13:18:22+00:00",
-                            "id": "T2NjdXJyZW5jZU5vZGU6MTA2OQ==",
                             "pEvent": {"linkedEventId": "bkihg"},
                             "seatsTaken": 1173,
                             "startTime": "1988-08-02T07:00:39+00:00",
@@ -1025,10 +969,8 @@ snapshots["test_enrolments_query[study_group__group_name] 2"] = {
                 {
                     "cursor": "YXJyYXljb25uZWN0aW9uOjA=",
                     "node": {
-                        "id": "RW5yb2xtZW50Tm9kZTo2Mw==",
                         "occurrence": {
                             "endTime": "2001-01-01T13:18:22+00:00",
-                            "id": "T2NjdXJyZW5jZU5vZGU6MTA2OQ==",
                             "pEvent": {"linkedEventId": "bkihg"},
                             "seatsTaken": 1173,
                             "startTime": "1988-08-02T07:00:39+00:00",
@@ -1040,10 +982,8 @@ snapshots["test_enrolments_query[study_group__group_name] 2"] = {
                 {
                     "cursor": "YXJyYXljb25uZWN0aW9uOjE=",
                     "node": {
-                        "id": "RW5yb2xtZW50Tm9kZTo2NA==",
                         "occurrence": {
                             "endTime": "2001-01-01T13:18:22+00:00",
-                            "id": "T2NjdXJyZW5jZU5vZGU6MTA2OQ==",
                             "pEvent": {"linkedEventId": "bkihg"},
                             "seatsTaken": 1173,
                             "startTime": "1988-08-02T07:00:39+00:00",
@@ -1069,10 +1009,8 @@ snapshots["test_enrolments_query[study_group__group_name] 4"] = {
                 {
                     "cursor": "YXJyYXljb25uZWN0aW9uOjA=",
                     "node": {
-                        "id": "RW5yb2xtZW50Tm9kZTo2Ng==",
                         "occurrence": {
                             "endTime": "2001-01-01T13:18:22+00:00",
-                            "id": "T2NjdXJyZW5jZU5vZGU6MTA2OQ==",
                             "pEvent": {"linkedEventId": "bkihg"},
                             "seatsTaken": 1173,
                             "startTime": "1988-08-02T07:00:39+00:00",
@@ -1094,10 +1032,8 @@ snapshots["test_enrolments_query[study_group__group_name] 5"] = {
                 {
                     "cursor": "YXJyYXljb25uZWN0aW9uOjA=",
                     "node": {
-                        "id": "RW5yb2xtZW50Tm9kZTo2NQ==",
                         "occurrence": {
                             "endTime": "2001-01-01T13:18:22+00:00",
-                            "id": "T2NjdXJyZW5jZU5vZGU6MTA2OQ==",
                             "pEvent": {"linkedEventId": "bkihg"},
                             "seatsTaken": 1173,
                             "startTime": "1988-08-02T07:00:39+00:00",
@@ -1149,6 +1085,16 @@ snapshots["test_enrolments_summary 5"] = {
     }
 }
 
+snapshots["test_event_queue_enrolment_query 1"] = {
+    "data": {
+        "eventQueueEnrolment": {
+            "pEvent": {"linkedEventId": "xeobQ"},
+            "status": "HAS_NOT_ENROLLED",
+            "studyGroup": {"groupName": "Last in able local garden modern they."},
+        }
+    }
+}
+
 snapshots["test_event_queue_enrolments_query 1"] = {
     "data": {
         "eventQueueEnrolments": {
@@ -1157,7 +1103,6 @@ snapshots["test_event_queue_enrolments_query 1"] = {
                 {
                     "cursor": "YXJyYXljb25uZWN0aW9uOjA=",
                     "node": {
-                        "id": "RXZlbnRRdWV1ZUVucm9sbWVudE5vZGU6MTU=",
                         "pEvent": {"linkedEventId": "xeobQ"},
                         "status": "HAS_NOT_ENROLLED",
                         "studyGroup": {
@@ -1168,7 +1113,6 @@ snapshots["test_event_queue_enrolments_query 1"] = {
                 {
                     "cursor": "YXJyYXljb25uZWN0aW9uOjE=",
                     "node": {
-                        "id": "RXZlbnRRdWV1ZUVucm9sbWVudE5vZGU6MTQ=",
                         "pEvent": {"linkedEventId": "xeobQ"},
                         "status": "HAS_NOT_ENROLLED",
                         "studyGroup": {
@@ -1179,7 +1123,6 @@ snapshots["test_event_queue_enrolments_query 1"] = {
                 {
                     "cursor": "YXJyYXljb25uZWN0aW9uOjI=",
                     "node": {
-                        "id": "RXZlbnRRdWV1ZUVucm9sbWVudE5vZGU6MTM=",
                         "pEvent": {"linkedEventId": "xeobQ"},
                         "status": "HAS_NOT_ENROLLED",
                         "studyGroup": {
@@ -1190,7 +1133,6 @@ snapshots["test_event_queue_enrolments_query 1"] = {
                 {
                     "cursor": "YXJyYXljb25uZWN0aW9uOjM=",
                     "node": {
-                        "id": "RXZlbnRRdWV1ZUVucm9sbWVudE5vZGU6MTI=",
                         "pEvent": {"linkedEventId": "xeobQ"},
                         "status": "HAS_NOT_ENROLLED",
                         "studyGroup": {
@@ -1202,7 +1144,6 @@ Commercial lose add bag."""
                 {
                     "cursor": "YXJyYXljb25uZWN0aW9uOjQ=",
                     "node": {
-                        "id": "RXZlbnRRdWV1ZUVucm9sbWVudE5vZGU6MTE=",
                         "pEvent": {"linkedEventId": "xeobQ"},
                         "status": "HAS_NOT_ENROLLED",
                         "studyGroup": {"groupName": "Drop police change dinner."},
@@ -1211,7 +1152,6 @@ Commercial lose add bag."""
                 {
                     "cursor": "YXJyYXljb25uZWN0aW9uOjU=",
                     "node": {
-                        "id": "RXZlbnRRdWV1ZUVucm9sbWVudE5vZGU6MTA=",
                         "pEvent": {"linkedEventId": "xeobQ"},
                         "status": "HAS_NOT_ENROLLED",
                         "studyGroup": {
@@ -1222,7 +1162,6 @@ Commercial lose add bag."""
                 {
                     "cursor": "YXJyYXljb25uZWN0aW9uOjY=",
                     "node": {
-                        "id": "RXZlbnRRdWV1ZUVucm9sbWVudE5vZGU6OQ==",
                         "pEvent": {"linkedEventId": "xeobQ"},
                         "status": "HAS_NOT_ENROLLED",
                         "studyGroup": {
@@ -1233,7 +1172,6 @@ Commercial lose add bag."""
                 {
                     "cursor": "YXJyYXljb25uZWN0aW9uOjc=",
                     "node": {
-                        "id": "RXZlbnRRdWV1ZUVucm9sbWVudE5vZGU6OA==",
                         "pEvent": {"linkedEventId": "xeobQ"},
                         "status": "HAS_NOT_ENROLLED",
                         "studyGroup": {
@@ -1244,7 +1182,6 @@ Commercial lose add bag."""
                 {
                     "cursor": "YXJyYXljb25uZWN0aW9uOjg=",
                     "node": {
-                        "id": "RXZlbnRRdWV1ZUVucm9sbWVudE5vZGU6Nw==",
                         "pEvent": {"linkedEventId": "xeobQ"},
                         "status": "HAS_NOT_ENROLLED",
                         "studyGroup": {
@@ -1255,7 +1192,6 @@ Commercial lose add bag."""
                 {
                     "cursor": "YXJyYXljb25uZWN0aW9uOjk=",
                     "node": {
-                        "id": "RXZlbnRRdWV1ZUVucm9sbWVudE5vZGU6Ng==",
                         "pEvent": {"linkedEventId": "xeobQ"},
                         "status": "HAS_NOT_ENROLLED",
                         "studyGroup": {
@@ -1276,7 +1212,6 @@ snapshots["test_event_queue_enrolments_query 2"] = {
                 {
                     "cursor": "YXJyYXljb25uZWN0aW9uOjEw",
                     "node": {
-                        "id": "RXZlbnRRdWV1ZUVucm9sbWVudE5vZGU6NQ==",
                         "pEvent": {"linkedEventId": "xeobQ"},
                         "status": "HAS_NOT_ENROLLED",
                         "studyGroup": {
@@ -1287,7 +1222,6 @@ snapshots["test_event_queue_enrolments_query 2"] = {
                 {
                     "cursor": "YXJyYXljb25uZWN0aW9uOjEx",
                     "node": {
-                        "id": "RXZlbnRRdWV1ZUVucm9sbWVudE5vZGU6NA==",
                         "pEvent": {"linkedEventId": "xeobQ"},
                         "status": "HAS_NOT_ENROLLED",
                         "studyGroup": {
@@ -1298,7 +1232,6 @@ snapshots["test_event_queue_enrolments_query 2"] = {
                 {
                     "cursor": "YXJyYXljb25uZWN0aW9uOjEy",
                     "node": {
-                        "id": "RXZlbnRRdWV1ZUVucm9sbWVudE5vZGU6Mw==",
                         "pEvent": {"linkedEventId": "xeobQ"},
                         "status": "HAS_NOT_ENROLLED",
                         "studyGroup": {
@@ -1309,7 +1242,6 @@ snapshots["test_event_queue_enrolments_query 2"] = {
                 {
                     "cursor": "YXJyYXljb25uZWN0aW9uOjEz",
                     "node": {
-                        "id": "RXZlbnRRdWV1ZUVucm9sbWVudE5vZGU6Mg==",
                         "pEvent": {"linkedEventId": "xeobQ"},
                         "status": "HAS_NOT_ENROLLED",
                         "studyGroup": {"groupName": "Region protect likely day."},
@@ -1318,7 +1250,6 @@ snapshots["test_event_queue_enrolments_query 2"] = {
                 {
                     "cursor": "YXJyYXljb25uZWN0aW9uOjE0",
                     "node": {
-                        "id": "RXZlbnRRdWV1ZUVucm9sbWVudE5vZGU6MQ==",
                         "pEvent": {"linkedEventId": "xeobQ"},
                         "status": "HAS_NOT_ENROLLED",
                         "studyGroup": {
