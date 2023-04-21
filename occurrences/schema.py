@@ -587,6 +587,11 @@ class EventQueueEnrolmentNode(DjangoObjectType):
         interfaces = (graphene.relay.Node,)
         connection_class = EnrolmentConnectionWithCount
 
+    @classmethod
+    @staff_member_required
+    def get_queryset(cls, queryset, info):
+        return super().get_queryset(queryset, info)
+
 
 class StudyGroupInput(graphene.InputObjectType):
     person = graphene.NonNull(
@@ -1009,8 +1014,11 @@ class Query:
     event_queue_enrolments = OrderedDjangoFilterConnectionField(
         EventQueueEnrolmentNode,
         orderBy=graphene.List(of_type=graphene.String),
+        description="Query for admin only",
     )
-    event_queue_enrolment = graphene.relay.Node.Field(EventQueueEnrolmentNode)
+    event_queue_enrolment = graphene.relay.Node.Field(
+        EventQueueEnrolmentNode, description="Query for admin only"
+    )
 
     @staticmethod
     def resolve_language(parent, info, **kwargs):
