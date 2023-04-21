@@ -3068,3 +3068,29 @@ snapshots["test_venues_query 1"] = {
         }
     }
 }
+
+snapshots["test_enrolment_query 1"] = {
+    "data": {
+        "enrolment": {
+            "occurrence": {
+                "endTime": "1984-09-24T22:11:55+00:00",
+                "pEvent": {"linkedEventId": "AhZRb"},
+                "seatsTaken": 574,
+                "startTime": "1979-01-07T01:25:07+00:00",
+            },
+            "status": "PENDING",
+            "studyGroup": {
+                "groupName": "Second know say former conference carry factor. Natural each difficult special respond positive."
+            },
+        }
+    }
+}
+
+snapshots["test_unenrol_event_queue_mutation 1"] = {
+    "data": {
+        "unenrolEventQueue": {
+            "pEvent": {"linkedEventId": "RHiJV"},
+            "studyGroup": {"unitName": "Conference thing much like test."},
+        }
+    }
+}
