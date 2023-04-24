@@ -4,6 +4,7 @@ flake8
 freezegun
 ipython
 isort
+pipenv
 pytest
 pytest-cov
 pytest-django
