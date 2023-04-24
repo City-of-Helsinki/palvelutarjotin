@@ -33,21 +33,12 @@ snapshots["test_cancel_enrolment_notification_email 1"] = [
 ]
 
 snapshots["test_cancel_occurrence_notification 1"] = [
-    """no-reply@hel.ninja|['lucas89@example.com']|Occurrence cancelled FI|
+    """no-reply@hel.ninja|['elizabeth19@example.net']|Occurrence cancelled FI|
     Event FI: Raija Malka & Kaija Saariaho: Blick
     Extra event info: zVxeo
-    Study group: Turn argue present throw spend prevent. Point exist road military Republican somebody.
+    Study group: Book oil democratic have most discussion responsibility away.
     Occurrence: 12.12.2013 06.37
-    Person: lucas89@example.com
-
-    Custom message: Occurrence cancel reason
-""",
-    """no-reply@hel.ninja|['jacksonphillip@example.org']|Occurrence cancelled FI|
-    Event FI: Raija Malka & Kaija Saariaho: Blick
-    Extra event info: zVxeo
-    Study group: Join pay discuss several performance part prevent. Time player right talk several.
-    Occurrence: 12.12.2013 06.37
-    Person: jacksonphillip@example.org
+    Person: elizabeth19@example.net
 
     Custom message: Occurrence cancel reason
 """,
@@ -60,12 +51,21 @@ snapshots["test_cancel_occurrence_notification 1"] = [
 
     Custom message: Occurrence cancel reason
 """,
-    """no-reply@hel.ninja|['elizabeth19@example.net']|Occurrence cancelled FI|
+    """no-reply@hel.ninja|['jacksonphillip@example.org']|Occurrence cancelled FI|
     Event FI: Raija Malka & Kaija Saariaho: Blick
     Extra event info: zVxeo
-    Study group: Book oil democratic have most discussion responsibility away.
+    Study group: Join pay discuss several performance part prevent. Time player right talk several.
     Occurrence: 12.12.2013 06.37
-    Person: elizabeth19@example.net
+    Person: jacksonphillip@example.org
+
+    Custom message: Occurrence cancel reason
+""",
+    """no-reply@hel.ninja|['lucas89@example.com']|Occurrence cancelled FI|
+    Event FI: Raija Malka & Kaija Saariaho: Blick
+    Extra event info: zVxeo
+    Study group: Turn argue present throw spend prevent. Point exist road military Republican somebody.
+    Occurrence: 12.12.2013 06.37
+    Person: lucas89@example.com
 
     Custom message: Occurrence cancel reason
 """,

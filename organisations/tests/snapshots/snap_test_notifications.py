@@ -54,8 +54,8 @@ hyväksymään luomansa käyttäjätunnuksen käyttöön:</p>
 </ol>
 <p>Käyttäjä haluaisi edustaa seuraavia organisaatioita:</p>
 <ul>
-    <li>Harris Inc</li>
     <li>Robertson, Fox and Conley</li>
+    <li>Harris Inc</li>
 </ul>
 <p>Muokataksesi luotua käyttäjätunnusta,
 klikkaa <a href="https://test-domain/admin/organisations/user/123/change/" target="_blank">tästä</a>!</p>
@@ -83,8 +83,8 @@ hyväksymään luomansa käyttäjätunnuksen käyttöön:</p>
 </ol>
 <p>Käyttäjä haluaisi edustaa seuraavia organisaatioita:</p>
 <ul>
-    <li>Harris Inc</li>
     <li>Robertson, Fox and Conley</li>
+    <li>Harris Inc</li>
 </ul>
 <p>Muokataksesi luotua käyttäjätunnusta,
 klikkaa <a href="https://test-domain/admin/organisations/user/123/change/" target="_blank">tästä</a>!</p>
@@ -112,8 +112,8 @@ to accept the user profile:</p>
 </ol>
 <p>The user would like to represent these organisations:</p>
 <ul>
-    <li>Harris Inc</li>
     <li>Robertson, Fox and Conley</li>
+    <li>Harris Inc</li>
 </ul>
 <p>To edit the newly created user profile,
 click <a href="https://test-domain/admin/organisations/user/123/change/" target="_blank">here</a>!</p>

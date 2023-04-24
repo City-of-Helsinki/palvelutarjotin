@@ -176,8 +176,8 @@ snapshots["test_add_venue_staff_user 1"] = {
                 "id": "place_id",
                 "outdoorActivity": True,
                 "translations": [
-                    {"description": "Venue description in FI"},
                     {"description": "Venue description in EN"},
+                    {"description": "Venue description in FI"},
                 ],
             }
         }
@@ -2215,8 +2215,8 @@ snapshots["test_update_venue_staff_user 1"] = {
                 "id": "Irtal",
                 "outdoorActivity": True,
                 "translations": [
-                    {"description": "Venue description"},
                     {"description": "Venue description in EN"},
+                    {"description": "Venue description"},
                 ],
             }
         }
