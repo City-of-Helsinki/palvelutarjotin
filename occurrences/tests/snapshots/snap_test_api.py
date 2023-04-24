@@ -454,6 +454,23 @@ snapshots["test_enrol_occurrence_with_captcha 1"] = {
     }
 }
 
+snapshots["test_enrolment_query 1"] = {
+    "data": {
+        "enrolment": {
+            "occurrence": {
+                "endTime": "2011-01-01T08:53:32+00:00",
+                "pEvent": {"linkedEventId": "YLspj"},
+                "seatsTaken": 379,
+                "startTime": "2000-06-09T14:31:53+00:00",
+            },
+            "status": "PENDING",
+            "studyGroup": {
+                "groupName": "Receive somebody determine sort under. Describe head particular page."
+            },
+        }
+    }
+}
+
 snapshots["test_enrolments_query[-status] 1"] = {
     "data": {
         "enrolments": {
@@ -2578,70 +2595,6 @@ snapshots["test_occurrences_query 1"] = {
                         "seatsTaken": 0,
                         "startTime": "2013-12-12T04:57:19+00:00",
                         "studyGroups": {"edges": []},
-                    }
-                }
-            ]
-        }
-    }
-}
-
-snapshots["test_study_group_query 1"] = {
-    "data": {
-        "studyGroup": {
-            "amountOfAdult": 0,
-            "extraNeeds": "Spring never skill. Able process base sing according.",
-            "groupName": "Scientist service wonder everything pay. Moment strong hand push book and interesting sit.",
-            "groupSize": 35,
-            "occurrences": {"edges": []},
-            "person": {"name": "Richard Hayes"},
-            "studyLevels": {"edges": []},
-            "unit": {
-                "name": {"fi": "Care any concern bed agree. Laugh prevent make never."}
-            },
-            "unitId": None,
-            "unitName": "Care any concern bed agree. Laugh prevent make never.",
-            "updatedAt": "2020-01-04T00:00:00+00:00",
-        }
-    }
-}
-
-snapshots["test_study_group_query_without_unit 1"] = {
-    "data": {
-        "studyGroup": {
-            "amountOfAdult": 0,
-            "extraNeeds": "Table TV minute defense. Room laugh prevent make never news behind.",
-            "groupName": "Myself yourself able process base sing according. Watch media do concern sit enter.",
-            "groupSize": 157,
-            "occurrences": {"edges": []},
-            "person": {"name": "Richard Hayes"},
-            "studyLevels": {"edges": []},
-            "unit": None,
-            "unitId": "",
-            "unitName": "",
-            "updatedAt": "2020-01-04T00:00:00+00:00",
-        }
-    }
-}
-
-snapshots["test_study_groups_query 1"] = {
-    "data": {
-        "studyGroups": {
-            "edges": [
-                {
-                    "node": {
-                        "amountOfAdult": 0,
-                        "extraNeeds": "Spring never skill. Able process base sing according.",
-                        "groupName": "Scientist service wonder everything pay. Moment strong hand push book and interesting sit.",
-                        "groupSize": 35,
-                        "occurrences": {"edges": []},
-                        "person": {"name": "Richard Hayes"},
-                        "studyLevels": {"edges": []},
-                        "unit": {
-                            "name": {
-                                "fi": "Care any concern bed agree. Laugh prevent make never."
-                            }
-                        },
-                        "updatedAt": "2020-01-04T00:00:00+00:00",
                     }
                 }
             ]

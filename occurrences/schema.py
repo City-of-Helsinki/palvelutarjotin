@@ -1044,9 +1044,6 @@ class Query:
     )
     occurrence = graphene.relay.Node.Field(OccurrenceNode)
 
-    study_groups = DjangoConnectionField(StudyGroupNode)
-    study_group = graphene.relay.Node.Field(StudyGroupNode)
-
     study_levels = DjangoConnectionField(StudyLevelNode)
     study_level = graphene.Field(StudyLevelNode, id=graphene.ID(required=True))
 

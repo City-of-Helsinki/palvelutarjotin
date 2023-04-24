@@ -11,7 +11,7 @@ from common.tests.utils import (
     assert_match_error_code,
     assert_permission_denied,
 )
-from graphene_linked_events.tests.mock_data import EVENT_DATA, PLACE_DATA
+from graphene_linked_events.tests.mock_data import EVENT_DATA
 from occurrences.consts import NOTIFICATION_TYPE_EMAIL
 from occurrences.factories import (
     EnrolmentFactory,
@@ -29,7 +29,6 @@ from occurrences.models import (
     StudyLevel,
     VenueCustomData,
 )
-from occurrences.schema import StudyGroupNode
 from occurrences.tests.mutations import (
     ADD_OCCURRENCE_MUTATION,
     ADD_STUDY_GROUP_MUTATION,
@@ -63,8 +62,6 @@ from occurrences.tests.queries import (
     NOTIFICATION_TEMPLATE_QUERY,
     OCCURRENCE_QUERY,
     OCCURRENCES_QUERY,
-    STUDY_GROUP_QUERY,
-    STUDY_GROUPS_QUERY,
     STUDY_LEVEL_QUERY,
     STUDY_LEVELS_QUERY,
     VENUE_QUERY,
@@ -155,44 +152,6 @@ def test_study_level_query(snapshot, api_client):
         variables={"id": study_level.id},
     )
     snapshot.assert_match(executed)
-
-
-def test_study_groups_query(snapshot, study_group, api_client):
-    executed = api_client.execute(STUDY_GROUPS_QUERY)
-    snapshot.assert_match(executed)
-
-
-def test_study_group_query(snapshot, study_group, api_client):
-    executed = api_client.execute(
-        STUDY_GROUP_QUERY,
-        variables={"id": to_global_id("StudyGroupNode", study_group.id)},
-    )
-    snapshot.assert_match(executed)
-
-
-def test_study_group_query_without_unit(snapshot, api_client):
-    study_group = StudyGroupFactory(unit_name="", unit_id="")
-    executed = api_client.execute(
-        STUDY_GROUP_QUERY,
-        variables={"id": to_global_id("StudyGroupNode", study_group.id)},
-    )
-    assert executed["data"]["studyGroup"]["unit"] is None
-    snapshot.assert_match(executed)
-
-
-def test_studygroup_resolve_unit_with_id(mock_get_place_data):
-    study_group = StudyGroupFactory(unit_id=PLACE_DATA["id"], unit_name="testname")
-    unit = StudyGroupNode.resolve_unit(study_group, None)
-    assert unit.id == PLACE_DATA["id"]
-    assert unit.name.fi == PLACE_DATA["name"]["fi"]
-    assert unit.name.sv == PLACE_DATA["name"]["sv"]
-    assert unit.name.en == PLACE_DATA["name"]["en"]
-
-
-def test_studygroup_resolve_unit_without_id(mock_get_place_data):
-    study_group = StudyGroupFactory(unit_id=None, unit_name="testname")
-    unit = StudyGroupNode.resolve_unit(study_group, None)
-    assert unit.name["fi"] == unit.name["sv"] == unit.name["en"] == "testname"
 
 
 def test_occurrences_query(
