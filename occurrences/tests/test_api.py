@@ -1503,6 +1503,7 @@ def test_enrol_full_people_count_seat_type_occurrence(
         enrolment_start=datetime(2020, 1, 3, 0, 0, 0, tzinfo=timezone.now().tzinfo),
         enrolment_end_days=2,
         auto_acceptance=auto_acceptance,
+        needed_occurrences=2,
     )
 
     # Invalid occurrence which does not support such a large study group
