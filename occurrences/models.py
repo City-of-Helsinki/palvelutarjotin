@@ -16,6 +16,7 @@ from typing import Optional
 
 import occurrences.services as occurrences_services
 from common.models import (
+    SQCount,
     TimestampedModel,
     TranslatableModel,
     TranslatableQuerySet,
@@ -474,11 +475,22 @@ class StudyLevel(TranslatableModel):
 
 
 class StudyGroupQuerySet(models.QuerySet):
-    def with_enrolments_count(self):
-        """
-        Get the count of the enrolments that the group has done.
+    def with_enrolments_count(self, use_name_only=False):
+        """Get the count of the enrolments that the group has done.
         NOTE: This method is good for investigation for any support task.
+
+        Args:
+            use_name_only (bool, optional): compare with the group name
+            instead of the instance. Defaults to False.
+
+        Returns:
+            a query set with enrolments_count -field as annotated with the count
         """
+        if use_name_only:
+            groups_enrolments = Enrolment.objects.filter(
+                study_group__group_name=OuterRef("group_name"),
+            ).values("pk")
+            return self.annotate(enrolments_count=SQCount(Subquery(groups_enrolments)))
         return self.annotate(enrolments_count=Count("enrolments", distinct=True))
 
 
@@ -607,10 +619,10 @@ class EventQueueEnrolmentQuerySet(models.QuerySet):
         occurrence_enrolments = Enrolment.objects.filter(
             occurrence__p_event=OuterRef("p_event"),
             study_group__group_name=OuterRef("study_group__group_name"),
-        )
+        ).values("pk")[:1]
         return self.annotate(
             occurrence_enrolments_count=Count(
-                Subquery(occurrence_enrolments.values("pk")[:1]), distinct=True
+                Subquery(occurrence_enrolments), distinct=True
             )
         )
 

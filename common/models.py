@@ -108,3 +108,8 @@ class WithDeletablePersonModel(models.Model):
             # reason. Should not be needed in normal usage.
             self.person_deleted_at = None
         return super().save(*args, **kwargs)
+
+
+class SQCount(models.Subquery):
+    template = "(SELECT count(*) FROM (%(subquery)s) _count)"
+    output_field = models.IntegerField()

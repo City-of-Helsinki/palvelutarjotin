@@ -135,21 +135,41 @@ def test_study_group_save_resolves_unit_name_from_unit_id(mock_get_place_data):
 
 
 @pytest.mark.django_db
-def test_study_group_with_enrolment_count(mock_get_place_data, mock_get_event_data):
+@pytest.mark.parametrize("use_name_only", [False, True])
+def test_study_group_with_enrolment_count(
+    use_name_only, mock_get_place_data, mock_get_event_data
+):
     study_group_1 = StudyGroupFactory(group_name="group1")
     study_group_2 = StudyGroupFactory(group_name="group2")
     EnrolmentFactory.create_batch(2, study_group=study_group_1)
     EnrolmentFactory.create_batch(5, study_group=study_group_2)
-    groups_with_two_enrolments = StudyGroup.objects.with_enrolments_count().filter(
-        enrolments_count=2
-    )
-    groups_with_five_enrolments = StudyGroup.objects.with_enrolments_count().filter(
-        enrolments_count=5
-    )
+    groups_with_two_enrolments = StudyGroup.objects.with_enrolments_count(
+        use_name_only=use_name_only
+    ).filter(enrolments_count=2)
+    groups_with_five_enrolments = StudyGroup.objects.with_enrolments_count(
+        use_name_only=use_name_only
+    ).filter(enrolments_count=5)
     assert groups_with_two_enrolments.count() == 1
     assert groups_with_five_enrolments.count() == 1
     assert groups_with_two_enrolments[0] == study_group_1
     assert groups_with_five_enrolments[0] == study_group_2
+
+
+@pytest.mark.django_db
+def test_study_group_with_enrolment_count_by_name(
+    mock_get_place_data, mock_get_event_data
+):
+    school = "the school"
+    the_school_1st_instance = StudyGroupFactory(group_name=school)
+    the_school_2nd_instance = StudyGroupFactory(group_name=school)
+    EnrolmentFactory.create_batch(2, study_group=the_school_1st_instance)
+    EnrolmentFactory.create_batch(5, study_group=the_school_2nd_instance)
+    groups_with_seven_enrolments = StudyGroup.objects.with_enrolments_count(
+        use_name_only=True
+    ).filter(enrolments_count=7)
+    assert groups_with_seven_enrolments.count() == 2
+    assert the_school_1st_instance in groups_with_seven_enrolments
+    assert the_school_2nd_instance in groups_with_seven_enrolments
 
 
 @pytest.mark.django_db
