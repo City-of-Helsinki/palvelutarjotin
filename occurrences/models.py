@@ -689,10 +689,12 @@ class Enrolment(WithDeletablePersonModel):
             self.send_approve_notification(custom_message)
 
     def send_approve_notification(self, custom_message: Optional[str] = None):
-        """Send the approvance notification. In some cases e.g. in multi enrolment situations,
+        """
+        Send the approvance notification.
+        In some cases e.g. in multi enrolment situations,
         the approvance notification sending should be called separated
         from the actual approvance process.
-        """  # noqa
+        """
         self.send_event_notifications_to_contact_people(
             NotificationTemplate.ENROLMENT_APPROVED,
             NotificationTemplate.ENROLMENT_APPROVED_SMS,
