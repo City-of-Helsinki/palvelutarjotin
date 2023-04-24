@@ -4,7 +4,6 @@ from django.db import migrations
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
         ("occurrences", "0009_palvelutarjotinevent_organisation"),
     ]

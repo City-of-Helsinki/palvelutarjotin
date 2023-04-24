@@ -261,7 +261,6 @@ class ExternalPlace(graphene.ObjectType):
 
 class UnitNode(graphene.Union):
     class Meta:
-
         types = (ExternalPlace, Place)
 
     @classmethod

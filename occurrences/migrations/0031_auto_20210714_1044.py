@@ -6,7 +6,6 @@ from django.db import migrations
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
         ("occurrences", "0030_add_new_study_level_data"),
     ]

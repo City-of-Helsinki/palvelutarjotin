@@ -4,7 +4,6 @@ from django.db import migrations, models
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
         ("occurrences", "0017_nullable_min_max_group_size"),
     ]

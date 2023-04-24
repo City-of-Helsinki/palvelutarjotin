@@ -4,7 +4,6 @@ from django.db import migrations
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
         ("occurrences", "0018_move_auto_acceptance_to_p_event"),
     ]

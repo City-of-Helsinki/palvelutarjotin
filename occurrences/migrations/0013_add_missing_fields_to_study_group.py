@@ -5,7 +5,6 @@ from django.db import migrations, models
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
         ("organisations", "0004_person_language"),
         ("occurrences", "0012_palvelutarjotinevent_contact_person"),

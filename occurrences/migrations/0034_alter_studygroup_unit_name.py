@@ -4,7 +4,6 @@ from django.db import migrations, models
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
         ("occurrences", "0033_rename_studygroup_name_field_and_add_unit_id"),
     ]

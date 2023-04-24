@@ -17,7 +17,6 @@ def reverse_language_additions(apps, schema_editor):
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
         ("occurrences", "0028_add_new_fields_to_venue"),
     ]

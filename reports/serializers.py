@@ -97,7 +97,8 @@ class OCDIDField(serializers.Field):
         return None
 
     def to_internal_value(self, data: dict) -> list:
-        """A detailed dict represented in a JSON view back to original OCD ids list format
+        """
+        A detailed dict represented in a JSON view back to original OCD ids list format
 
         Args:
             data (dict): the original OCD ids list in the key "ocd-ids" and
@@ -126,6 +127,7 @@ class OCDIDField(serializers.Field):
                 "ocd-division/country:fi/kunta:helsinki",
             ]
         """
+
         if "ocd_ids" in data:
             return data["ocd_ids"]
 

@@ -4,7 +4,6 @@ from django.db import migrations, models
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
         ("occurrences", "0032_palvelutarjotinevent_external_enrolment_url"),
     ]

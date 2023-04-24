@@ -522,7 +522,6 @@ class StudyGroup(TimestampedModel, WithDeletablePersonModel):
         return self.group_size + self.amount_of_adult
 
     def save(self, *args, **kwargs):
-
         # Resolve the (school or kindergarten) unit name if it is not given
         if not self.unit_name and self.unit_id:
             resolve_unit_name_with_unit_id(self)
@@ -690,7 +689,9 @@ class Enrolment(WithDeletablePersonModel):
             self.send_approve_notification(custom_message)
 
     def send_approve_notification(self, custom_message: Optional[str] = None):
-        """Send the approvance notification. In some cases e.g. in multi enrolment situations,
+        """
+        Send the approvance notification.
+        In some cases e.g. in multi enrolment situations,
         the approvance notification sending should be called separated
         from the actual approvance process.
         """

@@ -98,7 +98,6 @@ class UserExistenceListFilter(admin.SimpleListFilter):
         )
 
     def queryset(self, request, queryset):
-
         if self.value() == "True":
             return queryset.filter(user__isnull=False)
         if self.value() == "False":
@@ -379,7 +378,7 @@ class UserAdmin(DjangoUserAdmin):
     def has_person(self, obj):
         try:
             return bool(obj.person)
-        except (Person.DoesNotExist):
+        except Person.DoesNotExist:
             return False
 
     has_person.boolean = True
@@ -406,7 +405,6 @@ class UserAdmin(DjangoUserAdmin):
         return bool("is_staff" in form.changed_data)
 
     def _notify_user_of_account_activation(self, request, form):
-
         user = form.instance
 
         # Send a mail to the accepted user

@@ -53,7 +53,6 @@ def fetch_event_as_json(linked_event_id: str, **filter_params):
 
 
 def update_event_to_linkedevents_api(linked_event_id: str, event_obj) -> None:
-
     if not linked_event_id:
         raise ObjectDoesNotExistError(
             "Could not find the event from the API. No linked_event_id given!"
@@ -94,7 +93,6 @@ def send_event_languages_update(
 
 
 def send_event_republish(p_event: "PalvelutarjotinEvent"):
-
     # FIXME: This is a needless call if LE would not need a full event data.
     # Since the LE needs at least all the required fields when an event is updated,
     # we first need to fetch the current event object.
@@ -137,7 +135,6 @@ def send_event_unpublish(p_event: "PalvelutarjotinEvent"):
 
 
 def get_event_time_range_from_occurrences(p_event: Optional["PalvelutarjotinEvent"]):
-
     if not p_event:
         return None, None
 

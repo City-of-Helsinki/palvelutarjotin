@@ -5,7 +5,6 @@ from django.db import migrations, models
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
         ("organisations", "0003_add_publisher_to_organisation"),
         ("occurrences", "0008_update_enrolment_unq_constraint"),

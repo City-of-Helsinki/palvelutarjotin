@@ -1915,7 +1915,6 @@ def test_get_popular_kultus_keywords(
     amount,
     expected_results,
 ):
-
     executed = api_client.execute(
         POPULAR_KULTUS_KEYWORDS_QUERY,
         variables={"amount": amount, "showAllKeywords": all_keywords},

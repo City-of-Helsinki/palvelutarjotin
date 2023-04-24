@@ -5,7 +5,6 @@ import organisations.models
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
         ("organisations", "0009_alter_user_managers"),
     ]
