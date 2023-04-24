@@ -496,6 +496,14 @@ class StudyGroupQuerySet(models.QuerySet):
             )
         return self.annotate(enrolments_count=Count("enrolments", distinct=True))
 
+    def filter_by_current_user_organisations(self, user: User):
+        if not user.person:
+            return self.none
+        organisation_ids = user.person.organisations.values("id")
+        return self.filter(
+            enrolment__occurrence__p_event__organisation__in=organisation_ids
+        )
+
 
 class StudyGroup(TimestampedModel, WithDeletablePersonModel):
     # Tprek / Service map id for school or kindergarten from the city of Helsinki
