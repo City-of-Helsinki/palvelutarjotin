@@ -2266,6 +2266,51 @@ def test_cancel_occurrence(
     assert_match_error_code(executed, API_USAGE_ERROR)
 
 
+def test_occurrence_enrolments_unauthorized(
+    staff_api_client, api_client, mock_get_event_data, occurrence
+):
+    OCCURRENCE_ENROLMENTS_QUERY = """
+        query Occurrence($id: ID!){
+            occurrence(id: $id){
+                enrolments {
+                    edges {
+                        node {
+                            studyGroup {
+                                groupName
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        """
+    EnrolmentFactory.create_batch(5, occurrence=occurrence)
+
+    # Invalid case: Not using the API client as a staff member
+    executed = api_client.execute(
+        OCCURRENCE_ENROLMENTS_QUERY,
+        variables={"id": to_global_id("OccurrenceNode", occurrence.id)},
+    )
+    assert_permission_denied(executed)
+
+    # Invalid case: The organisation does not match
+    executed = staff_api_client.execute(
+        OCCURRENCE_ENROLMENTS_QUERY,
+        variables={"id": to_global_id("OccurrenceNode", occurrence.id)},
+    )
+    # FIXME: The permission denied error should be raised
+    # assert_permission_denied(executed)
+    assert executed["data"]["occurrence"]["enrolments"]["edges"] == []
+
+    # Valid case: The organisation matches
+    staff_api_client.user.person.organisations.add(occurrence.p_event.organisation)
+    executed = staff_api_client.execute(
+        OCCURRENCE_ENROLMENTS_QUERY,
+        variables={"id": to_global_id("OccurrenceNode", occurrence.id)},
+    )
+    assert len(executed["data"]["occurrence"]["enrolments"]["edges"]) == 5
+
+
 def test_enrolments_summary_unauthorized(
     snapshot, api_client, user_api_client, staff_api_client, organisation
 ):
@@ -2333,6 +2378,7 @@ def test_enrolments_summary(
 def test_enrolments_query(
     snapshot, order_by, staff_api_client, mock_get_event_data, occurrence
 ):
+    staff_api_client.user.person.organisations.add(occurrence.p_event.organisation)
     occurrence_gid = to_global_id("OccurrenceNode", occurrence.id)
     EnrolmentFactory(
         occurrence=occurrence,
@@ -2376,26 +2422,46 @@ def test_enrolments_query(
         snapshot.assert_match(executed)
 
 
-def test_enrolments_query_unauthorized(api_client, mock_get_event_data):
-    EnrolmentFactory.create_batch(5)
+def test_enrolments_query_unauthorized(
+    api_client, staff_api_client, mock_get_event_data, occurrence
+):
+    EnrolmentFactory.create_batch(5, occurrence=occurrence)
+    # Public client
     executed = api_client.execute(ENROLMENTS_QUERY, variables={})
     assert_permission_denied(executed)
+    # Staff user without organisation
+    executed = staff_api_client.execute(ENROLMENTS_QUERY, variables={})
+    # FIXME: The permission denied error should be raised
+    # assert_permission_denied(executed)
+    assert executed["data"]["enrolments"]["edges"] == []
 
 
 def test_enrolment_query(snapshot, staff_api_client, mock_get_event_data):
     enrolment = EnrolmentFactory()
+    organisation = enrolment.occurrence.p_event.organisation
+    staff_api_client.user.person.organisations.add(organisation)
     executed = staff_api_client.execute(
         ENROMENT_QUERY, variables={"id": to_global_id("EnrolmentNode", enrolment.id)}
     )
     snapshot.assert_match(executed)
 
 
-def test_enrolment_query_unauthorized(api_client, mock_get_event_data):
-    enrolment = EnrolmentFactory()
+def test_enrolment_query_unauthorized(
+    api_client, staff_api_client, mock_get_event_data, occurrence
+):
+    enrolment = EnrolmentFactory(occurrence=occurrence)
+    # With public client and without organisation
     executed = api_client.execute(
         ENROMENT_QUERY, variables={"id": to_global_id("EnrolmentNode", enrolment.id)}
     )
     assert_permission_denied(executed)
+    # With staff client but without organisation
+    executed = staff_api_client.execute(
+        ENROMENT_QUERY, variables={"id": to_global_id("EnrolmentNode", enrolment.id)}
+    )
+    # FIXME: The permission denied error should be raised
+    # assert_permission_denied(executed)
+    assert executed["data"]["enrolment"] is None
 
 
 def test_cancel_enrolment_query(
