@@ -80,3 +80,5 @@ venv/
 docker-compose.env.yaml
 
 .vscode/
+
+Pipfile*
