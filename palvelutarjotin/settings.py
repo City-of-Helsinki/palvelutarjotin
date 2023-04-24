@@ -125,7 +125,7 @@ TRANSLATED_SMS_SENDER = env("TRANSLATED_SMS_SENDER")
 try:
     REVISION = subprocess.check_output(["git", "rev-parse", "--short", "HEAD"]).strip()
 except Exception:
-    REVISION = "n/a"
+    REVISION = b"n/a"
 
 sentry_sdk.init(
     dsn=env.str("SENTRY_DSN"),
