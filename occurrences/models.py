@@ -35,6 +35,7 @@ from occurrences.event_api_services import (
     send_event_republish,
     send_event_unpublish,
 )
+from organisations.models import User
 from palvelutarjotin.exceptions import (
     ApiUsageError,
     EnrolmentNotEnoughCapacityError,
@@ -587,6 +588,12 @@ class EnrolmentQuerySet(models.QuerySet):
             status=Enrolment.STATUS_APPROVED,
         )
 
+    def filter_by_current_user_organisations(self, user: User):
+        if not user.person:
+            return self.none
+        organisation_ids = user.person.organisations.values("id")
+        return self.filter(occurrence__p_event__organisation__in=organisation_ids)
+
 
 class EnrolmentBase(WithDeletablePersonModel):
     notification_type = models.CharField(
@@ -798,10 +805,9 @@ class Enrolment(EnrolmentBase):
 
     def send_approve_notification(self, custom_message: Optional[str] = None):
         """
-        Send the approvance notification.
-        In some cases e.g. in multi enrolment situations,
-        the approvance notification sending should be called separated
-        from the actual approvance process.
+        Send the approvance notification. In some cases e.g. in multi
+        enrolment situations, the approvance notification sending should
+        be called separated from the actual approvance process.
         """
         self.send_event_notifications_to_contact_people(
             NotificationTemplate.ENROLMENT_APPROVED,
