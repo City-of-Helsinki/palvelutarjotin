@@ -4,7 +4,6 @@ from __future__ import unicode_literals
 
 from snapshottest import Snapshot
 
-
 snapshots = Snapshot()
 
 snapshots["test_add_occurrence_to_published_event 1"] = {
@@ -391,7 +390,7 @@ snapshots["test_enrol_event_queue_mutation 1"] = {
                     "mandatoryAdditionalInformation": False,
                     "neededOccurrences": 2,
                 },
-                "status": "HAS_NOT_ENROLLED",
+                "status": "HAS_NO_ENROLMENTS",
                 "studyGroup": {"unitName": "To be created group"},
             }
         }
@@ -1089,7 +1088,7 @@ snapshots["test_event_queue_enrolment_query 1"] = {
     "data": {
         "eventQueueEnrolment": {
             "pEvent": {"linkedEventId": "UIrta"},
-            "status": "HAS_NOT_ENROLLED",
+            "status": "HAS_NO_ENROLMENTS",
             "studyGroup": {
                 "groupName": "Let join might player example environment. Then offer organization model."
             },
@@ -1106,7 +1105,7 @@ snapshots["test_event_queue_enrolments_query 1"] = {
                     "cursor": "YXJyYXljb25uZWN0aW9uOjA=",
                     "node": {
                         "pEvent": {"linkedEventId": "UIrta"},
-                        "status": "HAS_NOT_ENROLLED",
+                        "status": "HAS_NO_ENROLMENTS",
                         "studyGroup": {
                             "groupName": "The threat organization check may available. Offer much discuss."
                         },
@@ -1116,7 +1115,7 @@ snapshots["test_event_queue_enrolments_query 1"] = {
                     "cursor": "YXJyYXljb25uZWN0aW9uOjE=",
                     "node": {
                         "pEvent": {"linkedEventId": "UIrta"},
-                        "status": "HAS_NOT_ENROLLED",
+                        "status": "HAS_NO_ENROLMENTS",
                         "studyGroup": {
                             "groupName": "Threat kitchen table along evening need line. Mission once pretty. Nor heavy well brother."
                         },
@@ -1126,7 +1125,7 @@ snapshots["test_event_queue_enrolments_query 1"] = {
                     "cursor": "YXJyYXljb25uZWN0aW9uOjI=",
                     "node": {
                         "pEvent": {"linkedEventId": "UIrta"},
-                        "status": "HAS_NOT_ENROLLED",
+                        "status": "HAS_NO_ENROLMENTS",
                         "studyGroup": {
                             "groupName": "Network view dark understand close. First control education list full hotel."
                         },
@@ -1136,7 +1135,7 @@ snapshots["test_event_queue_enrolments_query 1"] = {
                     "cursor": "YXJyYXljb25uZWN0aW9uOjM=",
                     "node": {
                         "pEvent": {"linkedEventId": "UIrta"},
-                        "status": "HAS_NOT_ENROLLED",
+                        "status": "HAS_NO_ENROLMENTS",
                         "studyGroup": {
                             "groupName": "Degree keep wish crime parent. Find behind the. Identify second ready theory single."
                         },
@@ -1146,7 +1145,7 @@ snapshots["test_event_queue_enrolments_query 1"] = {
                     "cursor": "YXJyYXljb25uZWN0aW9uOjQ=",
                     "node": {
                         "pEvent": {"linkedEventId": "UIrta"},
-                        "status": "HAS_NOT_ENROLLED",
+                        "status": "HAS_NO_ENROLMENTS",
                         "studyGroup": {
                             "groupName": "Offer alone population vote human professional or draw. Easy since keep trial across dark share."
                         },
@@ -1156,7 +1155,7 @@ snapshots["test_event_queue_enrolments_query 1"] = {
                     "cursor": "YXJyYXljb25uZWN0aW9uOjU=",
                     "node": {
                         "pEvent": {"linkedEventId": "UIrta"},
-                        "status": "HAS_NOT_ENROLLED",
+                        "status": "HAS_NO_ENROLMENTS",
                         "studyGroup": {
                             "groupName": "Friend clear focus operation its bar anyone he."
                         },
@@ -1166,7 +1165,7 @@ snapshots["test_event_queue_enrolments_query 1"] = {
                     "cursor": "YXJyYXljb25uZWN0aW9uOjY=",
                     "node": {
                         "pEvent": {"linkedEventId": "UIrta"},
-                        "status": "HAS_NOT_ENROLLED",
+                        "status": "HAS_NO_ENROLMENTS",
                         "studyGroup": {
                             "groupName": "Worker institution which open. But must thought into trip."
                         },
@@ -1176,7 +1175,7 @@ snapshots["test_event_queue_enrolments_query 1"] = {
                     "cursor": "YXJyYXljb25uZWN0aW9uOjc=",
                     "node": {
                         "pEvent": {"linkedEventId": "UIrta"},
-                        "status": "HAS_NOT_ENROLLED",
+                        "status": "HAS_NO_ENROLMENTS",
                         "studyGroup": {
                             "groupName": "Itself green right science chair door suddenly paper. Drop street than."
                         },
@@ -1186,7 +1185,7 @@ snapshots["test_event_queue_enrolments_query 1"] = {
                     "cursor": "YXJyYXljb25uZWN0aW9uOjg=",
                     "node": {
                         "pEvent": {"linkedEventId": "UIrta"},
-                        "status": "HAS_NOT_ENROLLED",
+                        "status": "HAS_NO_ENROLMENTS",
                         "studyGroup": {
                             "groupName": "Happy avoid head include. Form ahead center town least style above."
                         },
@@ -1196,7 +1195,7 @@ snapshots["test_event_queue_enrolments_query 1"] = {
                     "cursor": "YXJyYXljb25uZWN0aW9uOjk=",
                     "node": {
                         "pEvent": {"linkedEventId": "UIrta"},
-                        "status": "HAS_NOT_ENROLLED",
+                        "status": "HAS_NO_ENROLMENTS",
                         "studyGroup": {
                             "groupName": "Take maintain reveal. Develop two send year home argue way. Style design five."
                         },
@@ -1216,7 +1215,7 @@ snapshots["test_event_queue_enrolments_query 2"] = {
                     "cursor": "YXJyYXljb25uZWN0aW9uOjEw",
                     "node": {
                         "pEvent": {"linkedEventId": "UIrta"},
-                        "status": "HAS_NOT_ENROLLED",
+                        "status": "HAS_NO_ENROLMENTS",
                         "studyGroup": {
                             "groupName": "True month might yeah road. Couple bring pull someone."
                         },
@@ -1226,7 +1225,7 @@ snapshots["test_event_queue_enrolments_query 2"] = {
                     "cursor": "YXJyYXljb25uZWN0aW9uOjEx",
                     "node": {
                         "pEvent": {"linkedEventId": "UIrta"},
-                        "status": "HAS_NOT_ENROLLED",
+                        "status": "HAS_NO_ENROLMENTS",
                         "studyGroup": {
                             "groupName": "Training series instead task. Within join bank worry."
                         },
@@ -1236,7 +1235,7 @@ snapshots["test_event_queue_enrolments_query 2"] = {
                     "cursor": "YXJyYXljb25uZWN0aW9uOjEy",
                     "node": {
                         "pEvent": {"linkedEventId": "UIrta"},
-                        "status": "HAS_NOT_ENROLLED",
+                        "status": "HAS_NO_ENROLMENTS",
                         "studyGroup": {
                             "groupName": "Their start concern song social. Agency happen sure indicate."
                         },
@@ -1246,7 +1245,7 @@ snapshots["test_event_queue_enrolments_query 2"] = {
                     "cursor": "YXJyYXljb25uZWN0aW9uOjEz",
                     "node": {
                         "pEvent": {"linkedEventId": "UIrta"},
-                        "status": "HAS_NOT_ENROLLED",
+                        "status": "HAS_NO_ENROLMENTS",
                         "studyGroup": {
                             "groupName": "Better majority behavior along pressure yes others. Trouble change world indeed always."
                         },
@@ -1256,7 +1255,7 @@ snapshots["test_event_queue_enrolments_query 2"] = {
                     "cursor": "YXJyYXljb25uZWN0aW9uOjE0",
                     "node": {
                         "pEvent": {"linkedEventId": "UIrta"},
-                        "status": "HAS_NOT_ENROLLED",
+                        "status": "HAS_NO_ENROLMENTS",
                         "studyGroup": {
                             "groupName": "Let join might player example environment. Then offer organization model."
                         },
@@ -2812,6 +2811,17 @@ snapshots["test_study_levels_query 1"] = {
     }
 }
 
+snapshots["test_unenrol_event_queue_mutation 1"] = {
+    "data": {
+        "unenrolEventQueue": {
+            "pEvent": {"linkedEventId": "kytNN"},
+            "studyGroup": {
+                "unitName": "Various build leave serve important. Audience actually send address attorney candidate."
+            },
+        }
+    }
+}
+
 snapshots["test_unenrol_occurrence 1"] = {
     "data": {
         "unenrolOccurrence": {
@@ -3065,32 +3075,6 @@ snapshots["test_venues_query 1"] = {
                     }
                 }
             ]
-        }
-    }
-}
-
-snapshots["test_enrolment_query 1"] = {
-    "data": {
-        "enrolment": {
-            "occurrence": {
-                "endTime": "1984-09-24T22:11:55+00:00",
-                "pEvent": {"linkedEventId": "AhZRb"},
-                "seatsTaken": 574,
-                "startTime": "1979-01-07T01:25:07+00:00",
-            },
-            "status": "PENDING",
-            "studyGroup": {
-                "groupName": "Second know say former conference carry factor. Natural each difficult special respond positive."
-            },
-        }
-    }
-}
-
-snapshots["test_unenrol_event_queue_mutation 1"] = {
-    "data": {
-        "unenrolEventQueue": {
-            "pEvent": {"linkedEventId": "RHiJV"},
-            "studyGroup": {"unitName": "Conference thing much like test."},
         }
     }
 }

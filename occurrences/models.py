@@ -16,7 +16,7 @@ from typing import Optional
 
 import occurrences.notification_services as occurrences_services
 from common.models import (
-    SQCount,
+    SubqueryCount,
     TimestampedModel,
     TranslatableModel,
     TranslatableQuerySet,
@@ -490,7 +490,9 @@ class StudyGroupQuerySet(models.QuerySet):
             groups_enrolments = Enrolment.objects.filter(
                 study_group__group_name=OuterRef("group_name"),
             ).values("pk")
-            return self.annotate(enrolments_count=SQCount(Subquery(groups_enrolments)))
+            return self.annotate(
+                enrolments_count=SubqueryCount(Subquery(groups_enrolments))
+            )
         return self.annotate(enrolments_count=Count("enrolments", distinct=True))
 
 
@@ -556,8 +558,8 @@ class StudyGroup(TimestampedModel, WithDeletablePersonModel):
 class EnrolmentQuerySet(models.QuerySet):
     def get_by_unique_id(self, unique_id):
         compound_id = get_node_id_from_global_id(unique_id, "EnrolmentNode")
-        enrolment_id, ts = compound_id.split("_")
-        return self.get(id=enrolment_id, enrolment_time=ts)
+        enrolment_id, enrolment_time = compound_id.split("_")
+        return self.get(id=enrolment_id, enrolment_time=enrolment_time)
 
     def pending_and_auto_accepted_enrolments(self, days=1):
         """
@@ -603,11 +605,6 @@ class EnrolmentBase(WithDeletablePersonModel):
 
 
 class EventQueueEnrolmentQuerySet(models.QuerySet):
-    def get_by_unique_id(self, unique_id):
-        compound_id = get_node_id_from_global_id(unique_id, "EventQueueEnrolmentNode")
-        enrolment_id, ts = compound_id.split("_")
-        return self.get(id=enrolment_id, enrolment_time=ts)
-
     def with_group_occurrence_enrolment_count(self):
         """
         Annotate the amount of enrolments done to any occurrences
@@ -628,16 +625,16 @@ class EventQueueEnrolmentQuerySet(models.QuerySet):
 
 
 class EventQueueEnrolment(EnrolmentBase):
-    STATUS_HAS_NO_ENROLMENTS = "has_not_enrolled"
-    STATUS_HAS_ENROLMENTS = "has_enrolled_to_some_occurrences"
+    STATUS_HAS_NO_ENROLMENTS = "has_no_enrolments"
+    STATUS_HAS_ENROLMENTS = "has_enrolments"
     QUEUE_STATUSES = (
         (
             STATUS_HAS_NO_ENROLMENTS,
-            _("has not enrolled to any of occurrences of the event"),
+            _("there are no enrolments to any occurrences of the event"),
         ),
         (
             STATUS_HAS_ENROLMENTS,
-            _("has not enrolled to any of occurrences of the event"),
+            _("there is at least one enrolment to an occurrence of the event"),
         ),
     )
 
@@ -847,8 +844,8 @@ class Enrolment(EnrolmentBase):
         )
 
     def get_unique_id(self):
-        # Unique id is the base64 encoded of enrolment_id and enrolment timestamp
-        # Added object timestamp so it'll be harder to guess, otherwise any one can
+        # Unique id is the base64 encoded enrolment_id and enrolment timestamp
+        # Added object timestamp so it'll be harder to guess, otherwise anyone can
         # build the unique id after reading this
         return to_global_id(
             "EnrolmentNode", "_".join([str(self.id), str(self.enrolment_time)])
