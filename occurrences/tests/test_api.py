@@ -2013,32 +2013,34 @@ def test_occurrences_ordering_by_order_by_start_time(
 
 
 def test_occurrences_order_by_with_different_input_types(
-    api_client, mock_get_event_data, mock_update_event_data
+    staff_api_client, mock_get_event_data, mock_update_event_data, organisation
 ):
-    OccurrenceFactory.create_batch(10)
-    execute_asc1 = api_client.execute(
+    OccurrenceFactory.create_batch(10, p_event__organisation=organisation)
+    staff_api_client.user.person.organisations.add(organisation)
+    execute_asc1 = staff_api_client.execute(
         OCCURRENCES_QUERY, variables={"orderBy": ["startTime"]}
     )
-    execute_asc2 = api_client.execute(
+    assert execute_asc1["data"]["occurrences"]["edges"][0]["node"] is not None
+    execute_asc2 = staff_api_client.execute(
         OCCURRENCES_QUERY, variables={"orderBy": ["start_time"]}
     )
     assert execute_asc1 == execute_asc2
 
-    execute_desc1 = api_client.execute(
+    execute_desc1 = staff_api_client.execute(
         OCCURRENCES_QUERY, variables={"orderBy": ["-startTime"]}
     )
-    execute_desc2 = api_client.execute(
+    execute_desc2 = staff_api_client.execute(
         OCCURRENCES_QUERY, variables={"orderBy": ["-start_time"]}
     )
     assert execute_desc1 == execute_desc2
 
     assert execute_asc1 != execute_desc1
 
-    execute_asc3 = api_client.execute(
+    execute_asc3 = staff_api_client.execute(
         OCCURRENCES_QUERY, variables={"orderBy": "startTime"}
     )
 
-    execute_desc3 = api_client.execute(
+    execute_desc3 = staff_api_client.execute(
         OCCURRENCES_QUERY, variables={"orderBy": "-startTime"}
     )
     assert execute_asc1 == execute_asc3
@@ -2268,6 +2270,52 @@ def test_occurrence_enrolments_unauthorized(
         variables={"id": to_global_id("OccurrenceNode", occurrence.id)},
     )
     assert len(executed["data"]["occurrence"]["enrolments"]["edges"]) == 5
+
+
+def test_occurrence_study_groups_unauthorized(
+    staff_api_client, api_client, mock_get_event_data, occurrence
+):
+    OCCURRENCE_STUDY_GROUPS_QUERY = """
+        query Occurrence($id: ID!){
+            occurrence(id: $id){
+                studyGroups {
+                    edges {
+                        node {
+                            groupName
+                        }
+                    }
+                }
+                startTime
+            }
+        }
+        """
+    study_groups = StudyGroupFactory.create_batch(5)
+    occurrence.study_groups.set(study_groups)
+
+    # Invalid case: Not using the API client as a staff member
+    executed = api_client.execute(
+        OCCURRENCE_STUDY_GROUPS_QUERY,
+        variables={"id": to_global_id("OccurrenceNode", occurrence.id)},
+    )
+    assert_permission_denied(executed)
+
+    # Invalid case: The organisation does not match
+    executed = staff_api_client.execute(
+        OCCURRENCE_STUDY_GROUPS_QUERY,
+        variables={"id": to_global_id("OccurrenceNode", occurrence.id)},
+    )
+    # FIXME: The permission denied error should be raised
+    # assert_permission_denied(executed)
+    # assert executed["data"]["occurrence"]["studyGroups"]["edges"] == []
+    assert executed["data"]["occurrence"] is None
+
+    # Valid case: The organisation matches
+    staff_api_client.user.person.organisations.add(occurrence.p_event.organisation)
+    executed = staff_api_client.execute(
+        OCCURRENCE_STUDY_GROUPS_QUERY,
+        variables={"id": to_global_id("OccurrenceNode", occurrence.id)},
+    )
+    assert len(executed["data"]["occurrence"]["studyGroups"]["edges"]) == 5
 
 
 def test_enrolments_summary_unauthorized(

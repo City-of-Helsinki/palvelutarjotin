@@ -25,7 +25,7 @@ from occurrences.models import (
     StudyGroup,
     StudyLevel,
 )
-from organisations.factories import PersonFactory
+from organisations.factories import PersonFactory, UserFactory
 from organisations.models import Organisation, Person
 from palvelutarjotin.exceptions import EnrolmentNotEnoughCapacityError
 from verification_token.models import VerificationToken
@@ -170,6 +170,67 @@ def test_study_group_with_enrolment_count_by_name(
     assert groups_with_seven_enrolments.count() == 2
     assert the_school_1st_instance in groups_with_seven_enrolments
     assert the_school_2nd_instance in groups_with_seven_enrolments
+
+
+@pytest.mark.django_db
+def test_study_group_with_organisation_ids(mock_get_place_data, mock_get_event_data):
+    EnrolmentFactory.create_batch(10)
+    groups = StudyGroup.objects.all()
+
+    # Without annotation
+    for group in groups:
+        assert hasattr(group, "organisation_ids") is False
+
+    groups = StudyGroup.objects.with_organisation_ids().all()
+
+    # With annotation
+    for group in groups:
+        assert hasattr(group, "organisation_ids") is True
+        assert group.organisation_ids is not None
+
+    group_without_enrolment = StudyGroupFactory()
+
+    # Without enrolment, so without organisation
+    StudyGroup.objects.with_organisation_ids().get(
+        id=group_without_enrolment.id
+    ).organisation_ids is None
+
+    # With multiple enrolments to multiple organisations
+    group_with_multiple_organisations = StudyGroupFactory()
+    enrolments = EnrolmentFactory.create_batch(
+        2, study_group=group_with_multiple_organisations
+    )
+    enrolments_organisation_ids = [
+        enrolment.occurrence.p_event.organisation.id for enrolment in enrolments
+    ]
+    group_organisation_ids = (
+        StudyGroup.objects.with_organisation_ids()
+        .get(id=group_with_multiple_organisations.id)
+        .organisation_ids
+    )
+    assert len(group_organisation_ids) == 2
+    assert all(
+        (org_id in enrolments_organisation_ids) for org_id in group_organisation_ids
+    )
+
+
+@pytest.mark.django_db
+def test_study_group_filter_by_current_user_organisations(
+    mock_get_place_data, mock_get_event_data, organisation
+):
+    person = PersonFactory(user=UserFactory())
+    person.organisations.add(organisation)
+    organisation_enrolments = EnrolmentFactory.create_batch(
+        5, occurrence__p_event__organisation=organisation
+    )
+    organisation_groups = [
+        enrolment.study_group for enrolment in organisation_enrolments
+    ]
+    StudyGroupFactory.create_batch(5)
+    StudyGroup.objects.all().count() == 10
+    StudyGroup.objects.filter_by_current_user_organisations(person.user).count() == len(
+        organisation_groups
+    )
 
 
 @pytest.mark.django_db
