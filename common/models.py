@@ -110,6 +110,6 @@ class WithDeletablePersonModel(models.Model):
         return super().save(*args, **kwargs)
 
 
-class SQCount(models.Subquery):
+class SubqueryCount(models.Subquery):
     template = "(SELECT count(*) FROM (%(subquery)s) _count)"
     output_field = models.IntegerField()
