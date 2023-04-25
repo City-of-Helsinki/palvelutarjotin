@@ -4,6 +4,7 @@ from datetime import timedelta
 from dateutil.relativedelta import relativedelta
 from django.conf import settings
 from django.contrib.contenttypes.fields import GenericRelation
+from django.contrib.postgres.aggregates import ArrayAgg
 from django.db import models, transaction
 from django.db.models import Count, F, Max, OuterRef, Q, Subquery, Sum
 from django.utils import timezone
@@ -499,9 +500,18 @@ class StudyGroupQuerySet(models.QuerySet):
     def filter_by_current_user_organisations(self, user: User):
         if not user.person:
             return self.none
-        organisation_ids = user.person.organisations.values("id")
-        return self.filter(
-            enrolment__occurrence__p_event__organisation__in=organisation_ids
+        organisation_ids = [
+            entry[0] for entry in user.person.organisations.values_list("id")
+        ]
+        return self.with_organisation_ids().filter(
+            organisation_ids__contains=organisation_ids
+        )
+
+    def with_organisation_ids(self):
+        return self.annotate(
+            organisation_ids=ArrayAgg(
+                "enrolments__occurrence__p_event__organisation__pk"
+            )
         )
 
 
@@ -562,6 +572,11 @@ class StudyGroup(TimestampedModel, WithDeletablePersonModel):
 
         # Save the study group instance
         super().save(*args, **kwargs)
+
+    def is_editable_by_user(self, user):
+        return user.person.organisations.filter(
+            id__in=self.with_organisation_ids().value("organisation_ids")
+        ).exists()
 
 
 class EnrolmentQuerySet(models.QuerySet):

@@ -93,13 +93,6 @@ query Occurrences(
         }
         startTime
         endTime
-        studyGroups {
-          edges {
-            node {
-              unitName
-            }
-          }
-        }
         minGroupSize
         maxGroupSize
         contactPersons {
@@ -139,13 +132,6 @@ query Occurrence($id: ID!){
     }
     startTime
     endTime
-    studyGroups {
-      edges {
-        node {
-          unitName
-        }
-      }
-    }
     amountOfSeats
     remainingSeats
     seatsTaken

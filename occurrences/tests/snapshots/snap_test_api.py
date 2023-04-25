@@ -196,7 +196,7 @@ snapshots["test_approve_enrolment 2"] = [
     Occurrence: 06.01.2020 02.00
     Person: gonzalezmichele@example.org
     Click this link to cancel the enrolment:
-    https://kultus.fi/fi/enrolments/cancel/RW5yb2xtZW50Tm9kZTozN18yMDIwLTAxLTA0IDAwOjAwOjAwKzAwOjAw
+    https://kultus.fi/fi/enrolments/cancel/RW5yb2xtZW50Tm9kZToyNl8yMDIwLTAxLTA0IDAwOjAwOjAwKzAwOjAw
 
 """
 ]
@@ -213,7 +213,7 @@ snapshots["test_approve_enrolment_with_custom_message 2"] = [
     Occurrence: 06.01.2020 02.00
     Person: gonzalezmichele@example.org
     Click this link to cancel the enrolment:
-    https://kultus.fi/fi/enrolments/cancel/RW5yb2xtZW50Tm9kZTozOV8yMDIwLTAxLTA0IDAwOjAwOjAwKzAwOjAw
+    https://kultus.fi/fi/enrolments/cancel/RW5yb2xtZW50Tm9kZToyOF8yMDIwLTAxLTA0IDAwOjAwOjAwKzAwOjAw
 
     Custom message: custom message
 """
@@ -1373,7 +1373,6 @@ snapshots["test_occurrence_query 1"] = {
             "seatsApproved": 0,
             "seatsTaken": 0,
             "startTime": "2013-12-12T04:57:19+00:00",
-            "studyGroups": {"edges": []},
         }
     }
 }
@@ -1406,7 +1405,6 @@ snapshots["test_occurrences_filter_by_cancelled 1"] = {
                         "seatsApproved": 0,
                         "seatsTaken": 0,
                         "startTime": "1992-11-14T16:36:36+00:00",
-                        "studyGroups": {"edges": []},
                     }
                 },
                 {
@@ -1433,7 +1431,6 @@ snapshots["test_occurrences_filter_by_cancelled 1"] = {
                         "seatsApproved": 0,
                         "seatsTaken": 0,
                         "startTime": "2005-01-18T03:44:33+00:00",
-                        "studyGroups": {"edges": []},
                     }
                 },
             ]
@@ -1469,7 +1466,6 @@ snapshots["test_occurrences_filter_by_cancelled 2"] = {
                         "seatsApproved": 0,
                         "seatsTaken": 0,
                         "startTime": "1986-04-11T14:17:11+00:00",
-                        "studyGroups": {"edges": []},
                     }
                 }
             ]
@@ -1505,7 +1501,6 @@ snapshots["test_occurrences_filter_by_date 1"] = {
                         "seatsApproved": 0,
                         "seatsTaken": 0,
                         "startTime": "2020-01-02T00:00:00+00:00",
-                        "studyGroups": {"edges": []},
                     }
                 }
             ]
@@ -1541,7 +1536,6 @@ snapshots["test_occurrences_filter_by_date 2"] = {
                         "seatsApproved": 0,
                         "seatsTaken": 0,
                         "startTime": "2020-01-02T00:00:00+00:00",
-                        "studyGroups": {"edges": []},
                     }
                 },
                 {
@@ -1568,7 +1562,6 @@ snapshots["test_occurrences_filter_by_date 2"] = {
                         "seatsApproved": 0,
                         "seatsTaken": 0,
                         "startTime": "2020-01-02T00:00:00+00:00",
-                        "studyGroups": {"edges": []},
                     }
                 },
             ]
@@ -1604,7 +1597,6 @@ snapshots["test_occurrences_filter_by_enrollable[0-3] 1"] = {
                         "seatsApproved": 0,
                         "seatsTaken": 0,
                         "startTime": "2020-01-05T00:00:00+00:00",
-                        "studyGroups": {"edges": []},
                     }
                 },
                 {
@@ -1631,7 +1623,6 @@ snapshots["test_occurrences_filter_by_enrollable[0-3] 1"] = {
                         "seatsApproved": 0,
                         "seatsTaken": 0,
                         "startTime": "2020-01-06T00:00:00+00:00",
-                        "studyGroups": {"edges": []},
                     }
                 },
                 {
@@ -1658,7 +1649,6 @@ snapshots["test_occurrences_filter_by_enrollable[0-3] 1"] = {
                         "seatsApproved": 0,
                         "seatsTaken": 0,
                         "startTime": "2020-01-07T00:00:00+00:00",
-                        "studyGroups": {"edges": []},
                     }
                 },
             ]
@@ -1694,7 +1684,6 @@ snapshots["test_occurrences_filter_by_enrollable[1-2] 1"] = {
                         "seatsApproved": 0,
                         "seatsTaken": 0,
                         "startTime": "2020-01-06T00:00:00+00:00",
-                        "studyGroups": {"edges": []},
                     }
                 },
                 {
@@ -1721,7 +1710,6 @@ snapshots["test_occurrences_filter_by_enrollable[1-2] 1"] = {
                         "seatsApproved": 0,
                         "seatsTaken": 0,
                         "startTime": "2020-01-07T00:00:00+00:00",
-                        "studyGroups": {"edges": []},
                     }
                 },
             ]
@@ -1757,7 +1745,6 @@ snapshots["test_occurrences_filter_by_enrollable[None-3] 1"] = {
                         "seatsApproved": 0,
                         "seatsTaken": 0,
                         "startTime": "2020-01-05T00:00:00+00:00",
-                        "studyGroups": {"edges": []},
                     }
                 },
                 {
@@ -1784,7 +1771,6 @@ snapshots["test_occurrences_filter_by_enrollable[None-3] 1"] = {
                         "seatsApproved": 0,
                         "seatsTaken": 0,
                         "startTime": "2020-01-06T00:00:00+00:00",
-                        "studyGroups": {"edges": []},
                     }
                 },
                 {
@@ -1811,7 +1797,6 @@ snapshots["test_occurrences_filter_by_enrollable[None-3] 1"] = {
                         "seatsApproved": 0,
                         "seatsTaken": 0,
                         "startTime": "2020-01-07T00:00:00+00:00",
-                        "studyGroups": {"edges": []},
                     }
                 },
             ]
@@ -1847,7 +1832,6 @@ snapshots["test_occurrences_filter_by_p_event 1"] = {
                         "seatsApproved": 0,
                         "seatsTaken": 0,
                         "startTime": "2009-12-10T20:02:15+00:00",
-                        "studyGroups": {"edges": []},
                     }
                 },
                 {
@@ -1874,7 +1858,6 @@ snapshots["test_occurrences_filter_by_p_event 1"] = {
                         "seatsApproved": 0,
                         "seatsTaken": 0,
                         "startTime": "2018-08-30T11:34:25+00:00",
-                        "studyGroups": {"edges": []},
                     }
                 },
             ]
@@ -1910,7 +1893,6 @@ snapshots["test_occurrences_filter_by_p_event 2"] = {
                         "seatsApproved": 0,
                         "seatsTaken": 0,
                         "startTime": "2007-09-11T17:25:39+00:00",
-                        "studyGroups": {"edges": []},
                     }
                 }
             ]
@@ -1946,7 +1928,6 @@ snapshots["test_occurrences_filter_by_time 1"] = {
                         "seatsApproved": 0,
                         "seatsTaken": 0,
                         "startTime": "2020-01-01T10:00:00+00:00",
-                        "studyGroups": {"edges": []},
                     }
                 }
             ]
@@ -1982,7 +1963,6 @@ snapshots["test_occurrences_filter_by_time 2"] = {
                         "seatsApproved": 0,
                         "seatsTaken": 0,
                         "startTime": "2020-01-02T12:00:00+00:00",
-                        "studyGroups": {"edges": []},
                     }
                 }
             ]
@@ -2018,7 +1998,6 @@ snapshots["test_occurrences_filter_by_time 3"] = {
                         "seatsApproved": 0,
                         "seatsTaken": 0,
                         "startTime": "2020-01-01T11:00:00+00:00",
-                        "studyGroups": {"edges": []},
                     }
                 },
                 {
@@ -2045,7 +2024,6 @@ snapshots["test_occurrences_filter_by_time 3"] = {
                         "seatsApproved": 0,
                         "seatsTaken": 0,
                         "startTime": "2020-01-02T11:00:00+00:00",
-                        "studyGroups": {"edges": []},
                     }
                 },
             ]
@@ -2081,7 +2059,6 @@ snapshots["test_occurrences_filter_by_time 4"] = {
                         "seatsApproved": 0,
                         "seatsTaken": 0,
                         "startTime": "2020-01-01T11:00:00+00:00",
-                        "studyGroups": {"edges": []},
                     }
                 },
                 {
@@ -2108,7 +2085,6 @@ snapshots["test_occurrences_filter_by_time 4"] = {
                         "seatsApproved": 0,
                         "seatsTaken": 0,
                         "startTime": "2020-01-02T11:00:00+00:00",
-                        "studyGroups": {"edges": []},
                     }
                 },
             ]
@@ -2144,7 +2120,6 @@ snapshots["test_occurrences_filter_by_upcoming 1"] = {
                         "seatsApproved": 0,
                         "seatsTaken": 0,
                         "startTime": "2020-01-04T00:00:00+00:00",
-                        "studyGroups": {"edges": []},
                     }
                 },
                 {
@@ -2171,7 +2146,6 @@ snapshots["test_occurrences_filter_by_upcoming 1"] = {
                         "seatsApproved": 0,
                         "seatsTaken": 0,
                         "startTime": "2020-01-05T00:00:00+00:00",
-                        "studyGroups": {"edges": []},
                     }
                 },
                 {
@@ -2198,7 +2172,6 @@ snapshots["test_occurrences_filter_by_upcoming 1"] = {
                         "seatsApproved": 0,
                         "seatsTaken": 0,
                         "startTime": "2020-01-06T00:00:00+00:00",
-                        "studyGroups": {"edges": []},
                     }
                 },
             ]
@@ -2234,7 +2207,6 @@ snapshots["test_occurrences_ordering_by_order_by_end_time 1"] = {
                         "seatsApproved": 0,
                         "seatsTaken": 0,
                         "startTime": "1974-10-19T15:53:39+00:00",
-                        "studyGroups": {"edges": []},
                     }
                 },
                 {
@@ -2261,7 +2233,6 @@ snapshots["test_occurrences_ordering_by_order_by_end_time 1"] = {
                         "seatsApproved": 0,
                         "seatsTaken": 0,
                         "startTime": "2013-12-12T04:57:19+00:00",
-                        "studyGroups": {"edges": []},
                     }
                 },
                 {
@@ -2288,7 +2259,6 @@ snapshots["test_occurrences_ordering_by_order_by_end_time 1"] = {
                         "seatsApproved": 0,
                         "seatsTaken": 0,
                         "startTime": "2009-07-12T04:07:58+00:00",
-                        "studyGroups": {"edges": []},
                     }
                 },
             ]
@@ -2324,7 +2294,6 @@ snapshots["test_occurrences_ordering_by_order_by_end_time 2"] = {
                         "seatsApproved": 0,
                         "seatsTaken": 0,
                         "startTime": "2009-07-12T04:07:58+00:00",
-                        "studyGroups": {"edges": []},
                     }
                 },
                 {
@@ -2351,7 +2320,6 @@ snapshots["test_occurrences_ordering_by_order_by_end_time 2"] = {
                         "seatsApproved": 0,
                         "seatsTaken": 0,
                         "startTime": "2013-12-12T04:57:19+00:00",
-                        "studyGroups": {"edges": []},
                     }
                 },
                 {
@@ -2378,7 +2346,6 @@ snapshots["test_occurrences_ordering_by_order_by_end_time 2"] = {
                         "seatsApproved": 0,
                         "seatsTaken": 0,
                         "startTime": "1974-10-19T15:53:39+00:00",
-                        "studyGroups": {"edges": []},
                     }
                 },
             ]
@@ -2414,7 +2381,6 @@ snapshots["test_occurrences_ordering_by_order_by_start_time 1"] = {
                         "seatsApproved": 0,
                         "seatsTaken": 0,
                         "startTime": "2020-01-05T00:00:00+00:00",
-                        "studyGroups": {"edges": []},
                     }
                 },
                 {
@@ -2441,7 +2407,6 @@ snapshots["test_occurrences_ordering_by_order_by_start_time 1"] = {
                         "seatsApproved": 0,
                         "seatsTaken": 0,
                         "startTime": "2020-01-06T00:00:00+00:00",
-                        "studyGroups": {"edges": []},
                     }
                 },
                 {
@@ -2468,7 +2433,6 @@ snapshots["test_occurrences_ordering_by_order_by_start_time 1"] = {
                         "seatsApproved": 0,
                         "seatsTaken": 0,
                         "startTime": "2020-01-07T00:00:00+00:00",
-                        "studyGroups": {"edges": []},
                     }
                 },
             ]
@@ -2504,7 +2468,6 @@ snapshots["test_occurrences_ordering_by_order_by_start_time 2"] = {
                         "seatsApproved": 0,
                         "seatsTaken": 0,
                         "startTime": "2020-01-07T00:00:00+00:00",
-                        "studyGroups": {"edges": []},
                     }
                 },
                 {
@@ -2531,7 +2494,6 @@ snapshots["test_occurrences_ordering_by_order_by_start_time 2"] = {
                         "seatsApproved": 0,
                         "seatsTaken": 0,
                         "startTime": "2020-01-06T00:00:00+00:00",
-                        "studyGroups": {"edges": []},
                     }
                 },
                 {
@@ -2558,7 +2520,6 @@ snapshots["test_occurrences_ordering_by_order_by_start_time 2"] = {
                         "seatsApproved": 0,
                         "seatsTaken": 0,
                         "startTime": "2020-01-05T00:00:00+00:00",
-                        "studyGroups": {"edges": []},
                     }
                 },
             ]
@@ -2594,7 +2555,6 @@ snapshots["test_occurrences_query 1"] = {
                         "seatsApproved": 0,
                         "seatsTaken": 0,
                         "startTime": "2013-12-12T04:57:19+00:00",
-                        "studyGroups": {"edges": []},
                     }
                 }
             ]
