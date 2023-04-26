@@ -215,7 +215,7 @@ def test_study_group_with_organisation_ids(mock_get_place_data, mock_get_event_d
 
 
 @pytest.mark.django_db
-def test_study_group_filter_by_current_user_organisations(
+def test_study_group_user_can_view(
     mock_get_place_data, mock_get_event_data, organisation
 ):
     person = PersonFactory(user=UserFactory())
@@ -228,9 +228,7 @@ def test_study_group_filter_by_current_user_organisations(
     ]
     StudyGroupFactory.create_batch(5)
     StudyGroup.objects.all().count() == 10
-    StudyGroup.objects.filter_by_current_user_organisations(person.user).count() == len(
-        organisation_groups
-    )
+    StudyGroup.objects.user_can_view(person.user).count() == len(organisation_groups)
 
 
 @pytest.mark.django_db

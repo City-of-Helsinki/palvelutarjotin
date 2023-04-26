@@ -497,7 +497,7 @@ class StudyGroupQuerySet(models.QuerySet):
             )
         return self.annotate(enrolments_count=Count("enrolments", distinct=True))
 
-    def filter_by_current_user_organisations(self, user: User):
+    def user_can_view(self, user: User):
         if not user.person:
             return self.none
         organisation_ids = [
@@ -611,7 +611,7 @@ class EnrolmentQuerySet(models.QuerySet):
             status=Enrolment.STATUS_APPROVED,
         )
 
-    def filter_by_current_user_organisations(self, user: User):
+    def user_can_view(self, user: User):
         if not user.person:
             return self.none
         organisation_ids = user.person.organisations.values("id")
@@ -653,7 +653,7 @@ class EventQueueEnrolmentQuerySet(models.QuerySet):
             )
         )
 
-    def filter_by_current_user_organisations(self, user: User):
+    def user_can_view(self, user: User):
         if not user.person:
             return self.none
         organisation_ids = user.person.organisations.values("id")

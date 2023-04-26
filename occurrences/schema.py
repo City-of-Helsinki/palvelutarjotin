@@ -309,11 +309,7 @@ class StudyGroupNode(DjangoObjectType):
         he has access to. So, the study groups list should be
         filtered by the organisation
         """
-        return (
-            super()
-            .get_queryset(queryset, info)
-            .filter_by_current_user_organisations(info.context.user)
-        )
+        return queryset.user_can_view(info.context.user)
 
 
 class VenueTranslationType(DjangoObjectType):
@@ -602,11 +598,7 @@ class EnrolmentNode(DjangoObjectType):
         he has access to. So, the enrolments list should be
         filtered by the organisation
         """
-        return (
-            super()
-            .get_queryset(queryset, info)
-            .filter_by_current_user_organisations(info.context.user)
-        )
+        return queryset.user_can_view(info.context.user)
 
 
 class EventQueueEnrolmentNode(DjangoObjectType):
@@ -629,11 +621,7 @@ class EventQueueEnrolmentNode(DjangoObjectType):
         he has access to. So, the enrolments list should be
         filtered by the organisation
         """
-        return (
-            super()
-            .get_queryset(queryset, info)
-            .filter_by_current_user_organisations(info.context.user)
-        )
+        return queryset.user_can_view(info.context.user)
 
 
 class StudyGroupInput(graphene.InputObjectType):
