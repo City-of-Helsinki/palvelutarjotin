@@ -1,7 +1,6 @@
 import requests
 from datetime import timedelta
 from django.conf import settings
-from django.core.exceptions import PermissionDenied
 from django.db import transaction
 from django.utils import timezone
 from typing import List, Optional, Tuple, Union
@@ -309,13 +308,3 @@ def enrol_to_event_queue(
             notification_type=notification_type,
         )
     return event_queue_enrolment
-
-
-def get_node_with_permission_check(node, info):
-    if (
-        node
-        and hasattr(node, "is_editable_by_user")
-        and not node.is_editable_by_user(info.context.user)
-    ):
-        raise PermissionDenied("User does not have access to view this enrolment")
-    return node

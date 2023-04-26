@@ -37,7 +37,6 @@ from occurrences.schema_services import (
     enrol_to_event_queue,
     enrol_to_occurrence,
     get_instance_list,
-    get_node_with_permission_check,
     get_or_create_contact_person,
     update_study_group,
     validate_enrolment,
@@ -315,19 +314,6 @@ class StudyGroupNode(DjangoObjectType):
             .get_queryset(queryset, info)
             .filter_by_current_user_organisations(info.context.user)
         )
-
-    @classmethod
-    @staff_member_required
-    def get_node(cls, info, id):
-        """
-        The study group is available only for the staff members.
-        Also the staff member should get only the study groups
-        participating in event of an organisation
-        he has access to. So, the study groups list should be
-        filtered by the organisation
-        """
-        node = super().get_node(info, id)
-        return get_node_with_permission_check(node, info)
 
 
 class VenueTranslationType(DjangoObjectType):
@@ -622,19 +608,6 @@ class EnrolmentNode(DjangoObjectType):
             .filter_by_current_user_organisations(info.context.user)
         )
 
-    @classmethod
-    @staff_member_required
-    def get_node(cls, info, id):
-        """
-        The enrolment is available only for the staff members.
-        Also the staff member should get only the enrolments
-        done to the occurrences provided by an organisation
-        he has access to. So, the enrolments list should be
-        filtered by the organisation
-        """
-        node = super().get_node(info, id)
-        return get_node_with_permission_check(node, info)
-
 
 class EventQueueEnrolmentNode(DjangoObjectType):
     notification_type = NotificationTypeEnum()
@@ -661,19 +634,6 @@ class EventQueueEnrolmentNode(DjangoObjectType):
             .get_queryset(queryset, info)
             .filter_by_current_user_organisations(info.context.user)
         )
-
-    @classmethod
-    @staff_member_required
-    def get_node(cls, info, id):
-        """
-        The enrolment is available only for the staff members.
-        Also the staff member should get only the enrolments
-        done to the occurrences provided by an organisation
-        he has access to. So, the enrolments list should be
-        filtered by the organisation
-        """
-        node = super().get_node(info, id)
-        return get_node_with_permission_check(node, info)
 
 
 class StudyGroupInput(graphene.InputObjectType):
