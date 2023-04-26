@@ -214,42 +214,6 @@ $context:JSONString!){
 }
 """
 
-ENROLMENTS_QUERY = """
-query enrolments(
-  $occurrenceId: ID,
-  $status: String,
-  $orderBy: [String]
-  $first: Int,
-  $after: String
-){
-  enrolments(
-    occurrenceId: $occurrenceId,
-    status:$status,
-    orderBy:$orderBy,
-    first: $first,
-    after: $after
-  ){
-    count
-    edges{
-      cursor
-      node{
-        occurrence{
-          seatsTaken
-          startTime
-          endTime
-          pEvent{
-            linkedEventId
-          }
-        }
-        studyGroup{
-          groupName
-        }
-        status
-      }
-    }
-  }
-}
-"""
 
 ENROMENT_QUERY = """
 query enrolment($id: ID!){

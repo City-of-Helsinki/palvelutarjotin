@@ -1108,12 +1108,6 @@ class Query:
     languages = DjangoConnectionField(LanguageNode)
     language = graphene.Field(LanguageNode, id=graphene.ID(required=True))
 
-    # TODO: Remove this as unused
-    enrolments = OrderedDjangoFilterConnectionField(
-        EnrolmentNode,
-        orderBy=graphene.List(of_type=graphene.String),
-        description="Query for admin only",
-    )
     # TODO: Get rid of this. It seems it's still in use in Admin-UI.
     enrolment = graphene.relay.Node.Field(
         EnrolmentNode, description="Query for admin only"
@@ -1161,25 +1155,6 @@ class Query:
             return StudyLevel.objects.get(pk=kwargs.pop("id"))
         except StudyLevel.DoesNotExist:
             return None
-
-    @staticmethod
-    @staff_member_required
-    def resolve_enrolments(parent, info, **kwargs):
-        qs = Enrolment.objects.all()
-        if kwargs.get("occurrence_id"):
-            try:
-                occurrence = Occurrence.objects.get(
-                    pk=get_node_id_from_global_id(
-                        kwargs["occurrence_id"], "OccurrenceNode"
-                    )
-                )
-            except Occurrence.DoesNotExist:
-                return None
-            qs = qs.filter(occurrence=occurrence)
-        if kwargs.get("status"):
-            status = kwargs["status"].lower()
-            qs = qs.filter(status=status)
-        return qs
 
     @staff_member_required
     def resolve_enrolment_summary(self, info, **kwargs):
