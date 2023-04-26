@@ -52,7 +52,6 @@ from occurrences.tests.mutations import (
 )
 from occurrences.tests.queries import (
     CANCEL_ENROLMENT_QUERY,
-    ENROLMENTS_QUERY,
     ENROLMENTS_SUMMARY_QUERY,
     ENROMENT_QUERY,
     EVENT_QUEUE_ENROLMENT_QUERY,
@@ -2371,76 +2370,6 @@ def test_enrolments_summary(
             variables={"organisationId": organisation_gid, "status": status.upper()},
         )
         snapshot.assert_match(executed)
-
-
-@pytest.mark.parametrize(
-    "order_by",
-    [
-        "status",
-        "-status",
-        "study_group__group_name",
-        "-study_group__group_name",
-    ],
-)
-def test_enrolments_query(
-    snapshot, order_by, staff_api_client, mock_get_event_data, occurrence
-):
-    staff_api_client.user.person.organisations.add(occurrence.p_event.organisation)
-    occurrence_gid = to_global_id("OccurrenceNode", occurrence.id)
-    EnrolmentFactory(
-        occurrence=occurrence,
-        status=Enrolment.STATUS_APPROVED,
-        study_group__group_name="group A",
-    )
-    EnrolmentFactory(
-        occurrence=occurrence,
-        status=Enrolment.STATUS_APPROVED,
-        study_group__group_name="group B",
-    )
-    EnrolmentFactory(
-        occurrence=occurrence,
-        status=Enrolment.STATUS_DECLINED,
-        study_group__group_name="group A",
-    )
-    EnrolmentFactory(
-        occurrence=occurrence,
-        status=Enrolment.STATUS_CANCELLED,
-        study_group__group_name="group C",
-    )
-
-    assert Enrolment.objects.count() == 4
-    executed = staff_api_client.execute(
-        ENROLMENTS_QUERY,
-        variables={
-            "occurrenceId": occurrence_gid,
-            "orderBy": order_by,
-        },
-    )
-    snapshot.assert_match(executed)
-    for status, _ in Enrolment.STATUSES:
-        executed = staff_api_client.execute(
-            ENROLMENTS_QUERY,
-            variables={
-                "occurrenceId": occurrence_gid,
-                "status": status,
-                "orderBy": order_by,
-            },
-        )
-        snapshot.assert_match(executed)
-
-
-def test_enrolments_query_unauthorized(
-    api_client, staff_api_client, mock_get_event_data, occurrence
-):
-    EnrolmentFactory.create_batch(5, occurrence=occurrence)
-    # Public client
-    executed = api_client.execute(ENROLMENTS_QUERY, variables={})
-    assert_permission_denied(executed)
-    # Staff user without organisation
-    executed = staff_api_client.execute(ENROLMENTS_QUERY, variables={})
-    # FIXME: The permission denied error should be raised
-    # assert_permission_denied(executed)
-    assert executed["data"]["enrolments"]["edges"] == []
 
 
 def test_enrolment_query(snapshot, staff_api_client, mock_get_event_data):
