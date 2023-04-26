@@ -52,8 +52,8 @@ from occurrences.tests.mutations import (
 )
 from occurrences.tests.queries import (
     CANCEL_ENROLMENT_QUERY,
+    ENROLMENT_QUERY,
     ENROLMENTS_SUMMARY_QUERY,
-    ENROMENT_QUERY,
     EVENT_QUEUE_ENROLMENT_QUERY,
     EVENT_QUEUE_ENROLMENTS_QUERY,
     LANGUAGE_QUERY,
@@ -2377,7 +2377,7 @@ def test_enrolment_query(snapshot, staff_api_client, mock_get_event_data):
     organisation = enrolment.occurrence.p_event.organisation
     staff_api_client.user.person.organisations.add(organisation)
     executed = staff_api_client.execute(
-        ENROMENT_QUERY, variables={"id": to_global_id("EnrolmentNode", enrolment.id)}
+        ENROLMENT_QUERY, variables={"id": to_global_id("EnrolmentNode", enrolment.id)}
     )
     snapshot.assert_match(executed)
 
@@ -2388,12 +2388,12 @@ def test_enrolment_query_unauthorized(
     enrolment = EnrolmentFactory(occurrence=occurrence)
     # With public client and without organisation
     executed = api_client.execute(
-        ENROMENT_QUERY, variables={"id": to_global_id("EnrolmentNode", enrolment.id)}
+        ENROLMENT_QUERY, variables={"id": to_global_id("EnrolmentNode", enrolment.id)}
     )
     assert_permission_denied(executed)
     # With staff client but without organisation
     executed = staff_api_client.execute(
-        ENROMENT_QUERY, variables={"id": to_global_id("EnrolmentNode", enrolment.id)}
+        ENROLMENT_QUERY, variables={"id": to_global_id("EnrolmentNode", enrolment.id)}
     )
     # FIXME: The permission denied error should be raised
     # assert_permission_denied(executed)

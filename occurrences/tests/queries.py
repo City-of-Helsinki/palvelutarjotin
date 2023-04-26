@@ -215,7 +215,7 @@ $context:JSONString!){
 """
 
 
-ENROMENT_QUERY = """
+ENROLMENT_QUERY = """
 query enrolment($id: ID!){
   enrolment(id: $id){
     occurrence{
