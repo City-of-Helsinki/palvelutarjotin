@@ -66,7 +66,7 @@ from occurrences.tests.queries import (
     VENUE_QUERY,
     VENUES_QUERY,
 )
-from organisations.factories import PersonFactory
+from organisations.factories import OrganisationFactory, PersonFactory
 from palvelutarjotin.consts import (
     API_USAGE_ERROR,
     CAPTCHA_VALIDATION_FAILED_ERROR,
@@ -2399,6 +2399,16 @@ def test_enrolment_query_unauthorized(
     # assert_permission_denied(executed)
     assert executed["data"]["enrolment"] is None
 
+    # With a wrong organisation
+    other_organisation = OrganisationFactory()
+    staff_api_client.user.person.organisations.add(other_organisation)
+    executed = staff_api_client.execute(
+        ENROLMENT_QUERY, variables={"id": to_global_id("EnrolmentNode", enrolment.id)}
+    )
+    # FIXME: The permission denied error should be raised
+    # assert_permission_denied(executed)
+    assert executed["data"]["enrolment"] is None
+
 
 def test_cancel_enrolment_query(
     snapshot, api_client, mock_get_event_data, occurrence, study_group
@@ -2650,6 +2660,19 @@ def test_event_queue_enrolments_query_unauthorized(
     # FIXME: The permission denied error should be raised
     # assert_permission_denied(executed)
     executed["data"]["eventQueueEnrolments"] is None
+    # With a wrong organisation
+    other_organisation = OrganisationFactory()
+    staff_api_client.user.person.organisations.add(other_organisation)
+    executed = staff_api_client.execute(
+        EVENT_QUEUE_ENROLMENTS_QUERY,
+        variables={
+            "pEventId": to_global_id("PalvelutarjotinEventNode", p_event.id),
+            "first": 10,
+        },
+    )
+    # FIXME: The permission denied error should be raised
+    # assert_permission_denied(executed)
+    executed["data"]["eventQueueEnrolments"] is None
 
 
 def test_event_queue_enrolment_query(
@@ -2679,6 +2702,18 @@ def test_event_queue_enrolment_query_unauthorized(
         },
     )
     assert_permission_denied(executed)
+    executed = staff_api_client.execute(
+        EVENT_QUEUE_ENROLMENT_QUERY,
+        variables={
+            "id": to_global_id("EventQueueEnrolmentNode", event_queue_enrolment.id),
+        },
+    )
+    # FIXME: The permission denied error should be raised
+    # assert_permission_denied(executed)
+    assert executed["data"]["eventQueueEnrolment"] is None
+    # With a wrong organisation
+    other_organisation = OrganisationFactory()
+    staff_api_client.user.person.organisations.add(other_organisation)
     executed = staff_api_client.execute(
         EVENT_QUEUE_ENROLMENT_QUERY,
         variables={
