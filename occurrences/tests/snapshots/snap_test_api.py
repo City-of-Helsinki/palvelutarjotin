@@ -196,7 +196,7 @@ snapshots["test_approve_enrolment 2"] = [
     Occurrence: 06.01.2020 02.00
     Person: gonzalezmichele@example.org
     Click this link to cancel the enrolment:
-    https://kultus.fi/fi/enrolments/cancel/RW5yb2xtZW50Tm9kZToyNl8yMDIwLTAxLTA0IDAwOjAwOjAwKzAwOjAw
+    https://kultus.fi/fi/enrolments/cancel/RW5yb2xtZW50Tm9kZTozN18yMDIwLTAxLTA0IDAwOjAwOjAwKzAwOjAw
 
 """
 ]
@@ -213,7 +213,7 @@ snapshots["test_approve_enrolment_with_custom_message 2"] = [
     Occurrence: 06.01.2020 02.00
     Person: gonzalezmichele@example.org
     Click this link to cancel the enrolment:
-    https://kultus.fi/fi/enrolments/cancel/RW5yb2xtZW50Tm9kZToyOF8yMDIwLTAxLTA0IDAwOjAwOjAwKzAwOjAw
+    https://kultus.fi/fi/enrolments/cancel/RW5yb2xtZW50Tm9kZTozOV8yMDIwLTAxLTA0IDAwOjAwOjAwKzAwOjAw
 
     Custom message: custom message
 """

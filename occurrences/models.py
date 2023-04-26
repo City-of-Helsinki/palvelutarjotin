@@ -504,7 +504,7 @@ class StudyGroupQuerySet(models.QuerySet):
             entry[0] for entry in user.person.organisations.values_list("id")
         ]
         return self.with_organisation_ids().filter(
-            organisation_ids__contains=organisation_ids
+            organisation_ids__overlap=organisation_ids
         )
 
     def with_organisation_ids(self):
