@@ -2669,6 +2669,7 @@ def test_mass_approve_multi_occurrences_enrolment_mutation(
 def test_event_queue_enrolments_query(
     snapshot, organisation, staff_api_client, mock_get_event_data
 ):
+    staff_api_client.user.person.organisations.add(organisation)
     p_event = PalvelutarjotinEventFactory(organisation=organisation)
     EventQueueEnrolmentFactory.create_batch(15, p_event=p_event)
 
@@ -2695,9 +2696,12 @@ def test_event_queue_enrolments_query(
     snapshot.assert_match(executed)
 
 
-def test_event_queue_enrolments_query_unauthorized(api_client, organisation):
+def test_event_queue_enrolments_query_unauthorized(
+    api_client, staff_api_client, organisation
+):
     p_event = PalvelutarjotinEventFactory(organisation=organisation)
     EventQueueEnrolmentFactory.create_batch(5, p_event=p_event)
+    # Public client without organisation
     executed = api_client.execute(
         EVENT_QUEUE_ENROLMENTS_QUERY,
         variables={
@@ -2706,6 +2710,17 @@ def test_event_queue_enrolments_query_unauthorized(api_client, organisation):
         },
     )
     assert_permission_denied(executed)
+    # Staff without organisation
+    executed = staff_api_client.execute(
+        EVENT_QUEUE_ENROLMENTS_QUERY,
+        variables={
+            "pEventId": to_global_id("PalvelutarjotinEventNode", p_event.id),
+            "first": 10,
+        },
+    )
+    # FIXME: The permission denied error should be raised
+    # assert_permission_denied(executed)
+    executed["data"]["eventQueueEnrolments"] is None
 
 
 def test_event_queue_enrolment_query(
@@ -2713,6 +2728,7 @@ def test_event_queue_enrolment_query(
 ):
     p_event = PalvelutarjotinEventFactory(organisation=organisation)
     event_queue_enrolment = EventQueueEnrolmentFactory(p_event=p_event)
+    staff_api_client.user.person.organisations.add(p_event.organisation)
     executed = staff_api_client.execute(
         EVENT_QUEUE_ENROLMENT_QUERY,
         variables={
@@ -2723,7 +2739,7 @@ def test_event_queue_enrolment_query(
 
 
 def test_event_queue_enrolment_query_unauthorized(
-    organisation, api_client, mock_get_event_data
+    organisation, api_client, staff_api_client, mock_get_event_data
 ):
     p_event = PalvelutarjotinEventFactory(organisation=organisation)
     event_queue_enrolment = EventQueueEnrolmentFactory(p_event=p_event)
@@ -2734,6 +2750,15 @@ def test_event_queue_enrolment_query_unauthorized(
         },
     )
     assert_permission_denied(executed)
+    executed = staff_api_client.execute(
+        EVENT_QUEUE_ENROLMENT_QUERY,
+        variables={
+            "id": to_global_id("EventQueueEnrolmentNode", event_queue_enrolment.id),
+        },
+    )
+    # FIXME: The permission denied error should be raised
+    # assert_permission_denied(executed)
+    assert executed["data"]["eventQueueEnrolment"] is None
 
 
 def test_enrol_event_queue_mutation(

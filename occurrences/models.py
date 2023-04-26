@@ -653,6 +653,12 @@ class EventQueueEnrolmentQuerySet(models.QuerySet):
             )
         )
 
+    def filter_by_current_user_organisations(self, user: User):
+        if not user.person:
+            return self.none
+        organisation_ids = user.person.organisations.values("id")
+        return self.filter(p_event__organisation__in=organisation_ids)
+
 
 class EventQueueEnrolment(EnrolmentBase):
     STATUS_HAS_NO_ENROLMENTS = "has_no_enrolments"

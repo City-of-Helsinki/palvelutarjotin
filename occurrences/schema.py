@@ -649,7 +649,31 @@ class EventQueueEnrolmentNode(DjangoObjectType):
     @classmethod
     @staff_member_required
     def get_queryset(cls, queryset, info):
-        return super().get_queryset(queryset, info)
+        """
+        The enrolments are available only for the staff members.
+        Also the staff member should get only the enrolments
+        done to the occurrences provided by an organisation
+        he has access to. So, the enrolments list should be
+        filtered by the organisation
+        """
+        return (
+            super()
+            .get_queryset(queryset, info)
+            .filter_by_current_user_organisations(info.context.user)
+        )
+
+    @classmethod
+    @staff_member_required
+    def get_node(cls, info, id):
+        """
+        The enrolment is available only for the staff members.
+        Also the staff member should get only the enrolments
+        done to the occurrences provided by an organisation
+        he has access to. So, the enrolments list should be
+        filtered by the organisation
+        """
+        node = super().get_node(info, id)
+        return get_node_with_permission_check(node, info)
 
 
 class StudyGroupInput(graphene.InputObjectType):
@@ -1101,13 +1125,11 @@ class Query:
         status=EnrolmentStatusEnum(),
     )
 
-    # TODO: Check the organisation permissions
     event_queue_enrolments = OrderedDjangoFilterConnectionField(
         EventQueueEnrolmentNode,
         orderBy=graphene.List(of_type=graphene.String),
         description="Query for admin only",
     )
-    # TODO: Check the organisation permissions
     event_queue_enrolment = graphene.relay.Node.Field(
         EventQueueEnrolmentNode, description="Query for admin only"
     )
