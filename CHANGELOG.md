@@ -1,6 +1,13 @@
 <!-- REMINDER: While updating changelog, also remember to update
 the version in palvelutarjotin/__init.py__ -->
 
+## [1.7.0] - 27 April 2023
+
+- Removed the enrolments, the studyGroups and the studyGroup (single) query fields from the occurrences API
+- Improved data security by restricting the enrolments and study groups data with new permission checks
+- Added event queue enrolments
+- Refactored the long occurrence schema and test files by splitting content to new files
+
 ## [1.6.1] - 27 March 2023
 
 - Platta configurations
