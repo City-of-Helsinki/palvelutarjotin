@@ -227,8 +227,10 @@ def test_study_group_user_can_view(
         enrolment.study_group for enrolment in organisation_enrolments
     ]
     StudyGroupFactory.create_batch(5)
-    StudyGroup.objects.all().count() == 10
-    StudyGroup.objects.user_can_view(person.user).count() == len(organisation_groups)
+    assert StudyGroup.objects.all().count() == 10
+    assert StudyGroup.objects.user_can_view(person.user).count() == len(
+        organisation_groups
+    )
 
 
 @pytest.mark.django_db
