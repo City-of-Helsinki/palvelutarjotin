@@ -9,6 +9,7 @@ from parler.admin import TranslatableAdmin
 
 from occurrences.models import (
     Enrolment,
+    EventQueueEnrolment,
     Occurrence,
     PalvelutarjotinEvent,
     StudyGroup,
@@ -19,8 +20,36 @@ from organisations.admin import RetentionPeriodExceededListFilter
 from organisations.models import EnrolleePersonalData
 
 
+def render_person_deleted_at(obj):
+    if obj.person_deleted_at:
+        return mark_safe(
+            f'<span style="color: gray">{_("Deleted")} '
+            f"{date(obj.person_deleted_at)}</span>"
+        )
+    else:
+        return obj.person
+
+
 class OccurrenceInline(admin.TabularInline):
     model = Occurrence.study_groups.through
+    extra = 0
+
+
+class EventQueueEnrolmentInline(admin.TabularInline):
+    model = EventQueueEnrolment
+    extra = 0
+
+
+class EnrolmentInline(admin.TabularInline):
+    model = Enrolment
+    extra = 0
+    exclude = ("person_deleted_at",)
+
+
+class StudyGroupInline(admin.TabularInline):
+    model = StudyGroup
+    extra = 0
+    exclude = ("person_deleted_at",)
 
 
 class HasUnitIdStudyGroupListFilter(admin.SimpleListFilter):
@@ -56,7 +85,7 @@ class StudyGroupAdmin(admin.ModelAdmin):
         "get_person",
     )
     exclude = ("id",)
-    inlines = (OccurrenceInline,)
+    inlines = (OccurrenceInline, EventQueueEnrolmentInline)
     list_filter = ["created_at", HasUnitIdStudyGroupListFilter]
     search_fields = ["unit_id", "unit_name", "person"]
     readonly_fields = ("person_deleted_at",)
@@ -67,13 +96,7 @@ class StudyGroupAdmin(admin.ModelAdmin):
         return form
 
     def get_person(self, obj):
-        if obj.person_deleted_at:
-            return mark_safe(
-                f'<span style="color: gray">{_("Deleted")} '
-                f"{date(obj.person_deleted_at)}</span>"
-            )
-        else:
-            return obj.person
+        return render_person_deleted_at(obj)
 
     get_person.short_description = _("person")
 
@@ -114,6 +137,29 @@ class EnrolmentAdmin(admin.ModelAdmin):
 
     def linked_event_id(self, obj):
         return obj.occurrence.p_event.linked_event_id
+
+
+@admin.register(EventQueueEnrolment)
+class EventQueueEnrolmentAdmin(admin.ModelAdmin):
+    list_display = (
+        "id",
+        "linked_event_id",
+        "enrolment_time",
+        "study_group",
+        "get_person",
+        "status",
+    )
+    readonly_fields = ("enrolment_time", "person_deleted_at")
+    list_filter = ["enrolment_time"]
+    search_fields = ["p_event__linked_event_id", "study_group__unit_name"]
+
+    def linked_event_id(self, obj):
+        return obj.p_event.linked_event_id
+
+    def get_person(self, obj):
+        return render_person_deleted_at(obj)
+
+    get_person.short_description = _("person")
 
 
 @admin.register(VenueCustomData)
@@ -200,18 +246,6 @@ class PalvelutarjotinEventAdmin(admin.ModelAdmin):
             return obj.contact_email
 
     get_contact_email.short_description = _("contact email")
-
-
-class EnrolmentInline(admin.TabularInline):
-    model = Enrolment
-    extra = 0
-    exclude = ("person_deleted_at",)
-
-
-class StudyGroupInline(admin.TabularInline):
-    model = StudyGroup
-    extra = 0
-    exclude = ("person_deleted_at",)
 
 
 @admin.register(EnrolleePersonalData)
