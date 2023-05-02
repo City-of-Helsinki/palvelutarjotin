@@ -1343,7 +1343,9 @@ def test_enrol_max_needed_occurrences(snapshot, api_client, mock_get_event_data)
 
 
 @pytest.mark.django_db
+@pytest.mark.parametrize("send_notifications", [True, False])
 def test_auto_accept_message_is_used_as_custom_message_in_auto_approved_enrolments(
+    send_notifications,
     snapshot,
     api_client,
     mock_get_event_data,
@@ -1368,6 +1370,7 @@ def test_auto_accept_message_is_used_as_custom_message_in_auto_approved_enrolmen
     )
     variables = {
         "input": {
+            "sendNotifications": send_notifications,
             "occurrenceIds": [
                 to_global_id("OccurrenceNode", auto_accept_occurrence.id),
             ],
@@ -1387,10 +1390,13 @@ def test_auto_accept_message_is_used_as_custom_message_in_auto_approved_enrolmen
     }
     executed = api_client.execute(ENROL_OCCURRENCE_MUTATION, variables=variables)
     snapshot.assert_match(executed)
-    assert len(mail.outbox) == 1
-    body = mail.outbox[0].body
-    assert auto_acceptance_message in body
-    assert_mails_match_snapshot(snapshot)
+    if send_notifications:
+        assert len(mail.outbox) == 1
+        body = mail.outbox[0].body
+        assert auto_acceptance_message in body
+        assert_mails_match_snapshot(snapshot)
+    else:
+        assert len(mail.outbox) == 0
 
 
 def test_unenrol_occurrence_unauthorized(

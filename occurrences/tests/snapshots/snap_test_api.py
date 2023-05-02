@@ -196,7 +196,7 @@ snapshots["test_approve_enrolment 2"] = [
     Occurrence: 06.01.2020 02.00
     Person: gonzalezmichele@example.org
     Click this link to cancel the enrolment:
-    https://kultus.fi/fi/enrolments/cancel/RW5yb2xtZW50Tm9kZTozN18yMDIwLTAxLTA0IDAwOjAwOjAwKzAwOjAw
+    https://kultus.fi/fi/enrolments/cancel/RW5yb2xtZW50Tm9kZTozOF8yMDIwLTAxLTA0IDAwOjAwOjAwKzAwOjAw
 
 """
 ]
@@ -213,7 +213,7 @@ snapshots["test_approve_enrolment_with_custom_message 2"] = [
     Occurrence: 06.01.2020 02.00
     Person: gonzalezmichele@example.org
     Click this link to cancel the enrolment:
-    https://kultus.fi/fi/enrolments/cancel/RW5yb2xtZW50Tm9kZTozOV8yMDIwLTAxLTA0IDAwOjAwOjAwKzAwOjAw
+    https://kultus.fi/fi/enrolments/cancel/RW5yb2xtZW50Tm9kZTo0MF8yMDIwLTAxLTA0IDAwOjAwOjAwKzAwOjAw
 
     Custom message: custom message
 """
@@ -224,7 +224,7 @@ snapshots["test_ask_for_cancelled_confirmation_mutation 1"] = {
 }
 
 snapshots[
-    "test_auto_accept_message_is_used_as_custom_message_in_auto_approved_enrolments 1"
+    "test_auto_accept_message_is_used_as_custom_message_in_auto_approved_enrolments[False] 1"
 ] = {
     "data": {
         "enrolOccurrence": {
@@ -248,7 +248,31 @@ snapshots[
 }
 
 snapshots[
-    "test_auto_accept_message_is_used_as_custom_message_in_auto_approved_enrolments 2"
+    "test_auto_accept_message_is_used_as_custom_message_in_auto_approved_enrolments[True] 1"
+] = {
+    "data": {
+        "enrolOccurrence": {
+            "enrolments": [
+                {
+                    "notificationType": "EMAIL",
+                    "occurrence": {
+                        "amountOfSeats": 50,
+                        "remainingSeats": 35,
+                        "seatType": "CHILDREN_COUNT",
+                        "seatsApproved": 15,
+                        "seatsTaken": 15,
+                        "startTime": "2020-01-06T00:00:00+00:00",
+                    },
+                    "status": "APPROVED",
+                    "studyGroup": {"unitName": "To be created group"},
+                }
+            ]
+        }
+    }
+}
+
+snapshots[
+    "test_auto_accept_message_is_used_as_custom_message_in_auto_approved_enrolments[True] 2"
 ] = [
     """no-reply@hel.ninja|['longrebecca@example.com']|Enrolment approved FI|
     Event FI: Raija Malka & Kaija Saariaho: Blick
