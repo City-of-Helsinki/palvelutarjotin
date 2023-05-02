@@ -257,7 +257,7 @@ def enrol_to_occurrence(
     occurrences: List[Occurrence],
     person: Person,
     notification_type,
-    send_notifications=True,
+    send_notifications_on_auto_acceptance=True,
 ):
     enrolments: List[Enrolment] = []
     notifiable_enrolments: List[Tuple[Enrolment, Optional[str]]] = []
@@ -277,14 +277,17 @@ def enrol_to_occurrence(
             ] = enrolment.occurrence.p_event.safe_translation_getter(
                 "auto_acceptance_message", language_code=person.language
             )
+            # Skip notifications sending here:
+            # Send the notifications all at once when the data changes are done.
             enrolment.approve(send_notification=False)
-            notifiable_enrolments.append((enrolment, custom_message))
+            if send_notifications_on_auto_acceptance:
+                notifiable_enrolments.append((enrolment, custom_message))
 
         enrolments.append(enrolment)
 
-    if send_notifications:
-        for enrolment, custom_message in notifiable_enrolments:
-            enrolment.send_approve_notification(custom_message=custom_message)
+    # Send all the notifications all at once when the data changes are done.
+    for enrolment, custom_message in notifiable_enrolments:
+        enrolment.send_approve_notification(custom_message=custom_message)
 
     return enrolments
 

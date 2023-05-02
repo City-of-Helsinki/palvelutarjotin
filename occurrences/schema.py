@@ -730,6 +730,10 @@ class EnrolOccurrenceMutation(graphene.relay.ClientIDMutation):
         occurrence_ids = graphene.NonNull(
             graphene.List(graphene.ID), description="Occurrence ids of event"
         )
+        send_notifications = graphene.Boolean(
+            description="Should the related notifications be sent during the mutation. "
+            "Default is True.",
+        )
 
     enrolments = graphene.List(EnrolmentNode)
 
@@ -749,6 +753,7 @@ class EnrolOccurrenceMutation(graphene.relay.ClientIDMutation):
             "notification_type",
             Enrolment._meta.get_field("notification_type").get_default(),
         )
+        send_notifications = kwargs.pop("send_notifications", True)
         occurrence_ids = [
             get_node_id_from_global_id(occurrence_gid, "OccurrenceNode")
             for occurrence_gid in kwargs.pop("occurrence_ids")
@@ -765,6 +770,7 @@ class EnrolOccurrenceMutation(graphene.relay.ClientIDMutation):
             occurrences=occurrences,
             person=person,
             notification_type=notification_type,
+            send_notifications_on_auto_acceptance=send_notifications,
         )
         return EnrolOccurrenceMutation(enrolments=enrolments)
 
