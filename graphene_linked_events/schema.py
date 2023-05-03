@@ -27,7 +27,6 @@ from graphql_jwt.decorators import staff_member_required
 from types import SimpleNamespace
 
 from common.utils import (
-    format_linked_event_datetime,
     get_editable_obj_from_global_id,
     get_obj_from_global_id,
     update_object_with_translations,
@@ -41,14 +40,10 @@ from graphene_linked_events.utils import (
     json2obj,
     json_object_hook,
 )
-from occurrences.event_api_services import (
-    get_enrollable_event_time_range_from_occurrences,
-    get_event_time_range_from_occurrences,
-)
+from occurrences.event_api_services import prepare_published_event_data
 from occurrences.models import Occurrence, PalvelutarjotinEvent, VenueCustomData
 from organisations.models import Organisation, Person
 from palvelutarjotin.exceptions import (
-    ApiUsageError,
     DataValidationError,
     ObjectDoesNotExistError,
     UploadImageSizeExceededError,
@@ -914,35 +909,6 @@ class UpdateEventMutation(Mutation):
         return UpdateEventMutation(response=response)
 
 
-def _prepare_published_event_data(event_id):
-    # Only care about getting published event data, no permission/authorization check
-    # here
-    p_event: PalvelutarjotinEvent = PalvelutarjotinEvent.objects.get(
-        linked_event_id=event_id
-    )
-    if not p_event.occurrences.exists():
-        raise ApiUsageError("Cannot publish event without event occurrences")
-
-    start_time, end_time = get_event_time_range_from_occurrences(p_event)
-    (
-        enrolment_start_time,
-        enrolment_end_time,
-    ) = get_enrollable_event_time_range_from_occurrences(p_event)
-
-    body = {
-        "publication_status": PalvelutarjotinEvent.PUBLICATION_STATUS_PUBLIC,
-        "start_time": format_linked_event_datetime(start_time or timezone.now()),
-        "end_time": format_linked_event_datetime(end_time) if end_time else None,
-        "enrolment_start_time": format_linked_event_datetime(enrolment_start_time)
-        if enrolment_start_time
-        else None,
-        "enrolment_end_time": format_linked_event_datetime(enrolment_end_time)
-        if enrolment_end_time
-        else None,
-    }
-    return body
-
-
 class PublishEventMutation(UpdateEventMutation):
     class Arguments:
         event = PublishEventMutationInput()
@@ -954,7 +920,10 @@ class PublishEventMutation(UpdateEventMutation):
     def mutate(root, info, **kwargs):
         event_id = kwargs["event"].get("id")
         try:
-            kwargs["event"].update(_prepare_published_event_data(event_id))
+            p_event: PalvelutarjotinEvent = PalvelutarjotinEvent.objects.get(
+                linked_event_id=event_id
+            )
+            kwargs["event"].update(prepare_published_event_data(p_event))
         except PalvelutarjotinEvent.DoesNotExist as e:
             raise ObjectDoesNotExistError(e)
         # Publish event is actually update event, reuse UpdateEventMutation

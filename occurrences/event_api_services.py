@@ -1,11 +1,16 @@
 import json
 import logging
 from datetime import timedelta
+from django.utils import timezone
 from typing import List, Optional, TYPE_CHECKING
 
 from common.utils import format_linked_event_datetime
 from graphene_linked_events.utils import api_client, format_response, json2obj
-from palvelutarjotin.exceptions import ApiBadRequestError, ObjectDoesNotExistError
+from palvelutarjotin.exceptions import (
+    ApiBadRequestError,
+    ApiUsageError,
+    ObjectDoesNotExistError,
+)
 
 if TYPE_CHECKING:
     from occurrences.models import PalvelutarjotinEvent, StudyGroup
@@ -92,32 +97,20 @@ def send_event_languages_update(
     update_event_to_linkedevents_api(p_event.linked_event_id, event_obj)
 
 
+def send_event_publish(
+    p_event: "PalvelutarjotinEvent", linked_events_data: Optional[dict]
+):
+    body = prepare_published_event_data(p_event, linked_events_data)
+    response = api_client.create("event", body)
+    response.raise_for_status()
+
+
 def send_event_republish(p_event: "PalvelutarjotinEvent"):
     # FIXME: This is a needless call if LE would not need a full event data.
     # Since the LE needs at least all the required fields when an event is updated,
     # we first need to fetch the current event object.
     event_obj = fetch_event_as_json(p_event.linked_event_id)
-
-    start_time, end_time = get_event_time_range_from_occurrences(p_event)
-    (
-        enrolment_start_time,
-        enrolment_end_time,
-    ) = get_enrollable_event_time_range_from_occurrences(p_event)
-
-    event_obj["publication_status"] = p_event.__class__.PUBLICATION_STATUS_PUBLIC
-    event_obj["start_time"] = (
-        format_linked_event_datetime(start_time) if start_time else None
-    )
-    event_obj["end_time"] = format_linked_event_datetime(end_time) if end_time else None
-    event_obj["enrolment_start_time"] = (
-        format_linked_event_datetime(enrolment_start_time)
-        if enrolment_start_time
-        else None
-    )
-    event_obj["enrolment_end_time"] = (
-        format_linked_event_datetime(enrolment_end_time) if enrolment_end_time else None
-    )
-
+    event_obj.update(prepare_published_event_data(p_event))
     update_event_to_linkedevents_api(p_event.linked_event_id, event_obj)
 
 
@@ -203,3 +196,35 @@ def resolve_unit_name_with_unit_id(study_group: "StudyGroup"):
 
     if unit.name and unit.name.fi:
         study_group.unit_name = unit.name.fi
+
+
+def prepare_published_event_data(
+    p_event: "PalvelutarjotinEvent", event_data: Optional[dict] = None
+):
+    # Only care about getting published event data, no permission/authorization
+    # check here
+    if not p_event.occurrences.exists():
+        raise ApiUsageError("Cannot publish event without event occurrences")
+
+    start_time, end_time = get_event_time_range_from_occurrences(p_event)
+    (
+        enrolment_start_time,
+        enrolment_end_time,
+    ) = get_enrollable_event_time_range_from_occurrences(p_event)
+
+    data = {
+        "publication_status": p_event.__class__.PUBLICATION_STATUS_PUBLIC,
+        "start_time": format_linked_event_datetime(start_time or timezone.now()),
+        "end_time": format_linked_event_datetime(end_time) if end_time else None,
+        "enrolment_start_time": format_linked_event_datetime(enrolment_start_time)
+        if enrolment_start_time
+        else None,
+        "enrolment_end_time": format_linked_event_datetime(enrolment_end_time)
+        if enrolment_end_time
+        else None,
+    }
+
+    if event_data:
+        data.update(event_data)
+
+    return data
