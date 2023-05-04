@@ -1994,6 +1994,24 @@ snapshots["test_occurrences_query 1"] = {
     }
 }
 
+snapshots["test_pick_enrolment_from_queue 1"] = {
+    "data": {
+        "pickEnrolmentFromQueue": {
+            "enrolment": {
+                "notificationType": "EMAIL",
+                "person": {
+                    "emailAddress": "lisawallace@example.com",
+                    "name": "Ashley Jones",
+                },
+                "status": "PENDING",
+                "studyGroup": {
+                    "groupName": "Decade address have turn serve me every traditional. Sound describe risk newspaper reflect four."
+                },
+            }
+        }
+    }
+}
+
 snapshots["test_study_level_query 1"] = {
     "data": {
         "studyLevel": {

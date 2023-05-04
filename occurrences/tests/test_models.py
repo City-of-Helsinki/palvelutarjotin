@@ -271,13 +271,14 @@ def test_creating_enrolment_from_event_queue_enrolment(mock_get_event_data):
     The event queue enrolment can be easily used as a base
     for an enrolment to an occurrence.
     """
+    occurrence = OccurrenceFactory()
     queue = EventQueueEnrolmentFactory()
-    occurrence = OccurrenceFactory(p_event=queue.p_event)
-    enrolment = Enrolment(
-        occurrence=occurrence, study_group=queue.study_group, person=queue.person
-    )
-    enrolment.save()
+    enrolment = queue.create_enrolment(occurrence)
     assert Enrolment.objects.count() == 1
+    assert enrolment.occurrence == occurrence
+    assert enrolment.study_group == queue.study_group
+    assert enrolment.person == queue.person
+    assert enrolment.notification_type == queue.notification_type
 
 
 @pytest.mark.django_db
