@@ -718,6 +718,16 @@ class EventQueueEnrolment(EnrolmentBase):
             else self.STATUS_HAS_NO_ENROLMENTS
         )
 
+    def create_enrolment(self, occurrence: Occurrence):
+        enrolment = Enrolment(
+            occurrence=occurrence,
+            study_group=self.study_group,
+            notification_type=self.notification_type,
+            person=self.person,
+        )
+        enrolment.save()
+        return enrolment
+
 
 class Enrolment(EnrolmentBase):
     STATUS_APPROVED = "approved"

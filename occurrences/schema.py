@@ -1,7 +1,7 @@
 import graphene
 from django.apps import apps
 from django.conf import settings
-from django.db import transaction
+from django.db import IntegrityError, transaction
 from django.utils import timezone
 from django.utils.translation import get_language
 from graphene.utils.str_converters import to_snake_case
@@ -47,6 +47,7 @@ from occurrences.schema_services import (
 from organisations.models import Organisation
 from organisations.schema import PersonNodeInput
 from palvelutarjotin.exceptions import (
+    AlreadyJoinedEventError,
     ApiUsageError,
     EnrolCancelledOccurrenceError,
     ObjectDoesNotExistError,
@@ -725,6 +726,45 @@ class UnenrolEventQueueMutation(graphene.relay.ClientIDMutation):
         return UnenrolEventQueueMutation(study_group=study_group, p_event=p_event)
 
 
+class PickEnrolmentFromQueueMutation(graphene.relay.ClientIDMutation):
+    class Input:
+        occurrence_id = graphene.GlobalID()
+        event_queue_enrolment_id = graphene.GlobalID()
+
+    enrolment = graphene.Field(EnrolmentNode)
+
+    @classmethod
+    @staff_member_required
+    @transaction.atomic
+    def mutate_and_get_payload(cls, root, info, **kwargs):
+        occurrence = get_editable_obj_from_global_id(
+            info, kwargs["occurrence_id"], Occurrence
+        )
+        queue_enrolment = get_editable_obj_from_global_id(
+            info, kwargs["event_queue_enrolment_id"], EventQueueEnrolment
+        )
+
+        if occurrence.p_event != queue_enrolment.p_event:
+            raise ApiUsageError(
+                "The queued enrolment and the occurrence must be for the same event"
+            )
+
+        if occurrence.cancelled:
+            raise EnrolCancelledOccurrenceError(
+                "Cannot approve enrolment to cancelled occurrence"
+            )
+
+        try:
+            enrolment = queue_enrolment.create_enrolment(occurrence)
+        except IntegrityError:
+            event_id = occurrence.p_event.linked_event_id
+            raise AlreadyJoinedEventError(
+                f"The study group ({queue_enrolment.study_group}) is already "
+                f"in the list of enrolment of this event ({event_id})."
+            )
+        return ApproveEnrolmentMutation(enrolment=enrolment)
+
+
 class EnrolOccurrenceMutation(graphene.relay.ClientIDMutation):
     class Input(EnrolInputBase):
         occurrence_ids = graphene.NonNull(
@@ -1154,3 +1194,4 @@ class Mutation:
     cancel_enrolment = CancelEnrolmentMutation.Field()
     enrol_event_queue = EnrolEventQueueMutation.Field()
     unenrol_event_queue = UnenrolEventQueueMutation.Field()
+    pick_enrolment_from_queue = PickEnrolmentFromQueueMutation.Field()

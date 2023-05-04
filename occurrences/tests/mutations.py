@@ -399,3 +399,21 @@ mutation unenrolEventQueue($input: UnenrolEventQueueMutationInput!){
   }
 }
 """
+
+PICK_ENROLMENT_FROM_QUEUE_MUTATION = """
+mutation PickEnrolmentFromQueueMutation($input: PickEnrolmentFromQueueMutationInput!){
+  pickEnrolmentFromQueue(input: $input){
+    enrolment{
+      studyGroup{
+        groupName
+      }
+      notificationType
+      status
+      person{
+        name
+        emailAddress
+      }
+    }
+  }
+}
+"""

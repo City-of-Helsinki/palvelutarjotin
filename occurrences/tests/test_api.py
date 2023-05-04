@@ -43,6 +43,7 @@ from occurrences.tests.mutations import (
     ENROL_EVENT_QUEUE_MUTATION,
     ENROL_OCCURRENCE_MUTATION,
     MASS_APPROVE_ENROLMENTS_MUTATION,
+    PICK_ENROLMENT_FROM_QUEUE_MUTATION,
     UNENROL_EVENT_QUEUE_MUTATION,
     UNENROL_OCCURRENCE_MUTATION,
     UPDATE_ENROLMENT_MUTATION,
@@ -68,6 +69,7 @@ from occurrences.tests.queries import (
 )
 from organisations.factories import OrganisationFactory, PersonFactory
 from palvelutarjotin.consts import (
+    ALREADY_JOINED_EVENT_ERROR,
     API_USAGE_ERROR,
     CAPTCHA_VALIDATION_FAILED_ERROR,
     DATA_VALIDATION_ERROR,
@@ -2786,6 +2788,8 @@ def test_unenrol_event_queue_mutation_unauthorized(
 ):
     study_group_15 = StudyGroupFactory(group_size=15)
     p_event = PalvelutarjotinEventFactory(organisation=organisation)
+    EventQueueEnrolmentFactory(study_group=study_group_15, p_event=p_event)
+    assert EventQueueEnrolment.objects.count() == 1
     variables = {
         "input": {
             "pEventId": to_global_id("PalvelutarjotinEventNode", p_event.id),
@@ -2794,3 +2798,126 @@ def test_unenrol_event_queue_mutation_unauthorized(
     }
     executed = api_client.execute(UNENROL_EVENT_QUEUE_MUTATION, variables=variables)
     assert_permission_denied(executed)
+    assert EventQueueEnrolment.objects.count() == 1
+
+
+def test_pick_enrolment_from_queue(
+    snapshot, staff_api_client, organisation, mock_get_event_data
+):
+    p_event = PalvelutarjotinEventFactory(organisation=organisation)
+    occurrence = OccurrenceFactory(p_event=p_event)
+    queue = EventQueueEnrolmentFactory(p_event=p_event)
+    variables = {
+        "input": {
+            "occurrenceId": to_global_id("OccurrenceNode", occurrence.id),
+            "eventQueueEnrolmentId": to_global_id("EventQueueEnrolmentNode", queue.id),
+        }
+    }
+    staff_api_client.user.person.organisations.add(organisation)
+    Enrolment.objects.count() == 0
+    executed = staff_api_client.execute(
+        PICK_ENROLMENT_FROM_QUEUE_MUTATION, variables=variables
+    )
+    Enrolment.objects.count() == 1
+    snapshot.assert_match(executed)
+
+
+def test_pick_enrolment_from_queue_unauthorized(
+    api_client, staff_api_client, organisation, mock_get_event_data
+):
+    p_event = PalvelutarjotinEventFactory(organisation=organisation)
+    occurrence = OccurrenceFactory(p_event=p_event)
+    queue = EventQueueEnrolmentFactory(p_event=p_event)
+    assert Enrolment.objects.count() == 0
+    variables = {
+        "input": {
+            "occurrenceId": to_global_id("OccurrenceNode", occurrence.id),
+            "eventQueueEnrolmentId": to_global_id("EventQueueEnrolmentNode", queue.id),
+        }
+    }
+    executed = api_client.execute(
+        PICK_ENROLMENT_FROM_QUEUE_MUTATION, variables=variables
+    )
+    assert_permission_denied(executed)
+    assert Enrolment.objects.count() == 0
+
+    # As a staff member, but without the organisation
+    executed = staff_api_client.execute(
+        PICK_ENROLMENT_FROM_QUEUE_MUTATION, variables=variables
+    )
+    assert_permission_denied(executed)
+    assert Enrolment.objects.count() == 0
+
+    # As a staff member, but in a wrong organisation
+    other_organisation = OrganisationFactory()
+    staff_api_client.user.person.organisations.add(other_organisation)
+    executed = staff_api_client.execute(
+        PICK_ENROLMENT_FROM_QUEUE_MUTATION, variables=variables
+    )
+    assert_permission_denied(executed)
+    assert Enrolment.objects.count() == 0
+
+
+def test_pick_enrolment_from_queue_duplicate_entry(
+    staff_api_client, organisation, mock_get_event_data
+):
+    p_event = PalvelutarjotinEventFactory(organisation=organisation)
+    occurrence = OccurrenceFactory(p_event=p_event)
+    queue = EventQueueEnrolmentFactory(p_event=p_event)
+    variables = {
+        "input": {
+            "occurrenceId": to_global_id("OccurrenceNode", occurrence.id),
+            "eventQueueEnrolmentId": to_global_id("EventQueueEnrolmentNode", queue.id),
+        }
+    }
+    # 1 Queue entry for the same group already
+    assert Enrolment.objects.count() == 0
+    queue.create_enrolment(occurrence)
+    assert Enrolment.objects.count() == 1
+    staff_api_client.user.person.organisations.add(organisation)
+    executed = staff_api_client.execute(
+        PICK_ENROLMENT_FROM_QUEUE_MUTATION, variables=variables
+    )
+    assert_match_error_code(executed, ALREADY_JOINED_EVENT_ERROR)
+    assert Enrolment.objects.count() == 1
+
+
+def test_pick_enrolment_from_queue_event_validation(
+    staff_api_client, organisation, mock_get_event_data
+):
+    p_event = PalvelutarjotinEventFactory(organisation=organisation)
+    another_p_event = PalvelutarjotinEventFactory(organisation=organisation)
+    occurrence = OccurrenceFactory(p_event=p_event)
+    queue = EventQueueEnrolmentFactory(p_event=another_p_event)
+    variables = {
+        "input": {
+            "occurrenceId": to_global_id("OccurrenceNode", occurrence.id),
+            "eventQueueEnrolmentId": to_global_id("EventQueueEnrolmentNode", queue.id),
+        }
+    }
+    staff_api_client.user.person.organisations.add(organisation)
+    executed = staff_api_client.execute(
+        PICK_ENROLMENT_FROM_QUEUE_MUTATION, variables=variables
+    )
+    assert_match_error_code(executed, API_USAGE_ERROR)
+    assert Enrolment.objects.count() == 0
+
+
+def test_pick_enrolment_from_queue_if_occurrence_cancelled(
+    staff_api_client, organisation, mock_get_event_data
+):
+    p_event = PalvelutarjotinEventFactory(organisation=organisation)
+    occurrence = OccurrenceFactory(p_event=p_event, cancelled=True)
+    queue = EventQueueEnrolmentFactory(p_event=p_event)
+    variables = {
+        "input": {
+            "occurrenceId": to_global_id("OccurrenceNode", occurrence.id),
+            "eventQueueEnrolmentId": to_global_id("EventQueueEnrolmentNode", queue.id),
+        }
+    }
+    staff_api_client.user.person.organisations.add(organisation)
+    executed = staff_api_client.execute(
+        PICK_ENROLMENT_FROM_QUEUE_MUTATION, variables=variables
+    )
+    assert_match_error_code(executed, ENROL_CANCELLED_OCCURRENCE_ERROR)
+    assert Enrolment.objects.count() == 0
