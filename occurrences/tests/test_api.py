@@ -2755,6 +2755,7 @@ def test_enrol_event_queue_mutation(
         }
     }
     executed = api_client.execute(ENROL_EVENT_QUEUE_MUTATION, variables=variables)
+    assert EventQueueEnrolment.objects.count() == 1
     snapshot.assert_match(executed)
 
 

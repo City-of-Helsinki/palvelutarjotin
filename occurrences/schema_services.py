@@ -309,5 +309,7 @@ def enrol_to_event_queue(
             study_group=study_group,
             person=person,
             notification_type=notification_type,
+            enrolment_time=timezone.now(),
         )
+        event_queue_enrolment.save()
     return event_queue_enrolment
