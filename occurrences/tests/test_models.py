@@ -722,24 +722,37 @@ def test_enrolment_approved_enrolments_by_email(mock_get_event_data):
 
 @pytest.mark.django_db
 @pytest.mark.parametrize("delete_via_queryset", (False, True))
-def test_enrolment_and_study_group_person_deletion(
-    delete_via_queryset, mock_get_event_data
+@pytest.mark.parametrize(
+    "enrolment_base_child_object_factory, expected_factory_object_type",
+    [
+        (EnrolmentFactory, Enrolment),
+        (EventQueueEnrolmentFactory, EventQueueEnrolment),
+    ],
+)
+def test_enrolment_base_child_object_and_study_group_person_deletion(
+    delete_via_queryset,
+    enrolment_base_child_object_factory,
+    expected_factory_object_type,
+    mock_get_event_data,
 ):
     person = PersonFactory()
     study_group = StudyGroupFactory(person=person)
-    enrolment = EnrolmentFactory(study_group=study_group, person=person)
+    enrolment_base_child_object = enrolment_base_child_object_factory(
+        study_group=study_group, person=person
+    )
+    assert isinstance(enrolment_base_child_object, expected_factory_object_type)
 
     if delete_via_queryset:
         Person.objects.filter(pk=person.pk).delete()
     else:
         person.delete()
 
-    enrolment.refresh_from_db()
+    enrolment_base_child_object.refresh_from_db()
     study_group.refresh_from_db()
 
     assert not Person.objects.filter(pk=person.pk).exists()
-    assert enrolment.person is None
-    assert enrolment.person_deleted_at is not None
+    assert enrolment_base_child_object.person is None
+    assert enrolment_base_child_object.person_deleted_at is not None
     assert study_group.person is None
     assert study_group.person_deleted_at is not None
 

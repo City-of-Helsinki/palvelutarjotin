@@ -208,11 +208,12 @@ class Person(UUIDPrimaryKeyModel, TimestampedModel):
         return super().delete(*args, **kwargs)
 
     def set_related_objects_person_deleted_at(self):
-        from occurrences.models import Enrolment, StudyGroup
+        from occurrences.models import Enrolment, EventQueueEnrolment, StudyGroup
 
         now = timezone.now()
         Enrolment.objects.filter(person=self).update(person_deleted_at=now)
         StudyGroup.objects.filter(person=self).update(person_deleted_at=now)
+        EventQueueEnrolment.objects.filter(person=self).update(person_deleted_at=now)
 
     def is_editable_by_user(self, user):
         return (
