@@ -2618,8 +2618,24 @@ def test_event_queue_enrolments_query(
 ):
     staff_api_client.user.person.organisations.add(organisation)
     p_event = PalvelutarjotinEventFactory(organisation=organisation)
+    other_p_event = PalvelutarjotinEventFactory(organisation=organisation)
     EventQueueEnrolmentFactory.create_batch(15, p_event=p_event)
+    EventQueueEnrolmentFactory.create_batch(10, p_event=other_p_event)
+    EventQueueEnrolmentFactory.create_batch(10)
+    assert EventQueueEnrolment.objects.count() == 35
 
+    # Without the pEventId filter,
+    # there should be all enrolments from the organisation
+    executed = staff_api_client.execute(
+        EVENT_QUEUE_ENROLMENTS_QUERY,
+        variables={
+            "first": 10,
+        },
+    )
+    assert executed["data"]["eventQueueEnrolments"]["count"] == 25
+    assert len(executed["data"]["eventQueueEnrolments"]["edges"]) == 10
+
+    # With a pEventId filter there should be only 1 event enrolments
     executed = staff_api_client.execute(
         EVENT_QUEUE_ENROLMENTS_QUERY,
         variables={
@@ -2630,6 +2646,8 @@ def test_event_queue_enrolments_query(
     assert executed["data"]["eventQueueEnrolments"]["count"] == 15
     assert len(executed["data"]["eventQueueEnrolments"]["edges"]) == 10
     snapshot.assert_match(executed)
+
+    # With pEvent filter, but the second page
     executed = staff_api_client.execute(
         EVENT_QUEUE_ENROLMENTS_QUERY,
         variables={
@@ -2641,6 +2659,19 @@ def test_event_queue_enrolments_query(
     assert executed["data"]["eventQueueEnrolments"]["count"] == 15
     assert len(executed["data"]["eventQueueEnrolments"]["edges"]) == 5
     snapshot.assert_match(executed)
+
+    # With a pEvent filter that does not fit to any pEvent
+    # the result set will be unfiltered
+    # TODO: Instead of returning all, it would be better if it would return empty
+    executed = staff_api_client.execute(
+        EVENT_QUEUE_ENROLMENTS_QUERY,
+        variables={
+            "pEventId": "not-an-id-that-would-match",
+            "first": 10,
+        },
+    )
+    assert executed["data"]["eventQueueEnrolments"]["count"] == 25
+    assert len(executed["data"]["eventQueueEnrolments"]["edges"]) == 10
 
 
 def test_event_queue_enrolments_query_unauthorized(

@@ -283,6 +283,9 @@ query eventQueueEnrolments(
       node{
         pEvent{
           linkedEventId
+          organisation {
+            name
+          }
         }
         studyGroup{
           groupName

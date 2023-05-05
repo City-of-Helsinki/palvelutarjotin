@@ -553,7 +553,10 @@ snapshots["test_event_queue_enrolments_query 1"] = {
                 {
                     "cursor": "YXJyYXljb25uZWN0aW9uOjA=",
                     "node": {
-                        "pEvent": {"linkedEventId": "UIrta"},
+                        "pEvent": {
+                            "linkedEventId": "UIrta",
+                            "organisation": {"name": "Graves and Sons"},
+                        },
                         "status": "HAS_NO_ENROLMENTS",
                         "studyGroup": {
                             "groupName": "The threat organization check may available. Offer much discuss."
@@ -563,7 +566,10 @@ snapshots["test_event_queue_enrolments_query 1"] = {
                 {
                     "cursor": "YXJyYXljb25uZWN0aW9uOjE=",
                     "node": {
-                        "pEvent": {"linkedEventId": "UIrta"},
+                        "pEvent": {
+                            "linkedEventId": "UIrta",
+                            "organisation": {"name": "Graves and Sons"},
+                        },
                         "status": "HAS_NO_ENROLMENTS",
                         "studyGroup": {
                             "groupName": "Threat kitchen table along evening need line. Mission once pretty. Nor heavy well brother."
@@ -573,7 +579,10 @@ snapshots["test_event_queue_enrolments_query 1"] = {
                 {
                     "cursor": "YXJyYXljb25uZWN0aW9uOjI=",
                     "node": {
-                        "pEvent": {"linkedEventId": "UIrta"},
+                        "pEvent": {
+                            "linkedEventId": "UIrta",
+                            "organisation": {"name": "Graves and Sons"},
+                        },
                         "status": "HAS_NO_ENROLMENTS",
                         "studyGroup": {
                             "groupName": "Network view dark understand close. First control education list full hotel."
@@ -583,7 +592,10 @@ snapshots["test_event_queue_enrolments_query 1"] = {
                 {
                     "cursor": "YXJyYXljb25uZWN0aW9uOjM=",
                     "node": {
-                        "pEvent": {"linkedEventId": "UIrta"},
+                        "pEvent": {
+                            "linkedEventId": "UIrta",
+                            "organisation": {"name": "Graves and Sons"},
+                        },
                         "status": "HAS_NO_ENROLMENTS",
                         "studyGroup": {
                             "groupName": "Degree keep wish crime parent. Find behind the. Identify second ready theory single."
@@ -593,7 +605,10 @@ snapshots["test_event_queue_enrolments_query 1"] = {
                 {
                     "cursor": "YXJyYXljb25uZWN0aW9uOjQ=",
                     "node": {
-                        "pEvent": {"linkedEventId": "UIrta"},
+                        "pEvent": {
+                            "linkedEventId": "UIrta",
+                            "organisation": {"name": "Graves and Sons"},
+                        },
                         "status": "HAS_NO_ENROLMENTS",
                         "studyGroup": {
                             "groupName": "Offer alone population vote human professional or draw. Easy since keep trial across dark share."
@@ -603,7 +618,10 @@ snapshots["test_event_queue_enrolments_query 1"] = {
                 {
                     "cursor": "YXJyYXljb25uZWN0aW9uOjU=",
                     "node": {
-                        "pEvent": {"linkedEventId": "UIrta"},
+                        "pEvent": {
+                            "linkedEventId": "UIrta",
+                            "organisation": {"name": "Graves and Sons"},
+                        },
                         "status": "HAS_NO_ENROLMENTS",
                         "studyGroup": {
                             "groupName": "Friend clear focus operation its bar anyone he."
@@ -613,7 +631,10 @@ snapshots["test_event_queue_enrolments_query 1"] = {
                 {
                     "cursor": "YXJyYXljb25uZWN0aW9uOjY=",
                     "node": {
-                        "pEvent": {"linkedEventId": "UIrta"},
+                        "pEvent": {
+                            "linkedEventId": "UIrta",
+                            "organisation": {"name": "Graves and Sons"},
+                        },
                         "status": "HAS_NO_ENROLMENTS",
                         "studyGroup": {
                             "groupName": "Worker institution which open. But must thought into trip."
@@ -623,7 +644,10 @@ snapshots["test_event_queue_enrolments_query 1"] = {
                 {
                     "cursor": "YXJyYXljb25uZWN0aW9uOjc=",
                     "node": {
-                        "pEvent": {"linkedEventId": "UIrta"},
+                        "pEvent": {
+                            "linkedEventId": "UIrta",
+                            "organisation": {"name": "Graves and Sons"},
+                        },
                         "status": "HAS_NO_ENROLMENTS",
                         "studyGroup": {
                             "groupName": "Itself green right science chair door suddenly paper. Drop street than."
@@ -633,7 +657,10 @@ snapshots["test_event_queue_enrolments_query 1"] = {
                 {
                     "cursor": "YXJyYXljb25uZWN0aW9uOjg=",
                     "node": {
-                        "pEvent": {"linkedEventId": "UIrta"},
+                        "pEvent": {
+                            "linkedEventId": "UIrta",
+                            "organisation": {"name": "Graves and Sons"},
+                        },
                         "status": "HAS_NO_ENROLMENTS",
                         "studyGroup": {
                             "groupName": "Happy avoid head include. Form ahead center town least style above."
@@ -643,7 +670,10 @@ snapshots["test_event_queue_enrolments_query 1"] = {
                 {
                     "cursor": "YXJyYXljb25uZWN0aW9uOjk=",
                     "node": {
-                        "pEvent": {"linkedEventId": "UIrta"},
+                        "pEvent": {
+                            "linkedEventId": "UIrta",
+                            "organisation": {"name": "Graves and Sons"},
+                        },
                         "status": "HAS_NO_ENROLMENTS",
                         "studyGroup": {
                             "groupName": "Take maintain reveal. Develop two send year home argue way. Style design five."
@@ -663,7 +693,10 @@ snapshots["test_event_queue_enrolments_query 2"] = {
                 {
                     "cursor": "YXJyYXljb25uZWN0aW9uOjEw",
                     "node": {
-                        "pEvent": {"linkedEventId": "UIrta"},
+                        "pEvent": {
+                            "linkedEventId": "UIrta",
+                            "organisation": {"name": "Graves and Sons"},
+                        },
                         "status": "HAS_NO_ENROLMENTS",
                         "studyGroup": {
                             "groupName": "True month might yeah road. Couple bring pull someone."
@@ -673,7 +706,10 @@ snapshots["test_event_queue_enrolments_query 2"] = {
                 {
                     "cursor": "YXJyYXljb25uZWN0aW9uOjEx",
                     "node": {
-                        "pEvent": {"linkedEventId": "UIrta"},
+                        "pEvent": {
+                            "linkedEventId": "UIrta",
+                            "organisation": {"name": "Graves and Sons"},
+                        },
                         "status": "HAS_NO_ENROLMENTS",
                         "studyGroup": {
                             "groupName": "Training series instead task. Within join bank worry."
@@ -683,7 +719,10 @@ snapshots["test_event_queue_enrolments_query 2"] = {
                 {
                     "cursor": "YXJyYXljb25uZWN0aW9uOjEy",
                     "node": {
-                        "pEvent": {"linkedEventId": "UIrta"},
+                        "pEvent": {
+                            "linkedEventId": "UIrta",
+                            "organisation": {"name": "Graves and Sons"},
+                        },
                         "status": "HAS_NO_ENROLMENTS",
                         "studyGroup": {
                             "groupName": "Their start concern song social. Agency happen sure indicate."
@@ -693,20 +732,26 @@ snapshots["test_event_queue_enrolments_query 2"] = {
                 {
                     "cursor": "YXJyYXljb25uZWN0aW9uOjEz",
                     "node": {
-                        "pEvent": {"linkedEventId": "UIrta"},
+                        "pEvent": {
+                            "linkedEventId": "UIrta",
+                            "organisation": {"name": "Graves and Sons"},
+                        },
                         "status": "HAS_NO_ENROLMENTS",
                         "studyGroup": {
-                            "groupName": "Better majority behavior along pressure yes others. Trouble change world indeed always."
+                            "groupName": "By rate activity business let art. Admit think edge once election seat."
                         },
                     },
                 },
                 {
                     "cursor": "YXJyYXljb25uZWN0aW9uOjE0",
                     "node": {
-                        "pEvent": {"linkedEventId": "UIrta"},
+                        "pEvent": {
+                            "linkedEventId": "UIrta",
+                            "organisation": {"name": "Graves and Sons"},
+                        },
                         "status": "HAS_NO_ENROLMENTS",
                         "studyGroup": {
-                            "groupName": "Let join might player example environment. Then offer organization model."
+                            "groupName": "Key crime trial investment difference. Let join might player example environment."
                         },
                     },
                 },
