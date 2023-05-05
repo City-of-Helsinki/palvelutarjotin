@@ -178,6 +178,53 @@ snapshots["test_organisations_query_type_filter 2"] = {
     }
 }
 
+snapshots["test_person_enrolments 1"] = {
+    "data": {
+        "person": {
+            "enrolmentSet": {
+                "edges": [
+                    {
+                        "node": {
+                            "studyGroup": {
+                                "groupName": "Federal minute paper third item future far power. College information training."
+                            }
+                        }
+                    },
+                    {
+                        "node": {
+                            "studyGroup": {
+                                "groupName": "Focus few executive. Movie work organization successful. Fear teacher loss sea just soon food."
+                            }
+                        }
+                    },
+                    {
+                        "node": {
+                            "studyGroup": {
+                                "groupName": "Eat design give per kind history ahead. Herself consider fight us claim. Age feeling speech eye."
+                            }
+                        }
+                    },
+                    {
+                        "node": {
+                            "studyGroup": {
+                                "groupName": "Tv news management letter. Animal list adult draw staff her."
+                            }
+                        }
+                    },
+                    {
+                        "node": {
+                            "studyGroup": {
+                                "groupName": "Second know say former conference carry factor. Natural each difficult special respond positive."
+                            }
+                        }
+                    },
+                ]
+            },
+            "name": "Nancy Conway",
+        }
+    }
+}
+
 snapshots["test_person_query 1"] = {"data": {"person": None}}
 
 snapshots["test_person_query 2"] = {"data": {"person": None}}
@@ -208,6 +255,84 @@ snapshots["test_person_query 4"] = {
                 "COmRVJDOXAmjOnQtrkEQ",
                 "KcMIonuxkiABRtJfcwOr",
             ],
+        }
+    }
+}
+
+snapshots["test_person_queued_enrolments 1"] = {
+    "data": {
+        "person": {
+            "eventqueueenrolmentSet": {
+                "edges": [
+                    {
+                        "node": {
+                            "studyGroup": {
+                                "groupName": "Anyone conference should feel produce wife. Wonder pressure stage research direction forget list."
+                            }
+                        }
+                    },
+                    {
+                        "node": {
+                            "studyGroup": {
+                                "groupName": "Tonight use form simply trade minute production."
+                            }
+                        }
+                    },
+                    {
+                        "node": {
+                            "studyGroup": {
+                                "groupName": "Policy parent toward apply see on send in. Full three especially card animal recognize stock."
+                            }
+                        }
+                    },
+                    {
+                        "node": {
+                            "studyGroup": {
+                                "groupName": "Hotel event already college. Ok court type hit."
+                            }
+                        }
+                    },
+                    {"node": {"studyGroup": {"groupName": "Six feel real fast."}}},
+                ]
+            },
+            "name": "Nancy Conway",
+        }
+    }
+}
+
+snapshots["test_person_study_groups 1"] = {
+    "data": {
+        "person": {
+            "name": "Nancy Conway",
+            "studygroupSet": {
+                "edges": [
+                    {
+                        "node": {
+                            "groupName": "Second know say former conference carry factor. Natural each difficult special respond positive."
+                        }
+                    },
+                    {
+                        "node": {
+                            "groupName": "Tv news management letter. Animal list adult draw staff her."
+                        }
+                    },
+                    {
+                        "node": {
+                            "groupName": "Eat design give per kind history ahead. Herself consider fight us claim. Age feeling speech eye."
+                        }
+                    },
+                    {
+                        "node": {
+                            "groupName": "Focus few executive. Movie work organization successful. Fear teacher loss sea just soon food."
+                        }
+                    },
+                    {
+                        "node": {
+                            "groupName": "Federal minute paper third item future far power. College information training."
+                        }
+                    },
+                ]
+            },
         }
     }
 }
