@@ -4,6 +4,11 @@ from django.core import mail
 from graphql_relay import to_global_id
 
 from common.tests.utils import assert_match_error_code, assert_permission_denied
+from occurrences.factories import (
+    EnrolmentFactory,
+    EventQueueEnrolmentFactory,
+    PalvelutarjotinEventFactory,
+)
 from organisations.factories import OrganisationFactory, PersonFactory, UserFactory
 from organisations.models import Organisation
 from palvelutarjotin.consts import (
@@ -481,3 +486,196 @@ def test_update_organisation(snapshot, superuser_api_client, organisation):
         UPDATE_ORGANISATION_MUTATION, variables=variables
     )
     snapshot.assert_match(executed)
+
+
+PERSON_QUEUED_ENROLMENTS_QUERY = """
+query Person($id:ID!){
+  person(id: $id){
+    name
+    eventqueueenrolmentSet {
+      edges {
+        node {
+          studyGroup {
+            groupName
+          }
+        }
+      }
+    }
+  }
+}
+"""
+
+
+def test_person_queued_enrolments(snapshot, staff_api_client, person, organisation):
+    person = staff_api_client.user.person
+    person.organisations.add(organisation)
+    p_event = PalvelutarjotinEventFactory(organisation=organisation)
+    EventQueueEnrolmentFactory.create_batch(5, person=person, p_event=p_event)
+    assert person.eventqueueenrolment_set.all().count() == 5
+    staff_api_client.user.person.organisations.add(organisation)
+    executed = staff_api_client.execute(
+        PERSON_QUEUED_ENROLMENTS_QUERY,
+        variables={"id": to_global_id("PersonNode", person.id)},
+    )
+    assert len(executed["data"]["person"]["eventqueueenrolmentSet"]["edges"]) == 5
+    snapshot.assert_match(executed)
+
+
+def test_person_queued_enrolments_unauthorized(
+    api_client, staff_api_client, person, organisation
+):
+    EventQueueEnrolmentFactory.create_batch(5, person=person)
+    assert person.eventqueueenrolment_set.all().count() == 5
+
+    # with public API
+    executed = api_client.execute(
+        PERSON_QUEUED_ENROLMENTS_QUERY,
+        variables={"id": to_global_id("PersonNode", person.id)},
+    )
+    assert executed["data"]["person"] is None
+
+    # with staff API without organisation
+    assert staff_api_client.user.person.organisations.count() == 0
+    executed = staff_api_client.execute(
+        PERSON_QUEUED_ENROLMENTS_QUERY,
+        variables={"id": to_global_id("PersonNode", person.id)},
+    )
+    assert executed["data"]["person"]["eventqueueenrolmentSet"]["edges"] == []
+
+    # with staff API with other organisation
+    staff_api_client.user.person.organisations.add(organisation)
+    executed = staff_api_client.execute(
+        PERSON_QUEUED_ENROLMENTS_QUERY,
+        variables={"id": to_global_id("PersonNode", person.id)},
+    )
+    assert executed["data"]["person"]["eventqueueenrolmentSet"]["edges"] == []
+
+
+PERSON_ENROLMENTS_QUERY = """
+query Person($id:ID!){
+  person(id: $id){
+    name
+    enrolmentSet {
+      edges {
+        node {
+          studyGroup {
+            groupName
+          }
+        }
+      }
+    }
+  }
+}
+"""
+
+
+def test_person_enrolments(
+    snapshot, mock_get_event_data, staff_api_client, organisation
+):
+    person = staff_api_client.user.person
+    person.organisations.add(organisation)
+    p_event = PalvelutarjotinEventFactory(organisation=organisation)
+    EnrolmentFactory.create_batch(
+        5, study_group__person=person, person=person, occurrence__p_event=p_event
+    )
+    assert person.enrolment_set.all().count() == 5
+    executed = staff_api_client.execute(
+        PERSON_ENROLMENTS_QUERY,
+        variables={"id": to_global_id("PersonNode", person.id)},
+    )
+    assert len(executed["data"]["person"]["enrolmentSet"]["edges"]) == 5
+    snapshot.assert_match(executed)
+
+
+def test_person_enrolments_unauthorized(
+    mock_get_event_data, api_client, staff_api_client, person, organisation
+):
+    EnrolmentFactory.create_batch(5, person=person)
+    assert person.enrolment_set.count() == 5
+
+    # with public API
+    executed = api_client.execute(
+        PERSON_ENROLMENTS_QUERY,
+        variables={"id": to_global_id("PersonNode", person.id)},
+    )
+    assert executed["data"]["person"] is None
+
+    # with staff API without organisations
+    assert staff_api_client.user.person.organisations.count() == 0
+    executed = staff_api_client.execute(
+        PERSON_ENROLMENTS_QUERY,
+        variables={"id": to_global_id("PersonNode", person.id)},
+    )
+    assert executed["data"]["person"]["enrolmentSet"]["edges"] == []
+
+    # with staff API with other organisation
+    staff_api_client.user.person.organisations.add(organisation)
+    executed = staff_api_client.execute(
+        PERSON_ENROLMENTS_QUERY,
+        variables={"id": to_global_id("PersonNode", person.id)},
+    )
+    assert executed["data"]["person"]["enrolmentSet"]["edges"] == []
+
+
+PERSON_STUDY_GROUPS_QUERY = """
+query Person($id:ID!){
+  person(id: $id){
+    name
+    studygroupSet {
+      edges {
+        node {
+          groupName
+        }
+      }
+    }
+  }
+}
+"""
+
+
+def test_person_study_groups(
+    snapshot, mock_get_event_data, staff_api_client, organisation
+):
+    person = staff_api_client.user.person
+    person.organisations.add(organisation)
+    p_event = PalvelutarjotinEventFactory(organisation=organisation)
+    EnrolmentFactory.create_batch(
+        5, study_group__person=person, person=person, occurrence__p_event=p_event
+    )
+    assert person.studygroup_set.count() == 5
+    executed = staff_api_client.execute(
+        PERSON_STUDY_GROUPS_QUERY,
+        variables={"id": to_global_id("PersonNode", person.id)},
+    )
+    assert len(executed["data"]["person"]["studygroupSet"]["edges"]) == 5
+    snapshot.assert_match(executed)
+
+
+def test_person_study_groups_unauthorized(
+    mock_get_event_data, api_client, staff_api_client, person, organisation
+):
+    EnrolmentFactory.create_batch(5, study_group__person=person, person=person)
+    assert person.studygroup_set.count() == 5
+
+    # with public API
+    executed = api_client.execute(
+        PERSON_STUDY_GROUPS_QUERY,
+        variables={"id": to_global_id("PersonNode", person.id)},
+    )
+    assert executed["data"]["person"] is None
+
+    # with staff API without organisations
+    assert staff_api_client.user.person.organisations.count() == 0
+    executed = staff_api_client.execute(
+        PERSON_STUDY_GROUPS_QUERY,
+        variables={"id": to_global_id("PersonNode", person.id)},
+    )
+    assert executed["data"]["person"] is None
+
+    # with staff API with other organisation
+    staff_api_client.user.person.organisations.add(organisation)
+    executed = staff_api_client.execute(
+        PERSON_STUDY_GROUPS_QUERY,
+        variables={"id": to_global_id("PersonNode", person.id)},
+    )
+    assert executed["data"]["person"]["studygroupSet"]["edges"] == []
