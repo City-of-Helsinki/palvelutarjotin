@@ -1,6 +1,13 @@
 <!-- REMINDER: While updating changelog, also remember to update
 the version in palvelutarjotin/__init.py__ -->
 
+## [1.8.0] - 11 May 2023
+
+- Allow enrolling to occurrence without notifications sending
+- Fixes to the enrolment queue implementation
+- Add the GDPR-person-deletion feature to the event queue enrolments
+- Add PickEnrolmentFromQueueMutation to convert an event queue enrolment to an occurrence enrolment
+
 ## [1.7.0] - 27 April 2023
 
 - Removed the enrolments, the studyGroups and the studyGroup (single) query fields from the occurrences API
