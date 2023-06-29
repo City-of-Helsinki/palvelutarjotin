@@ -1,0 +1,11 @@
+{
+  "bootstrap-sha": "4149db501a10bfb0033344329cb8ec48298da62c",
+  "sequential-calls": true,
+  "packages": {
+    ".": {
+      "release-type": "python",
+      "package-name": "palvelutarjotin"
+    }
+  },
+  "plugins": ["sentence-case"]
+}
