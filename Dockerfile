@@ -8,6 +8,7 @@ COPY --chown=appuser:appuser requirements-prod.txt /app/requirements-prod.txt
 
 RUN apt-install.sh \
         git \
+        netcat-traditional \
         libpq-dev \
         build-essential \
     && pip install -U pip \
