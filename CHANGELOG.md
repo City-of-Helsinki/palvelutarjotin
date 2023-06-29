@@ -1,6 +1,13 @@
 <!-- REMINDER: While updating changelog, also remember to update
 the version in palvelutarjotin/__init.py__ -->
 
+## [1.8.1](https://github.com/City-of-Helsinki/palvelutarjotin/compare/palvelutarjotin-v1.8.0...palvelutarjotin-v1.8.1) (2023-06-29)
+
+
+### Bug Fixes
+
+* Netcat package update DEVOPS-541 ([#318](https://github.com/City-of-Helsinki/palvelutarjotin/issues/318)) ([83a15e5](https://github.com/City-of-Helsinki/palvelutarjotin/commit/83a15e5438ecdb5f90ed6ab5cb7b8a9219324879))
+
 ## [1.8.0] - 11 May 2023
 
 - Allow enrolling to occurrence without notifications sending
