@@ -39,10 +39,10 @@ def healthz(*args, **kwargs):
 def readiness(*args, **kwargs):
     response_json = {
         "status": "ok",
-        "release": settings.BUILD_INFO_RELEASE,
+        "release": settings.APP_RELEASE,
         "packageVersion": __version__,
         "commitHash": settings.REVISION.decode("utf-8"),
-        "buildTime": settings.BUILD_INFO_BUILDTIME.strftime("%Y-%m-%dT%H:%M:%S.000Z"),
+        "buildTime": settings.APP_BUILDTIME.strftime("%Y-%m-%dT%H:%M:%S.000Z"),
     }
     return HttpResponse(json.dumps(response_json), status=200)
 

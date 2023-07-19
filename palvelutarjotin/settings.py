@@ -79,7 +79,7 @@ env = environ.Env(
     PERSONAL_DATA_RETENTION_PERIOD_MONTHS=(int, 24),
     UPDATE_LAST_LOGIN_ENABLED=(bool, True),
     UPDATE_LAST_LOGIN_INTERVAL_MINUTES=(int, 60),
-    BUILD_INFO_RELEASE=(str, ""),
+    APP_RELEASE=(str, ""),
 )
 
 if os.path.exists(env_file):
@@ -369,6 +369,6 @@ UPDATE_LAST_LOGIN = {
 }
 
 # release information
-BUILD_INFO_RELEASE = env("BUILD_INFO_RELEASE")
+APP_RELEASE = env("APP_RELEASE")
 # get build time from a file in docker image
-BUILD_INFO_BUILDTIME = datetime.fromtimestamp(os.path.getmtime(__file__))
+APP_BUILDTIME = datetime.fromtimestamp(os.path.getmtime(__file__))
