@@ -29,7 +29,6 @@ urlpatterns = [
 ]
 
 
-
 #
 # Kubernetes liveness & readiness probes
 #
@@ -43,8 +42,7 @@ def readiness(*args, **kwargs):
         "release": settings.BUILD_INFO_RELEASE,
         "packageVersion": __version__,
         "commitHash": settings.REVISION.decode("utf-8"),
-        "buildTime": settings.BUILD_INFO_BUILDTIME.strftime("%Y%m%d-%H:%M:%S")
-
+        "buildTime": settings.BUILD_INFO_BUILDTIME.strftime("%Y-%m-%dT%H:%M:%S.%f%z"),
     }
     return HttpResponse(json.dumps(response_json), status=200)
 
