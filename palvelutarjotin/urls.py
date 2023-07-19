@@ -1,3 +1,4 @@
+import json
 from django.conf import settings
 from django.conf.urls.static import static
 from django.http import HttpResponse
@@ -5,6 +6,7 @@ from django.urls import include, path
 from django.utils.translation import ugettext
 from django.views.decorators.csrf import csrf_exempt
 from helusers.admin_site import admin
+from palvelutarjotin import __version__
 
 from common.utils import get_api_version
 from palvelutarjotin.views import SentryGraphQLView
@@ -27,6 +29,7 @@ urlpatterns = [
 ]
 
 
+
 #
 # Kubernetes liveness & readiness probes
 #
@@ -35,7 +38,15 @@ def healthz(*args, **kwargs):
 
 
 def readiness(*args, **kwargs):
-    return HttpResponse(status=200)
+    response_json = {
+        "status": "ok",
+        "release": settings.BUILD_INFO_RELEASE,
+        "packageVersion": __version__,
+        "commitHash": settings.REVISION.decode("utf-8"),
+        "buildTime": settings.BUILD_INFO_BUILDTIME.strftime("%Y%m%d-%H:%M:%S")
+
+    }
+    return HttpResponse(json.dumps(response_json), status=200)
 
 
 urlpatterns += [path("healthz", healthz), path("readiness", readiness)]
