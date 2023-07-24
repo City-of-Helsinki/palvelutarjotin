@@ -2,6 +2,7 @@ import environ
 import os
 import sentry_sdk
 import subprocess
+from datetime import datetime
 from django.utils.translation import gettext_lazy as _
 from sentry_sdk.integrations.django import DjangoIntegration
 
@@ -78,6 +79,7 @@ env = environ.Env(
     PERSONAL_DATA_RETENTION_PERIOD_MONTHS=(int, 24),
     UPDATE_LAST_LOGIN_ENABLED=(bool, True),
     UPDATE_LAST_LOGIN_INTERVAL_MINUTES=(int, 60),
+    APP_RELEASE=(str, ""),
 )
 
 if os.path.exists(env_file):
@@ -124,8 +126,10 @@ TRANSLATED_SMS_SENDER = env("TRANSLATED_SMS_SENDER")
 
 try:
     REVISION = subprocess.check_output(["git", "rev-parse", "--short", "HEAD"]).strip()
+    COMMITHASH = subprocess.check_output(["git", "rev-parse", "HEAD"]).strip()
 except Exception:
     REVISION = b"n/a"
+    COMMITHASH = ""
 
 sentry_sdk.init(
     dsn=env.str("SENTRY_DSN"),
@@ -365,3 +369,8 @@ UPDATE_LAST_LOGIN = {
     "ENABLED": env.bool("UPDATE_LAST_LOGIN_ENABLED"),
     "UPDATE_INTERVAL_MINUTES": env.int("UPDATE_LAST_LOGIN_INTERVAL_MINUTES"),
 }
+
+# release information
+APP_RELEASE = env("APP_RELEASE")
+# get build time from a file in docker image
+APP_BUILDTIME = datetime.fromtimestamp(os.path.getmtime(__file__))

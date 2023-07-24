@@ -1,3 +1,4 @@
+import json
 from django.conf import settings
 from django.conf.urls.static import static
 from django.http import HttpResponse
@@ -7,6 +8,7 @@ from django.views.decorators.csrf import csrf_exempt
 from helusers.admin_site import admin
 
 from common.utils import get_api_version
+from palvelutarjotin import __version__
 from palvelutarjotin.views import SentryGraphQLView
 
 admin.site.index_title = " ".join([ugettext("Kultus API"), get_api_version()])
@@ -38,6 +40,21 @@ def readiness(*args, **kwargs):
     return HttpResponse(status=200)
 
 
-urlpatterns += [path("healthz", healthz), path("readiness", readiness)]
+def version(*args, **kwargs):
+    response_json = {
+        "status": "ok",
+        "release": settings.APP_RELEASE,
+        "packageVersion": __version__,
+        "commitHash": settings.COMMITHASH.decode("utf-8"),
+        "buildTime": settings.APP_BUILDTIME.strftime("%Y-%m-%dT%H:%M:%S.000Z"),
+    }
+    return HttpResponse(json.dumps(response_json), status=200)
+
+
+urlpatterns += [
+    path("healthz", healthz),
+    path("readiness", readiness),
+    path("api/version", version),
+]
 if settings.DEBUG:
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
