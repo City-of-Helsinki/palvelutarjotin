@@ -39,6 +39,7 @@ def healthz(*args, **kwargs):
 def readiness(*args, **kwargs):
     return HttpResponse(status=200)
 
+
 def version(*args, **kwargs):
     response_json = {
         "status": "ok",
@@ -49,6 +50,11 @@ def version(*args, **kwargs):
     }
     return HttpResponse(json.dumps(response_json), status=200)
 
-urlpatterns += [path("healthz", healthz), path("readiness", readiness), path("api/version", version)]
+
+urlpatterns += [
+    path("healthz", healthz),
+    path("readiness", readiness),
+    path("api/version", version),
+]
 if settings.DEBUG:
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
