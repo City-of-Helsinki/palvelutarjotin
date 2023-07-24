@@ -37,16 +37,18 @@ def healthz(*args, **kwargs):
 
 
 def readiness(*args, **kwargs):
+    return HttpResponse(status=200)
+
+def version(*args, **kwargs):
     response_json = {
         "status": "ok",
         "release": settings.APP_RELEASE,
         "packageVersion": __version__,
-        "commitHash": settings.REVISION.decode("utf-8"),
+        "commitHash": settings.COMMITHASH.decode("utf-8"),
         "buildTime": settings.APP_BUILDTIME.strftime("%Y-%m-%dT%H:%M:%S.000Z"),
     }
     return HttpResponse(json.dumps(response_json), status=200)
 
-
-urlpatterns += [path("healthz", healthz), path("readiness", readiness)]
+urlpatterns += [path("healthz", healthz), path("readiness", readiness), path("api/version", version)]
 if settings.DEBUG:
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
