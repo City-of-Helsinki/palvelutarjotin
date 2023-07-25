@@ -5,6 +5,7 @@ from django.http import HttpResponse
 from django.urls import include, path
 from django.utils.translation import ugettext
 from django.views.decorators.csrf import csrf_exempt
+from django.views.decorators.http import require_GET
 from helusers.admin_site import admin
 
 from common.utils import get_api_version
@@ -40,13 +41,14 @@ def readiness(*args, **kwargs):
     return HttpResponse(status=200)
 
 
+@require_GET
 def version(*args, **kwargs):
     response_json = {
         "status": "ok",
         "release": settings.APP_RELEASE,
         "packageVersion": __version__,
-        "commitHash": settings.COMMITHASH.decode("utf-8"),
-        "buildTime": settings.APP_BUILDTIME.strftime("%Y-%m-%dT%H:%M:%S.000Z"),
+        "commitHash": settings.COMMIT_HASH.decode("utf-8"),
+        "buildTime": settings.APP_BUILD_TIME.strftime("%Y-%m-%dT%H:%M:%S.000Z"),
     }
     return HttpResponse(json.dumps(response_json), status=200)
 

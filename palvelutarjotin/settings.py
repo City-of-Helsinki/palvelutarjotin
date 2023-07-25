@@ -125,15 +125,13 @@ ILMOITIN_QUEUE_NOTIFICATIONS = env("ILMOITIN_QUEUE_NOTIFICATIONS")
 TRANSLATED_SMS_SENDER = env("TRANSLATED_SMS_SENDER")
 
 try:
-    REVISION = subprocess.check_output(["git", "rev-parse", "--short", "HEAD"]).strip()
-    COMMITHASH = subprocess.check_output(["git", "rev-parse", "HEAD"]).strip()
+    COMMIT_HASH = subprocess.check_output(["git", "rev-parse", "HEAD"]).strip()
 except Exception:
-    REVISION = b"n/a"
-    COMMITHASH = ""
+    COMMIT_HASH = b"n/a"
 
 sentry_sdk.init(
     dsn=env.str("SENTRY_DSN"),
-    release=REVISION,
+    release=COMMIT_HASH,
     environment=env("SENTRY_ENVIRONMENT"),
     integrations=[DjangoIntegration()],
 )
@@ -373,4 +371,4 @@ UPDATE_LAST_LOGIN = {
 # release information
 APP_RELEASE = env("APP_RELEASE")
 # get build time from a file in docker image
-APP_BUILDTIME = datetime.fromtimestamp(os.path.getmtime(__file__))
+APP_BUILD_TIME = datetime.fromtimestamp(os.path.getmtime(__file__))
