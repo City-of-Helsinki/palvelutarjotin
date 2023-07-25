@@ -40,6 +40,7 @@ def healthz(*args, **kwargs):
 def readiness(*args, **kwargs):
     return HttpResponse(status=200)
 
+
 @require_GET
 def version(*args, **kwargs):
     response_json = {
