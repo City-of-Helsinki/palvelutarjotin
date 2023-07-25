@@ -373,4 +373,4 @@ UPDATE_LAST_LOGIN = {
 # release information
 APP_RELEASE = env("APP_RELEASE")
 # get build time from a file in docker image
-APP_BUILDTIME = datetime.fromtimestamp(os.path.getmtime(__file__))
+APP_BUILD_TIME = datetime.fromtimestamp(os.path.getmtime(__file__))
