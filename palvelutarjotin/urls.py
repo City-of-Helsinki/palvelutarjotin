@@ -5,6 +5,7 @@ from django.http import HttpResponse
 from django.urls import include, path
 from django.utils.translation import ugettext
 from django.views.decorators.csrf import csrf_exempt
+from django.views.decorators.http import require_GET
 from helusers.admin_site import admin
 
 from common.utils import get_api_version
@@ -39,7 +40,7 @@ def healthz(*args, **kwargs):
 def readiness(*args, **kwargs):
     return HttpResponse(status=200)
 
-
+@require_GET
 def version(*args, **kwargs):
     response_json = {
         "status": "ok",
