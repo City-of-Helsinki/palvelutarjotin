@@ -45,7 +45,7 @@ def version(*args, **kwargs):
         "status": "ok",
         "release": settings.APP_RELEASE,
         "packageVersion": __version__,
-        "commitHash": settings.COMMITHASH.decode("utf-8"),
+        "commitHash": settings.COMMIT_HASH.decode("utf-8"),
         "buildTime": settings.APP_BUILD_TIME.strftime("%Y-%m-%dT%H:%M:%S.000Z"),
     }
     return HttpResponse(json.dumps(response_json), status=200)

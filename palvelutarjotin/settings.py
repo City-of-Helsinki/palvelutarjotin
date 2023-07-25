@@ -126,10 +126,10 @@ TRANSLATED_SMS_SENDER = env("TRANSLATED_SMS_SENDER")
 
 try:
     REVISION = subprocess.check_output(["git", "rev-parse", "--short", "HEAD"]).strip()
-    COMMITHASH = subprocess.check_output(["git", "rev-parse", "HEAD"]).strip()
+    COMMIT_HASH = subprocess.check_output(["git", "rev-parse", "HEAD"]).strip()
 except Exception:
     REVISION = b"n/a"
-    COMMITHASH = ""
+    COMMIT_HASH = b"n/a"
 
 sentry_sdk.init(
     dsn=env.str("SENTRY_DSN"),
