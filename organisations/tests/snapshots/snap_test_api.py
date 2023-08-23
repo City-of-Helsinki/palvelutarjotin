@@ -30,7 +30,9 @@ snapshots["test_create_my_profile 1"] = {
                 "organisationproposalSet": {
                     "edges": [{"node": {"name": "3rd party org"}}]
                 },
-                "organisations": {"edges": [{"node": {"name": "Peters-Buchanan"}}]},
+                "organisations": {
+                    "edges": [{"node": {"name": "Myers, Ellis and Gonzalez"}}]
+                },
                 "phoneNumber": "",
                 "placeIds": [],
             }
@@ -49,7 +51,9 @@ snapshots["test_create_my_profile_with_place_ids 1"] = {
                 "organisationproposalSet": {
                     "edges": [{"node": {"name": "3rd party org"}}]
                 },
-                "organisations": {"edges": [{"node": {"name": "Peters-Buchanan"}}]},
+                "organisations": {
+                    "edges": [{"node": {"name": "Myers, Ellis and Gonzalez"}}]
+                },
                 "phoneNumber": "",
                 "placeIds": ["xyz:123", "abc321"],
             }
@@ -60,13 +64,13 @@ snapshots["test_create_my_profile_with_place_ids 1"] = {
 snapshots["test_my_profile_query 1"] = {
     "data": {
         "myProfile": {
-            "emailAddress": "longrebecca@example.com",
+            "emailAddress": "hutchinsonrachel@example.org",
             "isStaff": False,
             "language": "FI",
-            "name": "Richard Hayes",
-            "organisations": {"edges": [{"node": {"name": "Harris Inc"}}]},
-            "phoneNumber": "557.776.7124",
-            "placeIds": ["pyLmAmuDyxTUOfTVXgFf"],
+            "name": "Amanda Newton",
+            "organisations": {"edges": [{"node": {"name": "Smith, Wood and Baker"}}]},
+            "phoneNumber": "976-380-3466x9727",
+            "placeIds": ["VXgFfhhcjebLxIzCCeza", "knnouKQItjsGbbnCZaIe"],
         }
     }
 }
@@ -74,13 +78,13 @@ snapshots["test_my_profile_query 1"] = {
 snapshots["test_my_profile_query 2"] = {
     "data": {
         "myProfile": {
-            "emailAddress": "nicole77@example.net",
+            "emailAddress": "natalie62@example.com",
             "isStaff": True,
             "language": "FI",
-            "name": "James Reed",
-            "organisations": {"edges": [{"node": {"name": "Harris Inc"}}]},
-            "phoneNumber": "001-825-058-0719",
-            "placeIds": ["KQQJMHyYXxEprsbAXEni", "lygJhpAZXxwQoxZHkjdK"],
+            "name": "Cheyenne Carson",
+            "organisations": {"edges": [{"node": {"name": "Smith, Wood and Baker"}}]},
+            "phoneNumber": "001-959-911-8326x3986",
+            "placeIds": ["lLyOWeWgxNvIdaNadghC", "GVbfWcQLRyaHhQRmINWY"],
         }
     }
 }
@@ -186,95 +190,7 @@ snapshots["test_person_enrolments 1"] = {
                     {
                         "node": {
                             "studyGroup": {
-                                "groupName": "Federal minute paper third item future far power. College information training."
-                            }
-                        }
-                    },
-                    {
-                        "node": {
-                            "studyGroup": {
-                                "groupName": "Focus few executive. Movie work organization successful. Fear teacher loss sea just soon food."
-                            }
-                        }
-                    },
-                    {
-                        "node": {
-                            "studyGroup": {
-                                "groupName": "Eat design give per kind history ahead. Herself consider fight us claim. Age feeling speech eye."
-                            }
-                        }
-                    },
-                    {
-                        "node": {
-                            "studyGroup": {
-                                "groupName": "Tv news management letter. Animal list adult draw staff her."
-                            }
-                        }
-                    },
-                    {
-                        "node": {
-                            "studyGroup": {
-                                "groupName": "Second know say former conference carry factor. Natural each difficult special respond positive."
-                            }
-                        }
-                    },
-                ]
-            },
-            "name": "Nancy Conway",
-        }
-    }
-}
-
-snapshots["test_person_query 1"] = {"data": {"person": None}}
-
-snapshots["test_person_query 2"] = {"data": {"person": None}}
-
-snapshots["test_person_query 3"] = {
-    "data": {
-        "person": {
-            "emailAddress": "gonzalezmichele@example.org",
-            "language": "FI",
-            "name": "Wanda Rubio",
-            "organisations": {"edges": []},
-            "phoneNumber": "694.703.2322x217",
-            "placeIds": ["dZDVgFLcfOQPeHMMTVcH", "QIIHoLALPuMgdVNrNeAh"],
-        }
-    }
-}
-
-snapshots["test_person_query 4"] = {
-    "data": {
-        "person": {
-            "emailAddress": "anthonycross@example.com",
-            "language": "FI",
-            "name": "Shawn Santana",
-            "organisations": {"edges": [{"node": {"name": "Day-Gibson"}}]},
-            "phoneNumber": "001-117-159-1023x20281",
-            "placeIds": [
-                "CCezaIinzTPCrDgtoNZh",
-                "COmRVJDOXAmjOnQtrkEQ",
-                "KcMIonuxkiABRtJfcwOr",
-            ],
-        }
-    }
-}
-
-snapshots["test_person_queued_enrolments 1"] = {
-    "data": {
-        "person": {
-            "eventqueueenrolmentSet": {
-                "edges": [
-                    {
-                        "node": {
-                            "studyGroup": {
-                                "groupName": "Anyone conference should feel produce wife. Wonder pressure stage research direction forget list."
-                            }
-                        }
-                    },
-                    {
-                        "node": {
-                            "studyGroup": {
-                                "groupName": "Tonight use form simply trade minute production."
+                                "groupName": "College wife serve entire. House down woman peace. Plant on follow return research could."
                             }
                         }
                     },
@@ -288,14 +204,98 @@ snapshots["test_person_queued_enrolments 1"] = {
                     {
                         "node": {
                             "studyGroup": {
-                                "groupName": "Hotel event already college. Ok court type hit."
+                                "groupName": "See quite tax my often society. Subject law ok."
+                            }
+                        }
+                    },
+                    {
+                        "node": {
+                            "studyGroup": {
+                                "groupName": "Watch method political institution trip race kitchen. Send same even child."
+                            }
+                        }
+                    },
+                    {
+                        "node": {
+                            "studyGroup": {
+                                "groupName": "Work early property your stage receive. Determine sort under car."
+                            }
+                        }
+                    },
+                ]
+            },
+            "name": "Patrick Estrada",
+        }
+    }
+}
+
+snapshots["test_person_query 1"] = {"data": {"person": None}}
+
+snapshots["test_person_query 2"] = {"data": {"person": None}}
+
+snapshots["test_person_query 3"] = {
+    "data": {
+        "person": {
+            "emailAddress": "imonroe@example.org",
+            "language": "FI",
+            "name": "Natalie Keith",
+            "organisations": {"edges": []},
+            "phoneNumber": "+1-042-405-4852",
+            "placeIds": ["FDdlvJGuUZtSihlLyOWe", "iaGbqMPXLzvLVGVbfWcQ"],
+        }
+    }
+}
+
+snapshots["test_person_query 4"] = {
+    "data": {
+        "person": {
+            "emailAddress": "andrewgreen@example.net",
+            "language": "FI",
+            "name": "Carolyn Scott",
+            "organisations": {"edges": [{"node": {"name": "Williams-Newton"}}]},
+            "phoneNumber": "446.858.1662x4590",
+            "placeIds": ["RVJDOXAmjOnQtrkEQOln", "VMNZoGFTsuALvDSCvIVy"],
+        }
+    }
+}
+
+snapshots["test_person_queued_enrolments 1"] = {
+    "data": {
+        "person": {
+            "eventqueueenrolmentSet": {
+                "edges": [
+                    {
+                        "node": {
+                            "studyGroup": {
+                                "groupName": "Scene practice town right perform yes picture. Art movement movement analysis require statement."
+                            }
+                        }
+                    },
+                    {
+                        "node": {
+                            "studyGroup": {
+                                "groupName": "Civil find learn follow. Tend practice other poor."
+                            }
+                        }
+                    },
+                    {
+                        "node": {
+                            "studyGroup": {
+                                "groupName": "Before television between policy parent. Apply see on send."
+                            }
+                        }
+                    },
+                    {
+                        "node": {
+                            "studyGroup": {
+                                "groupName": "Eight direction she play catch miss. Strategy animal who management then some threat."
                             }
                         }
                     },
                     {"node": {"studyGroup": {"groupName": "Six feel real fast."}}},
                 ]
             },
-            "name": "Nancy Conway",
+            "name": "Patrick Estrada",
         }
     }
 }
@@ -303,32 +303,32 @@ snapshots["test_person_queued_enrolments 1"] = {
 snapshots["test_person_study_groups 1"] = {
     "data": {
         "person": {
-            "name": "Nancy Conway",
+            "name": "Patrick Estrada",
             "studygroupSet": {
                 "edges": [
                     {
                         "node": {
-                            "groupName": "Second know say former conference carry factor. Natural each difficult special respond positive."
+                            "groupName": "Work early property your stage receive. Determine sort under car."
                         }
                     },
                     {
                         "node": {
-                            "groupName": "Tv news management letter. Animal list adult draw staff her."
+                            "groupName": "Watch method political institution trip race kitchen. Send same even child."
                         }
                     },
                     {
                         "node": {
-                            "groupName": "Eat design give per kind history ahead. Herself consider fight us claim. Age feeling speech eye."
+                            "groupName": "See quite tax my often society. Subject law ok."
                         }
                     },
                     {
                         "node": {
-                            "groupName": "Focus few executive. Movie work organization successful. Fear teacher loss sea just soon food."
+                            "groupName": "Policy parent toward apply see on send in. Full three especially card animal recognize stock."
                         }
                     },
                     {
                         "node": {
-                            "groupName": "Federal minute paper third item future far power. College information training."
+                            "groupName": "College wife serve entire. House down woman peace. Plant on follow return research could."
                         }
                     },
                 ]
@@ -347,11 +347,11 @@ snapshots["test_persons_query 3"] = {
             "edges": [
                 {
                     "node": {
-                        "emailAddress": "gonzalezmichele@example.org",
+                        "emailAddress": "imonroe@example.org",
                         "language": "FI",
-                        "name": "Wanda Rubio",
+                        "name": "Natalie Keith",
                         "organisations": {"edges": []},
-                        "phoneNumber": "694.703.2322x217",
+                        "phoneNumber": "+1-042-405-4852",
                     }
                 }
             ]
@@ -365,29 +365,31 @@ snapshots["test_persons_query 4"] = {
             "edges": [
                 {
                     "node": {
-                        "emailAddress": "hannah75@example.com",
+                        "emailAddress": "andrewgreen@example.net",
                         "language": "FI",
-                        "name": "Janet Ritter",
-                        "organisations": {"edges": []},
-                        "phoneNumber": "494-811-8845x2419",
+                        "name": "Carolyn Scott",
+                        "organisations": {
+                            "edges": [{"node": {"name": "Williams-Newton"}}]
+                        },
+                        "phoneNumber": "446.858.1662x4590",
                     }
                 },
                 {
                     "node": {
-                        "emailAddress": "anthonycross@example.com",
+                        "emailAddress": "kwebster@example.net",
                         "language": "FI",
-                        "name": "Shawn Santana",
-                        "organisations": {"edges": [{"node": {"name": "Day-Gibson"}}]},
-                        "phoneNumber": "001-117-159-1023x20281",
+                        "name": "Jessica Baker",
+                        "organisations": {"edges": []},
+                        "phoneNumber": "001-659-825-0580",
                     }
                 },
                 {
                     "node": {
-                        "emailAddress": "gonzalezmichele@example.org",
+                        "emailAddress": "imonroe@example.org",
                         "language": "FI",
-                        "name": "Wanda Rubio",
+                        "name": "Natalie Keith",
                         "organisations": {"edges": []},
-                        "phoneNumber": "694.703.2322x217",
+                        "phoneNumber": "+1-042-405-4852",
                     }
                 },
             ]
@@ -404,7 +406,7 @@ snapshots["test_update_my_profile 1"] = {
                 "language": "SV",
                 "name": "New name",
                 "organisations": {"edges": []},
-                "phoneNumber": "557.776.7124",
+                "phoneNumber": "976-380-3466x9727",
                 "placeIds": ["xyz:123", "xxx:123"],
             }
         }
@@ -416,7 +418,7 @@ snapshots["test_update_organisation 1"] = {
         "updateOrganisation": {
             "organisation": {
                 "name": "New name",
-                "phoneNumber": "557.776.7124",
+                "phoneNumber": "976-380-3466x9727",
                 "publisherId": "publisher_id",
                 "type": "USER",
             }
@@ -431,8 +433,8 @@ snapshots["test_update_person_mutation[firstlast@example.com-True] 1"] = {
                 "emailAddress": "firstlast@example.com",
                 "language": "SV",
                 "name": "New name",
-                "organisations": {"edges": [{"node": {"name": "Day-Gibson"}}]},
-                "phoneNumber": "001-117-159-1023x20281",
+                "organisations": {"edges": [{"node": {"name": "Williams-Newton"}}]},
+                "phoneNumber": "446.858.1662x4590",
             }
         }
     }

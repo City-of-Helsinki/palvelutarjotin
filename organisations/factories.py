@@ -14,11 +14,14 @@ def fake_id_array():
 class UserFactory(factory.django.DjangoModelFactory):
     first_name = factory.Faker("first_name")
     last_name = factory.Faker("last_name")
-    username = factory.Faker("user_name")
+    username_base = factory.Faker("user_name")
+    username_suffix = factory.Faker("password", length=6, special_chars=False)
+    username = factory.LazyAttribute(lambda u: f"{u.username_base}_{u.username_suffix}")
     email = factory.Faker("email")
 
     class Meta:
         model = get_user_model()
+        exclude = ("username_base", "username_suffix")
 
 
 class PersonFactory(factory.django.DjangoModelFactory):

@@ -7,8 +7,8 @@ from snapshottest import Snapshot
 snapshots = Snapshot()
 
 snapshots["test_myprofile_accepted_email[en] 1"] = [
-    """no-reply@hel.ninja|['roychristopher@example.org']|My profile accepted EN|
-<p>Hi Chad Williams!</p>
+    """no-reply@hel.ninja|['jamesgregory@example.com']|My profile accepted EN|
+<p>Hi Kyle Walls!</p>
 <p>Your account is now ready to be used in Kultus
 with the following organisations linked to your account:</p>
 <ul>
@@ -21,8 +21,8 @@ with the following organisations linked to your account:</p>
 ]
 
 snapshots["test_myprofile_accepted_email[fi] 1"] = [
-    """no-reply@hel.ninja|['roychristopher@example.org']|My profile accepted FI|
-<p>Hei Chad Williams!</p>
+    """no-reply@hel.ninja|['jamesgregory@example.com']|My profile accepted FI|
+<p>Hei Kyle Walls!</p>
 <p>Sinun käyttäjäsi on nyt valmis käytettäväksi Kultuksessa
 seuraavilla organisaatioille:</p>
 <ul>
@@ -35,13 +35,13 @@ seuraavilla organisaatioille:</p>
 ]
 
 snapshots["test_myprofile_creation_email 1"] = [
-    """no-reply@hel.ninja|['pereztimothy@example.org']|My profile creation FI|
+    """no-reply@hel.ninja|['juliakeith@example.net']|My profile creation FI|
 <p>Hyvä Kultus ylläpitäjä!</p>
 <p>Uusi palveluntarjoajan tunnus on luotu!</p>
 <address>
-    Richard Hayes<br />
-    <a href="mailto:longrebecca@example.com">longrebecca@example.com</a>
-    Käyttäjätunnus: jeffersonkimberly
+    Amanda Newton<br />
+    <a href="mailto:hutchinsonrachel@example.org">hutchinsonrachel@example.org</a>
+    Käyttäjätunnus: jeffersonkimberly_3MmHFh
 </address>
 <p>Palveluntarjoaja tarvitsee ylläpitäjää (sinua)
 hyväksymään luomansa käyttäjätunnuksen käyttöön:</p>
@@ -54,8 +54,8 @@ hyväksymään luomansa käyttäjätunnuksen käyttöön:</p>
 </ol>
 <p>Käyttäjä haluaisi edustaa seuraavia organisaatioita:</p>
 <ul>
-    <li>Robertson, Fox and Conley</li>
-    <li>Harris Inc</li>
+    <li>Jackson, Wolfe and Rogers</li>
+    <li>Smith, Wood and Baker</li>
 </ul>
 <p>Muokataksesi luotua käyttäjätunnusta,
 klikkaa <a href="https://test-domain/admin/organisations/user/123/change/" target="_blank">tästä</a>!</p>
@@ -64,13 +64,13 @@ klikkaa <a href="https://test-domain/admin/organisations/user/123/change/" targe
 
     <p>Erityisviesti: custom message</p>
 """,
-    """no-reply@hel.ninja|['kdorsey@example.com']|My profile creation FI|
+    """no-reply@hel.ninja|['holmesleslie@example.com']|My profile creation FI|
 <p>Hyvä Kultus ylläpitäjä!</p>
 <p>Uusi palveluntarjoajan tunnus on luotu!</p>
 <address>
-    Richard Hayes<br />
-    <a href="mailto:longrebecca@example.com">longrebecca@example.com</a>
-    Käyttäjätunnus: jeffersonkimberly
+    Amanda Newton<br />
+    <a href="mailto:hutchinsonrachel@example.org">hutchinsonrachel@example.org</a>
+    Käyttäjätunnus: jeffersonkimberly_3MmHFh
 </address>
 <p>Palveluntarjoaja tarvitsee ylläpitäjää (sinua)
 hyväksymään luomansa käyttäjätunnuksen käyttöön:</p>
@@ -83,8 +83,8 @@ hyväksymään luomansa käyttäjätunnuksen käyttöön:</p>
 </ol>
 <p>Käyttäjä haluaisi edustaa seuraavia organisaatioita:</p>
 <ul>
-    <li>Robertson, Fox and Conley</li>
-    <li>Harris Inc</li>
+    <li>Jackson, Wolfe and Rogers</li>
+    <li>Smith, Wood and Baker</li>
 </ul>
 <p>Muokataksesi luotua käyttäjätunnusta,
 klikkaa <a href="https://test-domain/admin/organisations/user/123/change/" target="_blank">tästä</a>!</p>
@@ -93,13 +93,13 @@ klikkaa <a href="https://test-domain/admin/organisations/user/123/change/" targe
 
     <p>Erityisviesti: custom message</p>
 """,
-    """no-reply@hel.ninja|['wrightkimberly@example.org']|My profile creation EN|
+    """no-reply@hel.ninja|['perezlisa@example.net']|My profile creation EN|
 <p>Dear Kultus Admin!</p>
 <p>A new Kultus provider user profile is created!</p>
 <address>
-    Richard Hayes<br />
-    <a href="mailto:longrebecca@example.com">longrebecca@example.com</a>
-    Username: jeffersonkimberly
+    Amanda Newton<br />
+    <a href="mailto:hutchinsonrachel@example.org">hutchinsonrachel@example.org</a>
+    Username: jeffersonkimberly_3MmHFh
 </address>
 <p>The provider who created the user profile needs an admin (you)
 to accept the user profile:</p>
@@ -112,8 +112,8 @@ to accept the user profile:</p>
 </ol>
 <p>The user would like to represent these organisations:</p>
 <ul>
-    <li>Robertson, Fox and Conley</li>
-    <li>Harris Inc</li>
+    <li>Jackson, Wolfe and Rogers</li>
+    <li>Smith, Wood and Baker</li>
 </ul>
 <p>To edit the newly created user profile,
 click <a href="https://test-domain/admin/organisations/user/123/change/" target="_blank">here</a>!</p>

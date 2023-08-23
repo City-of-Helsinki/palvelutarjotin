@@ -124,6 +124,26 @@ query myProfile{
 }
 """
 
+MY_PROFILE_QUERY_WITH_ORGANISATIONS_PERSONS = """
+query myProfile {
+  myProfile {
+    organisations {
+      edges {
+        node {
+          persons {
+            edges {
+              node {
+                name
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
+"""
+
 UPDATE_MY_PROFILE_MUTATION = """
 mutation updateMyProfileMutation($input: UpdateMyProfileMutationInput!){
   updateMyProfile(input: $input){
@@ -305,6 +325,19 @@ def test_organisations_query(snapshot, api_client, organisation):
     snapshot.assert_match(executed)
 
 
+def test_organisations_query_large_max_limit(staff_api_client, organisation):
+    persons = PersonFactory.create_batch(size=250, organisations=[organisation]) + [
+        staff_api_client.user.person
+    ]
+    organisation.persons.add(*persons)
+    executed = staff_api_client.execute(ORGANISATIONS_QUERY)
+    organisation_edges = executed["data"]["organisations"]["edges"]
+    assert any(
+        len(organisation_edge["node"]["persons"]["edges"]) == 251
+        for organisation_edge in organisation_edges
+    )
+
+
 @pytest.mark.django_db
 def test_organisations_query_type_filter(snapshot, api_client):
     OrganisationFactory.create_batch(3, type=Organisation.TYPE_PROVIDER)
@@ -335,6 +368,17 @@ def test_my_profile_query(snapshot, person_api_client, organisation, staff_api_c
     snapshot.assert_match(executed)
     executed = staff_api_client.execute(MY_PROFILE_QUERY)
     snapshot.assert_match(executed)
+
+
+def test_my_profile_query_persons_large_max_limit(staff_api_client, organisation):
+    persons = PersonFactory.create_batch(size=300, organisations=[organisation]) + [
+        staff_api_client.user.person
+    ]
+    organisation.persons.add(*persons)
+    executed = staff_api_client.execute(MY_PROFILE_QUERY_WITH_ORGANISATIONS_PERSONS)
+    organisation_edges = executed["data"]["myProfile"]["organisations"]["edges"]
+    assert len(organisation_edges) == 1
+    assert len(organisation_edges[0]["node"]["persons"]["edges"]) == 301
 
 
 def test_create_my_profile(snapshot, user_api_client, person_api_client, organisation):

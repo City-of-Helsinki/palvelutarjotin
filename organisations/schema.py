@@ -57,6 +57,8 @@ class OrganisationNode(DjangoObjectType):
         exclude = ("p_event",)
         interfaces = (relay.Node,)
 
+    persons = DjangoConnectionField(PersonNode, max_limit=None)
+
 
 class OrganisationProposalNode(DjangoObjectType):
     class Meta:
@@ -261,7 +263,7 @@ class Query:
     persons = DjangoConnectionField(PersonNode)
 
     organisation = relay.Node.Field(OrganisationNode)
-    organisations = DjangoFilterConnectionField(OrganisationNode)
+    organisations = DjangoFilterConnectionField(OrganisationNode, max_limit=None)
 
     @staticmethod
     @login_required

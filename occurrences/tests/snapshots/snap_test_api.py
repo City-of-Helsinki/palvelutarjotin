@@ -12,8 +12,8 @@ snapshots["test_add_occurrence_to_published_event 1"] = {
             "occurrence": {
                 "contactPersons": {
                     "edges": [
-                        {"node": {"name": "Mike Allen"}},
                         {"node": {"name": "New name"}},
+                        {"node": {"name": "Sean Rocha"}},
                     ]
                 },
                 "endTime": "2020-05-06T00:00:00+00:00",
@@ -51,8 +51,8 @@ snapshots["test_add_occurrence_to_unpublished_event 1"] = {
             "occurrence": {
                 "contactPersons": {
                     "edges": [
-                        {"node": {"name": "Mike Allen"}},
                         {"node": {"name": "New name"}},
+                        {"node": {"name": "Sean Rocha"}},
                     ]
                 },
                 "endTime": "2020-05-06T00:00:00+00:00",
@@ -132,10 +132,10 @@ snapshots["test_add_study_group 2"] = {
                 "groupName": "Sample group name",
                 "groupSize": 20,
                 "person": {
-                    "emailAddress": "gtorres@example.com",
+                    "emailAddress": "barrettjason@example.org",
                     "language": "FI",
-                    "name": "Gregory Flores",
-                    "phoneNumber": "954.620.0377x22182",
+                    "name": "Charles Anderson",
+                    "phoneNumber": "134.114.5089x299",
                 },
                 "studyLevels": {
                     "edges": [
@@ -189,12 +189,12 @@ snapshots["test_approve_enrolment 1"] = {
 }
 
 snapshots["test_approve_enrolment 2"] = [
-    """no-reply@hel.ninja|['gonzalezmichele@example.org']|Enrolment approved FI|
+    """no-reply@hel.ninja|['barrettjason@example.org']|Enrolment approved FI|
     Event FI: Raija Malka & Kaija Saariaho: Blick
-    Extra event info: rmjtE
-    Study group: Professional serious under who Mrs public. Campaign college career fight data.
+    Extra event info: FffUP
+    Study group: Build natural middle however.
     Occurrence: 06.01.2020 02.00
-    Person: gonzalezmichele@example.org
+    Person: barrettjason@example.org
     Click this link to cancel the enrolment:
     https://kultus.fi/fi/enrolments/cancel/RW5yb2xtZW50Tm9kZTozOF8yMDIwLTAxLTA0IDAwOjAwOjAwKzAwOjAw
 
@@ -206,12 +206,12 @@ snapshots["test_approve_enrolment_with_custom_message 1"] = {
 }
 
 snapshots["test_approve_enrolment_with_custom_message 2"] = [
-    """no-reply@hel.ninja|['gonzalezmichele@example.org']|Enrolment approved FI|
+    """no-reply@hel.ninja|['barrettjason@example.org']|Enrolment approved FI|
     Event FI: Raija Malka & Kaija Saariaho: Blick
     Extra event info: nmvjB
-    Study group: Professional serious under who Mrs public. Campaign college career fight data.
+    Study group: Build natural middle however.
     Occurrence: 06.01.2020 02.00
-    Person: gonzalezmichele@example.org
+    Person: barrettjason@example.org
     Click this link to cancel the enrolment:
     https://kultus.fi/fi/enrolments/cancel/RW5yb2xtZW50Tm9kZTo0MF8yMDIwLTAxLTA0IDAwOjAwOjAwKzAwOjAw
 
@@ -274,12 +274,12 @@ snapshots[
 snapshots[
     "test_auto_accept_message_is_used_as_custom_message_in_auto_approved_enrolments[True] 2"
 ] = [
-    """no-reply@hel.ninja|['longrebecca@example.com']|Enrolment approved FI|
+    """no-reply@hel.ninja|['hutchinsonrachel@example.org']|Enrolment approved FI|
     Event FI: Raija Malka & Kaija Saariaho: Blick
-    Extra event info: kSRpd
+    Extra event info: RUkQL
     Study group: To be created group
     Occurrence: 06.01.2020 02.00
-    Person: longrebecca@example.com
+    Person: hutchinsonrachel@example.org
 
     Custom message: Testing auto acceptance message
 """
@@ -293,11 +293,11 @@ snapshots["test_cancel_enrolment_query 1"] = {
     "data": {
         "cancellingEnrolment": {
             "enrolmentTime": "2020-01-04T00:00:00+00:00",
-            "occurrence": {"seatsTaken": 473},
+            "occurrence": {"seatsTaken": 2},
             "status": "PENDING",
             "studyGroup": {
-                "groupSize": 473,
-                "unitName": "Turn argue present throw spend prevent. Point exist road military Republican somebody.",
+                "groupSize": 2,
+                "unitName": "Tough plant traditional after born up always. Return student light a point charge.",
             },
         }
     }
@@ -312,20 +312,20 @@ snapshots["test_decline_enrolment 1"] = {
 }
 
 snapshots["test_decline_enrolment 2"] = [
-    """no-reply@hel.ninja|['gonzalezmichele@example.org']|Enrolment declined FI|
+    """no-reply@hel.ninja|['barrettjason@example.org']|Enrolment declined FI|
     Event FI: Raija Malka & Kaija Saariaho: Blick
-    Extra event info: rmjtE
-    Study group: Professional serious under who Mrs public. Campaign college career fight data.
+    Extra event info: FffUP
+    Study group: Build natural middle however.
     Occurrence: 06.01.2020 02.00
-    Person: gonzalezmichele@example.org
+    Person: barrettjason@example.org
 
 """,
-    """no-reply@hel.ninja|['gonzalezmichele@example.org']|Enrolment declined FI|
+    """no-reply@hel.ninja|['barrettjason@example.org']|Enrolment declined FI|
     Event FI: Raija Malka & Kaija Saariaho: Blick
-    Extra event info: rmjtE
-    Study group: Professional serious under who Mrs public. Campaign college career fight data.
+    Extra event info: FffUP
+    Study group: Build natural middle however.
     Occurrence: 06.01.2020 02.00
-    Person: gonzalezmichele@example.org
+    Person: barrettjason@example.org
 
 """,
 ]
@@ -335,12 +335,12 @@ snapshots["test_decline_enrolment_with_custom_message 1"] = {
 }
 
 snapshots["test_decline_enrolment_with_custom_message 2"] = [
-    """no-reply@hel.ninja|['gonzalezmichele@example.org']|Enrolment declined FI|
+    """no-reply@hel.ninja|['barrettjason@example.org']|Enrolment declined FI|
     Event FI: Raija Malka & Kaija Saariaho: Blick
     Extra event info: nmvjB
-    Study group: Professional serious under who Mrs public. Campaign college career fight data.
+    Study group: Build natural middle however.
     Occurrence: 06.01.2020 02.00
-    Person: gonzalezmichele@example.org
+    Person: barrettjason@example.org
 
     Custom message: custom message
 """
@@ -482,15 +482,13 @@ snapshots["test_enrolment_query 1"] = {
     "data": {
         "enrolment": {
             "occurrence": {
-                "endTime": "2011-01-01T08:53:32+00:00",
-                "pEvent": {"linkedEventId": "YLspj"},
-                "seatsTaken": 379,
-                "startTime": "2000-06-09T14:31:53+00:00",
+                "endTime": "2016-03-08T13:11:25+00:00",
+                "pEvent": {"linkedEventId": "ZwGmN"},
+                "seatsTaken": 374,
+                "startTime": "1974-09-11T09:28:35+00:00",
             },
             "status": "PENDING",
-            "studyGroup": {
-                "groupName": "Receive somebody determine sort under. Describe head particular page."
-            },
+            "studyGroup": {"groupName": "Conference thing much like test."},
         }
     }
 }
@@ -536,11 +534,9 @@ snapshots["test_enrolments_summary 5"] = {
 snapshots["test_event_queue_enrolment_query 1"] = {
     "data": {
         "eventQueueEnrolment": {
-            "pEvent": {"linkedEventId": "UIrta"},
+            "pEvent": {"linkedEventId": "twlFn"},
             "status": "HAS_NO_ENROLMENTS",
-            "studyGroup": {
-                "groupName": "Let join might player example environment. Then offer organization model."
-            },
+            "studyGroup": {"groupName": "Six feel real fast."},
         }
     }
 }
@@ -554,12 +550,12 @@ snapshots["test_event_queue_enrolments_query 1"] = {
                     "cursor": "YXJyYXljb25uZWN0aW9uOjA=",
                     "node": {
                         "pEvent": {
-                            "linkedEventId": "UIrta",
+                            "linkedEventId": "twlFn",
                             "organisation": {"name": "Graves and Sons"},
                         },
                         "status": "HAS_NO_ENROLMENTS",
                         "studyGroup": {
-                            "groupName": "The threat organization check may available. Offer much discuss."
+                            "groupName": "Player bad capital of song add. Democratic imagine yes policy."
                         },
                     },
                 },
@@ -567,7 +563,20 @@ snapshots["test_event_queue_enrolments_query 1"] = {
                     "cursor": "YXJyYXljb25uZWN0aW9uOjE=",
                     "node": {
                         "pEvent": {
-                            "linkedEventId": "UIrta",
+                            "linkedEventId": "twlFn",
+                            "organisation": {"name": "Graves and Sons"},
+                        },
+                        "status": "HAS_NO_ENROLMENTS",
+                        "studyGroup": {
+                            "groupName": "Phone someone method threat. You decide the threat organization. Good career party offer."
+                        },
+                    },
+                },
+                {
+                    "cursor": "YXJyYXljb25uZWN0aW9uOjI=",
+                    "node": {
+                        "pEvent": {
+                            "linkedEventId": "twlFn",
                             "organisation": {"name": "Graves and Sons"},
                         },
                         "status": "HAS_NO_ENROLMENTS",
@@ -577,28 +586,15 @@ snapshots["test_event_queue_enrolments_query 1"] = {
                     },
                 },
                 {
-                    "cursor": "YXJyYXljb25uZWN0aW9uOjI=",
-                    "node": {
-                        "pEvent": {
-                            "linkedEventId": "UIrta",
-                            "organisation": {"name": "Graves and Sons"},
-                        },
-                        "status": "HAS_NO_ENROLMENTS",
-                        "studyGroup": {
-                            "groupName": "Network view dark understand close. First control education list full hotel."
-                        },
-                    },
-                },
-                {
                     "cursor": "YXJyYXljb25uZWN0aW9uOjM=",
                     "node": {
                         "pEvent": {
-                            "linkedEventId": "UIrta",
+                            "linkedEventId": "twlFn",
                             "organisation": {"name": "Graves and Sons"},
                         },
                         "status": "HAS_NO_ENROLMENTS",
                         "studyGroup": {
-                            "groupName": "Degree keep wish crime parent. Find behind the. Identify second ready theory single."
+                            "groupName": "First control education list full hotel. Get future stand watch college speech but."
                         },
                     },
                 },
@@ -606,38 +602,34 @@ snapshots["test_event_queue_enrolments_query 1"] = {
                     "cursor": "YXJyYXljb25uZWN0aW9uOjQ=",
                     "node": {
                         "pEvent": {
-                            "linkedEventId": "UIrta",
+                            "linkedEventId": "twlFn",
                             "organisation": {"name": "Graves and Sons"},
                         },
                         "status": "HAS_NO_ENROLMENTS",
-                        "studyGroup": {
-                            "groupName": "Offer alone population vote human professional or draw. Easy since keep trial across dark share."
-                        },
+                        "studyGroup": {"groupName": "Then instead set part us happy."},
                     },
                 },
                 {
                     "cursor": "YXJyYXljb25uZWN0aW9uOjU=",
                     "node": {
                         "pEvent": {
-                            "linkedEventId": "UIrta",
+                            "linkedEventId": "twlFn",
                             "organisation": {"name": "Graves and Sons"},
                         },
                         "status": "HAS_NO_ENROLMENTS",
-                        "studyGroup": {
-                            "groupName": "Friend clear focus operation its bar anyone he."
-                        },
+                        "studyGroup": {"groupName": "Commercial lose add bag."},
                     },
                 },
                 {
                     "cursor": "YXJyYXljb25uZWN0aW9uOjY=",
                     "node": {
                         "pEvent": {
-                            "linkedEventId": "UIrta",
+                            "linkedEventId": "twlFn",
                             "organisation": {"name": "Graves and Sons"},
                         },
                         "status": "HAS_NO_ENROLMENTS",
                         "studyGroup": {
-                            "groupName": "Worker institution which open. But must thought into trip."
+                            "groupName": "Herself personal office could mouth mean space. Purpose get miss also wind."
                         },
                     },
                 },
@@ -645,12 +637,12 @@ snapshots["test_event_queue_enrolments_query 1"] = {
                     "cursor": "YXJyYXljb25uZWN0aW9uOjc=",
                     "node": {
                         "pEvent": {
-                            "linkedEventId": "UIrta",
+                            "linkedEventId": "twlFn",
                             "organisation": {"name": "Graves and Sons"},
                         },
                         "status": "HAS_NO_ENROLMENTS",
                         "studyGroup": {
-                            "groupName": "Itself green right science chair door suddenly paper. Drop street than."
+                            "groupName": "Simple spend decade born. Day range age."
                         },
                     },
                 },
@@ -658,12 +650,12 @@ snapshots["test_event_queue_enrolments_query 1"] = {
                     "cursor": "YXJyYXljb25uZWN0aW9uOjg=",
                     "node": {
                         "pEvent": {
-                            "linkedEventId": "UIrta",
+                            "linkedEventId": "twlFn",
                             "organisation": {"name": "Graves and Sons"},
                         },
                         "status": "HAS_NO_ENROLMENTS",
                         "studyGroup": {
-                            "groupName": "Happy avoid head include. Form ahead center town least style above."
+                            "groupName": "Audience we cultural quality serious stay. Treat owner door everybody check manager huge."
                         },
                     },
                 },
@@ -671,12 +663,12 @@ snapshots["test_event_queue_enrolments_query 1"] = {
                     "cursor": "YXJyYXljb25uZWN0aW9uOjk=",
                     "node": {
                         "pEvent": {
-                            "linkedEventId": "UIrta",
+                            "linkedEventId": "twlFn",
                             "organisation": {"name": "Graves and Sons"},
                         },
                         "status": "HAS_NO_ENROLMENTS",
                         "studyGroup": {
-                            "groupName": "Take maintain reveal. Develop two send year home argue way. Style design five."
+                            "groupName": "Want character would. Dream entire account. If bring cut sign force future or spend."
                         },
                     },
                 },
@@ -694,12 +686,12 @@ snapshots["test_event_queue_enrolments_query 2"] = {
                     "cursor": "YXJyYXljb25uZWN0aW9uOjEw",
                     "node": {
                         "pEvent": {
-                            "linkedEventId": "UIrta",
+                            "linkedEventId": "twlFn",
                             "organisation": {"name": "Graves and Sons"},
                         },
                         "status": "HAS_NO_ENROLMENTS",
                         "studyGroup": {
-                            "groupName": "True month might yeah road. Couple bring pull someone."
+                            "groupName": "Edge since certainly visit. Majority opportunity summer laugh interview put key. Much prove eight."
                         },
                     },
                 },
@@ -707,12 +699,12 @@ snapshots["test_event_queue_enrolments_query 2"] = {
                     "cursor": "YXJyYXljb25uZWN0aW9uOjEx",
                     "node": {
                         "pEvent": {
-                            "linkedEventId": "UIrta",
+                            "linkedEventId": "twlFn",
                             "organisation": {"name": "Graves and Sons"},
                         },
                         "status": "HAS_NO_ENROLMENTS",
                         "studyGroup": {
-                            "groupName": "Training series instead task. Within join bank worry."
+                            "groupName": "Agree order just raise change. Out instead matter owner beyond executive. Defense field east."
                         },
                     },
                 },
@@ -720,12 +712,12 @@ snapshots["test_event_queue_enrolments_query 2"] = {
                     "cursor": "YXJyYXljb25uZWN0aW9uOjEy",
                     "node": {
                         "pEvent": {
-                            "linkedEventId": "UIrta",
+                            "linkedEventId": "twlFn",
                             "organisation": {"name": "Graves and Sons"},
                         },
                         "status": "HAS_NO_ENROLMENTS",
                         "studyGroup": {
-                            "groupName": "Their start concern song social. Agency happen sure indicate."
+                            "groupName": "High three wear offer. Need positive range including growth by. Series instead task build public."
                         },
                     },
                 },
@@ -733,12 +725,12 @@ snapshots["test_event_queue_enrolments_query 2"] = {
                     "cursor": "YXJyYXljb25uZWN0aW9uOjEz",
                     "node": {
                         "pEvent": {
-                            "linkedEventId": "UIrta",
+                            "linkedEventId": "twlFn",
                             "organisation": {"name": "Graves and Sons"},
                         },
                         "status": "HAS_NO_ENROLMENTS",
                         "studyGroup": {
-                            "groupName": "By rate activity business let art. Admit think edge once election seat."
+                            "groupName": "Resource set feeling within Mr total learn."
                         },
                     },
                 },
@@ -746,12 +738,12 @@ snapshots["test_event_queue_enrolments_query 2"] = {
                     "cursor": "YXJyYXljb25uZWN0aW9uOjE0",
                     "node": {
                         "pEvent": {
-                            "linkedEventId": "UIrta",
+                            "linkedEventId": "twlFn",
                             "organisation": {"name": "Graves and Sons"},
                         },
                         "status": "HAS_NO_ENROLMENTS",
                         "studyGroup": {
-                            "groupName": "Key crime trial investment difference. Let join might player example environment."
+                            "groupName": "Policy parent toward apply see on send in. Full three especially card animal recognize stock."
                         },
                     },
                 },
@@ -821,7 +813,7 @@ snapshots["test_notification_template_query 1"] = {
 snapshots["test_occurrence_query 1"] = {
     "data": {
         "occurrence": {
-            "amountOfSeats": 25,
+            "amountOfSeats": 33,
             "contactPersons": {"edges": []},
             "endTime": "2000-08-18T23:27:03+00:00",
             "languages": {"edges": []},
@@ -846,7 +838,7 @@ snapshots["test_occurrence_query 1"] = {
                 "neededOccurrences": 7,
             },
             "placeId": "Record card my. Sure sister return.",
-            "remainingSeats": 25,
+            "remainingSeats": 33,
             "seatsApproved": 0,
             "seatsTaken": 0,
             "startTime": "2013-12-12T04:57:19+00:00",
@@ -860,37 +852,11 @@ snapshots["test_occurrences_filter_by_cancelled 1"] = {
             "edges": [
                 {
                     "node": {
-                        "amountOfSeats": 21,
-                        "contactPersons": {"edges": []},
-                        "endTime": "1972-06-16T09:28:30+00:00",
-                        "maxGroupSize": 714,
-                        "minGroupSize": 757,
-                        "pEvent": {
-                            "autoAcceptance": False,
-                            "contactEmail": "dsellers@example.net",
-                            "contactPhoneNumber": "345.773.5577",
-                            "enrolmentEndDays": 2,
-                            "enrolmentStart": "1998-07-06T01:19:12+00:00",
-                            "externalEnrolmentUrl": None,
-                            "linkedEventId": "aAVEa",
-                            "mandatoryAdditionalInformation": False,
-                            "neededOccurrences": 3,
-                        },
-                        "placeId": "Father boy economy the.",
-                        "remainingSeats": 21,
-                        "seatType": "CHILDREN_COUNT",
-                        "seatsApproved": 0,
-                        "seatsTaken": 0,
-                        "startTime": "1992-11-14T16:36:36+00:00",
-                    }
-                },
-                {
-                    "node": {
                         "amountOfSeats": 22,
                         "contactPersons": {"edges": []},
-                        "endTime": "1991-01-06T20:05:17+00:00",
-                        "maxGroupSize": 932,
-                        "minGroupSize": 512,
+                        "endTime": "1989-12-24T03:25:16+00:00",
+                        "maxGroupSize": 75,
+                        "minGroupSize": 879,
                         "pEvent": {
                             "autoAcceptance": False,
                             "contactEmail": "dsellers@example.net",
@@ -902,12 +868,38 @@ snapshots["test_occurrences_filter_by_cancelled 1"] = {
                             "mandatoryAdditionalInformation": False,
                             "neededOccurrences": 3,
                         },
-                        "placeId": "Truth list pressure stage history. City sing himself yard.",
+                        "placeId": "Throw wrong party wall agency customer clear.",
                         "remainingSeats": 22,
                         "seatType": "CHILDREN_COUNT",
                         "seatsApproved": 0,
                         "seatsTaken": 0,
-                        "startTime": "2005-01-18T03:44:33+00:00",
+                        "startTime": "1975-02-09T12:33:37+00:00",
+                    }
+                },
+                {
+                    "node": {
+                        "amountOfSeats": 48,
+                        "contactPersons": {"edges": []},
+                        "endTime": "1989-06-18T13:55:21+00:00",
+                        "maxGroupSize": 53,
+                        "minGroupSize": 312,
+                        "pEvent": {
+                            "autoAcceptance": False,
+                            "contactEmail": "dsellers@example.net",
+                            "contactPhoneNumber": "345.773.5577",
+                            "enrolmentEndDays": 2,
+                            "enrolmentStart": "1998-07-06T01:19:12+00:00",
+                            "externalEnrolmentUrl": None,
+                            "linkedEventId": "aAVEa",
+                            "mandatoryAdditionalInformation": False,
+                            "neededOccurrences": 3,
+                        },
+                        "placeId": "Actually generation five training thought.",
+                        "remainingSeats": 48,
+                        "seatType": "CHILDREN_COUNT",
+                        "seatsApproved": 0,
+                        "seatsTaken": 0,
+                        "startTime": "2004-11-01T19:25:53+00:00",
                     }
                 },
             ]
@@ -921,11 +913,11 @@ snapshots["test_occurrences_filter_by_cancelled 2"] = {
             "edges": [
                 {
                     "node": {
-                        "amountOfSeats": 39,
+                        "amountOfSeats": 12,
                         "contactPersons": {"edges": []},
-                        "endTime": "1998-03-12T19:56:01+00:00",
-                        "maxGroupSize": 562,
-                        "minGroupSize": 348,
+                        "endTime": "2009-12-31T21:53:37+00:00",
+                        "maxGroupSize": 808,
+                        "minGroupSize": 974,
                         "pEvent": {
                             "autoAcceptance": False,
                             "contactEmail": "dsellers@example.net",
@@ -937,12 +929,12 @@ snapshots["test_occurrences_filter_by_cancelled 2"] = {
                             "mandatoryAdditionalInformation": False,
                             "neededOccurrences": 3,
                         },
-                        "placeId": "Service wonder everything pay parent theory.",
-                        "remainingSeats": 39,
+                        "placeId": "Think significant land especially can quite.",
+                        "remainingSeats": 12,
                         "seatType": "CHILDREN_COUNT",
                         "seatsApproved": 0,
                         "seatsTaken": 0,
-                        "startTime": "1986-04-11T14:17:11+00:00",
+                        "startTime": "2000-04-01T13:16:53+00:00",
                     }
                 }
             ]
@@ -956,24 +948,24 @@ snapshots["test_occurrences_filter_by_date 1"] = {
             "edges": [
                 {
                     "node": {
-                        "amountOfSeats": 46,
+                        "amountOfSeats": 14,
                         "contactPersons": {"edges": []},
-                        "endTime": "2009-07-12T04:07:58+00:00",
-                        "maxGroupSize": 457,
-                        "minGroupSize": 509,
+                        "endTime": "2000-04-01T13:16:53+00:00",
+                        "maxGroupSize": 808,
+                        "minGroupSize": 974,
                         "pEvent": {
                             "autoAcceptance": False,
-                            "contactEmail": "nicholas00@example.org",
-                            "contactPhoneNumber": "793.405.5550x895",
+                            "contactEmail": "huntveronica@example.net",
+                            "contactPhoneNumber": "462-003-7722x18274",
                             "enrolmentEndDays": 2,
-                            "enrolmentStart": "2019-10-15T07:25:08+00:00",
+                            "enrolmentStart": "2004-09-22T07:20:17+00:00",
                             "externalEnrolmentUrl": None,
-                            "linkedEventId": "ngJvK",
+                            "linkedEventId": "Qjarq",
                             "mandatoryAdditionalInformation": False,
-                            "neededOccurrences": 10,
+                            "neededOccurrences": 9,
                         },
-                        "placeId": "Those notice medical science sort already.",
-                        "remainingSeats": 46,
+                        "placeId": "Today friend maintain marriage ok thank realize.",
+                        "remainingSeats": 14,
                         "seatType": "CHILDREN_COUNT",
                         "seatsApproved": 0,
                         "seatsTaken": 0,
@@ -991,24 +983,24 @@ snapshots["test_occurrences_filter_by_date 2"] = {
             "edges": [
                 {
                     "node": {
-                        "amountOfSeats": 46,
+                        "amountOfSeats": 14,
                         "contactPersons": {"edges": []},
-                        "endTime": "2009-07-12T04:07:58+00:00",
-                        "maxGroupSize": 457,
-                        "minGroupSize": 509,
+                        "endTime": "2000-04-01T13:16:53+00:00",
+                        "maxGroupSize": 808,
+                        "minGroupSize": 974,
                         "pEvent": {
                             "autoAcceptance": False,
-                            "contactEmail": "nicholas00@example.org",
-                            "contactPhoneNumber": "793.405.5550x895",
+                            "contactEmail": "huntveronica@example.net",
+                            "contactPhoneNumber": "462-003-7722x18274",
                             "enrolmentEndDays": 2,
-                            "enrolmentStart": "2019-10-15T07:25:08+00:00",
+                            "enrolmentStart": "2004-09-22T07:20:17+00:00",
                             "externalEnrolmentUrl": None,
-                            "linkedEventId": "ngJvK",
+                            "linkedEventId": "Qjarq",
                             "mandatoryAdditionalInformation": False,
-                            "neededOccurrences": 10,
+                            "neededOccurrences": 9,
                         },
-                        "placeId": "Those notice medical science sort already.",
-                        "remainingSeats": 46,
+                        "placeId": "Today friend maintain marriage ok thank realize.",
+                        "remainingSeats": 14,
                         "seatType": "CHILDREN_COUNT",
                         "seatsApproved": 0,
                         "seatsTaken": 0,
@@ -1017,24 +1009,24 @@ snapshots["test_occurrences_filter_by_date 2"] = {
                 },
                 {
                     "node": {
-                        "amountOfSeats": 43,
+                        "amountOfSeats": 46,
                         "contactPersons": {"edges": []},
-                        "endTime": "1974-10-19T15:53:39+00:00",
-                        "maxGroupSize": 687,
-                        "minGroupSize": 225,
+                        "endTime": "1973-03-29T15:33:10+00:00",
+                        "maxGroupSize": 285,
+                        "minGroupSize": 350,
                         "pEvent": {
                             "autoAcceptance": False,
-                            "contactEmail": "esmith@example.org",
-                            "contactPhoneNumber": "(778)840-8746",
-                            "enrolmentEndDays": 1,
-                            "enrolmentStart": "1991-02-21T03:14:24+00:00",
+                            "contactEmail": "zsilva@example.org",
+                            "contactPhoneNumber": "001-651-263-0084x6547",
+                            "enrolmentEndDays": 2,
+                            "enrolmentStart": "1993-11-02T08:53:37+00:00",
                             "externalEnrolmentUrl": None,
-                            "linkedEventId": "mOhDG",
+                            "linkedEventId": "jGwiN",
                             "mandatoryAdditionalInformation": False,
-                            "neededOccurrences": 5,
+                            "neededOccurrences": 10,
                         },
-                        "placeId": "Light a point charge stand store.",
-                        "remainingSeats": 43,
+                        "placeId": "Traditional whether serious sister work.",
+                        "remainingSeats": 46,
                         "seatType": "CHILDREN_COUNT",
                         "seatsApproved": 0,
                         "seatsTaken": 0,
@@ -1052,11 +1044,11 @@ snapshots["test_occurrences_filter_by_enrollable[0-3] 1"] = {
             "edges": [
                 {
                     "node": {
-                        "amountOfSeats": 30,
+                        "amountOfSeats": 40,
                         "contactPersons": {"edges": []},
-                        "endTime": "2002-06-15T11:57:08+00:00",
-                        "maxGroupSize": 231,
-                        "minGroupSize": 45,
+                        "endTime": "2014-12-28T01:38:36+00:00",
+                        "maxGroupSize": 749,
+                        "minGroupSize": 958,
                         "pEvent": {
                             "autoAcceptance": False,
                             "contactEmail": "thompsonjessica@example.com",
@@ -1068,8 +1060,8 @@ snapshots["test_occurrences_filter_by_enrollable[0-3] 1"] = {
                             "mandatoryAdditionalInformation": False,
                             "neededOccurrences": 6,
                         },
-                        "placeId": "Which president smile staff country actually generation.",
-                        "remainingSeats": 30,
+                        "placeId": "Name likely behind mission network who.",
+                        "remainingSeats": 40,
                         "seatType": "CHILDREN_COUNT",
                         "seatsApproved": 0,
                         "seatsTaken": 0,
@@ -1078,11 +1070,11 @@ snapshots["test_occurrences_filter_by_enrollable[0-3] 1"] = {
                 },
                 {
                     "node": {
-                        "amountOfSeats": 44,
+                        "amountOfSeats": 2,
                         "contactPersons": {"edges": []},
-                        "endTime": "2018-01-05T23:56:15+00:00",
-                        "maxGroupSize": 429,
-                        "minGroupSize": 836,
+                        "endTime": "1992-11-14T16:36:36+00:00",
+                        "maxGroupSize": 714,
+                        "minGroupSize": 757,
                         "pEvent": {
                             "autoAcceptance": False,
                             "contactEmail": "thompsonjessica@example.com",
@@ -1094,8 +1086,8 @@ snapshots["test_occurrences_filter_by_enrollable[0-3] 1"] = {
                             "mandatoryAdditionalInformation": False,
                             "neededOccurrences": 6,
                         },
-                        "placeId": "Commercial recently from front affect senior number.",
-                        "remainingSeats": 44,
+                        "placeId": "Father boy economy the.",
+                        "remainingSeats": 2,
                         "seatType": "CHILDREN_COUNT",
                         "seatsApproved": 0,
                         "seatsTaken": 0,
@@ -1104,11 +1096,11 @@ snapshots["test_occurrences_filter_by_enrollable[0-3] 1"] = {
                 },
                 {
                     "node": {
-                        "amountOfSeats": 36,
+                        "amountOfSeats": 22,
                         "contactPersons": {"edges": []},
-                        "endTime": "1993-07-24T08:52:34+00:00",
-                        "maxGroupSize": 407,
-                        "minGroupSize": 589,
+                        "endTime": "1991-01-06T20:05:17+00:00",
+                        "maxGroupSize": 527,
+                        "minGroupSize": 932,
                         "pEvent": {
                             "autoAcceptance": False,
                             "contactEmail": "thompsonjessica@example.com",
@@ -1120,8 +1112,8 @@ snapshots["test_occurrences_filter_by_enrollable[0-3] 1"] = {
                             "mandatoryAdditionalInformation": False,
                             "neededOccurrences": 6,
                         },
-                        "placeId": "Option PM put matter benefit.",
-                        "remainingSeats": 36,
+                        "placeId": "Capital city sing himself yard stuff.",
+                        "remainingSeats": 22,
                         "seatType": "CHILDREN_COUNT",
                         "seatsApproved": 0,
                         "seatsTaken": 0,
@@ -1139,11 +1131,11 @@ snapshots["test_occurrences_filter_by_enrollable[1-2] 1"] = {
             "edges": [
                 {
                     "node": {
-                        "amountOfSeats": 44,
+                        "amountOfSeats": 2,
                         "contactPersons": {"edges": []},
-                        "endTime": "2018-01-05T23:56:15+00:00",
-                        "maxGroupSize": 429,
-                        "minGroupSize": 836,
+                        "endTime": "1992-11-14T16:36:36+00:00",
+                        "maxGroupSize": 714,
+                        "minGroupSize": 757,
                         "pEvent": {
                             "autoAcceptance": False,
                             "contactEmail": "thompsonjessica@example.com",
@@ -1155,8 +1147,8 @@ snapshots["test_occurrences_filter_by_enrollable[1-2] 1"] = {
                             "mandatoryAdditionalInformation": False,
                             "neededOccurrences": 6,
                         },
-                        "placeId": "Commercial recently from front affect senior number.",
-                        "remainingSeats": 44,
+                        "placeId": "Father boy economy the.",
+                        "remainingSeats": 2,
                         "seatType": "CHILDREN_COUNT",
                         "seatsApproved": 0,
                         "seatsTaken": 0,
@@ -1165,11 +1157,11 @@ snapshots["test_occurrences_filter_by_enrollable[1-2] 1"] = {
                 },
                 {
                     "node": {
-                        "amountOfSeats": 36,
+                        "amountOfSeats": 22,
                         "contactPersons": {"edges": []},
-                        "endTime": "1993-07-24T08:52:34+00:00",
-                        "maxGroupSize": 407,
-                        "minGroupSize": 589,
+                        "endTime": "1991-01-06T20:05:17+00:00",
+                        "maxGroupSize": 527,
+                        "minGroupSize": 932,
                         "pEvent": {
                             "autoAcceptance": False,
                             "contactEmail": "thompsonjessica@example.com",
@@ -1181,8 +1173,8 @@ snapshots["test_occurrences_filter_by_enrollable[1-2] 1"] = {
                             "mandatoryAdditionalInformation": False,
                             "neededOccurrences": 6,
                         },
-                        "placeId": "Option PM put matter benefit.",
-                        "remainingSeats": 36,
+                        "placeId": "Capital city sing himself yard stuff.",
+                        "remainingSeats": 22,
                         "seatType": "CHILDREN_COUNT",
                         "seatsApproved": 0,
                         "seatsTaken": 0,
@@ -1200,11 +1192,11 @@ snapshots["test_occurrences_filter_by_enrollable[None-3] 1"] = {
             "edges": [
                 {
                     "node": {
-                        "amountOfSeats": 30,
+                        "amountOfSeats": 40,
                         "contactPersons": {"edges": []},
-                        "endTime": "2002-06-15T11:57:08+00:00",
-                        "maxGroupSize": 231,
-                        "minGroupSize": 45,
+                        "endTime": "2014-12-28T01:38:36+00:00",
+                        "maxGroupSize": 749,
+                        "minGroupSize": 958,
                         "pEvent": {
                             "autoAcceptance": False,
                             "contactEmail": "thompsonjessica@example.com",
@@ -1216,8 +1208,8 @@ snapshots["test_occurrences_filter_by_enrollable[None-3] 1"] = {
                             "mandatoryAdditionalInformation": False,
                             "neededOccurrences": 6,
                         },
-                        "placeId": "Which president smile staff country actually generation.",
-                        "remainingSeats": 30,
+                        "placeId": "Name likely behind mission network who.",
+                        "remainingSeats": 40,
                         "seatType": "CHILDREN_COUNT",
                         "seatsApproved": 0,
                         "seatsTaken": 0,
@@ -1226,11 +1218,11 @@ snapshots["test_occurrences_filter_by_enrollable[None-3] 1"] = {
                 },
                 {
                     "node": {
-                        "amountOfSeats": 44,
+                        "amountOfSeats": 2,
                         "contactPersons": {"edges": []},
-                        "endTime": "2018-01-05T23:56:15+00:00",
-                        "maxGroupSize": 429,
-                        "minGroupSize": 836,
+                        "endTime": "1992-11-14T16:36:36+00:00",
+                        "maxGroupSize": 714,
+                        "minGroupSize": 757,
                         "pEvent": {
                             "autoAcceptance": False,
                             "contactEmail": "thompsonjessica@example.com",
@@ -1242,8 +1234,8 @@ snapshots["test_occurrences_filter_by_enrollable[None-3] 1"] = {
                             "mandatoryAdditionalInformation": False,
                             "neededOccurrences": 6,
                         },
-                        "placeId": "Commercial recently from front affect senior number.",
-                        "remainingSeats": 44,
+                        "placeId": "Father boy economy the.",
+                        "remainingSeats": 2,
                         "seatType": "CHILDREN_COUNT",
                         "seatsApproved": 0,
                         "seatsTaken": 0,
@@ -1252,11 +1244,11 @@ snapshots["test_occurrences_filter_by_enrollable[None-3] 1"] = {
                 },
                 {
                     "node": {
-                        "amountOfSeats": 36,
+                        "amountOfSeats": 22,
                         "contactPersons": {"edges": []},
-                        "endTime": "1993-07-24T08:52:34+00:00",
-                        "maxGroupSize": 407,
-                        "minGroupSize": 589,
+                        "endTime": "1991-01-06T20:05:17+00:00",
+                        "maxGroupSize": 527,
+                        "minGroupSize": 932,
                         "pEvent": {
                             "autoAcceptance": False,
                             "contactEmail": "thompsonjessica@example.com",
@@ -1268,8 +1260,8 @@ snapshots["test_occurrences_filter_by_enrollable[None-3] 1"] = {
                             "mandatoryAdditionalInformation": False,
                             "neededOccurrences": 6,
                         },
-                        "placeId": "Option PM put matter benefit.",
-                        "remainingSeats": 36,
+                        "placeId": "Capital city sing himself yard stuff.",
+                        "remainingSeats": 22,
                         "seatType": "CHILDREN_COUNT",
                         "seatsApproved": 0,
                         "seatsTaken": 0,
@@ -1287,11 +1279,11 @@ snapshots["test_occurrences_filter_by_p_event 1"] = {
             "edges": [
                 {
                     "node": {
-                        "amountOfSeats": 38,
+                        "amountOfSeats": 8,
                         "contactPersons": {"edges": []},
-                        "endTime": "1993-01-04T08:20:35+00:00",
-                        "maxGroupSize": 768,
-                        "minGroupSize": 746,
+                        "endTime": "1986-10-16T20:29:23+00:00",
+                        "maxGroupSize": 687,
+                        "minGroupSize": 225,
                         "pEvent": {
                             "autoAcceptance": False,
                             "contactEmail": "dsellers@example.net",
@@ -1303,21 +1295,21 @@ snapshots["test_occurrences_filter_by_p_event 1"] = {
                             "mandatoryAdditionalInformation": False,
                             "neededOccurrences": 3,
                         },
-                        "placeId": "Think turn argue present. Spend prevent pressure point exist.",
-                        "remainingSeats": 38,
+                        "placeId": "Light a point charge stand store.",
+                        "remainingSeats": 8,
                         "seatType": "CHILDREN_COUNT",
                         "seatsApproved": 0,
                         "seatsTaken": 0,
-                        "startTime": "2009-12-10T20:02:15+00:00",
+                        "startTime": "1974-10-19T15:53:39+00:00",
                     }
                 },
                 {
                     "node": {
-                        "amountOfSeats": 5,
+                        "amountOfSeats": 27,
                         "contactPersons": {"edges": []},
-                        "endTime": "2015-02-19T19:35:54+00:00",
-                        "maxGroupSize": 912,
-                        "minGroupSize": 473,
+                        "endTime": "1997-12-26T00:43:56+00:00",
+                        "maxGroupSize": 459,
+                        "minGroupSize": 568,
                         "pEvent": {
                             "autoAcceptance": False,
                             "contactEmail": "dsellers@example.net",
@@ -1329,12 +1321,12 @@ snapshots["test_occurrences_filter_by_p_event 1"] = {
                             "mandatoryAdditionalInformation": False,
                             "neededOccurrences": 3,
                         },
-                        "placeId": "Behavior media career decide season mission TV.",
-                        "remainingSeats": 5,
+                        "placeId": "Chance of performance financial.",
+                        "remainingSeats": 27,
                         "seatType": "CHILDREN_COUNT",
                         "seatsApproved": 0,
                         "seatsTaken": 0,
-                        "startTime": "2018-08-30T11:34:25+00:00",
+                        "startTime": "1989-07-01T22:41:54+00:00",
                     }
                 },
             ]
@@ -1348,28 +1340,28 @@ snapshots["test_occurrences_filter_by_p_event 2"] = {
             "edges": [
                 {
                     "node": {
-                        "amountOfSeats": 40,
+                        "amountOfSeats": 45,
                         "contactPersons": {"edges": []},
-                        "endTime": "1975-08-29T21:32:18+00:00",
-                        "maxGroupSize": 746,
-                        "minGroupSize": 146,
+                        "endTime": "1978-10-04T07:23:05+00:00",
+                        "maxGroupSize": 464,
+                        "minGroupSize": 526,
                         "pEvent": {
                             "autoAcceptance": False,
-                            "contactEmail": "wellsdiana@example.com",
-                            "contactPhoneNumber": "(681)066-9583x693",
+                            "contactEmail": "jonathan20@example.org",
+                            "contactPhoneNumber": "001-779-340-5555x089",
                             "enrolmentEndDays": 2,
-                            "enrolmentStart": "2011-05-08T04:35:51+00:00",
+                            "enrolmentStart": "2017-02-20T07:43:47+00:00",
                             "externalEnrolmentUrl": None,
-                            "linkedEventId": "MNZoG",
+                            "linkedEventId": "rzzET",
                             "mandatoryAdditionalInformation": False,
-                            "neededOccurrences": 5,
+                            "neededOccurrences": 6,
                         },
-                        "placeId": "Various build leave serve important.",
-                        "remainingSeats": 40,
+                        "placeId": "Old affect quite.",
+                        "remainingSeats": 45,
                         "seatType": "CHILDREN_COUNT",
                         "seatsApproved": 0,
                         "seatsTaken": 0,
-                        "startTime": "2007-09-11T17:25:39+00:00",
+                        "startTime": "1971-10-08T22:49:29+00:00",
                     }
                 }
             ]
@@ -1383,7 +1375,7 @@ snapshots["test_occurrences_filter_by_time 1"] = {
             "edges": [
                 {
                     "node": {
-                        "amountOfSeats": 25,
+                        "amountOfSeats": 33,
                         "contactPersons": {"edges": []},
                         "endTime": "2013-12-12T04:57:19+00:00",
                         "maxGroupSize": 383,
@@ -1400,7 +1392,7 @@ snapshots["test_occurrences_filter_by_time 1"] = {
                             "neededOccurrences": 0,
                         },
                         "placeId": "Record card my. Sure sister return.",
-                        "remainingSeats": 25,
+                        "remainingSeats": 33,
                         "seatType": "CHILDREN_COUNT",
                         "seatsApproved": 0,
                         "seatsTaken": 0,
@@ -1418,24 +1410,24 @@ snapshots["test_occurrences_filter_by_time 2"] = {
             "edges": [
                 {
                     "node": {
-                        "amountOfSeats": 26,
+                        "amountOfSeats": 24,
                         "contactPersons": {"edges": []},
-                        "endTime": "1988-10-06T08:20:53+00:00",
-                        "maxGroupSize": 741,
-                        "minGroupSize": 666,
+                        "endTime": "1970-05-06T08:51:57+00:00",
+                        "maxGroupSize": 288,
+                        "minGroupSize": 67,
                         "pEvent": {
                             "autoAcceptance": False,
-                            "contactEmail": "sandra56@example.net",
-                            "contactPhoneNumber": "+1-795-462-1895x673",
+                            "contactEmail": "pwilliams@example.org",
+                            "contactPhoneNumber": "377.940.2178x77950",
                             "enrolmentEndDays": 2,
-                            "enrolmentStart": "2005-10-28T13:02:54+00:00",
+                            "enrolmentStart": "2005-08-24T18:22:59+00:00",
                             "externalEnrolmentUrl": None,
-                            "linkedEventId": "NaRcy",
+                            "linkedEventId": "nVTDE",
                             "mandatoryAdditionalInformation": False,
-                            "neededOccurrences": 7,
+                            "neededOccurrences": 3,
                         },
-                        "placeId": "Question national throw three.",
-                        "remainingSeats": 26,
+                        "placeId": "Few eye first walk west six feel. Fast authority key crime.",
+                        "remainingSeats": 24,
                         "seatType": "CHILDREN_COUNT",
                         "seatsApproved": 0,
                         "seatsTaken": 0,
@@ -1453,24 +1445,24 @@ snapshots["test_occurrences_filter_by_time 3"] = {
             "edges": [
                 {
                     "node": {
-                        "amountOfSeats": 43,
+                        "amountOfSeats": 46,
                         "contactPersons": {"edges": []},
-                        "endTime": "1974-10-19T15:53:39+00:00",
-                        "maxGroupSize": 687,
-                        "minGroupSize": 225,
+                        "endTime": "1973-03-29T15:33:10+00:00",
+                        "maxGroupSize": 285,
+                        "minGroupSize": 350,
                         "pEvent": {
                             "autoAcceptance": False,
-                            "contactEmail": "esmith@example.org",
-                            "contactPhoneNumber": "(778)840-8746",
-                            "enrolmentEndDays": 1,
-                            "enrolmentStart": "1991-02-21T03:14:24+00:00",
+                            "contactEmail": "zsilva@example.org",
+                            "contactPhoneNumber": "001-651-263-0084x6547",
+                            "enrolmentEndDays": 2,
+                            "enrolmentStart": "1993-11-02T08:53:37+00:00",
                             "externalEnrolmentUrl": None,
-                            "linkedEventId": "mOhDG",
+                            "linkedEventId": "jGwiN",
                             "mandatoryAdditionalInformation": False,
-                            "neededOccurrences": 5,
+                            "neededOccurrences": 10,
                         },
-                        "placeId": "Light a point charge stand store.",
-                        "remainingSeats": 43,
+                        "placeId": "Traditional whether serious sister work.",
+                        "remainingSeats": 46,
                         "seatType": "CHILDREN_COUNT",
                         "seatsApproved": 0,
                         "seatsTaken": 0,
@@ -1479,24 +1471,24 @@ snapshots["test_occurrences_filter_by_time 3"] = {
                 },
                 {
                     "node": {
-                        "amountOfSeats": 46,
+                        "amountOfSeats": 14,
                         "contactPersons": {"edges": []},
-                        "endTime": "2009-07-12T04:07:58+00:00",
-                        "maxGroupSize": 457,
-                        "minGroupSize": 509,
+                        "endTime": "2000-04-01T13:16:53+00:00",
+                        "maxGroupSize": 808,
+                        "minGroupSize": 974,
                         "pEvent": {
                             "autoAcceptance": False,
-                            "contactEmail": "nicholas00@example.org",
-                            "contactPhoneNumber": "793.405.5550x895",
+                            "contactEmail": "huntveronica@example.net",
+                            "contactPhoneNumber": "462-003-7722x18274",
                             "enrolmentEndDays": 2,
-                            "enrolmentStart": "2019-10-15T07:25:08+00:00",
+                            "enrolmentStart": "2004-09-22T07:20:17+00:00",
                             "externalEnrolmentUrl": None,
-                            "linkedEventId": "ngJvK",
+                            "linkedEventId": "Qjarq",
                             "mandatoryAdditionalInformation": False,
-                            "neededOccurrences": 10,
+                            "neededOccurrences": 9,
                         },
-                        "placeId": "Those notice medical science sort already.",
-                        "remainingSeats": 46,
+                        "placeId": "Today friend maintain marriage ok thank realize.",
+                        "remainingSeats": 14,
                         "seatType": "CHILDREN_COUNT",
                         "seatsApproved": 0,
                         "seatsTaken": 0,
@@ -1514,24 +1506,24 @@ snapshots["test_occurrences_filter_by_time 4"] = {
             "edges": [
                 {
                     "node": {
-                        "amountOfSeats": 43,
+                        "amountOfSeats": 46,
                         "contactPersons": {"edges": []},
-                        "endTime": "1974-10-19T15:53:39+00:00",
-                        "maxGroupSize": 687,
-                        "minGroupSize": 225,
+                        "endTime": "1973-03-29T15:33:10+00:00",
+                        "maxGroupSize": 285,
+                        "minGroupSize": 350,
                         "pEvent": {
                             "autoAcceptance": False,
-                            "contactEmail": "esmith@example.org",
-                            "contactPhoneNumber": "(778)840-8746",
-                            "enrolmentEndDays": 1,
-                            "enrolmentStart": "1991-02-21T03:14:24+00:00",
+                            "contactEmail": "zsilva@example.org",
+                            "contactPhoneNumber": "001-651-263-0084x6547",
+                            "enrolmentEndDays": 2,
+                            "enrolmentStart": "1993-11-02T08:53:37+00:00",
                             "externalEnrolmentUrl": None,
-                            "linkedEventId": "mOhDG",
+                            "linkedEventId": "jGwiN",
                             "mandatoryAdditionalInformation": False,
-                            "neededOccurrences": 5,
+                            "neededOccurrences": 10,
                         },
-                        "placeId": "Light a point charge stand store.",
-                        "remainingSeats": 43,
+                        "placeId": "Traditional whether serious sister work.",
+                        "remainingSeats": 46,
                         "seatType": "CHILDREN_COUNT",
                         "seatsApproved": 0,
                         "seatsTaken": 0,
@@ -1540,24 +1532,24 @@ snapshots["test_occurrences_filter_by_time 4"] = {
                 },
                 {
                     "node": {
-                        "amountOfSeats": 46,
+                        "amountOfSeats": 14,
                         "contactPersons": {"edges": []},
-                        "endTime": "2009-07-12T04:07:58+00:00",
-                        "maxGroupSize": 457,
-                        "minGroupSize": 509,
+                        "endTime": "2000-04-01T13:16:53+00:00",
+                        "maxGroupSize": 808,
+                        "minGroupSize": 974,
                         "pEvent": {
                             "autoAcceptance": False,
-                            "contactEmail": "nicholas00@example.org",
-                            "contactPhoneNumber": "793.405.5550x895",
+                            "contactEmail": "huntveronica@example.net",
+                            "contactPhoneNumber": "462-003-7722x18274",
                             "enrolmentEndDays": 2,
-                            "enrolmentStart": "2019-10-15T07:25:08+00:00",
+                            "enrolmentStart": "2004-09-22T07:20:17+00:00",
                             "externalEnrolmentUrl": None,
-                            "linkedEventId": "ngJvK",
+                            "linkedEventId": "Qjarq",
                             "mandatoryAdditionalInformation": False,
-                            "neededOccurrences": 10,
+                            "neededOccurrences": 9,
                         },
-                        "placeId": "Those notice medical science sort already.",
-                        "remainingSeats": 46,
+                        "placeId": "Today friend maintain marriage ok thank realize.",
+                        "remainingSeats": 14,
                         "seatType": "CHILDREN_COUNT",
                         "seatsApproved": 0,
                         "seatsTaken": 0,
@@ -1575,11 +1567,11 @@ snapshots["test_occurrences_filter_by_upcoming 1"] = {
             "edges": [
                 {
                     "node": {
-                        "amountOfSeats": 17,
+                        "amountOfSeats": 32,
                         "contactPersons": {"edges": []},
                         "endTime": "2020-01-05T00:00:00+00:00",
-                        "maxGroupSize": 628,
-                        "minGroupSize": 833,
+                        "maxGroupSize": 53,
+                        "minGroupSize": 312,
                         "pEvent": {
                             "autoAcceptance": False,
                             "contactEmail": "thompsonjessica@example.com",
@@ -1591,8 +1583,8 @@ snapshots["test_occurrences_filter_by_upcoming 1"] = {
                             "mandatoryAdditionalInformation": False,
                             "neededOccurrences": 6,
                         },
-                        "placeId": "Gas heavy affect difficult look can purpose care.",
-                        "remainingSeats": 17,
+                        "placeId": "Staff country actually generation five training.",
+                        "remainingSeats": 32,
                         "seatType": "CHILDREN_COUNT",
                         "seatsApproved": 0,
                         "seatsTaken": 0,
@@ -1601,11 +1593,11 @@ snapshots["test_occurrences_filter_by_upcoming 1"] = {
                 },
                 {
                     "node": {
-                        "amountOfSeats": 42,
+                        "amountOfSeats": 41,
                         "contactPersons": {"edges": []},
                         "endTime": "2020-01-06T00:00:00+00:00",
-                        "maxGroupSize": 980,
-                        "minGroupSize": 908,
+                        "maxGroupSize": 1000,
+                        "minGroupSize": 984,
                         "pEvent": {
                             "autoAcceptance": False,
                             "contactEmail": "thompsonjessica@example.com",
@@ -1617,8 +1609,8 @@ snapshots["test_occurrences_filter_by_upcoming 1"] = {
                             "mandatoryAdditionalInformation": False,
                             "neededOccurrences": 6,
                         },
-                        "placeId": "Staff read rule point leg within.",
-                        "remainingSeats": 42,
+                        "placeId": "Senior number scene today friend maintain marriage.",
+                        "remainingSeats": 41,
                         "seatType": "CHILDREN_COUNT",
                         "seatsApproved": 0,
                         "seatsTaken": 0,
@@ -1627,11 +1619,11 @@ snapshots["test_occurrences_filter_by_upcoming 1"] = {
                 },
                 {
                     "node": {
-                        "amountOfSeats": 43,
+                        "amountOfSeats": 1,
                         "contactPersons": {"edges": []},
                         "endTime": "2020-01-07T00:00:00+00:00",
-                        "maxGroupSize": 709,
-                        "minGroupSize": 132,
+                        "maxGroupSize": 557,
+                        "minGroupSize": 345,
                         "pEvent": {
                             "autoAcceptance": False,
                             "contactEmail": "thompsonjessica@example.com",
@@ -1643,8 +1635,8 @@ snapshots["test_occurrences_filter_by_upcoming 1"] = {
                             "mandatoryAdditionalInformation": False,
                             "neededOccurrences": 6,
                         },
-                        "placeId": "Success commercial recently from front affect senior.",
-                        "remainingSeats": 43,
+                        "placeId": "Central situation past ready join enjoy.",
+                        "remainingSeats": 1,
                         "seatType": "CHILDREN_COUNT",
                         "seatsApproved": 0,
                         "seatsTaken": 0,
@@ -1662,33 +1654,33 @@ snapshots["test_occurrences_ordering_by_order_by_end_time 1"] = {
             "edges": [
                 {
                     "node": {
-                        "amountOfSeats": 43,
+                        "amountOfSeats": 46,
                         "contactPersons": {"edges": []},
                         "endTime": "2020-01-05T00:00:00+00:00",
-                        "maxGroupSize": 687,
-                        "minGroupSize": 225,
+                        "maxGroupSize": 285,
+                        "minGroupSize": 350,
                         "pEvent": {
                             "autoAcceptance": False,
-                            "contactEmail": "esmith@example.org",
-                            "contactPhoneNumber": "(778)840-8746",
-                            "enrolmentEndDays": 1,
-                            "enrolmentStart": "1991-02-21T03:14:24+00:00",
+                            "contactEmail": "zsilva@example.org",
+                            "contactPhoneNumber": "001-651-263-0084x6547",
+                            "enrolmentEndDays": 2,
+                            "enrolmentStart": "1993-11-02T08:53:37+00:00",
                             "externalEnrolmentUrl": None,
-                            "linkedEventId": "mOhDG",
+                            "linkedEventId": "jGwiN",
                             "mandatoryAdditionalInformation": False,
-                            "neededOccurrences": 5,
+                            "neededOccurrences": 10,
                         },
-                        "placeId": "Light a point charge stand store.",
-                        "remainingSeats": 43,
+                        "placeId": "Traditional whether serious sister work.",
+                        "remainingSeats": 46,
                         "seatType": "CHILDREN_COUNT",
                         "seatsApproved": 0,
                         "seatsTaken": 0,
-                        "startTime": "1974-10-19T15:53:39+00:00",
+                        "startTime": "1973-03-29T15:33:10+00:00",
                     }
                 },
                 {
                     "node": {
-                        "amountOfSeats": 25,
+                        "amountOfSeats": 33,
                         "contactPersons": {"edges": []},
                         "endTime": "2020-01-06T00:00:00+00:00",
                         "maxGroupSize": 383,
@@ -1705,7 +1697,7 @@ snapshots["test_occurrences_ordering_by_order_by_end_time 1"] = {
                             "neededOccurrences": 0,
                         },
                         "placeId": "Record card my. Sure sister return.",
-                        "remainingSeats": 25,
+                        "remainingSeats": 33,
                         "seatType": "CHILDREN_COUNT",
                         "seatsApproved": 0,
                         "seatsTaken": 0,
@@ -1714,28 +1706,28 @@ snapshots["test_occurrences_ordering_by_order_by_end_time 1"] = {
                 },
                 {
                     "node": {
-                        "amountOfSeats": 46,
+                        "amountOfSeats": 14,
                         "contactPersons": {"edges": []},
                         "endTime": "2020-01-07T00:00:00+00:00",
-                        "maxGroupSize": 457,
-                        "minGroupSize": 509,
+                        "maxGroupSize": 808,
+                        "minGroupSize": 974,
                         "pEvent": {
                             "autoAcceptance": False,
-                            "contactEmail": "nicholas00@example.org",
-                            "contactPhoneNumber": "793.405.5550x895",
+                            "contactEmail": "huntveronica@example.net",
+                            "contactPhoneNumber": "462-003-7722x18274",
                             "enrolmentEndDays": 2,
-                            "enrolmentStart": "2019-10-15T07:25:08+00:00",
+                            "enrolmentStart": "2004-09-22T07:20:17+00:00",
                             "externalEnrolmentUrl": None,
-                            "linkedEventId": "ngJvK",
+                            "linkedEventId": "Qjarq",
                             "mandatoryAdditionalInformation": False,
-                            "neededOccurrences": 10,
+                            "neededOccurrences": 9,
                         },
-                        "placeId": "Those notice medical science sort already.",
-                        "remainingSeats": 46,
+                        "placeId": "Today friend maintain marriage ok thank realize.",
+                        "remainingSeats": 14,
                         "seatType": "CHILDREN_COUNT",
                         "seatsApproved": 0,
                         "seatsTaken": 0,
-                        "startTime": "2009-07-12T04:07:58+00:00",
+                        "startTime": "2000-04-01T13:16:53+00:00",
                     }
                 },
             ]
@@ -1749,33 +1741,33 @@ snapshots["test_occurrences_ordering_by_order_by_end_time 2"] = {
             "edges": [
                 {
                     "node": {
-                        "amountOfSeats": 46,
+                        "amountOfSeats": 14,
                         "contactPersons": {"edges": []},
                         "endTime": "2020-01-07T00:00:00+00:00",
-                        "maxGroupSize": 457,
-                        "minGroupSize": 509,
+                        "maxGroupSize": 808,
+                        "minGroupSize": 974,
                         "pEvent": {
                             "autoAcceptance": False,
-                            "contactEmail": "nicholas00@example.org",
-                            "contactPhoneNumber": "793.405.5550x895",
+                            "contactEmail": "huntveronica@example.net",
+                            "contactPhoneNumber": "462-003-7722x18274",
                             "enrolmentEndDays": 2,
-                            "enrolmentStart": "2019-10-15T07:25:08+00:00",
+                            "enrolmentStart": "2004-09-22T07:20:17+00:00",
                             "externalEnrolmentUrl": None,
-                            "linkedEventId": "ngJvK",
+                            "linkedEventId": "Qjarq",
                             "mandatoryAdditionalInformation": False,
-                            "neededOccurrences": 10,
+                            "neededOccurrences": 9,
                         },
-                        "placeId": "Those notice medical science sort already.",
-                        "remainingSeats": 46,
+                        "placeId": "Today friend maintain marriage ok thank realize.",
+                        "remainingSeats": 14,
                         "seatType": "CHILDREN_COUNT",
                         "seatsApproved": 0,
                         "seatsTaken": 0,
-                        "startTime": "2009-07-12T04:07:58+00:00",
+                        "startTime": "2000-04-01T13:16:53+00:00",
                     }
                 },
                 {
                     "node": {
-                        "amountOfSeats": 25,
+                        "amountOfSeats": 33,
                         "contactPersons": {"edges": []},
                         "endTime": "2020-01-06T00:00:00+00:00",
                         "maxGroupSize": 383,
@@ -1792,7 +1784,7 @@ snapshots["test_occurrences_ordering_by_order_by_end_time 2"] = {
                             "neededOccurrences": 0,
                         },
                         "placeId": "Record card my. Sure sister return.",
-                        "remainingSeats": 25,
+                        "remainingSeats": 33,
                         "seatType": "CHILDREN_COUNT",
                         "seatsApproved": 0,
                         "seatsTaken": 0,
@@ -1801,28 +1793,28 @@ snapshots["test_occurrences_ordering_by_order_by_end_time 2"] = {
                 },
                 {
                     "node": {
-                        "amountOfSeats": 43,
+                        "amountOfSeats": 46,
                         "contactPersons": {"edges": []},
                         "endTime": "2020-01-05T00:00:00+00:00",
-                        "maxGroupSize": 687,
-                        "minGroupSize": 225,
+                        "maxGroupSize": 285,
+                        "minGroupSize": 350,
                         "pEvent": {
                             "autoAcceptance": False,
-                            "contactEmail": "esmith@example.org",
-                            "contactPhoneNumber": "(778)840-8746",
-                            "enrolmentEndDays": 1,
-                            "enrolmentStart": "1991-02-21T03:14:24+00:00",
+                            "contactEmail": "zsilva@example.org",
+                            "contactPhoneNumber": "001-651-263-0084x6547",
+                            "enrolmentEndDays": 2,
+                            "enrolmentStart": "1993-11-02T08:53:37+00:00",
                             "externalEnrolmentUrl": None,
-                            "linkedEventId": "mOhDG",
+                            "linkedEventId": "jGwiN",
                             "mandatoryAdditionalInformation": False,
-                            "neededOccurrences": 5,
+                            "neededOccurrences": 10,
                         },
-                        "placeId": "Light a point charge stand store.",
-                        "remainingSeats": 43,
+                        "placeId": "Traditional whether serious sister work.",
+                        "remainingSeats": 46,
                         "seatType": "CHILDREN_COUNT",
                         "seatsApproved": 0,
                         "seatsTaken": 0,
-                        "startTime": "1974-10-19T15:53:39+00:00",
+                        "startTime": "1973-03-29T15:33:10+00:00",
                     }
                 },
             ]
@@ -1836,24 +1828,24 @@ snapshots["test_occurrences_ordering_by_order_by_start_time 1"] = {
             "edges": [
                 {
                     "node": {
-                        "amountOfSeats": 43,
+                        "amountOfSeats": 46,
                         "contactPersons": {"edges": []},
-                        "endTime": "1974-10-19T15:53:39+00:00",
-                        "maxGroupSize": 687,
-                        "minGroupSize": 225,
+                        "endTime": "1973-03-29T15:33:10+00:00",
+                        "maxGroupSize": 285,
+                        "minGroupSize": 350,
                         "pEvent": {
                             "autoAcceptance": False,
-                            "contactEmail": "esmith@example.org",
-                            "contactPhoneNumber": "(778)840-8746",
-                            "enrolmentEndDays": 1,
-                            "enrolmentStart": "1991-02-21T03:14:24+00:00",
+                            "contactEmail": "zsilva@example.org",
+                            "contactPhoneNumber": "001-651-263-0084x6547",
+                            "enrolmentEndDays": 2,
+                            "enrolmentStart": "1993-11-02T08:53:37+00:00",
                             "externalEnrolmentUrl": None,
-                            "linkedEventId": "mOhDG",
+                            "linkedEventId": "jGwiN",
                             "mandatoryAdditionalInformation": False,
-                            "neededOccurrences": 5,
+                            "neededOccurrences": 10,
                         },
-                        "placeId": "Light a point charge stand store.",
-                        "remainingSeats": 43,
+                        "placeId": "Traditional whether serious sister work.",
+                        "remainingSeats": 46,
                         "seatType": "CHILDREN_COUNT",
                         "seatsApproved": 0,
                         "seatsTaken": 0,
@@ -1862,7 +1854,7 @@ snapshots["test_occurrences_ordering_by_order_by_start_time 1"] = {
                 },
                 {
                     "node": {
-                        "amountOfSeats": 25,
+                        "amountOfSeats": 33,
                         "contactPersons": {"edges": []},
                         "endTime": "2013-12-12T04:57:19+00:00",
                         "maxGroupSize": 383,
@@ -1879,7 +1871,7 @@ snapshots["test_occurrences_ordering_by_order_by_start_time 1"] = {
                             "neededOccurrences": 0,
                         },
                         "placeId": "Record card my. Sure sister return.",
-                        "remainingSeats": 25,
+                        "remainingSeats": 33,
                         "seatType": "CHILDREN_COUNT",
                         "seatsApproved": 0,
                         "seatsTaken": 0,
@@ -1888,24 +1880,24 @@ snapshots["test_occurrences_ordering_by_order_by_start_time 1"] = {
                 },
                 {
                     "node": {
-                        "amountOfSeats": 46,
+                        "amountOfSeats": 14,
                         "contactPersons": {"edges": []},
-                        "endTime": "2009-07-12T04:07:58+00:00",
-                        "maxGroupSize": 457,
-                        "minGroupSize": 509,
+                        "endTime": "2000-04-01T13:16:53+00:00",
+                        "maxGroupSize": 808,
+                        "minGroupSize": 974,
                         "pEvent": {
                             "autoAcceptance": False,
-                            "contactEmail": "nicholas00@example.org",
-                            "contactPhoneNumber": "793.405.5550x895",
+                            "contactEmail": "huntveronica@example.net",
+                            "contactPhoneNumber": "462-003-7722x18274",
                             "enrolmentEndDays": 2,
-                            "enrolmentStart": "2019-10-15T07:25:08+00:00",
+                            "enrolmentStart": "2004-09-22T07:20:17+00:00",
                             "externalEnrolmentUrl": None,
-                            "linkedEventId": "ngJvK",
+                            "linkedEventId": "Qjarq",
                             "mandatoryAdditionalInformation": False,
-                            "neededOccurrences": 10,
+                            "neededOccurrences": 9,
                         },
-                        "placeId": "Those notice medical science sort already.",
-                        "remainingSeats": 46,
+                        "placeId": "Today friend maintain marriage ok thank realize.",
+                        "remainingSeats": 14,
                         "seatType": "CHILDREN_COUNT",
                         "seatsApproved": 0,
                         "seatsTaken": 0,
@@ -1923,24 +1915,24 @@ snapshots["test_occurrences_ordering_by_order_by_start_time 2"] = {
             "edges": [
                 {
                     "node": {
-                        "amountOfSeats": 46,
+                        "amountOfSeats": 14,
                         "contactPersons": {"edges": []},
-                        "endTime": "2009-07-12T04:07:58+00:00",
-                        "maxGroupSize": 457,
-                        "minGroupSize": 509,
+                        "endTime": "2000-04-01T13:16:53+00:00",
+                        "maxGroupSize": 808,
+                        "minGroupSize": 974,
                         "pEvent": {
                             "autoAcceptance": False,
-                            "contactEmail": "nicholas00@example.org",
-                            "contactPhoneNumber": "793.405.5550x895",
+                            "contactEmail": "huntveronica@example.net",
+                            "contactPhoneNumber": "462-003-7722x18274",
                             "enrolmentEndDays": 2,
-                            "enrolmentStart": "2019-10-15T07:25:08+00:00",
+                            "enrolmentStart": "2004-09-22T07:20:17+00:00",
                             "externalEnrolmentUrl": None,
-                            "linkedEventId": "ngJvK",
+                            "linkedEventId": "Qjarq",
                             "mandatoryAdditionalInformation": False,
-                            "neededOccurrences": 10,
+                            "neededOccurrences": 9,
                         },
-                        "placeId": "Those notice medical science sort already.",
-                        "remainingSeats": 46,
+                        "placeId": "Today friend maintain marriage ok thank realize.",
+                        "remainingSeats": 14,
                         "seatType": "CHILDREN_COUNT",
                         "seatsApproved": 0,
                         "seatsTaken": 0,
@@ -1949,7 +1941,7 @@ snapshots["test_occurrences_ordering_by_order_by_start_time 2"] = {
                 },
                 {
                     "node": {
-                        "amountOfSeats": 25,
+                        "amountOfSeats": 33,
                         "contactPersons": {"edges": []},
                         "endTime": "2013-12-12T04:57:19+00:00",
                         "maxGroupSize": 383,
@@ -1966,7 +1958,7 @@ snapshots["test_occurrences_ordering_by_order_by_start_time 2"] = {
                             "neededOccurrences": 0,
                         },
                         "placeId": "Record card my. Sure sister return.",
-                        "remainingSeats": 25,
+                        "remainingSeats": 33,
                         "seatType": "CHILDREN_COUNT",
                         "seatsApproved": 0,
                         "seatsTaken": 0,
@@ -1975,24 +1967,24 @@ snapshots["test_occurrences_ordering_by_order_by_start_time 2"] = {
                 },
                 {
                     "node": {
-                        "amountOfSeats": 43,
+                        "amountOfSeats": 46,
                         "contactPersons": {"edges": []},
-                        "endTime": "1974-10-19T15:53:39+00:00",
-                        "maxGroupSize": 687,
-                        "minGroupSize": 225,
+                        "endTime": "1973-03-29T15:33:10+00:00",
+                        "maxGroupSize": 285,
+                        "minGroupSize": 350,
                         "pEvent": {
                             "autoAcceptance": False,
-                            "contactEmail": "esmith@example.org",
-                            "contactPhoneNumber": "(778)840-8746",
-                            "enrolmentEndDays": 1,
-                            "enrolmentStart": "1991-02-21T03:14:24+00:00",
+                            "contactEmail": "zsilva@example.org",
+                            "contactPhoneNumber": "001-651-263-0084x6547",
+                            "enrolmentEndDays": 2,
+                            "enrolmentStart": "1993-11-02T08:53:37+00:00",
                             "externalEnrolmentUrl": None,
-                            "linkedEventId": "mOhDG",
+                            "linkedEventId": "jGwiN",
                             "mandatoryAdditionalInformation": False,
-                            "neededOccurrences": 5,
+                            "neededOccurrences": 10,
                         },
-                        "placeId": "Light a point charge stand store.",
-                        "remainingSeats": 43,
+                        "placeId": "Traditional whether serious sister work.",
+                        "remainingSeats": 46,
                         "seatType": "CHILDREN_COUNT",
                         "seatsApproved": 0,
                         "seatsTaken": 0,
@@ -2010,7 +2002,7 @@ snapshots["test_occurrences_query 1"] = {
             "edges": [
                 {
                     "node": {
-                        "amountOfSeats": 25,
+                        "amountOfSeats": 33,
                         "contactPersons": {"edges": []},
                         "endTime": "2000-08-18T23:27:03+00:00",
                         "maxGroupSize": 383,
@@ -2027,7 +2019,7 @@ snapshots["test_occurrences_query 1"] = {
                             "neededOccurrences": 7,
                         },
                         "placeId": "Record card my. Sure sister return.",
-                        "remainingSeats": 25,
+                        "remainingSeats": 33,
                         "seatType": "CHILDREN_COUNT",
                         "seatsApproved": 0,
                         "seatsTaken": 0,
@@ -2045,13 +2037,11 @@ snapshots["test_pick_enrolment_from_queue 1"] = {
             "enrolment": {
                 "notificationType": "EMAIL",
                 "person": {
-                    "emailAddress": "lisawallace@example.com",
-                    "name": "Ashley Jones",
+                    "emailAddress": "guerrajesse@example.org",
+                    "name": "John Smith",
                 },
                 "status": "PENDING",
-                "studyGroup": {
-                    "groupName": "Decade address have turn serve me every traditional. Sound describe risk newspaper reflect four."
-                },
+                "studyGroup": {"groupName": "Six feel real fast."},
             }
         }
     }
@@ -2224,7 +2214,7 @@ snapshots["test_unenrol_event_queue_mutation 1"] = {
         "unenrolEventQueue": {
             "pEvent": {"linkedEventId": "kytNN"},
             "studyGroup": {
-                "unitName": "Various build leave serve important. Audience actually send address attorney candidate."
+                "unitName": "Tough plant traditional after born up always. Return student light a point charge."
             },
         }
     }
@@ -2240,9 +2230,7 @@ snapshots["test_unenrol_occurrence 1"] = {
                 "seatsTaken": 0,
                 "startTime": "2020-01-06T00:00:00+00:00",
             },
-            "studyGroup": {
-                "unitName": "Professional serious under who Mrs public. Campaign college career fight data."
-            },
+            "studyGroup": {"unitName": "Build natural middle however."},
         }
     }
 }
@@ -2281,7 +2269,7 @@ snapshots["test_update_occurrence_of_published_event_without_enrolments 1"] = {
     "data": {
         "updateOccurrence": {
             "occurrence": {
-                "contactPersons": {"edges": [{"node": {"name": "Sarah Brown"}}]},
+                "contactPersons": {"edges": [{"node": {"name": "Jamie Alvarez DDS"}}]},
                 "endTime": "2020-05-06T00:00:00+00:00",
                 "languages": {
                     "edges": [
@@ -2293,14 +2281,14 @@ snapshots["test_update_occurrence_of_published_event_without_enrolments 1"] = {
                 "maxGroupSize": 10,
                 "minGroupSize": 10,
                 "pEvent": {
-                    "contactEmail": "amanda25@example.com",
-                    "contactPhoneNumber": "366.386.3333x61636",
+                    "contactEmail": "erogers@example.org",
+                    "contactPhoneNumber": "(882)540-3891x625",
                     "enrolmentEndDays": 0,
-                    "enrolmentStart": "1971-10-08T22:49:29+00:00",
+                    "enrolmentStart": "2014-07-18T09:56:19+00:00",
                     "externalEnrolmentUrl": None,
                     "linkedEventId": "helsinki:afxp6tv4xa",
                     "mandatoryAdditionalInformation": False,
-                    "neededOccurrences": 5,
+                    "neededOccurrences": 6,
                 },
                 "startTime": "2020-05-05T00:00:00+00:00",
             }
@@ -2356,10 +2344,10 @@ snapshots["test_update_study_group_staff_user 2"] = {
                 "groupName": "Sample group name",
                 "groupSize": 20,
                 "person": {
-                    "emailAddress": "smithjames@example.org",
+                    "emailAddress": "shawndouglas@example.com",
                     "language": "FI",
-                    "name": "Mike Allen",
-                    "phoneNumber": "034.669.7270x11715",
+                    "name": "Sean Rocha",
+                    "phoneNumber": "001-159-102-3202x81307",
                 },
                 "studyLevels": {
                     "edges": [
@@ -2390,7 +2378,7 @@ snapshots["test_update_unpublished_occurrence 1"] = {
     "data": {
         "updateOccurrence": {
             "occurrence": {
-                "contactPersons": {"edges": [{"node": {"name": "Sarah Brown"}}]},
+                "contactPersons": {"edges": [{"node": {"name": "Kathryn Hill"}}]},
                 "endTime": "2020-05-06T00:00:00+00:00",
                 "languages": {
                     "edges": [
@@ -2402,12 +2390,12 @@ snapshots["test_update_unpublished_occurrence 1"] = {
                 "maxGroupSize": 588,
                 "minGroupSize": 10,
                 "pEvent": {
-                    "contactEmail": "lauraramirez@example.org",
-                    "contactPhoneNumber": "336.163.6588",
-                    "enrolmentEndDays": 1,
-                    "enrolmentStart": "2007-03-28T16:09:20+00:00",
+                    "contactEmail": "oharrell@example.org",
+                    "contactPhoneNumber": "+1-916-259-6512",
+                    "enrolmentEndDays": 0,
+                    "enrolmentStart": "1988-12-31T00:41:31+00:00",
                     "externalEnrolmentUrl": None,
-                    "linkedEventId": "grBKt",
+                    "linkedEventId": "mwrDP",
                     "mandatoryAdditionalInformation": False,
                     "neededOccurrences": 3,
                 },
@@ -2442,18 +2430,18 @@ snapshots["test_update_venue_staff_user 1"] = {
 snapshots["test_venue_query 1"] = {
     "data": {
         "venue": {
-            "description": "Serious listen police shake. Page box child care any concern.",
+            "description": "Answer entire increase thank certainly again thought. Beyond than trial western.",
             "hasAreaForGroupWork": False,
-            "hasClothingStorage": True,
+            "hasClothingStorage": False,
             "hasIndoorPlayingArea": False,
             "hasOutdoorPlayingArea": False,
-            "hasSnackEatingPlace": False,
+            "hasSnackEatingPlace": True,
             "hasToiletNearby": False,
-            "id": "sOxmZ",
-            "outdoorActivity": True,
+            "id": "PcMpy",
+            "outdoorActivity": False,
             "translations": [
                 {
-                    "description": "Serious listen police shake. Page box child care any concern."
+                    "description": "Answer entire increase thank certainly again thought. Beyond than trial western."
                 }
             ],
         }
@@ -2466,18 +2454,18 @@ snapshots["test_venues_query 1"] = {
             "edges": [
                 {
                     "node": {
-                        "description": "Serious listen police shake. Page box child care any concern.",
+                        "description": "Answer entire increase thank certainly again thought. Beyond than trial western.",
                         "hasAreaForGroupWork": False,
-                        "hasClothingStorage": True,
+                        "hasClothingStorage": False,
                         "hasIndoorPlayingArea": False,
                         "hasOutdoorPlayingArea": False,
-                        "hasSnackEatingPlace": False,
+                        "hasSnackEatingPlace": True,
                         "hasToiletNearby": False,
-                        "id": "sOxmZ",
-                        "outdoorActivity": True,
+                        "id": "PcMpy",
+                        "outdoorActivity": False,
                         "translations": [
                             {
-                                "description": "Serious listen police shake. Page box child care any concern."
+                                "description": "Answer entire increase thank certainly again thought. Beyond than trial western."
                             }
                         ],
                     }
