@@ -1,6 +1,15 @@
 <!-- REMINDER: While updating changelog, also remember to update
 the version in palvelutarjotin/__init.py__ -->
 
+## [1.8.2](https://github.com/City-of-Helsinki/palvelutarjotin/compare/palvelutarjotin-v1.8.1...palvelutarjotin-v1.8.2) (2023-08-23)
+
+
+### Bug Fixes
+
+* App version number PT-1652 ([#321](https://github.com/City-of-Helsinki/palvelutarjotin/issues/321)) ([ff8c5a4](https://github.com/City-of-Helsinki/palvelutarjotin/commit/ff8c5a4329a1bcf8f75776c1b8b9f91c051c6dfe))
+* Don't paginate Organisations query and persons in organisations ([cbc11b8](https://github.com/City-of-Helsinki/palvelutarjotin/commit/cbc11b830873633f9d36846befa7b1cab675b53d))
+* Review fixes for api/version PT-1652 ([#323](https://github.com/City-of-Helsinki/palvelutarjotin/issues/323)) ([051ccbf](https://github.com/City-of-Helsinki/palvelutarjotin/commit/051ccbfc34de6a76857ddb62b30a56cc91b57211))
+
 ## [1.8.1](https://github.com/City-of-Helsinki/palvelutarjotin/compare/palvelutarjotin-v1.8.0...palvelutarjotin-v1.8.1) (2023-06-29)
 
 
