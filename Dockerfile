@@ -1,51 +1,45 @@
 # ==============================
-FROM helsinkitest/python:3.9-slim as appbase
+FROM registry.access.redhat.com/ubi9/python-39 as appbase
 # ==============================
-RUN mkdir /entrypoint
+USER root
+WORKDIR /app
 
-COPY --chown=appuser:appuser requirements.txt /app/requirements.txt
-COPY --chown=appuser:appuser requirements-prod.txt /app/requirements-prod.txt
+COPY --chown=default:root requirements.txt /app/requirements.txt
+COPY --chown=default:root requirements-prod.txt /app/requirements-prod.txt
 
-RUN apt-install.sh \
-        git \
-        netcat-traditional \
-        libpq-dev \
-        build-essential \
+RUN yum update -y && yum install -y \
+    nc \
     && pip install -U pip \
     && pip install --no-cache-dir -r /app/requirements.txt \
-    && pip install --no-cache-dir  -r /app/requirements-prod.txt \
-    && apt-cleanup.sh build-essential
+    && pip install --no-cache-dir  -r /app/requirements-prod.txt
 
-COPY --chown=appuser:appuser docker-entrypoint.sh /entrypoint/docker-entrypoint.sh
+COPY --chown=default:root docker-entrypoint.sh /entrypoint/docker-entrypoint.sh
 ENTRYPOINT ["/entrypoint/docker-entrypoint.sh"]
 
 # ==============================
 FROM appbase as development
 # ==============================
 
-COPY --chown=appuser:appuser requirements-dev.txt /app/requirements-dev.txt
-RUN apt-install.sh \
-        build-essential \
-    && pip install --no-cache-dir -r /app/requirements-dev.txt \
-    && apt-cleanup.sh build-essential
+COPY --chown=default:root requirements-dev.txt /app/requirements-dev.txt
+RUN pip install --no-cache-dir -r /app/requirements-dev.txt
 
 ENV DEV_SERVER=1
 
-COPY --chown=appuser:appuser . /app/
+COPY --chown=default:root . /app/
 
-USER appuser
+USER default
 EXPOSE 8081/tcp
 
 # ==============================
 FROM appbase as production
 # ==============================
 
-COPY --chown=appuser:appuser . /app/
+COPY --chown=default:root . /app/
 
 # fatal: detected dubious ownership in repository at '/app'
 RUN git config --system --add safe.directory /app
 
 RUN SECRET_KEY="only-used-for-collectstatic" python manage.py collectstatic
 
-USER appuser
+USER default
 EXPOSE 8000/tcp
