@@ -14,6 +14,7 @@ from organisations.models import Organisation, OrganisationProposal, Person
 from palvelutarjotin.exceptions import (
     ApiUsageError,
     InvalidEmailFormatError,
+    MissingMantatoryInformationError,
     ObjectDoesNotExistError,
 )
 
@@ -176,9 +177,11 @@ class OrganisationTypeEnum(graphene.Enum):
     PROVIDER = "provider"
 
 
-def validate_organisation_data(kwargs):
-    # TODO: Add validation
-    pass
+def validate_organisation_data(**kwargs):
+    if "publisher_id" in kwargs and (
+        not kwargs["publisher_id"] or not str(kwargs["publisher_id"]).strip()
+    ):
+        raise MissingMantatoryInformationError("Missing/invalid publisher_id")
 
 
 class AddOrganisationMutation(graphene.relay.ClientIDMutation):
@@ -186,7 +189,7 @@ class AddOrganisationMutation(graphene.relay.ClientIDMutation):
         name = graphene.String(required=True)
         phone_number = graphene.String()
         type = OrganisationTypeEnum(required=True)
-        publisher_id = graphene.String()
+        publisher_id = graphene.String(required=True)
 
     organisation = graphene.Field(OrganisationNode)
 
@@ -194,7 +197,7 @@ class AddOrganisationMutation(graphene.relay.ClientIDMutation):
     @superuser_required
     @transaction.atomic
     def mutate_and_get_payload(cls, root, info, **kwargs):
-        validate_organisation_data(kwargs)
+        validate_organisation_data(**kwargs)
         organisation = Organisation.objects.create(**kwargs)
         return AddOrganisationMutation(organisation=organisation)
 
@@ -221,7 +224,7 @@ class UpdateOrganisationMutation(graphene.relay.ClientIDMutation):
         except Organisation.DoesNotExist as e:
             raise ObjectDoesNotExistError(e)
 
-        validate_organisation_data(kwargs)
+        validate_organisation_data(**kwargs)
         update_object(organisation, kwargs)
         # TODO: Add support to related fields update: e.g group/persons
 

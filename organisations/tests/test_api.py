@@ -505,6 +505,52 @@ def test_add_organisation(snapshot, superuser_api_client):
     snapshot.assert_match(executed)
 
 
+def test_add_organisation_without_publisher_id(superuser_api_client):
+    variables = deepcopy(ADD_ORGANISATION_VARIABLES)
+    del variables["input"]["publisherId"]
+    assert "publisherId" not in variables["input"]
+    executed = superuser_api_client.execute(
+        ADD_ORGANISATION_MUTATION, variables=variables
+    )
+    assert executed.get("errors")
+    assert executed["errors"][0]["extensions"]["code"] == "GENERAL_ERROR"
+    assert (
+        'In field "publisherId": Expected "String!", found null'
+        in executed["errors"][0]["message"]
+    )
+
+
+def test_add_organisation_with_null_publisher_id(superuser_api_client):
+    variables = deepcopy(ADD_ORGANISATION_VARIABLES)
+    variables["input"]["publisherId"] = None
+    executed = superuser_api_client.execute(
+        ADD_ORGANISATION_MUTATION, variables=variables
+    )
+    assert executed.get("errors")
+    assert executed["errors"][0]["extensions"]["code"] == "GENERAL_ERROR"
+    assert (
+        'In field "publisherId": Expected "String!", found null'
+        in executed["errors"][0]["message"]
+    )
+
+
+@pytest.mark.parametrize("publisher_id", ["", " ", " " * 10])
+def test_add_organisation_with_empty_or_whitespace_only_publisher_id(
+    superuser_api_client, publisher_id
+):
+    variables = deepcopy(ADD_ORGANISATION_VARIABLES)
+    variables["input"]["publisherId"] = publisher_id
+    executed = superuser_api_client.execute(
+        ADD_ORGANISATION_MUTATION, variables=variables
+    )
+    assert executed.get("errors")
+    assert (
+        executed["errors"][0]["extensions"]["code"]
+        == "MISSING_MANDATORY_INFORMATION_ERROR"
+    )
+    assert executed["errors"][0]["message"] == "Missing/invalid publisher_id"
+
+
 def test_update_organisation_unauthorized(
     api_client, user_api_client, staff_api_client
 ):
@@ -530,6 +576,39 @@ def test_update_organisation(snapshot, superuser_api_client, organisation):
         UPDATE_ORGANISATION_MUTATION, variables=variables
     )
     snapshot.assert_match(executed)
+
+
+def test_update_organisation_without_publisher_id(superuser_api_client, organisation):
+    variables = deepcopy(UPDATE_ORGANISATION_VARIABLES)
+    variables["input"]["id"] = to_global_id("OrganisationNode", organisation.id)
+    del variables["input"]["publisherId"]
+    assert "publisherId" not in variables["input"]
+    assert organisation.publisher_id
+    executed = superuser_api_client.execute(
+        UPDATE_ORGANISATION_MUTATION, variables=variables
+    )
+    assert (
+        executed["data"]["updateOrganisation"]["organisation"]["publisherId"]
+        == organisation.publisher_id
+    )
+
+
+@pytest.mark.parametrize("publisher_id", [None, "", " ", " " * 10])
+def test_update_organisation_with_null_empty_or_whitespace_only_publisher_id(
+    superuser_api_client, organisation, publisher_id
+):
+    variables = deepcopy(UPDATE_ORGANISATION_VARIABLES)
+    variables["input"]["id"] = to_global_id("OrganisationNode", organisation.id)
+    variables["input"]["publisherId"] = publisher_id
+    executed = superuser_api_client.execute(
+        UPDATE_ORGANISATION_MUTATION, variables=variables
+    )
+    assert executed.get("errors")
+    assert (
+        executed["errors"][0]["extensions"]["code"]
+        == "MISSING_MANDATORY_INFORMATION_ERROR"
+    )
+    assert executed["errors"][0]["message"] == "Missing/invalid publisher_id"
 
 
 PERSON_QUEUED_ENROLMENTS_QUERY = """
