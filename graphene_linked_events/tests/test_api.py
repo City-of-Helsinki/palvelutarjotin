@@ -914,6 +914,64 @@ def test_create_invalid_event(
     assert_match_error_code(executed, DATA_VALIDATION_ERROR)
 
 
+def test_create_event_without_organisation_id(
+    staff_api_client, person, mock_create_event_data, organisation
+):
+    variables = deepcopy(CREATE_EVENT_VARIABLES)
+    del variables["input"]["organisationId"]
+    variables["input"]["pEvent"]["contactPersonId"] = to_global_id(
+        "PersonNode", person.id
+    )
+    assert "organisationId" not in variables["input"]
+    staff_api_client.user.person.organisations.add(organisation)
+    person.organisations.add(organisation)
+    executed = staff_api_client.execute(CREATE_EVENT_MUTATION, variables=variables)
+    assert PalvelutarjotinEvent.objects.count() == 0
+    assert executed.get("errors")
+    assert executed["errors"][0]["extensions"]["code"] == "GENERAL_ERROR"
+    assert (
+        'In field "organisationId": Expected "String!", found null'
+        in executed["errors"][0]["message"]
+    )
+
+
+def test_create_event_with_null_organisation_id(
+    staff_api_client, person, mock_create_event_data, organisation
+):
+    variables = deepcopy(CREATE_EVENT_VARIABLES)
+    variables["input"]["organisationId"] = None
+    variables["input"]["pEvent"]["contactPersonId"] = to_global_id(
+        "PersonNode", person.id
+    )
+    staff_api_client.user.person.organisations.add(organisation)
+    person.organisations.add(organisation)
+    executed = staff_api_client.execute(CREATE_EVENT_MUTATION, variables=variables)
+    assert PalvelutarjotinEvent.objects.count() == 0
+    assert executed.get("errors")
+    assert executed["errors"][0]["extensions"]["code"] == "GENERAL_ERROR"
+    assert (
+        'In field "organisationId": Expected "String!", found null'
+        in executed["errors"][0]["message"]
+    )
+
+
+@pytest.mark.parametrize("organisationId", ["", " ", " " * 10])
+def test_create_event_with_empty_or_whitespace_only_organisation_id(
+    staff_api_client, person, mock_create_event_data, organisation, organisationId
+):
+    variables = deepcopy(CREATE_EVENT_VARIABLES)
+    variables["input"]["organisationId"] = organisationId
+    variables["input"]["pEvent"]["contactPersonId"] = to_global_id(
+        "PersonNode", person.id
+    )
+    staff_api_client.user.person.organisations.add(organisation)
+    person.organisations.add(organisation)
+    executed = staff_api_client.execute(CREATE_EVENT_MUTATION, variables=variables)
+    assert PalvelutarjotinEvent.objects.count() == 0
+    assert executed.get("errors")
+    assert executed["errors"][0]["extensions"]["code"] == "OBJECT_DOES_NOT_EXIST_ERROR"
+
+
 def test_create_event(
     staff_api_client, snapshot, person, mock_create_event_data, organisation
 ):
@@ -1197,6 +1255,76 @@ def test_update_event(
     person.organisations.add(organisation)
     executed = staff_api_client.execute(UPDATE_EVENT_MUTATION, variables=variables)
     snapshot.assert_match(executed)
+
+
+def test_update_event_without_organisation_id(
+    staff_api_client, person, mock_update_event_data, organisation
+):
+    variables = deepcopy(UPDATE_EVENT_VARIABLES)
+    del variables["input"]["organisationId"]
+    variables["input"]["pEvent"]["contactPersonId"] = to_global_id(
+        "PersonNode", person.id
+    )
+    assert "organisationId" not in variables["input"]
+    PalvelutarjotinEventFactory(
+        linked_event_id=UPDATE_EVENT_VARIABLES["input"]["id"],
+        organisation=organisation,
+        auto_acceptance=True,
+    )
+    staff_api_client.user.person.organisations.add(organisation)
+    person.organisations.add(organisation)
+    executed = staff_api_client.execute(UPDATE_EVENT_MUTATION, variables=variables)
+    assert executed.get("errors")
+    assert executed["errors"][0]["extensions"]["code"] == "GENERAL_ERROR"
+    assert (
+        'In field "organisationId": Expected "String!", found null'
+        in executed["errors"][0]["message"]
+    )
+
+
+def test_update_event_with_null_organisation_id(
+    staff_api_client, person, mock_update_event_data, organisation
+):
+    variables = deepcopy(UPDATE_EVENT_VARIABLES)
+    variables["input"]["organisationId"] = None
+    variables["input"]["pEvent"]["contactPersonId"] = to_global_id(
+        "PersonNode", person.id
+    )
+    PalvelutarjotinEventFactory(
+        linked_event_id=UPDATE_EVENT_VARIABLES["input"]["id"],
+        organisation=organisation,
+        auto_acceptance=True,
+    )
+    staff_api_client.user.person.organisations.add(organisation)
+    person.organisations.add(organisation)
+    executed = staff_api_client.execute(UPDATE_EVENT_MUTATION, variables=variables)
+    assert executed.get("errors")
+    assert executed["errors"][0]["extensions"]["code"] == "GENERAL_ERROR"
+    assert (
+        'In field "organisationId": Expected "String!", found null'
+        in executed["errors"][0]["message"]
+    )
+
+
+@pytest.mark.parametrize("organisationId", ["", " ", " " * 10])
+def test_update_event_with_empty_or_whitespace_only_organisation_id(
+    staff_api_client, person, mock_update_event_data, organisation, organisationId
+):
+    variables = deepcopy(UPDATE_EVENT_VARIABLES)
+    variables["input"]["organisationId"] = organisationId
+    variables["input"]["pEvent"]["contactPersonId"] = to_global_id(
+        "PersonNode", person.id
+    )
+    PalvelutarjotinEventFactory(
+        linked_event_id=UPDATE_EVENT_VARIABLES["input"]["id"],
+        organisation=organisation,
+        auto_acceptance=True,
+    )
+    staff_api_client.user.person.organisations.add(organisation)
+    person.organisations.add(organisation)
+    executed = staff_api_client.execute(UPDATE_EVENT_MUTATION, variables=variables)
+    assert executed.get("errors")
+    assert executed["errors"][0]["extensions"]["code"] == "OBJECT_DOES_NOT_EXIST_ERROR"
 
 
 DELETE_EVENT_MUTATION = """

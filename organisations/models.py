@@ -120,13 +120,17 @@ class Organisation(models.Model):
     persons = models.ManyToManyField(
         "Person", verbose_name=_("persons"), related_name="organisations", blank=True
     )
-    publisher_id = models.CharField(
-        max_length=255, verbose_name=_("publisher id"), blank=True
-    )
+    publisher_id = models.CharField(max_length=255, verbose_name=_("publisher id"))
 
     class Meta:
         verbose_name = _("organisation")
         verbose_name_plural = _("organisations")
+        constraints = [
+            models.CheckConstraint(
+                check=~Q(publisher_id__regex=r"^\s*$"),
+                name="publisher_id_neq_empty_or_whitespace_only_string",
+            )
+        ]
 
     def __str__(self):
         return f"{self.name} ({self.id})"

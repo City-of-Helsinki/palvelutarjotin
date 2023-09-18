@@ -45,6 +45,7 @@ from occurrences.models import Occurrence, PalvelutarjotinEvent, VenueCustomData
 from organisations.models import Organisation, Person
 from palvelutarjotin.exceptions import (
     DataValidationError,
+    MissingMantatoryInformationError,
     ObjectDoesNotExistError,
     UploadImageSizeExceededError,
 )
@@ -795,10 +796,9 @@ class AddEventMutation(Mutation):
             if not organisation.persons.filter(id=person.id).exists():
                 raise PermissionDenied("Contact person does not belong to organisation")
             p_event_data["contact_person_id"] = person.id
-        if organisation.publisher_id:
-            # If publisher id does not exist, LinkedEvent will decide the
-            # publisher id which is the API key root publisher
-            kwargs["event"]["publisher"] = organisation.publisher_id
+        if not organisation.publisher_id or not str(organisation.publisher_id).strip():
+            raise MissingMantatoryInformationError("Missing/invalid publisher_id")
+        kwargs["event"]["publisher"] = organisation.publisher_id
         if kwargs["event"]["draft"]:
             kwargs["event"][
                 "publication_status"
@@ -886,10 +886,9 @@ class UpdateEventMutation(Mutation):
                 f"{PalvelutarjotinEvent.__name__}"
             )
 
-        if organisation.publisher_id:
-            # If publisher id does not exist, LinkedEvent will decide the
-            # publisher id which is the API key root publisher
-            kwargs["event"]["publisher"] = organisation.publisher_id
+        if not organisation.publisher_id or not str(organisation.publisher_id).strip():
+            raise MissingMantatoryInformationError("Missing/invalid publisher_id")
+        kwargs["event"]["publisher"] = organisation.publisher_id
 
         if kwargs["event"].get("draft", False):
             kwargs["event"][

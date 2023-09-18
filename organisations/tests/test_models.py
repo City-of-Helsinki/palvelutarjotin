@@ -1,6 +1,7 @@
 import pytest
 from dateutil.relativedelta import relativedelta
 from django.contrib.auth import get_user_model
+from django.db import IntegrityError
 from django.utils import timezone
 
 from occurrences.factories import EnrolmentFactory, PalvelutarjotinEventFactory
@@ -27,6 +28,13 @@ def test_person_creation():
 def test_organisation_creation():
     OrganisationFactory()
     assert Organisation.objects.count() == 1
+
+
+@pytest.mark.django_db
+@pytest.mark.parametrize("publisher_id", [None, "", " ", "\t  \t\r\n"])
+def test_organisation_creation_failure_without_publisher_id(publisher_id):
+    with pytest.raises(IntegrityError):
+        OrganisationFactory(publisher_id=publisher_id)
 
 
 @pytest.mark.django_db
