@@ -1,6 +1,18 @@
 <!-- REMINDER: While updating changelog, also remember to update
 the version in palvelutarjotin/__init.py__ -->
 
+## [1.9.0](https://github.com/City-of-Helsinki/palvelutarjotin/compare/palvelutarjotin-v1.8.2...palvelutarjotin-v1.9.0) (2023-09-19)
+
+
+### Features
+
+* Enforce non-empty publisher ID in organisation & new/updated event ([9f5510a](https://github.com/City-of-Helsinki/palvelutarjotin/commit/9f5510aabbeeaad520b5ec75bcf974b6ba1bff73))
+
+
+### Bug Fixes
+
+* Dockerfile base on ubi image DEVOPS-570 ([#325](https://github.com/City-of-Helsinki/palvelutarjotin/issues/325)) ([1cb08b1](https://github.com/City-of-Helsinki/palvelutarjotin/commit/1cb08b1906e224ce26cb5f9fad5f3da21e728f22))
+
 ## [1.8.2](https://github.com/City-of-Helsinki/palvelutarjotin/compare/palvelutarjotin-v1.8.1...palvelutarjotin-v1.8.2) (2023-08-23)
 
 
