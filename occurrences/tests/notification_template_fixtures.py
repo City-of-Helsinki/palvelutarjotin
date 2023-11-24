@@ -1,3 +1,4 @@
+import os
 import pytest
 
 from common.tests.utils import create_notification_template_in_language
@@ -56,6 +57,48 @@ NOTIFICATION_WITH_CUSTOM_MESSAGE_TEXT_EN = (
 NOTIFICATION_WITH_CUSTOM_MESSAGE_HTML_EN = (
     "<p>" + NOTIFICATION_WITH_CUSTOM_MESSAGE_TEXT_EN + "</p>"
 )
+
+
+def load_sms_template(filename):
+    sms_templates_dir = os.path.join(
+        os.path.dirname(__file__), "../../notification_importers/templates/sms/"
+    )
+    return open(os.path.join(sms_templates_dir, filename), "rt", encoding="utf8").read()
+
+
+OCCURRENCE_UPCOMING_SMS_EN = load_sms_template("occurrence_upcoming_sms-en.j2")
+OCCURRENCE_UPCOMING_SMS_FI = load_sms_template("occurrence_upcoming_sms-fi.j2")
+OCCURRENCE_UPCOMING_SMS_SV = load_sms_template("occurrence_upcoming_sms-sv.j2")
+
+
+@pytest.fixture
+def notification_sms_template_occurrence_upcoming_en():
+    return create_notification_template_in_language(
+        NotificationTemplate.OCCURRENCE_UPCOMING_SMS,
+        "en",
+        subject="Occurrence upcoming SMS EN",
+        body_text=OCCURRENCE_UPCOMING_SMS_EN,
+    )
+
+
+@pytest.fixture
+def notification_sms_template_occurrence_upcoming_fi():
+    return create_notification_template_in_language(
+        NotificationTemplate.OCCURRENCE_UPCOMING_SMS,
+        "fi",
+        subject="Occurrence upcoming SMS FI",
+        body_text=OCCURRENCE_UPCOMING_SMS_FI,
+    )
+
+
+@pytest.fixture
+def notification_sms_template_occurrence_upcoming_sv():
+    return create_notification_template_in_language(
+        NotificationTemplate.OCCURRENCE_UPCOMING_SMS,
+        "sv",
+        subject="Occurrence upcoming SMS SV",
+        body_text=OCCURRENCE_UPCOMING_SMS_SV,
+    )
 
 
 @pytest.fixture

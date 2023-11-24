@@ -33,21 +33,12 @@ snapshots["test_cancel_enrolment_notification_email 1"] = [
 ]
 
 snapshots["test_cancel_occurrence_notification 1"] = [
-    """no-reply@hel.ninja|['michael98@example.net']|Occurrence cancelled FI|
+    """no-reply@hel.ninja|['gtorres@example.com']|Occurrence cancelled FI|
     Event FI: Raija Malka & Kaija Saariaho: Blick
     Extra event info: zVxeo
-    Study group: Compare forward feel top huge. Make war chance discover.
+    Study group: Tough plant traditional after born up always. Return student light a point charge.
     Occurrence: 12.12.2013 06.37
-    Person: michael98@example.net
-
-    Custom message: Occurrence cancel reason
-""",
-    """no-reply@hel.ninja|['brian50@example.net']|Occurrence cancelled FI|
-    Event FI: Raija Malka & Kaija Saariaho: Blick
-    Extra event info: zVxeo
-    Study group: Cause still national experience. Line economy several miss outside. Oil democratic have most.
-    Occurrence: 12.12.2013 06.37
-    Person: brian50@example.net
+    Person: gtorres@example.com
 
     Custom message: Occurrence cancel reason
 """,
@@ -60,12 +51,21 @@ snapshots["test_cancel_occurrence_notification 1"] = [
 
     Custom message: Occurrence cancel reason
 """,
-    """no-reply@hel.ninja|['gtorres@example.com']|Occurrence cancelled FI|
+    """no-reply@hel.ninja|['brian50@example.net']|Occurrence cancelled FI|
     Event FI: Raija Malka & Kaija Saariaho: Blick
     Extra event info: zVxeo
-    Study group: Tough plant traditional after born up always. Return student light a point charge.
+    Study group: Cause still national experience. Line economy several miss outside. Oil democratic have most.
     Occurrence: 12.12.2013 06.37
-    Person: gtorres@example.com
+    Person: brian50@example.net
+
+    Custom message: Occurrence cancel reason
+""",
+    """no-reply@hel.ninja|['michael98@example.net']|Occurrence cancelled FI|
+    Event FI: Raija Malka & Kaija Saariaho: Blick
+    Extra event info: zVxeo
+    Study group: Compare forward feel top huge. Make war chance discover.
+    Occurrence: 12.12.2013 06.37
+    Person: michael98@example.net
 
     Custom message: Occurrence cancel reason
 """,
@@ -302,7 +302,7 @@ snapshots["test_only_send_approved_notification[False] 1"] = [
     Occurrence: 09.05.1995 16.24
     Person: hutchinsonrachel@example.org
     Click this link to cancel the enrolment:
-    https://kultus.fi/fi/enrolments/cancel/RW5yb2xtZW50Tm9kZToxNzdfMjAyMC0wMS0wNCAwMDowMDowMCswMDowMA==
+    https://kultus.fi/fi/enrolments/cancel/RW5yb2xtZW50Tm9kZTozNzdfMjAyMC0wMS0wNCAwMDowMDowMCswMDowMA==
 """,
     """no-reply@hel.ninja|['hutchinsonrachel@example.org']|Enrolment approved FI|
     Event FI: Raija Malka & Kaija Saariaho: Blick
@@ -311,7 +311,7 @@ snapshots["test_only_send_approved_notification[False] 1"] = [
     Occurrence: 09.05.1995 16.24
     Person: hutchinsonrachel@example.org
     Click this link to cancel the enrolment:
-    https://kultus.fi/fi/enrolments/cancel/RW5yb2xtZW50Tm9kZToxNzdfMjAyMC0wMS0wNCAwMDowMDowMCswMDowMA==
+    https://kultus.fi/fi/enrolments/cancel/RW5yb2xtZW50Tm9kZTozNzdfMjAyMC0wMS0wNCAwMDowMDowMCswMDowMA==
 
 """,
 ]
@@ -324,7 +324,7 @@ snapshots["test_only_send_approved_notification[True] 1"] = [
     Occurrence: 09.05.1995 16.24
     Person: hutchinsonrachel@example.org
     Click this link to cancel the enrolment:
-    https://kultus.fi/fi/enrolments/cancel/RW5yb2xtZW50Tm9kZToxNzZfMjAyMC0wMS0wNCAwMDowMDowMCswMDowMA==
+    https://kultus.fi/fi/enrolments/cancel/RW5yb2xtZW50Tm9kZTozNzZfMjAyMC0wMS0wNCAwMDowMDowMCswMDowMA==
 
 """
 ]
