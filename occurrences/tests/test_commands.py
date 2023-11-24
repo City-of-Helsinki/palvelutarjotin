@@ -1,11 +1,20 @@
 import pytest
+import responses
 from dateutil.relativedelta import relativedelta
 from django.core.management import call_command
+from django.test import override_settings
 from django.utils import timezone
+from django.utils.timezone import localtime
 from io import StringIO
 
-from occurrences.factories import OccurrenceFactory, PalvelutarjotinEventFactory
-from occurrences.models import PalvelutarjotinEvent
+from occurrences.consts import NOTIFICATION_TYPE_SMS
+from occurrences.factories import (
+    EnrolmentFactory,
+    OccurrenceFactory,
+    PalvelutarjotinEventFactory,
+)
+from occurrences.models import Enrolment, PalvelutarjotinEvent
+from occurrences.notification_services import notification_service
 
 
 @pytest.mark.django_db
@@ -63,3 +72,89 @@ def test_delete_retention_period_exceeding_contact_info_command(mock_get_event_d
     call_command("delete_retention_period_exceeding_contact_info", stdout=output)
     output.seek(0)
     assert "No events are exceeding the retention period." in output.read()
+
+
+@override_settings(NOTIFICATION_SERVICE_SMS_ENABLED=True)
+@pytest.mark.django_db
+@pytest.mark.parametrize(
+    "enrolment_status,days,expected_sms_count",
+    [
+        # Only approved enrolments should be reminded of
+        (Enrolment.STATUS_PENDING, 0, 0),
+        (Enrolment.STATUS_CANCELLED, 0, 0),
+        (Enrolment.STATUS_DECLINED, 0, 0),
+        # Expected SMS count is double the enrolment count because
+        # one SMS for study_group.person and another for enrolment.person
+        (Enrolment.STATUS_APPROVED, 0, 3 * 2),  # 1st day's enrolments x 2
+        (Enrolment.STATUS_APPROVED, 1, 4 * 2),  # 2nd day's enrolments x 2
+        (Enrolment.STATUS_APPROVED, 2, 5 * 2),  # 3rd day's enrolments x 2
+        (Enrolment.STATUS_APPROVED, 3, 6 * 2),  # 4th day's enrolments x 2
+        (Enrolment.STATUS_APPROVED, 4, 7 * 2),  # 5th day's enrolments x 2
+    ],
+)
+def test_send_upcoming_occurrence_sms_reminders_command(
+    mocked_responses,
+    mock_get_event_data,
+    notification_sms_template_occurrence_upcoming_en,
+    notification_sms_template_occurrence_upcoming_fi,
+    notification_sms_template_occurrence_upcoming_sv,
+    enrolment_status: str,
+    days: int,
+    expected_sms_count: int,
+):
+    mocked_responses.assert_all_requests_are_fired = expected_sms_count > 0
+    today = localtime().replace(hour=0, minute=0, second=0, microsecond=0)
+    start_times = [
+        # 1st day: 3 occurrences
+        today + relativedelta(days=0),
+        today + relativedelta(days=0, hours=1),
+        today + relativedelta(days=0, hours=23, minutes=59),
+        # 2nd day: 4 occurrences
+        today + relativedelta(days=1),
+        today + relativedelta(days=1, hours=1),
+        today + relativedelta(days=1, hours=2),
+        today + relativedelta(days=1, hours=23, minutes=59),
+        # 3rd day: 5 occurrences
+        today + relativedelta(days=2),
+        today + relativedelta(days=2, hours=1),
+        today + relativedelta(days=2, hours=2),
+        today + relativedelta(days=2, hours=3),
+        today + relativedelta(days=2, hours=23, minutes=59),
+        # 4th day: 6 occurrences
+        today + relativedelta(days=3),
+        today + relativedelta(days=3, hours=1),
+        today + relativedelta(days=3, hours=2),
+        today + relativedelta(days=3, hours=3),
+        today + relativedelta(days=3, hours=4),
+        today + relativedelta(days=3, hours=23, minutes=59),
+        # 5th day: 7 occurrences
+        today + relativedelta(days=4),
+        today + relativedelta(days=4, hours=1),
+        today + relativedelta(days=4, hours=2),
+        today + relativedelta(days=4, hours=3),
+        today + relativedelta(days=4, hours=4),
+        today + relativedelta(days=4, hours=5),
+        today + relativedelta(days=4, hours=23, minutes=59),
+    ]
+
+    for start_time in start_times:
+        occurrence = OccurrenceFactory(
+            start_time=start_time, end_time=start_time + relativedelta(days=1)
+        )
+        EnrolmentFactory(
+            occurrence=occurrence,
+            notification_type=NOTIFICATION_TYPE_SMS,
+            status=enrolment_status,
+        )
+
+    mocked_responses.add(
+        responses.POST,
+        url=notification_service.url,
+        body="{}",
+        status=200,
+        content_type="application/json",
+    )
+
+    call_command("send_upcoming_occurrence_sms_reminders", days=days)
+
+    assert len(mocked_responses.calls) == expected_sms_count

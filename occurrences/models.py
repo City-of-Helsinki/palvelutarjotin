@@ -580,6 +580,20 @@ class StudyGroup(TimestampedModel, WithDeletablePersonModel):
 
 
 class EnrolmentQuerySet(models.QuerySet):
+    def approved_enrolments_occurring_after_days(self, days_to_occurrence: int):
+        """
+        Approved enrolments whose occurrences start <days_to_occurrence> days from today
+        i.e. today + <days_to_occurrence> == occurrence.start_time.date()
+        """
+        if days_to_occurrence < 0:
+            raise ValueError("days_to_occurrence must be zero or greater")
+        return self.filter(
+            status=Enrolment.STATUS_APPROVED,
+            occurrence__start_time__date=(
+                timezone.now() + timedelta(days=days_to_occurrence)
+            ).date(),
+        )
+
     def get_by_unique_id(self, unique_id):
         compound_id = get_node_id_from_global_id(unique_id, "EnrolmentNode")
         enrolment_id, enrolment_time = compound_id.split("_")
@@ -797,8 +811,8 @@ class Enrolment(EnrolmentBase):
 
     def send_event_notifications_to_contact_people(
         self,
-        notification_template_id: NotificationTemplate,
-        notification_template_id_sms: NotificationTemplate,
+        notification_template_id: Optional[NotificationTemplate],
+        notification_template_id_sms: Optional[NotificationTemplate],
         custom_message: Optional[str] = None,
     ):
         contact_people = [self.person]
@@ -851,6 +865,15 @@ class Enrolment(EnrolmentBase):
         self.send_event_notifications_to_contact_people(
             NotificationTemplate.ENROLMENT_APPROVED,
             NotificationTemplate.ENROLMENT_APPROVED_SMS,
+            custom_message=custom_message,
+        )
+
+    def send_upcoming_occurrence_sms_reminder(
+        self, custom_message: Optional[str] = None
+    ):
+        self.send_event_notifications_to_contact_people(
+            notification_template_id=None,
+            notification_template_id_sms=NotificationTemplate.OCCURRENCE_UPCOMING_SMS,
             custom_message=custom_message,
         )
 

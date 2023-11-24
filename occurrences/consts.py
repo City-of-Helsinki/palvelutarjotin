@@ -27,6 +27,7 @@ class NotificationTemplate:
     ENROLMENT_CANCELLATION_SMS = "enrolment_cancellation_sms"
     ENROLMENT_CANCELLED_SMS = "enrolment_cancelled_sms"
     OCCURRENCE_CANCELLED_SMS = "occurrence_cancelled_sms"
+    OCCURRENCE_UPCOMING_SMS = "occurrence_upcoming_sms"
 
 
 class StudyGroupStudyLevels:

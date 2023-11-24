@@ -3,7 +3,7 @@ from django.conf import settings
 from django.db import models
 from django_ilmoitin.models import NotificationTemplate, NotificationTemplateException
 from django_ilmoitin.utils import render_notification_template, send_notification
-from typing import List, Union
+from typing import List, Optional, Union
 
 import occurrences.models as occurrences_models
 from common.notification_service import NotificationService
@@ -83,8 +83,8 @@ def send_event_notifications_to_person(
     occurrence,
     study_group,
     notification_type,
-    notification_template_id,
-    notification_sms_template_id,
+    notification_template_id: Optional[NotificationTemplateConstants],
+    notification_sms_template_id: Optional[NotificationTemplateConstants],
     **kwargs,
 ):
     def translation(field_translation_map: object, language=None):
@@ -107,7 +107,11 @@ def send_event_notifications_to_person(
 
         return translated_value
 
-    if NOTIFICATION_TYPE_EMAIL in notification_type:
+    if (
+        NOTIFICATION_TYPE_EMAIL in notification_type
+        and notification_template_id
+        and person.email_address
+    ):
         context = {
             "person": person,
             "occurrence": occurrence,
@@ -125,7 +129,11 @@ def send_event_notifications_to_person(
         )
 
     if settings.NOTIFICATION_SERVICE_SMS_ENABLED:
-        if NOTIFICATION_TYPE_SMS in notification_type and person.phone_number:
+        if (
+            NOTIFICATION_TYPE_SMS in notification_type
+            and notification_sms_template_id
+            and person.phone_number
+        ):
             context = {
                 "person": person,
                 "occurrence": occurrence,
@@ -152,14 +160,18 @@ def send_event_notifications_to_person(
 
 def send_sms_notification(
     destinations, notification_template_id, context=None, language=None
-):
+) -> bool:
+    """
+    Send SMS notification to the given destinations.
+    @return True if the SMS was sent successfully, otherwise False.
+    """
     if not language:
         language = settings.LANGUAGES[0][0]
     if not settings.NOTIFICATION_SERVICE_API_URL:
         logger.warning(
             "Notification sms service settings is missing, not sending any SMS"
         )
-        return
+        return False
     if context is None:
         context = {}
 
@@ -171,7 +183,7 @@ def send_sms_notification(
             'No notification template created for "{}" event, '
             "not sending anything.".format(notification_template_id)
         )
-        return
+        return False
 
     try:
         _, _, body_text = render_notification_template(template, context, language)
@@ -181,10 +193,10 @@ def send_sms_notification(
                 notification_template_id
             )
         )
-        return
+        return False
     except NotificationTemplateException as e:
         logger.error(e, exc_info=True)
-        return
+        return False
 
     if language in getattr(settings, "TRANSLATED_SMS_SENDER", {}):
         sender = settings.TRANSLATED_SMS_SENDER[language]
@@ -195,5 +207,7 @@ def send_sms_notification(
         sender=sender, destinations=destinations, text=body_text
     )
     # TODO: Do we need to store the delivery log in Palvelutarjotin
-    if resp.status_code != 200:
+    sms_sent_ok = resp.status_code == 200
+    if not sms_sent_ok:
         logger.warning("SMS message sent failed")
+    return sms_sent_ok
