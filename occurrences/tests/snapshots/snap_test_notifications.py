@@ -302,7 +302,7 @@ snapshots["test_only_send_approved_notification[False] 1"] = [
     Occurrence: 09.05.1995 16.24
     Person: hutchinsonrachel@example.org
     Click this link to cancel the enrolment:
-    https://kultus.fi/fi/enrolments/cancel/RW5yb2xtZW50Tm9kZTozNzdfMjAyMC0wMS0wNCAwMDowMDowMCswMDowMA==
+    https://kultus.fi/fi/enrolments/cancel/RW5yb2xtZW50Tm9kZTozODBfMjAyMC0wMS0wNCAwMDowMDowMCswMDowMA==
 """,
     """no-reply@hel.ninja|['hutchinsonrachel@example.org']|Enrolment approved FI|
     Event FI: Raija Malka & Kaija Saariaho: Blick
@@ -311,7 +311,7 @@ snapshots["test_only_send_approved_notification[False] 1"] = [
     Occurrence: 09.05.1995 16.24
     Person: hutchinsonrachel@example.org
     Click this link to cancel the enrolment:
-    https://kultus.fi/fi/enrolments/cancel/RW5yb2xtZW50Tm9kZTozNzdfMjAyMC0wMS0wNCAwMDowMDowMCswMDowMA==
+    https://kultus.fi/fi/enrolments/cancel/RW5yb2xtZW50Tm9kZTozODBfMjAyMC0wMS0wNCAwMDowMDowMCswMDowMA==
 
 """,
 ]
@@ -324,7 +324,7 @@ snapshots["test_only_send_approved_notification[True] 1"] = [
     Occurrence: 09.05.1995 16.24
     Person: hutchinsonrachel@example.org
     Click this link to cancel the enrolment:
-    https://kultus.fi/fi/enrolments/cancel/RW5yb2xtZW50Tm9kZTozNzZfMjAyMC0wMS0wNCAwMDowMDowMCswMDowMA==
+    https://kultus.fi/fi/enrolments/cancel/RW5yb2xtZW50Tm9kZTozNzlfMjAyMC0wMS0wNCAwMDowMDowMCswMDowMA==
 
 """
 ]
