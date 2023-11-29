@@ -1,3 +1,4 @@
+import json
 import pytest
 import responses
 from dateutil.relativedelta import relativedelta
@@ -12,9 +13,11 @@ from occurrences.factories import (
     EnrolmentFactory,
     OccurrenceFactory,
     PalvelutarjotinEventFactory,
+    StudyGroupFactory,
 )
 from occurrences.models import Enrolment, PalvelutarjotinEvent
 from occurrences.notification_services import notification_service
+from organisations.factories import PersonFactory
 
 
 @pytest.mark.django_db
@@ -92,7 +95,7 @@ def test_delete_retention_period_exceeding_contact_info_command(mock_get_event_d
         (Enrolment.STATUS_APPROVED, 4, 7 * 2),  # 5th day's enrolments x 2
     ],
 )
-def test_send_upcoming_occurrence_sms_reminders_command(
+def test_send_upcoming_occurrence_sms_reminders_command_count(
     mocked_responses,
     mock_get_event_data,
     notification_sms_template_occurrence_upcoming_en,
@@ -102,6 +105,9 @@ def test_send_upcoming_occurrence_sms_reminders_command(
     days: int,
     expected_sms_count: int,
 ):
+    """
+    Test send_upcoming_occurrence_sms_reminders command's sent SMS count
+    """
     mocked_responses.assert_all_requests_are_fired = expected_sms_count > 0
     today = localtime().replace(hour=0, minute=0, second=0, microsecond=0)
     start_times = [
@@ -158,3 +164,99 @@ def test_send_upcoming_occurrence_sms_reminders_command(
     call_command("send_upcoming_occurrence_sms_reminders", days=days)
 
     assert len(mocked_responses.calls) == expected_sms_count
+
+
+@override_settings(NOTIFICATION_SERVICE_SMS_ENABLED=True)
+@pytest.mark.django_db
+@pytest.mark.parametrize(
+    "language,expected_sent_message",
+    [
+        (
+            "fi",
+            (
+                "Muistathan ilmoittautumisesi tapahtumaan "
+                "Raija Malka & Kaija Saariaho: Blick. "
+                "04.01.2020 klo 02.00. "  # Timezone offset is +2 hours
+                "Test study group unit name. "
+                "Mikäli et pääse paikalle, peruutathan varauksesi sähköpostilla: "
+                "contact_email@example.org."
+            ),
+        ),
+        (
+            "en",
+            (
+                "Please remember your enrolment for "
+                "Raija Malka & Kaija Saariaho: Blick. "
+                "04.01.2020 at 02.00. "  # Timezone offset is +2 hours
+                "Test study group unit name. "
+                "If you are unable to attend, please cancel your place by email: "
+                "contact_email@example.org."
+            ),
+        ),
+        (
+            "sv",
+            (
+                "Kom ihåg din anmälan till evenemanget "
+                "Raija Malka & Kaija Saariaho: Blick. "  #
+                "04.01.2020 kl 02.00. "  # Timezone offset is +2 hours
+                "Test study group unit name. "
+                "Om du inte kan delta, vänligen avboka din bokning via e-post: "
+                "contact_email@example.org."
+            ),
+        ),
+    ],
+)
+def test_send_upcoming_occurrence_sms_reminders_command_content(
+    mocked_responses,
+    mock_get_event_data,
+    notification_sms_template_occurrence_upcoming_en,
+    notification_sms_template_occurrence_upcoming_fi,
+    notification_sms_template_occurrence_upcoming_sv,
+    language: str,
+    expected_sent_message: str,
+):
+    """
+    Test send_upcoming_occurrence_sms_reminders command's sent SMS content
+    """
+    person = PersonFactory(
+        name="Test person name",
+        phone_number="123456789",
+        language=language,
+    )
+    study_group = StudyGroupFactory(
+        group_name="Test study group name",
+        unit_name="Test study group unit name",
+        person=person,
+    )
+    event = PalvelutarjotinEventFactory(
+        contact_email="contact_email@example.org",
+        contact_person=person,
+    )
+    occurrence = OccurrenceFactory(
+        p_event=event,
+        start_time=localtime(),
+        end_time=localtime() + relativedelta(days=1),
+    )
+    EnrolmentFactory(
+        occurrence=occurrence,
+        notification_type=NOTIFICATION_TYPE_SMS,
+        status=Enrolment.STATUS_APPROVED,
+        study_group=study_group,
+        person=person,
+    )
+
+    mocked_responses.add(
+        responses.POST,
+        url=notification_service.url,
+        body="{}",
+        status=200,
+        content_type="application/json",
+    )
+
+    call_command("send_upcoming_occurrence_sms_reminders", days=0)
+
+    assert len(mocked_responses.calls) == 1
+    sent_body = json.loads(mocked_responses.calls[0].request.body)
+    assert (len(sent_body["to"])) == 1
+    assert sent_body["to"][0]["destination"] == person.phone_number
+    assert sent_body["text"] == expected_sent_message

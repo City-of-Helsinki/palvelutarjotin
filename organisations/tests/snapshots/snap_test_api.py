@@ -190,21 +190,7 @@ snapshots["test_person_enrolments 1"] = {
                     {
                         "node": {
                             "studyGroup": {
-                                "groupName": "College wife serve entire. House down woman peace. Plant on follow return research could."
-                            }
-                        }
-                    },
-                    {
-                        "node": {
-                            "studyGroup": {
-                                "groupName": "Policy parent toward apply see on send in. Full three especially card animal recognize stock."
-                            }
-                        }
-                    },
-                    {
-                        "node": {
-                            "studyGroup": {
-                                "groupName": "See quite tax my often society. Subject law ok."
+                                "groupName": "Work early property your stage receive. Determine sort under car."
                             }
                         }
                     },
@@ -218,7 +204,21 @@ snapshots["test_person_enrolments 1"] = {
                     {
                         "node": {
                             "studyGroup": {
-                                "groupName": "Work early property your stage receive. Determine sort under car."
+                                "groupName": "See quite tax my often society. Subject law ok."
+                            }
+                        }
+                    },
+                    {
+                        "node": {
+                            "studyGroup": {
+                                "groupName": "Policy parent toward apply see on send in. Full three especially card animal recognize stock."
+                            }
+                        }
+                    },
+                    {
+                        "node": {
+                            "studyGroup": {
+                                "groupName": "College wife serve entire. House down woman peace. Plant on follow return research could."
                             }
                         }
                     },

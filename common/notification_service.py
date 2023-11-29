@@ -5,13 +5,6 @@ import requests
 logger = logging.getLogger(__name__)
 
 
-def _prepare_sms_payload(sender, destinations, text):
-    destinations_data = []
-    for d in destinations:
-        destinations_data.append({"destination": d, "format": "mobile"})
-    return json.dumps({"sender": sender, "to": destinations_data, "text": text})
-
-
 class NotificationService:
     SEND_SMS_ENDPOINT = "message/send"
     CONNECTION_TIMEOUT = 10
@@ -29,9 +22,16 @@ class NotificationService:
             "Content-Type": "application/json",
         }
 
-    def data(self, sender, destinations, text):
+    @staticmethod
+    def data(sender, destinations, text):
         """The data/payload for the SMS sending endpoint's POST request"""
-        return _prepare_sms_payload(sender, destinations, text)
+        return json.dumps(
+            {
+                "sender": sender,
+                "to": [{"destination": d, "format": "mobile"} for d in destinations],
+                "text": text,
+            }
+        )
 
     def __init__(self, api_token, api_url) -> None:
         self.api_token = api_token
