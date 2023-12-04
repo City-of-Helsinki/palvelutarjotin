@@ -545,6 +545,9 @@ class StudyGroup(TimestampedModel, WithDeletablePersonModel):
     class Meta:
         verbose_name = _("study group")
         verbose_name_plural = _("study groups")
+        ordering = [
+            "created_at",
+        ]
 
     @property
     def name(self):
@@ -786,6 +789,7 @@ class Enrolment(EnrolmentBase):
                 fields=["study_group", "occurrence"], name="unq_group_occurrence"
             )
         ]
+        ordering = ["occurrence", "enrolment_time"]
 
     def __str__(self):
         return f"{self.id} {self.occurrence.start_time} {self.study_group.name}"
