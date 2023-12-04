@@ -33,21 +33,12 @@ snapshots["test_cancel_enrolment_notification_email 1"] = [
 ]
 
 snapshots["test_cancel_occurrence_notification 1"] = [
-    """no-reply@hel.ninja|['gtorres@example.com']|Occurrence cancelled FI|
+    """no-reply@hel.ninja|['michael98@example.net']|Occurrence cancelled FI|
     Event FI: Raija Malka & Kaija Saariaho: Blick
     Extra event info: zVxeo
-    Study group: Tough plant traditional after born up always. Return student light a point charge.
+    Study group: Compare forward feel top huge. Make war chance discover.
     Occurrence: 12.12.2013 06.37
-    Person: gtorres@example.com
-
-    Custom message: Occurrence cancel reason
-""",
-    """no-reply@hel.ninja|['amandamurphy@example.org']|Occurrence cancelled FI|
-    Event FI: Raija Malka & Kaija Saariaho: Blick
-    Extra event info: zVxeo
-    Study group: Real fast authority. Security American future quality result let.
-    Occurrence: 12.12.2013 06.37
-    Person: amandamurphy@example.org
+    Person: michael98@example.net
 
     Custom message: Occurrence cancel reason
 """,
@@ -60,12 +51,21 @@ snapshots["test_cancel_occurrence_notification 1"] = [
 
     Custom message: Occurrence cancel reason
 """,
-    """no-reply@hel.ninja|['michael98@example.net']|Occurrence cancelled FI|
+    """no-reply@hel.ninja|['amandamurphy@example.org']|Occurrence cancelled FI|
     Event FI: Raija Malka & Kaija Saariaho: Blick
     Extra event info: zVxeo
-    Study group: Compare forward feel top huge. Make war chance discover.
+    Study group: Real fast authority. Security American future quality result let.
     Occurrence: 12.12.2013 06.37
-    Person: michael98@example.net
+    Person: amandamurphy@example.org
+
+    Custom message: Occurrence cancel reason
+""",
+    """no-reply@hel.ninja|['gtorres@example.com']|Occurrence cancelled FI|
+    Event FI: Raija Malka & Kaija Saariaho: Blick
+    Extra event info: zVxeo
+    Study group: Tough plant traditional after born up always. Return student light a point charge.
+    Occurrence: 12.12.2013 06.37
+    Person: gtorres@example.com
 
     Custom message: Occurrence cancel reason
 """,

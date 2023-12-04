@@ -199,6 +199,7 @@ class Person(UUIDPrimaryKeyModel, TimestampedModel):
     class Meta:
         verbose_name = _("person")
         verbose_name_plural = _("persons")
+        ordering = ["name", "user"]
 
     def __str__(self):
         username = self.user.username if self.user else None
