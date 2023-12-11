@@ -9,6 +9,7 @@ import occurrences.models as occurrences_models
 from common.notification_service import NotificationService
 from occurrences.consts import NOTIFICATION_TYPE_EMAIL, NOTIFICATION_TYPE_SMS
 from occurrences.consts import NotificationTemplate as NotificationTemplateConstants
+from organisations.models import Person
 
 notification_service = NotificationService(
     settings.NOTIFICATION_SERVICE_API_TOKEN, settings.NOTIFICATION_SERVICE_API_URL
@@ -79,9 +80,9 @@ def send_enrolment_summary_report_to_providers(
 
 
 def send_event_notifications_to_person(
-    person,
-    occurrence,
-    study_group,
+    person: "Person",
+    occurrence: "occurrences_models.Occurrence",
+    study_group: "occurrences_models.StudyGroup",
     notification_type,
     notification_template_id: Optional[NotificationTemplateConstants],
     notification_sms_template_id: Optional[NotificationTemplateConstants],
