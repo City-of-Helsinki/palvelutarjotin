@@ -1,6 +1,19 @@
 <!-- REMINDER: While updating changelog, also remember to update
 the version in palvelutarjotin/__init.py__ -->
 
+## [1.10.0](https://github.com/City-of-Helsinki/palvelutarjotin/compare/palvelutarjotin-v1.9.0...palvelutarjotin-v1.10.0) (2023-12-11)
+
+
+### Features
+
+* Add send_upcoming_occurrence_sms_reminders management command ([a441f1b](https://github.com/City-of-Helsinki/palvelutarjotin/commit/a441f1b34c5ac959c90c7f00e3daddc2291d5dd9))
+
+
+### Bug Fixes
+
+* Type hint that does not work in CI ([065321f](https://github.com/City-of-Helsinki/palvelutarjotin/commit/065321f999bd920d415002ba387920da9a1a3281))
+* Use term "place" instead of an event when place fetching fails ([98bde29](https://github.com/City-of-Helsinki/palvelutarjotin/commit/98bde2959fa4e8dcbe8d3599d596697cb18bd7c4))
+
 ## [1.9.0](https://github.com/City-of-Helsinki/palvelutarjotin/compare/palvelutarjotin-v1.8.2...palvelutarjotin-v1.9.0) (2023-09-19)
 
 
