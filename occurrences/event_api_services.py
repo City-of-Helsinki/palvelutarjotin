@@ -188,7 +188,7 @@ def resolve_unit_name_with_unit_id(study_group: "StudyGroup"):
         raise ApiBadRequestError("Bad request to LinkedEvents API.")
 
     if result.status_code == 404:
-        raise ObjectDoesNotExistError("Could not find the event from the API.")
+        raise ObjectDoesNotExistError("Could not find the place from the API.")
 
     result.raise_for_status()
 
