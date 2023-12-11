@@ -16,8 +16,16 @@ class Command(BaseCommand):
         )
 
     def handle(self, *args, **options):
+        days_to_occurrence = options["days"]
         enrolments = Enrolment.objects.approved_enrolments_occurring_after_days(
-            days_to_occurrence=options["days"]
+            days_to_occurrence=days_to_occurrence
+        )
+        self.stdout.write(
+            f"{len(enrolments)} approved enrolments found "
+            f"{days_to_occurrence} days before the occurrence."
         )
         for enrolment in enrolments:
             enrolment.send_upcoming_occurrence_sms_reminder()
+        self.stdout.write(
+            self.style.SUCCESS("The upcoming occurrences' SMS reminders are now sent!")
+        )
