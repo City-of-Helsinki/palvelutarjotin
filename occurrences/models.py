@@ -13,7 +13,7 @@ from django.utils.translation import gettext_lazy as _
 from graphql_relay import to_global_id
 from parler.models import TranslatedFields
 from requests.exceptions import HTTPError
-from typing import Optional
+from typing import List, Optional
 
 import occurrences.notification_services as occurrences_services
 from common.models import (
@@ -813,7 +813,7 @@ class Enrolment(EnrolmentBase):
         # Send enrolment summary
         occurrences_services.send_enrolment_summary_report_to_providers(enrolments)
 
-    def get_contact_people(self) -> list[Person]:
+    def get_contact_people(self) -> List[Person]:
         contact_people = [self.person]
         if self.person != self.study_group.person:
             contact_people.append(self.study_group.person)
