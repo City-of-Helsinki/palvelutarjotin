@@ -256,7 +256,11 @@ def test_local_time_notification(
     dt = datetime.now()
     occurrence = OccurrenceFactory(start_time=dt.astimezone(tz))
     EnrolmentFactory(
-        study_group=study_group, occurrence=occurrence, person=study_group.person
+        id=1,
+        enrolment_time=datetime(2023, 1, 1, 12, 0, 0, 0),
+        study_group=study_group,
+        occurrence=occurrence,
+        person=study_group.person,
     )
     # Different timezone should result same localtime in email
     assert_mails_match_snapshot(snapshot)
@@ -281,7 +285,11 @@ def test_only_send_approved_notification(
         p_event__auto_acceptance=auto_acceptance, amount_of_seats=10
     )
     enrol = EnrolmentFactory(
-        study_group=study_group, occurrence=occurrence, person=study_group.person
+        id=1,
+        enrolment_time=datetime(2023, 1, 1, 12, 0, 0, 0),
+        study_group=study_group,
+        occurrence=occurrence,
+        person=study_group.person,
     )
     assert len(mail.outbox) == (0 if auto_acceptance else 1)
     # Fake auto approval because it can only be triggered from approve mutation
