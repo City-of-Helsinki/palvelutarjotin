@@ -36,7 +36,7 @@ from occurrences.event_api_services import (
     send_event_republish,
     send_event_unpublish,
 )
-from organisations.models import User
+from organisations.models import Person, User
 from palvelutarjotin.exceptions import (
     ApiUsageError,
     EnrolmentNotEnoughCapacityError,
@@ -813,18 +813,21 @@ class Enrolment(EnrolmentBase):
         # Send enrolment summary
         occurrences_services.send_enrolment_summary_report_to_providers(enrolments)
 
+    def get_contact_people(self) -> list[Person]:
+        contact_people = [self.person]
+        if self.person != self.study_group.person:
+            contact_people.append(self.study_group.person)
+        return contact_people
+
     def send_event_notifications_to_contact_people(
         self,
         notification_template_id: Optional[NotificationTemplate],
         notification_template_id_sms: Optional[NotificationTemplate],
         custom_message: Optional[str] = None,
     ):
-        contact_people = [self.person]
-        if self.person != self.study_group.person:
-            contact_people.append(self.study_group.person)
-        for p in contact_people:
+        for person in self.get_contact_people():
             occurrences_services.send_event_notifications_to_person(
-                p,
+                person,
                 self.occurrence,
                 self.study_group,
                 self.notification_type,
