@@ -8,7 +8,11 @@ from django.utils import timezone
 from django.utils.timezone import localtime
 from io import StringIO
 
-from occurrences.consts import NOTIFICATION_TYPE_SMS
+from occurrences.consts import (
+    NOTIFICATION_TYPE_ALL,
+    NOTIFICATION_TYPE_EMAIL,
+    NOTIFICATION_TYPE_SMS,
+)
 from occurrences.factories import (
     EnrolmentFactory,
     OccurrenceFactory,
@@ -260,3 +264,58 @@ def test_send_upcoming_occurrence_sms_reminders_command_content(
     assert (len(sent_body["to"])) == 1
     assert sent_body["to"][0]["destination"] == person.phone_number
     assert sent_body["text"] == expected_sent_message
+
+
+@override_settings(NOTIFICATION_SERVICE_SMS_ENABLED=True)
+@pytest.mark.django_db
+@pytest.mark.parametrize(
+    "notification_type,expected_sms_count",
+    [
+        (NOTIFICATION_TYPE_SMS, 1),
+        (NOTIFICATION_TYPE_EMAIL, 0),
+        (NOTIFICATION_TYPE_ALL, 1),
+    ],
+)
+def test_send_upcoming_occurrence_sms_reminders_no_consent_given(
+    mocked_responses,
+    mock_get_event_data,
+    notification_sms_template_occurrence_upcoming_en,
+    notification_sms_template_occurrence_upcoming_fi,
+    notification_sms_template_occurrence_upcoming_sv,
+    notification_type,
+    expected_sms_count,
+):
+    person = PersonFactory(
+        phone_number="123456789",
+    )
+    study_group = StudyGroupFactory(
+        person=person,
+    )
+    event = PalvelutarjotinEventFactory(
+        contact_email="contact_email@example.org",
+        contact_person=person,
+    )
+    occurrence = OccurrenceFactory(
+        p_event=event,
+        start_time=localtime(),
+        end_time=localtime() + relativedelta(days=1),
+    )
+    EnrolmentFactory(
+        occurrence=occurrence,
+        notification_type=notification_type,
+        status=Enrolment.STATUS_APPROVED,
+        study_group=study_group,
+        person=person,
+    )
+
+    if expected_sms_count > 0:
+        mocked_responses.add(
+            responses.POST,
+            url=notification_service.url,
+            body="{}",
+            status=200,
+            content_type="application/json",
+        )
+
+    call_command("send_upcoming_occurrence_sms_reminders", days=0)
+    assert len(mocked_responses.calls) == expected_sms_count
