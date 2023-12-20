@@ -787,3 +787,72 @@ def test_palvelutarjotin_event_contact_info_deletion(mock_update_event_data):
     assert event_3.contact_email == "contact@example.com"
     assert event_3.contact_phone_number == "54321"
     assert not event_3.contact_info_deleted_at
+
+
+@pytest.mark.django_db
+def test_palvelutarjotin_event_filter_with_contact_info(mock_get_event_data):
+    def _sort(queryset):
+        return sorted(list(queryset), key=lambda e: e.id)
+
+    # Some random events to database
+    random_events = PalvelutarjotinEventFactory.create_batch(10)
+
+    # Own events
+    person = PersonFactory()
+    events_matches_contact_person = PalvelutarjotinEventFactory.create_batch(
+        5, contact_person=person
+    )
+    events_matches_contact_email = PalvelutarjotinEventFactory.create_batch(
+        5, contact_email=person.email_address
+    )
+    events_matches_contact_phone_number = PalvelutarjotinEventFactory.create_batch(
+        5, contact_phone_number=person.phone_number
+    )
+
+    # Test database's initial data state
+    assert (
+        PalvelutarjotinEvent.objects.all().count()
+        == (
+            len(random_events)
+            + len(events_matches_contact_person)
+            + len(events_matches_contact_email)
+            + len(events_matches_contact_phone_number)
+        )
+        == 10 + 5 + 5 + 5
+    )
+
+    # Filter with the related person
+    assert _sort(
+        PalvelutarjotinEvent.objects.filter_with_contact_info(person)
+    ) == _sort(
+        events_matches_contact_person
+        + events_matches_contact_email
+        + events_matches_contact_phone_number
+    )
+
+    # Filter with the person's email
+    person_with_email = Person(email_address=person.email_address)
+    assert _sort(
+        PalvelutarjotinEvent.objects.filter_with_contact_info(person_with_email)
+    ) == _sort(events_matches_contact_person + events_matches_contact_email)
+
+    # Filter with the person's phone
+    person_with_phone_number = Person(phone_number=person.phone_number)
+    assert _sort(
+        PalvelutarjotinEvent.objects.filter_with_contact_info(person_with_phone_number)
+    ) == _sort((events_matches_contact_person + events_matches_contact_phone_number))
+
+
+@pytest.mark.django_db
+def test_palvelutarjotin_event_filter_with_contact_info_value_error():
+    person_without_contact_info = Person(
+        name="Test Guy", email_address=None, phone_number=None
+    )
+    with pytest.raises(ValueError) as exc_info:
+        PalvelutarjotinEvent.objects.filter_with_contact_info(
+            person_without_contact_info
+        )
+    assert (
+        exc_info.value.args[0]
+        == "The person must have at least an email address or a phone number."
+    )
