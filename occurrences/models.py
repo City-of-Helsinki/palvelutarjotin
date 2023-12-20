@@ -81,6 +81,18 @@ class PalvelutarjotinEventQueryset(TranslatableQuerySet):
             )
         )
 
+    def filter_with_contact_info(self, person: Person):
+        if not person.email_address and not person.phone_number:
+            raise ValueError(
+                "The person must have at least an email address or a phone number."
+            )
+        return self.filter(
+            Q(contact_person__email_address=person.email_address)
+            | Q(contact_person__phone_number=person.phone_number)
+            | Q(contact_email=person.email_address)
+            | Q(contact_phone_number=person.phone_number)
+        ).order_by("contact_person", "contact_email", "contact_phone_number")
+
     def delete_contact_info(self, now=None):
         if not now:
             now = timezone.now()
