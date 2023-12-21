@@ -477,39 +477,52 @@ class Query:
         return obj
 
     @staticmethod
-    def resolve_events(parent, info, **kwargs):
-        organisation_global_id = kwargs.pop("organisation_id", None)
-        if organisation_global_id:
-            # Filter events by organisation id
-            organisation = get_obj_from_global_id(
-                info, organisation_global_id, Organisation
-            )
-            kwargs["publisher"] = organisation.publisher_id
-
-        # Some arguments in LinkedEvent are not fully supported in graphene arguments
-        if kwargs.get("keyword_and"):
-            kwargs["keyword_AND"] = kwargs.pop("keyword_and")
-        if kwargs.get("keyword_not"):
-            kwargs["keyword!"] = kwargs.pop("keyword_not")
-        if kwargs.get("all_ongoing_and"):
-            kwargs["all_ongoing_AND"] = kwargs.pop("all_ongoing_and")
-        if kwargs.get("all_ongoing_or"):
-            kwargs["all_ongoing_OR"] = kwargs.pop("all_ongoing_or")
-
-        # Nearby events from a place
-        nearby_distance_km = kwargs.pop("nearby_distance")
-        if kwargs.get("nearby_place_id"):
-            place_id = kwargs.pop("nearby_place_id")
-            coordinates, _ = get_place_location_data(place_id)
-
-            if not coordinates:
-                raise DataValidationError(
-                    f"Cannot determine coordinates for place {place_id}."
+    def resolve_events(parent, info, **kwargs):  # noqa: C901
+        def _handle_publisher(**kwargs):
+            organisation_global_id = kwargs.pop("organisation_id", None)
+            if organisation_global_id:
+                # Filter events by organisation id
+                organisation = get_obj_from_global_id(
+                    info, organisation_global_id, Organisation
                 )
-            bbox = bbox_for_coordinates(
-                coordinates[0], coordinates[1], nearby_distance_km
-            )
-            kwargs["bbox"] = bbox
+                kwargs["publisher"] = organisation.publisher_id
+            return kwargs
+
+        def _handle_keywords(**kwargs):
+            if kwargs.get("keyword_and"):
+                kwargs["keyword_AND"] = kwargs.pop("keyword_and")
+            if kwargs.get("keyword_not"):
+                kwargs["keyword!"] = kwargs.pop("keyword_not")
+            return kwargs
+
+        def _handle_text(**kwargs):
+            if kwargs.get("all_ongoing_and"):
+                kwargs["all_ongoing_AND"] = kwargs.pop("all_ongoing_and")
+            if kwargs.get("all_ongoing_or"):
+                kwargs["all_ongoing_OR"] = kwargs.pop("all_ongoing_or")
+            return kwargs
+
+        def _handle_nearby_filter(**kwargs):
+            # Nearby events from a place
+            nearby_distance_km = kwargs.pop("nearby_distance")
+            if kwargs.get("nearby_place_id"):
+                place_id = kwargs.pop("nearby_place_id")
+                coordinates, _ = get_place_location_data(place_id)
+
+                if not coordinates:
+                    raise DataValidationError(
+                        f"Cannot determine coordinates for place {place_id}."
+                    )
+                bbox = bbox_for_coordinates(
+                    coordinates[0], coordinates[1], nearby_distance_km
+                )
+                kwargs["bbox"] = bbox
+            return kwargs
+
+        # Some arguments in LinkedEvent are not fully supported in graphene argument
+        kwargs = _handle_nearby_filter(
+            **_handle_text(**_handle_keywords(**_handle_publisher(**kwargs)))
+        )
 
         response = api_client.list(
             "event", filter_list=kwargs, is_staff=info.context.user.is_staff
