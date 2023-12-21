@@ -1,6 +1,13 @@
 <!-- REMINDER: While updating changelog, also remember to update
 the version in palvelutarjotin/__init.py__ -->
 
+## [1.11.0](https://github.com/City-of-Helsinki/palvelutarjotin/compare/palvelutarjotin-v1.10.0...palvelutarjotin-v1.11.0) (2023-12-21)
+
+
+### Features
+
+* Filter events with contact info query ([c2e2437](https://github.com/City-of-Helsinki/palvelutarjotin/commit/c2e243747a5087ca1c395b95f56390c4becd3c48))
+
 ## [1.10.0](https://github.com/City-of-Helsinki/palvelutarjotin/compare/palvelutarjotin-v1.9.0...palvelutarjotin-v1.10.0) (2023-12-11)
 
 
