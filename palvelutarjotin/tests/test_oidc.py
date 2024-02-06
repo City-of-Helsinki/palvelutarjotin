@@ -11,6 +11,17 @@ from unittest import mock
 from organisations.factories import UserFactory
 from palvelutarjotin.oidc import GraphQLApiTokenAuthentication
 
+# Test settings for OIDC
+_TOKEN_AUTH_ACCEPTED_SCOPE_PREFIX = "palvelutarjotin"
+_TOKEN_AUTH_ACCEPTED_AUDIENCE = "https://api.hel.fi/auth/palvelutarjotin"
+_TOKEN_AUTH_AUTHSERVER_URL = "https://tunnistamo.test.hel.ninja/openid"
+
+_TOKEN_AUTH_SETTINGS = {
+    "TOKEN_AUTH_ACCEPTED_AUDIENCE": _TOKEN_AUTH_ACCEPTED_AUDIENCE,
+    "TOKEN_AUTH_ACCEPTED_SCOPE_PREFIX": _TOKEN_AUTH_ACCEPTED_SCOPE_PREFIX,
+    "TOKEN_AUTH_AUTHSERVER_URL": _TOKEN_AUTH_AUTHSERVER_URL,
+}
+
 
 @contextlib.contextmanager
 def mocked_jwt_request(encoded_jwt):
@@ -31,9 +42,9 @@ class TestOIDC(TestCase):
         # Every test needs access to the request factory.
         self.auth_backend = GraphQLApiTokenAuthentication()
         self.id_token_payload = {
-            "iss": "https://tunnistamo.test.hel.ninja/openid",
+            "iss": _TOKEN_AUTH_AUTHSERVER_URL,
             "sub": "sub",
-            "aud": "https://api.hel.fi/auth/palvelutarjotin",
+            "aud": _TOKEN_AUTH_ACCEPTED_AUDIENCE,
             "exp": int(
                 (datetime.datetime.utcnow() + datetime.timedelta(seconds=30)).strftime(
                     "%s"
@@ -50,7 +61,7 @@ class TestOIDC(TestCase):
             "azp": "https://api.hel.fi/auth/palvelutarjotin-admin",
             "amr": "github",
             "loa": "low",
-            "https://api.hel.fi/auth": ["palvelutarjotin"],
+            "https://api.hel.fi/auth": [_TOKEN_AUTH_ACCEPTED_SCOPE_PREFIX],
         }
         self.encoded_jwt = jwt.encode(
             self.id_token_payload, "secret", algorithm="HS256"
@@ -75,10 +86,11 @@ class TestOIDC(TestCase):
         self.assertEqual(id_token["amr"], ["github"])
 
     @override_settings(
+        **_TOKEN_AUTH_SETTINGS,
         UPDATE_LAST_LOGIN={
             "ENABLED": True,
             "UPDATE_INTERVAL_MINUTES": 60,
-        }
+        },
     )
     def test_authenticate(self):
         """Successful authentication and last_login is set"""
@@ -88,10 +100,11 @@ class TestOIDC(TestCase):
             self.assertIsNotNone(user.last_login)
 
     @override_settings(
+        **_TOKEN_AUTH_SETTINGS,
         UPDATE_LAST_LOGIN={
             "ENABLED": False,
             "UPDATE_INTERVAL_MINUTES": 60,
-        }
+        },
     )
     def test_authenticate_with_update_last_login_disabled(self):
         """Last login should not be set, because the feature is disabled."""
@@ -101,10 +114,11 @@ class TestOIDC(TestCase):
             self.assertIsNone(user.last_login)
 
     @override_settings(
+        **_TOKEN_AUTH_SETTINGS,
         UPDATE_LAST_LOGIN={
             "ENABLED": True,
             "UPDATE_INTERVAL_MINUTES": 60,
-        }
+        },
     )
     def test_update_last_login_before_interval(self):
         """Last login should not be updated, because the interval has not yet passed."""
@@ -119,10 +133,11 @@ class TestOIDC(TestCase):
                 self.assertEqual(user.last_login, last_login)
 
     @override_settings(
+        **_TOKEN_AUTH_SETTINGS,
         UPDATE_LAST_LOGIN={
             "ENABLED": True,
             "UPDATE_INTERVAL_MINUTES": 60,
-        }
+        },
     )
     @freeze_time("2023-01-18 12:00:00")
     def test_update_last_login_after_interval(self):
