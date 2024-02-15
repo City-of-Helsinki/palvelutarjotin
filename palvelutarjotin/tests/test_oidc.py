@@ -12,14 +12,20 @@ from organisations.factories import UserFactory
 from palvelutarjotin.oidc import GraphQLApiTokenAuthentication
 
 # Test settings for OIDC
-_TOKEN_AUTH_ACCEPTED_SCOPE_PREFIX = "palvelutarjotin"
-_TOKEN_AUTH_ACCEPTED_AUDIENCE = "https://api.hel.fi/auth/palvelutarjotin"
-_TOKEN_AUTH_AUTHSERVER_URL = "https://tunnistamo.test.hel.ninja/openid"
-
 _TOKEN_AUTH_SETTINGS = {
-    "TOKEN_AUTH_ACCEPTED_AUDIENCE": _TOKEN_AUTH_ACCEPTED_AUDIENCE,
-    "TOKEN_AUTH_ACCEPTED_SCOPE_PREFIX": _TOKEN_AUTH_ACCEPTED_SCOPE_PREFIX,
-    "TOKEN_AUTH_AUTHSERVER_URL": _TOKEN_AUTH_AUTHSERVER_URL,
+    "TOKEN_AUTH_REQUIRE_SCOPE_PREFIX": True,
+    "TOKEN_AUTH_ACCEPTED_AUDIENCE": "https://api.hel.fi/auth/palvelutarjotin",
+    "TOKEN_AUTH_ACCEPTED_SCOPE_PREFIX": "palvelutarjotin",
+    "TOKEN_AUTH_AUTHSERVER_URL": "https://tunnistamo.test.hel.ninja/openid",
+}
+_TOKEN_AUTH_SETTINGS["OIDC_API_TOKEN_AUTH"] = {
+    "AUDIENCE": _TOKEN_AUTH_SETTINGS["TOKEN_AUTH_ACCEPTED_AUDIENCE"],
+    "ISSUER": _TOKEN_AUTH_SETTINGS["TOKEN_AUTH_AUTHSERVER_URL"],
+    "REQUIRE_API_SCOPE_FOR_AUTHENTICATION": _TOKEN_AUTH_SETTINGS[
+        "TOKEN_AUTH_REQUIRE_SCOPE_PREFIX"
+    ],
+    "API_SCOPE_PREFIX": _TOKEN_AUTH_SETTINGS["TOKEN_AUTH_ACCEPTED_SCOPE_PREFIX"],
+    "OIDC_CONFIG_EXPIRATION_TIME": 600,
 }
 
 
@@ -42,9 +48,9 @@ class TestOIDC(TestCase):
         # Every test needs access to the request factory.
         self.auth_backend = GraphQLApiTokenAuthentication()
         self.id_token_payload = {
-            "iss": _TOKEN_AUTH_AUTHSERVER_URL,
+            "iss": _TOKEN_AUTH_SETTINGS["TOKEN_AUTH_AUTHSERVER_URL"],
             "sub": "sub",
-            "aud": _TOKEN_AUTH_ACCEPTED_AUDIENCE,
+            "aud": _TOKEN_AUTH_SETTINGS["TOKEN_AUTH_ACCEPTED_AUDIENCE"],
             "exp": int(
                 (datetime.datetime.utcnow() + datetime.timedelta(seconds=30)).strftime(
                     "%s"
@@ -61,7 +67,9 @@ class TestOIDC(TestCase):
             "azp": "https://api.hel.fi/auth/palvelutarjotin-admin",
             "amr": "github",
             "loa": "low",
-            "https://api.hel.fi/auth": [_TOKEN_AUTH_ACCEPTED_SCOPE_PREFIX],
+            "https://api.hel.fi/auth": [
+                _TOKEN_AUTH_SETTINGS["TOKEN_AUTH_ACCEPTED_SCOPE_PREFIX"]
+            ],
         }
         self.encoded_jwt = jwt.encode(
             self.id_token_payload, "secret", algorithm="HS256"
