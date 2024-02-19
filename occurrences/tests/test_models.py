@@ -3,6 +3,7 @@ from datetime import datetime, timedelta
 from django.contrib.auth import get_user_model
 from django.core.exceptions import ValidationError
 from django.utils import timezone
+from freezegun import freeze_time
 from unittest.mock import patch
 
 from graphene_linked_events.tests.mock_data import EVENT_DATA
@@ -263,6 +264,20 @@ def test_event_queue_enrolment_creation(mock_get_event_data):
     assert EventQueueEnrolment.objects.count() == 1
     assert PalvelutarjotinEvent.objects.count() == 1
     assert StudyGroup.objects.count() == 1
+
+
+@pytest.mark.django_db
+def test_event_queue_enrolment_enrolled_in_last_days(mock_get_event_data):
+    EventQueueEnrolmentFactory()
+    with freeze_time(timezone.now() - timedelta(days=1)):
+        EventQueueEnrolmentFactory()
+    with freeze_time(timezone.now() - timedelta(days=2)):
+        EventQueueEnrolmentFactory()
+    with freeze_time(timezone.now() - timedelta(days=3)):
+        EventQueueEnrolmentFactory()
+    assert EventQueueEnrolment.objects.enrolled_in_last_days(days=1).count() == 2
+    assert EventQueueEnrolment.objects.enrolled_in_last_days(days=2).count() == 3
+    assert EventQueueEnrolment.objects.enrolled_in_last_days(days=3).count() == 4
 
 
 @pytest.mark.django_db

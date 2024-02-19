@@ -418,6 +418,7 @@
                                     <ul>
                                       <li>Automaattisesti hyväksyttyjä: {{ total_new_enrolments }}</li>
                                       <li>Hyväksymättä: {{ total_pending_enrolments }}</li>
+                                      <li>Uusia jonoilmoittautumisia: {{ total_new_queued_enrolments }}</li>
                                     </ul>
 
                                     <p>Käy katsomassa nämä:</p>
@@ -428,6 +429,7 @@
                                           item.event.name.fi is defined else item.event.name.en if item.event.name.en is
                                           defined else item.event.name.sv}}</a>
                                         <ul>
+                                          <li>Uusia ilmoittautumisia jonossa: {{item.queued_enrolments | length}}</li>
                                           {% for occurrence in item.occurrences %}
                                           <li>
                                             {% if item.p_event.auto_acceptance %}

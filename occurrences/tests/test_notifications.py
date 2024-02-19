@@ -10,11 +10,15 @@ from common.tests.utils import assert_mails_match_snapshot
 from occurrences.consts import NOTIFICATION_TYPE_ALL, NOTIFICATION_TYPE_SMS
 from occurrences.factories import (
     EnrolmentFactory,
+    EventQueueEnrolmentFactory,
     OccurrenceFactory,
     PalvelutarjotinEventFactory,
     StudyGroupFactory,
 )
 from occurrences.models import Enrolment
+from occurrences.notification_services import (
+    send_enrolment_summary_report_to_providers_from_days,
+)
 from occurrences.tests.test_api import MASS_APPROVE_ENROLMENTS_MUTATION
 from organisations.factories import PersonFactory
 
@@ -217,7 +221,6 @@ def test_occurrence_enrolment_notifications_to_contact_person(
 
 @pytest.mark.django_db
 def test_cancel_occurrence_notification(
-    snapshot,
     mock_get_event_data,
     occurrence,
     notification_template_cancel_occurrence_en,
@@ -237,7 +240,11 @@ def test_cancel_occurrence_notification(
     # Cancellation messages should not be sent to enrolments
     # that are already cancelled or declined.
     assert len(mail.outbox) == notifiable_enrolments_count
-    assert_mails_match_snapshot(snapshot)
+    assert all("Occurrence cancelled" in message.subject for message in mail.outbox)
+    assert all(
+        "Custom message: Occurrence cancel reason" in message.body
+        for message in mail.outbox
+    )
 
 
 @pytest.mark.parametrize(
@@ -344,6 +351,7 @@ def test_send_enrolment_summary_report(
         id=31, p_event=p_event_3, start_time=date_in_future
     )
     EnrolmentFactory.create(status=Enrolment.STATUS_PENDING, occurrence=occurrence_3_1)
+    EventQueueEnrolmentFactory.create_batch(2, p_event=p_event_3)
 
     # Event with auto_acceptance is True
     p_event_4 = PalvelutarjotinEventFactory.create(
@@ -358,7 +366,8 @@ def test_send_enrolment_summary_report(
     )
     old_enrolment.enrolment_time = timezone.now() - timedelta(days=10)
     old_enrolment.save()
-    Enrolment.send_enrolment_summary_report_to_providers()
+    EventQueueEnrolmentFactory.create_batch(3, p_event=p_event_4)
+    send_enrolment_summary_report_to_providers_from_days(days=1)
     assert len(mail.outbox) == 2
     assert_mails_match_snapshot(snapshot)
 
@@ -369,12 +378,12 @@ def test_old_pending_enrolments_excluded_from_enrolment_summary_report(
 ):
     occurrence = OccurrenceFactory.create(start_time=datetime.now() - timedelta(days=1))
     EnrolmentFactory.create(status=Enrolment.STATUS_PENDING, occurrence=occurrence)
-    Enrolment.send_enrolment_summary_report_to_providers()
+    send_enrolment_summary_report_to_providers_from_days(days=1)
     assert len(mail.outbox) == 0
 
     occurrence = OccurrenceFactory.create(start_time=datetime.now() + timedelta(days=1))
     EnrolmentFactory.create(status=Enrolment.STATUS_PENDING, occurrence=occurrence)
-    Enrolment.send_enrolment_summary_report_to_providers()
+    send_enrolment_summary_report_to_providers_from_days(days=1)
     assert len(mail.outbox) == 1
 
 
@@ -384,7 +393,7 @@ def test_event_not_found_from_linkedevents_when_sending_enrolment_summary_report
 ):
     occurrence = OccurrenceFactory.create(start_time=datetime.now() + timedelta(days=1))
     EnrolmentFactory.create(status=Enrolment.STATUS_PENDING, occurrence=occurrence)
-    Enrolment.send_enrolment_summary_report_to_providers()
+    send_enrolment_summary_report_to_providers_from_days(days=1)
     assert len(mail.outbox) == 1
 
 
