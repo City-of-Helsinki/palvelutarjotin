@@ -6,6 +6,7 @@ from graphene_linked_events.tests.mock_data import EVENT_DATA
 from occurrences.consts import NotificationTemplate
 from occurrences.factories import (
     EnrolmentFactory,
+    EventQueueEnrolmentFactory,
     OccurrenceFactory,
     PalvelutarjotinEventFactory,
     StudyGroupFactory,
@@ -37,7 +38,8 @@ person = PersonFactory.build()
 study_group = StudyGroupFactory.build(person=person)
 p_event = PalvelutarjotinEventFactory.build()
 occurrence = OccurrenceFactory.build(id=1, p_event=p_event)
-enrolment = EnrolmentFactory.build()
+enrolment = EnrolmentFactory.build(occurrence=occurrence)
+queued_enrolment = EventQueueEnrolmentFactory.build(p_event=p_event)
 
 DEFAULT_DUMMY_CONTEXT = {
     "preview_mode": False,
@@ -46,6 +48,7 @@ DEFAULT_DUMMY_CONTEXT = {
     "occurrence": occurrence,
     "event": EVENT_DATA,
     "enrolment": enrolment,
+    "queued_enrolment": queued_enrolment,
     "custom_message": "custom_message",
     "trans": lambda field_translation_map: field_translation_map["fi"],
 }
@@ -68,10 +71,16 @@ dummy_context.update(
         NotificationTemplate.OCCURRENCE_UPCOMING_SMS: DEFAULT_DUMMY_CONTEXT,
         NotificationTemplate.ENROLMENT_SUMMARY_REPORT: {
             "report": [
-                {"event": EVENT_DATA, "p_event": p_event, "occurrences": [occurrence]}
+                {
+                    "event": EVENT_DATA,
+                    "p_event": p_event,
+                    "occurrences": [occurrence],
+                    "queued_enrolments": [queued_enrolment],
+                }
             ],
             "total_pending_enrolments": 1,
             "total_new_enrolments": 2,
+            "total_new_queued_enrolments": 1,
         },
     }
 )

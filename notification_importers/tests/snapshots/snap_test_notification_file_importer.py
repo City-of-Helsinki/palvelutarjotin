@@ -4954,6 +4954,7 @@ enrolment_summary_report|Ilmoittautumisen yhteenvetoraportti|Enrolment summary r
                                     <ul>
                                       <li>Automaattisesti hyväksyttyjä: {{ total_new_enrolments }}</li>
                                       <li>Hyväksymättä: {{ total_pending_enrolments }}</li>
+                                      <li>Uusia jonoilmoittautumisia: {{ total_new_queued_enrolments }}</li>
                                     </ul>
 
                                     <p>Käy katsomassa nämä:</p>
@@ -4964,6 +4965,7 @@ enrolment_summary_report|Ilmoittautumisen yhteenvetoraportti|Enrolment summary r
                                           item.event.name.fi is defined else item.event.name.en if item.event.name.en is
                                           defined else item.event.name.sv}}</a>
                                         <ul>
+                                          <li>Uusia ilmoittautumisia jonossa: {{item.queued_enrolments | length}}</li>
                                           {% for occurrence in item.occurrences %}
                                           <li>
                                             {% if item.p_event.auto_acceptance %}
@@ -5428,6 +5430,7 @@ enrolment_summary_report|Ilmoittautumisen yhteenvetoraportti|Enrolment summary r
                                     <ul>
                                       <li>Automatically approved: {{ total_new_enrolments }}</li>
                                       <li>Pending enrolments: {{ total_pending_enrolments }}</li>
+                                      <li>New queued event enrolments: {{ total_new_queued_enrolments }}</li>
                                     </ul>
 
                                     <p>Check these:</p>
@@ -5438,6 +5441,7 @@ enrolment_summary_report|Ilmoittautumisen yhteenvetoraportti|Enrolment summary r
                                           item.event.name.en is defined else item.event.name.fi if item.event.name.fi is
                                           defined else item.event.name.sv}}</a>
                                         <ul>
+                                          <li>New queued enrolments: {{item.queued_enrolments | length}}</li>
                                           {% for occurrence in item.occurrences %}
                                           <li>
                                             {% if item.p_event.auto_acceptance %}
@@ -5902,17 +5906,19 @@ enrolment_summary_report|Ilmoittautumisen yhteenvetoraportti|Enrolment summary r
                                     <p>Här är de senaste 24 timmarna av registreringar</p>
                                     <ul>
                                       <li>Godkänd automatiskt: {{ total_new_enrolments }}</li>
-                                      <li>Pending enrolments: {{ total_pending_enrolments }}</li>
+                                      <li>Totalt väntande registreringar: {{ total_pending_enrolments }}</li>
+                                      <li>Nya köade eventregistreringar: {{ total_new_queued_enrolments }}</li>
                                     </ul>
 
                                     <p>Glöm ej att kolla dessa:</p>
                                     <ul>
                                       {% for item in report %}
-                                      <li>Event: <a
+                                      <li>Evenemang: <a
                                           href="{{ item.p_event.get_link_to_provider_ui() }}">{{item.event.name.sv if
                                           item.event.name.sv is defined else item.event.name.fi if item.event.name.fi is
                                           defined else item.event.name.en}}</a>
                                         <ul>
+                                          <li>Nya köade registreringar: {{item.queued_enrolments | length}}</li>
                                           {% for occurrence in item.occurrences %}
                                           <li>
                                             {% if item.p_event.auto_acceptance %}
@@ -18330,6 +18336,7 @@ enrolment_summary_report|Ilmoittautumisen yhteenvetoraportti|Enrolment summary r
                                     <ul>
                                       <li>Automaattisesti hyväksyttyjä: {{ total_new_enrolments }}</li>
                                       <li>Hyväksymättä: {{ total_pending_enrolments }}</li>
+                                      <li>Uusia jonoilmoittautumisia: {{ total_new_queued_enrolments }}</li>
                                     </ul>
 
                                     <p>Käy katsomassa nämä:</p>
@@ -18340,6 +18347,7 @@ enrolment_summary_report|Ilmoittautumisen yhteenvetoraportti|Enrolment summary r
                                           item.event.name.fi is defined else item.event.name.en if item.event.name.en is
                                           defined else item.event.name.sv}}</a>
                                         <ul>
+                                          <li>Uusia ilmoittautumisia jonossa: {{item.queued_enrolments | length}}</li>
                                           {% for occurrence in item.occurrences %}
                                           <li>
                                             {% if item.p_event.auto_acceptance %}
@@ -18804,6 +18812,7 @@ enrolment_summary_report|Ilmoittautumisen yhteenvetoraportti|Enrolment summary r
                                     <ul>
                                       <li>Automatically approved: {{ total_new_enrolments }}</li>
                                       <li>Pending enrolments: {{ total_pending_enrolments }}</li>
+                                      <li>New queued event enrolments: {{ total_new_queued_enrolments }}</li>
                                     </ul>
 
                                     <p>Check these:</p>
@@ -18814,6 +18823,7 @@ enrolment_summary_report|Ilmoittautumisen yhteenvetoraportti|Enrolment summary r
                                           item.event.name.en is defined else item.event.name.fi if item.event.name.fi is
                                           defined else item.event.name.sv}}</a>
                                         <ul>
+                                          <li>New queued enrolments: {{item.queued_enrolments | length}}</li>
                                           {% for occurrence in item.occurrences %}
                                           <li>
                                             {% if item.p_event.auto_acceptance %}
@@ -19278,17 +19288,19 @@ enrolment_summary_report|Ilmoittautumisen yhteenvetoraportti|Enrolment summary r
                                     <p>Här är de senaste 24 timmarna av registreringar</p>
                                     <ul>
                                       <li>Godkänd automatiskt: {{ total_new_enrolments }}</li>
-                                      <li>Pending enrolments: {{ total_pending_enrolments }}</li>
+                                      <li>Totalt väntande registreringar: {{ total_pending_enrolments }}</li>
+                                      <li>Nya köade eventregistreringar: {{ total_new_queued_enrolments }}</li>
                                     </ul>
 
                                     <p>Glöm ej att kolla dessa:</p>
                                     <ul>
                                       {% for item in report %}
-                                      <li>Event: <a
+                                      <li>Evenemang: <a
                                           href="{{ item.p_event.get_link_to_provider_ui() }}">{{item.event.name.sv if
                                           item.event.name.sv is defined else item.event.name.fi if item.event.name.fi is
                                           defined else item.event.name.en}}</a>
                                         <ul>
+                                          <li>Nya köade registreringar: {{item.queued_enrolments | length}}</li>
                                           {% for occurrence in item.occurrences %}
                                           <li>
                                             {% if item.p_event.auto_acceptance %}

@@ -1,7 +1,9 @@
 from django.conf import settings
 from django.core.management.base import BaseCommand
 
-from occurrences.models import Enrolment
+from occurrences.notification_services import (
+    send_enrolment_summary_report_to_providers_from_days,
+)
 
 
 class Command(BaseCommand):
@@ -9,4 +11,4 @@ class Command(BaseCommand):
 
     def handle(self, *args, **kwargs):
         if settings.ENABLE_SUMMARY_REPORT:
-            Enrolment.send_enrolment_summary_report_to_providers()
+            send_enrolment_summary_report_to_providers_from_days(days=1)

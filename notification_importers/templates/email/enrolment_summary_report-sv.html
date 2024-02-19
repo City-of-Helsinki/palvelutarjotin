@@ -417,17 +417,19 @@
                                     <p>Här är de senaste 24 timmarna av registreringar</p>
                                     <ul>
                                       <li>Godkänd automatiskt: {{ total_new_enrolments }}</li>
-                                      <li>Pending enrolments: {{ total_pending_enrolments }}</li>
+                                      <li>Totalt väntande registreringar: {{ total_pending_enrolments }}</li>
+                                      <li>Nya köade eventregistreringar: {{ total_new_queued_enrolments }}</li>
                                     </ul>
 
                                     <p>Glöm ej att kolla dessa:</p>
                                     <ul>
                                       {% for item in report %}
-                                      <li>Event: <a
+                                      <li>Evenemang: <a
                                           href="{{ item.p_event.get_link_to_provider_ui() }}">{{item.event.name.sv if
                                           item.event.name.sv is defined else item.event.name.fi if item.event.name.fi is
                                           defined else item.event.name.en}}</a>
                                         <ul>
+                                          <li>Nya köade registreringar: {{item.queued_enrolments | length}}</li>
                                           {% for occurrence in item.occurrences %}
                                           <li>
                                             {% if item.p_event.auto_acceptance %}

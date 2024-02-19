@@ -1,6 +1,7 @@
 import logging
 from django.conf import settings
 from django.db import models
+from django.db.models import Q
 from django_ilmoitin.models import NotificationTemplate, NotificationTemplateException
 from django_ilmoitin.utils import render_notification_template, send_notification
 from typing import List, Optional, Union
@@ -17,16 +18,40 @@ notification_service = NotificationService(
 logger = logging.getLogger(__name__)
 
 
+def _get_enrolments_for_summary_report(days=1):
+    return occurrences_models.Enrolment.objects.pending_and_auto_accepted_enrolments(
+        days=days
+    ).select_related("occurrence", "occurrence__p_event")
+
+
+def _get_queued_enrolments_for_summary_report(days=1):
+    return occurrences_models.EventQueueEnrolment.objects.enrolled_in_last_days(
+        days=days
+    )
+
+
+def send_enrolment_summary_report_to_providers_from_days(days=1):
+    send_enrolment_summary_report_to_providers(
+        enrolments=_get_enrolments_for_summary_report(days),
+        queued_enrolments=_get_queued_enrolments_for_summary_report(days),
+    )
+
+
 def send_enrolment_summary_report_to_providers(
-    enrolments: Union[models.QuerySet, List["occurrences_models.Enrolment"]]
+    enrolments: Union[models.QuerySet, List["occurrences_models.Enrolment"]],
+    queued_enrolments: Union[
+        models.QuerySet, List["occurrences_models.EventQueueEnrolment"]
+    ],
 ):
     logger.info("Creating enrolment report summaries...")
     reports = {}
     p_events = (
         occurrences_models.PalvelutarjotinEvent.objects.filter(
-            occurrences__enrolments__in=enrolments
+            Q(occurrences__enrolments__in=enrolments)
+            | Q(queued_enrolments__in=queued_enrolments)
         )
-        .prefetch_related("occurrences__enrolments")
+        .order_by("enrolment_start")
+        .prefetch_related("occurrences__enrolments", "queued_enrolments")
         .distinct()
     )
     logger.debug(f"Collected {len(p_events)} PalvelutarjotinEvents.")
@@ -47,7 +72,14 @@ def send_enrolment_summary_report_to_providers(
                         "p_event": p_event,
                         "occurrences": p_event.occurrences.filter(
                             enrolments__in=enrolments
-                        ).distinct(),
+                        )
+                        .order_by("start_time")
+                        .distinct(),
+                        "queued_enrolments": [
+                            queued_enrolment
+                            for queued_enrolment in queued_enrolments
+                            if queued_enrolment.p_event == p_event
+                        ],
                     }
                 )
 
@@ -59,6 +91,9 @@ def send_enrolment_summary_report_to_providers(
             "total_new_enrolments": enrolments.approved_enrolments_by_email(
                 address
             ).count(),
+            "total_new_queued_enrolments": sum(
+                (len(report["queued_enrolments"]) for report in context_report)
+            ),
         }
         context_for_address[address] = context
 

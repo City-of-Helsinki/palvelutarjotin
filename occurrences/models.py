@@ -688,6 +688,12 @@ class EventQueueEnrolmentQuerySet(models.QuerySet):
         organisation_ids = user.person.organisations.values("id")
         return self.filter(p_event__organisation__in=organisation_ids)
 
+    def enrolled_in_last_days(self, days=1):
+        """
+        Query all pending queued enrolments during the last `days`
+        """
+        return self.filter(enrolment_time__gte=(timezone.now() - timedelta(days=days)))
+
 
 class EventQueueEnrolment(EnrolmentBase):
     STATUS_HAS_NO_ENROLMENTS = "has_no_enrolments"
@@ -816,14 +822,6 @@ class Enrolment(EnrolmentBase):
             raise ApiUsageError(f"Enrolment status is already set to {status}")
         self.status = status
         self.save()
-
-    @classmethod
-    def send_enrolment_summary_report_to_providers(cls, days=1):
-        enrolments = cls.objects.pending_and_auto_accepted_enrolments(
-            days=days
-        ).select_related("occurrence", "occurrence__p_event")
-        # Send enrolment summary
-        occurrences_services.send_enrolment_summary_report_to_providers(enrolments)
 
     def get_contact_people(self) -> List[Person]:
         contact_people = [self.person]
