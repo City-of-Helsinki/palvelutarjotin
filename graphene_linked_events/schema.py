@@ -346,6 +346,30 @@ class Query:
         keyword=List(String),
         keyword_and=List(String),
         keyword_not=List(String),
+        keyword_or_set1=List(
+            String,
+            description="Search for a combination of keywords as in "
+            "(yso:p1235 OR yso:p1947) AND (yso:p14004 OR yso:p11185) "
+            "use keyword_OR_setX parameter, where X is a number. "
+            "Can be used for example with "
+            "target group, category, activity or additional criteria keywords.",
+        ),
+        keyword_or_set2=List(
+            String,
+            description="Search for a combination of keywords as in "
+            "(yso:p1235 OR yso:p1947) AND (yso:p14004 OR yso:p11185) "
+            "use keyword_OR_setX parameter, where X is a number. "
+            "Can be used for example with "
+            "target group, category, activity or additional criteria keywords.",
+        ),
+        keyword_or_set3=List(
+            String,
+            description="Search for a combination of keywords as in "
+            "(yso:p1235 OR yso:p1947) AND (yso:p14004 OR yso:p11185) "
+            "use keyword_OR_setX parameter, where X is a number. "
+            "Can be used for example with "
+            "target group, category, activity or additional criteria keywords.",
+        ),
         all_ongoing_and=List(String),
         all_ongoing_or=List(String),
         language=String(),
@@ -491,6 +515,12 @@ class Query:
         def _handle_keywords(**kwargs):
             if kwargs.get("keyword_and"):
                 kwargs["keyword_AND"] = kwargs.pop("keyword_and")
+            if kwargs.get("keyword_or_set1"):
+                kwargs["keyword_OR_set1"] = kwargs.pop("keyword_or_set1")
+            if kwargs.get("keyword_or_set2"):
+                kwargs["keyword_OR_set2"] = kwargs.pop("keyword_or_set2")
+            if kwargs.get("keyword_or_set3"):
+                kwargs["keyword_OR_set3"] = kwargs.pop("keyword_or_set3")
             if kwargs.get("keyword_not"):
                 kwargs["keyword!"] = kwargs.pop("keyword_not")
             return kwargs

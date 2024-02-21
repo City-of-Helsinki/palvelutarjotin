@@ -647,6 +647,9 @@ def test_pevent_preadded_with_test_events_p_event_relations():
         ("keywordNot", "keyword!"),
         ("allOngoingAnd", "all_ongoing_AND"),
         ("allOngoingOr", "all_ongoing_OR"),
+        ("keywordOrSet1", "keyword_OR_set1"),
+        ("keywordOrSet2", "keyword_OR_set2"),
+        ("keywordOrSet3", "keyword_OR_set3"),
     ],
 )
 def test_resolve_events_unsupported_parameter_mapping(
