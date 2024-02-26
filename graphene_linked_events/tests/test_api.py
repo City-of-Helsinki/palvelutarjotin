@@ -57,6 +57,9 @@ GET_EVENTS_QUERY = """
 query Events(
     $organisationId: String,
     $keywordAnd: [String],
+    $keywordOrSet1: [String],
+    $keywordOrSet2: [String],
+    $keywordOrSet3: [String],
     $keywordNot: [String],
     $allOngoingAnd: [String],
     $allOngoingOr: [String]
@@ -64,6 +67,9 @@ query Events(
   events(
       organisationId: $organisationId,
       keywordAnd: $keywordAnd,
+      keywordOrSet1: $keywordOrSet1,
+      keywordOrSet2: $keywordOrSet2,
+      keywordOrSet3: $keywordOrSet3,
       keywordNot: $keywordNot,
       allOngoingAnd: $allOngoingAnd,
       allOngoingOr: $allOngoingOr
@@ -652,7 +658,7 @@ def test_pevent_preadded_with_test_events_p_event_relations():
         ("keywordOrSet3", "keyword_OR_set3"),
     ],
 )
-def test_resolve_events_unsupported_parameter_mapping(
+def test_resolve_events_parameter_mapping(
     given, expected, api_client, mock_get_events_data, organisation
 ):
     linked_event_id = EVENTS_DATA["data"][0]["id"]
