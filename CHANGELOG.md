@@ -1,6 +1,19 @@
 <!-- REMINDER: While updating changelog, also remember to update
 the version in palvelutarjotin/__init.py__ -->
 
+## [1.12.0](https://github.com/City-of-Helsinki/palvelutarjotin/compare/palvelutarjotin-v1.11.0...palvelutarjotin-v1.12.0) (2024-02-26)
+
+
+### Features
+
+* Add keyword_OR_set event query parameters ([d704598](https://github.com/City-of-Helsinki/palvelutarjotin/commit/d7045986041c2230186a636dd6efaccb919a3a91))
+* Event queue enrolment counts are included in the enrolment summary ([b0768f2](https://github.com/City-of-Helsinki/palvelutarjotin/commit/b0768f2613ffe2282a9985208527e34f570ef70e))
+
+
+### Bug Fixes
+
+* Fix OIDC tests by setting token auth settings properly in tests ([b9dbbde](https://github.com/City-of-Helsinki/palvelutarjotin/commit/b9dbbdec82d31192ff4c5ef83e0260c3c5627b2e))
+
 ## [1.11.0](https://github.com/City-of-Helsinki/palvelutarjotin/compare/palvelutarjotin-v1.10.0...palvelutarjotin-v1.11.0) (2023-12-21)
 
 
