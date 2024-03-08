@@ -34,10 +34,32 @@ class OccurrenceInline(admin.TabularInline):
     model = Occurrence.study_groups.through
     extra = 0
 
+    def has_change_permission(self, request, obj=None):
+        return False
+
+    # Without setting these add and delete permissions to false, the page loads
+    # slowly due to a large number of SQL queries
+    def has_add_permission(self, request, obj=None):
+        return False
+
+    def has_delete_permission(self, request, obj=None):
+        return False
+
 
 class EventQueueEnrolmentInline(admin.TabularInline):
     model = EventQueueEnrolment
     extra = 0
+
+    def has_change_permission(self, request, obj=None):
+        return False
+
+    # Without setting these add and delete permissions to false, the page loads
+    # slowly due to a large number of SQL queries
+    def has_add_permission(self, request, obj=None):
+        return False
+
+    def has_delete_permission(self, request, obj=None):
+        return False
 
 
 class EnrolmentInline(admin.TabularInline):
@@ -45,11 +67,17 @@ class EnrolmentInline(admin.TabularInline):
     extra = 0
     exclude = ("person_deleted_at",)
 
+    def has_change_permission(self, request, obj=None):
+        return False
+
 
 class StudyGroupInline(admin.TabularInline):
     model = StudyGroup
     extra = 0
     exclude = ("person_deleted_at",)
+
+    def has_change_permission(self, request, obj=None):
+        return False
 
 
 class HasUnitIdStudyGroupListFilter(admin.SimpleListFilter):
@@ -88,7 +116,19 @@ class StudyGroupAdmin(admin.ModelAdmin):
     inlines = (OccurrenceInline, EventQueueEnrolmentInline)
     list_filter = ["created_at", HasUnitIdStudyGroupListFilter]
     search_fields = ["unit_id", "unit_name", "person"]
-    readonly_fields = ("person_deleted_at",)
+    readonly_fields = ["person_deleted_at"]
+    autocomplete_fields = ["person"]
+    fields = [
+        "person",
+        "person_deleted_at",
+        "unit_id",
+        "unit_name",
+        "group_size",
+        "amount_of_adult",
+        "group_name",
+        "study_levels",
+        "extra_needs",
+    ]
 
     def get_form(self, request, obj=None, **kwargs):
         form = super().get_form(request, obj, **kwargs)
@@ -123,6 +163,21 @@ class OccurrenceAdmin(admin.ModelAdmin):
     exclude = ("id",)
     list_filter = ["start_time", "end_time", "seat_type", "cancelled"]
     search_fields = ["p_event__linked_event_id"]
+    readonly_fields = ["p_event"]
+    autocomplete_fields = ["contact_persons"]
+    fields = [
+        "p_event",
+        "min_group_size",
+        "max_group_size",
+        "start_time",
+        "end_time",
+        "contact_persons",
+        "place_id",
+        "amount_of_seats",
+        "languages",
+        "cancelled",
+        "seat_type",
+    ]
 
     def linked_event_id(self, obj):
         return obj.p_event.linked_event_id
@@ -131,9 +186,13 @@ class OccurrenceAdmin(admin.ModelAdmin):
 @admin.register(Enrolment)
 class EnrolmentAdmin(admin.ModelAdmin):
     list_display = ("id", "linked_event_id", "enrolment_time", "study_group", "status")
-    readonly_fields = ("enrolment_time", "person_deleted_at")
     list_filter = ["enrolment_time", "status"]
     search_fields = ["occurrence__p_event__linked_event_id", "study_group__unit_name"]
+
+    # Without setting this permission to false, the page loads slowly due to
+    # a large number of SQL queries
+    def has_change_permission(self, request, obj=None):
+        return False
 
     def linked_event_id(self, obj):
         return obj.occurrence.p_event.linked_event_id
@@ -149,7 +208,7 @@ class EventQueueEnrolmentAdmin(admin.ModelAdmin):
         "get_person",
         "status",
     )
-    readonly_fields = ("enrolment_time", "person_deleted_at")
+    readonly_fields = ["enrolment_time", "person_deleted_at"]
     list_filter = ["enrolment_time"]
     search_fields = ["p_event__linked_event_id", "study_group__unit_name"]
 
@@ -208,6 +267,7 @@ class PalvelutarjotinEventAdmin(admin.ModelAdmin):
         "export_event_enrolments_csv",
     )
     readonly_fields = ["contact_info_deleted_at"]
+    autocomplete_fields = ["organisation", "contact_person"]
 
     def occurrences_count(self, obj):
         return obj.occurrences.count()
