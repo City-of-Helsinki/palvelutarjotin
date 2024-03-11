@@ -34,50 +34,29 @@ class OccurrenceInline(admin.TabularInline):
     model = Occurrence.study_groups.through
     extra = 0
 
-    def has_change_permission(self, request, obj=None):
-        return False
-
-    # Without setting these add and delete permissions to false, the page loads
-    # slowly due to a large number of SQL queries
-    def has_add_permission(self, request, obj=None):
-        return False
-
-    def has_delete_permission(self, request, obj=None):
-        return False
+    readonly_fields = ["person_deleted_at"]
+    autocomplete_fields = ["person", "occurrence"]
 
 
 class EventQueueEnrolmentInline(admin.TabularInline):
     model = EventQueueEnrolment
     extra = 0
 
-    def has_change_permission(self, request, obj=None):
-        return False
-
-    # Without setting these add and delete permissions to false, the page loads
-    # slowly due to a large number of SQL queries
-    def has_add_permission(self, request, obj=None):
-        return False
-
-    def has_delete_permission(self, request, obj=None):
-        return False
+    readonly_fields = ["person_deleted_at"]
+    autocomplete_fields = ["person", "p_event"]
 
 
 class EnrolmentInline(admin.TabularInline):
     model = Enrolment
     extra = 0
     exclude = ("person_deleted_at",)
-
-    def has_change_permission(self, request, obj=None):
-        return False
+    autocomplete_fields = ["study_group", "occurrence"]
 
 
 class StudyGroupInline(admin.TabularInline):
     model = StudyGroup
     extra = 0
     exclude = ("person_deleted_at",)
-
-    def has_change_permission(self, request, obj=None):
-        return False
 
 
 class HasUnitIdStudyGroupListFilter(admin.SimpleListFilter):
@@ -163,8 +142,7 @@ class OccurrenceAdmin(admin.ModelAdmin):
     exclude = ("id",)
     list_filter = ["start_time", "end_time", "seat_type", "cancelled"]
     search_fields = ["p_event__linked_event_id"]
-    readonly_fields = ["p_event"]
-    autocomplete_fields = ["contact_persons"]
+    autocomplete_fields = ["p_event", "contact_persons"]
     fields = [
         "p_event",
         "min_group_size",
@@ -189,10 +167,10 @@ class EnrolmentAdmin(admin.ModelAdmin):
     list_filter = ["enrolment_time", "status"]
     search_fields = ["occurrence__p_event__linked_event_id", "study_group__unit_name"]
 
-    # Without setting this permission to false, the page loads slowly due to
-    # a large number of SQL queries
-    def has_change_permission(self, request, obj=None):
-        return False
+    readonly_fields = ["person_deleted_at"]
+
+    # The autocomple field reduces the query data size and makes the selectbox more usable
+    autocomplete_fields = ["person", "study_group", "occurrence"]
 
     def linked_event_id(self, obj):
         return obj.occurrence.p_event.linked_event_id
@@ -211,6 +189,9 @@ class EventQueueEnrolmentAdmin(admin.ModelAdmin):
     readonly_fields = ["enrolment_time", "person_deleted_at"]
     list_filter = ["enrolment_time"]
     search_fields = ["p_event__linked_event_id", "study_group__unit_name"]
+
+    # The autocomple field reduces the query data size and makes the selectbox more usable
+    autocomplete_fields = ["person", "study_group", "p_event"]
 
     def linked_event_id(self, obj):
         return obj.p_event.linked_event_id
