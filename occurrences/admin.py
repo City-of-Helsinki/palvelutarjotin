@@ -169,7 +169,8 @@ class EnrolmentAdmin(admin.ModelAdmin):
 
     readonly_fields = ["person_deleted_at"]
 
-    # The autocomple field reduces the query data size and makes the selectbox more usable
+    # The autocomplete field reduces the query data size and makes the selectbox more
+    # usable
     autocomplete_fields = ["person", "study_group", "occurrence"]
 
     def linked_event_id(self, obj):
@@ -190,7 +191,8 @@ class EventQueueEnrolmentAdmin(admin.ModelAdmin):
     list_filter = ["enrolment_time"]
     search_fields = ["p_event__linked_event_id", "study_group__unit_name"]
 
-    # The autocomple field reduces the query data size and makes the selectbox more usable
+    # The autocomplete field reduces the query data size and makes the selectbox more
+    # usable
     autocomplete_fields = ["person", "study_group", "p_event"]
 
     def linked_event_id(self, obj):
