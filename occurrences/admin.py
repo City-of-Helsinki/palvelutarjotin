@@ -94,7 +94,7 @@ class StudyGroupAdmin(admin.ModelAdmin):
     exclude = ("id",)
     inlines = (OccurrenceInline, EventQueueEnrolmentInline)
     list_filter = ["created_at", HasUnitIdStudyGroupListFilter]
-    search_fields = ["unit_id", "unit_name", "person"]
+    search_fields = ["unit_id", "unit_name", "person__name"]
     readonly_fields = ["person_deleted_at"]
     autocomplete_fields = ["person"]
     fields = [
