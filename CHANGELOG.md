@@ -1,6 +1,14 @@
 <!-- REMINDER: While updating changelog, also remember to update
 the version in palvelutarjotin/__init.py__ -->
 
+## [1.12.1](https://github.com/City-of-Helsinki/palvelutarjotin/compare/palvelutarjotin-v1.12.0...palvelutarjotin-v1.12.1) (2024-03-14)
+
+
+### Bug Fixes
+
+* Search_fields for study group ([723e48e](https://github.com/City-of-Helsinki/palvelutarjotin/commit/723e48ea6ef31a8e01bc14701ce4cd7879d28baf))
+* Slowness in the certain admin pages ([28837ba](https://github.com/City-of-Helsinki/palvelutarjotin/commit/28837ba9c34d32236c8476e2edc05551518a3d41))
+
 ## [1.12.0](https://github.com/City-of-Helsinki/palvelutarjotin/compare/palvelutarjotin-v1.11.0...palvelutarjotin-v1.12.0) (2024-02-26)
 
 
