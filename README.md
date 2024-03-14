@@ -99,7 +99,7 @@ Allow user to create test database
 
     - For example: Assuming you are running LinkedEvents API in port 8080 and Kultus API using port 8081, go here to
       create your DATA_SOURCE and get the API key:
-      http://path_to_your_linked_event/admin/events/datasource/add/
+      http://path_to_your_linked_events/admin/events/datasource/add/
 
 2.  Create superuser:
 
@@ -124,7 +124,8 @@ Allow user to create test database
     - In case you've setup LinkedEvents locally and don't have an existing organisation:
       - If you run the default importer in LinkedEvents, there will be already some organisations created there, you can use them
         instead of create your own organisation, but it's recommended to create new one
-      - To create new organisation in LinkedEvents, visit: http://path_to_your_linked_eventadmin/django_orghierarchy/organization/add/
+      - To create new organisation in LinkedEvents, visit: http://path_to_your_linked_events/admin/django_orghierarchy/organization/add/
+      - Before adding organization, you must first create a data source as instructed earlier. You must also set the value to true for `objects may be edited by users` so that the data source can be selected for the organization.
     - After you have an organisation in LinkedEvents, create a similar one in Kultus at http://localhost:8081/admin/organisations/organisation/add/
       - Name: \<name of the organisation in LinkedEvents\>, e.g. `Kaupunginkirjasto`
       - Phone number: Can be left empty
