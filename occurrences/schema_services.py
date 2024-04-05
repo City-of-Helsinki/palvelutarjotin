@@ -32,6 +32,7 @@ from palvelutarjotin.exceptions import (
     InvalidTokenError,
     MissingMantatoryInformationError,
     ObjectDoesNotExistError,
+    QueueingNotAllowedError,
 )
 from verification_token.models import VerificationToken
 
@@ -296,8 +297,11 @@ def enrol_to_event_queue(
     study_group: StudyGroup,
     p_event: PalvelutarjotinEvent,
     person: Person,
-    notification_type,
+    notification_type: str,
 ):
+    if not p_event.is_queueing_allowed:
+        raise QueueingNotAllowedError("Queueing to this event is not allowed")
+
     validate_study_group(study_group)
     try:
         event_queue_enrolment = EventQueueEnrolment.objects.get(

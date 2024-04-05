@@ -89,3 +89,7 @@ class MissingMantatoryInformationError(PalvelutarjotinGraphQLError):
 
 class InvalidTokenError(PalvelutarjotinGraphQLError):
     """Invalid verification token or token expired"""
+
+
+class QueueingNotAllowedError(PalvelutarjotinGraphQLError):
+    """Queueing is not allowed for the event"""

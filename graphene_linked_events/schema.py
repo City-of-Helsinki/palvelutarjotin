@@ -768,6 +768,7 @@ class EventMutationInput(InputObjectType):
         description="Organisation global id which the created event belongs to",
         required=True,
     )
+    is_queueing_allowed = Boolean()
 
 
 class AddEventMutationInput(EventMutationInput):

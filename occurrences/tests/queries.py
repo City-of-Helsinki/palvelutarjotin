@@ -282,6 +282,7 @@ query eventQueueEnrolments(
       cursor
       node{
         pEvent{
+          isQueueingAllowed
           linkedEventId
           organisation {
             name
@@ -289,6 +290,7 @@ query eventQueueEnrolments(
         }
         studyGroup{
           groupName
+          preferredTimes
         }
         status
       }
@@ -305,10 +307,12 @@ query eventQueueEnrolment(
     id: $id,
   ){
     pEvent{
+      isQueueingAllowed
       linkedEventId
     }
     studyGroup{
       groupName
+      preferredTimes
     }
     status
   }

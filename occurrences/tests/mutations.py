@@ -367,6 +367,7 @@ mutation enrolEventQueue($input: EnrolEventQueueMutationInput!){
   enrolEventQueue(input: $input){
     eventQueueEnrolment{
       studyGroup{
+        preferredTimes
         unitName
       }
       pEvent{
@@ -379,6 +380,7 @@ mutation enrolEventQueue($input: EnrolEventQueueMutationInput!){
         linkedEventId
         autoAcceptance
         mandatoryAdditionalInformation
+        isQueueingAllowed
       }
       notificationType
       status
@@ -392,6 +394,7 @@ mutation unenrolEventQueue($input: UnenrolEventQueueMutationInput!){
   unenrolEventQueue(input: $input){
     pEvent{
        linkedEventId
+       isQueueingAllowed
     }
     studyGroup{
         unitName

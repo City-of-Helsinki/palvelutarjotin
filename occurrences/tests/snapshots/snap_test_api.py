@@ -410,12 +410,16 @@ snapshots["test_enrol_event_queue_mutation 1"] = {
                     "enrolmentEndDays": 2,
                     "enrolmentStart": "2020-01-01T02:17:13+00:00",
                     "externalEnrolmentUrl": None,
+                    "isQueueingAllowed": True,
                     "linkedEventId": "kSRpd",
                     "mandatoryAdditionalInformation": False,
                     "neededOccurrences": 2,
                 },
                 "status": "HAS_NO_ENROLMENTS",
-                "studyGroup": {"unitName": "To be created group"},
+                "studyGroup": {
+                    "preferredTimes": "Only tuesdays",
+                    "unitName": "To be created group",
+                },
             }
         }
     }
@@ -534,9 +538,9 @@ snapshots["test_enrolments_summary 5"] = {
 snapshots["test_event_queue_enrolment_query 1"] = {
     "data": {
         "eventQueueEnrolment": {
-            "pEvent": {"linkedEventId": "twlFn"},
+            "pEvent": {"isQueueingAllowed": True, "linkedEventId": "twlFn"},
             "status": "HAS_NO_ENROLMENTS",
-            "studyGroup": {"groupName": "Six feel real fast."},
+            "studyGroup": {"groupName": "Six feel real fast.", "preferredTimes": ""},
         }
     }
 }
@@ -550,12 +554,14 @@ snapshots["test_event_queue_enrolments_query 1"] = {
                     "cursor": "YXJyYXljb25uZWN0aW9uOjA=",
                     "node": {
                         "pEvent": {
+                            "isQueueingAllowed": True,
                             "linkedEventId": "twlFn",
                             "organisation": {"name": "Graves and Sons"},
                         },
                         "status": "HAS_NO_ENROLMENTS",
                         "studyGroup": {
-                            "groupName": "Player bad capital of song add. Democratic imagine yes policy."
+                            "groupName": "Player bad capital of song add. Democratic imagine yes policy.",
+                            "preferredTimes": "",
                         },
                     },
                 },
@@ -563,12 +569,14 @@ snapshots["test_event_queue_enrolments_query 1"] = {
                     "cursor": "YXJyYXljb25uZWN0aW9uOjE=",
                     "node": {
                         "pEvent": {
+                            "isQueueingAllowed": True,
                             "linkedEventId": "twlFn",
                             "organisation": {"name": "Graves and Sons"},
                         },
                         "status": "HAS_NO_ENROLMENTS",
                         "studyGroup": {
-                            "groupName": "Phone someone method threat. You decide the threat organization. Good career party offer."
+                            "groupName": "Phone someone method threat. You decide the threat organization. Good career party offer.",
+                            "preferredTimes": "",
                         },
                     },
                 },
@@ -576,12 +584,14 @@ snapshots["test_event_queue_enrolments_query 1"] = {
                     "cursor": "YXJyYXljb25uZWN0aW9uOjI=",
                     "node": {
                         "pEvent": {
+                            "isQueueingAllowed": True,
                             "linkedEventId": "twlFn",
                             "organisation": {"name": "Graves and Sons"},
                         },
                         "status": "HAS_NO_ENROLMENTS",
                         "studyGroup": {
-                            "groupName": "Threat kitchen table along evening need line. Mission once pretty. Nor heavy well brother."
+                            "groupName": "Threat kitchen table along evening need line. Mission once pretty. Nor heavy well brother.",
+                            "preferredTimes": "",
                         },
                     },
                 },
@@ -589,12 +599,14 @@ snapshots["test_event_queue_enrolments_query 1"] = {
                     "cursor": "YXJyYXljb25uZWN0aW9uOjM=",
                     "node": {
                         "pEvent": {
+                            "isQueueingAllowed": True,
                             "linkedEventId": "twlFn",
                             "organisation": {"name": "Graves and Sons"},
                         },
                         "status": "HAS_NO_ENROLMENTS",
                         "studyGroup": {
-                            "groupName": "First control education list full hotel. Get future stand watch college speech but."
+                            "groupName": "First control education list full hotel. Get future stand watch college speech but.",
+                            "preferredTimes": "",
                         },
                     },
                 },
@@ -602,34 +614,44 @@ snapshots["test_event_queue_enrolments_query 1"] = {
                     "cursor": "YXJyYXljb25uZWN0aW9uOjQ=",
                     "node": {
                         "pEvent": {
+                            "isQueueingAllowed": True,
                             "linkedEventId": "twlFn",
                             "organisation": {"name": "Graves and Sons"},
                         },
                         "status": "HAS_NO_ENROLMENTS",
-                        "studyGroup": {"groupName": "Then instead set part us happy."},
+                        "studyGroup": {
+                            "groupName": "Then instead set part us happy.",
+                            "preferredTimes": "",
+                        },
                     },
                 },
                 {
                     "cursor": "YXJyYXljb25uZWN0aW9uOjU=",
                     "node": {
                         "pEvent": {
+                            "isQueueingAllowed": True,
                             "linkedEventId": "twlFn",
                             "organisation": {"name": "Graves and Sons"},
                         },
                         "status": "HAS_NO_ENROLMENTS",
-                        "studyGroup": {"groupName": "Commercial lose add bag."},
+                        "studyGroup": {
+                            "groupName": "Commercial lose add bag.",
+                            "preferredTimes": "",
+                        },
                     },
                 },
                 {
                     "cursor": "YXJyYXljb25uZWN0aW9uOjY=",
                     "node": {
                         "pEvent": {
+                            "isQueueingAllowed": True,
                             "linkedEventId": "twlFn",
                             "organisation": {"name": "Graves and Sons"},
                         },
                         "status": "HAS_NO_ENROLMENTS",
                         "studyGroup": {
-                            "groupName": "Herself personal office could mouth mean space. Purpose get miss also wind."
+                            "groupName": "Herself personal office could mouth mean space. Purpose get miss also wind.",
+                            "preferredTimes": "",
                         },
                     },
                 },
@@ -637,12 +659,14 @@ snapshots["test_event_queue_enrolments_query 1"] = {
                     "cursor": "YXJyYXljb25uZWN0aW9uOjc=",
                     "node": {
                         "pEvent": {
+                            "isQueueingAllowed": True,
                             "linkedEventId": "twlFn",
                             "organisation": {"name": "Graves and Sons"},
                         },
                         "status": "HAS_NO_ENROLMENTS",
                         "studyGroup": {
-                            "groupName": "Simple spend decade born. Day range age."
+                            "groupName": "Simple spend decade born. Day range age.",
+                            "preferredTimes": "",
                         },
                     },
                 },
@@ -650,12 +674,14 @@ snapshots["test_event_queue_enrolments_query 1"] = {
                     "cursor": "YXJyYXljb25uZWN0aW9uOjg=",
                     "node": {
                         "pEvent": {
+                            "isQueueingAllowed": True,
                             "linkedEventId": "twlFn",
                             "organisation": {"name": "Graves and Sons"},
                         },
                         "status": "HAS_NO_ENROLMENTS",
                         "studyGroup": {
-                            "groupName": "Audience we cultural quality serious stay. Treat owner door everybody check manager huge."
+                            "groupName": "Audience we cultural quality serious stay. Treat owner door everybody check manager huge.",
+                            "preferredTimes": "",
                         },
                     },
                 },
@@ -663,12 +689,14 @@ snapshots["test_event_queue_enrolments_query 1"] = {
                     "cursor": "YXJyYXljb25uZWN0aW9uOjk=",
                     "node": {
                         "pEvent": {
+                            "isQueueingAllowed": True,
                             "linkedEventId": "twlFn",
                             "organisation": {"name": "Graves and Sons"},
                         },
                         "status": "HAS_NO_ENROLMENTS",
                         "studyGroup": {
-                            "groupName": "Want character would. Dream entire account. If bring cut sign force future or spend."
+                            "groupName": "Want character would. Dream entire account. If bring cut sign force future or spend.",
+                            "preferredTimes": "",
                         },
                     },
                 },
@@ -686,12 +714,14 @@ snapshots["test_event_queue_enrolments_query 2"] = {
                     "cursor": "YXJyYXljb25uZWN0aW9uOjEw",
                     "node": {
                         "pEvent": {
+                            "isQueueingAllowed": True,
                             "linkedEventId": "twlFn",
                             "organisation": {"name": "Graves and Sons"},
                         },
                         "status": "HAS_NO_ENROLMENTS",
                         "studyGroup": {
-                            "groupName": "Edge since certainly visit. Majority opportunity summer laugh interview put key. Much prove eight."
+                            "groupName": "Edge since certainly visit. Majority opportunity summer laugh interview put key. Much prove eight.",
+                            "preferredTimes": "",
                         },
                     },
                 },
@@ -699,12 +729,14 @@ snapshots["test_event_queue_enrolments_query 2"] = {
                     "cursor": "YXJyYXljb25uZWN0aW9uOjEx",
                     "node": {
                         "pEvent": {
+                            "isQueueingAllowed": True,
                             "linkedEventId": "twlFn",
                             "organisation": {"name": "Graves and Sons"},
                         },
                         "status": "HAS_NO_ENROLMENTS",
                         "studyGroup": {
-                            "groupName": "Agree order just raise change. Out instead matter owner beyond executive. Defense field east."
+                            "groupName": "Agree order just raise change. Out instead matter owner beyond executive. Defense field east.",
+                            "preferredTimes": "",
                         },
                     },
                 },
@@ -712,12 +744,14 @@ snapshots["test_event_queue_enrolments_query 2"] = {
                     "cursor": "YXJyYXljb25uZWN0aW9uOjEy",
                     "node": {
                         "pEvent": {
+                            "isQueueingAllowed": True,
                             "linkedEventId": "twlFn",
                             "organisation": {"name": "Graves and Sons"},
                         },
                         "status": "HAS_NO_ENROLMENTS",
                         "studyGroup": {
-                            "groupName": "High three wear offer. Need positive range including growth by. Series instead task build public."
+                            "groupName": "High three wear offer. Need positive range including growth by. Series instead task build public.",
+                            "preferredTimes": "",
                         },
                     },
                 },
@@ -725,12 +759,14 @@ snapshots["test_event_queue_enrolments_query 2"] = {
                     "cursor": "YXJyYXljb25uZWN0aW9uOjEz",
                     "node": {
                         "pEvent": {
+                            "isQueueingAllowed": True,
                             "linkedEventId": "twlFn",
                             "organisation": {"name": "Graves and Sons"},
                         },
                         "status": "HAS_NO_ENROLMENTS",
                         "studyGroup": {
-                            "groupName": "Resource set feeling within Mr total learn."
+                            "groupName": "Resource set feeling within Mr total learn.",
+                            "preferredTimes": "",
                         },
                     },
                 },
@@ -738,12 +774,14 @@ snapshots["test_event_queue_enrolments_query 2"] = {
                     "cursor": "YXJyYXljb25uZWN0aW9uOjE0",
                     "node": {
                         "pEvent": {
+                            "isQueueingAllowed": True,
                             "linkedEventId": "twlFn",
                             "organisation": {"name": "Graves and Sons"},
                         },
                         "status": "HAS_NO_ENROLMENTS",
                         "studyGroup": {
-                            "groupName": "Policy parent toward apply see on send in. Full three especially card animal recognize stock."
+                            "groupName": "Policy parent toward apply see on send in. Full three especially card animal recognize stock.",
+                            "preferredTimes": "",
                         },
                     },
                 },
@@ -2209,10 +2247,21 @@ snapshots["test_study_levels_query 1"] = {
     }
 }
 
-snapshots["test_unenrol_event_queue_mutation 1"] = {
+snapshots["test_unenrol_event_queue_mutation[False] 1"] = {
     "data": {
         "unenrolEventQueue": {
-            "pEvent": {"linkedEventId": "kytNN"},
+            "pEvent": {"isQueueingAllowed": False, "linkedEventId": "kytNN"},
+            "studyGroup": {
+                "unitName": "Tough plant traditional after born up always. Return student light a point charge."
+            },
+        }
+    }
+}
+
+snapshots["test_unenrol_event_queue_mutation[True] 1"] = {
+    "data": {
+        "unenrolEventQueue": {
+            "pEvent": {"isQueueingAllowed": True, "linkedEventId": "kytNN"},
             "studyGroup": {
                 "unitName": "Tough plant traditional after born up always. Return student light a point charge."
             },

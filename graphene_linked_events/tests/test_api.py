@@ -818,6 +818,7 @@ mutation addEvent($input: AddEventMutationInput!){
             languageCode
           }
           mandatoryAdditionalInformation
+          isQueueingAllowed
         }
       }
     }
@@ -1164,6 +1165,7 @@ mutation addEvent($input: UpdateEventMutationInput!){
             languageCode
           }
           mandatoryAdditionalInformation
+          isQueueingAllowed
         }
       }
     }

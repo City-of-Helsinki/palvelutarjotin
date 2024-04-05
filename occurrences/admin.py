@@ -1,5 +1,5 @@
 from django.contrib import admin
-from django.contrib.admin.filters import DateFieldListFilter
+from django.contrib.admin.filters import BooleanFieldListFilter, DateFieldListFilter
 from django.http import HttpResponseRedirect
 from django.template.defaultfilters import date
 from django.urls import reverse
@@ -241,8 +241,12 @@ class PalvelutarjotinEventAdmin(admin.ModelAdmin):
         "enrolment_end_days",
         "needed_occurrences",
         "get_contact_email",
+        "is_queueing_allowed",
     )
-    list_filter = [("enrolment_start", DateFieldListFilter)]
+    list_filter = [
+        ("enrolment_start", DateFieldListFilter),
+        ("is_queueing_allowed", BooleanFieldListFilter),
+    ]
     date_hierarchy = "enrolment_start"
     search_fields = ["linked_event_id", "organisation__name", "contact_email"]
     actions = (
