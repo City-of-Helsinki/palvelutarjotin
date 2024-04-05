@@ -24,6 +24,7 @@ from palvelutarjotin.consts import (
     OBJECT_DOES_NOT_EXIST_ERROR,
     PERMISSION_DENIED_ERROR,
     QUERY_TOO_DEEP_ERROR,
+    QUEUEING_NOT_ALLOWED_ERROR,
     UPLOAD_IMAGE_SIZE_EXCEEDED_ERROR,
 )
 from palvelutarjotin.exceptions import (
@@ -46,6 +47,7 @@ from palvelutarjotin.exceptions import (
     ObjectDoesNotExistError,
     PalvelutarjotinGraphQLError,
     QueryTooDeepError,
+    QueueingNotAllowedError,
     UploadImageSizeExceededError,
 )
 
@@ -75,6 +77,7 @@ error_codes_palvelutarjotin = {
     MissingMantatoryInformationError: MISSING_MANDATORY_INFORMATION_ERROR,
     InvalidTokenError: INVALID_TOKEN_ERROR,
     InvalidStudyGroupUnitInfoError: INVALID_STUDY_GROUP_UNIT_INFO_ERROR,
+    QueueingNotAllowedError: QUEUEING_NOT_ALLOWED_ERROR,
 }
 
 sentry_ignored_errors = (

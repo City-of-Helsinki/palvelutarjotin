@@ -159,6 +159,9 @@ class PalvelutarjotinEvent(TranslatableModel, TimestampedModel):
     mandatory_additional_information = models.BooleanField(
         default=False, verbose_name=_("mandatory additional information")
     )
+    is_queueing_allowed = models.BooleanField(
+        default=True, verbose_name=_("is queueing to event allowed?")
+    )
 
     translations = TranslatedFields(
         auto_acceptance_message=models.TextField(
@@ -176,6 +179,12 @@ class PalvelutarjotinEvent(TranslatableModel, TimestampedModel):
     class Meta:
         verbose_name = _("palvelutarjotin event")
         verbose_name_plural = _("palvelutarjotin events")
+        indexes = [
+            models.Index(fields=["enrolment_start"], name="enrolment_start_idx"),
+            models.Index(
+                fields=["is_queueing_allowed"], name="is_queueing_allowed_idx"
+            ),
+        ]
 
     def __str__(self):
         return f"{self.id} {self.linked_event_id}"
@@ -548,6 +557,12 @@ class StudyGroup(TimestampedModel, WithDeletablePersonModel):
     )
     extra_needs = models.TextField(
         max_length=1000, blank=True, verbose_name=_("extra needs")
+    )
+    preferred_times = models.TextField(
+        max_length=1000,
+        blank=True,
+        verbose_name=_("preferred times"),
+        help_text=_("Preferred times for the event"),
     )
 
     # TODO: Add audience/keyword/target group

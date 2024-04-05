@@ -141,6 +141,30 @@ UPDATE_OCCURRENCE_VARIABLES = {
 }
 
 
+def _enrol_event_queue_mutation_variables(
+    study_group: StudyGroup, p_event: PalvelutarjotinEvent
+):
+    return {
+        "input": {
+            "pEventId": to_global_id("PalvelutarjotinEventNode", p_event.id),
+            "notificationType": "EMAIL_SMS",
+            "studyGroup": {
+                "person": {
+                    "id": to_global_id("PersonNode", study_group.person.id),
+                    "name": study_group.person.name,
+                    "emailAddress": study_group.person.email_address,
+                },
+                "unitName": "To be created group",
+                "groupSize": study_group.group_size,
+                "groupName": study_group.group_name,
+                "studyLevels": [sl.upper() for sl in study_group.study_levels.all()],
+                "amountOfAdult": study_group.amount_of_adult,
+                "preferredTimes": study_group.preferred_times,
+            },
+        }
+    }
+
+
 def test_study_levels_query(snapshot, api_client):
     executed = api_client.execute(STUDY_LEVELS_QUERY)
     snapshot.assert_match(executed)
@@ -510,7 +534,6 @@ ADD_VENUE_VARIABLES = {
         "hasOutdoorPlayingArea": True,
     }
 }
-
 
 UPDATE_VENUE_VARIABLES = {
     "input": {
@@ -2767,36 +2790,38 @@ def test_event_queue_enrolment_query_unauthorized(
 def test_enrol_event_queue_mutation(
     snapshot, api_client, organisation, mock_get_event_data
 ):
-    study_group_15 = StudyGroupFactory(group_size=15)
+    study_group = StudyGroupFactory(group_size=15, preferred_times="Only tuesdays")
     p_event = PalvelutarjotinEventFactory(organisation=organisation)
-    variables = {
-        "input": {
-            "pEventId": to_global_id("PalvelutarjotinEventNode", p_event.id),
-            "notificationType": "EMAIL_SMS",
-            "studyGroup": {
-                "person": {
-                    "id": to_global_id("PersonNode", study_group_15.person.id),
-                    "name": study_group_15.person.name,
-                    "emailAddress": study_group_15.person.email_address,
-                },
-                "unitName": "To be created group",
-                "groupSize": study_group_15.group_size,
-                "groupName": study_group_15.group_name,
-                "studyLevels": [sl.upper() for sl in study_group_15.study_levels.all()],
-                "amountOfAdult": study_group_15.amount_of_adult,
-            },
-        }
-    }
+    variables = _enrol_event_queue_mutation_variables(study_group, p_event)
     executed = api_client.execute(ENROL_EVENT_QUEUE_MUTATION, variables=variables)
     assert EventQueueEnrolment.objects.count() == 1
     snapshot.assert_match(executed)
 
 
+def test_enrol_event_queue_mutation_queueing_not_allowed(
+    api_client, organisation, mock_get_event_data
+):
+    study_group = StudyGroupFactory(group_size=15, preferred_times="Only tuesdays")
+    p_event = PalvelutarjotinEventFactory(
+        is_queueing_allowed=False, organisation=organisation
+    )
+    variables = _enrol_event_queue_mutation_variables(study_group, p_event)
+    executed = api_client.execute(ENROL_EVENT_QUEUE_MUTATION, variables=variables)
+    assert EventQueueEnrolment.objects.count() == 0
+    assert len(executed["errors"]) == 1
+    assert executed["errors"][0]["extensions"]["code"] == "QUEUEING_NOT_ALLOWED_ERROR"
+    assert executed["errors"][0]["message"] == "Queueing to this event is not allowed"
+    assert executed["data"] == {"enrolEventQueue": None}
+
+
+@pytest.mark.parametrize("is_queueing_allowed", [False, True])
 def test_unenrol_event_queue_mutation(
-    snapshot, staff_api_client, organisation, mock_get_event_data
+    snapshot, staff_api_client, organisation, mock_get_event_data, is_queueing_allowed
 ):
     study_group_15 = StudyGroupFactory(group_size=15)
-    p_event = PalvelutarjotinEventFactory(organisation=organisation)
+    p_event = PalvelutarjotinEventFactory(
+        organisation=organisation, is_queueing_allowed=is_queueing_allowed
+    )
     EventQueueEnrolmentFactory(study_group=study_group_15, p_event=p_event)
     EventQueueEnrolmentFactory(study_group=study_group_15)
     assert EventQueueEnrolment.objects.count() == 2
@@ -2810,6 +2835,7 @@ def test_unenrol_event_queue_mutation(
     executed = staff_api_client.execute(
         UNENROL_EVENT_QUEUE_MUTATION, variables=variables
     )
+    # Unenrolling from event queue is allowed even if queueing is not
     assert EventQueueEnrolment.objects.count() == 1
     snapshot.assert_match(executed)
 

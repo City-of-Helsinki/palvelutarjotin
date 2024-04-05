@@ -34,6 +34,7 @@ class PalvelutarjotinEventFactory(factory.django.DjangoModelFactory):
     contact_email = factory.Faker("email")
     organisation = factory.SubFactory(OrganisationFactory)
     contact_person = factory.SubFactory(PersonFactory)
+    is_queueing_allowed = True
 
     class Meta:
         model = PalvelutarjotinEvent

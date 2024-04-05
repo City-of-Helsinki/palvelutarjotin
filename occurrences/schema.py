@@ -231,6 +231,7 @@ class PalvelutarjotinEventInput(graphene.InputObjectType):
     contact_phone_number = graphene.String()
     contact_email = graphene.String()
     auto_acceptance = graphene.Boolean()
+    is_queueing_allowed = graphene.Boolean()
     mandatory_additional_information = graphene.Boolean()
     translations = graphene.List(PalvelutarjotinEventTranslationsInput)
 
@@ -639,6 +640,7 @@ class StudyGroupInput(graphene.InputObjectType):
     extra_needs = graphene.String()
     amount_of_adult = graphene.Int()
     study_levels = graphene.List(graphene.String)
+    preferred_times = graphene.String()
 
 
 class EnrolInputBase:
