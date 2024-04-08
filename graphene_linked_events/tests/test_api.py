@@ -1175,7 +1175,7 @@ mutation addEvent($input: UpdateEventMutationInput!){
 
 UPDATE_EVENT_VARIABLES = {
     "input": {
-        "id": "qq:afy6aghr2y",
+        "id": "helsinki:afy6aghr2y",
         "organisationId": "",
         "pEvent": {
             "enrolmentStart": "2020-06-06T16:40:48+00:00",
@@ -1340,7 +1340,7 @@ def test_update_event_with_empty_or_whitespace_only_organisation_id(
 
 DELETE_EVENT_MUTATION = """
 mutation deleteEvent{
-  deleteEventMutation(eventId:  "qq:afy57kkxdm"){
+  deleteEventMutation(eventId:  "helsinki:afy57kkxdm"){
     response{
       statusCode
       body {
@@ -1364,7 +1364,7 @@ def test_delete_event_unauthorized(api_client, user_api_client):
 
 
 def test_delete_event(staff_api_client, snapshot, mock_delete_event_data):
-    PalvelutarjotinEventFactory(linked_event_id="qq:afy57kkxdm")
+    PalvelutarjotinEventFactory(linked_event_id="helsinki:afy57kkxdm")
     assert PalvelutarjotinEvent.objects.count() == 1
     executed = staff_api_client.execute(DELETE_EVENT_MUTATION)
     snapshot.assert_match(executed)

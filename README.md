@@ -151,7 +151,7 @@ Allow user to create test database
       - KEYWORD_SET_TARGET_GROUP_ID
       - KEYWORD_SET_ADDITIONAL_CRITERIA_ID
     - In case you're using an existing [LinkedEvents testing environment](https://linkedevents.api.test.hel.ninja/v1/) you
-      can just use the existing keyword sets from it that don't contain a `qq:` prefix i.e.
+      can just use the existing keyword sets i.e.
       [kultus:categories](https://linkedevents.api.test.hel.ninja/v1/keyword_set/kultus:categories/),
       [kultus:target_groups](https://linkedevents.api.test.hel.ninja/v1/keyword_set/kultus:target_groups/) and
       [kultus:additional_criteria](https://linkedevents.api.test.hel.ninja/v1/keyword_set/kultus:additional_criteria/)
@@ -170,9 +170,9 @@ Allow user to create test database
           run the required importers in LinkedEvents. Or you can create new keywords yourself.
         - Get the IDs of those keyword sets and put them in `.env` or `docker-compose.env.yaml` depending on which you are using
           ```python
-            KEYWORD_SET_CATEGORY_ID=qq:kultus:categories
-            KEYWORD_SET_ADDITIONAL_CRITERIA_ID=qq:kultus:additional_criteria
-            KEYWORD_SET_TARGET_GROUP_ID=qq:kultus:target_groups
+            KEYWORD_SET_CATEGORY_ID=kultus:categories
+            KEYWORD_SET_ADDITIONAL_CRITERIA_ID=kultus:additional_criteria
+            KEYWORD_SET_TARGET_GROUP_ID=kultus:target_groups
           ```
 6.  (Optional) To use the SMS notification functionality, you have to acquire the API_KEY from
     [Notification Service API](https://github.com/City-of-Helsinki/notification-service-api) and
