@@ -246,7 +246,7 @@ snapshots["test_get_event 1"] = {
             "lastModifiedTime": "2020-05-05T09:24:58.569334Z",
             "localizationExtraInfo": None,
             "location": {
-                "internalId": "https://api.hel.fi/linkedevents-test/v1/place/tprek:15321/"
+                "internalId": "https://linkedevents.api.test.hel.ninja/v1/place/tprek:15321/"
             },
             "maximumAttendeeCapacity": None,
             "minimumAttendeeCapacity": None,
@@ -331,7 +331,7 @@ snapshots["test_get_event_without_location 1"] = {
             "lastModifiedTime": "2020-05-05T09:24:58.569334Z",
             "localizationExtraInfo": None,
             "location": {
-                "internalId": "https://api.hel.fi/linkedevents-test/v1/place/tprek:15321/"
+                "internalId": "https://linkedevents.api.test.hel.ninja/v1/place/tprek:15321/"
             },
             "maximumAttendeeCapacity": None,
             "minimumAttendeeCapacity": None,
