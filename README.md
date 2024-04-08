@@ -78,16 +78,16 @@ Allow user to create test database
 
     ```python
     LINKED_EVENTS_API_ROOT=<your_linked_event_api_url>          # e.g. http://localhost:8000/v1/
-    LINKED_EVENTS_API_KEY=<your_linked_event_api_key>           # a value from an Api key -field in a LinkedEvents data source.
+    LINKED_EVENTS_API_KEY=<your_linked_event_api_key>           # value from Api key field in LinkedEvents data source
     LINKED_EVENTS_DATA_SOURCE=<your_linked_event_data_source>   # e.g. local-kultus
     ```
 
     - If you are not using local Linked Event, contact LinkedEvents team to provide these information.
 
-      - Or you may find them on Azure DevOps if you have access to [kultus](https://dev.azure.com/City-of-Helsinki/kultus/) there:
+      - Or you may find them on Azure DevOps if you have access to [kultus](https://dev.azure.com/City-of-Helsinki/kultus/):
         - From [Kultus API testing variables](https://dev.azure.com/City-of-Helsinki/kultus/_git/kultus-pipelines?path=/variables/kultus-api-testing.yml):
           - LINKED_EVENTS_API_ROOT=https://linkedevents.api.test.hel.ninja/v1/
-          - LINKED_EVENTS_DATA_SOURCE=palvelutarjotin
+          - LINKED_EVENTS_DATA_SOURCE=kultus
         - LINKED_EVENTS_API_KEY secret from:
           - [Kultus testing keyvault library](https://dev.azure.com/City-of-Helsinki/kultus/_library?itemType=VariableGroups&view=VariableGroupView&variableGroupId=3458&path=testing-kv)
             - [Microsoft Azure keyvaults with kultus tag](https://portal.azure.com/#view/HubsExtension/BrowseResourcesWithTag/tagName/project/tagValue/kultus)
@@ -95,11 +95,7 @@ Allow user to create test database
                 - [LINKED-EVENTS-API-KEY secret](https://portal.azure.com/#@helsinginkaupunki.onmicrosoft.com/asset/Microsoft_Azure_KeyVault/Secret/https://hki-llvcihjc-test-kv.vault.azure.net/secrets/LINKED-EVENTS-API-KEY/93e659586e5145bda88ccde1a9195c66)
 
     - If you installed LinkedEvents yourself, you can create API_KEY and DATA_SOURCE from your local LinkedEvents admin
-      interface
-
-    - For example: Assuming you are running LinkedEvents API in port 8080 and Kultus API using port 8081, go here to
-      create your DATA_SOURCE and get the API key:
-      http://path_to_your_linked_events/admin/events/datasource/add/
+      interface at http://path_to_your_linked_events/admin/events/datasource/add/
 
 2.  Create superuser:
 
@@ -111,7 +107,8 @@ Allow user to create test database
       ./manage.py add_admin_user -u <username> -p <password> -e <email-address>
       ```
 
-    Then you can use this account to login to Kultus API admin interface at for example http://path_to_your_kultus_api/admin
+    Then you can use this account to login to Kultus API admin interface at for example
+    http://path_to_your_kultus_api/admin
 
 3.  Create Provider Organisation
 
@@ -122,11 +119,14 @@ Allow user to create test database
       can just pick one of the `id` values from the [organisation list](https://linkedevents.api.test.hel.ninja/v1/organization/),
       e.g. [ahjo:u4804001010](https://linkedevents.api.test.hel.ninja/v1/organization/ahjo:u4804001010/)
     - In case you've setup LinkedEvents locally and don't have an existing organisation:
-      - If you run the default importer in LinkedEvents, there will be already some organisations created there, you can use them
-        instead of create your own organisation, but it's recommended to create new one
-      - To create new organisation in LinkedEvents, visit: http://path_to_your_linked_events/admin/django_orghierarchy/organization/add/
-      - Before adding organization, you must first create a data source as instructed earlier. You must also set the value to true for `objects may be edited by users` so that the data source can be selected for the organization.
-    - After you have an organisation in LinkedEvents, create a similar one in Kultus at http://localhost:8081/admin/organisations/organisation/add/
+      - If you run the default importer in LinkedEvents, there will be already some organisations created there, you can
+        use them instead of create your own organisation, but it's recommended to create new one
+      - To create new organisation in LinkedEvents, visit:
+        http://path_to_your_linked_events/admin/django_orghierarchy/organization/add/
+      - Before adding organization, you must first create a data source as instructed earlier. You must also set the
+        value to true for `objects may be edited by users` so that the data source can be selected for the organization.
+    - After you have an organisation in LinkedEvents, create a similar one in Kultus at
+      http://localhost:8081/admin/organisations/organisation/add/
       - Name: \<name of the organisation in LinkedEvents\>, e.g. `Kaupunginkirjasto`
       - Phone number: Can be left empty
       - Type: `Provider`
@@ -164,11 +164,13 @@ Allow user to create test database
     - In case you've setup LinkedEvents locally and don't have existing keyword sets:
       - You'll have to create the KeywordSet in LinkedEvents, add some Keywords to the KeywordSet, then set the
         KeywordSet ids to `.env` or `docker-compose.env.yaml` depending on which you are using.
-        - Create three keyword sets in LinkedEvents using this address: http://path_to_your_linked_event/admin/events/keywordset
-          / with the following name: `Kultus Targer Groups`, `Kultus Additional Criteria`, `Kultus Categories`
-        - Add some Keywords to all aboves KeywordSets. There should be some keywords already available in the system if you
-          run the required importers in LinkedEvents. Or you can create new keywords yourself.
-        - Get the IDs of those keyword sets and put them in `.env` or `docker-compose.env.yaml` depending on which you are using
+        - Create three keyword sets in LinkedEvents using this address:
+          http://path_to_your_linked_event/admin/events/keywordset / with the following name:
+          `Kultus Targer Groups`, `Kultus Additional Criteria`, `Kultus Categories`
+        - Add some Keywords to all aboves KeywordSets. There should be some keywords already available in the system if
+          you run the required importers in LinkedEvents. Or you can create new keywords yourself.
+        - Get the IDs of those keyword sets and put them in `.env` or `docker-compose.env.yaml` depending on which you
+          are using
           ```python
             KEYWORD_SET_CATEGORY_ID=kultus:categories
             KEYWORD_SET_ADDITIONAL_CRITERIA_ID=kultus:additional_criteria
@@ -188,7 +190,7 @@ Allow user to create test database
     - a) Google sheet importer
     - b) Template file importer
 
-    The importer can be used to create and update the notification templates or to check whether the templates are in sync.
+    The importer can be used to create and update the notification templates or to check whether they are in sync.
     The importer can be used via Django management commands (in notification_importers app) or admin site tools.
 
     To enable admin site tools, some configuration is needed:
@@ -207,10 +209,14 @@ Allow user to create test database
     NOTIFICATIONS_SHEET_ID = "1234"
     ```
 
-    If a File importer is used, files should be stored in notification_importers app in notification_importers/templates/sms and notification_importers/templates/email folders.
-    There is also a naming convention used there. The file name must be given in this pattern [notification_type]-[locale].[html|j2].
+    If a File importer is used, files should be stored in notification_importers app in
+    notification_importers/templates/sms and notification_importers/templates/email folders.
+    There is also a naming convention used there. The file name must be given in this pattern
+    [notification_type]-[locale].[html|j2].
 
-8.  (Optional) To offer Kindergartens, schools and colleges from the Servicemap of the Helsinki, the Servicemap API needs to be configured. By default it is using the open data from https://api.hel.fi/servicemap/v2/unit/ and it should work out of the box.
+8.  (Optional) To offer Kindergartens, schools and colleges from the Servicemap of the Helsinki, the Servicemap API
+    needs to be configured. By default it is using the open data from https://api.hel.fi/servicemap/v2/unit/ and it
+    should work out of the box.
 
 ```python
   env = environ.Env(
@@ -221,7 +227,8 @@ Allow user to create test database
 
 ## API Documentation
 
-To view the API documentation, in DEBUG mode visit http://localhost:8081/graphql and checkout the `Documentation Explorer` section
+To view the API documentation, in DEBUG mode visit http://localhost:8081/graphql and checkout the
+`Documentation Explorer` section
 
 ## Keeping Python requirements up to date
 
@@ -273,15 +280,28 @@ https://helsinkisolutionoffice.atlassian.net/projects/PT/issues
 
 ### Enrolment reports
 
-_Enrolment report instances are for data utilizing. They are provided through a JSON view used by external parties. The external parties will need credentials that has the enrolment report view permission to use the view!_
+_Enrolment report instances are for data utilizing. They are provided through a JSON view used by external parties. The
+external parties will need credentials that has the enrolment report view permission to use the view!
 
-Enrolment reports should maintain themselves automatically with nightly running cronjobs, but sometimes some manual syncing might be needed. There are some tools for that in enrolment reports admin page:
+Enrolment reports should maintain themselves automatically with nightly running cronjobs, but sometimes some manual
+syncing might be needed. There are some tools for that in enrolment reports admin page:
 
-- Sync unsynced enrolment reports -button can be used to create all the missing enrolment reports and to sync all the enrolment reports out of sync after the date of the last sync done. If the date of the last sync is greater than the updated_at -field's value in an instance that needs the sync, the sync must be done by selecting the instance from admin list view and using the rehydrate -sync actions.
-- Rehydrate the enrolment report instances with LinkedEvents data -action can be used to sync the enrolment report instance with the related enrolment instance. This action also fetches the data from LinkedEvents API, which can lead to some heavy API usage, so please use carefully. All the selected enrolment report instances will be affected.
-- Rehydrate the enrolment report instances without LinkedEvents data -action can be used to sync the enrolment report instance with the related enrolment instance without fetching any data from the LinkedEvents API. This action should be used when the sync needs no data from LiknedEvents, for example when only the enrolment status is wanted to be updated.
+- Sync unsynced enrolment reports -button can be used to create all the missing enrolment reports and to sync all the
+  enrolment reports out of sync after the date of the last sync done. If the date of the last sync is greater than the
+  updated_at -field's value in an instance that needs the sync, the sync must be done by selecting the instance from
+  admin list view and using the rehydrate -sync actions.
+- Rehydrate the enrolment report instances with LinkedEvents data -action can be used to sync the enrolment report
+  instance with the related enrolment instance. This action also fetches the data from LinkedEvents API, which can lead
+  to some heavy API usage, so please use carefully. All the selected enrolment report instances will be affected.
+- Rehydrate the enrolment report instances without LinkedEvents data -action can be used to sync the enrolment report
+  instance with the related enrolment instance without fetching any data from the LinkedEvents API. This action should
+  be used when the sync needs no data from LiknedEvents, for example when only the enrolment status is wanted to be
+  updated.
 
-Enrolment reports can be initialized with the same management command that the cronjob runs: `sync_enrolment_reports`. It will create the missing enrolment reports and sync the enrolment report instances that are out of sync with the related enrolment instance. The `sync_enrolment_reports` command takes in 2 optional parameters:
+Enrolment reports can be initialized with the same management command that the cronjob runs: `sync_enrolment_reports`.
+It will create the missing enrolment reports and sync the enrolment report instances that are out of sync with the
+related enrolment instance. The `sync_enrolment_reports` command takes in 2 optional parameters:
 
-- --sync_from, which can be used to set the date of the updated_at -field that will be used to fetch the enrolments being handled in the sync process.
+- --sync_from, which can be used to set the date of the updated_at -field that will be used to fetch the enrolments
+  being handled in the sync process.
 - --ignore_linkedevents, which can be used to prevent data fetching from LinkedEvents API.
