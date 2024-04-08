@@ -12,7 +12,7 @@ snapshots["test_create_event 1"] = {
             "response": {
                 "body": {
                     "description": {"en": "desc en", "fi": "desc", "sv": "desc sv"},
-                    "id": "qq:afy6aghr2y",
+                    "id": "helsinki:afy6aghr2y",
                     "infoUrl": None,
                     "keywords": [{"id": None}],
                     "location": {"id": None},
@@ -27,7 +27,7 @@ snapshots["test_create_event 1"] = {
                         "enrolmentStart": "2020-06-06T16:40:48+00:00",
                         "externalEnrolmentUrl": None,
                         "isQueueingAllowed": True,
-                        "linkedEventId": "qq:afy6aghr2y",
+                        "linkedEventId": "helsinki:afy6aghr2y",
                         "mandatoryAdditionalInformation": True,
                         "neededOccurrences": 1,
                         "organisation": {"name": "Chapman, Scott and Martin"},
@@ -61,7 +61,7 @@ snapshots["test_create_event_with_external_enrolment 1"] = {
             "response": {
                 "body": {
                     "description": {"en": "desc en", "fi": "desc", "sv": "desc sv"},
-                    "id": "qq:afy6aghr2y",
+                    "id": "helsinki:afy6aghr2y",
                     "infoUrl": None,
                     "keywords": [{"id": None}],
                     "location": {"id": None},
@@ -76,7 +76,7 @@ snapshots["test_create_event_with_external_enrolment 1"] = {
                         "enrolmentStart": None,
                         "externalEnrolmentUrl": "http://test.org",
                         "isQueueingAllowed": True,
-                        "linkedEventId": "qq:afy6aghr2y",
+                        "linkedEventId": "helsinki:afy6aghr2y",
                         "mandatoryAdditionalInformation": True,
                         "neededOccurrences": 0,
                         "organisation": {"name": "Chapman, Scott and Martin"},
@@ -110,7 +110,7 @@ snapshots["test_create_event_without_enrolment 1"] = {
             "response": {
                 "body": {
                     "description": {"en": "desc en", "fi": "desc", "sv": "desc sv"},
-                    "id": "qq:afy6aghr2y",
+                    "id": "helsinki:afy6aghr2y",
                     "infoUrl": None,
                     "keywords": [{"id": None}],
                     "location": {"id": None},
@@ -125,7 +125,7 @@ snapshots["test_create_event_without_enrolment 1"] = {
                         "enrolmentStart": None,
                         "externalEnrolmentUrl": None,
                         "isQueueingAllowed": True,
-                        "linkedEventId": "qq:afy6aghr2y",
+                        "linkedEventId": "helsinki:afy6aghr2y",
                         "mandatoryAdditionalInformation": True,
                         "neededOccurrences": 0,
                         "organisation": {"name": "Chapman, Scott and Martin"},
@@ -159,7 +159,7 @@ snapshots["test_create_event_without_p_event_translations 1"] = {
             "response": {
                 "body": {
                     "description": {"en": "desc en", "fi": "desc", "sv": "desc sv"},
-                    "id": "qq:afy6aghr2y",
+                    "id": "helsinki:afy6aghr2y",
                     "infoUrl": None,
                     "keywords": [{"id": None}],
                     "location": {"id": None},
@@ -174,7 +174,7 @@ snapshots["test_create_event_without_p_event_translations 1"] = {
                         "enrolmentStart": "2020-06-06T16:40:48+00:00",
                         "externalEnrolmentUrl": None,
                         "isQueueingAllowed": True,
-                        "linkedEventId": "qq:afy6aghr2y",
+                        "linkedEventId": "helsinki:afy6aghr2y",
                         "mandatoryAdditionalInformation": True,
                         "neededOccurrences": 1,
                         "organisation": {"name": "Chapman, Scott and Martin"},
@@ -520,7 +520,7 @@ snapshots["test_get_keyword_set 1"] = {
     "data": {
         "keywordSet": {
             "id": "kultus:categories",
-            "internalId": "http://localhost:8080/v1/keyword_set/qq:kultus:categories/",
+            "internalId": "http://localhost:8080/v1/keyword_set/kultus:categories/",
             "keywords": [
                 {
                     "id": "helfi:12",
@@ -540,7 +540,7 @@ snapshots["test_get_keyword_set 2"] = {
     "data": {
         "keywordSet": {
             "id": "kultus:categories",
-            "internalId": "http://localhost:8080/v1/keyword_set/qq:kultus:categories/",
+            "internalId": "http://localhost:8080/v1/keyword_set/kultus:categories/",
             "keywords": [
                 {
                     "id": "helfi:12",
@@ -560,7 +560,7 @@ snapshots["test_get_keyword_set 3"] = {
     "data": {
         "keywordSet": {
             "id": "kultus:categories",
-            "internalId": "http://localhost:8080/v1/keyword_set/qq:kultus:categories/",
+            "internalId": "http://localhost:8080/v1/keyword_set/kultus:categories/",
             "keywords": [
                 {
                     "id": "helfi:12",
@@ -580,7 +580,7 @@ snapshots["test_get_keyword_set 4"] = {
     "data": {
         "keywordSet": {
             "id": "kultus:categories",
-            "internalId": "http://localhost:8080/v1/keyword_set/qq:kultus:categories/",
+            "internalId": "http://localhost:8080/v1/keyword_set/kultus:categories/",
             "keywords": [
                 {
                     "id": "helfi:12",
@@ -1093,7 +1093,7 @@ snapshots["test_publish_event[None] 1"] = {
             "response": {
                 "body": {
                     "endTime": None,
-                    "id": "qq:afy6aghr2y",
+                    "id": "helsinki:afy6aghr2y",
                     "publicationStatus": "public",
                     "startTime": "2020-05-07",
                 },
@@ -1109,7 +1109,7 @@ snapshots["test_publish_event[p_event_enrolment_start1] 1"] = {
             "response": {
                 "body": {
                     "endTime": None,
-                    "id": "qq:afy6aghr2y",
+                    "id": "helsinki:afy6aghr2y",
                     "publicationStatus": "public",
                     "startTime": "2020-05-07",
                 },
@@ -1125,7 +1125,7 @@ snapshots["test_publish_event_with_external_enrolments 1"] = {
             "response": {
                 "body": {
                     "endTime": None,
-                    "id": "qq:afy6aghr2y",
+                    "id": "helsinki:afy6aghr2y",
                     "publicationStatus": "public",
                     "startTime": "2020-05-07",
                 },
@@ -1141,7 +1141,7 @@ snapshots["test_publish_event_without_enrolments 1"] = {
             "response": {
                 "body": {
                     "endTime": None,
-                    "id": "qq:afy6aghr2y",
+                    "id": "helsinki:afy6aghr2y",
                     "publicationStatus": "public",
                     "startTime": "2020-05-07",
                 },
@@ -1435,7 +1435,7 @@ snapshots["test_unpublish_event 1"] = {
             "response": {
                 "body": {
                     "endTime": None,
-                    "id": "qq:afy6aghr2y",
+                    "id": "helsinki:afy6aghr2y",
                     "publicationStatus": "draft",
                     "startTime": "2020-05-07",
                 },
@@ -1451,7 +1451,7 @@ snapshots["test_update_event 1"] = {
             "response": {
                 "body": {
                     "description": {"en": "desc en", "fi": "desc", "sv": "desc sv"},
-                    "id": "qq:afy6aghr2y",
+                    "id": "helsinki:afy6aghr2y",
                     "infoUrl": None,
                     "keywords": [{"id": None}],
                     "location": {"id": None},
@@ -1466,7 +1466,7 @@ snapshots["test_update_event 1"] = {
                         "enrolmentStart": "2020-06-06T16:40:48+00:00",
                         "externalEnrolmentUrl": None,
                         "isQueueingAllowed": True,
-                        "linkedEventId": "qq:afy6aghr2y",
+                        "linkedEventId": "helsinki:afy6aghr2y",
                         "mandatoryAdditionalInformation": True,
                         "neededOccurrences": 1,
                         "organisation": {"name": "Chapman, Scott and Martin"},

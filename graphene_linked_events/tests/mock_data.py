@@ -1017,7 +1017,7 @@ KEYWORD_DATA = {
 }
 
 CREATED_EVENT_DATA = {
-    "id": "qq:afy6aghr2y",
+    "id": "helsinki:afy6aghr2y",
     "location": {"@id": "http://localhost:8080/v1/place/tprek:9972/"},
     "keywords": [{"@id": "http://localhost:8080/v1/keyword/yso:p9999/"}],
     "super_event": None,
@@ -1036,7 +1036,7 @@ CREATED_EVENT_DATA = {
             },
         }
     ],
-    "data_source": "qq",
+    "data_source": "helsinki",
     "publisher": "ahjo:00001",
     "sub_events": [],
     "images": [],
@@ -1053,8 +1053,8 @@ CREATED_EVENT_DATA = {
     "minimum_attendee_capacity": None,
     "enrolment_start_time": None,
     "enrolment_end_time": None,
-    "created_by": "API key from data source qq",
-    "last_modified_by": "API key from data source qq",
+    "created_by": "API key from data source helsinki",
+    "last_modified_by": "API key from data source helsinki",
     "custom_data": None,
     "audience_min_age": None,
     "audience_max_age": None,
@@ -1072,13 +1072,13 @@ CREATED_EVENT_DATA = {
         "fi": "short desc",
         "sv": "short desc sv",
     },
-    "@id": "http://localhost:8080/v1/event/qq:afy6aghr2y/",
+    "@id": "http://localhost:8080/v1/event/helsinki:afy6aghr2y/",
     "@context": "http://schema.org",
     "@type": "Event/LinkedEvent",
 }
 
 UPDATE_EVENT_DATA = {
-    "id": "qq:afy6aghr2y",
+    "id": "helsinki:afy6aghr2y",
     "location": {"@id": "http://localhost:8080/v1/place/tprek:9972/"},
     "keywords": [{"@id": "http://localhost:8080/v1/keyword/yso:p9999/"}],
     "super_event": None,
@@ -1097,7 +1097,7 @@ UPDATE_EVENT_DATA = {
             },
         }
     ],
-    "data_source": "qq",
+    "data_source": "helsinki",
     "publisher": "ahjo:00001",
     "sub_events": [],
     "images": [],
@@ -1109,8 +1109,8 @@ UPDATE_EVENT_DATA = {
     "date_published": None,
     "start_time": "2020-05-07",
     "end_time": None,
-    "created_by": "API key from data source qq",
-    "last_modified_by": "API key from data source qq",
+    "created_by": "API key from data source helsinki",
+    "last_modified_by": "API key from data source helsinki",
     "custom_data": None,
     "audience_min_age": None,
     "audience_max_age": None,
@@ -1128,7 +1128,7 @@ UPDATE_EVENT_DATA = {
         "fi": "short desc",
         "sv": "short desc sv",
     },
-    "@id": "http://localhost:8080/v1/event/qq:afy6aghr2y/",
+    "@id": "http://localhost:8080/v1/event/helsinki:afy6aghr2y/",
     "@context": "http://schema.org",
     "@type": "Event/LinkedEvent",
 }
@@ -1231,10 +1231,10 @@ KEYWORD_SET_DATA = {
     "created_time": "2020-11-02T13:58:41.872984Z",
     "last_modified_time": "2020-11-02T13:58:41.873016Z",
     "image": None,
-    "data_source": "qq",
+    "data_source": "helsinki",
     "organization": None,
     "name": {"en": "Kultus Categories"},
-    "@id": "http://localhost:8080/v1/keyword_set/qq:kultus:categories/",
+    "@id": "http://localhost:8080/v1/keyword_set/kultus:categories/",
     "@context": "http://schema.org",
     "@type": "KeywordSet",
 }
@@ -1291,10 +1291,10 @@ POPULAR_KEYWORD_SET_DATA = {
     "created_time": "2020-11-02T13:58:41.872984Z",
     "last_modified_time": "2020-11-02T13:58:41.873016Z",
     "image": None,
-    "data_source": "qq",
+    "data_source": "helsinki",
     "organization": None,
     "name": {"en": "Kultus Categories"},
-    "@id": "http://localhost:8080/v1/keyword_set/qq:kultus:categories/",
+    "@id": "http://localhost:8080/v1/keyword_set/kultus:categories/",
     "@context": "http://schema.org",
     "@type": "KeywordSet",
 }
