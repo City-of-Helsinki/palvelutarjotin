@@ -318,7 +318,7 @@ EVENT_DATA = {
             "en": "http://www.helmet.fi/entressebibliotek",
         },
         "description": None,
-        "@id": "https://api.hel.fi/linkedevents-test/v1/place/tprek:15321/",
+        "@id": "https://linkedevents.api.test.hel.ninja/v1/place/tprek:15321/",
         "@context": "http://schema.org",
         "@type": "Place",
     },

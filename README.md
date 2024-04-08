@@ -86,7 +86,7 @@ Allow user to create test database
 
       - Or you may find them on Azure DevOps if you have access to [kultus](https://dev.azure.com/City-of-Helsinki/kultus/) there:
         - From [Kultus API testing variables](https://dev.azure.com/City-of-Helsinki/kultus/_git/kultus-pipelines?path=/variables/kultus-api-testing.yml):
-          - LINKED_EVENTS_API_ROOT=https://api.hel.fi/linkedevents-test/v1/
+          - LINKED_EVENTS_API_ROOT=https://linkedevents.api.test.hel.ninja/v1/
           - LINKED_EVENTS_DATA_SOURCE=palvelutarjotin
         - LINKED_EVENTS_API_KEY secret from:
           - [Kultus testing keyvault library](https://dev.azure.com/City-of-Helsinki/kultus/_library?itemType=VariableGroups&view=VariableGroupView&variableGroupId=3458&path=testing-kv)
@@ -118,9 +118,9 @@ Allow user to create test database
     - At least a single organisation is required to be present in LinkedEvents and in Kultus.
     - This will be used on Provider UI where user can pick their organisation after login.
     - If you don't have an organisation in LinkedEvents yet you should create one.
-    - In case you're using an existing [LinkedEvents testing environment](https://api.hel.fi/linkedevents-test/v1/) you
-      can just pick one of the `id` values from the [organisation list](https://api.hel.fi/linkedevents-test/v1/organization/),
-      e.g. [ahjo:u4804001010](https://api.hel.fi/linkedevents-test/v1/organization/ahjo:u4804001010/)
+    - In case you're using an existing [LinkedEvents testing environment](https://linkedevents.api.test.hel.ninja/v1/) you
+      can just pick one of the `id` values from the [organisation list](https://linkedevents.api.test.hel.ninja/v1/organization/),
+      e.g. [ahjo:u4804001010](https://linkedevents.api.test.hel.ninja/v1/organization/ahjo:u4804001010/)
     - In case you've setup LinkedEvents locally and don't have an existing organisation:
       - If you run the default importer in LinkedEvents, there will be already some organisations created there, you can use them
         instead of create your own organisation, but it's recommended to create new one
@@ -150,11 +150,11 @@ Allow user to create test database
       - KEYWORD_SET_CATEGORY_ID
       - KEYWORD_SET_TARGET_GROUP_ID
       - KEYWORD_SET_ADDITIONAL_CRITERIA_ID
-    - In case you're using an existing [LinkedEvents testing environment](https://api.hel.fi/linkedevents-test/v1/) you
+    - In case you're using an existing [LinkedEvents testing environment](https://linkedevents.api.test.hel.ninja/v1/) you
       can just use the existing keyword sets from it that don't contain a `qq:` prefix i.e.
-      [kultus:categories](https://api.hel.fi/linkedevents-test/v1/keyword_set/kultus:categories/),
-      [kultus:target_groups](https://api.hel.fi/linkedevents-test/v1/keyword_set/kultus:target_groups/) and
-      [kultus:additional_criteria](https://api.hel.fi/linkedevents-test/v1/keyword_set/kultus:additional_criteria/)
+      [kultus:categories](https://linkedevents.api.test.hel.ninja/v1/keyword_set/kultus:categories/),
+      [kultus:target_groups](https://linkedevents.api.test.hel.ninja/v1/keyword_set/kultus:target_groups/) and
+      [kultus:additional_criteria](https://linkedevents.api.test.hel.ninja/v1/keyword_set/kultus:additional_criteria/)
       by setting the following variables in your `.env` or `docker-compose.env.yaml` file:
       ```python
       KEYWORD_SET_CATEGORY_ID=kultus:categories
