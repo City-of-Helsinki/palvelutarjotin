@@ -1,6 +1,24 @@
 <!-- REMINDER: While updating changelog, also remember to update
 the version in palvelutarjotin/__init.py__ -->
 
+## [1.13.0](https://github.com/City-of-Helsinki/palvelutarjotin/compare/palvelutarjotin-v1.12.1...palvelutarjotin-v1.13.0) (2024-04-26)
+
+
+### Features
+
+* Add is_queueing_allowed & preferred_times fields ([60cb87f](https://github.com/City-of-Helsinki/palvelutarjotin/commit/60cb87fe9372c80de002123c3e1f941fc77a22f3))
+
+
+### Bug Fixes
+
+* Use correct keyword set IDs (no "qq:" prefix), remove qq altogether ([f931384](https://github.com/City-of-Helsinki/palvelutarjotin/commit/f93138461f5a4da0983e66fd121541698353eb75))
+* Use correct Linked Events test URL in testing ([cf851bc](https://github.com/City-of-Helsinki/palvelutarjotin/commit/cf851bc1f22039f1e399c17161c5ef20cdcfaa24))
+
+
+### Documentation
+
+* Tidy up README.md, word wrap, fix data source, shorten wordings ([2c8f318](https://github.com/City-of-Helsinki/palvelutarjotin/commit/2c8f31828309756fb043a65ff0718ee8f52cc846))
+
 ## [1.12.1](https://github.com/City-of-Helsinki/palvelutarjotin/compare/palvelutarjotin-v1.12.0...palvelutarjotin-v1.12.1) (2024-03-14)
 
 
