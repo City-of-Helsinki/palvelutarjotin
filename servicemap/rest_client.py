@@ -8,12 +8,23 @@ class ServicemapApiClient:
     def __init__(self, config) -> None:
         self.root = config["ROOT"]
 
-    def list_helsinki_schools_and_kindergartens(self, filter_list=None):
+    def list_helsinki_schools_and_kindergartens(self, filters=None):
         """
         List of names and ids' of schools, colleges and kindergardens.
-        Query:
-        https://api.hel.fi/servicemap/v2/unit/?municipality=helsinki&only=name&service_node=2118,868,2179,1088,1257,1097
+        The Servicemap Query (the old deprecated implementation --
+        too slow and does not have search functionality):
+        - https://api.hel.fi/servicemap/v2/unit/
+        ?municipality=helsinki&only=name&service_node=2118,868,2179,1088,1257,1097
+        The Palvelukarttaws Query (has a search functionality):
+        - https://www.hel.fi/palvelukarttaws/rest/v4/unit/?
+        arealcity=91&ontologytree=2118+868+2179+1088+1257+1097
         """
+
+        # NOTE: The service_nodes of the Servicemap matches
+        # with the ontologytrees in the Palvelukarttaws.
+        # To check, An example:
+        # - https://api.hel.fi/servicemap/v2/service_node/2118/
+        # - https://www.hel.fi/palvelukarttaws/rest/v4/ontologytree/2118
         service_nodes = [
             2118,  # Pre-primary education
             868,  # Day care
@@ -22,30 +33,17 @@ class ServicemapApiClient:
             1257,  # General upper secondary education
             1097,  # Basic education
         ]
-
-        filter_params = (
-            self.__convert_to_string_param(filter_list) if filter_list else {}
-        )
-
+        payload = {
+            **filters,
+            # 91 = Helsinki - https://www.hel.fi/palvelukarttaws/rest/v4/arealcity/
+            "arealcity": "91",
+            "ontologytree": "+".join([str(node) for node in service_nodes]),
+        }
+        # NOTE: It is important that the "+" is not encoded to "%2B" in the URL.
+        payload_str = "&".join("%s=%s" % (k, v) for k, v in payload.items())
         return requests.request(
             "GET",
             self.root,
-            params={
-                **filter_params,
-                "municipality": "helsinki",
-                "only": "name",
-                "service_node": ",".join([str(node) for node in service_nodes]),
-            },
+            params=payload_str,
             timeout=self.CONNECTION_TIMEOUT,
         )
-
-    @staticmethod
-    def __convert_to_string_param(params):
-        converted_params = dict(params)
-        if not converted_params:
-            return None
-        for k, v in converted_params.items():
-            if type(v) == list:
-                list_to_string = ",".join(v)
-                converted_params[k] = list_to_string
-        return converted_params
