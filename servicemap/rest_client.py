@@ -1,4 +1,5 @@
 import requests
+from typing import Optional
 
 
 class ServicemapApiClient:
@@ -8,7 +9,7 @@ class ServicemapApiClient:
     def __init__(self, config) -> None:
         self.root = config["ROOT"]
 
-    def list_helsinki_schools_and_kindergartens(self, filters=None):
+    def list_helsinki_schools_and_kindergartens(self, filters: Optional[dict] = None):
         """
         List of names and ids' of schools, colleges and kindergardens.
         The Servicemap Query (the old deprecated implementation --
@@ -33,12 +34,11 @@ class ServicemapApiClient:
             1257,  # General upper secondary education
             1097,  # Basic education
         ]
-        payload = {
-            **filters,
-            # 91 = Helsinki - https://www.hel.fi/palvelukarttaws/rest/v4/arealcity/
-            "arealcity": "91",
-            "ontologytree": "+".join([str(node) for node in service_nodes]),
-        }
+        payload = filters or {}
+        payload[
+            "arealcity"
+        ] = "91"  # Helsinki - https://www.hel.fi/palvelukarttaws/rest/v4/arealcity/
+        payload["ontologytree"] = "+".join(str(node) for node in service_nodes)
         # NOTE: It is important that the "+" is not encoded to "%2B" in the URL.
         payload_str = "&".join("%s=%s" % (k, v) for k, v in payload.items())
         return requests.request(
