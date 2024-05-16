@@ -215,12 +215,12 @@ Allow user to create test database
     [notification_type]-[locale].[html|j2].
 
 8.  (Optional) To offer Kindergartens, schools and colleges from the Servicemap of the Helsinki, the Servicemap API
-    needs to be configured. By default it is using the open data from https://api.hel.fi/servicemap/v2/unit/ and it
+    needs to be configured. By default it is using the open data from https://www.hel.fi/palvelukarttaws/rest/v4/unit/ and it
     should work out of the box.
 
 ```python
   env = environ.Env(
-    SERVICEMAP_API_ROOT=(str, "https://api.hel.fi/servicemap/v2/unit/"),
+    SERVICEMAP_API_ROOT=(str, "https://www.hel.fi/palvelukarttaws/rest/v4/unit/"),
   )
   SERVICEMAP_API_CONFIG = {"ROOT": env.str("SERVICEMAP_API_ROOT")}
 ```
