@@ -1,6 +1,18 @@
 <!-- REMINDER: While updating changelog, also remember to update
 the version in palvelutarjotin/__init.py__ -->
 
+## [1.14.0](https://github.com/City-of-Helsinki/palvelutarjotin/compare/palvelutarjotin-v1.13.0...palvelutarjotin-v1.14.0) (2024-05-16)
+
+
+### Features
+
+* Use palvelukarttaws v4 service instead of servicemap v2 ([29fbc19](https://github.com/City-of-Helsinki/palvelutarjotin/commit/29fbc19017a32cf237e8c47522a4589ab87eb89f))
+
+
+### Documentation
+
+* Updated the servicemap api root url to env file examples ([73478ce](https://github.com/City-of-Helsinki/palvelutarjotin/commit/73478ce52ae09f1f08e39e56cd9660eaeb07befc))
+
 ## [1.13.0](https://github.com/City-of-Helsinki/palvelutarjotin/compare/palvelutarjotin-v1.12.1...palvelutarjotin-v1.13.0) (2024-04-26)
 
 
