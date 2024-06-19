@@ -17,12 +17,6 @@ if [[ "$APPLY_MIGRATIONS" = "1" ]]; then
     ./manage.py migrate --noinput
 fi
 
-# Create superuser
-if [[ "$CREATE_SUPERUSER" = "1" ]]; then
-    ./manage.py add_admin_user -u admin -p admin -e admin@example.com
-    echo "Admin user created with credentials admin:admin (email: admin@example.com)"
-fi
-
 # Start server
 if [[ ! -z "$@" ]]; then
     "$@"
