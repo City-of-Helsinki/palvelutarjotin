@@ -17,8 +17,9 @@ class NotificationService:
     @property
     def headers(self):
         """The headers for the SMS sending endpoint's POST request"""
+        api_token = self.api_token
         return {
-            "Authorization": "Token " + self.api_token,
+            "Authorization": "Token " + api_token,
             "Content-Type": "application/json",
         }
 
