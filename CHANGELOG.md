@@ -1,6 +1,13 @@
 <!-- REMINDER: While updating changelog, also remember to update
 the version in palvelutarjotin/__init.py__ -->
 
+## [1.14.1](https://github.com/City-of-Helsinki/palvelutarjotin/compare/palvelutarjotin-v1.14.0...palvelutarjotin-v1.14.1) (2024-06-19)
+
+
+### Bug Fixes
+
+* Remove CREATE_SUPERUSER variable and its use ([c5a1ea1](https://github.com/City-of-Helsinki/palvelutarjotin/commit/c5a1ea1f6bea74c0b8b644ef52034930b1fcbc60))
+
 ## [1.14.0](https://github.com/City-of-Helsinki/palvelutarjotin/compare/palvelutarjotin-v1.13.0...palvelutarjotin-v1.14.0) (2024-05-16)
 
 
