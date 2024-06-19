@@ -99,12 +99,12 @@ Allow user to create test database
 
 2.  Create superuser:
 
-    - If you run the Kultus API using Docker, by default one superuser will be created with username `admin`, password
-      `admin`
-    - If you run the Kultus API in your local env, run this command from the project root to create superuser:
+    - If you run the Kultus API using Docker, first enter the backend container using
+      `docker exec -it kukkuu-backend bash` and run the next command inside the container
+    - Run this command from the project root to create superuser:
 
       ```
-      ./manage.py add_admin_user -u <username> -p <password> -e <email-address>
+      python manage.py add_admin_user -u <username> -p <password> -e <email-address>
       ```
 
     Then you can use this account to login to Kultus API admin interface at for example
