@@ -4,6 +4,8 @@
 #
 #    pip-compile requirements-dev.in
 #
+appnope==0.1.4
+    # via ipython
 asttokens==2.2.1
     # via stack-data
 backcall==0.2.0
@@ -117,12 +119,16 @@ pyyaml==6.0
 requests==2.28.2
     # via
     #   -c requirements.txt
+    #   requests-mock
     #   responses
+requests-mock==1.12.1
+    # via -r requirements-dev.in
 responses==0.23.1
     # via -r requirements-dev.in
 six==1.16.0
     # via
     #   -c requirements.txt
+    #   asttokens
     #   python-dateutil
     #   snapshottest
 snapshottest==0.6.0
