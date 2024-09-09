@@ -47,6 +47,7 @@ django==3.2.18
     #   djangorestframework
     #   drf-oidc-auth
     #   graphene-django
+    #   helsinki-profile-gdpr-api
     #   social-auth-app-django
 django-admin-list-filter-dropdown==1.0.3
     # via -r requirements.in
@@ -62,8 +63,10 @@ django-filter==23.1
     # via -r requirements.in
 django-graphql-jwt==0.3.4
     # via -r requirements.in
-django-helusers==0.8.1
-    # via -r requirements.in
+django-helusers==0.13.0
+    # via
+    #   -r requirements.in
+    #   helsinki-profile-gdpr-api
 django-ilmoitin[graphql_api]==0.6.0
     # via -r requirements.in
 django-ipware==5.0.0
@@ -75,9 +78,13 @@ django-parler==2.3
 django-utils-six==2.0
     # via -r requirements.in
 djangorestframework==3.14.0
-    # via drf-oidc-auth
+    # via
+    #   drf-oidc-auth
+    #   helsinki-profile-gdpr-api
 drf-oidc-auth==3.0.0
-    # via -r requirements.in
+    # via
+    #   -r requirements.in
+    #   helsinki-profile-gdpr-api
 ecdsa==0.18.0
     # via python-jose
 factory-boy==3.2.1
@@ -110,6 +117,8 @@ graphql-relay==2.0.1
     # via
     #   django-ilmoitin
     #   graphene
+helsinki-profile-gdpr-api==0.2.0
+    # via -r requirements.in
 idna==3.4
     # via requests
 importlib-metadata==6.6.0

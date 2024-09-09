@@ -23,3 +23,4 @@ drf-oidc-auth
 social-auth-app-django
 certifi>=2021.5.30
 urllib3>=1.25.11
+helsinki-profile-gdpr-api
