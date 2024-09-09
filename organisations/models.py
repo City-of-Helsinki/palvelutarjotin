@@ -8,9 +8,12 @@ from django.db.models import Max, Q
 from django.utils import timezone
 from django.utils.translation import gettext_lazy as _
 from django.utils.translation import pgettext_lazy
+from helsinki_gdpr.models import SerializableMixin
 from helusers.models import AbstractUser
 
 from common.models import TimestampedModel, UUIDPrimaryKeyModel
+from gdpr.consts import CLEARED_VALUE
+from gdpr.models import GDPRModel
 from organisations.services import (
     send_myprofile_creation_notification_to_admins,
     send_myprofile_organisations_accepted_notification,
@@ -66,14 +69,28 @@ class UserQueryset(models.QuerySet):
         return super().delete()
 
 
-class CustomUserManager(UserManager.from_queryset(UserQueryset)):
+class CustomUserManager(
+    UserManager.from_queryset(UserQueryset),
+    SerializableMixin.SerializableManager,
+):
     pass
 
 
-class User(AbstractUser):
+class User(AbstractUser, GDPRModel, SerializableMixin):
     is_admin = models.BooleanField(_("admin status"), default=False)
 
     objects = CustomUserManager()
+
+    serialize_fields = (
+        {"name": "uuid", "accessor": lambda uuid: str(uuid)},
+        {"name": "username"},
+        {"name": "first_name"},
+        {"name": "last_name"},
+        {"name": "email"},
+        {"name": "last_login", "accessor": lambda t: t.isoformat() if t else None},
+        {"name": "date_joined", "accessor": lambda t: t.isoformat() if t else None},
+    )
+    gdpr_sensitive_data_fields = ["first_name", "last_name", "email"]
 
     # When creating an user, the name and the email can be left to blank.
     # In those cases, return username.
@@ -101,6 +118,13 @@ class User(AbstractUser):
     def delete_related_p_event_contact_info(self):
         if hasattr(self, "person"):
             self.person.p_event.delete_contact_info()
+
+    def clear_gdpr_sensitive_data_fields(self):
+        super().clear_gdpr_sensitive_data_fields()
+        self.is_active = False
+        self.username = f"{CLEARED_VALUE}-{self.uuid}"
+        self.set_unusable_password()
+        self.save()
 
 
 class Organisation(models.Model):
