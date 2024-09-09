@@ -6,6 +6,7 @@ from django.test import RequestFactory
 from freezegun import freeze_time
 from graphene.test import Client
 from unittest.mock import patch
+from uuid import UUID
 
 import occurrences.signals
 from common.tests.json_fixtures import *  # noqa
@@ -61,6 +62,11 @@ def superuser_api_client():
 @pytest.fixture
 def person_api_client():
     return _create_api_client_with_user(PersonFactory(user=UserFactory()).user)
+
+
+@pytest.fixture
+def user():
+    return UserFactory(uuid=UUID("26850000-2e85-11ea-b347-acde48001122"))
 
 
 @pytest.fixture
@@ -152,3 +158,13 @@ def mock_enrolment_unique_id():
         Enrolment, "get_unique_id", return_value="mock-enrolment-unique-id-abc123xyz456"
     ) as _fixture:
         yield _fixture
+
+
+@pytest.fixture(params=["true", "True", "TRUE", "1", 1, True])
+def true_value(request):
+    return request.param
+
+
+@pytest.fixture(params=["false", "False", "FALSE", "0", 0, False])
+def false_value(request):
+    return request.param

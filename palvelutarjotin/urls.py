@@ -19,6 +19,7 @@ urlpatterns = [
     path("reports/", include("reports.urls")),
     path("pysocial/", include("social_django.urls", namespace="social")),
     path("helauth/", include("helusers.urls")),
+    path("gdpr-api/", include("helsinki_gdpr.urls")),
     path(
         "graphql",
         csrf_exempt(

@@ -47,7 +47,7 @@ env = environ.Env(
     CORS_ORIGIN_ALLOW_ALL=(bool, False),
     TOKEN_AUTH_ACCEPTED_AUDIENCE=(str, "https://api.hel.fi/auth/palvelutarjotin"),
     TOKEN_AUTH_ACCEPTED_SCOPE_PREFIX=(str, "palvelutarjotin"),
-    TOKEN_AUTH_REQUIRE_SCOPE_PREFIX=(bool, True),
+    TOKEN_AUTH_REQUIRE_SCOPE_PREFIX=(bool, False),
     TOKEN_AUTH_AUTHSERVER_URL=(str, ""),
     ILMOITIN_QUEUE_NOTIFICATIONS=(bool, False),
     DEFAULT_FILE_STORAGE=(str, "django.core.files.storage.FileSystemStorage"),
@@ -80,6 +80,10 @@ env = environ.Env(
     UPDATE_LAST_LOGIN_ENABLED=(bool, True),
     UPDATE_LAST_LOGIN_INTERVAL_MINUTES=(int, 60),
     APP_RELEASE=(str, ""),
+    GDPR_API_QUERY_SCOPE=(str, "gdprquery"),
+    GDPR_API_DELETE_SCOPE=(str, "gdprdelete"),
+    GDPR_API_AUTHORIZATION_FIELD=(str, "authorization.permissions.scopes"),
+    # HELUSERS_BACK_CHANNEL_LOGOUT_ENABLED=(bool, False),
 )
 
 if os.path.exists(env_file):
@@ -272,6 +276,7 @@ OIDC_API_TOKEN_AUTH = {
     # authorization server configuration and public keys are "remembered".
     # The value is in seconds. Default is 24 hours.
     "OIDC_CONFIG_EXPIRATION_TIME": 600,
+    "API_AUTHORIZATION_FIELD": env.str("GDPR_API_AUTHORIZATION_FIELD"),
 }
 
 OIDC_AUTH = {"OIDC_LEEWAY": 60 * 60}
@@ -372,3 +377,11 @@ UPDATE_LAST_LOGIN = {
 APP_RELEASE = env("APP_RELEASE")
 # get build time from a file in docker image
 APP_BUILD_TIME = datetime.fromtimestamp(os.path.getmtime(__file__))
+
+GDPR_API_MODEL = AUTH_USER_MODEL
+GDPR_API_QUERY_SCOPE = env("GDPR_API_QUERY_SCOPE")
+GDPR_API_DELETE_SCOPE = env("GDPR_API_DELETE_SCOPE")
+GDPR_API_MODEL_LOOKUP = "uuid"
+GDPR_API_URL_PATTERN = "v1/user/<uuid:uuid>"
+GDPR_API_USER_PROVIDER = "gdpr.service.get_user"
+GDPR_API_DELETER = "gdpr.service.clear_data"
