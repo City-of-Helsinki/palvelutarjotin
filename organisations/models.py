@@ -252,6 +252,8 @@ class Person(GDPRModel, SerializableMixin, UUIDPrimaryKeyModel, TimestampedModel
         {"name": "organisations"},
         {"name": "organisationproposal_set"},
         {"name": "studygroup_set"},
+        {"name": "eventqueueenrolment_set"},
+        {"name": "enrolment_set"},
     )
     gdpr_sensitive_data_fields = ["name", "phone_number", "email_address"]
 
