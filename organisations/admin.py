@@ -5,11 +5,14 @@ from django.contrib.admin.widgets import FilteredSelectMultiple
 from django.contrib.auth import get_user_model
 from django.contrib.auth.admin import UserAdmin as DjangoUserAdmin
 from django.contrib.auth.forms import UserChangeForm
-from django.http import HttpResponseRedirect
+from django.db.models.query import QuerySet
+from django.http import HttpRequest, HttpResponseRedirect
 from django.urls import reverse
 from django.utils.translation import gettext as _
 from django_admin_listfilter_dropdown.filters import RelatedDropdownFilter
+from typing import Any
 
+from occurrences.models import StudyGroup
 from organisations.models import Organisation, OrganisationProposal, Person, User
 
 
@@ -121,6 +124,15 @@ class RelatedNameDropdownFilter(RelatedDropdownFilter):
         return ["name"]
 
 
+class StudyGroupInline(admin.TabularInline):
+    model = StudyGroup
+    extra = 0
+    show_change_link = True
+
+    def has_change_permission(self, request, obj=None):
+        return False
+
+
 class PersonAdminForm(forms.ModelForm):
     language = forms.ChoiceField(choices=settings.LANGUAGES)
 
@@ -145,15 +157,18 @@ class PersonAdminForm(forms.ModelForm):
 @admin.register(Person)
 class PersonAdmin(admin.ModelAdmin):
     list_display = (
+        "id",
         "name",
         "user",
         "email_address",
         "created_at",
         "updated_at",
+        "get_organisation_names",
+        "get_study_groups",
     )
     fields = ("user", "name", "phone_number", "email_address", "language", "place_ids")
     ordering = ("-created_at",)
-    inlines = (OrganisationInline,)
+    inlines = (OrganisationInline, StudyGroupInline)
     list_filter = [
         "created_at",
         UserExistenceListFilter,
@@ -166,6 +181,24 @@ class PersonAdmin(admin.ModelAdmin):
         "export_persons",
         "export_persons_csv",
     )
+
+    def get_queryset(self, request: HttpRequest) -> QuerySet[Any]:
+        return (
+            super()
+            .get_queryset(request)
+            .prefetch_related("organisations")
+            .prefetch_related("studygroup_set")
+        )
+
+    def get_organisation_names(self, obj):
+        return ", ".join((org.name for org in obj.organisations.all()))
+
+    get_organisation_names.short_description = _("organisations")
+
+    def get_study_groups(self, obj):
+        return ", ".join((str(group) for group in obj.studygroup_set.all()))
+
+    get_study_groups.short_description = _("study groups")
 
     def export_persons(self, request, queryset):
         selected = queryset.values_list("pk", flat=True)
