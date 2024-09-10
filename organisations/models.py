@@ -89,6 +89,7 @@ class User(AbstractUser, GDPRModel, SerializableMixin):
         {"name": "email"},
         {"name": "last_login", "accessor": lambda t: t.isoformat() if t else None},
         {"name": "date_joined", "accessor": lambda t: t.isoformat() if t else None},
+        {"name": "person"},
     )
     gdpr_sensitive_data_fields = ["first_name", "last_name", "email"]
 
@@ -127,7 +128,7 @@ class User(AbstractUser, GDPRModel, SerializableMixin):
         self.save()
 
 
-class Organisation(models.Model):
+class Organisation(GDPRModel, SerializableMixin, models.Model):
     TYPE_USER = "user"
     TYPE_PROVIDER = "provider"
     ORGANISATION_TYPES = (
@@ -146,6 +147,17 @@ class Organisation(models.Model):
     )
     publisher_id = models.CharField(max_length=255, verbose_name=_("publisher id"))
 
+    objects = SerializableMixin.SerializableManager()
+
+    serialize_fields = (
+        {"name": "name"},
+        {"name": "phone_number"},
+        {"name": "type"},
+        {"name": "publisher_id"},
+    )
+
+    gdpr_sensitive_data_fields = []
+
     class Meta:
         verbose_name = _("organisation")
         verbose_name_plural = _("organisations")
@@ -163,7 +175,7 @@ class Organisation(models.Model):
         return user.person.organisations.filter(id=self.id).exists()
 
 
-class OrganisationProposal(models.Model):
+class OrganisationProposal(GDPRModel, SerializableMixin, models.Model):
     """
     When a member of a 3rd party organisation registers
     to the API from the providers UI, he can make a proposal to add
@@ -187,6 +199,17 @@ class OrganisationProposal(models.Model):
         "Person", verbose_name=_("applicant"), on_delete=models.CASCADE
     )
 
+    objects = SerializableMixin.SerializableManager()
+
+    serialize_fields = (
+        {"name": "name"},
+        {"name": "phone_number"},
+        {"name": "description"},
+    )
+
+    # NOTE: should the `gdpr_sensitive_data_fields` be an empty list?
+    gdpr_sensitive_data_fields = ["name", "phone_number", "description"]
+
     class Meta:
         verbose_name = _("organisation proposal")
         verbose_name_plural = _("organisation proposals")
@@ -195,7 +218,7 @@ class OrganisationProposal(models.Model):
         return f"{self.id} {self.name}"
 
 
-class Person(UUIDPrimaryKeyModel, TimestampedModel):
+class Person(GDPRModel, SerializableMixin, UUIDPrimaryKeyModel, TimestampedModel):
     user = models.OneToOneField(
         get_user_model(),
         verbose_name=_("user"),
@@ -218,7 +241,19 @@ class Person(UUIDPrimaryKeyModel, TimestampedModel):
         default=list,
     )
 
-    objects = PersonQuerySet.as_manager()
+    objects = SerializableMixin.SerializableManager.from_queryset(PersonQuerySet)()
+
+    serialize_fields = (
+        {"name": "name"},
+        {"name": "phone_number"},
+        {"name": "email_address"},
+        {"name": "language"},
+        {"name": "place_ids", "accessor": lambda ids: ", ".join(ids)},
+        {"name": "organisations"},
+        {"name": "organisationproposal_set"},
+        {"name": "studygroup_set"},
+    )
+    gdpr_sensitive_data_fields = ["name", "phone_number", "email_address"]
 
     class Meta:
         verbose_name = _("person")
