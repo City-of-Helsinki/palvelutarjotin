@@ -11,6 +11,7 @@ from django.utils import timezone
 from django.utils.timezone import localtime
 from django.utils.translation import gettext_lazy as _
 from graphql_relay import to_global_id
+from helsinki_gdpr.models import SerializableMixin
 from parler.models import TranslatedFields
 from requests.exceptions import HTTPError
 from typing import List, Optional
@@ -24,6 +25,7 @@ from common.models import (
     WithDeletablePersonModel,
 )
 from common.utils import get_node_id_from_global_id
+from gdpr.models import GDPRModel
 from graphene_linked_events.utils import retrieve_linked_events_data
 from occurrences.consts import (
     NOTIFICATION_TYPE_EMAIL,
@@ -493,8 +495,11 @@ class StudyLevel(TranslatableModel):
         verbose_name_plural = _("study levels")
         ordering = ["level"]
 
+    def get_label_with_fallback(self):
+        return self.safe_translation_getter("label", any_language=True)
+
     def __str__(self):
-        return f"{self.id}"
+        return f"{self.get_label_with_fallback()} (id: {self.id}, level: {self.level})"
 
 
 class StudyGroupQuerySet(models.QuerySet):
@@ -536,7 +541,9 @@ class StudyGroupQuerySet(models.QuerySet):
         )
 
 
-class StudyGroup(TimestampedModel, WithDeletablePersonModel):
+class StudyGroup(
+    GDPRModel, SerializableMixin, TimestampedModel, WithDeletablePersonModel
+):
     # Tprek / Service map id for school or kindergarten from the city of Helsinki
     unit_id = models.CharField(max_length=255, verbose_name=_("unit id"), null=True)
     unit_name = models.CharField(
@@ -567,7 +574,29 @@ class StudyGroup(TimestampedModel, WithDeletablePersonModel):
 
     # TODO: Add audience/keyword/target group
 
-    objects = StudyGroupQuerySet.as_manager()
+    objects = SerializableMixin.SerializableManager.from_queryset(StudyGroupQuerySet)()
+
+    serialize_fields = (
+        {"name": "unit_id"},
+        {"name": "unit_name"},
+        {"name": "group_size"},
+        {"name": "amount_of_adult"},
+        {"name": "group_name"},
+        {"name": "extra_needs"},
+        {"name": "preferred_times"},
+        {
+            "name": "study_levels",
+            "accessor": lambda sl_manager: ", ".join(
+                [str(sl) for sl in sl_manager.all()]
+            ),
+        },
+    )
+    gdpr_sensitive_data_fields = [
+        "unit_id",
+        "unit_name",
+        "group_name",
+        "extra_needs",
+    ]
 
     class Meta:
         verbose_name = _("study group")
