@@ -106,7 +106,9 @@ class PalvelutarjotinEventQueryset(TranslatableQuerySet):
         )
 
 
-class PalvelutarjotinEvent(TranslatableModel, TimestampedModel):
+class PalvelutarjotinEvent(
+    GDPRModel, SerializableMixin, TranslatableModel, TimestampedModel
+):
     PUBLICATION_STATUS_PUBLIC = "public"
     PUBLICATION_STATUS_DRAFT = "draft"
     PUBLICATION_STATUSES = (
@@ -176,7 +178,19 @@ class PalvelutarjotinEvent(TranslatableModel, TimestampedModel):
         )
     )
 
-    objects = PalvelutarjotinEventQueryset.as_manager()
+    objects = SerializableMixin.SerializableManager.from_queryset(
+        PalvelutarjotinEventQueryset
+    )()
+
+    serialize_fields = (
+        {"name": "linked_event_id"},
+        {"name": "organisation", "accessor": lambda org: org.name},
+        {
+            "name": "contact_person",
+            "accessor": lambda p: f"{p.name}, {p.phone_number}, {p.email_address}",
+        },  # avoid bidirectional serialization, because it wil lend in a forever lopp.
+    )
+    gdpr_sensitive_data_fields = []
 
     class Meta:
         verbose_name = _("palvelutarjotin event")
@@ -253,7 +267,7 @@ class OccurrenceQueryset(models.QuerySet):
             obj.delete()
 
 
-class Occurrence(TimestampedModel):
+class Occurrence(GDPRModel, SerializableMixin, TimestampedModel):
     OCCURRENCE_SEAT_TYPE_CHILDREN_COUNT = "children_count"
     OCCURRENCE_SEAT_TYPE_ENROLMENT_COUNT = "enrolment_count"
 
@@ -306,7 +320,16 @@ class Occurrence(TimestampedModel):
         default=OCCURRENCE_SEAT_TYPE_CHILDREN_COUNT,
     )
 
-    objects = OccurrenceQueryset.as_manager()
+    objects = SerializableMixin.SerializableManager.from_queryset(OccurrenceQueryset)()
+
+    serialize_fields = (
+        {"name": "start_time", "accessor": lambda t: t.isoformat() if t else None},
+        {"name": "end_time", "accessor": lambda t: t.isoformat() if t else None},
+        {"name": "created_at", "accessor": lambda t: t.isoformat() if t else None},
+        {"name": "updated_at", "accessor": lambda t: t.isoformat() if t else None},
+        {"name": "p_event"},
+    )
+    gdpr_sensitive_data_fields = []
 
     class Meta:
         verbose_name = _("occurrence")
@@ -586,10 +609,12 @@ class StudyGroup(
         {"name": "preferred_times"},
         {
             "name": "study_levels",
-            "accessor": lambda sl_manager: ", ".join(
-                [str(sl) for sl in sl_manager.all()]
-            ),
+            "accessor": lambda manager: ", ".join([str(obj) for obj in manager.all()]),
         },
+        {
+            "name": "enrolments",
+            "accessor": lambda manager: ", ".join([str(obj) for obj in manager.all()]),
+        },  # avoid bidirectional serialization, because it wil lend in a forever lopp.
     )
     gdpr_sensitive_data_fields = [
         "unit_id",
@@ -739,7 +764,7 @@ class EventQueueEnrolmentQuerySet(models.QuerySet):
         return self.filter(enrolment_time__gte=(timezone.now() - timedelta(days=days)))
 
 
-class EventQueueEnrolment(EnrolmentBase):
+class EventQueueEnrolment(GDPRModel, SerializableMixin, EnrolmentBase):
     STATUS_HAS_NO_ENROLMENTS = "has_no_enrolments"
     STATUS_HAS_ENROLMENTS = "has_enrolments"
     QUEUE_STATUSES = (
@@ -766,7 +791,21 @@ class EventQueueEnrolment(EnrolmentBase):
         on_delete=models.CASCADE,
     )
 
-    objects = EventQueueEnrolmentQuerySet.as_manager()
+    objects = SerializableMixin.SerializableManager.from_queryset(
+        EventQueueEnrolmentQuerySet
+    )()
+
+    serialize_fields = (
+        {"name": "enrolment_time", "accessor": lambda t: t.isoformat() if t else None},
+        {"name": "updated_at", "accessor": lambda t: t.isoformat() if t else None},
+        {"name": "notification_type"},
+        {
+            "name": "study_group",
+            "accessor": lambda group: str(group),
+        },  # avoid bidirectional serialization, because it wil lend in a forever lopp.
+        {"name": "p_event"},
+    )
+    gdpr_sensitive_data_fields = []
 
     class Meta:
         verbose_name = _("event queue enrolment")
@@ -808,7 +847,7 @@ class EventQueueEnrolment(EnrolmentBase):
         return enrolment
 
 
-class Enrolment(EnrolmentBase):
+class Enrolment(GDPRModel, SerializableMixin, EnrolmentBase):
     STATUS_APPROVED = "approved"
     STATUS_PENDING = "pending"
     STATUS_CANCELLED = "cancelled"
@@ -841,7 +880,15 @@ class Enrolment(EnrolmentBase):
         VerificationToken, related_query_name="enrolment"
     )
 
-    objects = EnrolmentQuerySet.as_manager()
+    objects = SerializableMixin.SerializableManager.from_queryset(EnrolmentQuerySet)()
+
+    serialize_fields = (
+        {"name": "enrolment_time", "accessor": lambda t: t.isoformat() if t else None},
+        {"name": "updated_at", "accessor": lambda t: t.isoformat() if t else None},
+        {"name": "status"},
+        {"name": "occurrence"},
+    )
+    gdpr_sensitive_data_fields = []
 
     class Meta:
         verbose_name = _("enrolment")
