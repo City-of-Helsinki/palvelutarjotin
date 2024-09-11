@@ -3,7 +3,7 @@ from django.conf import settings
 from django.conf.urls.static import static
 from django.http import HttpResponse
 from django.urls import include, path
-from django.utils.translation import ugettext
+from django.utils.translation import gettext
 from django.views.decorators.csrf import csrf_exempt
 from django.views.decorators.http import require_GET
 from helusers.admin_site import admin
@@ -12,7 +12,7 @@ from common.utils import get_api_version
 from palvelutarjotin import __version__
 from palvelutarjotin.views import SentryGraphQLView
 
-admin.site.index_title = " ".join([ugettext("Kultus API"), get_api_version()])
+admin.site.index_title = " ".join([gettext("Kultus API"), get_api_version()])
 
 urlpatterns = [
     path("admin/", admin.site.urls),
