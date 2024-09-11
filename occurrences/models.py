@@ -641,7 +641,7 @@ class StudyGroup(
         self.unit_name = value
 
     def __str__(self):
-        return f"{self.id} {self.name}"
+        return f"{self.id} {self.unit_name}"
 
     def group_size_with_adults(self):
         """

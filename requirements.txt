@@ -67,7 +67,7 @@ django-helusers==0.13.0
     # via
     #   -r requirements.in
     #   helsinki-profile-gdpr-api
-django-ilmoitin[graphql_api]==0.6.0
+django-ilmoitin[graphql_api]==0.7.0
     # via -r requirements.in
 django-ipware==5.0.0
     # via django-axes
