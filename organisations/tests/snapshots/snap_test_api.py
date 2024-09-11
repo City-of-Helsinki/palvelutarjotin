@@ -197,28 +197,29 @@ snapshots["test_person_enrolments 1"] = {
                     {
                         "node": {
                             "studyGroup": {
-                                "groupName": "Watch method political institution trip race kitchen. Send same even child."
+                                "groupName": "Ask alone them yeah none young area. Guy Democrat throw score watch method political."
                             }
                         }
                     },
                     {
                         "node": {
                             "studyGroup": {
-                                "groupName": "See quite tax my often society. Subject law ok."
+                                "groupName": "Eat design give per kind history ahead. Herself consider fight us claim. Age feeling speech eye."
                             }
                         }
                     },
                     {
                         "node": {
                             "studyGroup": {
-                                "groupName": "Policy parent toward apply see on send in. Full three especially card animal recognize stock."
+                                "groupName": """Apply somebody especially far. Color price environmental.
+Market him beyond."""
                             }
                         }
                     },
                     {
                         "node": {
                             "studyGroup": {
-                                "groupName": "College wife serve entire. House down woman peace. Plant on follow return research could."
+                                "groupName": "Tend practice other poor. Carry owner sense other can loss get girl."
                             }
                         }
                     },
@@ -267,28 +268,28 @@ snapshots["test_person_queued_enrolments 1"] = {
                     {
                         "node": {
                             "studyGroup": {
-                                "groupName": "Scene practice town right perform yes picture. Art movement movement analysis require statement."
+                                "groupName": "Second yet pay. First teach democratic."
                             }
                         }
                     },
                     {
                         "node": {
                             "studyGroup": {
-                                "groupName": "Civil find learn follow. Tend practice other poor."
+                                "groupName": "Reach ask I cut ok. Perhaps teacher involve all my improve our Congress."
                             }
                         }
                     },
                     {
                         "node": {
                             "studyGroup": {
-                                "groupName": "Before television between policy parent. Apply see on send."
+                                "groupName": "Play make war chance discover throw. Crime imagine wall two economy. Far power animal society Mrs."
                             }
                         }
                     },
                     {
                         "node": {
                             "studyGroup": {
-                                "groupName": "Eight direction she play catch miss. Strategy animal who management then some threat."
+                                "groupName": "By rate activity business let art. Admit think edge once election seat."
                             }
                         }
                     },
@@ -313,22 +314,23 @@ snapshots["test_person_study_groups 1"] = {
                     },
                     {
                         "node": {
-                            "groupName": "Watch method political institution trip race kitchen. Send same even child."
+                            "groupName": "Ask alone them yeah none young area. Guy Democrat throw score watch method political."
                         }
                     },
                     {
                         "node": {
-                            "groupName": "See quite tax my often society. Subject law ok."
+                            "groupName": "Eat design give per kind history ahead. Herself consider fight us claim. Age feeling speech eye."
                         }
                     },
                     {
                         "node": {
-                            "groupName": "Policy parent toward apply see on send in. Full three especially card animal recognize stock."
+                            "groupName": """Apply somebody especially far. Color price environmental.
+Market him beyond."""
                         }
                     },
                     {
                         "node": {
-                            "groupName": "College wife serve entire. House down woman peace. Plant on follow return research could."
+                            "groupName": "Tend practice other poor. Carry owner sense other can loss get girl."
                         }
                     },
                 ]

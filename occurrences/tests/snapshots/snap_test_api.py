@@ -4,6 +4,7 @@ from __future__ import unicode_literals
 
 from snapshottest import Snapshot
 
+
 snapshots = Snapshot()
 
 snapshots["test_add_occurrence_to_published_event 1"] = {
@@ -191,12 +192,12 @@ snapshots["test_approve_enrolment 1"] = {
 snapshots["test_approve_enrolment 2"] = [
     """no-reply@hel.ninja|['barrettjason@example.org']|Enrolment approved FI|
     Event FI: Raija Malka & Kaija Saariaho: Blick
-    Extra event info: FffUP
+    Extra event info: VFlOj
     Study group: Build natural middle however.
     Occurrence: 06.01.2020 02.00
     Person: barrettjason@example.org
     Click this link to cancel the enrolment:
-    https://kultus.hel.fi/fi/enrolments/cancel/RW5yb2xtZW50Tm9kZTozOF8yMDIwLTAxLTA0IDAwOjAwOjAwKzAwOjAw
+    https://kultus.hel.fi/fi/enrolments/cancel/RW5yb2xtZW50Tm9kZTo0Nl8yMDIwLTAxLTA0IDAwOjAwOjAwKzAwOjAw
 
 """
 ]
@@ -208,12 +209,12 @@ snapshots["test_approve_enrolment_with_custom_message 1"] = {
 snapshots["test_approve_enrolment_with_custom_message 2"] = [
     """no-reply@hel.ninja|['barrettjason@example.org']|Enrolment approved FI|
     Event FI: Raija Malka & Kaija Saariaho: Blick
-    Extra event info: nmvjB
+    Extra event info: UUsgD
     Study group: Build natural middle however.
     Occurrence: 06.01.2020 02.00
     Person: barrettjason@example.org
     Click this link to cancel the enrolment:
-    https://kultus.hel.fi/fi/enrolments/cancel/RW5yb2xtZW50Tm9kZTo0MF8yMDIwLTAxLTA0IDAwOjAwOjAwKzAwOjAw
+    https://kultus.hel.fi/fi/enrolments/cancel/RW5yb2xtZW50Tm9kZTo0OF8yMDIwLTAxLTA0IDAwOjAwOjAwKzAwOjAw
 
     Custom message: custom message
 """
@@ -276,7 +277,7 @@ snapshots[
 ] = [
     """no-reply@hel.ninja|['hutchinsonrachel@example.org']|Enrolment approved FI|
     Event FI: Raija Malka & Kaija Saariaho: Blick
-    Extra event info: RUkQL
+    Extra event info: EOTtw
     Study group: To be created group
     Occurrence: 06.01.2020 02.00
     Person: hutchinsonrachel@example.org
@@ -314,7 +315,7 @@ snapshots["test_decline_enrolment 1"] = {
 snapshots["test_decline_enrolment 2"] = [
     """no-reply@hel.ninja|['barrettjason@example.org']|Enrolment declined FI|
     Event FI: Raija Malka & Kaija Saariaho: Blick
-    Extra event info: FffUP
+    Extra event info: VFlOj
     Study group: Build natural middle however.
     Occurrence: 06.01.2020 02.00
     Person: barrettjason@example.org
@@ -322,7 +323,7 @@ snapshots["test_decline_enrolment 2"] = [
 """,
     """no-reply@hel.ninja|['barrettjason@example.org']|Enrolment declined FI|
     Event FI: Raija Malka & Kaija Saariaho: Blick
-    Extra event info: FffUP
+    Extra event info: VFlOj
     Study group: Build natural middle however.
     Occurrence: 06.01.2020 02.00
     Person: barrettjason@example.org
@@ -337,7 +338,7 @@ snapshots["test_decline_enrolment_with_custom_message 1"] = {
 snapshots["test_decline_enrolment_with_custom_message 2"] = [
     """no-reply@hel.ninja|['barrettjason@example.org']|Enrolment declined FI|
     Event FI: Raija Malka & Kaija Saariaho: Blick
-    Extra event info: nmvjB
+    Extra event info: UUsgD
     Study group: Build natural middle however.
     Occurrence: 06.01.2020 02.00
     Person: barrettjason@example.org
@@ -486,10 +487,10 @@ snapshots["test_enrolment_query 1"] = {
     "data": {
         "enrolment": {
             "occurrence": {
-                "endTime": "2016-03-08T13:11:25+00:00",
-                "pEvent": {"linkedEventId": "ZwGmN"},
+                "endTime": "2011-01-01T08:53:32+00:00",
+                "pEvent": {"linkedEventId": "YLspj"},
                 "seatsTaken": 374,
-                "startTime": "1974-09-11T09:28:35+00:00",
+                "startTime": "2000-06-09T14:31:53+00:00",
             },
             "status": "PENDING",
             "studyGroup": {"groupName": "Conference thing much like test."},
@@ -540,7 +541,10 @@ snapshots["test_event_queue_enrolment_query 1"] = {
         "eventQueueEnrolment": {
             "pEvent": {"isQueueingAllowed": True, "linkedEventId": "twlFn"},
             "status": "HAS_NO_ENROLMENTS",
-            "studyGroup": {"groupName": "Six feel real fast.", "preferredTimes": ""},
+            "studyGroup": {
+                "groupName": "Six feel real fast.",
+                "preferredTimes": "Put list thus Mrs cell store.",
+            },
         }
     }
 }
@@ -560,8 +564,8 @@ snapshots["test_event_queue_enrolments_query 1"] = {
                         },
                         "status": "HAS_NO_ENROLMENTS",
                         "studyGroup": {
-                            "groupName": "Player bad capital of song add. Democratic imagine yes policy.",
-                            "preferredTimes": "",
+                            "groupName": "Send many different attack return. Indeed blood full door system hot.",
+                            "preferredTimes": "Option by style seek east.",
                         },
                     },
                 },
@@ -575,8 +579,8 @@ snapshots["test_event_queue_enrolments_query 1"] = {
                         },
                         "status": "HAS_NO_ENROLMENTS",
                         "studyGroup": {
-                            "groupName": "Phone someone method threat. You decide the threat organization. Good career party offer.",
-                            "preferredTimes": "",
+                            "groupName": "Project hope eight week still. Mission program point piece simple too walk. Talk hand price author.",
+                            "preferredTimes": "On performance detail sure.",
                         },
                     },
                 },
@@ -590,8 +594,8 @@ snapshots["test_event_queue_enrolments_query 1"] = {
                         },
                         "status": "HAS_NO_ENROLMENTS",
                         "studyGroup": {
-                            "groupName": "Threat kitchen table along evening need line. Mission once pretty. Nor heavy well brother.",
-                            "preferredTimes": "",
+                            "groupName": "Card support wait clearly.",
+                            "preferredTimes": "Ago include poor example.",
                         },
                     },
                 },
@@ -605,8 +609,8 @@ snapshots["test_event_queue_enrolments_query 1"] = {
                         },
                         "status": "HAS_NO_ENROLMENTS",
                         "studyGroup": {
-                            "groupName": "First control education list full hotel. Get future stand watch college speech but.",
-                            "preferredTimes": "",
+                            "groupName": "The threat organization check may available. Offer much discuss.",
+                            "preferredTimes": "Range seek turn how.",
                         },
                     },
                 },
@@ -620,8 +624,8 @@ snapshots["test_event_queue_enrolments_query 1"] = {
                         },
                         "status": "HAS_NO_ENROLMENTS",
                         "studyGroup": {
-                            "groupName": "Then instead set part us happy.",
-                            "preferredTimes": "",
+                            "groupName": "Before charge difficult number. Leave part and test benefit.",
+                            "preferredTimes": "Hotel near deal.",
                         },
                     },
                 },
@@ -635,8 +639,8 @@ snapshots["test_event_queue_enrolments_query 1"] = {
                         },
                         "status": "HAS_NO_ENROLMENTS",
                         "studyGroup": {
-                            "groupName": "Commercial lose add bag.",
-                            "preferredTimes": "",
+                            "groupName": "Away watch above bad car. List short color produce include threat.",
+                            "preferredTimes": "Street sign education field.",
                         },
                     },
                 },
@@ -650,8 +654,8 @@ snapshots["test_event_queue_enrolments_query 1"] = {
                         },
                         "status": "HAS_NO_ENROLMENTS",
                         "studyGroup": {
-                            "groupName": "Herself personal office could mouth mean space. Purpose get miss also wind.",
-                            "preferredTimes": "",
+                            "groupName": "Consumer miss sense remember. House senior popular end.",
+                            "preferredTimes": "Site score center.",
                         },
                     },
                 },
@@ -665,8 +669,8 @@ snapshots["test_event_queue_enrolments_query 1"] = {
                         },
                         "status": "HAS_NO_ENROLMENTS",
                         "studyGroup": {
-                            "groupName": "Simple spend decade born. Day range age.",
-                            "preferredTimes": "",
+                            "groupName": "Friend clear focus operation its bar anyone he.",
+                            "preferredTimes": "Yes back traditional.",
                         },
                     },
                 },
@@ -680,8 +684,8 @@ snapshots["test_event_queue_enrolments_query 1"] = {
                         },
                         "status": "HAS_NO_ENROLMENTS",
                         "studyGroup": {
-                            "groupName": "Audience we cultural quality serious stay. Treat owner door everybody check manager huge.",
-                            "preferredTimes": "",
+                            "groupName": "Simple spend decade born. Day range age.",
+                            "preferredTimes": "Image identify and.",
                         },
                     },
                 },
@@ -695,8 +699,8 @@ snapshots["test_event_queue_enrolments_query 1"] = {
                         },
                         "status": "HAS_NO_ENROLMENTS",
                         "studyGroup": {
-                            "groupName": "Want character would. Dream entire account. If bring cut sign force future or spend.",
-                            "preferredTimes": "",
+                            "groupName": "Discussion program clear accept edge. Word girl hard pattern produce rather.",
+                            "preferredTimes": "Field music now study.",
                         },
                     },
                 },
@@ -720,8 +724,8 @@ snapshots["test_event_queue_enrolments_query 2"] = {
                         },
                         "status": "HAS_NO_ENROLMENTS",
                         "studyGroup": {
-                            "groupName": "Edge since certainly visit. Majority opportunity summer laugh interview put key. Much prove eight.",
-                            "preferredTimes": "",
+                            "groupName": "Want character would. Dream entire account. If bring cut sign force future or spend.",
+                            "preferredTimes": "Seven section partner.",
                         },
                     },
                 },
@@ -735,8 +739,8 @@ snapshots["test_event_queue_enrolments_query 2"] = {
                         },
                         "status": "HAS_NO_ENROLMENTS",
                         "studyGroup": {
-                            "groupName": "Agree order just raise change. Out instead matter owner beyond executive. Defense field east.",
-                            "preferredTimes": "",
+                            "groupName": "Garden explain ten us total industry. Conference apply blood office human of. Wish rest spring.",
+                            "preferredTimes": "Happen maybe we contain pick.",
                         },
                     },
                 },
@@ -750,8 +754,8 @@ snapshots["test_event_queue_enrolments_query 2"] = {
                         },
                         "status": "HAS_NO_ENROLMENTS",
                         "studyGroup": {
-                            "groupName": "High three wear offer. Need positive range including growth by. Series instead task build public.",
-                            "preferredTimes": "",
+                            "groupName": "With hair take nation. Relate clear traditional much situation western.",
+                            "preferredTimes": "Authority thus step walk.",
                         },
                     },
                 },
@@ -766,7 +770,7 @@ snapshots["test_event_queue_enrolments_query 2"] = {
                         "status": "HAS_NO_ENROLMENTS",
                         "studyGroup": {
                             "groupName": "Resource set feeling within Mr total learn.",
-                            "preferredTimes": "",
+                            "preferredTimes": "Increase player power over.",
                         },
                     },
                 },
@@ -781,7 +785,7 @@ snapshots["test_event_queue_enrolments_query 2"] = {
                         "status": "HAS_NO_ENROLMENTS",
                         "studyGroup": {
                             "groupName": "Policy parent toward apply see on send in. Full three especially card animal recognize stock.",
-                            "preferredTimes": "",
+                            "preferredTimes": "Employee safe media get all.",
                         },
                     },
                 },
@@ -2074,10 +2078,7 @@ snapshots["test_pick_enrolment_from_queue 1"] = {
         "pickEnrolmentFromQueue": {
             "enrolment": {
                 "notificationType": "EMAIL",
-                "person": {
-                    "emailAddress": "guerrajesse@example.org",
-                    "name": "John Smith",
-                },
+                "person": {"emailAddress": "david26@example.net", "name": "Julie Wolf"},
                 "status": "PENDING",
                 "studyGroup": {"groupName": "Six feel real fast."},
             }
@@ -2250,7 +2251,7 @@ snapshots["test_study_levels_query 1"] = {
 snapshots["test_unenrol_event_queue_mutation[False] 1"] = {
     "data": {
         "unenrolEventQueue": {
-            "pEvent": {"isQueueingAllowed": False, "linkedEventId": "kytNN"},
+            "pEvent": {"isQueueingAllowed": False, "linkedEventId": "MYfOB"},
             "studyGroup": {
                 "unitName": "Tough plant traditional after born up always. Return student light a point charge."
             },
@@ -2261,7 +2262,7 @@ snapshots["test_unenrol_event_queue_mutation[False] 1"] = {
 snapshots["test_unenrol_event_queue_mutation[True] 1"] = {
     "data": {
         "unenrolEventQueue": {
-            "pEvent": {"isQueueingAllowed": True, "linkedEventId": "kytNN"},
+            "pEvent": {"isQueueingAllowed": True, "linkedEventId": "MYfOB"},
             "studyGroup": {
                 "unitName": "Tough plant traditional after born up always. Return student light a point charge."
             },
