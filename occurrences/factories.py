@@ -77,6 +77,7 @@ class OccurrenceFactory(factory.django.DjangoModelFactory):
 
 
 class StudyLevelFactory(factory.django.DjangoModelFactory):
+    id = factory.Faker("text", max_nb_chars=10)
     label = factory.Faker("text", max_nb_chars=20)
     level = factory.Faker("random_int", min=0, max=15)
 
@@ -91,6 +92,7 @@ class StudyGroupFactory(factory.django.DjangoModelFactory):
     extra_needs = factory.Faker("text", max_nb_chars=100)
     group_name = factory.Faker("text", max_nb_chars=100)
     amount_of_adult = 0
+    preferred_times = factory.Faker("text", max_nb_chars=30)
 
     @factory.post_generation
     def study_levels(self, create, extracted, **kwargs):
