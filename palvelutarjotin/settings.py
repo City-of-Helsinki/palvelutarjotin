@@ -45,10 +45,13 @@ env = environ.Env(
     SENTRY_ENVIRONMENT=(str, ""),
     CORS_ORIGIN_WHITELIST=(list, []),
     CORS_ORIGIN_ALLOW_ALL=(bool, False),
-    TOKEN_AUTH_ACCEPTED_AUDIENCE=(str, "https://api.hel.fi/auth/palvelutarjotin"),
-    TOKEN_AUTH_ACCEPTED_SCOPE_PREFIX=(str, "palvelutarjotin"),
+    TOKEN_AUTH_ACCEPTED_SCOPE_PREFIX=(str, ""),
     TOKEN_AUTH_REQUIRE_SCOPE_PREFIX=(bool, False),
-    TOKEN_AUTH_AUTHSERVER_URL=(str, ""),
+    TOKEN_AUTH_ACCEPTED_AUDIENCE=(list, ["kultus-api-dev"]),
+    TOKEN_AUTH_AUTHSERVER_URL=(
+        list,
+        ["https://tunnistus.test.hel.ninja/auth/realms/helsinki-tunnistus/"],
+    ),
     ILMOITIN_QUEUE_NOTIFICATIONS=(bool, False),
     DEFAULT_FILE_STORAGE=(str, "django.core.files.storage.FileSystemStorage"),
     GS_BUCKET_NAME=(str, ""),
@@ -83,7 +86,7 @@ env = environ.Env(
     GDPR_API_QUERY_SCOPE=(str, "gdprquery"),
     GDPR_API_DELETE_SCOPE=(str, "gdprdelete"),
     GDPR_API_AUTHORIZATION_FIELD=(str, "authorization.permissions.scopes"),
-    # HELUSERS_BACK_CHANNEL_LOGOUT_ENABLED=(bool, False),
+    HELUSERS_BACK_CHANNEL_LOGOUT_ENABLED=(bool, False),
 )
 
 if os.path.exists(env_file):
@@ -259,7 +262,7 @@ OIDC_API_TOKEN_AUTH = {
     # RequestJWTAuthentication supports multiple issuers, so this
     # setting can also be a list of strings.
     # Default is https://tunnistamo.hel.fi.
-    "ISSUER": env.str("TOKEN_AUTH_AUTHSERVER_URL"),
+    "ISSUER": env.list("TOKEN_AUTH_AUTHSERVER_URL"),
     # The following can be used if you need certain scopes for any
     # functionality of the API. Usually this is not needed, as checking
     # the audience is enough. Default is False.
@@ -385,3 +388,4 @@ GDPR_API_MODEL_LOOKUP = "uuid"
 GDPR_API_URL_PATTERN = "v1/user/<uuid:uuid>"
 GDPR_API_USER_PROVIDER = "gdpr.service.get_user"
 GDPR_API_DELETER = "gdpr.service.clear_data"
+HELUSERS_BACK_CHANNEL_LOGOUT_ENABLED = env("HELUSERS_BACK_CHANNEL_LOGOUT_ENABLED")
