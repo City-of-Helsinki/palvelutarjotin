@@ -2,6 +2,8 @@ import logging
 from helsinki_gdpr.types import ErrorResponse
 from typing import Optional, TYPE_CHECKING
 
+from organisations.models import Person
+
 if TYPE_CHECKING:
     from organisations.models import User as UserType
 
@@ -54,3 +56,17 @@ def clear_data(user: "UserType", dry_run: bool) -> Optional[ErrorResponse]:
     """
     logger.info(f"GDPR data clear called for user '{user.uuid}'.")
     user.clear_gdpr_sensitive_data_fields()
+    try:
+        user.person.delete()
+        # person = user.person
+        # person.clear_gdpr_sensitive_data_fields()
+        # for organisation_proposal in person.organisationproposal_set.all():
+        #     organisation_proposal.clear_gdpr_sensitive_data_fields()
+        #     FreeSpotNotificationSubscription.objects.filter(child=child).delete()
+
+    except Person.DoesNotExist:
+        logger.warning(
+            "Could not call 'clear_gdpr_sensitive_data_fields' for a person object, "
+            f"since there is no person linked to the user {user.uuid}."
+        )
+        pass
