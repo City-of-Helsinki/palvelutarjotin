@@ -18,6 +18,7 @@ from occurrences.factories import (
     StudyGroupFactory,
     StudyLevelFactory,
 )
+from occurrences.models import Enrolment, EventQueueEnrolment, StudyGroup
 from organisations.factories import (
     OrganisationFactory,
     OrganisationProposalFactory,
@@ -106,6 +107,24 @@ def _test_person_with_all_data_relations_populated(user, assert_counts=True):
         _assert_person_with_all_data_relations_populated(person)
 
 
+def _get_db_table_counts_of_person_related_tables():
+    """
+    Retrieves the number of records in database tables related to Person objects.
+
+    Returns:
+        tuple: A tuple containing the following counts, in order:
+
+            - int: The count of records in the Enrolment table.
+            - int: The count of records in the StudyGroup table.
+            - int: The count of records in the EventQueueEnrolment table.
+    """
+    return (
+        Enrolment.objects.count(),
+        StudyGroup.objects.count(),
+        EventQueueEnrolment.objects.count(),
+    )
+
+
 @pytest.mark.django_db
 def test_clear_data_service(user):
     original_password = user.password
@@ -157,9 +176,29 @@ def test_gdpr_api_user_not_found(user):
 
 
 @pytest.mark.django_db
-@pytest.mark.parametrize("test_scope", ["simplest", "most_complex"])
+@pytest.mark.parametrize(
+    "test_scope, test_after_delete",
+    [
+        ("simplest", False),  # A newly created user, test query for undeleted user
+        ("simplest", True),  # A newly created user, test query after GDPR delete
+        ("most_complex", False),  # A user with all data, test query for undeleted user
+        ("most_complex", True),  # A user with all data, test query after GDPR delete
+    ],
+    ids=[
+        "Simple User, Undeleted",
+        "Simple User, Deleted",
+        "Complex User, Undeleted",
+        "Complex User, Deleted",
+    ],
+)
 def test_get_profile_data_from_gdpr_api(
-    test_scope, snapshot, gdpr_api_client, requests_mock, user, mock_get_event_data
+    test_scope,
+    test_after_delete,
+    snapshot,
+    gdpr_api_client,
+    requests_mock,
+    user,
+    mock_get_event_data,
 ):
     user.last_login = timezone.now()
     user.save()
@@ -168,9 +207,21 @@ def test_get_profile_data_from_gdpr_api(
         _test_person_with_all_data_relations_populated(user, assert_counts=True)
 
     auth_header = get_api_token_for_user_with_scopes(
-        user, [settings.GDPR_API_QUERY_SCOPE], requests_mock
+        user,
+        [settings.GDPR_API_QUERY_SCOPE, settings.GDPR_API_DELETE_SCOPE],
+        requests_mock,
     )
     gdpr_api_client.credentials(HTTP_AUTHORIZATION=auth_header)
+
+    if test_after_delete:
+        response = gdpr_api_client.delete(
+            reverse(
+                "helsinki_gdpr:gdpr_v1",
+                kwargs={settings.GDPR_API_MODEL_LOOKUP: user.uuid},
+            )
+        )
+        assert response.status_code == 204
+
     response = gdpr_api_client.get(
         reverse(
             "helsinki_gdpr:gdpr_v1",
@@ -181,8 +232,23 @@ def test_get_profile_data_from_gdpr_api(
     snapshot.assert_match(response.json())
 
 
-@pytest.mark.django_db
-def test_delete_profile_data_from_gdpr_api(user, gdpr_api_client, requests_mock):
+@pytest.mark.django_db(reset_sequences=True)
+@pytest.mark.parametrize(
+    "test_scope",
+    ["simplest", "most_complex"],
+)
+def test_delete_profile_data_from_gdpr_api(
+    test_scope, snapshot, user, gdpr_api_client, requests_mock, mock_get_event_data
+):
+    if test_scope == "most_complex":
+        _test_person_with_all_data_relations_populated(user, assert_counts=True)
+
+    (
+        enrolment_count,
+        study_group_count,
+        event_queue_enrolment_count,
+    ) = original_counts = _get_db_table_counts_of_person_related_tables()
+
     auth_header = get_api_token_for_user_with_scopes(
         user, [settings.GDPR_API_DELETE_SCOPE], requests_mock
     )
@@ -196,6 +262,38 @@ def test_delete_profile_data_from_gdpr_api(user, gdpr_api_client, requests_mock)
     assert response.status_code == 204
     with pytest.raises(User.DoesNotExist):
         User.objects.get(username=user.username)
+
+    # The enrolments and the study groups should still persist in the database,
+    # but they should are anonymized
+    assert original_counts == _get_db_table_counts_of_person_related_tables()
+    if enrolment_count:
+        enrolment = Enrolment.objects.first()
+        assert enrolment.person is None
+        assert enrolment.study_group.person is None
+        snapshot.assert_match(
+            enrolment.serialize(),
+            "enrolment should exist "
+            "but not contain any person related sensitive data after deletion",
+        )
+    if study_group_count:
+        study_group = StudyGroup.objects.first()
+        # TODO: Should the study_group.person be cleared?
+        # assert study_group.person is None
+        snapshot.assert_match(
+            study_group.serialize(),
+            "study group should exist "
+            "but not contain any person related sensitive data after deletion",
+        )
+    if event_queue_enrolment_count:
+        event_queue_enrolment = EventQueueEnrolment.objects.first()
+        assert event_queue_enrolment.person is None
+        # TODO: Should the enrolment.study_group.person be cleared?
+        # assert event_queue_enrolment.study_group.person is None
+        snapshot.assert_match(
+            event_queue_enrolment.serialize(),
+            "event queue enrolment should exist "
+            "but not contain any person related sensitive data after deletion",
+        )
 
 
 @pytest.mark.django_db
