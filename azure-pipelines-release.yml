@@ -39,5 +39,13 @@ extends:
   # Django example: azure-pipelines-PROJECTNAME-api-release.yml
   # Drupal example: azure-pipelines-drupal-release.yml
   template: azure-pipelines-kultus-api-release.yml@kultus-pipelines
-  #parameters:
-    #imagetag: ${{ parameters.imagetag }}
+  parameters:
+    # Application build arguments and config map values as key value pairs.
+    # Does not contain all buildArguments, the rest located in kultus-pipelines/kultus-api-release.yml and kultus-api-common.yml
+    # The values here will override the values defined in the kultus-pipelines repository.
+    # buildArgs:
+    configMap: # pod environment variables
+      GDPR_API_QUERY_SCOPE=gdprquery
+      GDPR_API_DELETE_SCOPE=gdprdelete
+      HELUSERS_BACK_CHANNEL_LOGOUT_ENABLED=True
+      HELUSERS_USER_MIGRATE_ENABLED=True
