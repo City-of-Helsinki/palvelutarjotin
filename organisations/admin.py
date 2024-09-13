@@ -333,6 +333,7 @@ class UserAdmin(DjangoUserAdmin):
     list_display = DjangoUserAdmin.list_display + (
         "date_joined",
         "last_login",
+        "uuid",
         "has_person",
     )
     list_filter = (
