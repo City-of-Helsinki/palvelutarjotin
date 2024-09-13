@@ -85,7 +85,7 @@ env = environ.Env(
     APP_RELEASE=(str, ""),
     GDPR_API_QUERY_SCOPE=(str, "gdprquery"),
     GDPR_API_DELETE_SCOPE=(str, "gdprdelete"),
-    GDPR_API_AUTHORIZATION_FIELD=(str, "authorization.permissions.scopes"),
+    TOKEN_AUTH_API_AUTHORIZATION_FIELD=(str, "authorization.permissions.scopes"),
     HELUSERS_BACK_CHANNEL_LOGOUT_ENABLED=(bool, False),
 )
 
@@ -279,7 +279,11 @@ OIDC_API_TOKEN_AUTH = {
     # authorization server configuration and public keys are "remembered".
     # The value is in seconds. Default is 24 hours.
     "OIDC_CONFIG_EXPIRATION_TIME": 600,
-    "API_AUTHORIZATION_FIELD": env.str("GDPR_API_AUTHORIZATION_FIELD"),
+    # The name of the claim that is used to read in the scopes from the JWT.
+    # Supports multiple fields as a list. If the field is deeper in the claims
+    # use dot notation. e.g. "authorization.permissions.scopes"
+    # Default is https://api.hel.fi/auth.
+    "API_AUTHORIZATION_FIELD": env.str("TOKEN_AUTH_API_AUTHORIZATION_FIELD"),
 }
 
 OIDC_AUTH = {"OIDC_LEEWAY": 60 * 60}
