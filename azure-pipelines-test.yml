@@ -50,5 +50,4 @@ extends:
     configMap: # pod environment variables
       GDPR_API_QUERY_SCOPE=gdprquery
       GDPR_API_DELETE_SCOPE=gdprdelete
-      GDPR_API_AUTHORIZATION_FIELD=authorization.permissions.scopes
       HELUSERS_BACK_CHANNEL_LOGOUT_ENABLED=True
