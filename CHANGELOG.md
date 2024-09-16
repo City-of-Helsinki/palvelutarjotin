@@ -1,6 +1,13 @@
 <!-- REMINDER: While updating changelog, also remember to update
 the version in palvelutarjotin/__init.py__ -->
 
+## [1.15.0](https://github.com/City-of-Helsinki/palvelutarjotin/compare/palvelutarjotin-v1.14.1...palvelutarjotin-v1.15.0) (2024-09-16)
+
+
+### Features
+
+* Change domain to hel.fi ([bdc2e75](https://github.com/City-of-Helsinki/palvelutarjotin/commit/bdc2e75a2a5026d0c2d6403508012216aa15f736))
+
 ## [1.14.1](https://github.com/City-of-Helsinki/palvelutarjotin/compare/palvelutarjotin-v1.14.0...palvelutarjotin-v1.14.1) (2024-06-19)
 
 
