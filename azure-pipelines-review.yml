@@ -52,7 +52,7 @@ extends:
     # The values here will override the values defined in the kultus-pipelines repository.
     # buildArgs:
     configMap: # pod environment variables
-      GDPR_API_QUERY_SCOPE=gdprquery
-      GDPR_API_DELETE_SCOPE=gdprdelete
-      HELUSERS_BACK_CHANNEL_LOGOUT_ENABLED=True
-      HELUSERS_USER_MIGRATE_ENABLED=True
+      GDPR_API_QUERY_SCOPE: gdprquery
+      GDPR_API_DELETE_SCOPE: gdprdelete
+      HELUSERS_BACK_CHANNEL_LOGOUT_ENABLED: True
+      HELUSERS_USER_MIGRATE_ENABLED: True

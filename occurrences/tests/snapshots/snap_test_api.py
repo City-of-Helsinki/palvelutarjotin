@@ -4,7 +4,6 @@ from __future__ import unicode_literals
 
 from snapshottest import Snapshot
 
-
 snapshots = Snapshot()
 
 snapshots["test_add_occurrence_to_published_event 1"] = {
@@ -197,7 +196,7 @@ snapshots["test_approve_enrolment 2"] = [
     Occurrence: 06.01.2020 02.00
     Person: barrettjason@example.org
     Click this link to cancel the enrolment:
-    https://kultus.hel.fi/fi/enrolments/cancel/RW5yb2xtZW50Tm9kZTo0Nl8yMDIwLTAxLTA0IDAwOjAwOjAwKzAwOjAw
+    https://kultus.hel.fi/fi/enrolments/cancel/RW5yb2xtZW50Tm9kZTo1NF8yMDIwLTAxLTA0IDAwOjAwOjAwKzAwOjAw
 
 """
 ]
@@ -214,7 +213,7 @@ snapshots["test_approve_enrolment_with_custom_message 2"] = [
     Occurrence: 06.01.2020 02.00
     Person: barrettjason@example.org
     Click this link to cancel the enrolment:
-    https://kultus.hel.fi/fi/enrolments/cancel/RW5yb2xtZW50Tm9kZTo0OF8yMDIwLTAxLTA0IDAwOjAwOjAwKzAwOjAw
+    https://kultus.hel.fi/fi/enrolments/cancel/RW5yb2xtZW50Tm9kZTo1Nl8yMDIwLTAxLTA0IDAwOjAwOjAwKzAwOjAw
 
     Custom message: custom message
 """
