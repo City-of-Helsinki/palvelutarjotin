@@ -1,4 +1,5 @@
 from django.db import models
+from typing import List
 
 from gdpr.consts import CLEARED_VALUE
 
@@ -15,7 +16,7 @@ class GDPRModel(models.Model):
         abstract = True
 
     @property
-    def gdpr_sensitive_data_fields(self) -> list[str]:
+    def gdpr_sensitive_data_fields(self) -> List[str]:
         raise NotImplementedError(
             "The model that is extending abstract GDPRModel class "
             "must define a `gdpr_sensitive_data_fields` -field "
