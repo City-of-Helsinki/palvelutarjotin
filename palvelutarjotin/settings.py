@@ -285,24 +285,6 @@ OIDC_API_TOKEN_AUTH = {
     # use dot notation. e.g. "authorization.permissions.scopes"
     # Default is https://api.hel.fi/auth.
     "API_AUTHORIZATION_FIELD": env.str("TOKEN_AUTH_API_AUTHORIZATION_FIELD"),
-    # By default, the migration logic is configured to support migrating users
-    # from Tunnistamo AD authentication to Keycloak AD authentication.
-    # The migration should be tested by the service before enabling it in production.
-    # This migration logic most likely shouldn't be configured for other
-    # authentication methods besides AD (i.e. staff/admin) users.
-    #
-    # When transitioning from one authentication provider to another,
-    # it's possible to migrate the old user data for the new user with a different UUID.
-    # Migration is done by finding the old user instance and replacing its UUID
-    # with the new one from the token payload. So instead of creating a new user
-    # instance, we update the old one. Migration happens one user at a time upon login.
-    # Feature can be configured using the following settings.
-    # HELUSERS_USER_MIGRATE_ENABLED: Enable the feature. Defaults to False.
-    # HELUSERS_USER_MIGRATE_EMAIL_DOMAINS: Whitelisted email domains for migration.
-    #   Defaults to ["hel.fi"].
-    # HELUSERS_USER_MIGRATE_AMRS which authentication methods are used for migration.
-    #   Defaults to ["helsinkiad"].
-    "HELUSERS_USER_MIGRATE_ENABLED": env.bool("HELUSERS_USER_MIGRATE_ENABLED"),
 }
 
 OIDC_AUTH = {"OIDC_LEEWAY": 60 * 60}
@@ -411,4 +393,24 @@ GDPR_API_MODEL_LOOKUP = "uuid"
 GDPR_API_URL_PATTERN = "v1/user/<uuid:uuid>"
 GDPR_API_USER_PROVIDER = "gdpr.service.get_user"
 GDPR_API_DELETER = "gdpr.service.delete_data"
-HELUSERS_BACK_CHANNEL_LOGOUT_ENABLED = env("HELUSERS_BACK_CHANNEL_LOGOUT_ENABLED")
+# By default, the migration logic is configured to support migrating users
+# from Tunnistamo AD authentication to Keycloak AD authentication.
+# The migration should be tested by the service before enabling it in production.
+# This migration logic most likely shouldn't be configured for other
+# authentication methods besides AD (i.e. staff/admin) users.
+#
+# When transitioning from one authentication provider to another,
+# it's possible to migrate the old user data for the new user with a different UUID.
+# Migration is done by finding the old user instance and replacing its UUID
+# with the new one from the token payload. So instead of creating a new user
+# instance, we update the old one. Migration happens one user at a time upon login.
+# Feature can be configured using the following settings.
+# HELUSERS_USER_MIGRATE_ENABLED: Enable the feature. Defaults to False.
+# HELUSERS_USER_MIGRATE_EMAIL_DOMAINS: Whitelisted email domains for migration.
+#   Defaults to ["hel.fi"].
+# HELUSERS_USER_MIGRATE_AMRS which authentication methods are used for migration.
+#   Defaults to ["helsinkiad"].
+HELUSERS_USER_MIGRATE_ENABLED = env.bool("HELUSERS_USER_MIGRATE_ENABLED", True)
+HELUSERS_BACK_CHANNEL_LOGOUT_ENABLED = env.bool(
+    "HELUSERS_BACK_CHANNEL_LOGOUT_ENABLED", True
+)
