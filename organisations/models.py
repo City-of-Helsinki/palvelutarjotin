@@ -1,3 +1,4 @@
+import uuid
 from dateutil.relativedelta import relativedelta
 from django.conf import settings
 from django.contrib.auth import get_user_model
@@ -125,6 +126,9 @@ class User(AbstractUser, GDPRModel, SerializableMixin):
         self.is_active = False
         self.username = f"{CLEARED_VALUE}-{self.uuid}"
         self.set_unusable_password()
+        # Change the UUID,
+        # so the deleted user won't ever be reconnected to Helsinki Profile.
+        self.uuid = uuid.uuid4()
         self.save()
 
 

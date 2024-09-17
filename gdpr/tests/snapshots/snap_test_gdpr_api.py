@@ -136,14 +136,11 @@ snapshots[
 snapshots["test_get_profile_data_from_gdpr_api[Complex User, Deleted] 1"] = {
     "children": [
         {"key": "UUID", "value": "26850000-2e85-11ea-b347-acde48001122"},
-        {
-            "key": "USERNAME",
-            "value": "gdpr:cleared-26850000-2e85-11ea-b347-acde48001122",
-        },
+        {"key": "USERNAME", "value": "u-e2cqaaboqui6vm2hvtpeqaarei"},
         {"key": "FIRST_NAME", "value": ""},
         {"key": "LAST_NAME", "value": ""},
         {"key": "EMAIL", "value": ""},
-        {"key": "LAST_LOGIN", "value": "2020-01-04T00:00:00+00:00"},
+        {"key": "LAST_LOGIN", "value": None},
         {"key": "DATE_JOINED", "value": "2020-01-04T00:00:00+00:00"},
     ],
     "key": "USER",
@@ -607,14 +604,11 @@ Enjoy office water those notice medical. Already name likely behind mission netw
 snapshots["test_get_profile_data_from_gdpr_api[Simple User, Deleted] 1"] = {
     "children": [
         {"key": "UUID", "value": "26850000-2e85-11ea-b347-acde48001122"},
-        {
-            "key": "USERNAME",
-            "value": "gdpr:cleared-26850000-2e85-11ea-b347-acde48001122",
-        },
+        {"key": "USERNAME", "value": "u-e2cqaaboqui6vm2hvtpeqaarei"},
         {"key": "FIRST_NAME", "value": ""},
         {"key": "LAST_NAME", "value": ""},
         {"key": "EMAIL", "value": ""},
-        {"key": "LAST_LOGIN", "value": "2020-01-04T00:00:00+00:00"},
+        {"key": "LAST_LOGIN", "value": None},
         {"key": "DATE_JOINED", "value": "2020-01-04T00:00:00+00:00"},
     ],
     "key": "USER",

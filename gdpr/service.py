@@ -57,6 +57,7 @@ def clear_data(user: "UserType", dry_run: bool) -> Optional[ErrorResponse]:
     logger.info(f"GDPR data clear called for user '{user.uuid}'.")
     user.clear_gdpr_sensitive_data_fields()
     try:
+        user.delete_related_p_event_contact_info()
         user.person.delete()
         # person = user.person
         # person.clear_gdpr_sensitive_data_fields()
