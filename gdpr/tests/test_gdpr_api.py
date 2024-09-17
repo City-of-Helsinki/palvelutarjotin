@@ -7,10 +7,8 @@ from django.contrib.auth import get_user_model
 from django.urls import reverse
 from django.utils import timezone
 from rest_framework.test import APIClient
-from typing import Optional
 
-from gdpr.consts import CLEARED_VALUE
-from gdpr.service import clear_data
+from gdpr.service import delete_data
 from gdpr.tests.conftest import get_api_token_for_user_with_scopes
 from occurrences.factories import (
     EnrolmentFactory,
@@ -61,26 +59,11 @@ def _request_gdpr_delete(
         )
 
 
-def _assert_clear(
-    user,
-    original_password: Optional[str] = None,
-    original_uuid: Optional[uuid.UUID] = None,
-):
-    if original_password:
-        assert user.password != original_password
-    if original_uuid:
-        assert user.uuid != original_uuid
-    assert user.first_name == ""
-    assert user.last_name == ""
-    assert user.email == ""
-    assert user.username == f"{CLEARED_VALUE}-{original_uuid}"
-
-
-def _delete_user(user, params):
+def _delete_user(user, params, dry_run=False):
     assert User.objects.count() == 1
     response = _request_gdpr_delete(user, user.uuid, **params)
     assert response.status_code == 204
-    assert User.objects.count() == 1
+    assert User.objects.count() == (1 if dry_run else 0)
 
 
 def _assert_person_with_all_data_relations_populated(person):
@@ -132,12 +115,10 @@ def _get_db_table_counts_of_person_related_tables():
 
 
 @pytest.mark.django_db
-def test_clear_data_service(user):
-    original_password = user.password
-    original_uuid = user.uuid
-    clear_data(user=user, dry_run=False)
-    user.refresh_from_db()
-    _assert_clear(user, original_password, original_uuid)
+def test_delete_data_service(user):
+    delete_data(user=user, dry_run=False)
+    with pytest.raises(User.DoesNotExist):
+        user.refresh_from_db()
 
 
 @pytest.mark.django_db
@@ -145,7 +126,7 @@ def test_clear_data_service(user):
 def test_gdpr_api_delete_profile_dry_run(true_value, user, key):
     email = user.email
     assert email != ""
-    _delete_user(user, {key: {"dry_run": true_value}})
+    _delete_user(user, {key: {"dry_run": true_value}}, dry_run=True)
     user.refresh_from_db()
     assert user.email == email
     assert User.objects.count() == 1
@@ -154,20 +135,16 @@ def test_gdpr_api_delete_profile_dry_run(true_value, user, key):
 @pytest.mark.django_db
 @pytest.mark.parametrize("key", ["data", "query_params"])
 def test_gdpr_api_delete_profile(false_value, user, key):
-    original_password = user.password
-    original_uuid = user.uuid
     _delete_user(user, {key: {"dry_run": false_value}})
-    user.refresh_from_db()
-    _assert_clear(user, original_password, original_uuid)
+    with pytest.raises(User.DoesNotExist):
+        user.refresh_from_db()
 
 
 @pytest.mark.django_db
 def test_gdpr_api_delete_profile_no_params(user):
-    original_password = user.password
-    original_uuid = user.uuid
     _delete_user(user, {})
-    user.refresh_from_db()
-    _assert_clear(user, original_password, original_uuid)
+    with pytest.raises(User.DoesNotExist):
+        user.refresh_from_db()
 
 
 @pytest.mark.django_db
