@@ -257,7 +257,7 @@ OIDC_API_TOKEN_AUTH = {
     # RequestJWTAuthentication supports multiple acceptable audiences,
     # so this setting can also be a list of strings.
     # This setting is required.
-    "AUDIENCE": env.str("TOKEN_AUTH_ACCEPTED_AUDIENCE"),
+    "AUDIENCE": env.list("TOKEN_AUTH_ACCEPTED_AUDIENCE"),
     # Who we trust to sign the tokens. The library will request the
     # public signature keys from standard locations below this URL.
     # RequestJWTAuthentication supports multiple issuers, so this
