@@ -1,4 +1,3 @@
-import uuid
 from dateutil.relativedelta import relativedelta
 from django.conf import settings
 from django.contrib.auth import get_user_model
@@ -13,7 +12,6 @@ from helsinki_gdpr.models import SerializableMixin
 from helusers.models import AbstractUser
 
 from common.models import TimestampedModel, UUIDPrimaryKeyModel
-from gdpr.consts import CLEARED_VALUE
 from gdpr.models import GDPRModel
 from organisations.services import (
     send_myprofile_creation_notification_to_admins,
@@ -120,16 +118,6 @@ class User(AbstractUser, GDPRModel, SerializableMixin):
     def delete_related_p_event_contact_info(self):
         if hasattr(self, "person"):
             self.person.p_event.delete_contact_info()
-
-    def clear_gdpr_sensitive_data_fields(self):
-        super().clear_gdpr_sensitive_data_fields()
-        self.is_active = False
-        self.username = f"{CLEARED_VALUE}-{self.uuid}"
-        self.set_unusable_password()
-        # Change the UUID,
-        # so the deleted user won't ever be reconnected to Helsinki Profile.
-        self.uuid = uuid.uuid4()
-        self.save()
 
 
 class Organisation(GDPRModel, SerializableMixin, models.Model):
