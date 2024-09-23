@@ -1,7 +1,8 @@
+from unittest.mock import patch
+
 import pytest
 from django.core.management import call_command
 from django.test import TestCase
-from unittest.mock import patch
 
 from occurrences.event_api_services import fetch_event_as_json
 from occurrences.factories import EnrolmentFactory

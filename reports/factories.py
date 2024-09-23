@@ -9,3 +9,4 @@ class EnrolmentReportFactory(factory.django.DjangoModelFactory):
 
     class Meta:
         model = EnrolmentReport
+        skip_postgeneration_save = True  # Not needed after factory v4.0.0

@@ -4,306 +4,307 @@ from __future__ import unicode_literals
 
 from snapshottest import Snapshot
 
+
 snapshots = Snapshot()
 
-snapshots["test_approve_enrolment_notification_email 1"] = [
-    """no-reply@hel.ninja|['hutchinsonrachel@example.org']|Enrolment approved FI|
+snapshots['test_approve_enrolment_notification_email 1'] = [
+    '''no-reply@hel.ninja|['hutchinsonrachel@example.org']|Enrolment approved FI|
     Event FI: Raija Malka & Kaija Saariaho: Blick
-    Extra event info: qMPXL
+    Extra event info: MPXLz
     Study group: Skin watch media. Condition like lay still bar. From daughter order stay sign discover eight.
-    Occurrence: 13.04.1972 14.30
+    Occurrence: 05.09.1971 14.16
     Person: hutchinsonrachel@example.org
     Click this link to cancel the enrolment:
     https://kultus.hel.fi/fi/enrolments/cancel/mock-enrolment-unique-id-abc123xyz456
 
     Custom message: custom message
-"""
+'''
 ]
 
-snapshots["test_cancel_enrolment_notification_email 1"] = [
-    """no-reply@hel.ninja|['gtorres@example.com']|Enrolment cancellation confirmation FI|
+snapshots['test_cancel_enrolment_notification_email 1'] = [
+    '''no-reply@hel.ninja|['brett47@example.com']|Enrolment cancellation confirmation FI|
     Event FI: Raija Malka & Kaija Saariaho: Blick
-    Extra event info: zVxeo
-    Study group: Tough plant traditional after born up always. Return student light a point charge.
-    Occurrence: 12.12.2013 06.37
-    Person: gtorres@example.com
+    Extra event info: ytHjL
+    Study group: Campaign college career fight data. Generation man process white visit step.
+    Occurrence: 18.04.2002 11.13
+    Person: brett47@example.com
 
     Custom message: custom message
-"""
+'''
 ]
 
-snapshots["test_cancelled_enrolment_notification_email 1"] = [
-    """no-reply@hel.ninja|['email_me@dommain.com']|Enrolment cancelled FI|
+snapshots['test_cancelled_enrolment_notification_email 1'] = [
+    '''no-reply@hel.ninja|['email_me@dommain.com']|Enrolment cancelled FI|
     Event FI: Raija Malka & Kaija Saariaho: Blick
-    Extra event info: zVxeo
-    Study group: Attorney six throughout shoulder decade. Message now case.
-    Occurrence: 12.12.2013 06.37
+    Extra event info: ytHjL
+    Study group: Investment difference heart guess west black.
+    Occurrence: 18.04.2002 11.13
     Person: email_me@dommain.com
 
     Custom message: custom message
-"""
+'''
 ]
 
-snapshots["test_decline_enrolment_notification_email 1"] = [
-    """no-reply@hel.ninja|['gtorres@example.com']|Enrolment declined FI|
+snapshots['test_decline_enrolment_notification_email 1'] = [
+    '''no-reply@hel.ninja|['brett47@example.com']|Enrolment declined FI|
     Event FI: Raija Malka & Kaija Saariaho: Blick
-    Extra event info: zVxeo
-    Study group: Tough plant traditional after born up always. Return student light a point charge.
-    Occurrence: 12.12.2013 06.37
-    Person: gtorres@example.com
+    Extra event info: ytHjL
+    Study group: Campaign college career fight data. Generation man process white visit step.
+    Occurrence: 18.04.2002 11.13
+    Person: brett47@example.com
 
     Custom message: custom message
-"""
+'''
 ]
 
-snapshots["test_decline_enrolment_notification_email_to_multiple_contact_person 1"] = [
-    """no-reply@hel.ninja|['gtorres@example.com']|Enrolment declined FI|
+snapshots['test_decline_enrolment_notification_email_to_multiple_contact_person 1'] = [
+    '''no-reply@hel.ninja|['brett47@example.com']|Enrolment declined FI|
     Event FI: Raija Malka & Kaija Saariaho: Blick
-    Extra event info: zVxeo
-    Study group: Tough plant traditional after born up always. Return student light a point charge.
-    Occurrence: 12.12.2013 06.37
-    Person: gtorres@example.com
+    Extra event info: ytHjL
+    Study group: Campaign college career fight data. Generation man process white visit step.
+    Occurrence: 18.04.2002 11.13
+    Person: brett47@example.com
 
     Custom message: custom message
-"""
+'''
 ]
 
-snapshots["test_decline_enrolment_notification_email_to_multiple_contact_person 2"] = [
-    """no-reply@hel.ninja|['gtorres@example.com']|Enrolment declined FI|
+snapshots['test_decline_enrolment_notification_email_to_multiple_contact_person 2'] = [
+    '''no-reply@hel.ninja|['brett47@example.com']|Enrolment declined FI|
     Event FI: Raija Malka & Kaija Saariaho: Blick
-    Extra event info: zVxeo
-    Study group: Tough plant traditional after born up always. Return student light a point charge.
-    Occurrence: 12.12.2013 06.37
-    Person: gtorres@example.com
+    Extra event info: ytHjL
+    Study group: Campaign college career fight data. Generation man process white visit step.
+    Occurrence: 18.04.2002 11.13
+    Person: brett47@example.com
 
     Custom message: custom message
-""",
-    """no-reply@hel.ninja|['davidsummers@example.net']|Enrolment declined FI|
+''',
+    '''no-reply@hel.ninja|['davidsummers@example.net']|Enrolment declined FI|
     Event FI: Raija Malka & Kaija Saariaho: Blick
-    Extra event info: HEUhR
-    Study group: Woman staff know eight account true tax. Tv news management letter.
-    Occurrence: 22.03.2014 02.11
+    Extra event info: HHEUh
+    Study group: Close term where up notice environment father stay. Hold project month similar support line.
+    Occurrence: 01.11.2006 02.26
     Person: davidsummers@example.net
 
     Custom message: custom message
-""",
-    """no-reply@hel.ninja|['michaelanderson@example.net']|Enrolment declined FI|
+''',
+    '''no-reply@hel.ninja|['sandra56@example.net']|Enrolment declined FI|
     Event FI: Raija Malka & Kaija Saariaho: Blick
-    Extra event info: HEUhR
-    Study group: Woman staff know eight account true tax. Tv news management letter.
-    Occurrence: 22.03.2014 02.11
-    Person: michaelanderson@example.net
+    Extra event info: HHEUh
+    Study group: Close term where up notice environment father stay. Hold project month similar support line.
+    Occurrence: 01.11.2006 02.26
+    Person: sandra56@example.net
 
     Custom message: custom message
-""",
+'''
 ]
 
-snapshots["test_local_time_notification[tz0] 1"] = [
-    """no-reply@hel.ninja|['hutchinsonrachel@example.org']|Occurrence enrolment FI|
+snapshots['test_local_time_notification[tz0] 1'] = [
+    '''no-reply@hel.ninja|['hutchinsonrachel@example.org']|Occurrence enrolment FI|
     Event FI: Raija Malka & Kaija Saariaho: Blick
-    Extra event info: gihpk
+    Extra event info: OhDGq
     Study group: Skin watch media. Condition like lay still bar. From daughter order stay sign discover eight.
     Occurrence: 04.01.2020 00.00
     Person: hutchinsonrachel@example.org
-"""
+'''
 ]
 
-snapshots["test_local_time_notification[tz1] 1"] = [
-    """no-reply@hel.ninja|['hutchinsonrachel@example.org']|Occurrence enrolment FI|
+snapshots['test_local_time_notification[tz1] 1'] = [
+    '''no-reply@hel.ninja|['hutchinsonrachel@example.org']|Occurrence enrolment FI|
     Event FI: Raija Malka & Kaija Saariaho: Blick
-    Extra event info: gihpk
+    Extra event info: OhDGq
     Study group: Skin watch media. Condition like lay still bar. From daughter order stay sign discover eight.
     Occurrence: 04.01.2020 00.00
     Person: hutchinsonrachel@example.org
-"""
+'''
 ]
 
-snapshots["test_local_time_notification[tz2] 1"] = [
-    """no-reply@hel.ninja|['hutchinsonrachel@example.org']|Occurrence enrolment FI|
+snapshots['test_local_time_notification[tz2] 1'] = [
+    '''no-reply@hel.ninja|['hutchinsonrachel@example.org']|Occurrence enrolment FI|
     Event FI: Raija Malka & Kaija Saariaho: Blick
-    Extra event info: gihpk
+    Extra event info: OhDGq
     Study group: Skin watch media. Condition like lay still bar. From daughter order stay sign discover eight.
     Occurrence: 04.01.2020 00.00
     Person: hutchinsonrachel@example.org
-"""
+'''
 ]
 
-snapshots["test_mass_approve_enrolment_mutation[False] 1"] = [
-    """no-reply@hel.ninja|['brandonharvey@example.net']|Enrolment approved FI|
+snapshots['test_mass_approve_enrolment_mutation[False] 1'] = [
+    '''no-reply@hel.ninja|['jamesmcgrath@example.com']|Enrolment approved FI|
     Event FI: Raija Malka & Kaija Saariaho: Blick
-    Extra event info: bkihg
-    Study group: Work early property your stage receive. Determine sort under car.
-    Occurrence: 02.08.1988 10.00
-    Person: brandonharvey@example.net
+    Extra event info: ZHkjd
+    Study group: Question national throw three.
+    Occurrence: 29.08.1983 12.55
+    Person: jamesmcgrath@example.com
     Click this link to cancel the enrolment:
     https://kultus.hel.fi/fi/enrolments/cancel/mock-enrolment-unique-id-abc123xyz456
 
     Custom message: Custom message
-""",
-    """no-reply@hel.ninja|['operry@example.com']|Enrolment approved FI|
+''',
+    '''no-reply@hel.ninja|['bradleybutler@example.com']|Enrolment approved FI|
     Event FI: Raija Malka & Kaija Saariaho: Blick
-    Extra event info: bkihg
-    Study group: Work early property your stage receive. Determine sort under car.
-    Occurrence: 02.08.1988 10.00
-    Person: operry@example.com
+    Extra event info: ZHkjd
+    Study group: Question national throw three.
+    Occurrence: 29.08.1983 12.55
+    Person: bradleybutler@example.com
     Click this link to cancel the enrolment:
     https://kultus.hel.fi/fi/enrolments/cancel/mock-enrolment-unique-id-abc123xyz456
 
     Custom message: Custom message
-""",
-    """no-reply@hel.ninja|['obrooks@example.net']|Enrolment approved FI|
+''',
+    '''no-reply@hel.ninja|['schwartzkayla@example.org']|Enrolment approved FI|
     Event FI: Raija Malka & Kaija Saariaho: Blick
-    Extra event info: bkihg
-    Study group: Yes others enter program form you standard.
-    Occurrence: 02.08.1988 10.00
-    Person: obrooks@example.net
+    Extra event info: ZHkjd
+    Study group: Better majority behavior along pressure yes others. Trouble change world indeed always.
+    Occurrence: 29.08.1983 12.55
+    Person: schwartzkayla@example.org
     Click this link to cancel the enrolment:
     https://kultus.hel.fi/fi/enrolments/cancel/mock-enrolment-unique-id-abc123xyz456
 
     Custom message: Custom message
-""",
-    """no-reply@hel.ninja|['raymondking@example.org']|Enrolment approved FI|
+''',
+    '''no-reply@hel.ninja|['cwall@example.net']|Enrolment approved FI|
     Event FI: Raija Malka & Kaija Saariaho: Blick
-    Extra event info: bkihg
-    Study group: Yes others enter program form you standard.
-    Occurrence: 02.08.1988 10.00
-    Person: raymondking@example.org
+    Extra event info: ZHkjd
+    Study group: Better majority behavior along pressure yes others. Trouble change world indeed always.
+    Occurrence: 29.08.1983 12.55
+    Person: cwall@example.net
     Click this link to cancel the enrolment:
     https://kultus.hel.fi/fi/enrolments/cancel/mock-enrolment-unique-id-abc123xyz456
 
     Custom message: Custom message
-""",
-    """no-reply@hel.ninja|['joelsandoval@example.com']|Enrolment approved FI|
+''',
+    '''no-reply@hel.ninja|['elizabethschultz@example.net']|Enrolment approved FI|
     Event FI: Raija Malka & Kaija Saariaho: Blick
-    Extra event info: bkihg
+    Extra event info: ZHkjd
     Study group: Structure professional message road focus turn space. Art space along win.
-    Occurrence: 02.08.1988 10.00
-    Person: joelsandoval@example.com
+    Occurrence: 29.08.1983 12.55
+    Person: elizabethschultz@example.net
     Click this link to cancel the enrolment:
     https://kultus.hel.fi/fi/enrolments/cancel/mock-enrolment-unique-id-abc123xyz456
 
     Custom message: Custom message
-""",
-    """no-reply@hel.ninja|['madeline82@example.com']|Enrolment approved FI|
+''',
+    '''no-reply@hel.ninja|['tammyjordan@example.com']|Enrolment approved FI|
     Event FI: Raija Malka & Kaija Saariaho: Blick
-    Extra event info: bkihg
+    Extra event info: ZHkjd
     Study group: Structure professional message road focus turn space. Art space along win.
-    Occurrence: 02.08.1988 10.00
-    Person: madeline82@example.com
+    Occurrence: 29.08.1983 12.55
+    Person: tammyjordan@example.com
     Click this link to cancel the enrolment:
     https://kultus.hel.fi/fi/enrolments/cancel/mock-enrolment-unique-id-abc123xyz456
 
     Custom message: Custom message
-""",
+'''
 ]
 
-snapshots["test_occurrence_enrolment_notifications_email_only 1"] = [
-    """no-reply@hel.ninja|['gtorres@example.com']|Occurrence enrolment FI|
+snapshots['test_occurrence_enrolment_notifications_email_only 1'] = [
+    '''no-reply@hel.ninja|['brett47@example.com']|Occurrence enrolment FI|
     Event FI: Raija Malka & Kaija Saariaho: Blick
-    Extra event info: zVxeo
-    Study group: Tough plant traditional after born up always. Return student light a point charge.
-    Occurrence: 12.12.2013 06.37
-    Person: gtorres@example.com
-""",
-    """no-reply@hel.ninja|['gtorres@example.com']|Occurrence unenrolment FI|
+    Extra event info: ytHjL
+    Study group: Campaign college career fight data. Generation man process white visit step.
+    Occurrence: 18.04.2002 11.13
+    Person: brett47@example.com
+''',
+    '''no-reply@hel.ninja|['brett47@example.com']|Occurrence unenrolment FI|
     Event FI: Raija Malka & Kaija Saariaho: Blick
-    Extra event info: zVxeo
-    Study group: Tough plant traditional after born up always. Return student light a point charge.
-    Occurrence: 12.12.2013 06.57
-    Person: gtorres@example.com
-""",
-    """no-reply@hel.ninja|['gtorres@example.com']|Occurrence enrolment EN|
+    Extra event info: ytHjL
+    Study group: Campaign college career fight data. Generation man process white visit step.
+    Occurrence: 18.04.2002 11.13
+    Person: brett47@example.com
+''',
+    '''no-reply@hel.ninja|['brett47@example.com']|Occurrence enrolment EN|
     Event EN: Raija Malka & Kaija Saariaho: Blick
-    Extra event info: zVxeo
-    Study group: Woman staff know eight account true tax. Tv news management letter.
-    Occurrence: 12.12.2013 06.37
-    Person: michaelanderson@example.net""",
-    """no-reply@hel.ninja|['gtorres@example.com']|Occurrence unenrolment EN|
+    Extra event info: ytHjL
+    Study group: Close term where up notice environment father stay. Hold project month similar support line.
+    Occurrence: 18.04.2002 11.13
+    Person: sandra56@example.net''',
+    '''no-reply@hel.ninja|['brett47@example.com']|Occurrence unenrolment EN|
     Event EN: Raija Malka & Kaija Saariaho: Blick
-    Extra event info: zVxeo
-    Study group: Woman staff know eight account true tax. Tv news management letter.
-    Occurrence: 12.12.2013 06.57
-    Person: michaelanderson@example.net""",
+    Extra event info: ytHjL
+    Study group: Close term where up notice environment father stay. Hold project month similar support line.
+    Occurrence: 18.04.2002 11.13
+    Person: sandra56@example.net'''
 ]
 
-snapshots["test_occurrence_enrolment_notifications_to_contact_person 1"] = [
-    """no-reply@hel.ninja|['email_me@dommain.com']|Occurrence enrolment FI|
+snapshots['test_occurrence_enrolment_notifications_to_contact_person 1'] = [
+    '''no-reply@hel.ninja|['email_me@dommain.com']|Occurrence enrolment FI|
     Event FI: Raija Malka & Kaija Saariaho: Blick
-    Extra event info: zVxeo
-    Study group: Tough plant traditional after born up always. Return student light a point charge.
-    Occurrence: 12.12.2013 06.37
+    Extra event info: ytHjL
+    Study group: Campaign college career fight data. Generation man process white visit step.
+    Occurrence: 18.04.2002 11.13
     Person: email_me@dommain.com
-""",
-    """no-reply@hel.ninja|['email_me@dommain.com']|Occurrence unenrolment FI|
+''',
+    '''no-reply@hel.ninja|['email_me@dommain.com']|Occurrence unenrolment FI|
     Event FI: Raija Malka & Kaija Saariaho: Blick
-    Extra event info: zVxeo
-    Study group: Tough plant traditional after born up always. Return student light a point charge.
-    Occurrence: 12.12.2013 06.57
+    Extra event info: ytHjL
+    Study group: Campaign college career fight data. Generation man process white visit step.
+    Occurrence: 18.04.2002 11.13
     Person: email_me@dommain.com
-""",
-    """no-reply@hel.ninja|['email_me@dommain.com']|Occurrence enrolment EN|
+''',
+    '''no-reply@hel.ninja|['email_me@dommain.com']|Occurrence enrolment EN|
     Event EN: Raija Malka & Kaija Saariaho: Blick
-    Extra event info: zVxeo
-    Study group: Watch method political institution trip race kitchen. Send same even child.
-    Occurrence: 12.12.2013 06.37
-    Person: do_not_email_me@domain.com""",
-    """no-reply@hel.ninja|['email_me@dommain.com']|Occurrence unenrolment EN|
+    Extra event info: ytHjL
+    Study group: Race kitchen change single now rich. Bill write color politics. Matter this same happy standard.
+    Occurrence: 18.04.2002 11.13
+    Person: do_not_email_me@domain.com''',
+    '''no-reply@hel.ninja|['email_me@dommain.com']|Occurrence unenrolment EN|
     Event EN: Raija Malka & Kaija Saariaho: Blick
-    Extra event info: zVxeo
-    Study group: Watch method political institution trip race kitchen. Send same even child.
-    Occurrence: 12.12.2013 06.57
-    Person: do_not_email_me@domain.com""",
+    Extra event info: ytHjL
+    Study group: Race kitchen change single now rich. Bill write color politics. Matter this same happy standard.
+    Occurrence: 18.04.2002 11.13
+    Person: do_not_email_me@domain.com'''
 ]
 
-snapshots["test_only_send_approved_notification[False] 1"] = [
-    """no-reply@hel.ninja|['hutchinsonrachel@example.org']|Occurrence enrolment FI|
+snapshots['test_only_send_approved_notification[False] 1'] = [
+    '''no-reply@hel.ninja|['hutchinsonrachel@example.org']|Occurrence enrolment FI|
     Event FI: Raija Malka & Kaija Saariaho: Blick
-    Extra event info: qMPXL
+    Extra event info: MPXLz
     Study group: Skin watch media. Condition like lay still bar. From daughter order stay sign discover eight.
-    Occurrence: 13.04.1972 14.30
+    Occurrence: 05.09.1971 14.16
     Person: hutchinsonrachel@example.org
-""",
-    """no-reply@hel.ninja|['hutchinsonrachel@example.org']|Enrolment approved FI|
+''',
+    '''no-reply@hel.ninja|['hutchinsonrachel@example.org']|Enrolment approved FI|
     Event FI: Raija Malka & Kaija Saariaho: Blick
-    Extra event info: qMPXL
+    Extra event info: MPXLz
     Study group: Skin watch media. Condition like lay still bar. From daughter order stay sign discover eight.
-    Occurrence: 13.04.1972 14.30
+    Occurrence: 05.09.1971 14.16
     Person: hutchinsonrachel@example.org
 
-""",
+'''
 ]
 
-snapshots["test_only_send_approved_notification[True] 1"] = [
-    """no-reply@hel.ninja|['hutchinsonrachel@example.org']|Enrolment approved FI|
+snapshots['test_only_send_approved_notification[True] 1'] = [
+    '''no-reply@hel.ninja|['hutchinsonrachel@example.org']|Enrolment approved FI|
     Event FI: Raija Malka & Kaija Saariaho: Blick
-    Extra event info: qMPXL
+    Extra event info: MPXLz
     Study group: Skin watch media. Condition like lay still bar. From daughter order stay sign discover eight.
-    Occurrence: 13.04.1972 14.30
+    Occurrence: 05.09.1971 14.16
     Person: hutchinsonrachel@example.org
 
-"""
+'''
 ]
 
-snapshots["test_send_enrolment_summary_report 1"] = [
-    """no-reply@hel.ninja|['halljames@example.org']|Enrolment approved FI|
+snapshots['test_send_enrolment_summary_report 1'] = [
+    '''no-reply@hel.ninja|['john29@example.com']|Enrolment approved FI|
         Total pending enrolments: 3
         Total new accepted enrolments: 1
-            Event name: Raija Malka & Kaija Saariaho: Blick
-            Event link: https://kultus-admin.hel.fi/fi/events/XalDf
-                    Occurrence: #2020-01-13 22:00:00+00:00 (1 pending)
-                    Link to occurrence: https://kultus-admin.hel.fi/fi/events/XalDf/occurrences/T2NjdXJyZW5jZU5vZGU6MzE=
             Event name: Raija Malka & Kaija Saariaho: Blick
             Event link: https://kultus-admin.hel.fi/fi/events/TuZpF
                     Occurrence: #2020-01-13 22:00:00+00:00 (1 new enrolments)
                     Link to occurrence: https://kultus-admin.hel.fi/fi/events/TuZpF/occurrences/T2NjdXJyZW5jZU5vZGU6NDE=
             Event name: Raija Malka & Kaija Saariaho: Blick
-            Event link: https://kultus-admin.hel.fi/fi/events/VnRGu
+            Event link: https://kultus-admin.hel.fi/fi/events/csgfn
                     Occurrence: #2020-01-13 22:00:00+00:00 (1 pending)
-                    Link to occurrence: https://kultus-admin.hel.fi/fi/events/VnRGu/occurrences/T2NjdXJyZW5jZU5vZGU6MjE=
+                    Link to occurrence: https://kultus-admin.hel.fi/fi/events/csgfn/occurrences/T2NjdXJyZW5jZU5vZGU6MzE=
+            Event name: Raija Malka & Kaija Saariaho: Blick
+            Event link: https://kultus-admin.hel.fi/fi/events/jfwob
                     Occurrence: #2020-01-13 22:00:00+00:00 (1 pending)
-                    Link to occurrence: https://kultus-admin.hel.fi/fi/events/VnRGu/occurrences/T2NjdXJyZW5jZU5vZGU6MjI=
-        """,
-    """no-reply@hel.ninja|['dsellers@example.net']|Enrolment approved FI|
+                    Link to occurrence: https://kultus-admin.hel.fi/fi/events/jfwob/occurrences/T2NjdXJyZW5jZU5vZGU6MjE=
+                    Occurrence: #2020-01-13 22:00:00+00:00 (1 pending)
+                    Link to occurrence: https://kultus-admin.hel.fi/fi/events/jfwob/occurrences/T2NjdXJyZW5jZU5vZGU6MjI=
+        ''',
+    '''no-reply@hel.ninja|['dsellers@example.net']|Enrolment approved FI|
         Total pending enrolments: 4
         Total new accepted enrolments: 0
             Event name: Raija Malka & Kaija Saariaho: Blick
@@ -312,5 +313,5 @@ snapshots["test_send_enrolment_summary_report 1"] = [
                     Link to occurrence: https://kultus-admin.hel.fi/fi/events/aAVEa/occurrences/T2NjdXJyZW5jZU5vZGU6MTE=
                     Occurrence: #2020-01-13 22:00:00+00:00 (1 pending)
                     Link to occurrence: https://kultus-admin.hel.fi/fi/events/aAVEa/occurrences/T2NjdXJyZW5jZU5vZGU6MTI=
-        """,
+        '''
 ]

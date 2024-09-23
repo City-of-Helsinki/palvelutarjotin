@@ -6,9 +6,9 @@ from snapshottest import Snapshot
 
 snapshots = Snapshot()
 
-snapshots[
-    "test_update_notifications 1"
-] = "enrolment_approved|enrolment_approved fi updated subject|enrolment_approved en updated subject|enrolment_approved sv updated subject|enrolment_approved fi updated body_text|enrolment_approved en updated body_text|enrolment_approved sv updated body_text|||"
+snapshots["test_update_notifications 1"] = (
+    "enrolment_approved|enrolment_approved fi updated subject|enrolment_approved en updated subject|enrolment_approved sv updated subject|enrolment_approved fi updated body_text|enrolment_approved en updated body_text|enrolment_approved sv updated body_text|||"
+)
 
 snapshots[
     "test_create_non_existing_and_update_existing_notifications 1"

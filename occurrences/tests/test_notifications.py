@@ -1,10 +1,11 @@
+from datetime import datetime, timedelta
+from unittest.mock import patch
+
 import pytest
 import pytz
-from datetime import datetime, timedelta
 from django.core import mail
 from django.utils import timezone
 from graphql_relay import to_global_id
-from unittest.mock import patch
 
 from common.tests.utils import assert_mails_match_snapshot
 from occurrences.consts import NOTIFICATION_TYPE_ALL, NOTIFICATION_TYPE_SMS

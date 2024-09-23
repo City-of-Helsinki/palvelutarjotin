@@ -1,10 +1,11 @@
 import logging
 from datetime import datetime
+from typing import Optional
+
 from django.contrib.postgres.fields import ArrayField
 from django.db import models
 from django.utils.translation import gettext_lazy as _
 from geopy import distance
-from typing import Optional
 
 import occurrences.models as occurrences_models
 import reports.services as reports_services

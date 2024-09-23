@@ -9,7 +9,12 @@ from graphene_django.filter import DjangoFilterConnectionField
 from graphene_django.types import DjangoObjectType
 from graphql_jwt.decorators import login_required, superuser_required
 
-from common.utils import get_node_id_from_global_id, LanguageEnum, update_object
+from common.utils import (
+    get_node_id_from_global_id,
+    LanguageEnum,
+    map_enums_to_values_in_kwargs,
+    update_object,
+)
 from organisations.models import Organisation, OrganisationProposal, Person
 from palvelutarjotin.exceptions import (
     ApiUsageError,
@@ -32,6 +37,9 @@ class PersonNode(DjangoObjectType):
 
     @classmethod
     def get_queryset(cls, queryset, info):
+        # Allow access to person related to added study group in AddStudyGroupMutation
+        if info.path.as_list() == ["addStudyGroup", "studyGroup", "person"]:
+            return queryset
         return queryset.user_can_view(info.context.user).order_by("name")
 
     def resolve_is_staff(self, info, **kwargs):
@@ -100,6 +108,7 @@ class CreateMyProfileMutation(graphene.relay.ClientIDMutation):
     @classmethod
     @login_required
     @transaction.atomic
+    @map_enums_to_values_in_kwargs
     def mutate_and_get_payload(cls, root, info, **kwargs):
         user = info.context.user
         if Person.objects.filter(user=user).exists():
@@ -145,6 +154,7 @@ class UpdateMyProfileMutation(graphene.relay.ClientIDMutation):
     @classmethod
     @login_required
     @transaction.atomic
+    @map_enums_to_values_in_kwargs
     def mutate_and_get_payload(cls, root, info, **kwargs):
         validate_person_data(kwargs)
         user = info.context.user
@@ -196,6 +206,7 @@ class AddOrganisationMutation(graphene.relay.ClientIDMutation):
     @classmethod
     @superuser_required
     @transaction.atomic
+    @map_enums_to_values_in_kwargs
     def mutate_and_get_payload(cls, root, info, **kwargs):
         validate_organisation_data(**kwargs)
         organisation = Organisation.objects.create(**kwargs)
@@ -215,6 +226,7 @@ class UpdateOrganisationMutation(graphene.relay.ClientIDMutation):
     @classmethod
     @superuser_required
     @transaction.atomic
+    @map_enums_to_values_in_kwargs
     def mutate_and_get_payload(cls, root, info, **kwargs):
         organisation_id = get_node_id_from_global_id(
             kwargs.pop("id"), "OrganisationNode"
@@ -244,6 +256,7 @@ class UpdatePersonMutation(graphene.relay.ClientIDMutation):
     @classmethod
     @superuser_required
     @transaction.atomic
+    @map_enums_to_values_in_kwargs
     def mutate_and_get_payload(cls, root, info, **kwargs):
         person_id = get_node_id_from_global_id(kwargs.pop("id"), "PersonNode")
         try:

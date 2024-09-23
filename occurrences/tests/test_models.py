@@ -1,10 +1,11 @@
-import pytest
 from datetime import datetime, timedelta
+from unittest.mock import patch
+
+import pytest
 from django.contrib.auth import get_user_model
 from django.core.exceptions import ValidationError
 from django.utils import timezone
 from freezegun import freeze_time
-from unittest.mock import patch
 
 from graphene_linked_events.tests.mock_data import EVENT_DATA
 from occurrences.consts import StudyGroupStudyLevels
@@ -192,9 +193,12 @@ def test_study_group_with_organisation_ids(mock_get_place_data, mock_get_event_d
     group_without_enrolment = StudyGroupFactory()
 
     # Without enrolment, so without organisation
-    StudyGroup.objects.with_organisation_ids().get(
-        id=group_without_enrolment.id
-    ).organisation_ids is None
+    assert (
+        StudyGroup.objects.with_organisation_ids()
+        .get(id=group_without_enrolment.id)
+        .organisation_ids
+        == []
+    )
 
     # With multiple enrolments to multiple organisations
     group_with_multiple_organisations = StudyGroupFactory()

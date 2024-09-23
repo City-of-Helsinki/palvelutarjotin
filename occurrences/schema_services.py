@@ -1,9 +1,10 @@
-import requests
 from datetime import timedelta
+from typing import List, Optional, Tuple, Union
+
+import requests
 from django.conf import settings
 from django.db import transaction
 from django.utils import timezone
-from typing import List, Optional, Tuple, Union
 
 from common.utils import (
     get_node_id_from_global_id,
@@ -273,10 +274,10 @@ def enrol_to_occurrence(
         )
 
         if occurrence.p_event.auto_acceptance:
-            custom_message: Optional[
-                str
-            ] = enrolment.occurrence.p_event.safe_translation_getter(
-                "auto_acceptance_message", language_code=person.language
+            custom_message: Optional[str] = (
+                enrolment.occurrence.p_event.safe_translation_getter(
+                    "auto_acceptance_message", language_code=person.language
+                )
             )
             # Skip notifications sending here:
             # Send the notifications all at once when the data changes are done.

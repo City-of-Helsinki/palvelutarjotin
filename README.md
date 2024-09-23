@@ -33,7 +33,7 @@ The project is now running at http://localhost:8081
 
 Prerequisites:
 
-- PostgreSQL 10
+- PostgreSQL 13
 - Python 3.11
 
 Steps:
@@ -253,11 +253,20 @@ To view the API documentation, in DEBUG mode visit http://localhost:8081/graphql
 
 ## Code format
 
-This project uses [`black`](https://github.com/ambv/black) for Python code formatting.
-We follow the basic config, without any modifications. Basic `black` commands:
+This project uses [ruff](https://github.com/astral-sh/ruff) for Python code linting and formatting.
+Ruff is configured through [pyproject.toml](./pyproject.toml).
+Basic `ruff` commands:
 
-- To let `black` do its magic: `black .`
-- To see which files `black` would change: `black --check .`
+- Check linting: `ruff check` or `ruff check --fix` to auto-fix
+- Check & auto-fix linting: `ruff check --fix`
+- Format: `ruff format`
+
+Basically:
+ - Ruff linter (i.e. `ruff check --fix`) does what `flake8` and `isort` did before.
+ - Ruff formatter (i.e. `ruff format`) does what `black` did before.
+
+Integrations for `ruff` are available for many editors:
+ - https://docs.astral.sh/ruff/integrations/
 
 Or you can use [`pre-commit`](https://pre-commit.com/) to quickly format your code before committing.
 

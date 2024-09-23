@@ -1,12 +1,13 @@
 import contextlib
 import datetime
+from unittest import mock
+
 import jwt
 from authlib.jose.rfc7519.claims import JWTClaims
 from django.test import override_settings, TestCase
 from django.test.client import RequestFactory
 from django.utils import timezone
 from freezegun import freeze_time
-from unittest import mock
 
 from organisations.factories import UserFactory
 from palvelutarjotin.oidc import GraphQLApiTokenAuthentication

@@ -1,4 +1,6 @@
 import json
+from io import StringIO
+
 import pytest
 import responses
 from dateutil.relativedelta import relativedelta
@@ -6,7 +8,6 @@ from django.core.management import call_command
 from django.test import override_settings
 from django.utils import timezone
 from django.utils.timezone import localtime
-from io import StringIO
 
 from occurrences.consts import (
     NOTIFICATION_TYPE_ALL,

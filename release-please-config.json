@@ -4,7 +4,8 @@
   "packages": {
     ".": {
       "release-type": "python",
-      "package-name": "palvelutarjotin"
+      "package-name": "palvelutarjotin",
+      "extra-files": ["pyproject.toml"]
     }
   },
   "plugins": ["sentence-case"]

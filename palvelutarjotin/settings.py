@@ -1,8 +1,9 @@
-import environ
 import os
-import sentry_sdk
 import subprocess
 from datetime import datetime
+
+import environ
+import sentry_sdk
 from django.utils.translation import gettext_lazy as _
 from sentry_sdk.integrations.django import DjangoIntegration
 
@@ -308,6 +309,7 @@ PARLER_REQUIRE_DEFAULT_TRANSLATION = False
 GRAPHENE = {
     "SCHEMA": "palvelutarjotin.schema.schema",
     "MIDDLEWARE": ["graphql_jwt.middleware.JSONWebTokenMiddleware"],
+    "DJANGO_CHOICE_FIELD_ENUM_CONVERT": True,
 }
 
 GRAPHQL_JWT = {"JWT_AUTH_HEADER_PREFIX": "Bearer"}

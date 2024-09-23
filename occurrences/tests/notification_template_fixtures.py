@@ -1,4 +1,5 @@
 import os
+
 import pytest
 
 from common.tests.utils import create_notification_template_in_language

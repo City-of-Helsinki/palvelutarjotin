@@ -1,4 +1,5 @@
 from datetime import datetime
+
 from django.core.management.base import BaseCommand
 
 from reports.services import sync_enrolment_reports
