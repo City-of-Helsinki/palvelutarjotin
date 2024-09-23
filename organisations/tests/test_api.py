@@ -1,5 +1,6 @@
-import pytest
 from copy import deepcopy
+
+import pytest
 from django.core import mail
 from graphql_relay import to_global_id
 
@@ -65,7 +66,7 @@ query Person($id:ID!){
 """
 
 ORGANISATIONS_QUERY = """
-query Organisations($type : String){
+query Organisations($type : OrganisationsOrganisationTypeChoices){
   organisations(type:$type) {
     edges{
       node{
@@ -342,9 +343,16 @@ def test_organisations_query_large_max_limit(staff_api_client, organisation):
 def test_organisations_query_type_filter(snapshot, api_client):
     OrganisationFactory.create_batch(3, type=Organisation.TYPE_PROVIDER)
     OrganisationFactory.create_batch(2, type=Organisation.TYPE_USER)
-    executed = api_client.execute(ORGANISATIONS_QUERY, variables={"type": "provider"})
+    # Graphene converts choices to uppercase
+    # https://github.com/graphql-python/graphene-django/issues/280
+    # so that's why we need to convert them to uppercase here:
+    executed = api_client.execute(
+        ORGANISATIONS_QUERY, variables={"type": Organisation.TYPE_PROVIDER.upper()}
+    )
     snapshot.assert_match(executed)
-    executed = api_client.execute(ORGANISATIONS_QUERY, variables={"type": "user"})
+    executed = api_client.execute(
+        ORGANISATIONS_QUERY, variables={"type": Organisation.TYPE_USER.upper()}
+    )
     snapshot.assert_match(executed)
 
 
@@ -515,7 +523,7 @@ def test_add_organisation_without_publisher_id(superuser_api_client):
     assert executed.get("errors")
     assert executed["errors"][0]["extensions"]["code"] == "GENERAL_ERROR"
     assert (
-        'In field "publisherId": Expected "String!", found null'
+        "Field 'publisherId' of required type 'String!' was not provided."
         in executed["errors"][0]["message"]
     )
 
@@ -529,9 +537,9 @@ def test_add_organisation_with_null_publisher_id(superuser_api_client):
     assert executed.get("errors")
     assert executed["errors"][0]["extensions"]["code"] == "GENERAL_ERROR"
     assert (
-        'In field "publisherId": Expected "String!", found null'
-        in executed["errors"][0]["message"]
-    )
+        "Variable '$input' got invalid value None at 'input.publisherId'; "
+        + "Expected non-nullable type 'String!' not to be None."
+    ) in executed["errors"][0]["message"]
 
 
 @pytest.mark.parametrize("publisher_id", ["", " ", " " * 10])
@@ -793,7 +801,7 @@ def test_person_study_groups_unauthorized(
         PERSON_STUDY_GROUPS_QUERY,
         variables={"id": to_global_id("PersonNode", person.id)},
     )
-    assert executed["data"]["person"] is None
+    assert executed["data"]["person"]["studygroupSet"]["edges"] == []
 
     # with staff API with other organisation
     staff_api_client.user.person.organisations.add(organisation)

@@ -1,6 +1,7 @@
 import factory
 import pytz
 
+from common.mixins import SaveAfterPostGenerationMixin
 from occurrences.models import (
     Enrolment,
     EventQueueEnrolment,
@@ -20,6 +21,7 @@ class LanguageFactory(factory.django.DjangoModelFactory):
 
     class Meta:
         model = Language
+        skip_postgeneration_save = True  # Not needed after factory v4.0.0
 
 
 class PalvelutarjotinEventFactory(factory.django.DjangoModelFactory):
@@ -38,9 +40,12 @@ class PalvelutarjotinEventFactory(factory.django.DjangoModelFactory):
 
     class Meta:
         model = PalvelutarjotinEvent
+        skip_postgeneration_save = True  # Not needed after factory v4.0.0
 
 
-class OccurrenceFactory(factory.django.DjangoModelFactory):
+class OccurrenceFactory(
+    SaveAfterPostGenerationMixin, factory.django.DjangoModelFactory
+):
     place_id = factory.Faker("text", max_nb_chars=64)
     min_group_size = factory.Faker("random_int", max=1000)
     max_group_size = factory.Faker("random_int", max=1000)
@@ -83,9 +88,12 @@ class StudyLevelFactory(factory.django.DjangoModelFactory):
 
     class Meta:
         model = StudyLevel
+        skip_postgeneration_save = True  # Not needed after factory v4.0.0
 
 
-class StudyGroupFactory(factory.django.DjangoModelFactory):
+class StudyGroupFactory(
+    SaveAfterPostGenerationMixin, factory.django.DjangoModelFactory
+):
     person = factory.SubFactory(PersonFactory)
     unit_name = factory.Faker("text", max_nb_chars=100)
     group_size = factory.Faker("random_int", max=1000)
@@ -116,6 +124,7 @@ class EventQueueEnrolmentFactory(factory.django.DjangoModelFactory):
 
     class Meta:
         model = EventQueueEnrolment
+        skip_postgeneration_save = True  # Not needed after factory v4.0.0
 
 
 class EnrolmentFactory(factory.django.DjangoModelFactory):
@@ -125,6 +134,7 @@ class EnrolmentFactory(factory.django.DjangoModelFactory):
 
     class Meta:
         model = Enrolment
+        skip_postgeneration_save = True  # Not needed after factory v4.0.0
 
 
 class VenueCustomDataFactory(factory.django.DjangoModelFactory):
@@ -136,3 +146,4 @@ class VenueCustomDataFactory(factory.django.DjangoModelFactory):
 
     class Meta:
         model = VenueCustomData
+        skip_postgeneration_save = True  # Not needed after factory v4.0.0

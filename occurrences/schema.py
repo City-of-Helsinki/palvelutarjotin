@@ -1,3 +1,6 @@
+import re
+from typing import List
+
 import graphene
 from django.apps import apps
 from django.conf import settings
@@ -9,12 +12,13 @@ from graphene.utils.str_converters import to_snake_case
 from graphene_django import DjangoConnectionField, DjangoObjectType
 from graphene_django.filter import DjangoFilterConnectionField
 from graphql_jwt.decorators import staff_member_required
-from typing import List
 
 from common.utils import (
     get_editable_obj_from_global_id,
     get_node_id_from_global_id,
     LanguageEnum,
+    map_enums_to_values_in_kwargs,
+    raise_permission_denied_if_not_staff,
     update_object,
     update_object_with_translations,
 )
@@ -330,7 +334,6 @@ class StudyGroupNode(DjangoObjectType):
         return None
 
     @classmethod
-    @staff_member_required
     def get_queryset(cls, queryset, info):
         """
         The study groups are available only for the staff members.
@@ -339,6 +342,20 @@ class StudyGroupNode(DjangoObjectType):
         he has access to. So, the study groups list should be
         filtered by the organisation
         """
+        path = ".".join(str(path_element) for path_element in info.path.as_list())
+        path = re.sub(r"\d+", "<int>", path)  # Map non-negative integers to "<int>"
+        if (
+            # Allow access to the study group created in EnrolEventQueueMutation
+            path == "enrolEventQueue.eventQueueEnrolment.studyGroup"
+            # Allow access to the study group in cancellingEnrolment query
+            or path == "cancellingEnrolment.studyGroup"
+            # Allow access to the study group through person's event queue enrolments,
+            or path == "person.eventqueueenrolmentSet.edges.<int>.node.studyGroup"
+            # Allow access to the study group in EnrolOccurrenceMutation
+            or path == "enrolOccurrence.enrolments.<int>.studyGroup"
+        ):
+            return queryset
+        raise_permission_denied_if_not_staff(info.context.user)
         return queryset.user_can_view(info.context.user)
 
 
@@ -410,6 +427,7 @@ class AddOccurrenceMutation(graphene.relay.ClientIDMutation):
     @classmethod
     @staff_member_required
     @transaction.atomic
+    @map_enums_to_values_in_kwargs
     def mutate_and_get_payload(cls, root, info, **kwargs):
         p_event = get_editable_obj_from_global_id(
             info, kwargs["p_event_id"], PalvelutarjotinEvent
@@ -425,7 +443,7 @@ class AddOccurrenceMutation(graphene.relay.ClientIDMutation):
 
         if languages:
             occurrence.languages.set(
-                get_instance_list(Language, map(lambda x: x.id.lower(), languages))
+                get_instance_list(Language, [x["id"].lower() for x in languages])
             )
 
         return AddOccurrenceMutation(occurrence=occurrence)
@@ -459,6 +477,7 @@ class UpdateOccurrenceMutation(graphene.relay.ClientIDMutation):
     @classmethod
     @staff_member_required
     @transaction.atomic
+    @map_enums_to_values_in_kwargs
     def mutate_and_get_payload(cls, root, info, **kwargs):
         occurrence = get_editable_obj_from_global_id(info, kwargs.pop("id"), Occurrence)
         p_event = occurrence.p_event
@@ -486,7 +505,7 @@ class UpdateOccurrenceMutation(graphene.relay.ClientIDMutation):
             add_contact_persons_to_object(info, contact_persons, occurrence)
         if languages:
             occurrence.languages.set(
-                get_instance_list(Language, map(lambda x: x.id.lower(), languages))
+                get_instance_list(Language, [x["id"].lower() for x in languages])
             )
 
         return UpdateOccurrenceMutation(occurrence=occurrence)
@@ -499,6 +518,7 @@ class DeleteOccurrenceMutation(graphene.ClientIDMutation):
     @classmethod
     @staff_member_required
     @transaction.atomic
+    @map_enums_to_values_in_kwargs
     def mutate_and_get_payload(cls, root, info, **kwargs):
         occurrence = get_editable_obj_from_global_id(info, kwargs.pop("id"), Occurrence)
         if occurrence.p_event.is_published() and not occurrence.cancelled:
@@ -520,6 +540,7 @@ class CancelOccurrenceMutation(graphene.ClientIDMutation):
     @classmethod
     @staff_member_required
     @transaction.atomic
+    @map_enums_to_values_in_kwargs
     def mutate_and_get_payload(cls, root, info, **kwargs):
         occurrence = get_editable_obj_from_global_id(info, kwargs.pop("id"), Occurrence)
         if occurrence.cancelled:
@@ -546,6 +567,7 @@ class AddVenueMutation(graphene.relay.ClientIDMutation):
     @classmethod
     @staff_member_required
     @transaction.atomic
+    @map_enums_to_values_in_kwargs
     def mutate_and_get_payload(cls, root, info, **kwargs):
         # TODO: Add validation
         kwargs["place_id"] = kwargs.pop("id")
@@ -572,6 +594,7 @@ class UpdateVenueMutation(graphene.relay.ClientIDMutation):
     @classmethod
     @staff_member_required
     @transaction.atomic
+    @map_enums_to_values_in_kwargs
     def mutate_and_get_payload(cls, root, info, **kwargs):
         # TODO: Add validation
         try:
@@ -589,6 +612,7 @@ class DeleteVenueMutation(graphene.relay.ClientIDMutation):
     @classmethod
     @staff_member_required
     @transaction.atomic
+    @map_enums_to_values_in_kwargs
     def mutate_and_get_payload(cls, root, info, **kwargs):
         try:
             venue = VenueCustomData.objects.get(pk=kwargs.pop("id"))
@@ -695,6 +719,7 @@ class EnrolEventQueueMutation(graphene.relay.ClientIDMutation):
 
     @classmethod
     @transaction.atomic
+    @map_enums_to_values_in_kwargs
     def mutate_and_get_payload(cls, root, info, **kwargs):
         if settings.CAPTCHA_ENABLED:
             verify_captcha(kwargs.pop("captcha_key", None))
@@ -738,6 +763,7 @@ class UnenrolEventQueueMutation(graphene.relay.ClientIDMutation):
     @classmethod
     @staff_member_required
     @transaction.atomic
+    @map_enums_to_values_in_kwargs
     def mutate_and_get_payload(cls, root, info, **kwargs):
         group_id = get_node_id_from_global_id(
             kwargs["study_group_id"], "StudyGroupNode"
@@ -766,6 +792,7 @@ class PickEnrolmentFromQueueMutation(graphene.relay.ClientIDMutation):
     @classmethod
     @staff_member_required
     @transaction.atomic
+    @map_enums_to_values_in_kwargs
     def mutate_and_get_payload(cls, root, info, **kwargs):
         occurrence = get_editable_obj_from_global_id(
             info, kwargs["occurrence_id"], Occurrence
@@ -809,6 +836,7 @@ class EnrolOccurrenceMutation(graphene.relay.ClientIDMutation):
 
     @classmethod
     @transaction.atomic
+    @map_enums_to_values_in_kwargs
     def mutate_and_get_payload(cls, root, info, **kwargs):
         if settings.CAPTCHA_ENABLED:
             verify_captcha(kwargs.pop("captcha_key", None))
@@ -856,6 +884,7 @@ class UnenrolOccurrenceMutation(graphene.relay.ClientIDMutation):
     @classmethod
     @staff_member_required
     @transaction.atomic
+    @map_enums_to_values_in_kwargs
     def mutate_and_get_payload(cls, root, info, **kwargs):
         group_id = get_node_id_from_global_id(
             kwargs["study_group_id"], "StudyGroupNode"
@@ -891,6 +920,7 @@ class UpdateEnrolmentMutation(graphene.relay.ClientIDMutation):
     @classmethod
     @staff_member_required
     @transaction.atomic
+    @map_enums_to_values_in_kwargs
     def mutate_and_get_payload(cls, root, info, **kwargs):
         enrolment = get_editable_obj_from_global_id(
             info, kwargs.pop("enrolment_id"), Enrolment
@@ -930,6 +960,7 @@ class ApproveEnrolmentMutation(graphene.relay.ClientIDMutation):
     @classmethod
     @staff_member_required
     @transaction.atomic
+    @map_enums_to_values_in_kwargs
     def mutate_and_get_payload(cls, root, info, **kwargs):
         e = get_editable_obj_from_global_id(info, kwargs["enrolment_id"], Enrolment)
         custom_message = kwargs.pop("custom_message", None)
@@ -958,6 +989,7 @@ class MassApproveEnrolmentsMutation(graphene.relay.ClientIDMutation):
     @classmethod
     @staff_member_required
     @transaction.atomic
+    @map_enums_to_values_in_kwargs
     def mutate_and_get_payload(cls, root, info, **kwargs):
         enrolments: List[Enrolment] = []
         custom_message = kwargs.pop("custom_message", None)
@@ -990,6 +1022,7 @@ class DeclineEnrolmentMutation(graphene.relay.ClientIDMutation):
     @classmethod
     @staff_member_required
     @transaction.atomic
+    @map_enums_to_values_in_kwargs
     def mutate_and_get_payload(cls, root, info, **kwargs):
         enrolment = get_editable_obj_from_global_id(
             info, kwargs["enrolment_id"], Enrolment
@@ -1026,6 +1059,7 @@ class AddStudyGroupMutation(graphene.relay.ClientIDMutation):
 
     @classmethod
     @transaction.atomic
+    @map_enums_to_values_in_kwargs
     def mutate_and_get_payload(cls, root, info, **kwargs):
         study_group = create_study_group(kwargs)
         return AddStudyGroupMutation(study_group=study_group)
@@ -1048,6 +1082,7 @@ class UpdateStudyGroupMutation(graphene.relay.ClientIDMutation):
     @classmethod
     @staff_member_required
     @transaction.atomic
+    @map_enums_to_values_in_kwargs
     def mutate_and_get_payload(cls, root, info, **kwargs):
         study_group = update_study_group(kwargs)
         return UpdateStudyGroupMutation(study_group=study_group)
@@ -1060,6 +1095,7 @@ class DeleteStudyGroupMutation(graphene.relay.ClientIDMutation):
     @classmethod
     @staff_member_required
     @transaction.atomic
+    @map_enums_to_values_in_kwargs
     def mutate_and_get_payload(cls, root, info, **kwargs):
         study_group_global_id = kwargs.pop("id")
         study_group_id = get_node_id_from_global_id(
@@ -1087,6 +1123,7 @@ class CancelEnrolmentMutation(graphene.relay.ClientIDMutation):
 
     @classmethod
     @transaction.atomic
+    @map_enums_to_values_in_kwargs
     def mutate_and_get_payload(cls, root, info, **kwargs):
         unique_id = kwargs["unique_id"]
         token = kwargs.get("token")
@@ -1181,6 +1218,7 @@ class Query:
             return None
 
     @staff_member_required
+    @map_enums_to_values_in_kwargs
     def resolve_enrolment_summary(self, info, **kwargs):
         try:
             organisation = get_editable_obj_from_global_id(

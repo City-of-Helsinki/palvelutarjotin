@@ -1,15 +1,16 @@
 import itertools
 import json
-import pytest
-import responses
 from copy import deepcopy
 from datetime import datetime, timedelta
+from typing import Optional
+from unittest.mock import patch
+
+import pytest
+import responses
 from django.utils import timezone
 from graphene.utils.str_converters import to_snake_case
 from graphql_relay import to_global_id
 from requests.models import HTTPError
-from typing import Optional
-from unittest.mock import patch
 
 import graphene_linked_events
 from common.tests.utils import (
@@ -944,7 +945,7 @@ def test_create_event_without_organisation_id(
     assert executed.get("errors")
     assert executed["errors"][0]["extensions"]["code"] == "GENERAL_ERROR"
     assert (
-        'In field "organisationId": Expected "String!", found null'
+        "Field 'organisationId' of required type 'String!' was not provided."
         in executed["errors"][0]["message"]
     )
 
@@ -964,9 +965,9 @@ def test_create_event_with_null_organisation_id(
     assert executed.get("errors")
     assert executed["errors"][0]["extensions"]["code"] == "GENERAL_ERROR"
     assert (
-        'In field "organisationId": Expected "String!", found null'
-        in executed["errors"][0]["message"]
-    )
+        "Variable '$input' got invalid value None at 'input.organisationId'; "
+        + "Expected non-nullable type 'String!' not to be None."
+    ) in executed["errors"][0]["message"]
 
 
 @pytest.mark.parametrize("organisationId", ["", " ", " " * 10])
@@ -983,7 +984,8 @@ def test_create_event_with_empty_or_whitespace_only_organisation_id(
     executed = staff_api_client.execute(CREATE_EVENT_MUTATION, variables=variables)
     assert PalvelutarjotinEvent.objects.count() == 0
     assert executed.get("errors")
-    assert executed["errors"][0]["extensions"]["code"] == "OBJECT_DOES_NOT_EXIST_ERROR"
+    assert executed["errors"][0]["extensions"]["code"] == "GENERAL_ERROR"
+    assert "Invalid Global ID" in executed["errors"][0]["message"]
 
 
 def test_create_event(
@@ -1292,7 +1294,7 @@ def test_update_event_without_organisation_id(
     assert executed.get("errors")
     assert executed["errors"][0]["extensions"]["code"] == "GENERAL_ERROR"
     assert (
-        'In field "organisationId": Expected "String!", found null'
+        "Field 'organisationId' of required type 'String!' was not provided."
         in executed["errors"][0]["message"]
     )
 
@@ -1316,9 +1318,9 @@ def test_update_event_with_null_organisation_id(
     assert executed.get("errors")
     assert executed["errors"][0]["extensions"]["code"] == "GENERAL_ERROR"
     assert (
-        'In field "organisationId": Expected "String!", found null'
-        in executed["errors"][0]["message"]
-    )
+        "Variable '$input' got invalid value None at 'input.organisationId'; "
+        + "Expected non-nullable type 'String!' not to be None."
+    ) in executed["errors"][0]["message"]
 
 
 @pytest.mark.parametrize("organisationId", ["", " ", " " * 10])
@@ -1339,7 +1341,8 @@ def test_update_event_with_empty_or_whitespace_only_organisation_id(
     person.organisations.add(organisation)
     executed = staff_api_client.execute(UPDATE_EVENT_MUTATION, variables=variables)
     assert executed.get("errors")
-    assert executed["errors"][0]["extensions"]["code"] == "OBJECT_DOES_NOT_EXIST_ERROR"
+    assert executed["errors"][0]["extensions"]["code"] == "GENERAL_ERROR"
+    assert "Invalid Global ID" in executed["errors"][0]["message"]
 
 
 DELETE_EVENT_MUTATION = """

@@ -1,5 +1,6 @@
-import pytest
 from unittest.mock import patch
+
+import pytest
 
 from common.tests.utils import mocked_json_response
 from graphene_linked_events.utils import api_client

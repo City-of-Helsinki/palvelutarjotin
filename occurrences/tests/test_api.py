@@ -1,10 +1,11 @@
-import pytest
 from copy import deepcopy
 from datetime import datetime, timedelta
+from unittest.mock import patch
+
+import pytest
 from django.core import mail
 from django.utils import timezone
 from graphql_relay import to_global_id
-from unittest.mock import patch
 
 from common.tests.utils import (
     assert_mails_match_snapshot,
@@ -91,7 +92,7 @@ def autouse_db(db):
     pass
 
 
-def test_languagess_query(snapshot, language, api_client):
+def test_languages_query(snapshot, language, api_client):
     executed = api_client.execute(LANGUAGES_QUERY)
     snapshot.assert_match(executed)
 
@@ -1538,6 +1539,7 @@ def test_approve_enrolment(
     snapshot,
     staff_api_client,
     mock_get_event_data,
+    mock_enrolment_unique_id,
     notification_template_enrolment_approved_en,
     notification_template_enrolment_approved_fi,
 ):
@@ -1587,6 +1589,7 @@ def test_approve_enrolment_with_custom_message(
     snapshot,
     staff_api_client,
     mock_get_event_data,
+    mock_enrolment_unique_id,
     notification_template_enrolment_approved_en,
     notification_template_enrolment_approved_fi,
 ):
@@ -2334,10 +2337,7 @@ def test_occurrence_study_groups_unauthorized(
         OCCURRENCE_STUDY_GROUPS_QUERY,
         variables={"id": to_global_id("OccurrenceNode", occurrence.id)},
     )
-    # FIXME: The permission denied error should be raised
-    # assert_permission_denied(executed)
-    # assert executed["data"]["occurrence"]["studyGroups"]["edges"] == []
-    assert executed["data"]["occurrence"] is None
+    assert executed["data"]["occurrence"]["studyGroups"]["edges"] == []
 
     # Valid case: The organisation matches
     staff_api_client.user.person.organisations.add(occurrence.p_event.organisation)

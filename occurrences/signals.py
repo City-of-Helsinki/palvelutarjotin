@@ -1,4 +1,5 @@
 import logging
+
 from anymail.signals import pre_send
 from django.core.exceptions import ObjectDoesNotExist
 from django.db import transaction

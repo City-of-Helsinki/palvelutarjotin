@@ -1,8 +1,9 @@
 import json
 import logging
 from datetime import timedelta
-from django.utils import timezone
 from typing import List, Optional, TYPE_CHECKING
+
+from django.utils import timezone
 
 from common.utils import format_linked_event_datetime
 from graphene_linked_events.utils import api_client, format_response, json2obj
@@ -120,9 +121,9 @@ def send_event_unpublish(p_event: "PalvelutarjotinEvent"):
     # we first need to fetch the current event object.
     event_obj = fetch_event_as_json(p_event.linked_event_id)
 
-    event_obj[
-        "publication_status"
-    ] = p_event.__class__.PUBLICATION_STATUS_DRAFT  # prevent cyclic import
+    event_obj["publication_status"] = (
+        p_event.__class__.PUBLICATION_STATUS_DRAFT
+    )  # prevent cyclic import
 
     update_event_to_linkedevents_api(p_event.linked_event_id, event_obj)
 
@@ -216,12 +217,16 @@ def prepare_published_event_data(
         "publication_status": p_event.__class__.PUBLICATION_STATUS_PUBLIC,
         "start_time": format_linked_event_datetime(start_time or timezone.now()),
         "end_time": format_linked_event_datetime(end_time) if end_time else None,
-        "enrolment_start_time": format_linked_event_datetime(enrolment_start_time)
-        if enrolment_start_time
-        else None,
-        "enrolment_end_time": format_linked_event_datetime(enrolment_end_time)
-        if enrolment_end_time
-        else None,
+        "enrolment_start_time": (
+            format_linked_event_datetime(enrolment_start_time)
+            if enrolment_start_time
+            else None
+        ),
+        "enrolment_end_time": (
+            format_linked_event_datetime(enrolment_end_time)
+            if enrolment_end_time
+            else None
+        ),
     }
 
     if event_data:

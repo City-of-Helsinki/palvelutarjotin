@@ -1,6 +1,8 @@
 import logging
 import warnings
 from datetime import timedelta
+from typing import List, Optional
+
 from dateutil.relativedelta import relativedelta
 from django.conf import settings
 from django.contrib.contenttypes.fields import GenericRelation
@@ -14,7 +16,6 @@ from graphql_relay import to_global_id
 from helsinki_gdpr.models import SerializableMixin
 from parler.models import TranslatedFields
 from requests.exceptions import HTTPError
-from typing import List, Optional
 
 import occurrences.notification_services as occurrences_services
 from common.models import (
@@ -590,14 +591,33 @@ class StudyGroupQuerySet(models.QuerySet):
         organisation_ids = [
             entry[0] for entry in user.person.organisations.values_list("id")
         ]
-        return self.with_organisation_ids().filter(
-            organisation_ids__overlap=organisation_ids
+        result = (
+            self.with_organisation_ids()
+            .with_queued_enrolments_organisation_ids()
+            .filter(
+                Q(organisation_ids__overlap=organisation_ids)
+                | Q(queued_enrolments_organisation_ids__overlap=organisation_ids)
+            )
         )
+        return result
 
     def with_organisation_ids(self):
         return self.annotate(
             organisation_ids=ArrayAgg(
-                "enrolments__occurrence__p_event__organisation__pk"
+                "enrolments__occurrence__p_event__organisation__pk",
+                filter=Q(
+                    enrolments__occurrence__p_event__organisation__pk__isnull=False
+                ),
+                default=[],
+            )
+        )
+
+    def with_queued_enrolments_organisation_ids(self):
+        return self.annotate(
+            queued_enrolments_organisation_ids=ArrayAgg(
+                "queued_enrolments__p_event__organisation__pk",
+                filter=Q(queued_enrolments__p_event__organisation__pk__isnull=False),
+                default=[],
             )
         )
 
@@ -696,8 +716,12 @@ class StudyGroup(
         super().save(*args, **kwargs)
 
     def is_editable_by_user(self, user):
+        annotated = (
+            self.with_organisation_ids().with_queued_enrolments_organisation_ids()
+        )
         return user.person.organisations.filter(
-            id__in=self.with_organisation_ids().value("organisation_ids")
+            Q(id__in=annotated.value("organisation_ids"))
+            | Q(id__in=annotated.value("queued_enrolments_organisation_ids"))
         ).exists()
 
 
@@ -853,7 +877,7 @@ class EventQueueEnrolment(GDPRModel, SerializableMixin, EnrolmentBase):
         {
             "name": "study_group",
             "accessor": lambda group: str(group),
-        },  # avoid bidirectional serialization, because it wil lend in a forever lopp.
+        },  # avoid bidirectional serialization, because it will end in a forever loop.
         {"name": "p_event"},
     )
     gdpr_sensitive_data_fields = []

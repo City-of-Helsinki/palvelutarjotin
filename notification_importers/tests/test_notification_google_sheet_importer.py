@@ -61,11 +61,8 @@ def occurrence_enrolment_notification():
 def test_create_non_existing_and_update_existing_notifications(
     enrolment_approved_notification, occurrence_enrolment_notification, snapshot
 ):
-    (
-        num_of_created,
-        num_of_updated,
-    ) = (
-        NotificationGoogleSheetImporter().create_missing_and_update_existing_notifications()  # noqa: E501
+    num_of_created, num_of_updated = (
+        NotificationGoogleSheetImporter().create_missing_and_update_existing_notifications()
     )
     assert num_of_created == 0
     assert num_of_updated == 2

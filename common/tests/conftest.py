@@ -1,3 +1,6 @@
+from unittest.mock import patch
+from uuid import UUID
+
 import factory.random
 import pytest
 import responses
@@ -5,8 +8,6 @@ from django.contrib.auth.models import AnonymousUser
 from django.test import RequestFactory
 from freezegun import freeze_time
 from graphene.test import Client
-from unittest.mock import patch
-from uuid import UUID
 
 import occurrences.signals
 from common.tests.json_fixtures import *  # noqa

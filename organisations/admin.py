@@ -1,3 +1,5 @@
+from typing import Any
+
 from django import forms
 from django.conf import settings
 from django.contrib import admin, messages
@@ -10,7 +12,6 @@ from django.http import HttpRequest, HttpResponseRedirect
 from django.urls import reverse
 from django.utils.translation import gettext as _
 from django_admin_listfilter_dropdown.filters import RelatedDropdownFilter
-from typing import Any
 
 from occurrences.models import StudyGroup
 from organisations.models import Organisation, OrganisationProposal, Person, User
@@ -67,9 +68,7 @@ class OrganisationProposalAdminForm(forms.ModelForm):
         self.fields["applicant"].queryset = Person.objects.all().order_by(
             "name", "-created_at"
         )
-        self.fields[
-            "applicant"
-        ].label_from_instance = (
+        self.fields["applicant"].label_from_instance = (
             lambda instance: f"{instance.__str__()} (id: {instance.id})"
         )
 

@@ -1,6 +1,8 @@
 import json
 import logging
 import math
+from types import SimpleNamespace
+
 from django.conf import settings
 from django.core.exceptions import PermissionDenied
 from django.db import transaction
@@ -22,11 +24,11 @@ from graphene import (
 )
 from graphene_file_upload.scalars import Upload
 from graphql_jwt.decorators import staff_member_required
-from types import SimpleNamespace
 
 from common.utils import (
     get_editable_obj_from_global_id,
     get_obj_from_global_id,
+    map_enums_to_values_in_kwargs,
     update_object_with_translations,
 )
 from graphene_linked_events.utils import (
@@ -815,6 +817,7 @@ class AddEventMutation(Mutation):
 
     @staff_member_required
     @transaction.atomic
+    @map_enums_to_values_in_kwargs
     def mutate(root, info, **kwargs):
         # Format to JSON POST body
         p_event_data = kwargs["event"].pop("p_event")
@@ -834,9 +837,9 @@ class AddEventMutation(Mutation):
             raise MissingMantatoryInformationError("Missing/invalid publisher_id")
         kwargs["event"]["publisher"] = organisation.publisher_id
         if kwargs["event"]["draft"]:
-            kwargs["event"][
-                "publication_status"
-            ] = PalvelutarjotinEvent.PUBLICATION_STATUS_DRAFT
+            kwargs["event"]["publication_status"] = (
+                PalvelutarjotinEvent.PUBLICATION_STATUS_DRAFT
+            )
 
         body = format_request(kwargs["event"])
         # TODO: proper validation if necessary
@@ -882,6 +885,7 @@ class UpdateEventMutation(Mutation):
 
     @staff_member_required
     @transaction.atomic
+    @map_enums_to_values_in_kwargs
     def mutate(root, info, **kwargs):
         # Format to JSON POST body
         event_id = kwargs["event"].pop("id")
@@ -925,9 +929,9 @@ class UpdateEventMutation(Mutation):
         kwargs["event"]["publisher"] = organisation.publisher_id
 
         if kwargs["event"].get("draft", False):
-            kwargs["event"][
-                "publication_status"
-            ] = PalvelutarjotinEvent.PUBLICATION_STATUS_DRAFT
+            kwargs["event"]["publication_status"] = (
+                PalvelutarjotinEvent.PUBLICATION_STATUS_DRAFT
+            )
 
         body = format_request(kwargs["event"])
         # TODO: proper validation if necessary
@@ -950,6 +954,7 @@ class PublishEventMutation(UpdateEventMutation):
 
     @staff_member_required
     @transaction.atomic
+    @map_enums_to_values_in_kwargs
     def mutate(root, info, **kwargs):
         event_id = kwargs["event"].get("id")
         try:
@@ -972,6 +977,7 @@ class UnpublishEventMutation(UpdateEventMutation):
 
     @staff_member_required
     @transaction.atomic
+    @map_enums_to_values_in_kwargs
     def mutate(root, info, **kwargs):
         try:
             kwargs["event"].update(
@@ -991,6 +997,7 @@ class DeleteEventMutation(Mutation):
     response = Field(EventMutationResponse)
 
     @staff_member_required
+    @map_enums_to_values_in_kwargs
     def mutate(root, info, **kwargs):
         event_id = kwargs["event_id"]
         # TODO: proper validation if necessary
@@ -1044,6 +1051,7 @@ class UploadImageMutation(Mutation):
     response = Field(ImageMutationResponse)
 
     @staff_member_required
+    @map_enums_to_values_in_kwargs
     def mutate(root, info, **kwargs):
         image = kwargs["image"].pop("image")
         _validate_image_upload(image)
@@ -1065,6 +1073,7 @@ class UpdateImageMutation(Mutation):
     response = Field(ImageMutationResponse)
 
     @staff_member_required
+    @map_enums_to_values_in_kwargs
     def mutate(root, info, **kwargs):
         image_id = kwargs["image"].pop("id")
         body = format_request(kwargs["image"])
@@ -1083,6 +1092,7 @@ class DeleteImageMutation(Mutation):
     response = Field(ImageMutationResponse)
 
     @staff_member_required
+    @map_enums_to_values_in_kwargs
     def mutate(root, info, **kwargs):
         image_id = kwargs["image_id"]
         result = api_client.delete("image", image_id)

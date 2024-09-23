@@ -1,11 +1,12 @@
 from __future__ import annotations
 
 import logging
+from typing import TYPE_CHECKING
+
 from django.conf import settings
 from django.contrib.auth import get_user_model
 from django.urls import reverse
 from django_ilmoitin.utils import send_notification
-from typing import TYPE_CHECKING
 
 from organisations.consts import NotificationTemplate
 

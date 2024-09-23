@@ -1,5 +1,6 @@
-import dateutil.parser
 import math
+
+import dateutil.parser
 import pytest
 from freezegun import freeze_time
 

@@ -12,9 +12,8 @@ class Command(BaseCommand):
             "the retention period..."
         )
 
-        num_of_deleted_contact_info = (
-            PalvelutarjotinEvent.objects.contact_info_retention_period_exceeded().delete_contact_info()  # noqa: E501
-        )
+        events = PalvelutarjotinEvent.objects.contact_info_retention_period_exceeded()
+        num_of_deleted_contact_info = events.delete_contact_info()
 
         msg = (
             "No events are exceeding the retention period."

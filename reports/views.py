@@ -1,6 +1,8 @@
 import csv
 import datetime
 import logging
+from functools import lru_cache
+
 from django.conf import settings
 from django.contrib import messages
 from django.contrib.admin.views.decorators import staff_member_required
@@ -13,7 +15,6 @@ from django.utils.decorators import method_decorator
 from django.utils.translation import gettext as _
 from django.views.decorators.http import require_http_methods
 from django.views.generic import ListView
-from functools import lru_cache
 from rest_framework import generics
 from rest_framework.authentication import SessionAuthentication
 from rest_framework.permissions import DjangoModelPermissions, IsAdminUser
@@ -415,9 +416,10 @@ class PalvelutarjotinEventEnrolmentsCsvView(
                 person_email_address = enrolment.person.email_address
                 person_phone_number = enrolment.person.phone_number
             elif enrolment.person_deleted_at:
-                person_email_address = (
-                    person_phone_number
-                ) = f"{_('Deleted')} {enrolment.person_deleted_at.strftime(self.DATE_FORMAT)}"  # noqa: E501
+                person_email_address = person_phone_number = (
+                    f"{_('Deleted')} "
+                    + f"{enrolment.person_deleted_at.strftime(self.DATE_FORMAT)}"
+                )
             else:
                 person_email_address = person_phone_number = ""
 

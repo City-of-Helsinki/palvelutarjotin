@@ -1,7 +1,8 @@
-import pytest
 from datetime import timedelta
-from django.utils import timezone
 from unittest.mock import patch
+
+import pytest
+from django.utils import timezone
 
 from common.tests.utils import mocked_json_response
 from common.utils import format_linked_event_datetime

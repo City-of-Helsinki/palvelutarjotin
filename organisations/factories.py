@@ -1,6 +1,7 @@
 import factory
 from django.contrib.auth import get_user_model
 
+from common.mixins import SaveAfterPostGenerationMixin
 from organisations.models import Organisation, OrganisationProposal, Person
 
 
@@ -22,9 +23,10 @@ class UserFactory(factory.django.DjangoModelFactory):
     class Meta:
         model = get_user_model()
         exclude = ("username_base", "username_suffix")
+        skip_postgeneration_save = True  # Not needed after factory v4.0.0
 
 
-class PersonFactory(factory.django.DjangoModelFactory):
+class PersonFactory(SaveAfterPostGenerationMixin, factory.django.DjangoModelFactory):
     user = factory.SubFactory(UserFactory)
     name = factory.Faker("name")
     phone_number = factory.Faker("phone_number")
@@ -57,6 +59,7 @@ class OrganisationFactory(factory.django.DjangoModelFactory):
 
     class Meta:
         model = Organisation
+        skip_postgeneration_save = True  # Not needed after factory v4.0.0
 
 
 class OrganisationProposalFactory(factory.django.DjangoModelFactory):
@@ -67,3 +70,4 @@ class OrganisationProposalFactory(factory.django.DjangoModelFactory):
 
     class Meta:
         model = OrganisationProposal
+        skip_postgeneration_save = True  # Not needed after factory v4.0.0

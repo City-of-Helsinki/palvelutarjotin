@@ -1,5 +1,6 @@
-from django.db import models
 from typing import List
+
+from django.db import models
 
 from gdpr.consts import CLEARED_VALUE
 
