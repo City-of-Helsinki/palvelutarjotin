@@ -34,7 +34,7 @@ The project is now running at http://localhost:8081
 Prerequisites:
 
 - PostgreSQL 10
-- Python 3.9
+- Python 3.11
 
 Steps:
 
