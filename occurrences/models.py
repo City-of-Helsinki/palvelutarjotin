@@ -271,11 +271,48 @@ class PalvelutarjotinEvent(
             occurrences__in=self.occurrences.all()
         ).distinct()
 
+    def has_external_enrolments_system(self) -> bool:
+        return bool(self.external_enrolment_url)
+
+    def has_internal_enrolments_system(self) -> bool:
+        return bool(self.enrolment_start)
+
+    def has_enrolments_system(self) -> bool:
+        return (
+            self.has_external_enrolments_system()
+            or self.has_internal_enrolments_system()
+        )
+
+    def has_space_for_enrolments(self) -> Optional[bool]:
+        """
+        Determines whether any (upcoming) occurrence has any space left
+        for enrolments.
+
+        Returns:
+            - True: If at least one upcoming occurrence has space for enrolments.
+            - False: If no upcoming occurrences have space for enrolments.
+            - None: If the event doesn't utilize the enrolments system or
+                relies on an external enrolments system.
+        """
+        if not self.has_enrolments_system() or self.has_external_enrolments_system():
+            return None
+
+        return any(
+            occurrence.has_space_left()
+            for occurrence in self.occurrences.filter_upcoming()
+        )
+
 
 class OccurrenceQueryset(models.QuerySet):
     def delete(self, *args, **kwargs):
         for obj in self:
             obj.delete()
+
+    def filter_upcoming(self, *args, **kwargs):
+        """Filter occurrences that are not not cancelled and
+        are held in the future.
+        """
+        return self.filter(cancelled=False, start_time__gte=timezone.now())
 
 
 class Occurrence(GDPRModel, SerializableMixin, TimestampedModel):
@@ -403,14 +440,7 @@ class Occurrence(GDPRModel, SerializableMixin, TimestampedModel):
     def seats_approved(self):
         qs = self.enrolments.filter(status=Enrolment.STATUS_APPROVED)
         if self.seat_type == self.OCCURRENCE_SEAT_TYPE_CHILDREN_COUNT:
-            return (
-                qs.aggregate(
-                    seats_taken=Sum(
-                        F("study_group__group_size") + F("study_group__amount_of_adult")
-                    )
-                )["seats_taken"]
-                or 0
-            )
+            return qs.with_seats_taken()["seats_taken"] or 0
         else:
             return qs.count()
 
@@ -420,16 +450,13 @@ class Occurrence(GDPRModel, SerializableMixin, TimestampedModel):
             Q(status=Enrolment.STATUS_APPROVED) | Q(status=Enrolment.STATUS_PENDING)
         )
         if self.seat_type == self.OCCURRENCE_SEAT_TYPE_CHILDREN_COUNT:
-            return (
-                qs.aggregate(
-                    seats_taken=Sum(
-                        F("study_group__group_size") + F("study_group__amount_of_adult")
-                    )
-                )["seats_taken"]
-                or 0
-            )
+            return qs.with_seats_taken()["seats_taken"] or 0
         else:
             return qs.count()
+
+    def has_space_left(self):
+        """Determines whether the occurrence still has some space left"""
+        return self.seats_taken < self.amount_of_seats
 
     def is_editable_by_user(self, user):
         return user.person.organisations.filter(
@@ -687,6 +714,19 @@ class EnrolmentQuerySet(models.QuerySet):
             occurrence__start_time__date=(
                 timezone.now() + timedelta(days=days_to_occurrence)
             ).date(),
+        )
+
+    def with_seats_taken(self):
+        """
+        Use an aggregate method for the queryset to count the taken seats.
+        The taken seats is the amount of children summed with the amount of adults.
+        NOTE: Study group's `group_size` determines the amount of children
+        (and `amount_of_adult` determines the amount of adults).
+        """
+        return self.aggregate(
+            seats_taken=Sum(
+                F("study_group__group_size") + F("study_group__amount_of_adult")
+            )
         )
 
     def get_by_unique_id(self, unique_id):
@@ -965,6 +1005,7 @@ class Enrolment(GDPRModel, SerializableMixin, EnrolmentBase):
             EnrolmentNotEnoughCapacityError: Not enough space for the group
         """
         if self.occurrence.seats_taken > self.occurrence.amount_of_seats:
+            # More seats are taken, than there actually are seats
             raise EnrolmentNotEnoughCapacityError(
                 "Not enough space for this study group"
             )

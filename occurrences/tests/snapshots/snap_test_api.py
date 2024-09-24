@@ -196,7 +196,7 @@ snapshots["test_approve_enrolment 2"] = [
     Occurrence: 06.01.2020 02.00
     Person: barrettjason@example.org
     Click this link to cancel the enrolment:
-    https://kultus.hel.fi/fi/enrolments/cancel/RW5yb2xtZW50Tm9kZTo1NF8yMDIwLTAxLTA0IDAwOjAwOjAwKzAwOjAw
+    https://kultus.hel.fi/fi/enrolments/cancel/RW5yb2xtZW50Tm9kZTo1OF8yMDIwLTAxLTA0IDAwOjAwOjAwKzAwOjAw
 
 """
 ]
@@ -213,7 +213,7 @@ snapshots["test_approve_enrolment_with_custom_message 2"] = [
     Occurrence: 06.01.2020 02.00
     Person: barrettjason@example.org
     Click this link to cancel the enrolment:
-    https://kultus.hel.fi/fi/enrolments/cancel/RW5yb2xtZW50Tm9kZTo1Nl8yMDIwLTAxLTA0IDAwOjAwOjAwKzAwOjAw
+    https://kultus.hel.fi/fi/enrolments/cancel/RW5yb2xtZW50Tm9kZTo2MF8yMDIwLTAxLTA0IDAwOjAwOjAwKzAwOjAw
 
     Custom message: custom message
 """

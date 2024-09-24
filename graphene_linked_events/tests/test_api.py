@@ -31,8 +31,12 @@ from graphene_linked_events.tests.mock_data import (
 from graphene_linked_events.tests.utils import MockResponse
 from graphene_linked_events.utils import retrieve_linked_events_data
 from occurrences.event_api_services import update_event_to_linkedevents_api
-from occurrences.factories import OccurrenceFactory, PalvelutarjotinEventFactory
-from occurrences.models import PalvelutarjotinEvent
+from occurrences.factories import (
+    EnrolmentFactory,
+    OccurrenceFactory,
+    PalvelutarjotinEventFactory,
+)
+from occurrences.models import Occurrence, PalvelutarjotinEvent
 from palvelutarjotin.consts import API_USAGE_ERROR, DATA_VALIDATION_ERROR
 from palvelutarjotin.exceptions import ApiBadRequestError, ObjectDoesNotExistError
 
@@ -2091,3 +2095,147 @@ def test_linkedevents_api_update_errors(status_code, error_cls):
     ):
         with pytest.raises(error_cls):
             update_event_to_linkedevents_api("linked_event_id", {})
+
+
+HAS_SPACE_LEFT_QUERY = """
+  query UpcomingEvents {
+    upcomingEvents {
+      data {
+        id
+        pEvent {
+          linkedEventId
+          hasSpaceForEnrolments
+        }
+      }
+    }
+  }
+"""
+
+
+def test_has_space_for_enrolments(
+    api_client, mock_get_event_data, mock_get_events_data
+):
+    """
+    Test PalvelutarjotinEvent resolve_space_left_for_enrolments when internal enrolments
+    are enabled. Also test that the `seat_type` should not matter.
+    """
+
+    def _get_first(executed):
+        return executed["data"]["upcomingEvents"]["data"][0]["pEvent"]
+
+    p_event = PalvelutarjotinEventFactory(linked_event_id=EVENTS_DATA["data"][0]["id"])
+    # Occurrence in past should not be picked
+    OccurrenceFactory(
+        p_event=p_event,
+        start_time=timezone.now() - timedelta(days=1),
+        cancelled=False,
+        amount_of_seats=2,
+    )
+    # test with seat_type set to OCCURRENCE_SEAT_TYPE_CHILDREN_COUNT
+    occurrence1 = OccurrenceFactory(
+        p_event=p_event,
+        start_time=timezone.now() + timedelta(days=1),
+        seat_type=Occurrence.OCCURRENCE_SEAT_TYPE_CHILDREN_COUNT,
+        cancelled=False,
+        amount_of_seats=2,
+    )
+    # cancelled, so won't be picked
+    OccurrenceFactory(
+        p_event=p_event,
+        start_time=timezone.now() + timedelta(days=2),
+        cancelled=True,
+        amount_of_seats=2,
+    )
+
+    # when no enrolments are created and occurrence1 has 2 spaces left
+    executed = api_client.execute(HAS_SPACE_LEFT_QUERY)
+    # then there should be space for enrolments
+    assert _get_first(executed)["linkedEventId"] == p_event.linked_event_id
+    assert _get_first(executed)["hasSpaceForEnrolments"] is True
+
+    # when enrolments are added and all space is filled
+    EnrolmentFactory.create_batch(2, occurrence=occurrence1)
+    executed = api_client.execute(HAS_SPACE_LEFT_QUERY)
+    # then there should be no space left for enrolments
+    assert _get_first(executed)["hasSpaceForEnrolments"] is False
+
+    # test with seat_type set to OCCURRENCE_SEAT_TYPE_ENROLMENT_COUNT
+    occurrence2 = OccurrenceFactory(
+        p_event=p_event,
+        start_time=timezone.now() + timedelta(days=3),
+        seat_type=Occurrence.OCCURRENCE_SEAT_TYPE_ENROLMENT_COUNT,
+        cancelled=False,
+        amount_of_seats=2,
+    )
+
+    # when there is another occurrence with some space left
+    executed = api_client.execute(HAS_SPACE_LEFT_QUERY)
+    # then there should be space for enrolments
+    assert _get_first(executed)["hasSpaceForEnrolments"] is True
+
+    # when enrolments are added and all space is filled
+    EnrolmentFactory.create_batch(2, occurrence=occurrence2)
+    executed = api_client.execute(HAS_SPACE_LEFT_QUERY)
+    # then there should be no space left for enrolments
+    assert _get_first(executed)["hasSpaceForEnrolments"] is False
+
+
+def test_has_space_for_external_enrolments(
+    api_client, mock_get_event_data, mock_get_events_data
+):
+    """
+    Test PalvelutarjotinEvent resolve_space_left_for_enrolments when external enrolments
+    are enabled.
+    """
+
+    def _get_first(executed):
+        return executed["data"]["upcomingEvents"]["data"][0]["pEvent"]
+
+    # when event has external enrolments enabled
+    p_event = PalvelutarjotinEventFactory(
+        linked_event_id=EVENTS_DATA["data"][0]["id"],
+        external_enrolment_url="https://external-enrolment-url.com",
+    )
+    OccurrenceFactory(
+        p_event=p_event,
+        start_time=timezone.now() + timedelta(days=1),
+        cancelled=False,
+        amount_of_seats=2,
+    )
+
+    # ...and no enrolments are created and occurrence has many spaces left
+    executed = api_client.execute(HAS_SPACE_LEFT_QUERY)
+    # then `None`` should be given,
+    # because status cannot be resolved for external events.
+    assert _get_first(executed)["linkedEventId"] == p_event.linked_event_id
+    assert _get_first(executed)["hasSpaceForEnrolments"] is None
+
+
+def test_has_space_for_no_enrolments_system(
+    api_client, mock_get_event_data, mock_get_events_data
+):
+    """
+    Test PalvelutarjotinEvent resolve_space_left_for_enrolments when no enrolments
+    are enabled.
+    """
+
+    def _get_first(executed):
+        return executed["data"]["upcomingEvents"]["data"][0]["pEvent"]
+
+    # when event has no enrolment system enabled
+    p_event = PalvelutarjotinEventFactory(
+        linked_event_id=EVENTS_DATA["data"][0]["id"],
+        external_enrolment_url=None,
+        enrolment_start=None,
+    )
+    OccurrenceFactory(
+        p_event=p_event,
+        start_time=timezone.now() + timedelta(days=1),
+        cancelled=False,
+        amount_of_seats=2,
+    )
+    executed = api_client.execute(HAS_SPACE_LEFT_QUERY)
+    # then `None`` should be given,
+    # because status cannot be resolved when enrolments are not counted.
+    assert _get_first(executed)["linkedEventId"] == p_event.linked_event_id
+    assert _get_first(executed)["hasSpaceForEnrolments"] is None

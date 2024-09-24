@@ -441,6 +441,8 @@ def test_occurrence_seat_approved(mock_get_event_data):
 def test_enrolment_approve(
     api_client, mock_update_event_data, mock_get_event_data, occurrence
 ):
+    TARGET_AMOUNT_OF_TAKEN_SEATS = 20 + 14  # for groups of 20 and 14 people
+    study_group_14 = StudyGroupFactory(group_size=14)
     study_group_15 = StudyGroupFactory(group_size=15)
     study_group_20 = StudyGroupFactory(group_size=20)
     # Current date froze on 2020-01-04:
@@ -454,7 +456,7 @@ def test_enrolment_approve(
         p_event=p_event_1,
         min_group_size=10,
         max_group_size=20,
-        amount_of_seats=34,
+        amount_of_seats=TARGET_AMOUNT_OF_TAKEN_SEATS,
     )
 
     # After 20 people there are 14 seats left
@@ -467,6 +469,17 @@ def test_enrolment_approve(
     enrolment2 = EnrolmentFactory(occurrence=occurrence, study_group=study_group_15)
     with pytest.raises(EnrolmentNotEnoughCapacityError):
         enrolment2.approve()
+    enrolment2.decline()
+
+    # Try with a group that fills all the empty seats
+    enrolment3 = EnrolmentFactory(occurrence=occurrence, study_group=study_group_14)
+    enrolment3.approve()
+    occurrence.refresh_from_db()
+    assert (
+        occurrence.seats_taken
+        == occurrence.amount_of_seats
+        == TARGET_AMOUNT_OF_TAKEN_SEATS
+    )
 
 
 @pytest.mark.django_db
@@ -871,3 +884,123 @@ def test_palvelutarjotin_event_filter_with_contact_info_value_error():
         exc_info.value.args[0]
         == "The person must have at least an email address or a phone number."
     )
+
+
+@pytest.mark.django_db
+@pytest.mark.parametrize(
+    "url,result",
+    [("https://www.external-enrolment-url.com", True), (None, False), ("", False)],
+)
+def test_palvelutarjotin_event_has_external_enrolments_system(
+    url, result, mock_get_event_data
+):
+    p_event = PalvelutarjotinEventFactory(
+        external_enrolment_url=url, enrolment_start=None
+    )
+    assert p_event.has_external_enrolments_system() is result
+
+
+@pytest.mark.django_db
+@pytest.mark.parametrize(
+    "enrolment_start,result", [(timezone.now(), True), (None, False)]
+)
+def test_palvelutarjotin_event_has_internal_enrolments_system(
+    enrolment_start, result, mock_get_event_data
+):
+    p_event = PalvelutarjotinEventFactory(
+        enrolment_start=enrolment_start, external_enrolment_url=None
+    )
+    assert p_event.has_internal_enrolments_system() is result
+
+
+@pytest.mark.django_db
+def test_palvelutarjotin_event_has_enrolments_system(mock_get_event_data):
+    internal = PalvelutarjotinEventFactory(
+        enrolment_start=timezone.now(), external_enrolment_url=None
+    )
+    external = PalvelutarjotinEventFactory(
+        enrolment_start=None,
+        external_enrolment_url="https://www.external-enrolment-url.com",
+    )
+    none = PalvelutarjotinEventFactory(
+        enrolment_start=None, external_enrolment_url=None
+    )
+    assert internal.has_enrolments_system() is True
+    assert external.has_enrolments_system() is True
+    assert none.has_enrolments_system() is False
+
+
+@pytest.mark.django_db
+@pytest.mark.parametrize(
+    "has_external_enrolments,has_internal_enrolments", [(False, False), (True, False)]
+)
+def test_palvelutarjotin_event_has_space_for_enrolments_returning_none(
+    has_external_enrolments, has_internal_enrolments, mock_get_event_data
+):
+    with patch(
+        "occurrences.models.PalvelutarjotinEvent.has_external_enrolments_system",
+        return_value=has_external_enrolments,
+    ):
+        with patch(
+            "occurrences.models.PalvelutarjotinEvent.has_internal_enrolments_system",
+            return_value=has_internal_enrolments,
+        ):
+            with patch(
+                "occurrences.models.Occurrence.has_space_left"
+            ) as mock_has_space_left:
+                p_event = PalvelutarjotinEventFactory()
+                OccurrenceFactory.create_batch(3, p_event=p_event)
+                assert p_event.occurrences.count() == 3
+                assert p_event.has_space_for_enrolments() is None
+                mock_has_space_left.assert_not_called()
+
+
+@pytest.mark.django_db
+def test_palvelutarjotin_event_has_space_for_enrolments_returning_boolean(
+    mock_get_event_data,
+):
+    p_event = PalvelutarjotinEventFactory()
+    OccurrenceFactory.create_batch(
+        3,
+        p_event=p_event,
+        cancelled=False,
+        start_time=timezone.now() + timedelta(days=1),
+    )
+    OccurrenceFactory.create_batch(
+        3,
+        p_event=p_event,
+        cancelled=False,
+        start_time=timezone.now() - timedelta(days=1),
+    )
+    assert p_event.occurrences.count() == 6
+    assert p_event.occurrences.filter_upcoming().count() == 3
+    with patch(
+        "occurrences.models.PalvelutarjotinEvent.has_external_enrolments_system",
+        return_value=False,
+    ):
+        with patch(
+            "occurrences.models.PalvelutarjotinEvent.has_internal_enrolments_system",
+            return_value=True,
+        ):
+            with patch(
+                "occurrences.models.Occurrence.has_space_left"
+            ) as mock_has_space_left:
+                mock_has_space_left.return_value = False
+                assert p_event.has_space_for_enrolments() is False
+                assert mock_has_space_left.call_count == 3
+    with patch(
+        "occurrences.models.PalvelutarjotinEvent.has_external_enrolments_system",
+        return_value=False,
+    ):
+        with patch(
+            "occurrences.models.PalvelutarjotinEvent.has_internal_enrolments_system",
+            return_value=True,
+        ):
+            with patch(
+                "occurrences.models.Occurrence.has_space_left"
+            ) as mock_has_space_left:
+                # 2nd occurrence returns True, so result is True
+                # and any-call returns after 2nd round.
+                mock_has_space_left.side_effect = [False, True, False]
+                assert p_event.has_space_for_enrolments() is True
+                assert mock_has_space_left.call_count == 2
