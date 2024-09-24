@@ -4,6 +4,7 @@ from django.conf import settings
 from django.db import IntegrityError, transaction
 from django.utils import timezone
 from django.utils.translation import get_language
+from django.utils.translation import gettext_lazy as _
 from graphene.utils.str_converters import to_snake_case
 from graphene_django import DjangoConnectionField, DjangoObjectType
 from graphene_django.filter import DjangoFilterConnectionField
@@ -170,6 +171,12 @@ class PalvelutarjotinEventTranslationType(DjangoObjectType):
 class PalvelutarjotinEventNode(DjangoObjectType):
     next_occurrence_datetime = graphene.DateTime()
     last_occurrence_datetime = graphene.DateTime()
+    has_space_for_enrolments = graphene.Boolean(
+        description=_(
+            "Determines whether any upcoming occurrence has any space left "
+            "for new enrolments."
+        )
+    )
     occurrences = OrderedDjangoFilterConnectionField(
         OccurrenceNode, orderBy=graphene.List(of_type=graphene.String), max_limit=400
     )
@@ -200,6 +207,27 @@ class PalvelutarjotinEventNode(DjangoObjectType):
             )
         except Occurrence.DoesNotExist:
             return None
+
+    def resolve_has_space_for_enrolments(self, info, **kwargs):
+        """
+        Determines whether any upcoming occurrence has any space left for enrolments.
+
+        This method leverages the internal `has_space_for_enrolments` logic to ascertain
+        if there are any future event occurrences with available spaces for enrollment.
+
+        Args:
+            info: Contextual information provided by the GraphQL execution environment
+                (may not be used in this specific implementation).
+            **kwargs: Additional keyword arguments
+                (may not be used in this specific implementation).
+
+        Returns:
+            - True: If at least one upcoming occurrence has space for enrolments.
+            - False: If no upcoming occurrences have space for enrolments.
+            - None: If the event doesn't utilize the enrolments system or
+                relies on an external enrolments system.
+        """
+        return self.has_space_for_enrolments()
 
     def resolve_translations(self, info, **kwargs):
         return self.translations.all()
