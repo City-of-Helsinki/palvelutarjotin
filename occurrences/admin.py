@@ -36,6 +36,7 @@ class OccurrenceInlineThroughStudyGroups(admin.TabularInline):
 
     readonly_fields = ["person_deleted_at"]
     autocomplete_fields = ["person", "occurrence"]
+    show_change_link = True
 
 
 class OccurrenceInline(admin.TabularInline):
@@ -44,6 +45,7 @@ class OccurrenceInline(admin.TabularInline):
     autocomplete_fields = [
         "contact_persons",
     ]
+    show_change_link = True
 
 
 class EventQueueEnrolmentInline(admin.TabularInline):
@@ -52,13 +54,15 @@ class EventQueueEnrolmentInline(admin.TabularInline):
 
     readonly_fields = ["person_deleted_at"]
     autocomplete_fields = ["person", "p_event"]
+    show_change_link = True
 
 
 class EnrolmentInline(admin.TabularInline):
     model = Enrolment
     extra = 0
     exclude = ("person_deleted_at",)
-    autocomplete_fields = ["study_group", "occurrence"]
+    autocomplete_fields = ["person", "study_group", "occurrence"]
+    show_change_link = True
 
 
 class StudyGroupInline(admin.TabularInline):
@@ -163,6 +167,9 @@ class OccurrenceAdmin(admin.ModelAdmin):
         "languages",
         "cancelled",
         "seat_type",
+    ]
+    inlines = [
+        EnrolmentInline,
     ]
 
     def linked_event_id(self, obj):
