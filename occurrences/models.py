@@ -105,6 +105,17 @@ class PalvelutarjotinEventQueryset(TranslatableQuerySet):
             contact_info_deleted_at=now,
         )
 
+    def with_next_occurrence_start_time(self):
+        next_occurrences = Occurrence.objects.filter(
+            p_event=OuterRef("pk"), start_time__gte=timezone.now(), cancelled=False
+        ).order_by("start_time")
+
+        return self.annotate(
+            next_occurrence_start_time=Subquery(
+                next_occurrences.values("start_time")[:1]
+            )
+        )
+
 
 class PalvelutarjotinEvent(
     GDPRModel, SerializableMixin, TranslatableModel, TimestampedModel
