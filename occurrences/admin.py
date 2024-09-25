@@ -30,12 +30,20 @@ def render_person_deleted_at(obj):
         return obj.person
 
 
-class OccurrenceInline(admin.TabularInline):
+class OccurrenceInlineThroughStudyGroups(admin.TabularInline):
     model = Occurrence.study_groups.through
     extra = 0
 
     readonly_fields = ["person_deleted_at"]
     autocomplete_fields = ["person", "occurrence"]
+
+
+class OccurrenceInline(admin.TabularInline):
+    model = Occurrence
+    extra = 0
+    autocomplete_fields = [
+        "contact_persons",
+    ]
 
 
 class EventQueueEnrolmentInline(admin.TabularInline):
@@ -92,7 +100,7 @@ class StudyGroupAdmin(admin.ModelAdmin):
         "get_person",
     )
     exclude = ("id",)
-    inlines = (OccurrenceInline, EventQueueEnrolmentInline)
+    inlines = (OccurrenceInlineThroughStudyGroups, EventQueueEnrolmentInline)
     list_filter = ["created_at", HasUnitIdStudyGroupListFilter]
     search_fields = ["unit_id", "unit_name", "person__name"]
     readonly_fields = ["person_deleted_at"]
@@ -255,6 +263,7 @@ class PalvelutarjotinEventAdmin(admin.ModelAdmin):
     )
     readonly_fields = ["contact_info_deleted_at"]
     autocomplete_fields = ["organisation", "contact_person"]
+    inlines = (OccurrenceInline,)
 
     def occurrences_count(self, obj):
         return obj.occurrences.count()
