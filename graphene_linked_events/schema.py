@@ -4,8 +4,6 @@ import math
 from django.conf import settings
 from django.core.exceptions import PermissionDenied
 from django.db import transaction
-from django.db.models import OuterRef, Subquery
-from django.utils import timezone
 from django.utils.translation import gettext_lazy as _
 from graphene import (
     Boolean,
@@ -41,7 +39,7 @@ from graphene_linked_events.utils import (
     json_object_hook,
 )
 from occurrences.event_api_services import prepare_published_event_data
-from occurrences.models import Occurrence, PalvelutarjotinEvent, VenueCustomData
+from occurrences.models import PalvelutarjotinEvent, VenueCustomData
 from organisations.models import Organisation, Person
 from palvelutarjotin.exceptions import (
     DataValidationError,
@@ -571,16 +569,8 @@ class Query:
         start = page_size * (page - 1)
         end = page * page_size
 
-        next_occurrences = Occurrence.objects.filter(
-            p_event=OuterRef("pk"), start_time__gte=timezone.now(), cancelled=False
-        ).order_by("start_time")
-
         p_events = (
-            PalvelutarjotinEvent.objects.annotate(
-                next_occurrence_start_time=Subquery(
-                    next_occurrences.values("start_time")[:1]
-                )
-            )
+            PalvelutarjotinEvent.objects.with_next_occurrence_start_time()
             .filter(next_occurrence_start_time__isnull=False)
             .order_by("next_occurrence_start_time")
             .prefetch_related("occurrences")
