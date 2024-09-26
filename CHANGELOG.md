@@ -1,6 +1,32 @@
 <!-- REMINDER: While updating changelog, also remember to update
 the version in palvelutarjotin/__init.py__ -->
 
+## [1.16.0](https://github.com/City-of-Helsinki/palvelutarjotin/compare/palvelutarjotin-v1.15.0...palvelutarjotin-v1.16.0) (2024-09-26)
+
+
+### Features
+
+* Add serializable GDPR API fields for models of Occurrences package ([56a8f7f](https://github.com/City-of-Helsinki/palvelutarjotin/commit/56a8f7fe6a5a3933cdeb502c9d220f83f25d60af))
+* Add serializable GDPR fields for Person model ([acbcd9e](https://github.com/City-of-Helsinki/palvelutarjotin/commit/acbcd9ed81f8d392abd3a8fff8a90ffa472c89cb))
+* Add serializable GDPR fields for the User model ([952f512](https://github.com/City-of-Helsinki/palvelutarjotin/commit/952f5128137c008db9ba5147fcfda8a5468d7fe3))
+* Add uuid to the user admin list display ([0eea17e](https://github.com/City-of-Helsinki/palvelutarjotin/commit/0eea17e60c5c774d965a2361a1ee76e244d74959))
+* Delete user when gdpr delete is requested ([bdf0172](https://github.com/City-of-Helsinki/palvelutarjotin/commit/bdf0172c98627d4beea7e0a767559fa4b5e2d2b5))
+* Enable Helusers user migration ([bbd4e31](https://github.com/City-of-Helsinki/palvelutarjotin/commit/bbd4e311991c6bb5db075b36b78a07e376245719))
+* Improve admin site performance by auto complete fields & inlines ([3ffd690](https://github.com/City-of-Helsinki/palvelutarjotin/commit/3ffd690ca676e81ce80356b7294cb793b553a68e))
+* Improvements to person admin ([84670ca](https://github.com/City-of-Helsinki/palvelutarjotin/commit/84670ca5e91aec17d9692bd19b97e638c1813acf))
+* Install latest django-helusers and helsinki-profile-gdpr-api ([72a4c99](https://github.com/City-of-Helsinki/palvelutarjotin/commit/72a4c99c53b61684bf2ea638378edb9e4a97126f))
+* Install requests-mock for gdpr unit testing ([cf42ec2](https://github.com/City-of-Helsinki/palvelutarjotin/commit/cf42ec2de4d330a357ec2f31aa8b550d6a5d6abf))
+* Occurrences are listed in inline component in palvelutarjotin event admin ([26acf88](https://github.com/City-of-Helsinki/palvelutarjotin/commit/26acf882d0fe4945c7e165a1e95b36985683204d))
+* Resolve if pEvent has any spaces left for enrolment ([cd54060](https://github.com/City-of-Helsinki/palvelutarjotin/commit/cd54060f3c3c92926b7583c6f834f808f5627d72))
+
+
+### Bug Fixes
+
+* Deprecation warnings and upgrade the django-ilmoitin ([bfa44c9](https://github.com/City-of-Helsinki/palvelutarjotin/commit/bfa44c920252a5b426238f9daefdab91df06d532))
+* Heluser settings for user migration and logout ([88e5a8f](https://github.com/City-of-Helsinki/palvelutarjotin/commit/88e5a8fc6291a4d6499187481d32d2e1df409985))
+* Oidc audience env variable was always read as a string when it can also be a list ([abe0806](https://github.com/City-of-Helsinki/palvelutarjotin/commit/abe08060118e7d53d1ce96de55a02d6c9ab2ecbf))
+* User deleted via GDPR API should not be relinkable to Helsinki Profile ([dbeefda](https://github.com/City-of-Helsinki/palvelutarjotin/commit/dbeefda9cd78d33bbe26309586556c2fdb15968f))
+
 ## [1.15.0](https://github.com/City-of-Helsinki/palvelutarjotin/compare/palvelutarjotin-v1.14.1...palvelutarjotin-v1.15.0) (2024-09-16)
 
 
