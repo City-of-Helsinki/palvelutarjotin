@@ -1,5 +1,6 @@
 from copy import deepcopy
 from datetime import datetime, timedelta
+from datetime import timezone as datetime_timezone
 from unittest.mock import patch
 
 import pytest
@@ -438,7 +439,7 @@ def test_update_unpublished_occurrence(
     occurrence = OccurrenceFactory(
         contact_persons=[person],
         p_event__organisation=organisation,
-        start_time=datetime(2020, 1, 1, 12, 0, tzinfo=timezone.utc),
+        start_time=datetime(2020, 1, 1, 12, 0, tzinfo=datetime_timezone.utc),
     )
     p_event = PalvelutarjotinEventFactory(organisation=organisation)
     variables["input"]["id"] = to_global_id("OccurrenceNode", occurrence.id)

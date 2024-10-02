@@ -1,4 +1,5 @@
 from datetime import datetime, timedelta
+from datetime import timezone as datetime_timezone
 from unittest import mock
 
 import pytest
@@ -6,7 +7,6 @@ from django.contrib.auth.models import Permission
 from django.contrib.contenttypes.models import ContentType
 from django.test import override_settings, TestCase
 from django.test.client import RequestFactory
-from django.utils import timezone
 from django.views.generic import TemplateView
 from freezegun import freeze_time
 from graphql_relay import to_global_id
@@ -131,7 +131,7 @@ class PalvelutarjotinEventEnrolmentsMixinTest(TestCase):
 
     @pytest.mark.django_db
     def test_get_queryset_without_filter(self):
-        today = datetime.now(tz=timezone.utc)
+        today = datetime.now(tz=datetime_timezone.utc)
         for p_event in PalvelutarjotinEventFactory.create_batch(
             3, enrolment_start=today
         ):
@@ -171,7 +171,7 @@ class PalvelutarjotinEventEnrolmentsMixinTest(TestCase):
 
     @pytest.mark.django_db
     def test_get_queryset_with_start_date_and_end_date(self):
-        today = datetime.now(tz=timezone.utc)
+        today = datetime.now(tz=datetime_timezone.utc)
         p_event1 = PalvelutarjotinEventFactory(
             enrolment_start=today - timedelta(days=3)
         )
@@ -258,7 +258,7 @@ class PalvelutarjotinEventEnrolmentsAdminViewTest(TestCase):
     )
     def test_get_context_data(self):
         self.view.request = RequestFactory().get("/fake-path/")
-        today = datetime.now(tz=timezone.utc)
+        today = datetime.now(tz=datetime_timezone.utc)
         p_events = PalvelutarjotinEventFactory.create_batch(3, enrolment_start=today)
         for p_event in p_events:
             occurrence = OccurrenceFactory(p_event=p_event, amount_of_seats=100)
@@ -316,7 +316,7 @@ class OrganisationPersonsCsvViewTest(TestCase):
 class PalvelutarjotinEventEnrolmentsTest(TestCase):
     @pytest.mark.django_db
     def test_export_enrolment_csv_data(self):
-        today = datetime.now(tz=timezone.utc)
+        today = datetime.now(tz=datetime_timezone.utc)
         p_events = PalvelutarjotinEventFactory.create_batch(3, enrolment_start=today)
         for p_event in p_events:
             occurrence = OccurrenceFactory(p_event=p_event, amount_of_seats=100)
