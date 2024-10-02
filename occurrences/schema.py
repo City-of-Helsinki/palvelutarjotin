@@ -152,6 +152,7 @@ class OccurrenceNode(DjangoObjectType):
 
     class Meta:
         model = Occurrence
+        fields = "__all__"
         interfaces = (graphene.relay.Node,)
         filterset_class = OccurrenceFilter
 
@@ -192,6 +193,7 @@ class PalvelutarjotinEventNode(DjangoObjectType):
 
     class Meta:
         model = PalvelutarjotinEvent
+        fields = "__all__"
         interfaces = (graphene.relay.Node,)
 
     def resolve_next_occurrence_datetime(self, info, **kwargs):
@@ -314,6 +316,7 @@ class UnitNode(graphene.Union):
 class StudyGroupNode(DjangoObjectType):
     class Meta:
         model = StudyGroup
+        fields = "__all__"
         interfaces = (graphene.relay.Node,)
 
     unit = graphene.Field(UnitNode)
@@ -638,6 +641,7 @@ class EnrolmentNode(DjangoObjectType):
 
     class Meta:
         model = Enrolment
+        fields = "__all__"
         filter_fields = ["status", "occurrence_id"]
         interfaces = (graphene.relay.Node,)
         connection_class = EnrolmentConnectionWithCount
@@ -661,6 +665,7 @@ class EventQueueEnrolmentNode(DjangoObjectType):
 
     class Meta:
         model = EventQueueEnrolment
+        fields = "__all__"
         filter_fields = ["p_event_id"]
         interfaces = (graphene.relay.Node,)
         connection_class = EnrolmentConnectionWithCount

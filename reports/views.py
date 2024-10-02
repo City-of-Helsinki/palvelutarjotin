@@ -156,7 +156,7 @@ class PalvelutarjotinEventEnrolmentsMixin(ExportReportViewMixin):
 
         if not event_ids and not start_date and not end_date:
             # Get this years enrolments
-            today = datetime.datetime.now(tz=timezone.utc)
+            today = datetime.datetime.now(tz=datetime.timezone.utc)
             queryset = queryset.filter(
                 occurrence__p_event__enrolment_start__year=today.year
             )

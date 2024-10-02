@@ -72,6 +72,7 @@ class OrganisationNode(DjangoObjectType):
 class OrganisationProposalNode(DjangoObjectType):
     class Meta:
         model = OrganisationProposal
+        fields = "__all__"
         interfaces = (relay.Node,)
 
 

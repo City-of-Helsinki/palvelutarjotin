@@ -9,7 +9,7 @@ def fake_id_array():
     from faker import Faker
 
     fake = Faker()
-    return fake.pylist(3, True, "str")
+    return fake.pylist(3, True, ["str"])
 
 
 class UserFactory(factory.django.DjangoModelFactory):
