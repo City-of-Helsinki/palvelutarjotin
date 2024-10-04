@@ -8,7 +8,7 @@ from occurrences.consts import NotificationTemplate
 DEFAULT_NOTIFICATION_BODY_TEXT_FI = """
     Event FI: {{ event.name.fi }}
     Extra event info: {{ occurrence.p_event.linked_event_id }}
-    Study group: {{ study_group.name }}
+    Study group: {{ study_group.unit_name }}
     {% if preview_mode %}
     Occurrence: {{ occurrence.start_time }}
     {% else %}
@@ -37,7 +37,7 @@ NOTIFICATION_WITH_CUSTOM_MESSAGE_HTML_FI = (
 DEFAULT_NOTIFICATION_BODY_TEXT_EN = """
     Event EN: {{ event.name.en }}
     Extra event info: {{ occurrence.p_event.linked_event_id }}
-    Study group: {{ study_group.name }}
+    Study group: {{ study_group.unit_name }}
     {% if preview_mode %}
     Occurrence: {{ occurrence.start_time }}
     {% else %}

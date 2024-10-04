@@ -690,12 +690,38 @@ class StudyGroup(
 
     @property
     def name(self):
-        warnings.warn("Deprecated!", DeprecationWarning, stacklevel=2)
+        """
+        Get unit name. This getter is for backward compatibility
+        to better support existing notification templates etc.
+
+        :return: unit name
+
+        .. deprecated:: release-v.0.8.0
+           Use `self.unit_name` instead of `self.name`.
+        """
+        warnings.warn(
+            "Deprecated! Use self.unit_name instead of self.name",
+            DeprecationWarning,
+            stacklevel=2,
+        )
         return self.unit_name
 
     @name.setter
     def name(self, value):
-        warnings.warn("Deprecated!", DeprecationWarning, stacklevel=2)
+        """
+        Set unit name to given value. This setter is for backward compatibility
+        to better support existing notification templates etc.
+
+        :param value: unit name
+
+        .. deprecated:: release-v.0.8.0
+           Use `self.unit_name = value` instead of `self.name = value`.
+        """
+        warnings.warn(
+            "Deprecated! Use self.unit_name=value instead of self.name=value",
+            DeprecationWarning,
+            stacklevel=2,
+        )
         self.unit_name = value
 
     def __str__(self):
@@ -892,7 +918,7 @@ class EventQueueEnrolment(GDPRModel, SerializableMixin, EnrolmentBase):
         ]
 
     def __str__(self):
-        return f"{self.id} {self.p_event.linked_event_id} {self.study_group.name}"
+        return f"{self.id} {self.p_event.linked_event_id} {self.study_group.unit_name}"
 
     def is_editable_by_user(self, user):
         return user.person.organisations.filter(
@@ -976,7 +1002,7 @@ class Enrolment(GDPRModel, SerializableMixin, EnrolmentBase):
         ordering = ["occurrence", "enrolment_time"]
 
     def __str__(self):
-        return f"{self.id} {self.occurrence.start_time} {self.study_group.name}"
+        return f"{self.id} {self.occurrence.start_time} {self.study_group.unit_name}"
 
     def is_editable_by_user(self, user):
         return user.person.organisations.filter(
