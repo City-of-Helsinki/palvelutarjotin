@@ -2184,7 +2184,7 @@ def test_notification_template_query_error(
         "language": "EN",
         "context": '{"event":{"name":{"fi":"This should be `en`"}},'
         '"study_group":{'
-        '"name":"group name","person":{'
+        '"unit_name":"group name","person":{'
         '"email_address":"email@me.com"}},"occurrence":{'
         '"start_time":"2020-12-12","p_event":{'
         '"linked_event_id":"linked_event_id"}},'
@@ -2207,7 +2207,7 @@ def test_notification_template_query(
         "language": "EN",
         "context": '{"event":{"name":{"en":"Name in english"}},'
         '"study_group":{'
-        '"name":"group name","person":{'
+        '"unit_name":"group name","person":{'
         '"email_address":"email@me.com"}},"occurrence":{'
         '"start_time":"2020-12-12","p_event":{'
         '"linked_event_id":"linked_event_id"}},'
