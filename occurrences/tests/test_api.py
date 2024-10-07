@@ -2722,7 +2722,7 @@ def test_event_queue_enrolments_query_unauthorized(
     )
     # FIXME: The permission denied error should be raised
     # assert_permission_denied(executed)
-    executed["data"]["eventQueueEnrolments"] is None
+    assert executed["data"]["eventQueueEnrolments"] == {"count": 0, "edges": []}
     # With a wrong organisation
     other_organisation = OrganisationFactory()
     staff_api_client.user.person.organisations.add(other_organisation)
@@ -2735,7 +2735,7 @@ def test_event_queue_enrolments_query_unauthorized(
     )
     # FIXME: The permission denied error should be raised
     # assert_permission_denied(executed)
-    executed["data"]["eventQueueEnrolments"] is None
+    assert executed["data"]["eventQueueEnrolments"] == {"count": 0, "edges": []}
 
 
 def test_event_queue_enrolment_query(
@@ -2872,11 +2872,11 @@ def test_pick_enrolment_from_queue(
         }
     }
     staff_api_client.user.person.organisations.add(organisation)
-    Enrolment.objects.count() == 0
+    assert Enrolment.objects.count() == 0
     executed = staff_api_client.execute(
         PICK_ENROLMENT_FROM_QUEUE_MUTATION, variables=variables
     )
-    Enrolment.objects.count() == 1
+    assert Enrolment.objects.count() == 1
     snapshot.assert_match(executed)
 
 

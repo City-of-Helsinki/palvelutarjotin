@@ -13,7 +13,7 @@ from reports.models import EnrolmentReport
 @pytest.mark.django_db
 def test_enrolment_report(mock_get_event_data):
     EnrolmentReportFactory()
-    EnrolmentReport.objects.count() == 1
+    assert EnrolmentReport.objects.count() == 1
 
 
 @pytest.mark.django_db
@@ -45,8 +45,11 @@ def test_get_publisher_from_occurrence(
     publisher_id = "test_hydration"
     occurrence.p_event.organisation.publisher_id = publisher_id
     report = EnrolmentReport(occurrence=occurrence)
-    report.publisher == publisher_id
-    report._get_publisher_id_from_occurrence() == publisher_id
+    assert report.publisher is None  # Not hydrated yet
+    assert report._get_publisher_id_from_occurrence() == publisher_id
+    report._rehydrate()
+    assert report.publisher == publisher_id  # Hydrated
+    assert report._get_publisher_id_from_occurrence() == publisher_id
 
 
 @pytest.mark.django_db

@@ -485,13 +485,21 @@ class EnrolmentReportListView(generics.ListAPIView):
 
     The available filters:
         - `updated_at__gte`, to filter with a report update date
+        - `updated_at__gt`,
         - `updated_at__lte`,
+        - `updated_at__lt`,
         - `created_at__gte`, to filter with a report creation date
+        - `created_at__gt`,
         - `created_at__lte`
+        - `created_at__lt`
         - `enrolment_time__gte`, to filter with a report enrolment time
+        - `enrolment_time__gt`,
         - `enrolment_time__lte`
+        - `enrolment_time__lt`
         - `enrolment_start_time__gte`, to filter with a report enrolment start time
+        - `enrolment_start_time__gt`,
         - `enrolment_start_time__lte`
+        - `enrolment_start_time__lt`
         - `enrolment_status`, to filter with an enrolment status:
         approved, pending. cancelled. declined
 
@@ -515,14 +523,22 @@ class EnrolmentReportListView(generics.ListAPIView):
         # Allow the following filter parameters
         allowed_filter_keys = [
             "updated_at__gte",
+            "updated_at__gt",
             "updated_at__lte",
+            "updated_at__lt",
             "created_at__gte",
+            "created_at__gt",
             "created_at__lte",
+            "created_at__lt",
             "enrolment_status",
             "enrolment_start_time__gte",
+            "enrolment_start_time__gt",
             "enrolment_start_time__lte",
+            "enrolment_start_time__lt",
             "enrolment_time__gte",
+            "enrolment_time__gt",
             "enrolment_time__lte",
+            "enrolment_time__lt",
         ]
         queryset = EnrolmentReport.objects.all()
         filter_params = {

@@ -11,7 +11,7 @@ class GDPRModel(models.Model):
         # raise a NotImplementedError
         # immediately on launch of an app
         # if the `gdpr_sensitive_data_fields` is not defined.
-        self.gdpr_sensitive_data_fields
+        self.gdpr_sensitive_data_fields  # noqa: B018
 
     class Meta:
         abstract = True
