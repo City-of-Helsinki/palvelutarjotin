@@ -1,13 +1,19 @@
 import enum
+from datetime import datetime, timedelta
+from datetime import timezone as datetime_timezone
 from enum import auto
 
 import graphene
 import pytest
+from django.test.utils import override_settings
+from django.utils import timezone
+from zoneinfo import ZoneInfo
 
 from common.utils import (
     deepfix_enum_values,
     is_enum_value,
     map_enums_to_values_in_kwargs,
+    to_local_datetime_if_naive,
 )
 
 
@@ -252,3 +258,63 @@ def test_map_enums_to_values_in_kwargs(args, kwargs, expected_kwargs):
         return (args, kwargs)
 
     assert method(*args, **kwargs) == (args, expected_kwargs)
+
+
+@pytest.mark.parametrize(
+    "value,expected_output",
+    [
+        ("2020-12-30", datetime(2020, 12, 30, tzinfo=ZoneInfo("Asia/Tokyo"))),
+        ("2023-05-21", datetime(2023, 5, 21, tzinfo=ZoneInfo("Asia/Tokyo"))),
+        (
+            "2024-03-29T12:34:56.123456+05:00",
+            datetime(
+                2024,
+                3,
+                29,
+                12,
+                34,
+                56,
+                microsecond=123456,
+                # +05:00 UTC offset from input string
+                tzinfo=datetime_timezone(timedelta(seconds=5 * 60 * 60)),
+            ),
+        ),
+    ],
+)
+@override_settings(USE_TZ=True, TIMEZONE="Asia/Tokyo")
+def test_to_local_datetime_if_naive(settings, value, expected_output):
+    with timezone.override(settings.TIMEZONE):
+        assert to_local_datetime_if_naive(value) == expected_output
+
+
+@pytest.mark.parametrize("value", [None, False, 0, 123, _TestEnum.TEST])
+def test_to_local_datetime_if_naive_raises_type_error(value):
+    with pytest.raises(TypeError):
+        to_local_datetime_if_naive(value)
+
+
+@pytest.mark.parametrize(
+    "value", ["today", "2300-02-32", "approved", "Enrolment.STATUS_APPROVED"]
+)
+def test_to_local_datetime_if_naive_raises_value_error(value):
+    with pytest.raises(ValueError):
+        to_local_datetime_if_naive(value)
+
+
+@override_settings(USE_TZ=True)
+def test_to_local_datetime_if_naive_uses_current_timezone(settings):
+    settings.TIMEZONE = "Europe/Helsinki"
+    with timezone.override(settings.TIMEZONE):
+        assert to_local_datetime_if_naive("2020-12-30").tzinfo == ZoneInfo(
+            "Europe/Helsinki"
+        )
+    settings.TIMEZONE = "Australia/Sydney"
+    with timezone.override(settings.TIMEZONE):
+        assert to_local_datetime_if_naive("2020-12-30").tzinfo == ZoneInfo(
+            "Australia/Sydney"
+        )
+    settings.TIMEZONE = "America/New_York"
+    with timezone.override(settings.TIMEZONE):
+        assert to_local_datetime_if_naive("2020-12-30").tzinfo == ZoneInfo(
+            "America/New_York"
+        )

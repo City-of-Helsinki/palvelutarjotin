@@ -1,9 +1,10 @@
 import math
+from datetime import datetime
 
-import dateutil.parser
 import pytest
 from freezegun import freeze_time
 
+from common.utils import to_local_datetime_if_naive
 from occurrences.factories import EnrolmentFactory, StudyGroupFactory, StudyLevelFactory
 from occurrences.models import Enrolment
 from reports.factories import EnrolmentReportFactory
@@ -123,29 +124,30 @@ def test_enrolment_report_enrolment_rehydration(mock_get_event_data, occurrence)
 
 @pytest.mark.django_db
 def test_unsynced_queryset(mock_get_event_data):
-    latest_sync = "2020-01-01"
+    latest_sync = to_local_datetime_if_naive("2020-01-01")
 
-    def create_enrolment(updated_at_str):
-        with freeze_time(updated_at_str):
+    def create_enrolment(updated_at: datetime):
+        with freeze_time(updated_at):
             return EnrolmentFactory(
                 status=Enrolment.STATUS_APPROVED,
             )
 
-    enrolment1, enrolment2, enrolment3, enrolment4 = [
-        create_enrolment(updated_at_str)
-        for updated_at_str in [latest_sync, "2020-01-02", "2020-01-03", "2020-01-04"]
+    enrolment1 = create_enrolment(latest_sync)
+    enrolment2, enrolment3, enrolment4 = [
+        create_enrolment(to_local_datetime_if_naive(updated_at_str))
+        for updated_at_str in ["2020-01-02", "2020-01-03", "2020-01-04"]
     ]
 
     # In sync - also sets the latest sync time to "2020-01-01"
     with freeze_time(latest_sync):
         in_sync = [
             EnrolmentReportFactory(
-                updated_at=dateutil.parser.isoparse("20200101"),
+                updated_at=to_local_datetime_if_naive("2020-01-01"),
                 enrolment=enrolment1,
             )
         ]
 
-    with freeze_time("2019-12-30"):
+    with freeze_time(to_local_datetime_if_naive("2019-12-30")):
         # Not in sync, but status unchanged
         no_sync_need = [
             EnrolmentReportFactory(
@@ -169,7 +171,7 @@ def test_unsynced_queryset(mock_get_event_data):
             report.save()
 
     assert Enrolment.objects.filter(updated_at__gte=latest_sync).count() == 4
-    assert EnrolmentReport.objects.filter(updated_at__lte=latest_sync).count() == len(
+    assert EnrolmentReport.objects.filter(updated_at__lt=latest_sync).count() == len(
         no_sync_need
     ) + len(needs_sync)
     assert EnrolmentReport.objects.filter(updated_at__gte=latest_sync).count() == len(
@@ -181,7 +183,7 @@ def test_unsynced_queryset(mock_get_event_data):
 @pytest.mark.django_db
 def test_create_missing(mock_get_event_data):
     enrolments = EnrolmentFactory.create_batch(10)
-    with freeze_time("2019-12-30"):
+    with freeze_time(to_local_datetime_if_naive("2019-12-30")):
         for enrolment in enrolments[:5]:
             EnrolmentReportFactory(enrolment=enrolment)
     assert EnrolmentReport.objects.all().count() == 5
@@ -198,7 +200,7 @@ def test_create_missing(mock_get_event_data):
 def test_update_unsynced(mock_get_event_data):
     enrolments = EnrolmentFactory.create_batch(10, status=Enrolment.STATUS_APPROVED)
     # All reports which are wanted to be updated, needs to be in the past
-    with freeze_time("2019-12-30"):
+    with freeze_time(to_local_datetime_if_naive("2019-12-30")):
         for enrolment in enrolments[:5]:
             EnrolmentReportFactory(enrolment=enrolment)
         for enrolment in enrolments[5:]:
@@ -207,13 +209,19 @@ def test_update_unsynced(mock_get_event_data):
             # because otherwise enrolment setter would override it
             report.enrolment_status = Enrolment.STATUS_PENDING
             report.save()
-    assert EnrolmentReport.objects.filter(updated_at__lt="2019-12-31").count() == 10
+    assert (
+        EnrolmentReport.objects.filter(
+            updated_at__lt=to_local_datetime_if_naive("2019-12-31")
+        ).count()
+        == 10
+    )
 
-    with freeze_time("2020-01-04"):
+    with freeze_time(to_local_datetime_if_naive("2020-01-04")):
         EnrolmentReport.objects.update_unsynced()
         assert (
             EnrolmentReport.objects.filter(
-                updated_at__gte="2020-01-04", enrolment_status=Enrolment.STATUS_APPROVED
+                updated_at__gte=to_local_datetime_if_naive("2020-01-04"),
+                enrolment_status=Enrolment.STATUS_APPROVED,
             ).count()
             == 5
         )

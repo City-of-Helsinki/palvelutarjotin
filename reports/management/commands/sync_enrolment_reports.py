@@ -1,7 +1,6 @@
-from datetime import datetime
-
 from django.core.management.base import BaseCommand
 
+from common.utils import to_local_datetime_if_naive
 from reports.services import sync_enrolment_reports
 
 
@@ -32,7 +31,11 @@ class Command(BaseCommand):
     def handle(self, *args, **options):
         sync_from = None
         if options["sync_from"]:
-            sync_from = datetime.fromisoformat(options["sync_from"][0])
+            try:
+                sync_from = to_local_datetime_if_naive(options["sync_from"][0])
+            except (TypeError, ValueError):
+                # Could not be converted to datetime
+                sync_from = None
         sync_enrolment_reports(
             hydrate_linkedevents_event=not options["ignore_linkedevents"],
             sync_from=sync_from,
