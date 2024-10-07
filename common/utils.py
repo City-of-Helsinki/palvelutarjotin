@@ -103,6 +103,24 @@ def convert_to_localtime_tz(value):
         return timezone.localtime(dt).timetz()
 
 
+def to_local_datetime_if_naive(value) -> datetime:
+    """
+    Convert ISO 8601 formatted string to datetime object and
+    convert it to local timezone if no timezone information was specified
+    (i.e. the converted datetime was a naive datetime).
+    Otherwise, return the converted datetime object as is.
+
+    :param value: ISO 8601 formatted string
+    :return: datetime object
+    :raises ValueError: If the input string is not a valid ISO 8601 formatted string
+    :raises TypeError: If the input string is not a string
+    """
+    result = datetime.fromisoformat(value)
+    if timezone.is_naive(result):
+        return timezone.make_aware(result)
+    return result
+
+
 def get_obj_from_global_id(info, global_id, expected_obj_type):
     obj = Node.get_node_from_global_id(info, global_id)
     if not obj or type(obj) is not expected_obj_type:

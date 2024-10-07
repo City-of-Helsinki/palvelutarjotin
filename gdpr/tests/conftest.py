@@ -1,6 +1,7 @@
 import datetime
 
 import pytest
+from django.utils import timezone
 from helusers.settings import api_token_auth_settings
 from jose import jwt
 from rest_framework.test import APIClient
@@ -34,7 +35,7 @@ def get_api_token_for_user_with_scopes(user, scopes: list, requests_mock):
 
     keys = {"keys": [rsa_key.public_key_jwk]}
 
-    now = datetime.datetime.now()
+    now = timezone.now()
     expire = now + datetime.timedelta(days=14)
 
     jwt_data = {

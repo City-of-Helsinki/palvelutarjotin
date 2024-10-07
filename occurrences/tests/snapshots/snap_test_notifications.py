@@ -291,17 +291,17 @@ snapshots['test_send_enrolment_summary_report 1'] = [
         Total new accepted enrolments: 1
             Event name: Raija Malka & Kaija Saariaho: Blick
             Event link: https://kultus-admin.hel.fi/fi/events/TuZpF
-                    Occurrence: #2020-01-13 22:00:00+00:00 (1 new enrolments)
+                    Occurrence: #2020-01-14 00:00:00+00:00 (1 new enrolments)
                     Link to occurrence: https://kultus-admin.hel.fi/fi/events/TuZpF/occurrences/T2NjdXJyZW5jZU5vZGU6NDE=
             Event name: Raija Malka & Kaija Saariaho: Blick
             Event link: https://kultus-admin.hel.fi/fi/events/csgfn
-                    Occurrence: #2020-01-13 22:00:00+00:00 (1 pending)
+                    Occurrence: #2020-01-14 00:00:00+00:00 (1 pending)
                     Link to occurrence: https://kultus-admin.hel.fi/fi/events/csgfn/occurrences/T2NjdXJyZW5jZU5vZGU6MzE=
             Event name: Raija Malka & Kaija Saariaho: Blick
             Event link: https://kultus-admin.hel.fi/fi/events/jfwob
-                    Occurrence: #2020-01-13 22:00:00+00:00 (1 pending)
+                    Occurrence: #2020-01-14 00:00:00+00:00 (1 pending)
                     Link to occurrence: https://kultus-admin.hel.fi/fi/events/jfwob/occurrences/T2NjdXJyZW5jZU5vZGU6MjE=
-                    Occurrence: #2020-01-13 22:00:00+00:00 (1 pending)
+                    Occurrence: #2020-01-14 00:00:00+00:00 (1 pending)
                     Link to occurrence: https://kultus-admin.hel.fi/fi/events/jfwob/occurrences/T2NjdXJyZW5jZU5vZGU6MjI=
         ''',
     '''no-reply@hel.ninja|['dsellers@example.net']|Enrolment approved FI|
@@ -309,9 +309,9 @@ snapshots['test_send_enrolment_summary_report 1'] = [
         Total new accepted enrolments: 0
             Event name: Raija Malka & Kaija Saariaho: Blick
             Event link: https://kultus-admin.hel.fi/fi/events/aAVEa
-                    Occurrence: #2020-01-13 22:00:00+00:00 (3 pending)
+                    Occurrence: #2020-01-14 00:00:00+00:00 (3 pending)
                     Link to occurrence: https://kultus-admin.hel.fi/fi/events/aAVEa/occurrences/T2NjdXJyZW5jZU5vZGU6MTE=
-                    Occurrence: #2020-01-13 22:00:00+00:00 (1 pending)
+                    Occurrence: #2020-01-14 00:00:00+00:00 (1 pending)
                     Link to occurrence: https://kultus-admin.hel.fi/fi/events/aAVEa/occurrences/T2NjdXJyZW5jZU5vZGU6MTI=
         '''
 ]

@@ -20,7 +20,10 @@ from rest_framework.authentication import SessionAuthentication
 from rest_framework.permissions import DjangoModelPermissions, IsAdminUser
 from rest_framework.views import APIView
 
-from common.utils import get_node_id_from_global_id
+from common.utils import (
+    get_node_id_from_global_id,
+    to_local_datetime_if_naive,
+)
 from occurrences.models import Enrolment, PalvelutarjotinEvent
 from organisations.models import Organisation, Person
 from palvelutarjotin.oidc import KultusApiTokenAuthentication
@@ -510,6 +513,28 @@ class EnrolmentReportListView(generics.ListAPIView):
     e.g `?order_by=-updated_at`.
     """
 
+    allowed_non_datetime_filter_keys = [
+        "enrolment_status",
+    ]
+    allowed_datetime_filter_keys = [
+        "updated_at__gte",
+        "updated_at__gt",
+        "updated_at__lte",
+        "updated_at__lt",
+        "created_at__gte",
+        "created_at__gt",
+        "created_at__lte",
+        "created_at__lt",
+        "enrolment_start_time__gte",
+        "enrolment_start_time__gt",
+        "enrolment_start_time__lte",
+        "enrolment_start_time__lt",
+        "enrolment_time__gte",
+        "enrolment_time__gt",
+        "enrolment_time__lte",
+        "enrolment_time__lt",
+    ]
+
     serializer_class = EnrolmentReportSerializer
     # Must be allowed only with model permissions (for 1 power bi user).
     # Should not be allowed for every staff member,
@@ -520,32 +545,21 @@ class EnrolmentReportListView(generics.ListAPIView):
     pagination_class = None
 
     def get_queryset(self):
-        # Allow the following filter parameters
-        allowed_filter_keys = [
-            "updated_at__gte",
-            "updated_at__gt",
-            "updated_at__lte",
-            "updated_at__lt",
-            "created_at__gte",
-            "created_at__gt",
-            "created_at__lte",
-            "created_at__lt",
-            "enrolment_status",
-            "enrolment_start_time__gte",
-            "enrolment_start_time__gt",
-            "enrolment_start_time__lte",
-            "enrolment_start_time__lt",
-            "enrolment_time__gte",
-            "enrolment_time__gt",
-            "enrolment_time__lte",
-            "enrolment_time__lt",
-        ]
         queryset = EnrolmentReport.objects.all()
+        # Parse non-datetime filter parameters
         filter_params = {
             k: self.request.query_params.get(k)
-            for k in allowed_filter_keys
+            for k in self.allowed_non_datetime_filter_keys
             if self.request.query_params.get(k)
         }
+        # Parse datetime filter parameters
+        filter_params.update(
+            {
+                k: to_local_datetime_if_naive(self.request.query_params.get(k))
+                for k in self.allowed_datetime_filter_keys
+                if self.request.query_params.get(k)
+            }
+        )
         if filter_params:
             # Filter with allowed params
             queryset = queryset.filter(**filter_params)
