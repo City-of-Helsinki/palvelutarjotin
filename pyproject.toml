@@ -4,6 +4,7 @@ extend-exclude = ["migrations", "snapshots"]
 [tool.ruff.lint]
 # See https://docs.astral.sh/ruff/rules/ for documentation of rules
 extend-select = [
+    "B01", # Enable B01* part of flake8-bugbear (B) rules, e.g. B015 and B018
     "C90", # Enable mccabe (C90) rules
     "E",   # Enable pycodestyle error (E) rules
     "F",   # Enable Pyflakes (F) rules

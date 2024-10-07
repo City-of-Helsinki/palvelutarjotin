@@ -49,20 +49,29 @@ def test_palvelutarjotin_event(mock_get_event_data):
 def test_palvelutarjotin_event_translations(mock_get_event_data):
     p_event = PalvelutarjotinEventFactory(auto_acceptance_message="automaattiviesti")
     assert PalvelutarjotinEvent.objects.count() == 1
-    p_event.get_current_language() == "fi"
+    assert p_event.get_current_language() == "fi"
     assert p_event.auto_acceptance_message == "automaattiviesti"
     p_event.set_current_language("en")
     p_event.auto_acceptance_message = "auto acceptance message"
     p_event.save()
-    PalvelutarjotinEvent.objects.active_translations(
-        auto_acceptance_message="auto acceptance message"
-    ).count() == 1
-    PalvelutarjotinEvent.objects.active_translations(
-        auto_acceptance_message="automaattiviesti"
-    ).count() == 0
-    PalvelutarjotinEvent.objects.translated(
-        auto_acceptance_message="automaattiviesti"
-    ).count() == 1
+    assert (
+        PalvelutarjotinEvent.objects.active_translations(
+            auto_acceptance_message="auto acceptance message"
+        ).count()
+        == 1
+    )
+    assert (
+        PalvelutarjotinEvent.objects.active_translations(
+            auto_acceptance_message="automaattiviesti"
+        ).count()
+        == 1
+    )
+    assert (
+        PalvelutarjotinEvent.objects.translated(
+            auto_acceptance_message="automaattiviesti"
+        ).count()
+        == 1
+    )
 
 
 @pytest.mark.django_db
@@ -133,7 +142,7 @@ def test_study_group_creation():
 @pytest.mark.django_db
 def test_study_group_save_resolves_unit_name_from_unit_id(mock_get_place_data):
     study_group = StudyGroupFactory(unit_id=EVENT_DATA["id"], unit_name=None)
-    study_group.unit_name is not None
+    assert study_group.unit_name is not None
 
 
 @pytest.mark.django_db
@@ -370,11 +379,15 @@ def test_enrolment_create_cancellation_token_with_deactivation(
     mock_get_event_data,
 ):
     enrolment = EnrolmentFactory()
-    enrolment.create_cancellation_token()
-    VerificationToken.objects.count() == 1
+    token1 = enrolment.create_cancellation_token()
+    assert VerificationToken.objects.count() == 1
+    assert VerificationToken.objects.first().is_active is True
     token2 = enrolment.create_cancellation_token(deactivate_existing=True)
-    VerificationToken.objects.count() == 1
-    VerificationToken.objects.filter(pk=token2.pk).exists()
+    assert VerificationToken.objects.count() == 2
+    assert VerificationToken.objects.filter(pk=token1.pk).exists()
+    assert VerificationToken.objects.filter(pk=token2.pk).exists()
+    assert VerificationToken.objects.get(pk=token1.pk).is_active is False
+    assert VerificationToken.objects.get(pk=token2.pk).is_active is True
 
 
 @pytest.mark.django_db
@@ -502,10 +515,13 @@ def test_get_event_languages_from_occurrence(
 
 @pytest.mark.django_db
 def test_languages_are_sorted_by_name_and_id(mock_get_event_data):
-    languages = LanguageFactory.create_batch(size=10)
-    Language.objects.count() == 10
-    [lang for lang in Language.objects.all()] == sorted(
-        languages, key=lambda x: (x.name, x.id)
+    LanguageFactory.create_batch(size=10)
+    assert Language.objects.count() >= 10  # Some languages may exist at start of test
+    assert [lang.name for lang in Language.objects.all()] == list(
+        Language.objects.order_by("name", "id").values_list("name", flat=True)
+    )
+    assert [lang.id for lang in Language.objects.all()] == list(
+        Language.objects.order_by("name", "id").values_list("id", flat=True)
     )
 
 
