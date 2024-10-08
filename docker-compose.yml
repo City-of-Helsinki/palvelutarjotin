@@ -1,4 +1,3 @@
-version: "3.9"
 services:
     kultus-db:
         image: postgres:10
