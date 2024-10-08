@@ -27,6 +27,9 @@ ENV DEV_SERVER=1
 
 COPY --chown=default:root . /app/
 
+# fatal: detected dubious ownership in repository at '/app'
+RUN git config --system --add safe.directory /app
+
 USER default
 EXPOSE 8081/tcp
 
