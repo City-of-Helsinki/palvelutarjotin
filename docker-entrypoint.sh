@@ -14,14 +14,20 @@ fi
 # Apply database migrations
 if [[ "$APPLY_MIGRATIONS" = "1" ]]; then
     echo "Applying database migrations..."
-    ./manage.py migrate --noinput
+    python manage.py migrate --noinput
+fi
+
+# Create superuser
+if [[ "$CREATE_SUPERUSER" = "1" ]]; then
+    python manage.py add_admin_user -u admin -p adminpass -e admin@example.com
+    echo "Admin user created with credentials admin:adminpass (email: admin@example.com)"
 fi
 
 # Start server
 if [[ ! -z "$@" ]]; then
     "$@"
 elif [[ "$DEV_SERVER" = "1" ]]; then
-    python ./manage.py runserver 0.0.0.0:8081
+    python manage.py runserver 0.0.0.0:8081
 else
     uwsgi --ini .prod/uwsgi.ini
 fi

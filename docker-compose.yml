@@ -1,6 +1,6 @@
 services:
     kultus-db:
-        image: postgres:10
+        image: postgres:12
         restart: on-failure
         environment:
             POSTGRES_USER: kultus
@@ -20,9 +20,9 @@ services:
             - docker-compose.env.yaml
         environment:
             DATABASE_URL: postgres://kultus:kultus@kultus-db/kultus
-            DATABASE_HOST: kultus-db.helsinki
+            DATABASE_HOST: kultus-db
         volumes:
-            - .:/app
+            - djangodata:/app
         ports:
             - 8081:8081
         depends_on:
@@ -30,9 +30,11 @@ services:
         container_name: kultus-backend
 
 volumes:
+    djangodata:
+        driver: local
     pgdata:
         driver: local
 
-networks:
-    default:
-        name: helsinki
+# networks:
+#     default:
+#         name: helsinki
