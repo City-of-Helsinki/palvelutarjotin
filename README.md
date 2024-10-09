@@ -100,7 +100,7 @@ Allow user to create test database
 2.  Create superuser:
 
     - If you run the Kultus API using Docker, first enter the backend container using
-      `docker exec -it kukkuu-backend bash` and run the next command inside the container
+      `docker exec -it kultus-backend bash` and run the next command inside the container
     - Run this command from the project root to create superuser:
 
       ```
@@ -281,7 +281,7 @@ https://helsinkisolutionoffice.atlassian.net/projects/PT/issues
 ### Enrolment reports
 
 _Enrolment report instances are for data utilizing. They are provided through a JSON view used by external parties. The
-external parties will need credentials that has the enrolment report view permission to use the view!
+external parties will need credentials that has the enrolment report view permission to use the view!_
 
 Enrolment reports should maintain themselves automatically with nightly running cronjobs, but sometimes some manual
 syncing might be needed. There are some tools for that in enrolment reports admin page:
