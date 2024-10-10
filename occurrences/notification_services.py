@@ -1,10 +1,11 @@
 import logging
+from typing import List, Optional, Union
+
 from django.conf import settings
 from django.db import models
 from django.db.models import Q
 from django_ilmoitin.models import NotificationTemplate, NotificationTemplateException
 from django_ilmoitin.utils import render_notification_template, send_notification
-from typing import List, Optional, Union
 
 import occurrences.models as occurrences_models
 from common.notification_service import NotificationService

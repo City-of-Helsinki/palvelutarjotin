@@ -1,5 +1,6 @@
-import pytest
 from unittest.mock import patch
+
+import pytest
 
 from common.tests.utils import mocked_json_response
 from graphene_linked_events.utils import api_client
@@ -126,7 +127,7 @@ def test_occurrence_delete_should_ignore_errors(
     occurrence = OccurrenceFactory(
         p_event=p_event, languages=LanguageFactory.create_batch(2)
     )
-    Occurrence.objects.count() == 1
+    assert Occurrence.objects.count() == 1
     assert mock_api_client_update.call_count == 2
 
     mock_api_client_update.return_value = mocked_json_response(

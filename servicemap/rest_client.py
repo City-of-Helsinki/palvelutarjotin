@@ -1,5 +1,6 @@
-import requests
 from typing import Optional
+
+import requests
 
 
 class ServicemapApiClient:
@@ -35,9 +36,9 @@ class ServicemapApiClient:
             1097,  # Basic education
         ]
         payload = filters or {}
-        payload[
-            "arealcity"
-        ] = "91"  # Helsinki - https://www.hel.fi/palvelukarttaws/rest/v4/arealcity/
+        payload["arealcity"] = (
+            "91"  # Helsinki - https://www.hel.fi/palvelukarttaws/rest/v4/arealcity/
+        )
         payload["ontologytree"] = "+".join(str(node) for node in service_nodes)
         # NOTE: It is important that the "+" is not encoded to "%2B" in the URL.
         payload_str = "&".join("%s=%s" % (k, v) for k, v in payload.items())

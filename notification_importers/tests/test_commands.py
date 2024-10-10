@@ -1,5 +1,6 @@
+from datetime import timedelta
+
 import pytest
-from datetime import datetime, timedelta
 from django.core import mail
 from django.core.management import call_command
 from django.test import TestCase
@@ -19,7 +20,7 @@ from occurrences.models import Enrolment
 @pytest.mark.django_db
 class CommandsTestCase(TestCase):
     def setUp(self) -> None:
-        date_in_future = datetime.now() + timedelta(days=10)
+        date_in_future = timezone.now() + timedelta(days=10)
         p_event_1 = PalvelutarjotinEventFactory.create()
         occurrence_1_1 = OccurrenceFactory.create(
             id=11, p_event=p_event_1, start_time=date_in_future
@@ -86,7 +87,7 @@ class CommandsTestCase(TestCase):
         old_enrolment.enrolment_time = timezone.now() - timedelta(days=10)
         old_enrolment.save()
 
-    def test_sync_enrolment_reports_with_excluding_sync_from_param(self):
+    def test_send_enrolment_summary(self):
         args = []
         opts = {}
         with self.settings(ENABLE_SUMMARY_REPORT=True):

@@ -8,7 +8,7 @@ snapshots = Snapshot()
 
 snapshots[
     "test_create_non_existing_and_update_existing_notifications 1"
-] = """enrolment_approved_sms|enrolment approved sms|enrolment approved sms|enrolment approved sms|Hei. Ilmoittautuminen hyväksytty tapahtumaan {{trans(event.name)}}. {{ occurrence.local_start_time.strftime('%d.%m.%Y klo %H.%M')}}. Ryhmä {{ study_group.name }} {{study_group.group_size}} hlö. {% if event.location is defined %}{{trans(event.location.name)}}, {{trans(event.location.street_address)}}. {% endif %}Lisätietoja: {{occurrence.p_event.contact_email}}|Enrolment accepted for the event {{trans(event.name)}}. {{ occurrence.local_start_time.strftime('%d.%m.%Y at %H.%M')}}. Group {{ study_group.name }} {{study_group.group_size}} ppl. {% if event.location is defined %}{{trans(event.location.name)}}, {{trans(event.location.street_address)}}. {% endif %}Info: {{occurrence.p_event.contact_email}}|Hej. Din anmälan till evenemanget {{trans(event.name)}}. {{ occurrence.local_start_time.strftime('%d.%m.%Y kl %H.%M')}} Grupp {{ study_group.name }} {{study_group.group_size}} personer. {% if event.location is defined %}{{trans(event.location.name)}}, {{trans(event.location.street_address)}}. {% endif %}Mer information: {{occurrence.p_event.contact_email}}|||
+] = """enrolment_approved_sms|enrolment approved sms|enrolment approved sms|enrolment approved sms|Hei. Ilmoittautuminen hyväksytty tapahtumaan {{trans(event.name)}}. {{ occurrence.local_start_time.strftime('%d.%m.%Y klo %H.%M')}}. Ryhmä {{ study_group.unit_name }} {{study_group.group_size}} hlö. {% if event.location is defined %}{{trans(event.location.name)}}, {{trans(event.location.street_address)}}. {% endif %}Lisätietoja: {{occurrence.p_event.contact_email}}|Enrolment accepted for the event {{trans(event.name)}}. {{ occurrence.local_start_time.strftime('%d.%m.%Y at %H.%M')}}. Group {{ study_group.unit_name }} {{study_group.group_size}} ppl. {% if event.location is defined %}{{trans(event.location.name)}}, {{trans(event.location.street_address)}}. {% endif %}Info: {{occurrence.p_event.contact_email}}|Hej. Din anmälan till evenemanget {{trans(event.name)}}. {{ occurrence.local_start_time.strftime('%d.%m.%Y kl %H.%M')}} Grupp {{ study_group.unit_name }} {{study_group.group_size}} personer. {% if event.location is defined %}{{trans(event.location.name)}}, {{trans(event.location.street_address)}}. {% endif %}Mer information: {{occurrence.p_event.contact_email}}|||
 enrolment_cancellation|Ilmoittautumisen peruuttaminen|Enrolment cancellation|Avbokning av anmälan||||<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 
@@ -440,7 +440,7 @@ enrolment_cancellation|Ilmoittautumisen peruuttaminen|Enrolment cancellation|Avb
                                     </p>
                                     <p
                                       style="Margin: 0; Margin-bottom: 10px; color: #0a0a0a; font-family: Helvetica, Arial, sans-serif; font-size: 16px; font-weight: normal; line-height: 1.3; margin: 0; margin-bottom: 10px; padding: 0; text-align: left;">
-                                      <strong>Ryhmä:</strong> {{study_group.name}}
+                                      <strong>Ryhmä:</strong> {{study_group.unit_name}}
                                     </p>
 
                                     <h4
@@ -936,7 +936,7 @@ enrolment_cancellation|Ilmoittautumisen peruuttaminen|Enrolment cancellation|Avb
                                     </p>
                                     <p
                                       style="Margin: 0; Margin-bottom: 10px; color: #0a0a0a; font-family: Helvetica, Arial, sans-serif; font-size: 16px; font-weight: normal; line-height: 1.3; margin: 0; margin-bottom: 10px; padding: 0; text-align: left;">
-                                      <strong>Group:</strong> {{study_group.name}}
+                                      <strong>Group:</strong> {{study_group.unit_name}}
                                     </p>
 
                                     <h4
@@ -1438,7 +1438,7 @@ enrolment_cancellation|Ilmoittautumisen peruuttaminen|Enrolment cancellation|Avb
                                     </p>
                                     <p
                                       style="Margin: 0; Margin-bottom: 10px; color: #0a0a0a; font-family: Helvetica, Arial, sans-serif; font-size: 16px; font-weight: normal; line-height: 1.3; margin: 0; margin-bottom: 10px; padding: 0; text-align: left;">
-                                      <strong>Grupp:</strong> {{study_group.name}}
+                                      <strong>Grupp:</strong> {{study_group.unit_name}}
                                     </p>
 
                                     <h4
@@ -1940,7 +1940,7 @@ enrolment_cancelled|Ilmoittautumisen peruuttaminen vahvistettu|Enrolment cancell
                                     </p>
                                     <p
                                       style="Margin: 0; Margin-bottom: 10px; color: #0a0a0a; font-family: Helvetica, Arial, sans-serif; font-size: 16px; font-weight: normal; line-height: 1.3; margin: 0; margin-bottom: 10px; padding: 0; text-align: left;">
-                                      <strong>Ryhmä:</strong> {{study_group.name}}
+                                      <strong>Ryhmä:</strong> {{study_group.unit_name}}
                                     </p>
 
                                     <h4
@@ -2440,7 +2440,7 @@ enrolment_cancelled|Ilmoittautumisen peruuttaminen vahvistettu|Enrolment cancell
                                     </p>
                                     <p
                                       style="Margin: 0; Margin-bottom: 10px; color: #0a0a0a; font-family: Helvetica, Arial, sans-serif; font-size: 16px; font-weight: normal; line-height: 1.3; margin: 0; margin-bottom: 10px; padding: 0; text-align: left;">
-                                      <strong>Group:</strong> {{study_group.name}}
+                                      <strong>Group:</strong> {{study_group.unit_name}}
                                     </p>
 
                                     <h4
@@ -2940,7 +2940,7 @@ enrolment_cancelled|Ilmoittautumisen peruuttaminen vahvistettu|Enrolment cancell
                                     </p>
                                     <p
                                       style="Margin: 0; Margin-bottom: 10px; color: #0a0a0a; font-family: Helvetica, Arial, sans-serif; font-size: 16px; font-weight: normal; line-height: 1.3; margin: 0; margin-bottom: 10px; padding: 0; text-align: left;">
-                                      <strong>Grupp:</strong> {{study_group.name}}
+                                      <strong>Grupp:</strong> {{study_group.unit_name}}
                                     </p>
 
                                     <h4
@@ -4533,7 +4533,7 @@ enrolment_declined|Ilmoittautumisen peruutusilmoitus|Enrolment declined|Meddelan
 
 </html>
 
-enrolment_declined_sms|enrolment declined sms|enrolment declined sms|enrolment declined sms|Hei. Valitettavasti emme pysty tarjoamaan paikkaa tapahtumaan {{trans(event.name)}}. {{ occurrence.local_start_time.strftime('%d.%m.%Y klo %H.%M')}}. Ryhmä {{ study_group.name }} {{study_group.group_size}} hlö. {% if event.location is defined %}{{trans(event.location.name)}}, {{trans(event.location.street_address)}}. {% endif %}Lisätietoja: {{occurrence.p_event.contact_email}}|Hi. Unfortunately, we cannot offer you a place at the event {{trans(event.name)}}. {{ occurrence.local_start_time.strftime('%d.%m.%Y at %H.%M')}}. Group {{ study_group.name }} {{study_group.group_size}} ppl. {% if event.location is defined %}{{trans(event.location.name)}}, {{trans(event.location.street_address)}}. {% endif %}Info: {{occurrence.p_event.contact_email}}|Hej. Vi kan tyvärr inte erbjuda en plats på evenemanget {{trans(event.name)}}. {{ occurrence.local_start_time.strftime('%d.%m.%Y kl %H.%M')}} Grupp {{ study_group.name }} {{study_group.group_size}} personer. {% if event.location is defined %}{{trans(event.location.name)}}, {{trans(event.location.street_address)}}. {% endif %}Mer information: {{occurrence.p_event.contact_email}}|||
+enrolment_declined_sms|enrolment declined sms|enrolment declined sms|enrolment declined sms|Hei. Valitettavasti emme pysty tarjoamaan paikkaa tapahtumaan {{trans(event.name)}}. {{ occurrence.local_start_time.strftime('%d.%m.%Y klo %H.%M')}}. Ryhmä {{ study_group.unit_name }} {{study_group.group_size}} hlö. {% if event.location is defined %}{{trans(event.location.name)}}, {{trans(event.location.street_address)}}. {% endif %}Lisätietoja: {{occurrence.p_event.contact_email}}|Hi. Unfortunately, we cannot offer you a place at the event {{trans(event.name)}}. {{ occurrence.local_start_time.strftime('%d.%m.%Y at %H.%M')}}. Group {{ study_group.unit_name }} {{study_group.group_size}} ppl. {% if event.location is defined %}{{trans(event.location.name)}}, {{trans(event.location.street_address)}}. {% endif %}Info: {{occurrence.p_event.contact_email}}|Hej. Vi kan tyvärr inte erbjuda en plats på evenemanget {{trans(event.name)}}. {{ occurrence.local_start_time.strftime('%d.%m.%Y kl %H.%M')}} Grupp {{ study_group.unit_name }} {{study_group.group_size}} personer. {% if event.location is defined %}{{trans(event.location.name)}}, {{trans(event.location.street_address)}}. {% endif %}Mer information: {{occurrence.p_event.contact_email}}|||
 enrolment_summary_report|Ilmoittautumisen yhteenvetoraportti|Enrolment summary report|Sammanfattningsrapport för inskrivning||||<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 
@@ -6392,7 +6392,7 @@ occurrence_cancelled|Peruutusilmoitus|Cancellation notification|Meddelande om in
                                     </p>
                                     <p
                                       style="Margin: 0; Margin-bottom: 10px; color: #0a0a0a; font-family: Helvetica, Arial, sans-serif; font-size: 16px; font-weight: normal; line-height: 1.3; margin: 0; margin-bottom: 10px; padding: 0; text-align: left;">
-                                      <strong>Ryhmä: </strong>{{study_group.name}}
+                                      <strong>Ryhmä: </strong>{{study_group.unit_name}}
                                     </p>
 
                                     <h4
@@ -6893,7 +6893,7 @@ occurrence_cancelled|Peruutusilmoitus|Cancellation notification|Meddelande om in
                                     </p>
                                     <p
                                       style="Margin: 0; Margin-bottom: 10px; color: #0a0a0a; font-family: Helvetica, Arial, sans-serif; font-size: 16px; font-weight: normal; line-height: 1.3; margin: 0; margin-bottom: 10px; padding: 0; text-align: left;">
-                                      <strong>Group: </strong>{{study_group.name}}
+                                      <strong>Group: </strong>{{study_group.unit_name}}
                                     </p>
 
                                     <h4
@@ -7394,7 +7394,7 @@ occurrence_cancelled|Peruutusilmoitus|Cancellation notification|Meddelande om in
                                     </p>
                                     <p
                                       style="Margin: 0; Margin-bottom: 10px; color: #0a0a0a; font-family: Helvetica, Arial, sans-serif; font-size: 16px; font-weight: normal; line-height: 1.3; margin: 0; margin-bottom: 10px; padding: 0; text-align: left;">
-                                      <strong>Grupp: </strong>{{study_group.name}}
+                                      <strong>Grupp: </strong>{{study_group.unit_name}}
                                     </p>
 
                                     <h4
@@ -7469,11 +7469,11 @@ occurrence_cancelled|Peruutusilmoitus|Cancellation notification|Meddelande om in
 
 </html>
 
-occurrence_cancelled_sms|occurrence cancelled sms|occurrence cancelled sms|occurrence cancelled sms|Hei. Valitettavasti tapahtuma on peruttu. {{trans(event.name)}}. {{ occurrence.local_start_time.strftime('%d.%m.%Y klo %H.%M')}}. Ryhmä {{ study_group.name }} {{study_group.group_size}} hlö. {% if event.location is defined %}{{trans(event.location.name)}}, {{trans(event.location.street_address)}}. {% endif %}Lisätietoja: {{occurrence.p_event.contact_email}}|Hi. Unfortunately, the event is cancelled. {{trans(event.name)}}. {{ occurrence.local_start_time.strftime('%d.%m.%Y at %H.%M')}}. Group {{ study_group.name }} {{study_group.group_size}} ppl. {% if event.location is defined %}{{trans(event.location.name)}}, {{trans(event.location.street_address)}}. {% endif %}Info: {{occurrence.p_event.contact_email}}|Hej. Evenemanget har tyvärr ställts in. {{trans(event.name)}}. {{ occurrence.local_start_time.strftime('%d.%m.%Y kl %H.%M')}} Grupp {{ study_group.name }} {{study_group.group_size}} personer. {% if event.location is defined %}{{trans(event.location.name)}}, {{trans(event.location.street_address)}}. {% endif %}Mer information: {{occurrence.p_event.contact_email}}|||
-occurrence_enrolment_sms|occurrence enrolment sms|occurrence enrolment sms|occurrence enrolment sms|Hei. Viesti vastaanotettu tapahtumaan {{trans(event.name)}}. {{ occurrence.local_start_time.strftime('%d.%m.%Y klo %H.%M')}}. Ryhmä {{ study_group.name }} {{study_group.group_size}} hlö. {% if event.location is defined %}{{trans(event.location.name)}}, {{trans(event.location.street_address)}}. {% endif %}Lisätietoja: {{occurrence.p_event.contact_email}}|Message received. We will send you a confirmation for the event {{trans(event.name)}}. {{ occurrence.local_start_time.strftime('%d.%m.%Y at %H.%M')}}. Group {{ study_group.name }} {{study_group.group_size}} ppl. {% if event.location is defined %}{{trans(event.location.name)}}, {{trans(event.location.street_address)}}. {% endif %}Info: {{occurrence.p_event.contact_email}}|Hej. Meddelandet är mottaget. Du får ännu en separat bekräftelse för deltagandet i evenemanget {{trans(event.name)}}. {{ occurrence.local_start_time.strftime('%d.%m.%Y kl %H.%M')}} Grupp {{ study_group.name }} {{study_group.group_size}} personer. {% if event.location is defined %}{{trans(event.location.name)}}, {{trans(event.location.street_address)}}. {% endif %}Mer information: {{occurrence.p_event.contact_email}}|||
-occurrence_upcoming_sms|occurrence upcoming sms|occurrence upcoming sms|occurrence upcoming sms|Muistathan ilmoittautumisesi tapahtumaan {{trans(event.name)}}. {{occurrence.local_start_time.strftime('%d.%m.%Y klo %H.%M')}}. {{study_group.name}}. Mikäli et pääse paikalle, peruutathan varauksesi sähköpostilla: {{occurrence.p_event.contact_email}}.
-|Please remember your enrolment for {{trans(event.name)}}. {{occurrence.local_start_time.strftime('%d.%m.%Y at %H.%M')}}. {{study_group.name}}. If you are unable to attend, please cancel your place by email: {{occurrence.p_event.contact_email}}.
-|Kom ihåg din anmälan till evenemanget {{trans(event.name)}}. {{occurrence.local_start_time.strftime('%d.%m.%Y kl %H.%M')}}. {{study_group.name}}. Om du inte kan delta, vänligen avboka din bokning via e-post: {{occurrence.p_event.contact_email}}.
+occurrence_cancelled_sms|occurrence cancelled sms|occurrence cancelled sms|occurrence cancelled sms|Hei. Valitettavasti tapahtuma on peruttu. {{trans(event.name)}}. {{ occurrence.local_start_time.strftime('%d.%m.%Y klo %H.%M')}}. Ryhmä {{ study_group.unit_name }} {{study_group.group_size}} hlö. {% if event.location is defined %}{{trans(event.location.name)}}, {{trans(event.location.street_address)}}. {% endif %}Lisätietoja: {{occurrence.p_event.contact_email}}|Hi. Unfortunately, the event is cancelled. {{trans(event.name)}}. {{ occurrence.local_start_time.strftime('%d.%m.%Y at %H.%M')}}. Group {{ study_group.unit_name }} {{study_group.group_size}} ppl. {% if event.location is defined %}{{trans(event.location.name)}}, {{trans(event.location.street_address)}}. {% endif %}Info: {{occurrence.p_event.contact_email}}|Hej. Evenemanget har tyvärr ställts in. {{trans(event.name)}}. {{ occurrence.local_start_time.strftime('%d.%m.%Y kl %H.%M')}} Grupp {{ study_group.unit_name }} {{study_group.group_size}} personer. {% if event.location is defined %}{{trans(event.location.name)}}, {{trans(event.location.street_address)}}. {% endif %}Mer information: {{occurrence.p_event.contact_email}}|||
+occurrence_enrolment_sms|occurrence enrolment sms|occurrence enrolment sms|occurrence enrolment sms|Hei. Viesti vastaanotettu tapahtumaan {{trans(event.name)}}. {{ occurrence.local_start_time.strftime('%d.%m.%Y klo %H.%M')}}. Ryhmä {{ study_group.unit_name }} {{study_group.group_size}} hlö. {% if event.location is defined %}{{trans(event.location.name)}}, {{trans(event.location.street_address)}}. {% endif %}Lisätietoja: {{occurrence.p_event.contact_email}}|Message received. We will send you a confirmation for the event {{trans(event.name)}}. {{ occurrence.local_start_time.strftime('%d.%m.%Y at %H.%M')}}. Group {{ study_group.unit_name }} {{study_group.group_size}} ppl. {% if event.location is defined %}{{trans(event.location.name)}}, {{trans(event.location.street_address)}}. {% endif %}Info: {{occurrence.p_event.contact_email}}|Hej. Meddelandet är mottaget. Du får ännu en separat bekräftelse för deltagandet i evenemanget {{trans(event.name)}}. {{ occurrence.local_start_time.strftime('%d.%m.%Y kl %H.%M')}} Grupp {{ study_group.unit_name }} {{study_group.group_size}} personer. {% if event.location is defined %}{{trans(event.location.name)}}, {{trans(event.location.street_address)}}. {% endif %}Mer information: {{occurrence.p_event.contact_email}}|||
+occurrence_upcoming_sms|occurrence upcoming sms|occurrence upcoming sms|occurrence upcoming sms|Muistathan ilmoittautumisesi tapahtumaan {{trans(event.name)}}. {{occurrence.local_start_time.strftime('%d.%m.%Y klo %H.%M')}}. {{study_group.unit_name}}. Mikäli et pääse paikalle, peruutathan varauksesi sähköpostilla: {{occurrence.p_event.contact_email}}.
+|Please remember your enrolment for {{trans(event.name)}}. {{occurrence.local_start_time.strftime('%d.%m.%Y at %H.%M')}}. {{study_group.unit_name}}. If you are unable to attend, please cancel your place by email: {{occurrence.p_event.contact_email}}.
+|Kom ihåg din anmälan till evenemanget {{trans(event.name)}}. {{occurrence.local_start_time.strftime('%d.%m.%Y kl %H.%M')}}. {{study_group.unit_name}}. Om du inte kan delta, vänligen avboka din bokning via e-post: {{occurrence.p_event.contact_email}}.
 |||
 person_myprofile_accepted|Käyttäjätilisi Kultuksessa on valmis käytettäväksi|Your user account in Kultus is ready for use|Ditt användarkonto i Kultus är klart för användning||||<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
@@ -12342,7 +12342,7 @@ occurrence_enrolment|Ilmoittautuminen vastaanotettu|Enrolment received|Anmälan 
                                     </p>
                                     <p
                                       style="Margin: 0; Margin-bottom: 10px; color: #0a0a0a; font-family: Helvetica, Arial, sans-serif; font-size: 16px; font-weight: normal; line-height: 1.3; margin: 0; margin-bottom: 10px; padding: 0; text-align: left;">
-                                      <strong>Ryhmä:</strong> {{study_group.name}}
+                                      <strong>Ryhmä:</strong> {{study_group.unit_name}}
                                     </p>
                                     <h4
                                       style="Margin: 0; Margin-bottom: 10px; color: inherit; font-family: Helvetica, Arial, sans-serif; font-size: 24px; font-weight: normal; line-height: 1.3; margin: 0; margin-bottom: 10px; padding: 0; text-align: left; word-wrap: normal;">
@@ -12832,7 +12832,7 @@ occurrence_enrolment|Ilmoittautuminen vastaanotettu|Enrolment received|Anmälan 
                                     </p>
                                     <p
                                       style="Margin: 0; Margin-bottom: 10px; color: #0a0a0a; font-family: Helvetica, Arial, sans-serif; font-size: 16px; font-weight: normal; line-height: 1.3; margin: 0; margin-bottom: 10px; padding: 0; text-align: left;">
-                                      <strong>Group:</strong> {{study_group.name}}
+                                      <strong>Group:</strong> {{study_group.unit_name}}
                                     </p>
                                     <h4
                                       style="Margin: 0; Margin-bottom: 10px; color: inherit; font-family: Helvetica, Arial, sans-serif; font-size: 24px; font-weight: normal; line-height: 1.3; margin: 0; margin-bottom: 10px; padding: 0; text-align: left; word-wrap: normal;">
@@ -13322,7 +13322,7 @@ occurrence_enrolment|Ilmoittautuminen vastaanotettu|Enrolment received|Anmälan 
                                     </p>
                                     <p
                                       style="Margin: 0; Margin-bottom: 10px; color: #0a0a0a; font-family: Helvetica, Arial, sans-serif; font-size: 16px; font-weight: normal; line-height: 1.3; margin: 0; margin-bottom: 10px; padding: 0; text-align: left;">
-                                      <strong>Grupp:</strong> {{study_group.name}}
+                                      <strong>Grupp:</strong> {{study_group.unit_name}}
                                     </p>
                                     <h4
                                       style="Margin: 0; Margin-bottom: 10px; color: inherit; font-family: Helvetica, Arial, sans-serif; font-size: 24px; font-weight: normal; line-height: 1.3; margin: 0; margin-bottom: 10px; padding: 0; text-align: left; word-wrap: normal;">
@@ -13390,7 +13390,7 @@ occurrence_enrolment|Ilmoittautuminen vastaanotettu|Enrolment received|Anmälan 
 snapshots[
     "test_create_non_existing_notifications 1"
 ] = """enrolment_approved|enrolment_approved fi original subject|enrolment_approved en original subject|enrolment_approved sv original subject||||enrolment_approved fi original body_html|enrolment_approved en original body_html|enrolment_approved sv original body_html
-enrolment_approved_sms|enrolment approved sms|enrolment approved sms|enrolment approved sms|Hei. Ilmoittautuminen hyväksytty tapahtumaan {{trans(event.name)}}. {{ occurrence.local_start_time.strftime('%d.%m.%Y klo %H.%M')}}. Ryhmä {{ study_group.name }} {{study_group.group_size}} hlö. {% if event.location is defined %}{{trans(event.location.name)}}, {{trans(event.location.street_address)}}. {% endif %}Lisätietoja: {{occurrence.p_event.contact_email}}|Enrolment accepted for the event {{trans(event.name)}}. {{ occurrence.local_start_time.strftime('%d.%m.%Y at %H.%M')}}. Group {{ study_group.name }} {{study_group.group_size}} ppl. {% if event.location is defined %}{{trans(event.location.name)}}, {{trans(event.location.street_address)}}. {% endif %}Info: {{occurrence.p_event.contact_email}}|Hej. Din anmälan till evenemanget {{trans(event.name)}}. {{ occurrence.local_start_time.strftime('%d.%m.%Y kl %H.%M')}} Grupp {{ study_group.name }} {{study_group.group_size}} personer. {% if event.location is defined %}{{trans(event.location.name)}}, {{trans(event.location.street_address)}}. {% endif %}Mer information: {{occurrence.p_event.contact_email}}|||
+enrolment_approved_sms|enrolment approved sms|enrolment approved sms|enrolment approved sms|Hei. Ilmoittautuminen hyväksytty tapahtumaan {{trans(event.name)}}. {{ occurrence.local_start_time.strftime('%d.%m.%Y klo %H.%M')}}. Ryhmä {{ study_group.unit_name }} {{study_group.group_size}} hlö. {% if event.location is defined %}{{trans(event.location.name)}}, {{trans(event.location.street_address)}}. {% endif %}Lisätietoja: {{occurrence.p_event.contact_email}}|Enrolment accepted for the event {{trans(event.name)}}. {{ occurrence.local_start_time.strftime('%d.%m.%Y at %H.%M')}}. Group {{ study_group.unit_name }} {{study_group.group_size}} ppl. {% if event.location is defined %}{{trans(event.location.name)}}, {{trans(event.location.street_address)}}. {% endif %}Info: {{occurrence.p_event.contact_email}}|Hej. Din anmälan till evenemanget {{trans(event.name)}}. {{ occurrence.local_start_time.strftime('%d.%m.%Y kl %H.%M')}} Grupp {{ study_group.unit_name }} {{study_group.group_size}} personer. {% if event.location is defined %}{{trans(event.location.name)}}, {{trans(event.location.street_address)}}. {% endif %}Mer information: {{occurrence.p_event.contact_email}}|||
 enrolment_cancellation|Ilmoittautumisen peruuttaminen|Enrolment cancellation|Avbokning av anmälan||||<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 
@@ -13822,7 +13822,7 @@ enrolment_cancellation|Ilmoittautumisen peruuttaminen|Enrolment cancellation|Avb
                                     </p>
                                     <p
                                       style="Margin: 0; Margin-bottom: 10px; color: #0a0a0a; font-family: Helvetica, Arial, sans-serif; font-size: 16px; font-weight: normal; line-height: 1.3; margin: 0; margin-bottom: 10px; padding: 0; text-align: left;">
-                                      <strong>Ryhmä:</strong> {{study_group.name}}
+                                      <strong>Ryhmä:</strong> {{study_group.unit_name}}
                                     </p>
 
                                     <h4
@@ -14318,7 +14318,7 @@ enrolment_cancellation|Ilmoittautumisen peruuttaminen|Enrolment cancellation|Avb
                                     </p>
                                     <p
                                       style="Margin: 0; Margin-bottom: 10px; color: #0a0a0a; font-family: Helvetica, Arial, sans-serif; font-size: 16px; font-weight: normal; line-height: 1.3; margin: 0; margin-bottom: 10px; padding: 0; text-align: left;">
-                                      <strong>Group:</strong> {{study_group.name}}
+                                      <strong>Group:</strong> {{study_group.unit_name}}
                                     </p>
 
                                     <h4
@@ -14820,7 +14820,7 @@ enrolment_cancellation|Ilmoittautumisen peruuttaminen|Enrolment cancellation|Avb
                                     </p>
                                     <p
                                       style="Margin: 0; Margin-bottom: 10px; color: #0a0a0a; font-family: Helvetica, Arial, sans-serif; font-size: 16px; font-weight: normal; line-height: 1.3; margin: 0; margin-bottom: 10px; padding: 0; text-align: left;">
-                                      <strong>Grupp:</strong> {{study_group.name}}
+                                      <strong>Grupp:</strong> {{study_group.unit_name}}
                                     </p>
 
                                     <h4
@@ -15322,7 +15322,7 @@ enrolment_cancelled|Ilmoittautumisen peruuttaminen vahvistettu|Enrolment cancell
                                     </p>
                                     <p
                                       style="Margin: 0; Margin-bottom: 10px; color: #0a0a0a; font-family: Helvetica, Arial, sans-serif; font-size: 16px; font-weight: normal; line-height: 1.3; margin: 0; margin-bottom: 10px; padding: 0; text-align: left;">
-                                      <strong>Ryhmä:</strong> {{study_group.name}}
+                                      <strong>Ryhmä:</strong> {{study_group.unit_name}}
                                     </p>
 
                                     <h4
@@ -15822,7 +15822,7 @@ enrolment_cancelled|Ilmoittautumisen peruuttaminen vahvistettu|Enrolment cancell
                                     </p>
                                     <p
                                       style="Margin: 0; Margin-bottom: 10px; color: #0a0a0a; font-family: Helvetica, Arial, sans-serif; font-size: 16px; font-weight: normal; line-height: 1.3; margin: 0; margin-bottom: 10px; padding: 0; text-align: left;">
-                                      <strong>Group:</strong> {{study_group.name}}
+                                      <strong>Group:</strong> {{study_group.unit_name}}
                                     </p>
 
                                     <h4
@@ -16322,7 +16322,7 @@ enrolment_cancelled|Ilmoittautumisen peruuttaminen vahvistettu|Enrolment cancell
                                     </p>
                                     <p
                                       style="Margin: 0; Margin-bottom: 10px; color: #0a0a0a; font-family: Helvetica, Arial, sans-serif; font-size: 16px; font-weight: normal; line-height: 1.3; margin: 0; margin-bottom: 10px; padding: 0; text-align: left;">
-                                      <strong>Grupp:</strong> {{study_group.name}}
+                                      <strong>Grupp:</strong> {{study_group.unit_name}}
                                     </p>
 
                                     <h4
@@ -17915,7 +17915,7 @@ enrolment_declined|Ilmoittautumisen peruutusilmoitus|Enrolment declined|Meddelan
 
 </html>
 
-enrolment_declined_sms|enrolment declined sms|enrolment declined sms|enrolment declined sms|Hei. Valitettavasti emme pysty tarjoamaan paikkaa tapahtumaan {{trans(event.name)}}. {{ occurrence.local_start_time.strftime('%d.%m.%Y klo %H.%M')}}. Ryhmä {{ study_group.name }} {{study_group.group_size}} hlö. {% if event.location is defined %}{{trans(event.location.name)}}, {{trans(event.location.street_address)}}. {% endif %}Lisätietoja: {{occurrence.p_event.contact_email}}|Hi. Unfortunately, we cannot offer you a place at the event {{trans(event.name)}}. {{ occurrence.local_start_time.strftime('%d.%m.%Y at %H.%M')}}. Group {{ study_group.name }} {{study_group.group_size}} ppl. {% if event.location is defined %}{{trans(event.location.name)}}, {{trans(event.location.street_address)}}. {% endif %}Info: {{occurrence.p_event.contact_email}}|Hej. Vi kan tyvärr inte erbjuda en plats på evenemanget {{trans(event.name)}}. {{ occurrence.local_start_time.strftime('%d.%m.%Y kl %H.%M')}} Grupp {{ study_group.name }} {{study_group.group_size}} personer. {% if event.location is defined %}{{trans(event.location.name)}}, {{trans(event.location.street_address)}}. {% endif %}Mer information: {{occurrence.p_event.contact_email}}|||
+enrolment_declined_sms|enrolment declined sms|enrolment declined sms|enrolment declined sms|Hei. Valitettavasti emme pysty tarjoamaan paikkaa tapahtumaan {{trans(event.name)}}. {{ occurrence.local_start_time.strftime('%d.%m.%Y klo %H.%M')}}. Ryhmä {{ study_group.unit_name }} {{study_group.group_size}} hlö. {% if event.location is defined %}{{trans(event.location.name)}}, {{trans(event.location.street_address)}}. {% endif %}Lisätietoja: {{occurrence.p_event.contact_email}}|Hi. Unfortunately, we cannot offer you a place at the event {{trans(event.name)}}. {{ occurrence.local_start_time.strftime('%d.%m.%Y at %H.%M')}}. Group {{ study_group.unit_name }} {{study_group.group_size}} ppl. {% if event.location is defined %}{{trans(event.location.name)}}, {{trans(event.location.street_address)}}. {% endif %}Info: {{occurrence.p_event.contact_email}}|Hej. Vi kan tyvärr inte erbjuda en plats på evenemanget {{trans(event.name)}}. {{ occurrence.local_start_time.strftime('%d.%m.%Y kl %H.%M')}} Grupp {{ study_group.unit_name }} {{study_group.group_size}} personer. {% if event.location is defined %}{{trans(event.location.name)}}, {{trans(event.location.street_address)}}. {% endif %}Mer information: {{occurrence.p_event.contact_email}}|||
 enrolment_summary_report|Ilmoittautumisen yhteenvetoraportti|Enrolment summary report|Sammanfattningsrapport för inskrivning||||<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 
@@ -19774,7 +19774,7 @@ occurrence_cancelled|Peruutusilmoitus|Cancellation notification|Meddelande om in
                                     </p>
                                     <p
                                       style="Margin: 0; Margin-bottom: 10px; color: #0a0a0a; font-family: Helvetica, Arial, sans-serif; font-size: 16px; font-weight: normal; line-height: 1.3; margin: 0; margin-bottom: 10px; padding: 0; text-align: left;">
-                                      <strong>Ryhmä: </strong>{{study_group.name}}
+                                      <strong>Ryhmä: </strong>{{study_group.unit_name}}
                                     </p>
 
                                     <h4
@@ -20275,7 +20275,7 @@ occurrence_cancelled|Peruutusilmoitus|Cancellation notification|Meddelande om in
                                     </p>
                                     <p
                                       style="Margin: 0; Margin-bottom: 10px; color: #0a0a0a; font-family: Helvetica, Arial, sans-serif; font-size: 16px; font-weight: normal; line-height: 1.3; margin: 0; margin-bottom: 10px; padding: 0; text-align: left;">
-                                      <strong>Group: </strong>{{study_group.name}}
+                                      <strong>Group: </strong>{{study_group.unit_name}}
                                     </p>
 
                                     <h4
@@ -20776,7 +20776,7 @@ occurrence_cancelled|Peruutusilmoitus|Cancellation notification|Meddelande om in
                                     </p>
                                     <p
                                       style="Margin: 0; Margin-bottom: 10px; color: #0a0a0a; font-family: Helvetica, Arial, sans-serif; font-size: 16px; font-weight: normal; line-height: 1.3; margin: 0; margin-bottom: 10px; padding: 0; text-align: left;">
-                                      <strong>Grupp: </strong>{{study_group.name}}
+                                      <strong>Grupp: </strong>{{study_group.unit_name}}
                                     </p>
 
                                     <h4
@@ -20851,7 +20851,7 @@ occurrence_cancelled|Peruutusilmoitus|Cancellation notification|Meddelande om in
 
 </html>
 
-occurrence_cancelled_sms|occurrence cancelled sms|occurrence cancelled sms|occurrence cancelled sms|Hei. Valitettavasti tapahtuma on peruttu. {{trans(event.name)}}. {{ occurrence.local_start_time.strftime('%d.%m.%Y klo %H.%M')}}. Ryhmä {{ study_group.name }} {{study_group.group_size}} hlö. {% if event.location is defined %}{{trans(event.location.name)}}, {{trans(event.location.street_address)}}. {% endif %}Lisätietoja: {{occurrence.p_event.contact_email}}|Hi. Unfortunately, the event is cancelled. {{trans(event.name)}}. {{ occurrence.local_start_time.strftime('%d.%m.%Y at %H.%M')}}. Group {{ study_group.name }} {{study_group.group_size}} ppl. {% if event.location is defined %}{{trans(event.location.name)}}, {{trans(event.location.street_address)}}. {% endif %}Info: {{occurrence.p_event.contact_email}}|Hej. Evenemanget har tyvärr ställts in. {{trans(event.name)}}. {{ occurrence.local_start_time.strftime('%d.%m.%Y kl %H.%M')}} Grupp {{ study_group.name }} {{study_group.group_size}} personer. {% if event.location is defined %}{{trans(event.location.name)}}, {{trans(event.location.street_address)}}. {% endif %}Mer information: {{occurrence.p_event.contact_email}}|||
+occurrence_cancelled_sms|occurrence cancelled sms|occurrence cancelled sms|occurrence cancelled sms|Hei. Valitettavasti tapahtuma on peruttu. {{trans(event.name)}}. {{ occurrence.local_start_time.strftime('%d.%m.%Y klo %H.%M')}}. Ryhmä {{ study_group.unit_name }} {{study_group.group_size}} hlö. {% if event.location is defined %}{{trans(event.location.name)}}, {{trans(event.location.street_address)}}. {% endif %}Lisätietoja: {{occurrence.p_event.contact_email}}|Hi. Unfortunately, the event is cancelled. {{trans(event.name)}}. {{ occurrence.local_start_time.strftime('%d.%m.%Y at %H.%M')}}. Group {{ study_group.unit_name }} {{study_group.group_size}} ppl. {% if event.location is defined %}{{trans(event.location.name)}}, {{trans(event.location.street_address)}}. {% endif %}Info: {{occurrence.p_event.contact_email}}|Hej. Evenemanget har tyvärr ställts in. {{trans(event.name)}}. {{ occurrence.local_start_time.strftime('%d.%m.%Y kl %H.%M')}} Grupp {{ study_group.unit_name }} {{study_group.group_size}} personer. {% if event.location is defined %}{{trans(event.location.name)}}, {{trans(event.location.street_address)}}. {% endif %}Mer information: {{occurrence.p_event.contact_email}}|||
 occurrence_enrolment|Ilmoittautuminen vastaanotettu|Enrolment received|Anmälan mottagen||||<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 
@@ -21279,7 +21279,7 @@ occurrence_enrolment|Ilmoittautuminen vastaanotettu|Enrolment received|Anmälan 
                                     </p>
                                     <p
                                       style="Margin: 0; Margin-bottom: 10px; color: #0a0a0a; font-family: Helvetica, Arial, sans-serif; font-size: 16px; font-weight: normal; line-height: 1.3; margin: 0; margin-bottom: 10px; padding: 0; text-align: left;">
-                                      <strong>Ryhmä:</strong> {{study_group.name}}
+                                      <strong>Ryhmä:</strong> {{study_group.unit_name}}
                                     </p>
                                     <h4
                                       style="Margin: 0; Margin-bottom: 10px; color: inherit; font-family: Helvetica, Arial, sans-serif; font-size: 24px; font-weight: normal; line-height: 1.3; margin: 0; margin-bottom: 10px; padding: 0; text-align: left; word-wrap: normal;">
@@ -21769,7 +21769,7 @@ occurrence_enrolment|Ilmoittautuminen vastaanotettu|Enrolment received|Anmälan 
                                     </p>
                                     <p
                                       style="Margin: 0; Margin-bottom: 10px; color: #0a0a0a; font-family: Helvetica, Arial, sans-serif; font-size: 16px; font-weight: normal; line-height: 1.3; margin: 0; margin-bottom: 10px; padding: 0; text-align: left;">
-                                      <strong>Group:</strong> {{study_group.name}}
+                                      <strong>Group:</strong> {{study_group.unit_name}}
                                     </p>
                                     <h4
                                       style="Margin: 0; Margin-bottom: 10px; color: inherit; font-family: Helvetica, Arial, sans-serif; font-size: 24px; font-weight: normal; line-height: 1.3; margin: 0; margin-bottom: 10px; padding: 0; text-align: left; word-wrap: normal;">
@@ -22259,7 +22259,7 @@ occurrence_enrolment|Ilmoittautuminen vastaanotettu|Enrolment received|Anmälan 
                                     </p>
                                     <p
                                       style="Margin: 0; Margin-bottom: 10px; color: #0a0a0a; font-family: Helvetica, Arial, sans-serif; font-size: 16px; font-weight: normal; line-height: 1.3; margin: 0; margin-bottom: 10px; padding: 0; text-align: left;">
-                                      <strong>Grupp:</strong> {{study_group.name}}
+                                      <strong>Grupp:</strong> {{study_group.unit_name}}
                                     </p>
                                     <h4
                                       style="Margin: 0; Margin-bottom: 10px; color: inherit; font-family: Helvetica, Arial, sans-serif; font-size: 24px; font-weight: normal; line-height: 1.3; margin: 0; margin-bottom: 10px; padding: 0; text-align: left; word-wrap: normal;">
@@ -22323,10 +22323,10 @@ occurrence_enrolment|Ilmoittautuminen vastaanotettu|Enrolment received|Anmälan 
 
 </html>
 
-occurrence_enrolment_sms|occurrence enrolment sms|occurrence enrolment sms|occurrence enrolment sms|Hei. Viesti vastaanotettu tapahtumaan {{trans(event.name)}}. {{ occurrence.local_start_time.strftime('%d.%m.%Y klo %H.%M')}}. Ryhmä {{ study_group.name }} {{study_group.group_size}} hlö. {% if event.location is defined %}{{trans(event.location.name)}}, {{trans(event.location.street_address)}}. {% endif %}Lisätietoja: {{occurrence.p_event.contact_email}}|Message received. We will send you a confirmation for the event {{trans(event.name)}}. {{ occurrence.local_start_time.strftime('%d.%m.%Y at %H.%M')}}. Group {{ study_group.name }} {{study_group.group_size}} ppl. {% if event.location is defined %}{{trans(event.location.name)}}, {{trans(event.location.street_address)}}. {% endif %}Info: {{occurrence.p_event.contact_email}}|Hej. Meddelandet är mottaget. Du får ännu en separat bekräftelse för deltagandet i evenemanget {{trans(event.name)}}. {{ occurrence.local_start_time.strftime('%d.%m.%Y kl %H.%M')}} Grupp {{ study_group.name }} {{study_group.group_size}} personer. {% if event.location is defined %}{{trans(event.location.name)}}, {{trans(event.location.street_address)}}. {% endif %}Mer information: {{occurrence.p_event.contact_email}}|||
-occurrence_upcoming_sms|occurrence upcoming sms|occurrence upcoming sms|occurrence upcoming sms|Muistathan ilmoittautumisesi tapahtumaan {{trans(event.name)}}. {{occurrence.local_start_time.strftime('%d.%m.%Y klo %H.%M')}}. {{study_group.name}}. Mikäli et pääse paikalle, peruutathan varauksesi sähköpostilla: {{occurrence.p_event.contact_email}}.
-|Please remember your enrolment for {{trans(event.name)}}. {{occurrence.local_start_time.strftime('%d.%m.%Y at %H.%M')}}. {{study_group.name}}. If you are unable to attend, please cancel your place by email: {{occurrence.p_event.contact_email}}.
-|Kom ihåg din anmälan till evenemanget {{trans(event.name)}}. {{occurrence.local_start_time.strftime('%d.%m.%Y kl %H.%M')}}. {{study_group.name}}. Om du inte kan delta, vänligen avboka din bokning via e-post: {{occurrence.p_event.contact_email}}.
+occurrence_enrolment_sms|occurrence enrolment sms|occurrence enrolment sms|occurrence enrolment sms|Hei. Viesti vastaanotettu tapahtumaan {{trans(event.name)}}. {{ occurrence.local_start_time.strftime('%d.%m.%Y klo %H.%M')}}. Ryhmä {{ study_group.unit_name }} {{study_group.group_size}} hlö. {% if event.location is defined %}{{trans(event.location.name)}}, {{trans(event.location.street_address)}}. {% endif %}Lisätietoja: {{occurrence.p_event.contact_email}}|Message received. We will send you a confirmation for the event {{trans(event.name)}}. {{ occurrence.local_start_time.strftime('%d.%m.%Y at %H.%M')}}. Group {{ study_group.unit_name }} {{study_group.group_size}} ppl. {% if event.location is defined %}{{trans(event.location.name)}}, {{trans(event.location.street_address)}}. {% endif %}Info: {{occurrence.p_event.contact_email}}|Hej. Meddelandet är mottaget. Du får ännu en separat bekräftelse för deltagandet i evenemanget {{trans(event.name)}}. {{ occurrence.local_start_time.strftime('%d.%m.%Y kl %H.%M')}} Grupp {{ study_group.unit_name }} {{study_group.group_size}} personer. {% if event.location is defined %}{{trans(event.location.name)}}, {{trans(event.location.street_address)}}. {% endif %}Mer information: {{occurrence.p_event.contact_email}}|||
+occurrence_upcoming_sms|occurrence upcoming sms|occurrence upcoming sms|occurrence upcoming sms|Muistathan ilmoittautumisesi tapahtumaan {{trans(event.name)}}. {{occurrence.local_start_time.strftime('%d.%m.%Y klo %H.%M')}}. {{study_group.unit_name}}. Mikäli et pääse paikalle, peruutathan varauksesi sähköpostilla: {{occurrence.p_event.contact_email}}.
+|Please remember your enrolment for {{trans(event.name)}}. {{occurrence.local_start_time.strftime('%d.%m.%Y at %H.%M')}}. {{study_group.unit_name}}. If you are unable to attend, please cancel your place by email: {{occurrence.p_event.contact_email}}.
+|Kom ihåg din anmälan till evenemanget {{trans(event.name)}}. {{occurrence.local_start_time.strftime('%d.%m.%Y kl %H.%M')}}. {{study_group.unit_name}}. Om du inte kan delta, vänligen avboka din bokning via e-post: {{occurrence.p_event.contact_email}}.
 |||
 person_myprofile_accepted|Käyttäjätilisi Kultuksessa on valmis käytettäväksi|Your user account in Kultus is ready for use|Ditt användarkonto i Kultus är klart för användning||||<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">

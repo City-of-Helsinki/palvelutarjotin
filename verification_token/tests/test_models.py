@@ -1,5 +1,6 @@
-import pytest
 from datetime import timedelta
+
+import pytest
 from django.utils import timezone
 
 from occurrences.factories import EnrolmentFactory

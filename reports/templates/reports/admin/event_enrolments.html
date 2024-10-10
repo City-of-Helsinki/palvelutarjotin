@@ -35,7 +35,7 @@
                     target="blank">{{enrolment.occurrence.p_event.linked_event_id}}</a></td>
             <td>{{enrolment.occurrence.start_time|date:"d.m.Y H:i"}}</td>
             <td>{{enrolment.enrolment_time|date:"d.m.Y H:i"}}</td>
-            <td>{{enrolment.study_group.name}}</td>
+            <td>{{enrolment.study_group.unit_name}}</td>
             <td>
                 {% for study_level in enrolment.study_group.study_levels.all %}
                 {% if not forloop.first %}, {% endif %}

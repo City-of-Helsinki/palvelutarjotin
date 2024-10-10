@@ -12,7 +12,7 @@ from reports.models import EnrolmentReport
 def test_sync_enrolment_reports_initializes_reports_table(mock_get_event_data):
     EnrolmentFactory.create_batch(10)
     report_services.sync_enrolment_reports()
-    EnrolmentReport.objects.all().count() == 10
+    assert EnrolmentReport.objects.all().count() == 10
 
 
 @pytest.mark.django_db

@@ -1,5 +1,6 @@
-import django_filters
 from datetime import timedelta
+
+import django_filters
 from django.db.models import F
 from django.db.models.functions import Coalesce
 from django.utils import timezone
@@ -41,8 +42,7 @@ class OccurrenceFilter(django_filters.FilterSet):
                 enrolment_end_days=Coalesce("p_event__enrolment_end_days", 0)
             ).filter(
                 **{
-                    name
-                    + "__gt": timezone.now()
+                    name + "__gt": timezone.now()
                     + timedelta(days=1) * F("enrolment_end_days")
                 }
             )

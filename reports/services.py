@@ -1,6 +1,7 @@
 from datetime import datetime
-from django.db import models
 from typing import List, Optional, Union
+
+from django.db import models
 
 import occurrences.models as occurrences_models
 import reports.models as report_models

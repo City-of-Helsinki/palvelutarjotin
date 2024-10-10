@@ -1,5 +1,5 @@
 # ==============================
-FROM registry.access.redhat.com/ubi9/python-39 as appbase
+FROM registry.access.redhat.com/ubi9/python-311 AS appbase
 # ==============================
 USER root
 WORKDIR /app
@@ -17,7 +17,7 @@ COPY --chown=default:root docker-entrypoint.sh /entrypoint/docker-entrypoint.sh
 ENTRYPOINT ["/entrypoint/docker-entrypoint.sh"]
 
 # ==============================
-FROM appbase as development
+FROM appbase AS development
 # ==============================
 
 COPY --chown=default:root requirements-dev.txt /app/requirements-dev.txt
@@ -27,11 +27,14 @@ ENV DEV_SERVER=1
 
 COPY --chown=default:root . /app/
 
+# fatal: detected dubious ownership in repository at '/app'
+RUN git config --system --add safe.directory /app
+
 USER default
 EXPOSE 8081/tcp
 
 # ==============================
-FROM appbase as production
+FROM appbase AS production
 # ==============================
 
 COPY --chown=default:root . /app/

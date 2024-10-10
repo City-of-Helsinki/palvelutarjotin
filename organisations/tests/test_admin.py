@@ -1,9 +1,10 @@
+from unittest import mock
+
 import pytest
 from django.contrib.admin.sites import AdminSite
 from django.contrib.auth import get_user_model
 from django.core import mail
 from django.test import TestCase
-from unittest import mock
 
 from organisations.admin import PersonAdmin, PersonAdminForm, UserAdmin, UserAdminForm
 from organisations.factories import (

@@ -131,7 +131,7 @@ class LinkedEventsApiClient(object):
         if not params:
             return None
         for k, v in params.items():
-            if type(v) == list:
+            if type(v) is list:
                 list_to_string = ",".join(str(x) for x in v)
                 params[k] = list_to_string
         return params

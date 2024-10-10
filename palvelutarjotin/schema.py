@@ -11,7 +11,7 @@ import graphene_linked_events.schema
 import occurrences.schema
 import organisations.schema
 import servicemap.schema
-from common.utils import LanguageEnum
+from common.utils import LanguageEnum, map_enums_to_values_in_kwargs
 from palvelutarjotin.exceptions import ApiUsageError
 
 
@@ -55,6 +55,7 @@ class Query(
     )
 
     @staticmethod
+    @map_enums_to_values_in_kwargs
     def resolve_notification_template(parent, info, **kwargs):
         try:
             template = NotificationTemplate.objects.get(type=kwargs["template_type"])

@@ -1,6 +1,8 @@
 import csv
 import datetime
 import logging
+from functools import lru_cache
+
 from django.conf import settings
 from django.contrib import messages
 from django.contrib.admin.views.decorators import staff_member_required
@@ -13,13 +15,15 @@ from django.utils.decorators import method_decorator
 from django.utils.translation import gettext as _
 from django.views.decorators.http import require_http_methods
 from django.views.generic import ListView
-from functools import lru_cache
 from rest_framework import generics
 from rest_framework.authentication import SessionAuthentication
 from rest_framework.permissions import DjangoModelPermissions, IsAdminUser
 from rest_framework.views import APIView
 
-from common.utils import get_node_id_from_global_id
+from common.utils import (
+    get_node_id_from_global_id,
+    to_local_datetime_if_naive,
+)
 from occurrences.models import Enrolment, PalvelutarjotinEvent
 from organisations.models import Organisation, Person
 from palvelutarjotin.oidc import KultusApiTokenAuthentication
@@ -155,7 +159,7 @@ class PalvelutarjotinEventEnrolmentsMixin(ExportReportViewMixin):
 
         if not event_ids and not start_date and not end_date:
             # Get this years enrolments
-            today = datetime.datetime.now(tz=timezone.utc)
+            today = datetime.datetime.now(tz=datetime.timezone.utc)
             queryset = queryset.filter(
                 occurrence__p_event__enrolment_start__year=today.year
             )
@@ -415,9 +419,10 @@ class PalvelutarjotinEventEnrolmentsCsvView(
                 person_email_address = enrolment.person.email_address
                 person_phone_number = enrolment.person.phone_number
             elif enrolment.person_deleted_at:
-                person_email_address = (
-                    person_phone_number
-                ) = f"{_('Deleted')} {enrolment.person_deleted_at.strftime(self.DATE_FORMAT)}"  # noqa: E501
+                person_email_address = person_phone_number = (
+                    f"{_('Deleted')} "
+                    + f"{enrolment.person_deleted_at.strftime(self.DATE_FORMAT)}"
+                )
             else:
                 person_email_address = person_phone_number = ""
 
@@ -483,13 +488,21 @@ class EnrolmentReportListView(generics.ListAPIView):
 
     The available filters:
         - `updated_at__gte`, to filter with a report update date
+        - `updated_at__gt`,
         - `updated_at__lte`,
+        - `updated_at__lt`,
         - `created_at__gte`, to filter with a report creation date
+        - `created_at__gt`,
         - `created_at__lte`
+        - `created_at__lt`
         - `enrolment_time__gte`, to filter with a report enrolment time
+        - `enrolment_time__gt`,
         - `enrolment_time__lte`
+        - `enrolment_time__lt`
         - `enrolment_start_time__gte`, to filter with a report enrolment start time
+        - `enrolment_start_time__gt`,
         - `enrolment_start_time__lte`
+        - `enrolment_start_time__lt`
         - `enrolment_status`, to filter with an enrolment status:
         approved, pending. cancelled. declined
 
@@ -499,6 +512,28 @@ class EnrolmentReportListView(generics.ListAPIView):
     by adding a "-" (minus) in front of the field name,
     e.g `?order_by=-updated_at`.
     """
+
+    allowed_non_datetime_filter_keys = [
+        "enrolment_status",
+    ]
+    allowed_datetime_filter_keys = [
+        "updated_at__gte",
+        "updated_at__gt",
+        "updated_at__lte",
+        "updated_at__lt",
+        "created_at__gte",
+        "created_at__gt",
+        "created_at__lte",
+        "created_at__lt",
+        "enrolment_start_time__gte",
+        "enrolment_start_time__gt",
+        "enrolment_start_time__lte",
+        "enrolment_start_time__lt",
+        "enrolment_time__gte",
+        "enrolment_time__gt",
+        "enrolment_time__lte",
+        "enrolment_time__lt",
+    ]
 
     serializer_class = EnrolmentReportSerializer
     # Must be allowed only with model permissions (for 1 power bi user).
@@ -510,24 +545,21 @@ class EnrolmentReportListView(generics.ListAPIView):
     pagination_class = None
 
     def get_queryset(self):
-        # Allow the following filter parameters
-        allowed_filter_keys = [
-            "updated_at__gte",
-            "updated_at__lte",
-            "created_at__gte",
-            "created_at__lte",
-            "enrolment_status",
-            "enrolment_start_time__gte",
-            "enrolment_start_time__lte",
-            "enrolment_time__gte",
-            "enrolment_time__lte",
-        ]
         queryset = EnrolmentReport.objects.all()
+        # Parse non-datetime filter parameters
         filter_params = {
             k: self.request.query_params.get(k)
-            for k in allowed_filter_keys
+            for k in self.allowed_non_datetime_filter_keys
             if self.request.query_params.get(k)
         }
+        # Parse datetime filter parameters
+        filter_params.update(
+            {
+                k: to_local_datetime_if_naive(self.request.query_params.get(k))
+                for k in self.allowed_datetime_filter_keys
+                if self.request.query_params.get(k)
+            }
+        )
         if filter_params:
             # Filter with allowed params
             queryset = queryset.filter(**filter_params)

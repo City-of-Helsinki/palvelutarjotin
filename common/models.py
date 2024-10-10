@@ -1,11 +1,13 @@
-import django
 import uuid
+from copy import deepcopy
+
 from django.conf import settings
 from django.db import models, transaction
 from django.utils.translation import gettext_lazy as _
 from parler.managers import TranslatableQuerySet as ParlerTranslatableQuerySet
 from parler.models import TranslatableModel as ParlerTranslatableModel
 
+from common.utils import map_enums_to_values_in_kwargs
 from palvelutarjotin.exceptions import MissingDefaultTranslationError
 
 
@@ -28,37 +30,12 @@ class UUIDPrimaryKeyModel(models.Model):
 
 class TranslatableQuerySet(ParlerTranslatableQuerySet):
     @transaction.atomic
+    @map_enums_to_values_in_kwargs
     def create_translatable_object(self, **kwargs):
         translations = kwargs.pop("translations")
         obj = self.create(**kwargs)
         obj.create_or_update_translations(translations)
         return obj
-
-    def _extract_model_params(self, defaults, **kwargs):
-        # FIXME: Remove this method when it's possible to update to django-parler 2.0,
-        # (which is not compatible with django-ilmoitin atm). This function is cherry
-        # picked from django-parler 2.0 to fix a bug when calling
-        # queryset.get_or_create(**params)
-        translated_defaults = {}
-        if defaults:
-            for field in self.model._parler_meta.get_all_fields():
-                try:
-                    translated_defaults[field] = defaults.pop(field)
-                except KeyError:
-                    pass
-
-        if django.VERSION < (2, 2):
-            lookup, params = super(
-                ParlerTranslatableQuerySet, self
-            )._extract_model_params(defaults, **kwargs)
-            params.update(translated_defaults)
-            return lookup, params
-        else:
-            params = super(ParlerTranslatableQuerySet, self)._extract_model_params(
-                defaults, **kwargs
-            )
-            params.update(translated_defaults)
-            return params
 
 
 class TranslatableModel(ParlerTranslatableModel):
@@ -77,6 +54,7 @@ class TranslatableModel(ParlerTranslatableModel):
             raise MissingDefaultTranslationError("Default translation is missing")
         self.clear_translations()
         for translation in translations:
+            translation = deepcopy(translation)
             language_code = translation.pop("language_code")
             if language_code not in settings.PARLER_SUPPORTED_LANGUAGE_CODES:
                 continue

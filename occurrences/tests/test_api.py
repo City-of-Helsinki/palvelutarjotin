@@ -1,10 +1,12 @@
-import pytest
 from copy import deepcopy
 from datetime import datetime, timedelta
+from datetime import timezone as datetime_timezone
+from unittest.mock import patch
+
+import pytest
 from django.core import mail
 from django.utils import timezone
 from graphql_relay import to_global_id
-from unittest.mock import patch
 
 from common.tests.utils import (
     assert_mails_match_snapshot,
@@ -91,7 +93,7 @@ def autouse_db(db):
     pass
 
 
-def test_languagess_query(snapshot, language, api_client):
+def test_languages_query(snapshot, language, api_client):
     executed = api_client.execute(LANGUAGES_QUERY)
     snapshot.assert_match(executed)
 
@@ -437,7 +439,7 @@ def test_update_unpublished_occurrence(
     occurrence = OccurrenceFactory(
         contact_persons=[person],
         p_event__organisation=organisation,
-        start_time=datetime(2020, 1, 1, 12, 0, tzinfo=timezone.utc),
+        start_time=datetime(2020, 1, 1, 12, 0, tzinfo=datetime_timezone.utc),
     )
     p_event = PalvelutarjotinEventFactory(organisation=organisation)
     variables["input"]["id"] = to_global_id("OccurrenceNode", occurrence.id)
@@ -1538,6 +1540,7 @@ def test_approve_enrolment(
     snapshot,
     staff_api_client,
     mock_get_event_data,
+    mock_enrolment_unique_id,
     notification_template_enrolment_approved_en,
     notification_template_enrolment_approved_fi,
 ):
@@ -1587,6 +1590,7 @@ def test_approve_enrolment_with_custom_message(
     snapshot,
     staff_api_client,
     mock_get_event_data,
+    mock_enrolment_unique_id,
     notification_template_enrolment_approved_en,
     notification_template_enrolment_approved_fi,
 ):
@@ -2180,7 +2184,7 @@ def test_notification_template_query_error(
         "language": "EN",
         "context": '{"event":{"name":{"fi":"This should be `en`"}},'
         '"study_group":{'
-        '"name":"group name","person":{'
+        '"unit_name":"group name","person":{'
         '"email_address":"email@me.com"}},"occurrence":{'
         '"start_time":"2020-12-12","p_event":{'
         '"linked_event_id":"linked_event_id"}},'
@@ -2203,7 +2207,7 @@ def test_notification_template_query(
         "language": "EN",
         "context": '{"event":{"name":{"en":"Name in english"}},'
         '"study_group":{'
-        '"name":"group name","person":{'
+        '"unit_name":"group name","person":{'
         '"email_address":"email@me.com"}},"occurrence":{'
         '"start_time":"2020-12-12","p_event":{'
         '"linked_event_id":"linked_event_id"}},'
@@ -2334,10 +2338,7 @@ def test_occurrence_study_groups_unauthorized(
         OCCURRENCE_STUDY_GROUPS_QUERY,
         variables={"id": to_global_id("OccurrenceNode", occurrence.id)},
     )
-    # FIXME: The permission denied error should be raised
-    # assert_permission_denied(executed)
-    # assert executed["data"]["occurrence"]["studyGroups"]["edges"] == []
-    assert executed["data"]["occurrence"] is None
+    assert executed["data"]["occurrence"]["studyGroups"]["edges"] == []
 
     # Valid case: The organisation matches
     staff_api_client.user.person.organisations.add(occurrence.p_event.organisation)
@@ -2721,7 +2722,7 @@ def test_event_queue_enrolments_query_unauthorized(
     )
     # FIXME: The permission denied error should be raised
     # assert_permission_denied(executed)
-    executed["data"]["eventQueueEnrolments"] is None
+    assert executed["data"]["eventQueueEnrolments"] == {"count": 0, "edges": []}
     # With a wrong organisation
     other_organisation = OrganisationFactory()
     staff_api_client.user.person.organisations.add(other_organisation)
@@ -2734,7 +2735,7 @@ def test_event_queue_enrolments_query_unauthorized(
     )
     # FIXME: The permission denied error should be raised
     # assert_permission_denied(executed)
-    executed["data"]["eventQueueEnrolments"] is None
+    assert executed["data"]["eventQueueEnrolments"] == {"count": 0, "edges": []}
 
 
 def test_event_queue_enrolment_query(
@@ -2871,11 +2872,11 @@ def test_pick_enrolment_from_queue(
         }
     }
     staff_api_client.user.person.organisations.add(organisation)
-    Enrolment.objects.count() == 0
+    assert Enrolment.objects.count() == 0
     executed = staff_api_client.execute(
         PICK_ENROLMENT_FROM_QUEUE_MUTATION, variables=variables
     )
-    Enrolment.objects.count() == 1
+    assert Enrolment.objects.count() == 1
     snapshot.assert_match(executed)
 
 

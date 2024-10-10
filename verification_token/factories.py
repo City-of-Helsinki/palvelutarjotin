@@ -23,6 +23,7 @@ class VerificationTokenFactory(factory.django.DjangoModelFactory):
     class Meta:
         exclude = ["content_object"]
         abstract = True
+        skip_postgeneration_save = True  # Not needed after factory v4.0.0
 
 
 class EnrolmentVerificationTokenFactory(VerificationTokenFactory):
@@ -34,3 +35,4 @@ class EnrolmentVerificationTokenFactory(VerificationTokenFactory):
 
     class Meta:
         model = VerificationToken
+        skip_postgeneration_save = True  # Not needed after factory v4.0.0

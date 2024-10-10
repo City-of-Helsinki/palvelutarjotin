@@ -1,5 +1,6 @@
-from rest_framework import serializers
 from typing import List, Optional
+
+from rest_framework import serializers
 
 from reports.models import EnrolmentReport
 
@@ -85,9 +86,9 @@ class OCDIDField(serializers.Field):
             result = {
                 "ocd_ids": value,
                 **{
-                    self.translations[key]
-                    if key in self.translations
-                    else key: value.capitalize()
+                    (
+                        self.translations[key] if key in self.translations else key
+                    ): value.capitalize()
                     for (key, value) in pairs
                 },
             }
@@ -125,8 +126,7 @@ class OCDIDField(serializers.Field):
                 "ocd-division/country:fi/kunta:helsinki/kaupunginosa:pasila",
                 "ocd-division/country:fi/kunta:helsinki/peruspiiri:pasila",
                 "ocd-division/country:fi/kunta:helsinki",
-            ]
-        """
+            ]"""
 
         if "ocd_ids" in data:
             return data["ocd_ids"]

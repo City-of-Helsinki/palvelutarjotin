@@ -1,10 +1,11 @@
+from datetime import datetime, timedelta
+from unittest.mock import patch
+
 import pytest
 import pytz
-from datetime import datetime, timedelta
 from django.core import mail
 from django.utils import timezone
 from graphql_relay import to_global_id
-from unittest.mock import patch
 
 from common.tests.utils import assert_mails_match_snapshot
 from occurrences.consts import NOTIFICATION_TYPE_ALL, NOTIFICATION_TYPE_SMS
@@ -311,7 +312,7 @@ def test_send_enrolment_summary_report(
     mock_get_event_data,
     notification_template_enrolment_summary_report_fi,
 ):
-    date_in_future = datetime.now() + timedelta(days=10)
+    date_in_future = timezone.now() + timedelta(days=10)
     p_event_1 = PalvelutarjotinEventFactory.create()
     occurrence_1_1 = OccurrenceFactory.create(
         id=11, p_event=p_event_1, start_time=date_in_future
@@ -376,12 +377,12 @@ def test_send_enrolment_summary_report(
 def test_old_pending_enrolments_excluded_from_enrolment_summary_report(
     mock_get_event_data, notification_template_enrolment_summary_report_fi
 ):
-    occurrence = OccurrenceFactory.create(start_time=datetime.now() - timedelta(days=1))
+    occurrence = OccurrenceFactory.create(start_time=timezone.now() - timedelta(days=1))
     EnrolmentFactory.create(status=Enrolment.STATUS_PENDING, occurrence=occurrence)
     send_enrolment_summary_report_to_providers_from_days(days=1)
     assert len(mail.outbox) == 0
 
-    occurrence = OccurrenceFactory.create(start_time=datetime.now() + timedelta(days=1))
+    occurrence = OccurrenceFactory.create(start_time=timezone.now() + timedelta(days=1))
     EnrolmentFactory.create(status=Enrolment.STATUS_PENDING, occurrence=occurrence)
     send_enrolment_summary_report_to_providers_from_days(days=1)
     assert len(mail.outbox) == 1
@@ -391,7 +392,7 @@ def test_old_pending_enrolments_excluded_from_enrolment_summary_report(
 def test_event_not_found_from_linkedevents_when_sending_enrolment_summary_report(
     mock_get_event_data_not_found, notification_template_enrolment_summary_report_fi
 ):
-    occurrence = OccurrenceFactory.create(start_time=datetime.now() + timedelta(days=1))
+    occurrence = OccurrenceFactory.create(start_time=timezone.now() + timedelta(days=1))
     EnrolmentFactory.create(status=Enrolment.STATUS_PENDING, occurrence=occurrence)
     send_enrolment_summary_report_to_providers_from_days(days=1)
     assert len(mail.outbox) == 1

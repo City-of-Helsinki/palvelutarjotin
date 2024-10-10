@@ -1,6 +1,7 @@
 import logging
-from helsinki_gdpr.types import ErrorResponse
 from typing import Optional, TYPE_CHECKING
+
+from helsinki_gdpr.types import ErrorResponse
 
 if TYPE_CHECKING:
     from organisations.models import User as UserType

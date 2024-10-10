@@ -1,8 +1,9 @@
-import environ
 import os
-import sentry_sdk
 import subprocess
 from datetime import datetime
+
+import environ
+import sentry_sdk
 from django.utils.translation import gettext_lazy as _
 from sentry_sdk.integrations.django import DjangoIntegration
 
@@ -53,14 +54,6 @@ env = environ.Env(
         ["https://tunnistus.test.hel.ninja/auth/realms/helsinki-tunnistus/"],
     ),
     ILMOITIN_QUEUE_NOTIFICATIONS=(bool, False),
-    DEFAULT_FILE_STORAGE=(str, "django.core.files.storage.FileSystemStorage"),
-    GS_BUCKET_NAME=(str, ""),
-    STAGING_GCS_BUCKET_CREDENTIALS=(str, ""),
-    GS_DEFAULT_ACL=(str, "publicRead"),
-    GS_FILE_OVERWRITE=(bool, False),
-    AZURE_ACCOUNT_NAME=(str, ""),
-    AZURE_ACCOUNT_KEY=(str, ""),
-    AZURE_CONTAINER=(str, ""),
     ENABLE_GRAPHIQL=(bool, False),
     LINKED_EVENTS_API_ROOT=(str, "https://api.hel.fi/linkedevents/v1/"),
     LINKED_EVENTS_API_KEY=(str, ""),
@@ -152,19 +145,6 @@ STATIC_URL = env.str("STATIC_URL")
 KULTUS_PROVIDER_UI_BASE_URL = env.str("KULTUS_PROVIDER_UI_BASE_URL")
 KULTUS_TEACHER_UI_BASE_URL = env.str("KULTUS_TEACHER_UI_BASE_URL")
 
-# For staging env, we use Google Cloud Storage
-DEFAULT_FILE_STORAGE = env("DEFAULT_FILE_STORAGE")
-if DEFAULT_FILE_STORAGE == "storages.backends.gcloud.GoogleCloudStorage":
-    GS_BUCKET_NAME = env("GS_BUCKET_NAME")
-    GOOGLE_APPLICATION_CREDENTIALS = env("STAGING_GCS_BUCKET_CREDENTIALS")
-    GS_DEFAULT_ACL = env("GS_DEFAULT_ACL")
-    GS_FILE_OVERWRITE = env("GS_FILE_OVERWRITE")
-# For prod, it's Azure Storage
-elif DEFAULT_FILE_STORAGE == "storages.backends.azure_storage.AzureStorage":
-    AZURE_ACCOUNT_NAME = env("AZURE_ACCOUNT_NAME")
-    AZURE_ACCOUNT_KEY = env("AZURE_ACCOUNT_KEY")
-    AZURE_CONTAINER = env("AZURE_CONTAINER")
-
 ROOT_URLCONF = "palvelutarjotin.urls"
 WSGI_APPLICATION = "palvelutarjotin.wsgi.application"
 
@@ -172,7 +152,6 @@ LANGUAGE_CODE = "fi"
 LANGUAGES = (("fi", _("Finnish")), ("en", _("English")), ("sv", _("Swedish")))
 TIME_ZONE = "Europe/Helsinki"
 USE_I18N = True
-USE_L10N = True
 USE_TZ = True
 # Set to True to enable GraphiQL interface, this will overriden to True if DEBUG=True
 ENABLE_GRAPHIQL = env("ENABLE_GRAPHIQL")
@@ -308,6 +287,7 @@ PARLER_REQUIRE_DEFAULT_TRANSLATION = False
 GRAPHENE = {
     "SCHEMA": "palvelutarjotin.schema.schema",
     "MIDDLEWARE": ["graphql_jwt.middleware.JSONWebTokenMiddleware"],
+    "DJANGO_CHOICE_FIELD_ENUM_CONVERT": True,
 }
 
 GRAPHQL_JWT = {"JWT_AUTH_HEADER_PREFIX": "Bearer"}

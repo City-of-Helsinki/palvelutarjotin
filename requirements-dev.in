@@ -1,9 +1,6 @@
 -c requirements.txt
-black
-flake8
 freezegun
 ipython
-isort
 pytest
 pytest-cov
 pytest-django
@@ -12,3 +9,4 @@ pre-commit
 responses
 parameterized
 requests-mock
+ruff

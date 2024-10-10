@@ -1,16 +1,18 @@
-# See https://pre-commit.com for more information
-# See https://pre-commit.com/hooks.html for more hooks
+# Pre-commit hook documentation:
+# - https://pre-commit.com/
+# - https://pre-commit.com/hooks.html
+#
+# Ruff pre-commit hook documentation:
+# - https://github.com/astral-sh/ruff-pre-commit
+default_language_version:
+  python: python3.11
 repos:
-  - repo: https://github.com/PyCQA/isort
-    rev: 5.12.0
+  - repo: https://github.com/astral-sh/ruff-pre-commit
+    # Ruff version
+    rev: v0.6.9
     hooks:
-      - id: isort
-  - repo: https://github.com/psf/black
-    rev: 23.3.0
-    hooks:
-      - id: black
-  - repo: https://github.com/PyCQA/flake8
-    rev: 6.0.0
-    hooks:
-      - id: flake8
-        exclude: migrations|snapshots
+      # Run the linter
+      - id: ruff
+        args: [ --fix ]
+      # Run the formatter
+      - id: ruff-format

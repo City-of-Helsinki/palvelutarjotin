@@ -1,6 +1,8 @@
 import logging
 import warnings
 from datetime import timedelta
+from typing import List, Optional
+
 from dateutil.relativedelta import relativedelta
 from django.conf import settings
 from django.contrib.contenttypes.fields import GenericRelation
@@ -14,7 +16,6 @@ from graphql_relay import to_global_id
 from helsinki_gdpr.models import SerializableMixin
 from parler.models import TranslatedFields
 from requests.exceptions import HTTPError
-from typing import List, Optional
 
 import occurrences.notification_services as occurrences_services
 from common.models import (
@@ -590,14 +591,33 @@ class StudyGroupQuerySet(models.QuerySet):
         organisation_ids = [
             entry[0] for entry in user.person.organisations.values_list("id")
         ]
-        return self.with_organisation_ids().filter(
-            organisation_ids__overlap=organisation_ids
+        result = (
+            self.with_organisation_ids()
+            .with_queued_enrolments_organisation_ids()
+            .filter(
+                Q(organisation_ids__overlap=organisation_ids)
+                | Q(queued_enrolments_organisation_ids__overlap=organisation_ids)
+            )
         )
+        return result
 
     def with_organisation_ids(self):
         return self.annotate(
             organisation_ids=ArrayAgg(
-                "enrolments__occurrence__p_event__organisation__pk"
+                "enrolments__occurrence__p_event__organisation__pk",
+                filter=Q(
+                    enrolments__occurrence__p_event__organisation__pk__isnull=False
+                ),
+                default=[],
+            )
+        )
+
+    def with_queued_enrolments_organisation_ids(self):
+        return self.annotate(
+            queued_enrolments_organisation_ids=ArrayAgg(
+                "queued_enrolments__p_event__organisation__pk",
+                filter=Q(queued_enrolments__p_event__organisation__pk__isnull=False),
+                default=[],
             )
         )
 
@@ -670,12 +690,38 @@ class StudyGroup(
 
     @property
     def name(self):
-        warnings.warn("Deprecated!", DeprecationWarning, stacklevel=2)
+        """
+        Get unit name. This getter is for backward compatibility
+        to better support existing notification templates etc.
+
+        :return: unit name
+
+        .. deprecated:: release-v.0.8.0
+           Use `self.unit_name` instead of `self.name`.
+        """
+        warnings.warn(
+            "Deprecated! Use self.unit_name instead of self.name",
+            DeprecationWarning,
+            stacklevel=2,
+        )
         return self.unit_name
 
     @name.setter
     def name(self, value):
-        warnings.warn("Deprecated!", DeprecationWarning, stacklevel=2)
+        """
+        Set unit name to given value. This setter is for backward compatibility
+        to better support existing notification templates etc.
+
+        :param value: unit name
+
+        .. deprecated:: release-v.0.8.0
+           Use `self.unit_name = value` instead of `self.name = value`.
+        """
+        warnings.warn(
+            "Deprecated! Use self.unit_name=value instead of self.name=value",
+            DeprecationWarning,
+            stacklevel=2,
+        )
         self.unit_name = value
 
     def __str__(self):
@@ -696,8 +742,12 @@ class StudyGroup(
         super().save(*args, **kwargs)
 
     def is_editable_by_user(self, user):
+        annotated = (
+            self.with_organisation_ids().with_queued_enrolments_organisation_ids()
+        )
         return user.person.organisations.filter(
-            id__in=self.with_organisation_ids().value("organisation_ids")
+            Q(id__in=annotated.value("organisation_ids"))
+            | Q(id__in=annotated.value("queued_enrolments_organisation_ids"))
         ).exists()
 
 
@@ -853,7 +903,7 @@ class EventQueueEnrolment(GDPRModel, SerializableMixin, EnrolmentBase):
         {
             "name": "study_group",
             "accessor": lambda group: str(group),
-        },  # avoid bidirectional serialization, because it wil lend in a forever lopp.
+        },  # avoid bidirectional serialization, because it will end in a forever loop.
         {"name": "p_event"},
     )
     gdpr_sensitive_data_fields = []
@@ -868,7 +918,7 @@ class EventQueueEnrolment(GDPRModel, SerializableMixin, EnrolmentBase):
         ]
 
     def __str__(self):
-        return f"{self.id} {self.p_event.linked_event_id} {self.study_group.name}"
+        return f"{self.id} {self.p_event.linked_event_id} {self.study_group.unit_name}"
 
     def is_editable_by_user(self, user):
         return user.person.organisations.filter(
@@ -952,7 +1002,7 @@ class Enrolment(GDPRModel, SerializableMixin, EnrolmentBase):
         ordering = ["occurrence", "enrolment_time"]
 
     def __str__(self):
-        return f"{self.id} {self.occurrence.start_time} {self.study_group.name}"
+        return f"{self.id} {self.occurrence.start_time} {self.study_group.unit_name}"
 
     def is_editable_by_user(self, user):
         return user.person.organisations.filter(
