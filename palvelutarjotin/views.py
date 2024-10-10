@@ -1,6 +1,9 @@
+from typing import Awaitable
+
 import sentry_sdk
 from django.core.exceptions import ObjectDoesNotExist, PermissionDenied
 from graphene_file_upload.django import FileUploadGraphQLView
+from graphql import ExecutionResult
 from graphql_jwt.exceptions import PermissionDenied as JwtPermissionDenied
 
 from palvelutarjotin.consts import (
@@ -92,9 +95,10 @@ error_codes = {**error_codes_shared, **error_codes_palvelutarjotin}
 class SentryGraphQLView(FileUploadGraphQLView):
     def execute_graphql_request(self, request, data, query, *args, **kwargs):
         """Extract any exceptions and send some of them to Sentry"""
-        result = super().execute_graphql_request(request, data, query, *args, **kwargs)
-        # If 'invalid' is set, it's a bad request
-        if result and result.errors and not result.invalid:
+        result: ExecutionResult | Awaitable[ExecutionResult] | None = (
+            super().execute_graphql_request(request, data, query, *args, **kwargs)
+        )
+        if result and result.errors:
             errors = [
                 e
                 for e in result.errors
