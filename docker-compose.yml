@@ -15,7 +15,7 @@ services:
     django:
         build:
             context: .
-            target: development
+            target: ${DOCKER_TARGET:-development}
         env_file:
             - docker-compose.env.yaml
         environment:
@@ -25,6 +25,7 @@ services:
             - .:/app
         ports:
             - 8081:8081
+            - 8000:8000
         depends_on:
             - kultus-db
         container_name: kultus-backend
