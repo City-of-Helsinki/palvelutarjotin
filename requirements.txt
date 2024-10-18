@@ -70,7 +70,7 @@ django-helusers==0.13.0
     # via
     #   -r requirements.in
     #   helsinki-profile-gdpr-api
-django-ilmoitin==0.7.0
+django-ilmoitin==0.7.1
     # via -r requirements.in
 django-mailer==2.3.2
     # via django-ilmoitin
