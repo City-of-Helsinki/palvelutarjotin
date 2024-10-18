@@ -679,7 +679,7 @@ class Query:
     @staticmethod
     def resolve_keyword_set(parent, info, **kwargs):
         set_type = kwargs["set_type"]
-        keyword_set_id = settings.KEYWORD_SET_ID_MAPPING.get(set_type)
+        keyword_set_id = settings.KEYWORD_SET_ID_MAPPING.get(set_type.value)
         response = api_client.retrieve(
             "keyword_set", keyword_set_id, params={"include": "keywords"}
         )
