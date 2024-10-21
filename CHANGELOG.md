@@ -1,6 +1,21 @@
 <!-- REMINDER: While updating changelog, also remember to update
 the version in palvelutarjotin/__init.py__ -->
 
+## [1.17.0](https://github.com/City-of-Helsinki/palvelutarjotin/compare/palvelutarjotin-v1.16.0...palvelutarjotin-v1.17.0) (2024-10-21)
+
+
+### Features
+
+* Upgrade all dependencies, PostgreSQL 10-&gt;13, use ruff ([bcbf88b](https://github.com/City-of-Helsinki/palvelutarjotin/commit/bcbf88b7f5f1c0a54cf14d03371c38ac3c2ae013))
+* Upgrade Python 3.9 -&gt; 3.11 ([b736d8a](https://github.com/City-of-Helsinki/palvelutarjotin/commit/b736d8a1bbdc3d61e50791fa2f0b697ca10c4710))
+
+
+### Bug Fixes
+
+* Execute_graphql_request() has no `invalid` member ([fe1ee4f](https://github.com/City-of-Helsinki/palvelutarjotin/commit/fe1ee4f0e355ea8d53ee3ee5798ccf54992b8ec3))
+* Keyword set enum usage ([c8b133d](https://github.com/City-of-Helsinki/palvelutarjotin/commit/c8b133df4aac05113b0c2c3524b825c8f048e2b7))
+* Upgrade django-ilmoitin to fix migration issues ([ba7ac5d](https://github.com/City-of-Helsinki/palvelutarjotin/commit/ba7ac5d1a05e678e5ddeca83c2822f1892009b46))
+
 ## [1.16.0](https://github.com/City-of-Helsinki/palvelutarjotin/compare/palvelutarjotin-v1.15.0...palvelutarjotin-v1.16.0) (2024-09-26)
 
 
