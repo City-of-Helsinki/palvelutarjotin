@@ -126,11 +126,13 @@ class CreateMyProfileMutation(graphene.relay.ClientIDMutation):
         person.notify_myprofile_creation()
         return CreateMyProfileMutation(my_profile=person)
 
+    @staticmethod
     def _set_organisation_proposals(organisation_proposals_data, person):
         if organisation_proposals_data and person:
             for organisation_proposal_data in organisation_proposals_data:
                 person.organisationproposal_set.create(**organisation_proposal_data)
 
+    @staticmethod
     def _set_person_organisations(organisation_ids, person):
         if organisation_ids and person:
             for org_global_id in organisation_ids:
@@ -171,6 +173,7 @@ class UpdateMyProfileMutation(graphene.relay.ClientIDMutation):
 
         return UpdateMyProfileMutation(my_profile=person)
 
+    @staticmethod
     def _set_person_organisations(organisation_ids, person):
         if organisation_ids and person:
             person.organisations.clear()
