@@ -3,6 +3,7 @@ from django.contrib.auth import get_user_model
 from django.core.exceptions import ValidationError
 from django.core.validators import validate_email
 from django.db import transaction
+from django.db.models import Q
 from graphene import Boolean, InputObjectType, relay
 from graphene_django import DjangoConnectionField
 from graphene_django.filter import DjangoFilterConnectionField
@@ -37,6 +38,7 @@ class PersonNode(DjangoObjectType):
 
     @classmethod
     def get_queryset(cls, queryset, info):
+        queryset = queryset.filter(Q(user__isnull=True) | Q(user__is_active=True))
         # Allow access to person related to added study group in AddStudyGroupMutation
         if info.path.as_list() == ["addStudyGroup", "studyGroup", "person"]:
             return queryset

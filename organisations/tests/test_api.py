@@ -11,7 +11,7 @@ from occurrences.factories import (
     PalvelutarjotinEventFactory,
 )
 from organisations.factories import OrganisationFactory, PersonFactory, UserFactory
-from organisations.models import Organisation
+from organisations.models import Organisation, Person
 from palvelutarjotin.consts import (
     API_USAGE_ERROR,
     INVALID_EMAIL_FORMAT_ERROR,
@@ -300,6 +300,20 @@ def test_persons_query(snapshot, api_client, user_api_client, staff_api_client, 
     snapshot.assert_match(executed)
 
 
+def test_persons_query_should_not_include_deactivated_users(staff_api_client):
+    (active_person, deactivated_person) = PersonFactory.create_batch(2)
+    deactivated_person.user.is_active = False
+    deactivated_person.user.save()
+    executed = staff_api_client.execute(PERSONS_QUERY)
+    assert deactivated_person.name not in [
+        e["node"]["name"] for e in executed["data"]["persons"]["edges"]
+    ]
+    assert all(
+        (name in (e["node"]["name"] for e in executed["data"]["persons"]["edges"]))
+        for name in [active_person.name, staff_api_client.user.person.name]
+    )
+
+
 def test_person_query(snapshot, api_client, user_api_client, staff_api_client, person):
     person_id = to_global_id("PersonNode", person.id)
     # Anonymous user should see any person info
@@ -362,6 +376,69 @@ def test_organisation_query(snapshot, api_client, organisation):
         variables={"id": to_global_id("OrganisationNode", organisation.id)},
     )
     snapshot.assert_match(executed)
+
+
+def test_organisation_persons_should_not_be_publicly_readable(
+    api_client, staff_api_client, organisation
+):
+    PERSONS_COUNT = 3
+    PersonFactory.create_batch(PERSONS_COUNT, organisations=[organisation])
+    variables = {"id": to_global_id("OrganisationNode", organisation.id)}
+    anonym_executed = api_client.execute(
+        ORGANISATION_QUERY,
+        variables=variables,
+    )
+    assert len(anonym_executed["data"]["organisation"]["persons"]["edges"]) == 0
+    staff_executed = staff_api_client.execute(ORGANISATION_QUERY, variables=variables)
+    assert (
+        len(staff_executed["data"]["organisation"]["persons"]["edges"]) == PERSONS_COUNT
+    )
+
+
+def test_organisation_deactivated_persons_should_not_be_listed(
+    staff_api_client, person
+):
+    organisation = person.organisations.first()
+    p_event = PalvelutarjotinEventFactory(organisation=organisation)
+    deactivated_person = PersonFactory(
+        user__is_active=False, organisations=[organisation]
+    )
+    study_group_person = EnrolmentFactory(
+        occurrence__p_event=p_event
+    ).study_group.person
+    study_group_person.user = None
+    study_group_person.organisations.add(organisation)
+    study_group_person.save()
+
+    org_persons = Person.objects.filter(organisations=organisation)
+    assert org_persons.count() == 3
+    assert all(
+        (p in org_persons) for p in [person, deactivated_person, study_group_person]
+    )
+
+    executed = staff_api_client.execute(
+        ORGANISATION_QUERY,
+        variables={"id": to_global_id("OrganisationNode", organisation.id)},
+    )
+    assert len(executed["data"]["organisation"]["persons"]["edges"]) == 2
+    # deactivated person is not listed
+    assert to_global_id("PersonNode", deactivated_person.id) not in (
+        e["node"]["id"] for e in executed["data"]["organisation"]["persons"]["edges"]
+    )
+    # active person and study group person are listed
+    assert all(
+        (
+            person_id
+            in (
+                e["node"]["id"]
+                for e in executed["data"]["organisation"]["persons"]["edges"]
+            )
+        )
+        for person_id in [
+            to_global_id("PersonNode", person.id),
+            to_global_id("PersonNode", study_group_person.id),
+        ]
+    )
 
 
 def test_my_profile_query_unauthenticated(snapshot, api_client, organisation):
