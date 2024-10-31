@@ -2,12 +2,12 @@ import enum
 from datetime import datetime, timedelta
 from datetime import timezone as datetime_timezone
 from enum import auto
+from zoneinfo import ZoneInfo
 
 import graphene
 import pytest
 from django.test.utils import override_settings
 from django.utils import timezone
-from zoneinfo import ZoneInfo
 
 from common.utils import (
     deepfix_enum_values,
