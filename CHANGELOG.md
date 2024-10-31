@@ -1,6 +1,13 @@
 <!-- REMINDER: While updating changelog, also remember to update
 the version in palvelutarjotin/__init.py__ -->
 
+## [1.18.0](https://github.com/City-of-Helsinki/palvelutarjotin/compare/palvelutarjotin-v1.17.0...palvelutarjotin-v1.18.0) (2024-10-31)
+
+
+### Features
+
+* Deactivated person should not be listed from API ([fe515f8](https://github.com/City-of-Helsinki/palvelutarjotin/commit/fe515f8ca723a3bf53164d63552b2e96f0d12140))
+
 ## [1.17.0](https://github.com/City-of-Helsinki/palvelutarjotin/compare/palvelutarjotin-v1.16.0...palvelutarjotin-v1.17.0) (2024-10-21)
 
 
