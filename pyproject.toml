@@ -1,3 +1,8 @@
+[project]
+name = "palvelutarjotin"
+version = "1.17.0"
+requires-python = ">= 3.11"
+
 [tool.ruff]
 extend-exclude = ["migrations", "snapshots"]
 
