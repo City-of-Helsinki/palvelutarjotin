@@ -4,5 +4,5 @@
 #
 #    pip-compile requirements-prod.in
 #
-uwsgi==2.0.27
+uwsgi==2.0.28
     # via -r requirements-prod.in

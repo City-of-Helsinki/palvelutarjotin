@@ -4,38 +4,36 @@
 #
 #    pip-compile requirements.in
 #
-aniso8601==9.0.1
-    # via graphene
 asgiref==3.8.1
     # via
     #   django
     #   django-axes
     #   django-cors-headers
-authlib==1.3.2
+authlib==1.5.1
     # via drf-oidc-auth
-cachetools==5.5.0
+cachetools==5.5.2
     # via django-helusers
-certifi==2024.8.30
+certifi==2025.1.31
     # via
     #   -r requirements.in
     #   requests
     #   sentry-sdk
 cffi==1.17.1
     # via cryptography
-charset-normalizer==3.3.2
+charset-normalizer==3.4.1
     # via requests
-cryptography==43.0.1
+cryptography==44.0.2
     # via
     #   authlib
     #   drf-oidc-auth
     #   social-auth-core
-defusedxml==0.8.0rc2
+defusedxml==0.7.1
     # via
     #   python3-openid
     #   social-auth-core
 deprecation==2.1.0
     # via django-helusers
-django==4.2.16
+django==4.2.20
     # via
     #   -r requirements.in
     #   django-anymail
@@ -56,17 +54,17 @@ django-admin-list-filter-dropdown==1.0.3
     # via -r requirements.in
 django-anymail==12.0
     # via django-ilmoitin
-django-axes==7.0.0
+django-axes==7.0.2
     # via -r requirements.in
-django-cors-headers==4.4.0
+django-cors-headers==4.7.0
     # via -r requirements.in
-django-environ==0.11.2
+django-environ==0.12.0
     # via -r requirements.in
-django-filter==24.3
+django-filter==25.1
     # via -r requirements.in
 django-graphql-jwt==0.4.0
     # via -r requirements.in
-django-helusers==0.13.0
+django-helusers==0.13.3
     # via
     #   -r requirements.in
     #   helsinki-profile-gdpr-api
@@ -88,15 +86,15 @@ drf-oidc-auth==3.0.0
     #   helsinki-profile-gdpr-api
 ecdsa==0.19.0
     # via python-jose
-factory-boy==3.3.1
+factory-boy==3.3.3
     # via -r requirements.in
-faker==30.3.0
+faker==37.0.0
     # via factory-boy
 geographiclib==2.0
     # via geopy
 geopy==2.4.1
     # via -r requirements.in
-graphene==3.3
+graphene==3.4.3
     # via
     #   django-graphql-jwt
     #   graphene-django
@@ -106,7 +104,7 @@ graphene-django==3.2.2
     #   django-graphql-jwt
 graphene-file-upload==1.3.0
     # via -r requirements.in
-graphql-core==3.2.4
+graphql-core==3.2.6
     # via
     #   graphene
     #   graphene-django
@@ -119,41 +117,41 @@ helsinki-profile-gdpr-api==0.2.0
     # via -r requirements.in
 idna==3.10
     # via requests
-importlib-metadata==8.5.0
+importlib-metadata==8.6.1
     # via -r requirements.in
-jinja2==3.1.4
+jinja2==3.1.6
     # via django-ilmoitin
 lockfile==0.12.2
     # via django-mailer
-markupsafe==3.0.1
+markupsafe==3.0.2
     # via jinja2
 oauthlib==3.2.2
     # via
     #   requests-oauthlib
     #   social-auth-core
-packaging==24.1
+packaging==24.2
     # via deprecation
 promise==2.3
     # via graphene-django
-psycopg2-binary==2.9.9
+psycopg2-binary==2.9.10
     # via -r requirements.in
-pyasn1==0.6.1
+pyasn1==0.4.8
     # via
     #   python-jose
     #   rsa
 pycparser==2.22
     # via cffi
-pyjwt==2.9.0
+pyjwt==2.10.1
     # via
     #   django-graphql-jwt
     #   social-auth-core
 python-dateutil==2.9.0.post0
-    # via faker
-python-jose==3.3.0
+    # via graphene
+python-jose==3.4.0
     # via django-helusers
 python3-openid==3.2.0
     # via social-auth-core
-pytz==2024.2
+pytz==2025.1
     # via -r requirements.in
 requests==2.32.3
     # via
@@ -167,29 +165,31 @@ requests-oauthlib==2.0.0
     # via social-auth-core
 rsa==4.9
     # via python-jose
-sentry-sdk==2.16.0
+sentry-sdk==2.22.0
     # via -r requirements.in
-six==1.16.0
+six==1.17.0
     # via
     #   ecdsa
     #   graphene-file-upload
     #   promise
     #   python-dateutil
-social-auth-app-django==5.4.2
+social-auth-app-django==5.4.3
     # via -r requirements.in
-social-auth-core==4.5.4
+social-auth-core==4.5.6
     # via social-auth-app-django
-sqlparse==0.5.1
+sqlparse==0.5.3
     # via django
 text-unidecode==1.3
     # via graphene-django
 typing-extensions==4.12.2
+    # via graphene
+tzdata==2025.1
     # via faker
-urllib3==2.2.3
+urllib3==2.3.0
     # via
     #   -r requirements.in
     #   django-anymail
     #   requests
     #   sentry-sdk
-zipp==3.20.2
+zipp==3.21.0
     # via importlib-metadata
