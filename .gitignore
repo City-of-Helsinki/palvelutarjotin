@@ -24,6 +24,13 @@
 .DS_Store
 .eggs/
 .env
+.env.development
+.env.development.local
+.env.local
+.env.production
+.env.production.local
+.env.test
+.env.test.local
 .grunt
 .hypothesis/
 .idea
@@ -77,8 +84,7 @@ target/
 var/
 venv/
 .pytest_cache/
+docker-compose.env
 docker-compose.env.yaml
-
 .vscode/
-
 Pipfile*

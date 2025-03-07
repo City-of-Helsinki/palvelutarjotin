@@ -1004,8 +1004,7 @@ class MassApproveEnrolmentsMutation(graphene.relay.ClientIDMutation):
             )
             if e.occurrence.p_event.needed_occurrences > 1:
                 raise ApiUsageError(
-                    "Cannot mass approve enrolment that requires more than 1 "
-                    "occurrence"
+                    "Cannot mass approve enrolment that requires more than 1 occurrence"
                 )
             if e.occurrence.cancelled:
                 raise EnrolCancelledOccurrenceError(

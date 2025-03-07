@@ -23,7 +23,7 @@ Testing environment:
 
 ## Development with Docker
 
-1. Copy `docker-compose.env.yaml.example` to `docker-compose.env.yaml` and modify it if needed.
+1. Copy `.env.example` to `.env` and modify it if needed.
 2. Configure settings, see [Configuration](#configuration)
 3. Run `docker-compose up`
 
@@ -73,8 +73,7 @@ Allow user to create test database
 
 1.  You must config Kultus API to integrate with [LinkedEvents API](https://github.com/City-of-Helsinki/linkedevents)
 
-    Add the following lines to your local `.env` or `docker-compose.env.yaml` if you are using Docker. Take a look
-    at the `.env.example` or `docker-compose.env.yaml.example` to see list of required variables
+    Add the following lines to your local `.env`. Take a look at the `.env.example` to see list of required variables
 
     ```python
     LINKED_EVENTS_API_ROOT=<your_linked_event_api_url>          # e.g. http://localhost:8000/v1/
@@ -155,7 +154,7 @@ Allow user to create test database
       [kultus:categories](https://linkedevents.api.test.hel.ninja/v1/keyword_set/kultus:categories/),
       [kultus:target_groups](https://linkedevents.api.test.hel.ninja/v1/keyword_set/kultus:target_groups/) and
       [kultus:additional_criteria](https://linkedevents.api.test.hel.ninja/v1/keyword_set/kultus:additional_criteria/)
-      by setting the following variables in your `.env` or `docker-compose.env.yaml` file:
+      by setting the following variables in your `.env` file:
       ```python
       KEYWORD_SET_CATEGORY_ID=kultus:categories
       KEYWORD_SET_TARGET_GROUP_ID=kultus:target_groups
@@ -163,14 +162,13 @@ Allow user to create test database
       ```
     - In case you've setup LinkedEvents locally and don't have existing keyword sets:
       - You'll have to create the KeywordSet in LinkedEvents, add some Keywords to the KeywordSet, then set the
-        KeywordSet ids to `.env` or `docker-compose.env.yaml` depending on which you are using.
+        KeywordSet ids to `.env`.
         - Create three keyword sets in LinkedEvents using this address:
           http://path_to_your_linked_event/admin/events/keywordset / with the following name:
           `Kultus Targer Groups`, `Kultus Additional Criteria`, `Kultus Categories`
         - Add some Keywords to all aboves KeywordSets. There should be some keywords already available in the system if
           you run the required importers in LinkedEvents. Or you can create new keywords yourself.
-        - Get the IDs of those keyword sets and put them in `.env` or `docker-compose.env.yaml` depending on which you
-          are using
+        - Get the IDs of those keyword sets and put them in `.env`
           ```python
             KEYWORD_SET_CATEGORY_ID=kultus:categories
             KEYWORD_SET_ADDITIONAL_CRITERIA_ID=kultus:additional_criteria
@@ -178,7 +176,7 @@ Allow user to create test database
           ```
 6.  (Optional) To use the SMS notification functionality, you have to acquire the API_KEY from
     [Notification Service API](https://github.com/City-of-Helsinki/notification-service-api) and
-    then add these lines to your local `.env` / `.docker -compose.env.yaml`:
+    then add these lines to your local `.env`:
 
     ```python
     NOTIFICATION_SERVICE_API_TOKEN=your_api_key

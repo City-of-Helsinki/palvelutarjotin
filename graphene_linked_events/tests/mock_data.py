@@ -1185,8 +1185,7 @@ IMAGE_DATA = {
     "created_time": "2020-05-19T09:18:51.902275Z",
     "last_modified_time": "2020-05-19T09:18:51.902297Z",
     "name": "Tuohtumus",
-    "url": "https://api.hel.fi/linkedevents/media/images"
-    "/49776780903_bf54fd7b90_o.jpg",
+    "url": "https://api.hel.fi/linkedevents/media/images/49776780903_bf54fd7b90_o.jpg",
     "cropping": "0,478,1920,2399",
     "photographer_name": "Suomen Kansallisteatteri (c) Katri Naukkarinen",
     "alt_text": "Kaksi naista istuu tien laidassa",

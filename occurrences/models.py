@@ -435,7 +435,7 @@ class Occurrence(GDPRModel, SerializableMixin, TimestampedModel):
         self.__post_delete_unpublish_event()
 
     def __str__(self):
-        return f"{self.p_event.linked_event_id} {self.start_time}" f" {self.place_id}"
+        return f"{self.p_event.linked_event_id} {self.start_time} {self.place_id}"
 
     @property
     def seats_approved(self):

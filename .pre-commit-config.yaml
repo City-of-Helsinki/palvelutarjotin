@@ -8,8 +8,11 @@ default_language_version:
   python: python3.11
 repos:
   - repo: https://github.com/astral-sh/ruff-pre-commit
-    # Ruff version
-    rev: v0.6.9
+    # NOTE: Don't move the trailing "ruff-pre-commit version" comment from
+    # the ruff's version line, it is used by test_pre_commit_ruff_version.py
+    # test case in order not to have to add a YAML library dependency just
+    # to test this version:
+    rev: v0.9.10 # ruff-pre-commit version
     hooks:
       # Run the linter
       - id: ruff

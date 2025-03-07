@@ -2,6 +2,8 @@ from copy import deepcopy
 
 import pytest
 from django.core import mail
+from django.utils import timezone
+from freezegun import freeze_time
 from graphql_relay import to_global_id
 
 from common.tests.utils import assert_match_error_code, assert_permission_denied
@@ -395,6 +397,10 @@ def test_organisation_persons_should_not_be_publicly_readable(
     )
 
 
+# Freeze to current time to avoid urllib3/connection.py warning:
+# "SystemTimeWarning: System time is way off (before 2023-06-01).
+# This will probably lead to SSL verification errors".
+@freeze_time(timezone.now())
 def test_organisation_deactivated_persons_should_not_be_listed(
     staff_api_client, person
 ):
