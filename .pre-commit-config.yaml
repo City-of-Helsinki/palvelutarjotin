@@ -19,3 +19,20 @@ repos:
         args: [ --fix ]
       # Run the formatter
       - id: ruff-format
+  - repo: https://github.com/compilerla/conventional-pre-commit
+    rev: v4.0.0
+    hooks:
+      - id: conventional-pre-commit
+        stages: [commit-msg]
+        args: []
+  - repo: https://github.com/jorisroovers/gitlint
+    rev: v0.19.1
+    hooks:
+      - id: gitlint
+        stages: [commit-msg]
+  - repo: https://github.com/frnmst/md-toc
+    rev: 9.0.0
+    hooks:
+      - id: md-toc
+        # Skip first line to exclude topmost heading from Table of Contents
+        args: ['--in-place', '--newline-string=\n', '--skip-lines=1', 'github']
