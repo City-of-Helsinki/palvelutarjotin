@@ -3,6 +3,27 @@
 [![status](https://travis-ci.com/City-of-Helsinki/palvelutarjotin.svg)](https://github.com/City-of-Helsinki/palvelutarjotin)
 [![codecov](https://codecov.io/gh/City-of-Helsinki/palvelutarjotin/branch/develop/graph/badge.svg)](https://codecov.io/gh/City-of-Helsinki/palvelutarjotin)
 
+<!-- DON'T EDIT THE TOC SECTION, INSTEAD RE-RUN md-toc TO UPDATE IT -->
+<!--TOC-->
+
+- [Environments](#environments)
+- [Development with Docker](#development-with-docker)
+- [Development without Docker](#development-without-docker)
+  - [Installing Python requirements](#installing-python-requirements)
+  - [Database](#database)
+  - [Daily running, Debugging](#daily-running-debugging)
+- [Configuration](#configuration)
+- [API Documentation](#api-documentation)
+- [Keeping Python requirements up to date](#keeping-python-requirements-up-to-date)
+- [Code linting & formatting](#code-linting--formatting)
+- [Pre-commit hooks](#pre-commit-hooks)
+- [Contact infomation](#contact-infomation)
+- [Issues board](#issues-board)
+- [Maintaining](#maintaining)
+  - [Enrolment reports](#enrolment-reports)
+
+<!--TOC-->
+
 ## Environments
 
 Production environment:
@@ -31,7 +52,7 @@ The project is now running at http://localhost:8081
 
 ## Development without Docker
 
-Prerequisites:
+Prerequisites (defined by [Dockerfile](./Dockerfile) and [compose.yaml](./compose.yaml)):
 
 - PostgreSQL 13
 - Python 3.11
@@ -249,13 +270,13 @@ To view the API documentation, in DEBUG mode visit http://localhost:8081/graphql
 
    - `pip-sync requirements.txt`
 
-## Code format
+## Code linting & formatting
 
 This project uses [ruff](https://github.com/astral-sh/ruff) for Python code linting and formatting.
 Ruff is configured through [pyproject.toml](./pyproject.toml).
 Basic `ruff` commands:
 
-- Check linting: `ruff check` or `ruff check --fix` to auto-fix
+- Check linting: `ruff check`
 - Check & auto-fix linting: `ruff check --fix`
 - Format: `ruff format`
 
@@ -266,14 +287,19 @@ Basically:
 Integrations for `ruff` are available for many editors:
  - https://docs.astral.sh/ruff/integrations/
 
-Or you can use [`pre-commit`](https://pre-commit.com/) to quickly format your code before committing.
+## Pre-commit hooks
 
-1. Install `pre-commit` (there are many ways to do but let's use pip as an example):
+You can use [`pre-commit`](https://pre-commit.com/) to lint and format your code before committing:
+
+1. Install `pre-commit` (there are many ways to do that, but let's use pip as an example):
    - `pip install pre-commit`
-2. Set up git hooks from `.pre-commit-config.yaml`, run this command from project root:
-   - `pre-commit install`
+2. Set up git hooks from `.pre-commit-config.yaml` by running these commands from project root:
+   - `pre-commit install` to enable pre-commit code formatting & linting
+   - `pre-commit install --hook-type commit-msg` to enable pre-commit commit message linting
 
-After that, formatting hooks will run against all changed files before committing
+After that, linting and formatting hooks will run against all changed files before committing.
+
+Git commit message linting is configured in [.gitlint](./.gitlint)
 
 ## Contact infomation
 
