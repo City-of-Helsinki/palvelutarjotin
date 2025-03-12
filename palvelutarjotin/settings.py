@@ -4,6 +4,7 @@ from datetime import datetime
 
 import environ
 import sentry_sdk
+from django.core.exceptions import ImproperlyConfigured
 from django.utils.translation import gettext_lazy as _
 from sentry_sdk.integrations.django import DjangoIntegration
 
@@ -87,8 +88,11 @@ BASE_DIR = str(checkout_dir)
 
 DEBUG = env.bool("DEBUG")
 SECRET_KEY = env.str("SECRET_KEY")
-if DEBUG and not SECRET_KEY:
-    SECRET_KEY = "xxx"
+if not SECRET_KEY:
+    raise ImproperlyConfigured(
+        "The SECRET_KEY setting must not be empty. "
+        "See README.md for instructions how to generate a new secret key."
+    )
 
 ALLOWED_HOSTS = env.list("ALLOWED_HOSTS")
 USE_X_FORWARDED_HOST = env.bool("USE_X_FORWARDED_HOST")
