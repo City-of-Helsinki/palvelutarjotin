@@ -1,8 +1,10 @@
 import contextlib
 import datetime
+from datetime import timedelta
 from unittest import mock
 
 import jwt
+import pytest
 from authlib.jose.rfc7519.claims import JWTClaims
 from django.test import override_settings, TestCase
 from django.test.client import RequestFactory
@@ -29,13 +31,29 @@ _TOKEN_AUTH_SETTINGS["OIDC_API_TOKEN_AUTH"] = {
     "OIDC_CONFIG_EXPIRATION_TIME": 600,
 }
 
+_FROZEN_TEST_TIME = timezone.now()
+
+
+# Freeze time for OIDC tests, so that token expiration/validity checks pass
+@pytest.fixture(autouse=True)
+def freeze_oidc_test_time():
+    with freeze_time(_FROZEN_TEST_TIME):
+        yield
+
 
 @contextlib.contextmanager
 def mocked_jwt_request(encoded_jwt):
     with mock.patch(
         "helusers.oidc.ApiTokenAuthentication.decode_jwt",
         return_value=JWTClaims(
-            jwt.decode(encoded_jwt, options={"verify_signature": False}), None
+            jwt.decode(
+                encoded_jwt,
+                key="secret",
+                options={"verify_signature": True},
+                algorithms=["HS256"],
+                audience=_TOKEN_AUTH_SETTINGS["TOKEN_AUTH_ACCEPTED_AUDIENCE"],
+            ),
+            None,
         ),
     ):
         yield RequestFactory().get(
@@ -52,13 +70,9 @@ class TestOIDC(TestCase):
             "iss": _TOKEN_AUTH_SETTINGS["TOKEN_AUTH_AUTHSERVER_URL"],
             "sub": "sub",
             "aud": _TOKEN_AUTH_SETTINGS["TOKEN_AUTH_ACCEPTED_AUDIENCE"],
-            "exp": int(
-                (datetime.datetime.utcnow() + datetime.timedelta(seconds=30)).strftime(
-                    "%s"
-                )
-            ),
-            "iat": int(datetime.datetime.utcnow().strftime("%s")),
-            "auth_time": int(datetime.datetime.utcnow().strftime("%s")),
+            "exp": int((_FROZEN_TEST_TIME + timedelta(seconds=30)).timestamp()),
+            "iat": int(_FROZEN_TEST_TIME.timestamp()),
+            "auth_time": int(_FROZEN_TEST_TIME.timestamp()),
             "name": "Test Guy",
             "given_name": "Test",
             "family_name": "Guy",
@@ -148,7 +162,6 @@ class TestOIDC(TestCase):
             "UPDATE_INTERVAL_MINUTES": 60,
         },
     )
-    @freeze_time("2023-01-18 12:00:00")
     def test_update_last_login_after_interval(self):
         """Last login should be updated, because the interval has passed."""
         login_time = timezone.now()
