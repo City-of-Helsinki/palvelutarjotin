@@ -1,8 +1,8 @@
 from datetime import datetime, timedelta
 from unittest.mock import patch
+from zoneinfo import ZoneInfo
 
 import pytest
-import pytz
 from django.core import mail
 from django.utils import timezone
 from graphql_relay import to_global_id
@@ -250,7 +250,7 @@ def test_cancel_occurrence_notification(
 
 @pytest.mark.parametrize(
     "tz",
-    [pytz.timezone("Europe/Helsinki"), pytz.utc, pytz.timezone("US/Eastern")],
+    [ZoneInfo("Europe/Helsinki"), ZoneInfo("UTC"), ZoneInfo("US/Eastern")],
 )
 @pytest.mark.django_db
 def test_local_time_notification(

@@ -21,4 +21,3 @@ social-auth-app-django
 certifi
 urllib3
 helsinki-profile-gdpr-api
-pytz

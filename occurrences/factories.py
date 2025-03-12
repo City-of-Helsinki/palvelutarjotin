@@ -1,5 +1,6 @@
+from zoneinfo import ZoneInfo
+
 import factory
-import pytz
 
 from common.mixins import SaveAfterPostGenerationMixin
 from occurrences.models import (
@@ -28,7 +29,7 @@ class PalvelutarjotinEventFactory(factory.django.DjangoModelFactory):
     linked_event_id = factory.Faker("pystr", max_chars=5)
     enrolment_start = factory.Faker(
         "date_time",
-        tzinfo=pytz.timezone("Europe/Helsinki"),
+        tzinfo=ZoneInfo("Europe/Helsinki"),
     )
     enrolment_end_days = factory.Faker("random_int", max=2)
     needed_occurrences = factory.Faker("random_int", max=10)
@@ -49,8 +50,8 @@ class OccurrenceFactory(
     place_id = factory.Faker("text", max_nb_chars=64)
     min_group_size = factory.Faker("random_int", max=1000)
     max_group_size = factory.Faker("random_int", max=1000)
-    start_time = factory.Faker("date_time", tzinfo=pytz.timezone("Europe/Helsinki"))
-    end_time = factory.Faker("date_time", tzinfo=pytz.timezone("Europe/Helsinki"))
+    start_time = factory.Faker("date_time", tzinfo=ZoneInfo("Europe/Helsinki"))
+    end_time = factory.Faker("date_time", tzinfo=ZoneInfo("Europe/Helsinki"))
     p_event = factory.SubFactory(PalvelutarjotinEventFactory)
     amount_of_seats = factory.Faker("random_int", max=50)
     seat_type = Occurrence.OCCURRENCE_SEAT_TYPE_CHILDREN_COUNT
