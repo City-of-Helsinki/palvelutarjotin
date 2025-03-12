@@ -1,4 +1,4 @@
-Django~=4.2.16
+Django~=4.2.20
 django-admin-list-filter-dropdown
 django-cors-headers
 django-environ
