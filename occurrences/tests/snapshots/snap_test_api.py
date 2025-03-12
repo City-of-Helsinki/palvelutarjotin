@@ -67,7 +67,7 @@ snapshots['test_add_occurrence_to_published_event 1'] = {
                     'contactEmail': 'barrettjason@example.org',
                     'contactPhoneNumber': '271-434-1145',
                     'enrolmentEndDays': 0,
-                    'enrolmentStart': '1980-03-10T09:31:49.213826+00:00',
+                    'enrolmentStart': '1980-03-10T09:11:49.213826+00:00',
                     'externalEnrolmentUrl': None,
                     'linkedEventId': 'QoxZH',
                     'mandatoryAdditionalInformation': False,
@@ -139,7 +139,7 @@ snapshots['test_add_occurrence_to_unpublished_event 1'] = {
                     'contactEmail': 'barrettjason@example.org',
                     'contactPhoneNumber': '271-434-1145',
                     'enrolmentEndDays': 0,
-                    'enrolmentStart': '1980-03-10T09:31:49.213826+00:00',
+                    'enrolmentStart': '1980-03-10T09:11:49.213826+00:00',
                     'externalEnrolmentUrl': None,
                     'linkedEventId': 'QoxZH',
                     'mandatoryAdditionalInformation': False,
@@ -543,7 +543,7 @@ snapshots['test_enrol_event_queue_mutation 1'] = {
                     'contactEmail': 'patriciacervantes@example.net',
                     'contactPhoneNumber': '001-299-601-3232x13168',
                     'enrolmentEndDays': 2,
-                    'enrolmentStart': '2019-09-02T23:09:06.027297+00:00',
+                    'enrolmentStart': '2019-09-02T21:49:06.027297+00:00',
                     'externalEnrolmentUrl': None,
                     'isQueueingAllowed': True,
                     'linkedEventId': 'kSRpd',
@@ -627,12 +627,12 @@ snapshots['test_enrolment_query 1'] = {
     'data': {
         'enrolment': {
             'occurrence': {
-                'endTime': '1984-08-14T21:37:50.965825+00:00',
+                'endTime': '1984-08-14T20:17:50.965825+00:00',
                 'pEvent': {
                     'linkedEventId': 'rBcjT'
                 },
                 'seatsTaken': 838,
-                'startTime': '1976-10-26T19:45:30.627463+00:00'
+                'startTime': '1976-10-26T19:25:30.627463+00:00'
             },
             'status': 'PENDING',
             'studyGroup': {
@@ -1138,7 +1138,7 @@ snapshots['test_occurrence_query 1'] = {
                 'edges': [
                 ]
             },
-            'endTime': '1992-07-05T13:24:13.244825+00:00',
+            'endTime': '1992-07-05T12:04:13.244825+00:00',
             'languages': {
                 'edges': [
                 ]
@@ -1157,7 +1157,7 @@ snapshots['test_occurrence_query 1'] = {
                 'contactEmail': 'eperry@example.org',
                 'contactPhoneNumber': '5646976380',
                 'enrolmentEndDays': 1,
-                'enrolmentStart': '1989-09-01T00:34:42.824885+00:00',
+                'enrolmentStart': '1989-08-31T23:14:42.824885+00:00',
                 'externalEnrolmentUrl': None,
                 'linkedEventId': 'ytHjL',
                 'mandatoryAdditionalInformation': False,
@@ -1167,7 +1167,7 @@ snapshots['test_occurrence_query 1'] = {
             'remainingSeats': 33,
             'seatsApproved': 0,
             'seatsTaken': 0,
-            'startTime': '2002-04-18T08:13:11.806335+00:00'
+            'startTime': '2002-04-18T06:53:11.806335+00:00'
         }
     }
 }
@@ -1183,7 +1183,7 @@ snapshots['test_occurrences_filter_by_cancelled 1'] = {
                             'edges': [
                             ]
                         },
-                        'endTime': '2010-06-19T00:36:49.508200+00:00',
+                        'endTime': '2010-06-18T23:16:49.508200+00:00',
                         'maxGroupSize': 588,
                         'minGroupSize': 752,
                         'pEvent': {
@@ -1191,7 +1191,7 @@ snapshots['test_occurrences_filter_by_cancelled 1'] = {
                             'contactEmail': 'dsellers@example.net',
                             'contactPhoneNumber': '934.957.7355',
                             'enrolmentEndDays': 2,
-                            'enrolmentStart': '1990-12-14T02:25:00.660682+00:00',
+                            'enrolmentStart': '1990-12-14T02:05:00.660682+00:00',
                             'externalEnrolmentUrl': None,
                             'linkedEventId': 'aAVEa',
                             'mandatoryAdditionalInformation': False,
@@ -1202,7 +1202,7 @@ snapshots['test_occurrences_filter_by_cancelled 1'] = {
                         'seatType': 'CHILDREN_COUNT',
                         'seatsApproved': 0,
                         'seatsTaken': 0,
-                        'startTime': '2010-05-25T07:43:10.664303+00:00'
+                        'startTime': '2010-05-25T06:23:10.664303+00:00'
                     }
                 },
                 {
@@ -1212,7 +1212,7 @@ snapshots['test_occurrences_filter_by_cancelled 1'] = {
                             'edges': [
                             ]
                         },
-                        'endTime': '1992-11-11T22:43:23.275974+00:00',
+                        'endTime': '1992-11-11T22:23:23.275974+00:00',
                         'maxGroupSize': 779,
                         'minGroupSize': 292,
                         'pEvent': {
@@ -1220,7 +1220,7 @@ snapshots['test_occurrences_filter_by_cancelled 1'] = {
                             'contactEmail': 'dsellers@example.net',
                             'contactPhoneNumber': '934.957.7355',
                             'enrolmentEndDays': 2,
-                            'enrolmentStart': '1990-12-14T02:25:00.660682+00:00',
+                            'enrolmentStart': '1990-12-14T02:05:00.660682+00:00',
                             'externalEnrolmentUrl': None,
                             'linkedEventId': 'aAVEa',
                             'mandatoryAdditionalInformation': False,
@@ -1231,7 +1231,7 @@ snapshots['test_occurrences_filter_by_cancelled 1'] = {
                         'seatType': 'CHILDREN_COUNT',
                         'seatsApproved': 0,
                         'seatsTaken': 0,
-                        'startTime': '2017-11-29T20:34:25.983420+00:00'
+                        'startTime': '2017-11-29T20:14:25.983420+00:00'
                     }
                 }
             ]
@@ -1250,7 +1250,7 @@ snapshots['test_occurrences_filter_by_cancelled 2'] = {
                             'edges': [
                             ]
                         },
-                        'endTime': '1999-05-25T04:41:42.257063+00:00',
+                        'endTime': '1999-05-25T03:21:42.257063+00:00',
                         'maxGroupSize': 808,
                         'minGroupSize': 974,
                         'pEvent': {
@@ -1258,7 +1258,7 @@ snapshots['test_occurrences_filter_by_cancelled 2'] = {
                             'contactEmail': 'dsellers@example.net',
                             'contactPhoneNumber': '934.957.7355',
                             'enrolmentEndDays': 2,
-                            'enrolmentStart': '1990-12-14T02:25:00.660682+00:00',
+                            'enrolmentStart': '1990-12-14T02:05:00.660682+00:00',
                             'externalEnrolmentUrl': None,
                             'linkedEventId': 'aAVEa',
                             'mandatoryAdditionalInformation': False,
@@ -1269,7 +1269,7 @@ snapshots['test_occurrences_filter_by_cancelled 2'] = {
                         'seatType': 'CHILDREN_COUNT',
                         'seatsApproved': 0,
                         'seatsTaken': 0,
-                        'startTime': '1992-03-25T02:26:42.233338+00:00'
+                        'startTime': '1992-03-25T02:06:42.233338+00:00'
                     }
                 }
             ]
@@ -1288,7 +1288,7 @@ snapshots['test_occurrences_filter_by_date 1'] = {
                             'edges': [
                             ]
                         },
-                        'endTime': '1992-03-25T02:26:42.233338+00:00',
+                        'endTime': '1992-03-25T02:06:42.233338+00:00',
                         'maxGroupSize': 808,
                         'minGroupSize': 974,
                         'pEvent': {
@@ -1296,7 +1296,7 @@ snapshots['test_occurrences_filter_by_date 1'] = {
                             'contactEmail': 'huntveronica@example.net',
                             'contactPhoneNumber': '946-620-0377x22182',
                             'enrolmentEndDays': 2,
-                            'enrolmentStart': '1995-07-09T09:54:53.846489+00:00',
+                            'enrolmentStart': '1995-07-09T08:34:53.846489+00:00',
                             'externalEnrolmentUrl': None,
                             'linkedEventId': 'Eprsb',
                             'mandatoryAdditionalInformation': False,
@@ -1326,7 +1326,7 @@ snapshots['test_occurrences_filter_by_date 2'] = {
                             'edges': [
                             ]
                         },
-                        'endTime': '1992-03-25T02:26:42.233338+00:00',
+                        'endTime': '1992-03-25T02:06:42.233338+00:00',
                         'maxGroupSize': 808,
                         'minGroupSize': 974,
                         'pEvent': {
@@ -1334,7 +1334,7 @@ snapshots['test_occurrences_filter_by_date 2'] = {
                             'contactEmail': 'huntveronica@example.net',
                             'contactPhoneNumber': '946-620-0377x22182',
                             'enrolmentEndDays': 2,
-                            'enrolmentStart': '1995-07-09T09:54:53.846489+00:00',
+                            'enrolmentStart': '1995-07-09T08:34:53.846489+00:00',
                             'externalEnrolmentUrl': None,
                             'linkedEventId': 'Eprsb',
                             'mandatoryAdditionalInformation': False,
@@ -1355,7 +1355,7 @@ snapshots['test_occurrences_filter_by_date 2'] = {
                             'edges': [
                             ]
                         },
-                        'endTime': '2009-07-11T00:51:56.453060+00:00',
+                        'endTime': '2009-07-10T23:31:56.453060+00:00',
                         'maxGroupSize': 285,
                         'minGroupSize': 350,
                         'pEvent': {
@@ -1363,7 +1363,7 @@ snapshots['test_occurrences_filter_by_date 2'] = {
                             'contactEmail': 'flowersbryan@example.net',
                             'contactPhoneNumber': '(951)826-3008x4654',
                             'enrolmentEndDays': 2,
-                            'enrolmentStart': '1987-07-08T22:18:36.505491+00:00',
+                            'enrolmentStart': '1987-07-08T20:58:36.505491+00:00',
                             'externalEnrolmentUrl': None,
                             'linkedEventId': 'jGwiN',
                             'mandatoryAdditionalInformation': False,
@@ -1393,7 +1393,7 @@ snapshots['test_occurrences_filter_by_enrollable[0-3] 1'] = {
                             'edges': [
                             ]
                         },
-                        'endTime': '2010-02-19T15:04:08.844371+00:00',
+                        'endTime': '2010-02-19T14:44:08.844371+00:00',
                         'maxGroupSize': 714,
                         'minGroupSize': 757,
                         'pEvent': {
@@ -1422,7 +1422,7 @@ snapshots['test_occurrences_filter_by_enrollable[0-3] 1'] = {
                             'edges': [
                             ]
                         },
-                        'endTime': '1985-05-19T13:06:06.872667+00:00',
+                        'endTime': '1985-05-19T11:46:06.872667+00:00',
                         'maxGroupSize': 859,
                         'minGroupSize': 99,
                         'pEvent': {
@@ -1451,7 +1451,7 @@ snapshots['test_occurrences_filter_by_enrollable[0-3] 1'] = {
                             'edges': [
                             ]
                         },
-                        'endTime': '1987-01-08T13:32:09.032776+00:00',
+                        'endTime': '1987-01-08T13:12:09.032776+00:00',
                         'maxGroupSize': 873,
                         'minGroupSize': 799,
                         'pEvent': {
@@ -1489,7 +1489,7 @@ snapshots['test_occurrences_filter_by_enrollable[1-2] 1'] = {
                             'edges': [
                             ]
                         },
-                        'endTime': '1985-05-19T13:06:06.872667+00:00',
+                        'endTime': '1985-05-19T11:46:06.872667+00:00',
                         'maxGroupSize': 859,
                         'minGroupSize': 99,
                         'pEvent': {
@@ -1518,7 +1518,7 @@ snapshots['test_occurrences_filter_by_enrollable[1-2] 1'] = {
                             'edges': [
                             ]
                         },
-                        'endTime': '1987-01-08T13:32:09.032776+00:00',
+                        'endTime': '1987-01-08T13:12:09.032776+00:00',
                         'maxGroupSize': 873,
                         'minGroupSize': 799,
                         'pEvent': {
@@ -1556,7 +1556,7 @@ snapshots['test_occurrences_filter_by_enrollable[None-3] 1'] = {
                             'edges': [
                             ]
                         },
-                        'endTime': '2010-02-19T15:04:08.844371+00:00',
+                        'endTime': '2010-02-19T14:44:08.844371+00:00',
                         'maxGroupSize': 714,
                         'minGroupSize': 757,
                         'pEvent': {
@@ -1585,7 +1585,7 @@ snapshots['test_occurrences_filter_by_enrollable[None-3] 1'] = {
                             'edges': [
                             ]
                         },
-                        'endTime': '1985-05-19T13:06:06.872667+00:00',
+                        'endTime': '1985-05-19T11:46:06.872667+00:00',
                         'maxGroupSize': 859,
                         'minGroupSize': 99,
                         'pEvent': {
@@ -1614,7 +1614,7 @@ snapshots['test_occurrences_filter_by_enrollable[None-3] 1'] = {
                             'edges': [
                             ]
                         },
-                        'endTime': '1987-01-08T13:32:09.032776+00:00',
+                        'endTime': '1987-01-08T13:12:09.032776+00:00',
                         'maxGroupSize': 873,
                         'minGroupSize': 799,
                         'pEvent': {
@@ -1652,7 +1652,7 @@ snapshots['test_occurrences_filter_by_p_event 1'] = {
                             'edges': [
                             ]
                         },
-                        'endTime': '1982-11-06T05:00:33.407924+00:00',
+                        'endTime': '1982-11-06T04:40:33.407924+00:00',
                         'maxGroupSize': 22,
                         'minGroupSize': 6,
                         'pEvent': {
@@ -1660,7 +1660,7 @@ snapshots['test_occurrences_filter_by_p_event 1'] = {
                             'contactEmail': 'dsellers@example.net',
                             'contactPhoneNumber': '934.957.7355',
                             'enrolmentEndDays': 2,
-                            'enrolmentStart': '1990-12-14T02:25:00.660682+00:00',
+                            'enrolmentStart': '1990-12-14T02:05:00.660682+00:00',
                             'externalEnrolmentUrl': None,
                             'linkedEventId': 'aAVEa',
                             'mandatoryAdditionalInformation': False,
@@ -1671,7 +1671,7 @@ snapshots['test_occurrences_filter_by_p_event 1'] = {
                         'seatType': 'CHILDREN_COUNT',
                         'seatsApproved': 0,
                         'seatsTaken': 0,
-                        'startTime': '2008-02-13T12:28:42.493034+00:00'
+                        'startTime': '2008-02-13T12:08:42.493034+00:00'
                     }
                 },
                 {
@@ -1681,7 +1681,7 @@ snapshots['test_occurrences_filter_by_p_event 1'] = {
                             'edges': [
                             ]
                         },
-                        'endTime': '1983-12-18T04:24:52.499467+00:00',
+                        'endTime': '1983-12-18T04:04:52.499467+00:00',
                         'maxGroupSize': 128,
                         'minGroupSize': 574,
                         'pEvent': {
@@ -1689,7 +1689,7 @@ snapshots['test_occurrences_filter_by_p_event 1'] = {
                             'contactEmail': 'dsellers@example.net',
                             'contactPhoneNumber': '934.957.7355',
                             'enrolmentEndDays': 2,
-                            'enrolmentStart': '1990-12-14T02:25:00.660682+00:00',
+                            'enrolmentStart': '1990-12-14T02:05:00.660682+00:00',
                             'externalEnrolmentUrl': None,
                             'linkedEventId': 'aAVEa',
                             'mandatoryAdditionalInformation': False,
@@ -1700,7 +1700,7 @@ snapshots['test_occurrences_filter_by_p_event 1'] = {
                         'seatType': 'CHILDREN_COUNT',
                         'seatsApproved': 0,
                         'seatsTaken': 0,
-                        'startTime': '2009-08-12T10:24:07.768068+00:00'
+                        'startTime': '2009-08-12T09:04:07.768068+00:00'
                     }
                 }
             ]
@@ -1719,7 +1719,7 @@ snapshots['test_occurrences_filter_by_p_event 2'] = {
                             'edges': [
                             ]
                         },
-                        'endTime': '1975-07-12T08:22:11.536273+00:00',
+                        'endTime': '1975-07-12T08:02:11.536273+00:00',
                         'maxGroupSize': 990,
                         'minGroupSize': 749,
                         'pEvent': {
@@ -1727,7 +1727,7 @@ snapshots['test_occurrences_filter_by_p_event 2'] = {
                             'contactEmail': 'cmartin@example.org',
                             'contactPhoneNumber': '+1-777-693-4055x5508',
                             'enrolmentEndDays': 1,
-                            'enrolmentStart': '2004-08-22T06:31:59.521157+00:00',
+                            'enrolmentStart': '2004-08-22T05:11:59.521157+00:00',
                             'externalEnrolmentUrl': None,
                             'linkedEventId': 'rzzET',
                             'mandatoryAdditionalInformation': False,
@@ -1738,7 +1738,7 @@ snapshots['test_occurrences_filter_by_p_event 2'] = {
                         'seatType': 'CHILDREN_COUNT',
                         'seatsApproved': 0,
                         'seatsTaken': 0,
-                        'startTime': '2018-10-22T00:06:45.180823+00:00'
+                        'startTime': '2018-10-21T22:46:45.180823+00:00'
                     }
                 }
             ]
@@ -1757,7 +1757,7 @@ snapshots['test_occurrences_filter_by_time 1'] = {
                             'edges': [
                             ]
                         },
-                        'endTime': '2002-04-18T08:13:11.806335+00:00',
+                        'endTime': '2002-04-18T06:53:11.806335+00:00',
                         'maxGroupSize': 383,
                         'minGroupSize': 341,
                         'pEvent': {
@@ -1765,7 +1765,7 @@ snapshots['test_occurrences_filter_by_time 1'] = {
                             'contactEmail': 'bthomas@example.org',
                             'contactPhoneNumber': '(806)849-7638x034',
                             'enrolmentEndDays': 1,
-                            'enrolmentStart': '2006-07-17T09:52:28.440059+00:00',
+                            'enrolmentStart': '2006-07-17T08:32:28.440059+00:00',
                             'externalEnrolmentUrl': None,
                             'linkedEventId': 'xytHj',
                             'mandatoryAdditionalInformation': False,
@@ -1795,7 +1795,7 @@ snapshots['test_occurrences_filter_by_time 2'] = {
                             'edges': [
                             ]
                         },
-                        'endTime': '1970-04-03T02:38:45.929522+00:00',
+                        'endTime': '1970-04-03T02:18:45.929522+00:00',
                         'maxGroupSize': 288,
                         'minGroupSize': 67,
                         'pEvent': {
@@ -1803,7 +1803,7 @@ snapshots['test_occurrences_filter_by_time 2'] = {
                             'contactEmail': 'pwilliams@example.org',
                             'contactPhoneNumber': '737.279.4021x78779',
                             'enrolmentEndDays': 2,
-                            'enrolmentStart': '2007-04-19T19:01:37.637441+00:00',
+                            'enrolmentStart': '2007-04-19T17:41:37.637441+00:00',
                             'externalEnrolmentUrl': None,
                             'linkedEventId': 'Tfgkj',
                             'mandatoryAdditionalInformation': False,
@@ -1833,7 +1833,7 @@ snapshots['test_occurrences_filter_by_time 3'] = {
                             'edges': [
                             ]
                         },
-                        'endTime': '2009-07-11T00:51:56.453060+00:00',
+                        'endTime': '2009-07-10T23:31:56.453060+00:00',
                         'maxGroupSize': 285,
                         'minGroupSize': 350,
                         'pEvent': {
@@ -1841,7 +1841,7 @@ snapshots['test_occurrences_filter_by_time 3'] = {
                             'contactEmail': 'flowersbryan@example.net',
                             'contactPhoneNumber': '(951)826-3008x4654',
                             'enrolmentEndDays': 2,
-                            'enrolmentStart': '1987-07-08T22:18:36.505491+00:00',
+                            'enrolmentStart': '1987-07-08T20:58:36.505491+00:00',
                             'externalEnrolmentUrl': None,
                             'linkedEventId': 'jGwiN',
                             'mandatoryAdditionalInformation': False,
@@ -1862,7 +1862,7 @@ snapshots['test_occurrences_filter_by_time 3'] = {
                             'edges': [
                             ]
                         },
-                        'endTime': '1992-03-25T02:26:42.233338+00:00',
+                        'endTime': '1992-03-25T02:06:42.233338+00:00',
                         'maxGroupSize': 808,
                         'minGroupSize': 974,
                         'pEvent': {
@@ -1870,7 +1870,7 @@ snapshots['test_occurrences_filter_by_time 3'] = {
                             'contactEmail': 'huntveronica@example.net',
                             'contactPhoneNumber': '946-620-0377x22182',
                             'enrolmentEndDays': 2,
-                            'enrolmentStart': '1995-07-09T09:54:53.846489+00:00',
+                            'enrolmentStart': '1995-07-09T08:34:53.846489+00:00',
                             'externalEnrolmentUrl': None,
                             'linkedEventId': 'Eprsb',
                             'mandatoryAdditionalInformation': False,
@@ -1900,7 +1900,7 @@ snapshots['test_occurrences_filter_by_time 4'] = {
                             'edges': [
                             ]
                         },
-                        'endTime': '2009-07-11T00:51:56.453060+00:00',
+                        'endTime': '2009-07-10T23:31:56.453060+00:00',
                         'maxGroupSize': 285,
                         'minGroupSize': 350,
                         'pEvent': {
@@ -1908,7 +1908,7 @@ snapshots['test_occurrences_filter_by_time 4'] = {
                             'contactEmail': 'flowersbryan@example.net',
                             'contactPhoneNumber': '(951)826-3008x4654',
                             'enrolmentEndDays': 2,
-                            'enrolmentStart': '1987-07-08T22:18:36.505491+00:00',
+                            'enrolmentStart': '1987-07-08T20:58:36.505491+00:00',
                             'externalEnrolmentUrl': None,
                             'linkedEventId': 'jGwiN',
                             'mandatoryAdditionalInformation': False,
@@ -1929,7 +1929,7 @@ snapshots['test_occurrences_filter_by_time 4'] = {
                             'edges': [
                             ]
                         },
-                        'endTime': '1992-03-25T02:26:42.233338+00:00',
+                        'endTime': '1992-03-25T02:06:42.233338+00:00',
                         'maxGroupSize': 808,
                         'minGroupSize': 974,
                         'pEvent': {
@@ -1937,7 +1937,7 @@ snapshots['test_occurrences_filter_by_time 4'] = {
                             'contactEmail': 'huntveronica@example.net',
                             'contactPhoneNumber': '946-620-0377x22182',
                             'enrolmentEndDays': 2,
-                            'enrolmentStart': '1995-07-09T09:54:53.846489+00:00',
+                            'enrolmentStart': '1995-07-09T08:34:53.846489+00:00',
                             'externalEnrolmentUrl': None,
                             'linkedEventId': 'Eprsb',
                             'mandatoryAdditionalInformation': False,
@@ -2071,7 +2071,7 @@ snapshots['test_occurrences_ordering_by_order_by_end_time 1'] = {
                             'contactEmail': 'flowersbryan@example.net',
                             'contactPhoneNumber': '(951)826-3008x4654',
                             'enrolmentEndDays': 2,
-                            'enrolmentStart': '1987-07-08T22:18:36.505491+00:00',
+                            'enrolmentStart': '1987-07-08T20:58:36.505491+00:00',
                             'externalEnrolmentUrl': None,
                             'linkedEventId': 'jGwiN',
                             'mandatoryAdditionalInformation': False,
@@ -2082,7 +2082,7 @@ snapshots['test_occurrences_ordering_by_order_by_end_time 1'] = {
                         'seatType': 'CHILDREN_COUNT',
                         'seatsApproved': 0,
                         'seatsTaken': 0,
-                        'startTime': '2009-07-11T00:51:56.453060+00:00'
+                        'startTime': '2009-07-10T23:31:56.453060+00:00'
                     }
                 },
                 {
@@ -2100,7 +2100,7 @@ snapshots['test_occurrences_ordering_by_order_by_end_time 1'] = {
                             'contactEmail': 'bthomas@example.org',
                             'contactPhoneNumber': '(806)849-7638x034',
                             'enrolmentEndDays': 1,
-                            'enrolmentStart': '2006-07-17T09:52:28.440059+00:00',
+                            'enrolmentStart': '2006-07-17T08:32:28.440059+00:00',
                             'externalEnrolmentUrl': None,
                             'linkedEventId': 'xytHj',
                             'mandatoryAdditionalInformation': False,
@@ -2111,7 +2111,7 @@ snapshots['test_occurrences_ordering_by_order_by_end_time 1'] = {
                         'seatType': 'CHILDREN_COUNT',
                         'seatsApproved': 0,
                         'seatsTaken': 0,
-                        'startTime': '2002-04-18T08:13:11.806335+00:00'
+                        'startTime': '2002-04-18T06:53:11.806335+00:00'
                     }
                 },
                 {
@@ -2129,7 +2129,7 @@ snapshots['test_occurrences_ordering_by_order_by_end_time 1'] = {
                             'contactEmail': 'huntveronica@example.net',
                             'contactPhoneNumber': '946-620-0377x22182',
                             'enrolmentEndDays': 2,
-                            'enrolmentStart': '1995-07-09T09:54:53.846489+00:00',
+                            'enrolmentStart': '1995-07-09T08:34:53.846489+00:00',
                             'externalEnrolmentUrl': None,
                             'linkedEventId': 'Eprsb',
                             'mandatoryAdditionalInformation': False,
@@ -2140,7 +2140,7 @@ snapshots['test_occurrences_ordering_by_order_by_end_time 1'] = {
                         'seatType': 'CHILDREN_COUNT',
                         'seatsApproved': 0,
                         'seatsTaken': 0,
-                        'startTime': '1992-03-25T02:26:42.233338+00:00'
+                        'startTime': '1992-03-25T02:06:42.233338+00:00'
                     }
                 }
             ]
@@ -2167,7 +2167,7 @@ snapshots['test_occurrences_ordering_by_order_by_end_time 2'] = {
                             'contactEmail': 'huntveronica@example.net',
                             'contactPhoneNumber': '946-620-0377x22182',
                             'enrolmentEndDays': 2,
-                            'enrolmentStart': '1995-07-09T09:54:53.846489+00:00',
+                            'enrolmentStart': '1995-07-09T08:34:53.846489+00:00',
                             'externalEnrolmentUrl': None,
                             'linkedEventId': 'Eprsb',
                             'mandatoryAdditionalInformation': False,
@@ -2178,7 +2178,7 @@ snapshots['test_occurrences_ordering_by_order_by_end_time 2'] = {
                         'seatType': 'CHILDREN_COUNT',
                         'seatsApproved': 0,
                         'seatsTaken': 0,
-                        'startTime': '1992-03-25T02:26:42.233338+00:00'
+                        'startTime': '1992-03-25T02:06:42.233338+00:00'
                     }
                 },
                 {
@@ -2196,7 +2196,7 @@ snapshots['test_occurrences_ordering_by_order_by_end_time 2'] = {
                             'contactEmail': 'bthomas@example.org',
                             'contactPhoneNumber': '(806)849-7638x034',
                             'enrolmentEndDays': 1,
-                            'enrolmentStart': '2006-07-17T09:52:28.440059+00:00',
+                            'enrolmentStart': '2006-07-17T08:32:28.440059+00:00',
                             'externalEnrolmentUrl': None,
                             'linkedEventId': 'xytHj',
                             'mandatoryAdditionalInformation': False,
@@ -2207,7 +2207,7 @@ snapshots['test_occurrences_ordering_by_order_by_end_time 2'] = {
                         'seatType': 'CHILDREN_COUNT',
                         'seatsApproved': 0,
                         'seatsTaken': 0,
-                        'startTime': '2002-04-18T08:13:11.806335+00:00'
+                        'startTime': '2002-04-18T06:53:11.806335+00:00'
                     }
                 },
                 {
@@ -2225,7 +2225,7 @@ snapshots['test_occurrences_ordering_by_order_by_end_time 2'] = {
                             'contactEmail': 'flowersbryan@example.net',
                             'contactPhoneNumber': '(951)826-3008x4654',
                             'enrolmentEndDays': 2,
-                            'enrolmentStart': '1987-07-08T22:18:36.505491+00:00',
+                            'enrolmentStart': '1987-07-08T20:58:36.505491+00:00',
                             'externalEnrolmentUrl': None,
                             'linkedEventId': 'jGwiN',
                             'mandatoryAdditionalInformation': False,
@@ -2236,7 +2236,7 @@ snapshots['test_occurrences_ordering_by_order_by_end_time 2'] = {
                         'seatType': 'CHILDREN_COUNT',
                         'seatsApproved': 0,
                         'seatsTaken': 0,
-                        'startTime': '2009-07-11T00:51:56.453060+00:00'
+                        'startTime': '2009-07-10T23:31:56.453060+00:00'
                     }
                 }
             ]
@@ -2255,7 +2255,7 @@ snapshots['test_occurrences_ordering_by_order_by_start_time 1'] = {
                             'edges': [
                             ]
                         },
-                        'endTime': '2009-07-11T00:51:56.453060+00:00',
+                        'endTime': '2009-07-10T23:31:56.453060+00:00',
                         'maxGroupSize': 285,
                         'minGroupSize': 350,
                         'pEvent': {
@@ -2263,7 +2263,7 @@ snapshots['test_occurrences_ordering_by_order_by_start_time 1'] = {
                             'contactEmail': 'flowersbryan@example.net',
                             'contactPhoneNumber': '(951)826-3008x4654',
                             'enrolmentEndDays': 2,
-                            'enrolmentStart': '1987-07-08T22:18:36.505491+00:00',
+                            'enrolmentStart': '1987-07-08T20:58:36.505491+00:00',
                             'externalEnrolmentUrl': None,
                             'linkedEventId': 'jGwiN',
                             'mandatoryAdditionalInformation': False,
@@ -2284,7 +2284,7 @@ snapshots['test_occurrences_ordering_by_order_by_start_time 1'] = {
                             'edges': [
                             ]
                         },
-                        'endTime': '2002-04-18T08:13:11.806335+00:00',
+                        'endTime': '2002-04-18T06:53:11.806335+00:00',
                         'maxGroupSize': 383,
                         'minGroupSize': 341,
                         'pEvent': {
@@ -2292,7 +2292,7 @@ snapshots['test_occurrences_ordering_by_order_by_start_time 1'] = {
                             'contactEmail': 'bthomas@example.org',
                             'contactPhoneNumber': '(806)849-7638x034',
                             'enrolmentEndDays': 1,
-                            'enrolmentStart': '2006-07-17T09:52:28.440059+00:00',
+                            'enrolmentStart': '2006-07-17T08:32:28.440059+00:00',
                             'externalEnrolmentUrl': None,
                             'linkedEventId': 'xytHj',
                             'mandatoryAdditionalInformation': False,
@@ -2313,7 +2313,7 @@ snapshots['test_occurrences_ordering_by_order_by_start_time 1'] = {
                             'edges': [
                             ]
                         },
-                        'endTime': '1992-03-25T02:26:42.233338+00:00',
+                        'endTime': '1992-03-25T02:06:42.233338+00:00',
                         'maxGroupSize': 808,
                         'minGroupSize': 974,
                         'pEvent': {
@@ -2321,7 +2321,7 @@ snapshots['test_occurrences_ordering_by_order_by_start_time 1'] = {
                             'contactEmail': 'huntveronica@example.net',
                             'contactPhoneNumber': '946-620-0377x22182',
                             'enrolmentEndDays': 2,
-                            'enrolmentStart': '1995-07-09T09:54:53.846489+00:00',
+                            'enrolmentStart': '1995-07-09T08:34:53.846489+00:00',
                             'externalEnrolmentUrl': None,
                             'linkedEventId': 'Eprsb',
                             'mandatoryAdditionalInformation': False,
@@ -2351,7 +2351,7 @@ snapshots['test_occurrences_ordering_by_order_by_start_time 2'] = {
                             'edges': [
                             ]
                         },
-                        'endTime': '1992-03-25T02:26:42.233338+00:00',
+                        'endTime': '1992-03-25T02:06:42.233338+00:00',
                         'maxGroupSize': 808,
                         'minGroupSize': 974,
                         'pEvent': {
@@ -2359,7 +2359,7 @@ snapshots['test_occurrences_ordering_by_order_by_start_time 2'] = {
                             'contactEmail': 'huntveronica@example.net',
                             'contactPhoneNumber': '946-620-0377x22182',
                             'enrolmentEndDays': 2,
-                            'enrolmentStart': '1995-07-09T09:54:53.846489+00:00',
+                            'enrolmentStart': '1995-07-09T08:34:53.846489+00:00',
                             'externalEnrolmentUrl': None,
                             'linkedEventId': 'Eprsb',
                             'mandatoryAdditionalInformation': False,
@@ -2380,7 +2380,7 @@ snapshots['test_occurrences_ordering_by_order_by_start_time 2'] = {
                             'edges': [
                             ]
                         },
-                        'endTime': '2002-04-18T08:13:11.806335+00:00',
+                        'endTime': '2002-04-18T06:53:11.806335+00:00',
                         'maxGroupSize': 383,
                         'minGroupSize': 341,
                         'pEvent': {
@@ -2388,7 +2388,7 @@ snapshots['test_occurrences_ordering_by_order_by_start_time 2'] = {
                             'contactEmail': 'bthomas@example.org',
                             'contactPhoneNumber': '(806)849-7638x034',
                             'enrolmentEndDays': 1,
-                            'enrolmentStart': '2006-07-17T09:52:28.440059+00:00',
+                            'enrolmentStart': '2006-07-17T08:32:28.440059+00:00',
                             'externalEnrolmentUrl': None,
                             'linkedEventId': 'xytHj',
                             'mandatoryAdditionalInformation': False,
@@ -2409,7 +2409,7 @@ snapshots['test_occurrences_ordering_by_order_by_start_time 2'] = {
                             'edges': [
                             ]
                         },
-                        'endTime': '2009-07-11T00:51:56.453060+00:00',
+                        'endTime': '2009-07-10T23:31:56.453060+00:00',
                         'maxGroupSize': 285,
                         'minGroupSize': 350,
                         'pEvent': {
@@ -2417,7 +2417,7 @@ snapshots['test_occurrences_ordering_by_order_by_start_time 2'] = {
                             'contactEmail': 'flowersbryan@example.net',
                             'contactPhoneNumber': '(951)826-3008x4654',
                             'enrolmentEndDays': 2,
-                            'enrolmentStart': '1987-07-08T22:18:36.505491+00:00',
+                            'enrolmentStart': '1987-07-08T20:58:36.505491+00:00',
                             'externalEnrolmentUrl': None,
                             'linkedEventId': 'jGwiN',
                             'mandatoryAdditionalInformation': False,
@@ -2447,7 +2447,7 @@ snapshots['test_occurrences_query 1'] = {
                             'edges': [
                             ]
                         },
-                        'endTime': '1992-07-05T13:24:13.244825+00:00',
+                        'endTime': '1992-07-05T12:04:13.244825+00:00',
                         'maxGroupSize': 383,
                         'minGroupSize': 341,
                         'pEvent': {
@@ -2455,7 +2455,7 @@ snapshots['test_occurrences_query 1'] = {
                             'contactEmail': 'eperry@example.org',
                             'contactPhoneNumber': '5646976380',
                             'enrolmentEndDays': 1,
-                            'enrolmentStart': '1989-09-01T00:34:42.824885+00:00',
+                            'enrolmentStart': '1989-08-31T23:14:42.824885+00:00',
                             'externalEnrolmentUrl': None,
                             'linkedEventId': 'ytHjL',
                             'mandatoryAdditionalInformation': False,
@@ -2466,7 +2466,7 @@ snapshots['test_occurrences_query 1'] = {
                         'seatType': 'CHILDREN_COUNT',
                         'seatsApproved': 0,
                         'seatsTaken': 0,
-                        'startTime': '2002-04-18T08:13:11.806335+00:00'
+                        'startTime': '2002-04-18T06:53:11.806335+00:00'
                     }
                 }
             ]
@@ -2837,7 +2837,7 @@ snapshots['test_update_occurrence_of_published_event_without_enrolments 1'] = {
                     'contactEmail': 'donald78@example.net',
                     'contactPhoneNumber': '001-658-731-3222x29493',
                     'enrolmentEndDays': 2,
-                    'enrolmentStart': '1981-07-25T10:13:14.019007+00:00',
+                    'enrolmentStart': '1981-07-25T08:53:14.019007+00:00',
                     'externalEnrolmentUrl': None,
                     'linkedEventId': 'helsinki:afxp6tv4xa',
                     'mandatoryAdditionalInformation': False,
@@ -2979,7 +2979,7 @@ snapshots['test_update_unpublished_occurrence 1'] = {
                     'contactEmail': 'travishopkins@example.net',
                     'contactPhoneNumber': '(722)729-4934',
                     'enrolmentEndDays': 0,
-                    'enrolmentStart': '1980-12-30T21:50:40.750124+00:00',
+                    'enrolmentStart': '1980-12-30T21:30:40.750124+00:00',
                     'externalEnrolmentUrl': None,
                     'linkedEventId': 'raSqN',
                     'mandatoryAdditionalInformation': False,

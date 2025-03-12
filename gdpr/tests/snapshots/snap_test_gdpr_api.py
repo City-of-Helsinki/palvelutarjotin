@@ -25,11 +25,11 @@ snapshots['test_delete_profile_data_from_gdpr_api[most_complex] enrolment should
             'children': [
                 {
                     'key': 'START_TIME',
-                    'value': '2010-07-23T16:15:55.542261+00:00'
+                    'value': '2010-07-23T14:55:55.542261+00:00'
                 },
                 {
                     'key': 'END_TIME',
-                    'value': '2008-11-04T19:11:30.730104+00:00'
+                    'value': '2008-11-04T18:51:30.730104+00:00'
                 },
                 {
                     'key': 'CREATED_AT',
@@ -156,11 +156,11 @@ snapshots['test_delete_profile_data_from_gdpr_api[most_complex] study group shou
                             'children': [
                                 {
                                     'key': 'START_TIME',
-                                    'value': '1974-05-07T19:29:45.432928+00:00'
+                                    'value': '1974-05-07T19:09:45.432928+00:00'
                                 },
                                 {
                                     'key': 'END_TIME',
-                                    'value': '1997-04-17T22:13:24.246198+00:00'
+                                    'value': '1997-04-17T20:53:24.246198+00:00'
                                 },
                                 {
                                     'key': 'CREATED_AT',
@@ -387,11 +387,11 @@ Enjoy office water those notice medical. Already name likely behind mission netw
                                                 'children': [
                                                     {
                                                         'key': 'START_TIME',
-                                                        'value': '2010-07-23T16:15:55.542261+00:00'
+                                                        'value': '2010-07-23T14:55:55.542261+00:00'
                                                     },
                                                     {
                                                         'key': 'END_TIME',
-                                                        'value': '2008-11-04T19:11:30.730104+00:00'
+                                                        'value': '2008-11-04T18:51:30.730104+00:00'
                                                     },
                                                     {
                                                         'key': 'CREATED_AT',
@@ -442,11 +442,11 @@ Enjoy office water those notice medical. Already name likely behind mission netw
                                                 'children': [
                                                     {
                                                         'key': 'START_TIME',
-                                                        'value': '2018-02-12T23:26:33.996487+00:00'
+                                                        'value': '2018-02-12T23:06:33.996487+00:00'
                                                     },
                                                     {
                                                         'key': 'END_TIME',
-                                                        'value': '2019-10-02T02:55:30.688102+00:00'
+                                                        'value': '2019-10-02T01:35:30.688102+00:00'
                                                     },
                                                     {
                                                         'key': 'CREATED_AT',
@@ -539,11 +539,11 @@ Enjoy office water those notice medical. Already name likely behind mission netw
                                                 'children': [
                                                     {
                                                         'key': 'START_TIME',
-                                                        'value': '1974-05-07T19:29:45.432928+00:00'
+                                                        'value': '1974-05-07T19:09:45.432928+00:00'
                                                     },
                                                     {
                                                         'key': 'END_TIME',
-                                                        'value': '1997-04-17T22:13:24.246198+00:00'
+                                                        'value': '1997-04-17T20:53:24.246198+00:00'
                                                     },
                                                     {
                                                         'key': 'CREATED_AT',
@@ -642,11 +642,11 @@ Enjoy office water those notice medical. Already name likely behind mission netw
                                 'children': [
                                     {
                                         'key': 'START_TIME',
-                                        'value': '2010-07-23T16:15:55.542261+00:00'
+                                        'value': '2010-07-23T14:55:55.542261+00:00'
                                     },
                                     {
                                         'key': 'END_TIME',
-                                        'value': '2008-11-04T19:11:30.730104+00:00'
+                                        'value': '2008-11-04T18:51:30.730104+00:00'
                                     },
                                     {
                                         'key': 'CREATED_AT',
@@ -697,11 +697,11 @@ Enjoy office water those notice medical. Already name likely behind mission netw
                                 'children': [
                                     {
                                         'key': 'START_TIME',
-                                        'value': '2018-02-12T23:26:33.996487+00:00'
+                                        'value': '2018-02-12T23:06:33.996487+00:00'
                                     },
                                     {
                                         'key': 'END_TIME',
-                                        'value': '2019-10-02T02:55:30.688102+00:00'
+                                        'value': '2019-10-02T01:35:30.688102+00:00'
                                     },
                                     {
                                         'key': 'CREATED_AT',
@@ -752,11 +752,11 @@ Enjoy office water those notice medical. Already name likely behind mission netw
                                 'children': [
                                     {
                                         'key': 'START_TIME',
-                                        'value': '1974-05-07T19:29:45.432928+00:00'
+                                        'value': '1974-05-07T19:09:45.432928+00:00'
                                     },
                                     {
                                         'key': 'END_TIME',
-                                        'value': '1997-04-17T22:13:24.246198+00:00'
+                                        'value': '1997-04-17T20:53:24.246198+00:00'
                                     },
                                     {
                                         'key': 'CREATED_AT',
