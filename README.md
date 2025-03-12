@@ -13,6 +13,7 @@
   - [Database](#database)
   - [Daily running, Debugging](#daily-running-debugging)
 - [Configuration](#configuration)
+  - [Generating secret key for Django](#generating-secret-key-for-django)
 - [API Documentation](#api-documentation)
 - [Keeping Python requirements up to date](#keeping-python-requirements-up-to-date)
 - [Code linting & formatting](#code-linting--formatting)
@@ -44,7 +45,13 @@ Testing environment:
 
 ## Development with Docker
 
-1. Copy `.env.example` to `.env` and modify it if needed.
+Prerequisites:
+
+- Docker
+- Docker Compose
+- Python 3.11 for running pre-commit hooks (see [.pre-commit-config.yaml](./.pre-commit-config.yaml))
+
+1. Copy `.env.example` to `.env`
 2. Configure settings, see [Configuration](#configuration)
 3. Run `docker-compose up`
 
@@ -59,10 +66,11 @@ Prerequisites (defined by [Dockerfile](./Dockerfile) and [compose.yaml](./compos
 
 Steps:
 
-1. Install Python requirements, see [Installing Python requirements](#installing-python-requirements)
-2. Setup database, see [Database](#database)
-3. Configure settings, see [Configuration](#configuration)
-4. Run the server, see [Daily running, Debugging](#daily-running-debugging)
+1. Copy `.env.example` to `.env`
+2. Install Python requirements, see [Installing Python requirements](#installing-python-requirements)
+3. Setup database, see [Database](#database)
+4. Configure settings, see [Configuration](#configuration)
+5. Run the server, see [Daily running, Debugging](#daily-running-debugging)
 
 ### Installing Python requirements
 
@@ -92,7 +100,9 @@ Allow user to create test database
 
 ## Configuration
 
-1.  You must config Kultus API to integrate with [LinkedEvents API](https://github.com/City-of-Helsinki/linkedevents)
+1. Set value for `SECRET_KEY` to `.env` with [Generating secret key for Django](#generating-secret-key-for-django) instructions
+
+2. You must config Kultus API to integrate with [LinkedEvents API](https://github.com/City-of-Helsinki/linkedevents)
 
     Add the following lines to your local `.env`. Take a look at the `.env.example` to see list of required variables
 
@@ -117,7 +127,7 @@ Allow user to create test database
     - If you installed LinkedEvents yourself, you can create API_KEY and DATA_SOURCE from your local LinkedEvents admin
       interface at http://path_to_your_linked_events/admin/events/datasource/add/
 
-2.  Create superuser:
+3. Create superuser:
 
     - If you run the Kultus API using Docker, first enter the backend container using
       `docker exec -it kukkuu-backend bash` and run the next command inside the container
@@ -130,7 +140,7 @@ Allow user to create test database
     Then you can use this account to login to Kultus API admin interface at for example
     http://path_to_your_kultus_api/admin
 
-3.  Create Provider Organisation
+4. Create Provider Organisation
 
     - At least a single organisation is required to be present in LinkedEvents and in Kultus.
     - This will be used on Provider UI where user can pick their organisation after login.
@@ -153,7 +163,7 @@ Allow user to create test database
       - Persons: Can be left empty
       - Publisher id: \<id of the organisation in LinkedEvents\>, e.g. `ahjo:u4804001010`
 
-4.  Create/update event permissions
+5. Create/update event permissions
 
     - If you only want to work with the GraphQL API without using UI (Teacher UI and Provider UI), when running the
       API in debug mode, there will be a GraphQL client already available at http://path_to_your_kultus_api/graphql
@@ -165,7 +175,7 @@ Allow user to create test database
       step 2. After that, login to the Kultus-API admin interface using the superuser account, find the new user and
       assign staff permission to this user. After that the user can create/edit events from Provider UI
 
-5.  Configuration needed to use Provider UI and Teacher UI locally:
+6. Configuration needed to use Provider UI and Teacher UI locally:
     - These keyword set variables need to be configured in order to populate dropdown boxes' data in the UI:
       - KEYWORD_SET_CATEGORY_ID
       - KEYWORD_SET_TARGET_GROUP_ID
@@ -195,7 +205,7 @@ Allow user to create test database
             KEYWORD_SET_ADDITIONAL_CRITERIA_ID=kultus:additional_criteria
             KEYWORD_SET_TARGET_GROUP_ID=kultus:target_groups
           ```
-6.  (Optional) To use the SMS notification functionality, you have to acquire the API_KEY from
+7. (Optional) To use the SMS notification functionality, you have to acquire the API_KEY from
     [Notification Service API](https://github.com/City-of-Helsinki/notification-service-api) and
     then add these lines to your local `.env`:
 
@@ -204,7 +214,7 @@ Allow user to create test database
     NOTIFICATION_SERVICE_API_URL=notification_service_end_point
     ```
 
-7.  (Optional) The notification templates can be imported via
+8. (Optional) The notification templates can be imported via
 
     - a) Google sheet importer
     - b) Template file importer
@@ -233,7 +243,7 @@ Allow user to create test database
     There is also a naming convention used there. The file name must be given in this pattern
     [notification_type]-[locale].[html|j2].
 
-8.  (Optional) To offer Kindergartens, schools and colleges from the Servicemap of the Helsinki, the Servicemap API
+9. (Optional) To offer Kindergartens, schools and colleges from the Servicemap of the Helsinki, the Servicemap API
     needs to be configured. By default it is using the open data from https://www.hel.fi/palvelukarttaws/rest/v4/unit/ and it
     should work out of the box.
 
@@ -242,6 +252,23 @@ Allow user to create test database
     SERVICEMAP_API_ROOT=(str, "https://www.hel.fi/palvelukarttaws/rest/v4/unit/"),
   )
   SERVICEMAP_API_CONFIG = {"ROOT": env.str("SERVICEMAP_API_ROOT")}
+```
+
+### Generating secret key for Django
+
+Django needs a value for [SECRET_KEY](https://docs.djangoproject.com/en/4.2/ref/settings/#secret-key) to start.
+
+For production, you should use a strong, long, randomly generated key.
+
+For local development, if you prefer, you can alternatively use a shorter, manually generated key.
+
+Here's how you can generate a value for `SECRET_KEY` using Python (Based on Django v5.1.6's
+[get_random_secret_key](https://github.com/django/django/blob/5.1.6/django/core/management/utils.py#L79C5-L84) &
+[get_random_string](https://github.com/django/django/blob/5.1.6/django/utils/crypto.py#L51-L62)):
+```python
+import secrets, string
+allowed_chars = string.ascii_lowercase + string.digits + "!@#$%^&*(-_=+)"
+"".join(secrets.choice(allowed_chars) for i in range(50))
 ```
 
 ## API Documentation
