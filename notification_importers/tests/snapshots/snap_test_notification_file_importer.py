@@ -379,7 +379,7 @@ enrolment_cancellation|Ilmoittautumisen peruuttaminen|Enrolment cancellation|Avb
                                           <th
                                             style="color: #0a0a0a; font-family: Helvetica, Arial, sans-serif; font-size: 16px; font-weight: normal; line-height: 1.3; margin: 0; padding: 0; text-align: left;">
                                             <p class="text-right"
-                                              style="Margin: 0; Margin-bottom: 10px; color: black; font-family: Helvetica, Arial, sans-serif; font-size: 16px; font-weight: normal; line-height: 1.3; margin: 0; margin-bottom: 0; padding: 0; text-align: right;">
+                                              style="Margin: 0; margin: 0; Margin-bottom: 10px; margin-bottom: 10px; color: black; font-family: Helvetica, Arial, sans-serif; font-size: 16px; font-weight: normal; line-height: 1.3; padding: 0; text-align: right;">
                                               KULTUS</p>
                                           </th>
                                         </tr>
@@ -435,11 +435,11 @@ enrolment_cancellation|Ilmoittautumisen peruuttaminen|Enrolment cancellation|Avb
                                       Vahvistakaa peruuttaminen klikkaamalla seuraavaa linkkiä: {{
                                       enrolment.get_cancellation_url(language='fi') }}</h5>
                                     <p
-                                      style="Margin: 0; Margin-bottom: 10px; color: #0a0a0a; font-family: Helvetica, Arial, sans-serif; font-size: 16px; font-weight: normal; line-height: 1.3; margin: 0; margin-bottom: 10px; padding: 0; text-align: left;">
+                                      style="Margin: 0; margin: 0; Margin-bottom: 10px; margin-bottom: 10px; color: #0a0a0a; font-family: Helvetica, Arial, sans-serif; font-size: 16px; font-weight: normal; line-height: 1.3; padding: 0; text-align: left;">
                                       <strong>Tapahtuma:</strong> {{trans(event.name)}}
                                     </p>
                                     <p
-                                      style="Margin: 0; Margin-bottom: 10px; color: #0a0a0a; font-family: Helvetica, Arial, sans-serif; font-size: 16px; font-weight: normal; line-height: 1.3; margin: 0; margin-bottom: 10px; padding: 0; text-align: left;">
+                                      style="Margin: 0; margin: 0; Margin-bottom: 10px; margin-bottom: 10px; color: #0a0a0a; font-family: Helvetica, Arial, sans-serif; font-size: 16px; font-weight: normal; line-height: 1.3; padding: 0; text-align: left;">
                                       <strong>Ryhmä:</strong> {{study_group.unit_name}}
                                     </p>
 
@@ -466,7 +466,7 @@ enrolment_cancellation|Ilmoittautumisen peruuttaminen|Enrolment cancellation|Avb
                                       style="Margin: 0; Margin-bottom: 10px; color: inherit; font-family: Helvetica, Arial, sans-serif; font-size: 24px; font-weight: normal; line-height: 1.3; margin: 0; margin-bottom: 10px; padding: 0; text-align: left; word-wrap: normal;">
                                       Viesti järjestäjältä:</h4>
                                     <p
-                                      style="Margin: 0; Margin-bottom: 10px; color: #0a0a0a; font-family: Helvetica, Arial, sans-serif; font-size: 16px; font-weight: normal; line-height: 1.3; margin: 0; margin-bottom: 10px; padding: 0; text-align: left;">
+                                      style="Margin: 0; margin: 0; Margin-bottom: 10px; margin-bottom: 10px; color: #0a0a0a; font-family: Helvetica, Arial, sans-serif; font-size: 16px; font-weight: normal; line-height: 1.3; padding: 0; text-align: left;">
                                       {{custom_message}}</p>
                                     {% endif %} \u200b
                                     {% if not occurrence.p_event.contact_info_deleted_at %}
@@ -875,7 +875,7 @@ enrolment_cancellation|Ilmoittautumisen peruuttaminen|Enrolment cancellation|Avb
                                           <th
                                             style="color: #0a0a0a; font-family: Helvetica, Arial, sans-serif; font-size: 16px; font-weight: normal; line-height: 1.3; margin: 0; padding: 0; text-align: left;">
                                             <p class="text-right"
-                                              style="Margin: 0; Margin-bottom: 10px; color: black; font-family: Helvetica, Arial, sans-serif; font-size: 16px; font-weight: normal; line-height: 1.3; margin: 0; margin-bottom: 0; padding: 0; text-align: right;">
+                                              style="Margin: 0; margin: 0; Margin-bottom: 10px; margin-bottom: 10px; color: black; font-family: Helvetica, Arial, sans-serif; font-size: 16px; font-weight: normal; line-height: 1.3; padding: 0; text-align: right;">
                                               KULTUS</p>
                                           </th>
                                         </tr>
@@ -931,11 +931,11 @@ enrolment_cancellation|Ilmoittautumisen peruuttaminen|Enrolment cancellation|Avb
                                       confirm the cancellation by clicking on the following link: {{
                                       enrolment.get_cancellation_url(language='en') }}</h5>
                                     <p
-                                      style="Margin: 0; Margin-bottom: 10px; color: #0a0a0a; font-family: Helvetica, Arial, sans-serif; font-size: 16px; font-weight: normal; line-height: 1.3; margin: 0; margin-bottom: 10px; padding: 0; text-align: left;">
+                                      style="Margin: 0; margin: 0; Margin-bottom: 10px; margin-bottom: 10px; color: #0a0a0a; font-family: Helvetica, Arial, sans-serif; font-size: 16px; font-weight: normal; line-height: 1.3; padding: 0; text-align: left;">
                                       <strong>Event:</strong> {{trans(event.name)}}
                                     </p>
                                     <p
-                                      style="Margin: 0; Margin-bottom: 10px; color: #0a0a0a; font-family: Helvetica, Arial, sans-serif; font-size: 16px; font-weight: normal; line-height: 1.3; margin: 0; margin-bottom: 10px; padding: 0; text-align: left;">
+                                      style="Margin: 0; margin: 0; Margin-bottom: 10px; margin-bottom: 10px; color: #0a0a0a; font-family: Helvetica, Arial, sans-serif; font-size: 16px; font-weight: normal; line-height: 1.3; padding: 0; text-align: left;">
                                       <strong>Group:</strong> {{study_group.unit_name}}
                                     </p>
 
@@ -968,7 +968,7 @@ enrolment_cancellation|Ilmoittautumisen peruuttaminen|Enrolment cancellation|Avb
                                       style="Margin: 0; Margin-bottom: 10px; color: inherit; font-family: Helvetica, Arial, sans-serif; font-size: 24px; font-weight: normal; line-height: 1.3; margin: 0; margin-bottom: 10px; padding: 0; text-align: left; word-wrap: normal;">
                                       Message from the organiser:</h4>
                                     <p
-                                      style="Margin: 0; Margin-bottom: 10px; color: #0a0a0a; font-family: Helvetica, Arial, sans-serif; font-size: 16px; font-weight: normal; line-height: 1.3; margin: 0; margin-bottom: 10px; padding: 0; text-align: left;">
+                                      style="Margin: 0; margin: 0; Margin-bottom: 10px; margin-bottom: 10px; color: #0a0a0a; font-family: Helvetica, Arial, sans-serif; font-size: 16px; font-weight: normal; line-height: 1.3; padding: 0; text-align: left;">
                                       {{custom_message}}</p>
                                     {% endif %} \u200b
                                     {% if not occurrence.p_event.contact_info_deleted_at %}
@@ -1377,7 +1377,7 @@ enrolment_cancellation|Ilmoittautumisen peruuttaminen|Enrolment cancellation|Avb
                                           <th
                                             style="color: #0a0a0a; font-family: Helvetica, Arial, sans-serif; font-size: 16px; font-weight: normal; line-height: 1.3; margin: 0; padding: 0; text-align: left;">
                                             <p class="text-right"
-                                              style="Margin: 0; Margin-bottom: 10px; color: black; font-family: Helvetica, Arial, sans-serif; font-size: 16px; font-weight: normal; line-height: 1.3; margin: 0; margin-bottom: 0; padding: 0; text-align: right;">
+                                              style="Margin: 0; margin: 0; Margin-bottom: 10px; margin-bottom: 10px; color: black; font-family: Helvetica, Arial, sans-serif; font-size: 16px; font-weight: normal; line-height: 1.3; padding: 0; text-align: right;">
                                               KULTUS</p>
                                           </th>
                                         </tr>
@@ -1433,11 +1433,11 @@ enrolment_cancellation|Ilmoittautumisen peruuttaminen|Enrolment cancellation|Avb
                                       genom att klicka på följande länk: {{
                                       enrolment.get_cancellation_url(language='sv') }}</h5>
                                     <p
-                                      style="Margin: 0; Margin-bottom: 10px; color: #0a0a0a; font-family: Helvetica, Arial, sans-serif; font-size: 16px; font-weight: normal; line-height: 1.3; margin: 0; margin-bottom: 10px; padding: 0; text-align: left;">
+                                      style="Margin: 0; margin: 0; Margin-bottom: 10px; margin-bottom: 10px; color: #0a0a0a; font-family: Helvetica, Arial, sans-serif; font-size: 16px; font-weight: normal; line-height: 1.3; padding: 0; text-align: left;">
                                       <strong>Evenemang:</strong> {{trans(event.name)}}
                                     </p>
                                     <p
-                                      style="Margin: 0; Margin-bottom: 10px; color: #0a0a0a; font-family: Helvetica, Arial, sans-serif; font-size: 16px; font-weight: normal; line-height: 1.3; margin: 0; margin-bottom: 10px; padding: 0; text-align: left;">
+                                      style="Margin: 0; margin: 0; Margin-bottom: 10px; margin-bottom: 10px; color: #0a0a0a; font-family: Helvetica, Arial, sans-serif; font-size: 16px; font-weight: normal; line-height: 1.3; padding: 0; text-align: left;">
                                       <strong>Grupp:</strong> {{study_group.unit_name}}
                                     </p>
 
@@ -1470,7 +1470,7 @@ enrolment_cancellation|Ilmoittautumisen peruuttaminen|Enrolment cancellation|Avb
                                       style="Margin: 0; Margin-bottom: 10px; color: inherit; font-family: Helvetica, Arial, sans-serif; font-size: 24px; font-weight: normal; line-height: 1.3; margin: 0; margin-bottom: 10px; padding: 0; text-align: left; word-wrap: normal;">
                                       Meddelande från arrangörerna:</h4>
                                     <p
-                                      style="Margin: 0; Margin-bottom: 10px; color: #0a0a0a; font-family: Helvetica, Arial, sans-serif; font-size: 16px; font-weight: normal; line-height: 1.3; margin: 0; margin-bottom: 10px; padding: 0; text-align: left;">
+                                      style="Margin: 0; margin: 0; Margin-bottom: 10px; margin-bottom: 10px; color: #0a0a0a; font-family: Helvetica, Arial, sans-serif; font-size: 16px; font-weight: normal; line-height: 1.3; padding: 0; text-align: left;">
                                       {{custom_message}}</p>
                                     {% endif %} \u200b
                                     {% if not occurrence.p_event.contact_info_deleted_at %}
@@ -1881,7 +1881,7 @@ enrolment_cancelled|Ilmoittautumisen peruuttaminen vahvistettu|Enrolment cancell
                                           <th
                                             style="color: #0a0a0a; font-family: Helvetica, Arial, sans-serif; font-size: 16px; font-weight: normal; line-height: 1.3; margin: 0; padding: 0; text-align: left;">
                                             <p class="text-right"
-                                              style="Margin: 0; Margin-bottom: 10px; color: black; font-family: Helvetica, Arial, sans-serif; font-size: 16px; font-weight: normal; line-height: 1.3; margin: 0; margin-bottom: 0; padding: 0; text-align: right;">
+                                              style="Margin: 0; margin: 0; Margin-bottom: 10px; margin-bottom: 10px; color: black; font-family: Helvetica, Arial, sans-serif; font-size: 16px; font-weight: normal; line-height: 1.3; padding: 0; text-align: right;">
                                               KULTUS</p>
                                           </th>
                                         </tr>
@@ -1935,11 +1935,11 @@ enrolment_cancelled|Ilmoittautumisen peruuttaminen vahvistettu|Enrolment cancell
                                       style="color: inherit; font-family: Helvetica, Arial, sans-serif; font-size: 20px; font-weight: normal; line-height: 1.3; margin: 0; margin-bottom: 10px; padding: 0; text-align: left; word-wrap: normal;">
                                       Hei {{person.name }}. Ilmoittautumisen peruuttaminen on vahvistettu.</h5>
                                     <p
-                                      style="Margin: 0; Margin-bottom: 10px; color: #0a0a0a; font-family: Helvetica, Arial, sans-serif; font-size: 16px; font-weight: normal; line-height: 1.3; margin: 0; margin-bottom: 10px; padding: 0; text-align: left;">
+                                      style="Margin: 0; margin: 0; Margin-bottom: 10px; margin-bottom: 10px; color: #0a0a0a; font-family: Helvetica, Arial, sans-serif; font-size: 16px; font-weight: normal; line-height: 1.3; padding: 0; text-align: left;">
                                       <strong>Tapahtuma:</strong> {{trans(event.name)}}
                                     </p>
                                     <p
-                                      style="Margin: 0; Margin-bottom: 10px; color: #0a0a0a; font-family: Helvetica, Arial, sans-serif; font-size: 16px; font-weight: normal; line-height: 1.3; margin: 0; margin-bottom: 10px; padding: 0; text-align: left;">
+                                      style="Margin: 0; margin: 0; Margin-bottom: 10px; margin-bottom: 10px; color: #0a0a0a; font-family: Helvetica, Arial, sans-serif; font-size: 16px; font-weight: normal; line-height: 1.3; padding: 0; text-align: left;">
                                       <strong>Ryhmä:</strong> {{study_group.unit_name}}
                                     </p>
 
@@ -1972,7 +1972,7 @@ enrolment_cancelled|Ilmoittautumisen peruuttaminen vahvistettu|Enrolment cancell
                                       style="Margin: 0; Margin-bottom: 10px; color: inherit; font-family: Helvetica, Arial, sans-serif; font-size: 24px; font-weight: normal; line-height: 1.3; margin: 0; margin-bottom: 10px; padding: 0; text-align: left; word-wrap: normal;">
                                       Viesti järjestäjältä:</h4>
                                     <p
-                                      style="Margin: 0; Margin-bottom: 10px; color: #0a0a0a; font-family: Helvetica, Arial, sans-serif; font-size: 16px; font-weight: normal; line-height: 1.3; margin: 0; margin-bottom: 10px; padding: 0; text-align: left;">
+                                      style="Margin: 0; margin: 0; Margin-bottom: 10px; margin-bottom: 10px; color: #0a0a0a; font-family: Helvetica, Arial, sans-serif; font-size: 16px; font-weight: normal; line-height: 1.3; padding: 0; text-align: left;">
                                       {{custom_message}}</p>
                                     {% endif %} \u200b
                                     {% if not occurrence.p_event.contact_info_deleted_at %}
@@ -2381,7 +2381,7 @@ enrolment_cancelled|Ilmoittautumisen peruuttaminen vahvistettu|Enrolment cancell
                                           <th
                                             style="color: #0a0a0a; font-family: Helvetica, Arial, sans-serif; font-size: 16px; font-weight: normal; line-height: 1.3; margin: 0; padding: 0; text-align: left;">
                                             <p class="text-right"
-                                              style="Margin: 0; Margin-bottom: 10px; color: black; font-family: Helvetica, Arial, sans-serif; font-size: 16px; font-weight: normal; line-height: 1.3; margin: 0; margin-bottom: 0; padding: 0; text-align: right;">
+                                              style="Margin: 0; margin: 0; Margin-bottom: 10px; margin-bottom: 10px; color: black; font-family: Helvetica, Arial, sans-serif; font-size: 16px; font-weight: normal; line-height: 1.3; padding: 0; text-align: right;">
                                               KULTUS</p>
                                           </th>
                                         </tr>
@@ -2435,11 +2435,11 @@ enrolment_cancelled|Ilmoittautumisen peruuttaminen vahvistettu|Enrolment cancell
                                       style="color: inherit; font-family: Helvetica, Arial, sans-serif; font-size: 20px; font-weight: normal; line-height: 1.3; margin: 0; margin-bottom: 10px; padding: 0; text-align: left; word-wrap: normal;">
                                       Hello {{person.name }}. The cancellation of enrolment has been confirmed.</h5>
                                     <p
-                                      style="Margin: 0; Margin-bottom: 10px; color: #0a0a0a; font-family: Helvetica, Arial, sans-serif; font-size: 16px; font-weight: normal; line-height: 1.3; margin: 0; margin-bottom: 10px; padding: 0; text-align: left;">
+                                      style="Margin: 0; margin: 0; Margin-bottom: 10px; margin-bottom: 10px; color: #0a0a0a; font-family: Helvetica, Arial, sans-serif; font-size: 16px; font-weight: normal; line-height: 1.3; padding: 0; text-align: left;">
                                       <strong>Event:</strong> {{trans(event.name)}}
                                     </p>
                                     <p
-                                      style="Margin: 0; Margin-bottom: 10px; color: #0a0a0a; font-family: Helvetica, Arial, sans-serif; font-size: 16px; font-weight: normal; line-height: 1.3; margin: 0; margin-bottom: 10px; padding: 0; text-align: left;">
+                                      style="Margin: 0; margin: 0; Margin-bottom: 10px; margin-bottom: 10px; color: #0a0a0a; font-family: Helvetica, Arial, sans-serif; font-size: 16px; font-weight: normal; line-height: 1.3; padding: 0; text-align: left;">
                                       <strong>Group:</strong> {{study_group.unit_name}}
                                     </p>
 
@@ -2472,7 +2472,7 @@ enrolment_cancelled|Ilmoittautumisen peruuttaminen vahvistettu|Enrolment cancell
                                       style="Margin: 0; Margin-bottom: 10px; color: inherit; font-family: Helvetica, Arial, sans-serif; font-size: 24px; font-weight: normal; line-height: 1.3; margin: 0; margin-bottom: 10px; padding: 0; text-align: left; word-wrap: normal;">
                                       Message from the organiser:</h4>
                                     <p
-                                      style="Margin: 0; Margin-bottom: 10px; color: #0a0a0a; font-family: Helvetica, Arial, sans-serif; font-size: 16px; font-weight: normal; line-height: 1.3; margin: 0; margin-bottom: 10px; padding: 0; text-align: left;">
+                                      style="Margin: 0; margin: 0; Margin-bottom: 10px; margin-bottom: 10px; color: #0a0a0a; font-family: Helvetica, Arial, sans-serif; font-size: 16px; font-weight: normal; line-height: 1.3; padding: 0; text-align: left;">
                                       {{custom_message}}</p>
                                     {% endif %} \u200b
                                     {% if not occurrence.p_event.contact_info_deleted_at %}
@@ -2881,7 +2881,7 @@ enrolment_cancelled|Ilmoittautumisen peruuttaminen vahvistettu|Enrolment cancell
                                           <th
                                             style="color: #0a0a0a; font-family: Helvetica, Arial, sans-serif; font-size: 16px; font-weight: normal; line-height: 1.3; margin: 0; padding: 0; text-align: left;">
                                             <p class="text-right"
-                                              style="Margin: 0; Margin-bottom: 10px; color: black; font-family: Helvetica, Arial, sans-serif; font-size: 16px; font-weight: normal; line-height: 1.3; margin: 0; margin-bottom: 0; padding: 0; text-align: right;">
+                                              style="Margin: 0; margin: 0; Margin-bottom: 10px; margin-bottom: 10px; color: black; font-family: Helvetica, Arial, sans-serif; font-size: 16px; font-weight: normal; line-height: 1.3; padding: 0; text-align: right;">
                                               KULTUS</p>
                                           </th>
                                         </tr>
@@ -2935,11 +2935,11 @@ enrolment_cancelled|Ilmoittautumisen peruuttaminen vahvistettu|Enrolment cancell
                                       style="color: inherit; font-family: Helvetica, Arial, sans-serif; font-size: 20px; font-weight: normal; line-height: 1.3; margin: 0; margin-bottom: 10px; padding: 0; text-align: left; word-wrap: normal;">
                                       Hej {{person.name }}. Avbokningen av anmälan har bekräftats.</h5>
                                     <p
-                                      style="Margin: 0; Margin-bottom: 10px; color: #0a0a0a; font-family: Helvetica, Arial, sans-serif; font-size: 16px; font-weight: normal; line-height: 1.3; margin: 0; margin-bottom: 10px; padding: 0; text-align: left;">
+                                      style="Margin: 0; margin: 0; Margin-bottom: 10px; margin-bottom: 10px; color: #0a0a0a; font-family: Helvetica, Arial, sans-serif; font-size: 16px; font-weight: normal; line-height: 1.3; padding: 0; text-align: left;">
                                       <strong>Evenemang:</strong> {{trans(event.name)}}
                                     </p>
                                     <p
-                                      style="Margin: 0; Margin-bottom: 10px; color: #0a0a0a; font-family: Helvetica, Arial, sans-serif; font-size: 16px; font-weight: normal; line-height: 1.3; margin: 0; margin-bottom: 10px; padding: 0; text-align: left;">
+                                      style="Margin: 0; margin: 0; Margin-bottom: 10px; margin-bottom: 10px; color: #0a0a0a; font-family: Helvetica, Arial, sans-serif; font-size: 16px; font-weight: normal; line-height: 1.3; padding: 0; text-align: left;">
                                       <strong>Grupp:</strong> {{study_group.unit_name}}
                                     </p>
 
@@ -2972,7 +2972,7 @@ enrolment_cancelled|Ilmoittautumisen peruuttaminen vahvistettu|Enrolment cancell
                                       style="Margin: 0; Margin-bottom: 10px; color: inherit; font-family: Helvetica, Arial, sans-serif; font-size: 24px; font-weight: normal; line-height: 1.3; margin: 0; margin-bottom: 10px; padding: 0; text-align: left; word-wrap: normal;">
                                       Meddelande från arrangörerna:</h4>
                                     <p
-                                      style="Margin: 0; Margin-bottom: 10px; color: #0a0a0a; font-family: Helvetica, Arial, sans-serif; font-size: 16px; font-weight: normal; line-height: 1.3; margin: 0; margin-bottom: 10px; padding: 0; text-align: left;">
+                                      style="Margin: 0; margin: 0; Margin-bottom: 10px; margin-bottom: 10px; color: #0a0a0a; font-family: Helvetica, Arial, sans-serif; font-size: 16px; font-weight: normal; line-height: 1.3; padding: 0; text-align: left;">
                                       {{custom_message}}</p>
                                     {% endif %} \u200b
                                     {% if not occurrence.p_event.contact_info_deleted_at %}
@@ -3383,7 +3383,7 @@ enrolment_declined|Ilmoittautumisen peruutusilmoitus|Enrolment declined|Meddelan
                                           <th
                                             style="color: #0a0a0a; font-family: Helvetica, Arial, sans-serif; font-size: 16px; font-weight: normal; line-height: 1.3; margin: 0; padding: 0; text-align: left;">
                                             <p class="text-right"
-                                              style="Margin: 0; Margin-bottom: 10px; color: black; font-family: Helvetica, Arial, sans-serif; font-size: 16px; font-weight: normal; line-height: 1.3; margin: 0; margin-bottom: 0; padding: 0; text-align: right;">
+                                              style="Margin: 0; margin: 0; Margin-bottom: 10px; margin-bottom: 10px; color: black; font-family: Helvetica, Arial, sans-serif; font-size: 16px; font-weight: normal; line-height: 1.3; padding: 0; text-align: right;">
                                               KULTUS</p>
                                           </th>
                                         </tr>
@@ -3437,18 +3437,18 @@ enrolment_declined|Ilmoittautumisen peruutusilmoitus|Enrolment declined|Meddelan
                                       style="color: inherit; font-family: Helvetica, Arial, sans-serif; font-size: 20px; font-weight: normal; line-height: 1.3; margin: 0; margin-bottom: 10px; padding: 0; text-align: left; word-wrap: normal;">
                                       Hei {{person.name }}</h5>
                                     <p
-                                      style="Margin: 0; Margin-bottom: 10px; color: #0a0a0a; font-family: Helvetica, Arial, sans-serif; font-size: 16px; font-weight: normal; line-height: 1.3; margin: 0; margin-bottom: 10px; padding: 0; text-align: left;">
+                                      style="Margin: 0; margin: 0; Margin-bottom: 10px; margin-bottom: 10px; color: #0a0a0a; font-family: Helvetica, Arial, sans-serif; font-size: 16px; font-weight: normal; line-height: 1.3; padding: 0; text-align: left;">
                                       Harmin paikka, tällä kertaa emme onnistuneet saamaan ryhmällesi paikkoja
                                       {{trans(event.name)}} {{ occurrence.local_start_time.strftime('%d.%m.%Y klo
                                       %H.%M')}}.</p>
                                     <p
-                                      style="Margin: 0; Margin-bottom: 10px; color: #0a0a0a; font-family: Helvetica, Arial, sans-serif; font-size: 16px; font-weight: normal; line-height: 1.3; margin: 0; margin-bottom: 10px; padding: 0; text-align: left;">
+                                      style="Margin: 0; margin: 0; Margin-bottom: 10px; margin-bottom: 10px; color: #0a0a0a; font-family: Helvetica, Arial, sans-serif; font-size: 16px; font-weight: normal; line-height: 1.3; padding: 0; text-align: left;">
                                       Toivottavasti tarjonnasta löytyy joku toinen mukava vaihtoehto teille.</p>
                                     <p
-                                      style="Margin: 0; Margin-bottom: 10px; color: #0a0a0a; font-family: Helvetica, Arial, sans-serif; font-size: 16px; font-weight: normal; line-height: 1.3; margin: 0; margin-bottom: 10px; padding: 0; text-align: left;">
+                                      style="Margin: 0; margin: 0; Margin-bottom: 10px; margin-bottom: 10px; color: #0a0a0a; font-family: Helvetica, Arial, sans-serif; font-size: 16px; font-weight: normal; line-height: 1.3; padding: 0; text-align: left;">
                                       Kokeilethan uudelleen.</p>
                                     <p
-                                      style="Margin: 0; Margin-bottom: 10px; color: #0a0a0a; font-family: Helvetica, Arial, sans-serif; font-size: 16px; font-weight: normal; line-height: 1.3; margin: 0; margin-bottom: 10px; padding: 0; text-align: left;">
+                                      style="Margin: 0; margin: 0; Margin-bottom: 10px; margin-bottom: 10px; color: #0a0a0a; font-family: Helvetica, Arial, sans-serif; font-size: 16px; font-weight: normal; line-height: 1.3; padding: 0; text-align: left;">
                                       Toivottavasti tavataan pian.</p>
 
                                     <h4
@@ -3480,7 +3480,7 @@ enrolment_declined|Ilmoittautumisen peruutusilmoitus|Enrolment declined|Meddelan
                                       style="Margin: 0; Margin-bottom: 10px; color: inherit; font-family: Helvetica, Arial, sans-serif; font-size: 24px; font-weight: normal; line-height: 1.3; margin: 0; margin-bottom: 10px; padding: 0; text-align: left; word-wrap: normal;">
                                       Viesti järjestäjältä:</h4>
                                     <p
-                                      style="Margin: 0; Margin-bottom: 10px; color: #0a0a0a; font-family: Helvetica, Arial, sans-serif; font-size: 16px; font-weight: normal; line-height: 1.3; margin: 0; margin-bottom: 10px; padding: 0; text-align: left;">
+                                      style="Margin: 0; margin: 0; Margin-bottom: 10px; margin-bottom: 10px; color: #0a0a0a; font-family: Helvetica, Arial, sans-serif; font-size: 16px; font-weight: normal; line-height: 1.3; padding: 0; text-align: left;">
                                       {{custom_message}}</p>
                                     {% endif %} \u200b
                                     {% if not occurrence.p_event.contact_info_deleted_at %}
@@ -3889,7 +3889,7 @@ enrolment_declined|Ilmoittautumisen peruutusilmoitus|Enrolment declined|Meddelan
                                           <th
                                             style="color: #0a0a0a; font-family: Helvetica, Arial, sans-serif; font-size: 16px; font-weight: normal; line-height: 1.3; margin: 0; padding: 0; text-align: left;">
                                             <p class="text-right"
-                                              style="Margin: 0; Margin-bottom: 10px; color: black; font-family: Helvetica, Arial, sans-serif; font-size: 16px; font-weight: normal; line-height: 1.3; margin: 0; margin-bottom: 0; padding: 0; text-align: right;">
+                                              style="Margin: 0; margin: 0; Margin-bottom: 10px; margin-bottom: 10px; color: black; font-family: Helvetica, Arial, sans-serif; font-size: 16px; font-weight: normal; line-height: 1.3; padding: 0; text-align: right;">
                                               KULTUS</p>
                                           </th>
                                         </tr>
@@ -3943,19 +3943,19 @@ enrolment_declined|Ilmoittautumisen peruutusilmoitus|Enrolment declined|Meddelan
                                       style="color: inherit; font-family: Helvetica, Arial, sans-serif; font-size: 20px; font-weight: normal; line-height: 1.3; margin: 0; margin-bottom: 10px; padding: 0; text-align: left; word-wrap: normal;">
                                       Hello {{person.name }}</h5>
                                     <p
-                                      style="Margin: 0; Margin-bottom: 10px; color: #0a0a0a; font-family: Helvetica, Arial, sans-serif; font-size: 16px; font-weight: normal; line-height: 1.3; margin: 0; margin-bottom: 10px; padding: 0; text-align: left;">
+                                      style="Margin: 0; margin: 0; Margin-bottom: 10px; margin-bottom: 10px; color: #0a0a0a; font-family: Helvetica, Arial, sans-serif; font-size: 16px; font-weight: normal; line-height: 1.3; padding: 0; text-align: left;">
                                       Unfortunately we were unable to reserve places for your group at
                                       {{trans(event.name)}} {{ occurrence.local_start_time.strftime('%d.%m.%Y %H.%M')}}
                                       this time.</p>
                                     <p
-                                      style="Margin: 0; Margin-bottom: 10px; color: #0a0a0a; font-family: Helvetica, Arial, sans-serif; font-size: 16px; font-weight: normal; line-height: 1.3; margin: 0; margin-bottom: 10px; padding: 0; text-align: left;">
+                                      style="Margin: 0; margin: 0; Margin-bottom: 10px; margin-bottom: 10px; color: #0a0a0a; font-family: Helvetica, Arial, sans-serif; font-size: 16px; font-weight: normal; line-height: 1.3; padding: 0; text-align: left;">
                                       We hope that you will be able to find another fun option in our range of events.
                                     </p>
                                     <p
-                                      style="Margin: 0; Margin-bottom: 10px; color: #0a0a0a; font-family: Helvetica, Arial, sans-serif; font-size: 16px; font-weight: normal; line-height: 1.3; margin: 0; margin-bottom: 10px; padding: 0; text-align: left;">
+                                      style="Margin: 0; margin: 0; Margin-bottom: 10px; margin-bottom: 10px; color: #0a0a0a; font-family: Helvetica, Arial, sans-serif; font-size: 16px; font-weight: normal; line-height: 1.3; padding: 0; text-align: left;">
                                       Please try again.</p>
                                     <p
-                                      style="Margin: 0; Margin-bottom: 10px; color: #0a0a0a; font-family: Helvetica, Arial, sans-serif; font-size: 16px; font-weight: normal; line-height: 1.3; margin: 0; margin-bottom: 10px; padding: 0; text-align: left;">
+                                      style="Margin: 0; margin: 0; Margin-bottom: 10px; margin-bottom: 10px; color: #0a0a0a; font-family: Helvetica, Arial, sans-serif; font-size: 16px; font-weight: normal; line-height: 1.3; padding: 0; text-align: left;">
                                       Hope to see you soon!</p>
 
                                     <h4
@@ -3987,7 +3987,7 @@ enrolment_declined|Ilmoittautumisen peruutusilmoitus|Enrolment declined|Meddelan
                                       style="Margin: 0; Margin-bottom: 10px; color: inherit; font-family: Helvetica, Arial, sans-serif; font-size: 24px; font-weight: normal; line-height: 1.3; margin: 0; margin-bottom: 10px; padding: 0; text-align: left; word-wrap: normal;">
                                       Message from the organiser:</h4>
                                     <p
-                                      style="Margin: 0; Margin-bottom: 10px; color: #0a0a0a; font-family: Helvetica, Arial, sans-serif; font-size: 16px; font-weight: normal; line-height: 1.3; margin: 0; margin-bottom: 10px; padding: 0; text-align: left;">
+                                      style="Margin: 0; margin: 0; Margin-bottom: 10px; margin-bottom: 10px; color: #0a0a0a; font-family: Helvetica, Arial, sans-serif; font-size: 16px; font-weight: normal; line-height: 1.3; padding: 0; text-align: left;">
                                       {{custom_message}}</p>
                                     {% endif %} \u200b
                                     {% if not occurrence.p_event.contact_info_deleted_at %}
@@ -4396,7 +4396,7 @@ enrolment_declined|Ilmoittautumisen peruutusilmoitus|Enrolment declined|Meddelan
                                           <th
                                             style="color: #0a0a0a; font-family: Helvetica, Arial, sans-serif; font-size: 16px; font-weight: normal; line-height: 1.3; margin: 0; padding: 0; text-align: left;">
                                             <p class="text-right"
-                                              style="Margin: 0; Margin-bottom: 10px; color: black; font-family: Helvetica, Arial, sans-serif; font-size: 16px; font-weight: normal; line-height: 1.3; margin: 0; margin-bottom: 0; padding: 0; text-align: right;">
+                                              style="Margin: 0; margin: 0; Margin-bottom: 10px; margin-bottom: 10px; color: black; font-family: Helvetica, Arial, sans-serif; font-size: 16px; font-weight: normal; line-height: 1.3; padding: 0; text-align: right;">
                                               KULTUS</p>
                                           </th>
                                         </tr>
@@ -4450,18 +4450,18 @@ enrolment_declined|Ilmoittautumisen peruutusilmoitus|Enrolment declined|Meddelan
                                       style="color: inherit; font-family: Helvetica, Arial, sans-serif; font-size: 20px; font-weight: normal; line-height: 1.3; margin: 0; margin-bottom: 10px; padding: 0; text-align: left; word-wrap: normal;">
                                       Hej {{person.name }}!</h5>
                                     <p
-                                      style="Margin: 0; Margin-bottom: 10px; color: #0a0a0a; font-family: Helvetica, Arial, sans-serif; font-size: 16px; font-weight: normal; line-height: 1.3; margin: 0; margin-bottom: 10px; padding: 0; text-align: left;">
+                                      style="Margin: 0; margin: 0; Margin-bottom: 10px; margin-bottom: 10px; color: #0a0a0a; font-family: Helvetica, Arial, sans-serif; font-size: 16px; font-weight: normal; line-height: 1.3; padding: 0; text-align: left;">
                                       Synd, denna gång lyckades vi tyvärr inte komma åt platser för din grupp
                                       {{trans(event.name)}} {{ occurrence.local_start_time.strftime('%d.%m.%Y kl
                                       %H.%M')}}.</p>
                                     <p
-                                      style="Margin: 0; Margin-bottom: 10px; color: #0a0a0a; font-family: Helvetica, Arial, sans-serif; font-size: 16px; font-weight: normal; line-height: 1.3; margin: 0; margin-bottom: 10px; padding: 0; text-align: left;">
+                                      style="Margin: 0; margin: 0; Margin-bottom: 10px; margin-bottom: 10px; color: #0a0a0a; font-family: Helvetica, Arial, sans-serif; font-size: 16px; font-weight: normal; line-height: 1.3; padding: 0; text-align: left;">
                                       Hoppas ni hittar något annat trevligt alternativ i urvalet.</p>
                                     <p
-                                      style="Margin: 0; Margin-bottom: 10px; color: #0a0a0a; font-family: Helvetica, Arial, sans-serif; font-size: 16px; font-weight: normal; line-height: 1.3; margin: 0; margin-bottom: 10px; padding: 0; text-align: left;">
+                                      style="Margin: 0; margin: 0; Margin-bottom: 10px; margin-bottom: 10px; color: #0a0a0a; font-family: Helvetica, Arial, sans-serif; font-size: 16px; font-weight: normal; line-height: 1.3; padding: 0; text-align: left;">
                                       Vänligen prova på nytt.</p>
                                     <p
-                                      style="Margin: 0; Margin-bottom: 10px; color: #0a0a0a; font-family: Helvetica, Arial, sans-serif; font-size: 16px; font-weight: normal; line-height: 1.3; margin: 0; margin-bottom: 10px; padding: 0; text-align: left;">
+                                      style="Margin: 0; margin: 0; Margin-bottom: 10px; margin-bottom: 10px; color: #0a0a0a; font-family: Helvetica, Arial, sans-serif; font-size: 16px; font-weight: normal; line-height: 1.3; padding: 0; text-align: left;">
                                       Hoppas vi ses snart!</p>
 
                                     <h4
@@ -4493,7 +4493,7 @@ enrolment_declined|Ilmoittautumisen peruutusilmoitus|Enrolment declined|Meddelan
                                       style="Margin: 0; Margin-bottom: 10px; color: inherit; font-family: Helvetica, Arial, sans-serif; font-size: 24px; font-weight: normal; line-height: 1.3; margin: 0; margin-bottom: 10px; padding: 0; text-align: left; word-wrap: normal;">
                                       Meddelande från arrangörerna:</h4>
                                     <p
-                                      style="Margin: 0; Margin-bottom: 10px; color: #0a0a0a; font-family: Helvetica, Arial, sans-serif; font-size: 16px; font-weight: normal; line-height: 1.3; margin: 0; margin-bottom: 10px; padding: 0; text-align: left;">
+                                      style="Margin: 0; margin: 0; Margin-bottom: 10px; margin-bottom: 10px; color: #0a0a0a; font-family: Helvetica, Arial, sans-serif; font-size: 16px; font-weight: normal; line-height: 1.3; padding: 0; text-align: left;">
                                       {{custom_message}}</p>
                                     {% endif %} \u200b
                                     {% if not occurrence.p_event.contact_info_deleted_at %}
@@ -4903,7 +4903,7 @@ enrolment_summary_report|Ilmoittautumisen yhteenvetoraportti|Enrolment summary r
                                           <th
                                             style="color: #0a0a0a; font-family: Helvetica, Arial, sans-serif; font-size: 16px; font-weight: normal; line-height: 1.3; margin: 0; padding: 0; text-align: left;">
                                             <p class="text-right"
-                                              style="Margin: 0; Margin-bottom: 10px; color: black; font-family: Helvetica, Arial, sans-serif; font-size: 16px; font-weight: normal; line-height: 1.3; margin: 0; margin-bottom: 0; padding: 0; text-align: right;">
+                                              style="Margin: 0; margin: 0; Margin-bottom: 10px; margin-bottom: 10px; color: black; font-family: Helvetica, Arial, sans-serif; font-size: 16px; font-weight: normal; line-height: 1.3; padding: 0; text-align: right;">
                                               KULTUS</p>
                                           </th>
                                         </tr>
@@ -5379,7 +5379,7 @@ enrolment_summary_report|Ilmoittautumisen yhteenvetoraportti|Enrolment summary r
                                           <th
                                             style="color: #0a0a0a; font-family: Helvetica, Arial, sans-serif; font-size: 16px; font-weight: normal; line-height: 1.3; margin: 0; padding: 0; text-align: left;">
                                             <p class="text-right"
-                                              style="Margin: 0; Margin-bottom: 10px; color: black; font-family: Helvetica, Arial, sans-serif; font-size: 16px; font-weight: normal; line-height: 1.3; margin: 0; margin-bottom: 0; padding: 0; text-align: right;">
+                                              style="Margin: 0; margin: 0; Margin-bottom: 10px; margin-bottom: 10px; color: black; font-family: Helvetica, Arial, sans-serif; font-size: 16px; font-weight: normal; line-height: 1.3; padding: 0; text-align: right;">
                                               KULTUS</p>
                                           </th>
                                         </tr>
@@ -5856,7 +5856,7 @@ enrolment_summary_report|Ilmoittautumisen yhteenvetoraportti|Enrolment summary r
                                           <th
                                             style="color: #0a0a0a; font-family: Helvetica, Arial, sans-serif; font-size: 16px; font-weight: normal; line-height: 1.3; margin: 0; padding: 0; text-align: left;">
                                             <p class="text-right"
-                                              style="Margin: 0; Margin-bottom: 10px; color: black; font-family: Helvetica, Arial, sans-serif; font-size: 16px; font-weight: normal; line-height: 1.3; margin: 0; margin-bottom: 0; padding: 0; text-align: right;">
+                                              style="Margin: 0; margin: 0; Margin-bottom: 10px; margin-bottom: 10px; color: black; font-family: Helvetica, Arial, sans-serif; font-size: 16px; font-weight: normal; line-height: 1.3; padding: 0; text-align: right;">
                                               KULTUS</p>
                                           </th>
                                         </tr>
@@ -6333,7 +6333,7 @@ occurrence_cancelled|Peruutusilmoitus|Cancellation notification|Meddelande om in
                                           <th
                                             style="color: #0a0a0a; font-family: Helvetica, Arial, sans-serif; font-size: 16px; font-weight: normal; line-height: 1.3; margin: 0; padding: 0; text-align: left;">
                                             <p class="text-right"
-                                              style="Margin: 0; Margin-bottom: 10px; color: black; font-family: Helvetica, Arial, sans-serif; font-size: 16px; font-weight: normal; line-height: 1.3; margin: 0; margin-bottom: 0; padding: 0; text-align: right;">
+                                              style="Margin: 0; margin: 0; Margin-bottom: 10px; margin-bottom: 10px; color: black; font-family: Helvetica, Arial, sans-serif; font-size: 16px; font-weight: normal; line-height: 1.3; padding: 0; text-align: right;">
                                               KULTUS</p>
                                           </th>
                                         </tr>
@@ -6387,11 +6387,11 @@ occurrence_cancelled|Peruutusilmoitus|Cancellation notification|Meddelande om in
                                       Hei {{person.name }}, valitettavasti tapahtuma, johon olit osallistumassa, on
                                       peruttu</h5>
                                     <p
-                                      style="Margin: 0; Margin-bottom: 10px; color: #0a0a0a; font-family: Helvetica, Arial, sans-serif; font-size: 16px; font-weight: normal; line-height: 1.3; margin: 0; margin-bottom: 10px; padding: 0; text-align: left;">
+                                      style="Margin: 0; margin: 0; Margin-bottom: 10px; margin-bottom: 10px; color: #0a0a0a; font-family: Helvetica, Arial, sans-serif; font-size: 16px; font-weight: normal; line-height: 1.3; padding: 0; text-align: left;">
                                       <strong>Tapahtuma: </strong>{{trans(event.name)}}
                                     </p>
                                     <p
-                                      style="Margin: 0; Margin-bottom: 10px; color: #0a0a0a; font-family: Helvetica, Arial, sans-serif; font-size: 16px; font-weight: normal; line-height: 1.3; margin: 0; margin-bottom: 10px; padding: 0; text-align: left;">
+                                      style="Margin: 0; margin: 0; Margin-bottom: 10px; margin-bottom: 10px; color: #0a0a0a; font-family: Helvetica, Arial, sans-serif; font-size: 16px; font-weight: normal; line-height: 1.3; padding: 0; text-align: left;">
                                       <strong>Ryhmä: </strong>{{study_group.unit_name}}
                                     </p>
 
@@ -6426,7 +6426,7 @@ occurrence_cancelled|Peruutusilmoitus|Cancellation notification|Meddelande om in
                                       style="Margin: 0; Margin-bottom: 10px; color: inherit; font-family: Helvetica, Arial, sans-serif; font-size: 24px; font-weight: normal; line-height: 1.3; margin: 0; margin-bottom: 10px; padding: 0; text-align: left; word-wrap: normal;">
                                       Viesti järjestäjältä:</h4>
                                     <p
-                                      style="Margin: 0; Margin-bottom: 10px; color: #0a0a0a; font-family: Helvetica, Arial, sans-serif; font-size: 16px; font-weight: normal; line-height: 1.3; margin: 0; margin-bottom: 10px; padding: 0; text-align: left;">
+                                      style="Margin: 0; margin: 0; Margin-bottom: 10px; margin-bottom: 10px; color: #0a0a0a; font-family: Helvetica, Arial, sans-serif; font-size: 16px; font-weight: normal; line-height: 1.3; padding: 0; text-align: left;">
                                       {{custom_message}}</p>
                                     {% endif %}
                                     {% if not occurrence.p_event.contact_info_deleted_at %}
@@ -6834,7 +6834,7 @@ occurrence_cancelled|Peruutusilmoitus|Cancellation notification|Meddelande om in
                                           <th
                                             style="color: #0a0a0a; font-family: Helvetica, Arial, sans-serif; font-size: 16px; font-weight: normal; line-height: 1.3; margin: 0; padding: 0; text-align: left;">
                                             <p class="text-right"
-                                              style="Margin: 0; Margin-bottom: 10px; color: black; font-family: Helvetica, Arial, sans-serif; font-size: 16px; font-weight: normal; line-height: 1.3; margin: 0; margin-bottom: 0; padding: 0; text-align: right;">
+                                              style="Margin: 0; margin: 0; Margin-bottom: 10px; margin-bottom: 10px; color: black; font-family: Helvetica, Arial, sans-serif; font-size: 16px; font-weight: normal; line-height: 1.3; padding: 0; text-align: right;">
                                               KULTUS</p>
                                           </th>
                                         </tr>
@@ -6888,11 +6888,11 @@ occurrence_cancelled|Peruutusilmoitus|Cancellation notification|Meddelande om in
                                       Hello {{person.name }}, unfortunately the event you were planning to participate
                                       in has been cancelled.</h5>
                                     <p
-                                      style="Margin: 0; Margin-bottom: 10px; color: #0a0a0a; font-family: Helvetica, Arial, sans-serif; font-size: 16px; font-weight: normal; line-height: 1.3; margin: 0; margin-bottom: 10px; padding: 0; text-align: left;">
+                                      style="Margin: 0; margin: 0; Margin-bottom: 10px; margin-bottom: 10px; color: #0a0a0a; font-family: Helvetica, Arial, sans-serif; font-size: 16px; font-weight: normal; line-height: 1.3; padding: 0; text-align: left;">
                                       <strong>Event: </strong>{{trans(event.name)}}
                                     </p>
                                     <p
-                                      style="Margin: 0; Margin-bottom: 10px; color: #0a0a0a; font-family: Helvetica, Arial, sans-serif; font-size: 16px; font-weight: normal; line-height: 1.3; margin: 0; margin-bottom: 10px; padding: 0; text-align: left;">
+                                      style="Margin: 0; margin: 0; Margin-bottom: 10px; margin-bottom: 10px; color: #0a0a0a; font-family: Helvetica, Arial, sans-serif; font-size: 16px; font-weight: normal; line-height: 1.3; padding: 0; text-align: left;">
                                       <strong>Group: </strong>{{study_group.unit_name}}
                                     </p>
 
@@ -6927,7 +6927,7 @@ occurrence_cancelled|Peruutusilmoitus|Cancellation notification|Meddelande om in
                                       style="Margin: 0; Margin-bottom: 10px; color: inherit; font-family: Helvetica, Arial, sans-serif; font-size: 24px; font-weight: normal; line-height: 1.3; margin: 0; margin-bottom: 10px; padding: 0; text-align: left; word-wrap: normal;">
                                       Message from the organiser:</h4>
                                     <p
-                                      style="Margin: 0; Margin-bottom: 10px; color: #0a0a0a; font-family: Helvetica, Arial, sans-serif; font-size: 16px; font-weight: normal; line-height: 1.3; margin: 0; margin-bottom: 10px; padding: 0; text-align: left;">
+                                      style="Margin: 0; margin: 0; Margin-bottom: 10px; margin-bottom: 10px; color: #0a0a0a; font-family: Helvetica, Arial, sans-serif; font-size: 16px; font-weight: normal; line-height: 1.3; padding: 0; text-align: left;">
                                       {{custom_message}}</p>
                                     {% endif %}
                                     {% if not occurrence.p_event.contact_info_deleted_at %}
@@ -7335,7 +7335,7 @@ occurrence_cancelled|Peruutusilmoitus|Cancellation notification|Meddelande om in
                                           <th
                                             style="color: #0a0a0a; font-family: Helvetica, Arial, sans-serif; font-size: 16px; font-weight: normal; line-height: 1.3; margin: 0; padding: 0; text-align: left;">
                                             <p class="text-right"
-                                              style="Margin: 0; Margin-bottom: 10px; color: black; font-family: Helvetica, Arial, sans-serif; font-size: 16px; font-weight: normal; line-height: 1.3; margin: 0; margin-bottom: 0; padding: 0; text-align: right;">
+                                              style="Margin: 0; margin: 0; Margin-bottom: 10px; margin-bottom: 10px; color: black; font-family: Helvetica, Arial, sans-serif; font-size: 16px; font-weight: normal; line-height: 1.3; padding: 0; text-align: right;">
                                               KULTUS</p>
                                           </th>
                                         </tr>
@@ -7389,11 +7389,11 @@ occurrence_cancelled|Peruutusilmoitus|Cancellation notification|Meddelande om in
                                       Hej {{person.name }}. Evenemanget som du skulle delta i har tyvärr ställts in.
                                     </h5>
                                     <p
-                                      style="Margin: 0; Margin-bottom: 10px; color: #0a0a0a; font-family: Helvetica, Arial, sans-serif; font-size: 16px; font-weight: normal; line-height: 1.3; margin: 0; margin-bottom: 10px; padding: 0; text-align: left;">
+                                      style="Margin: 0; margin: 0; Margin-bottom: 10px; margin-bottom: 10px; color: #0a0a0a; font-family: Helvetica, Arial, sans-serif; font-size: 16px; font-weight: normal; line-height: 1.3; padding: 0; text-align: left;">
                                       <strong>Evenemang: </strong>{{trans(event.name)}}
                                     </p>
                                     <p
-                                      style="Margin: 0; Margin-bottom: 10px; color: #0a0a0a; font-family: Helvetica, Arial, sans-serif; font-size: 16px; font-weight: normal; line-height: 1.3; margin: 0; margin-bottom: 10px; padding: 0; text-align: left;">
+                                      style="Margin: 0; margin: 0; Margin-bottom: 10px; margin-bottom: 10px; color: #0a0a0a; font-family: Helvetica, Arial, sans-serif; font-size: 16px; font-weight: normal; line-height: 1.3; padding: 0; text-align: left;">
                                       <strong>Grupp: </strong>{{study_group.unit_name}}
                                     </p>
 
@@ -7429,7 +7429,7 @@ occurrence_cancelled|Peruutusilmoitus|Cancellation notification|Meddelande om in
                                       style="Margin: 0; Margin-bottom: 10px; color: inherit; font-family: Helvetica, Arial, sans-serif; font-size: 24px; font-weight: normal; line-height: 1.3; margin: 0; margin-bottom: 10px; padding: 0; text-align: left; word-wrap: normal;">
                                       Meddelande från arrangörerna:</h4>
                                     <p
-                                      style="Margin: 0; Margin-bottom: 10px; color: #0a0a0a; font-family: Helvetica, Arial, sans-serif; font-size: 16px; font-weight: normal; line-height: 1.3; margin: 0; margin-bottom: 10px; padding: 0; text-align: left;">
+                                      style="Margin: 0; margin: 0; Margin-bottom: 10px; margin-bottom: 10px; color: #0a0a0a; font-family: Helvetica, Arial, sans-serif; font-size: 16px; font-weight: normal; line-height: 1.3; padding: 0; text-align: left;">
                                       {{custom_message}}</p>
                                     {% endif %}
                                     {% if not occurrence.p_event.contact_info_deleted_at %}
@@ -7849,7 +7849,7 @@ person_myprofile_accepted|Käyttäjätilisi Kultuksessa on valmis käytettäväk
                                                                                     <th
                                                                                         style="color: #0a0a0a; font-family: Helvetica, Arial, sans-serif; font-size: 16px; font-weight: normal; line-height: 1.3; margin: 0; padding: 0; text-align: left;">
                                                                                         <p class="text-right"
-                                                                                            style="Margin: 0; Margin-bottom: 10px; color: black; font-family: Helvetica, Arial, sans-serif; font-size: 16px; font-weight: normal; line-height: 1.3; margin: 0; margin-bottom: 0; padding: 0; text-align: right;">
+                                                                                            style="Margin: 0; margin: 0; Margin-bottom: 10px; margin-bottom: 10px; color: black; font-family: Helvetica, Arial, sans-serif; font-size: 16px; font-weight: normal; line-height: 1.3; padding: 0; text-align: right;">
                                                                                             KULTUS</p>
                                                                                     </th>
                                                                                 </tr>
@@ -7901,10 +7901,10 @@ person_myprofile_accepted|Käyttäjätilisi Kultuksessa on valmis käytettäväk
                                                                             Käyttäjätilisi on valmis käytettäväksi
                                                                         </h2>
                                                                         <p
-                                                                            style="Margin: 0; Margin-bottom: 10px; color: #0a0a0a; font-family: Helvetica, Arial, sans-serif; font-size: 16px; font-weight: normal; line-height: 1.3; margin: 0; margin-bottom: 10px; padding: 0; text-align: left;">
+                                                                            style="Margin: 0; margin: 0; Margin-bottom: 10px; margin-bottom: 10px; color: #0a0a0a; font-family: Helvetica, Arial, sans-serif; font-size: 16px; font-weight: normal; line-height: 1.3; padding: 0; text-align: left;">
                                                                             Hei {{person.name}}!</p>
                                                                         <p
-                                                                            style="Margin: 0; Margin-bottom: 10px; color: #0a0a0a; font-family: Helvetica, Arial, sans-serif; font-size: 16px; font-weight: normal; line-height: 1.3; margin: 0; margin-bottom: 10px; padding: 0; text-align: left;">
+                                                                            style="Margin: 0; margin: 0; Margin-bottom: 10px; margin-bottom: 10px; color: #0a0a0a; font-family: Helvetica, Arial, sans-serif; font-size: 16px; font-weight: normal; line-height: 1.3; padding: 0; text-align: left;">
                                                                             Sinun käyttäjätilisi on nyt valmis
                                                                             käytettäväksi
                                                                             Kultuksessa
@@ -7918,7 +7918,7 @@ person_myprofile_accepted|Käyttäjätilisi Kultuksessa on valmis käytettäväk
 
                                                                         {% if custom_message %}
                                                                         <p
-                                                                            style="Margin: 0; Margin-bottom: 10px; color: #0a0a0a; font-family: Helvetica, Arial, sans-serif; font-size: 16px; font-weight: normal; line-height: 1.3; margin: 0; margin-bottom: 10px; padding: 0; text-align: left;">
+                                                                            style="Margin: 0; margin: 0; Margin-bottom: 10px; margin-bottom: 10px; color: #0a0a0a; font-family: Helvetica, Arial, sans-serif; font-size: 16px; font-weight: normal; line-height: 1.3; padding: 0; text-align: left;">
                                                                             {{ custom_message }}</p>
                                                                         {% endif %}
                                                                     </th>
@@ -8319,7 +8319,7 @@ person_myprofile_accepted|Käyttäjätilisi Kultuksessa on valmis käytettäväk
                                                                                     <th
                                                                                         style="color: #0a0a0a; font-family: Helvetica, Arial, sans-serif; font-size: 16px; font-weight: normal; line-height: 1.3; margin: 0; padding: 0; text-align: left;">
                                                                                         <p class="text-right"
-                                                                                            style="Margin: 0; Margin-bottom: 10px; color: black; font-family: Helvetica, Arial, sans-serif; font-size: 16px; font-weight: normal; line-height: 1.3; margin: 0; margin-bottom: 0; padding: 0; text-align: right;">
+                                                                                            style="Margin: 0; margin: 0; Margin-bottom: 10px; margin-bottom: 10px; color: black; font-family: Helvetica, Arial, sans-serif; font-size: 16px; font-weight: normal; line-height: 1.3; padding: 0; text-align: right;">
                                                                                             KULTUS</p>
                                                                                     </th>
                                                                                 </tr>
@@ -8372,10 +8372,10 @@ person_myprofile_accepted|Käyttäjätilisi Kultuksessa on valmis käytettäväk
                                                                             Kultus
                                                                         </h2>
                                                                         <p
-                                                                            style="Margin: 0; Margin-bottom: 10px; color: #0a0a0a; font-family: Helvetica, Arial, sans-serif; font-size: 16px; font-weight: normal; line-height: 1.3; margin: 0; margin-bottom: 10px; padding: 0; text-align: left;">
+                                                                            style="Margin: 0; margin: 0; Margin-bottom: 10px; margin-bottom: 10px; color: #0a0a0a; font-family: Helvetica, Arial, sans-serif; font-size: 16px; font-weight: normal; line-height: 1.3; padding: 0; text-align: left;">
                                                                             Hi {{person.name}}!</p>
                                                                         <p
-                                                                            style="Margin: 0; Margin-bottom: 10px; color: #0a0a0a; font-family: Helvetica, Arial, sans-serif; font-size: 16px; font-weight: normal; line-height: 1.3; margin: 0; margin-bottom: 10px; padding: 0; text-align: left;">
+                                                                            style="Margin: 0; margin: 0; Margin-bottom: 10px; margin-bottom: 10px; color: #0a0a0a; font-family: Helvetica, Arial, sans-serif; font-size: 16px; font-weight: normal; line-height: 1.3; padding: 0; text-align: left;">
                                                                             Your account is now ready to be used in
                                                                             Kultus
                                                                             with the following organisations linked to
@@ -8389,7 +8389,7 @@ person_myprofile_accepted|Käyttäjätilisi Kultuksessa on valmis käytettäväk
 
                                                                         {% if custom_message %}
                                                                         <p
-                                                                            style="Margin: 0; Margin-bottom: 10px; color: #0a0a0a; font-family: Helvetica, Arial, sans-serif; font-size: 16px; font-weight: normal; line-height: 1.3; margin: 0; margin-bottom: 10px; padding: 0; text-align: left;">
+                                                                            style="Margin: 0; margin: 0; Margin-bottom: 10px; margin-bottom: 10px; color: #0a0a0a; font-family: Helvetica, Arial, sans-serif; font-size: 16px; font-weight: normal; line-height: 1.3; padding: 0; text-align: left;">
                                                                             {{ custom_message }}</p>
                                                                         {% endif %}
                                                                     </th>
@@ -8790,7 +8790,7 @@ person_myprofile_accepted|Käyttäjätilisi Kultuksessa on valmis käytettäväk
                                                                                     <th
                                                                                         style="color: #0a0a0a; font-family: Helvetica, Arial, sans-serif; font-size: 16px; font-weight: normal; line-height: 1.3; margin: 0; padding: 0; text-align: left;">
                                                                                         <p class="text-right"
-                                                                                            style="Margin: 0; Margin-bottom: 10px; color: black; font-family: Helvetica, Arial, sans-serif; font-size: 16px; font-weight: normal; line-height: 1.3; margin: 0; margin-bottom: 0; padding: 0; text-align: right;">
+                                                                                            style="Margin: 0; margin: 0; Margin-bottom: 10px; margin-bottom: 10px; color: black; font-family: Helvetica, Arial, sans-serif; font-size: 16px; font-weight: normal; line-height: 1.3; padding: 0; text-align: right;">
                                                                                             KULTUS</p>
                                                                                     </th>
                                                                                 </tr>
@@ -8843,10 +8843,10 @@ person_myprofile_accepted|Käyttäjätilisi Kultuksessa on valmis käytettäväk
                                                                             Kultus
                                                                         </h2>
                                                                         <p
-                                                                            style="Margin: 0; Margin-bottom: 10px; color: #0a0a0a; font-family: Helvetica, Arial, sans-serif; font-size: 16px; font-weight: normal; line-height: 1.3; margin: 0; margin-bottom: 10px; padding: 0; text-align: left;">
+                                                                            style="Margin: 0; margin: 0; Margin-bottom: 10px; margin-bottom: 10px; color: #0a0a0a; font-family: Helvetica, Arial, sans-serif; font-size: 16px; font-weight: normal; line-height: 1.3; padding: 0; text-align: left;">
                                                                             Hi {{person.name}}!</p>
                                                                         <p
-                                                                            style="Margin: 0; Margin-bottom: 10px; color: #0a0a0a; font-family: Helvetica, Arial, sans-serif; font-size: 16px; font-weight: normal; line-height: 1.3; margin: 0; margin-bottom: 10px; padding: 0; text-align: left;">
+                                                                            style="Margin: 0; margin: 0; Margin-bottom: 10px; margin-bottom: 10px; color: #0a0a0a; font-family: Helvetica, Arial, sans-serif; font-size: 16px; font-weight: normal; line-height: 1.3; padding: 0; text-align: left;">
                                                                             Your account is now ready to be used in
                                                                             Kultus
                                                                             with the following organisations linked to
@@ -8860,7 +8860,7 @@ person_myprofile_accepted|Käyttäjätilisi Kultuksessa on valmis käytettäväk
 
                                                                         {% if custom_message %}
                                                                         <p
-                                                                            style="Margin: 0; Margin-bottom: 10px; color: #0a0a0a; font-family: Helvetica, Arial, sans-serif; font-size: 16px; font-weight: normal; line-height: 1.3; margin: 0; margin-bottom: 10px; padding: 0; text-align: left;">
+                                                                            style="Margin: 0; margin: 0; Margin-bottom: 10px; margin-bottom: 10px; color: #0a0a0a; font-family: Helvetica, Arial, sans-serif; font-size: 16px; font-weight: normal; line-height: 1.3; padding: 0; text-align: left;">
                                                                             {{ custom_message }}</p>
                                                                         {% endif %}
                                                                     </th>
@@ -10755,7 +10755,7 @@ enrolment_approved|Ilmoittautuminen vahvistettu|Enrolment approved|Anmälan har 
                                           <th
                                             style="color: #0a0a0a; font-family: Helvetica, Arial, sans-serif; font-size: 16px; font-weight: normal; line-height: 1.3; margin: 0; padding: 0; text-align: left;">
                                             <p class="text-right"
-                                              style="Margin: 0; Margin-bottom: 10px; color: black; font-family: Helvetica, Arial, sans-serif; font-size: 16px; font-weight: normal; line-height: 1.3; margin: 0; margin-bottom: 0; padding: 0; text-align: right;">
+                                              style="Margin: 0; margin: 0; Margin-bottom: 10px; margin-bottom: 10px; color: black; font-family: Helvetica, Arial, sans-serif; font-size: 16px; font-weight: normal; line-height: 1.3; padding: 0; text-align: right;">
                                               KULTUS</p>
                                           </th>
                                         </tr>
@@ -10809,15 +10809,15 @@ enrolment_approved|Ilmoittautuminen vahvistettu|Enrolment approved|Anmälan har 
                                       style="color: inherit; font-family: Helvetica, Arial, sans-serif; font-size: 20px; font-weight: normal; line-height: 1.3; margin: 0; margin-bottom: 10px; padding: 0; text-align: left; word-wrap: normal;">
                                       Hei {{person.name }}</h5>
                                     <p
-                                      style="Margin: 0; Margin-bottom: 10px; color: #0a0a0a; font-family: Helvetica, Arial, sans-serif; font-size: 16px; font-weight: normal; line-height: 1.3; margin: 0; margin-bottom: 10px; padding: 0; text-align: left;">
+                                      style="Margin: 0; margin: 0; Margin-bottom: 10px; margin-bottom: 10px; color: #0a0a0a; font-family: Helvetica, Arial, sans-serif; font-size: 16px; font-weight: normal; line-height: 1.3; padding: 0; text-align: left;">
                                       Hienoa, osallistumisenne {{trans(event.name)}} {{
                                       occurrence.local_start_time.strftime('%d.%m.%Y klo %H.%M')}} on nyt vahvistettu.
                                     </p>
                                     <p
-                                      style="Margin: 0; Margin-bottom: 10px; color: #0a0a0a; font-family: Helvetica, Arial, sans-serif; font-size: 16px; font-weight: normal; line-height: 1.3; margin: 0; margin-bottom: 10px; padding: 0; text-align: left;">
+                                      style="Margin: 0; margin: 0; Margin-bottom: 10px; margin-bottom: 10px; color: #0a0a0a; font-family: Helvetica, Arial, sans-serif; font-size: 16px; font-weight: normal; line-height: 1.3; padding: 0; text-align: left;">
                                       Otathan yhteyttä jos teille tulee esteitä tai muita muutoksia.</p>
                                     <p
-                                      style="Margin: 0; Margin-bottom: 10px; color: #0a0a0a; font-family: Helvetica, Arial, sans-serif; font-size: 16px; font-weight: normal; line-height: 1.3; margin: 0; margin-bottom: 10px; padding: 0; text-align: left;">
+                                      style="Margin: 0; margin: 0; Margin-bottom: 10px; margin-bottom: 10px; color: #0a0a0a; font-family: Helvetica, Arial, sans-serif; font-size: 16px; font-weight: normal; line-height: 1.3; padding: 0; text-align: left;">
                                       Tervetuloa, tavataan pian.</p>
 
                                     <h4
@@ -10849,7 +10849,7 @@ enrolment_approved|Ilmoittautuminen vahvistettu|Enrolment approved|Anmälan har 
                                       style="Margin: 0; Margin-bottom: 10px; color: inherit; font-family: Helvetica, Arial, sans-serif; font-size: 24px; font-weight: normal; line-height: 1.3; margin: 0; margin-bottom: 10px; padding: 0; text-align: left; word-wrap: normal;">
                                       Viesti järjestäjältä:</h4>
                                     <p
-                                      style="Margin: 0; Margin-bottom: 10px; color: #0a0a0a; font-family: Helvetica, Arial, sans-serif; font-size: 16px; font-weight: normal; line-height: 1.3; margin: 0; margin-bottom: 10px; padding: 0; text-align: left;">
+                                      style="Margin: 0; margin: 0; Margin-bottom: 10px; margin-bottom: 10px; color: #0a0a0a; font-family: Helvetica, Arial, sans-serif; font-size: 16px; font-weight: normal; line-height: 1.3; padding: 0; text-align: left;">
                                       {{custom_message}}</p>
                                     {% endif %} \u200b
                                     {% if not occurrence.p_event.contact_info_deleted_at %}
@@ -11258,7 +11258,7 @@ enrolment_approved|Ilmoittautuminen vahvistettu|Enrolment approved|Anmälan har 
                                           <th
                                             style="color: #0a0a0a; font-family: Helvetica, Arial, sans-serif; font-size: 16px; font-weight: normal; line-height: 1.3; margin: 0; padding: 0; text-align: left;">
                                             <p class="text-right"
-                                              style="Margin: 0; Margin-bottom: 10px; color: black; font-family: Helvetica, Arial, sans-serif; font-size: 16px; font-weight: normal; line-height: 1.3; margin: 0; margin-bottom: 0; padding: 0; text-align: right;">
+                                              style="Margin: 0; margin: 0; Margin-bottom: 10px; margin-bottom: 10px; color: black; font-family: Helvetica, Arial, sans-serif; font-size: 16px; font-weight: normal; line-height: 1.3; padding: 0; text-align: right;">
                                               KULTUS</p>
                                           </th>
                                         </tr>
@@ -11312,16 +11312,16 @@ enrolment_approved|Ilmoittautuminen vahvistettu|Enrolment approved|Anmälan har 
                                       style="color: inherit; font-family: Helvetica, Arial, sans-serif; font-size: 20px; font-weight: normal; line-height: 1.3; margin: 0; margin-bottom: 10px; padding: 0; text-align: left; word-wrap: normal;">
                                       Hello, {{person.name }}</h5>
                                     <p
-                                      style="Margin: 0; Margin-bottom: 10px; color: #0a0a0a; font-family: Helvetica, Arial, sans-serif; font-size: 16px; font-weight: normal; line-height: 1.3; margin: 0; margin-bottom: 10px; padding: 0; text-align: left;">
+                                      style="Margin: 0; margin: 0; Margin-bottom: 10px; margin-bottom: 10px; color: #0a0a0a; font-family: Helvetica, Arial, sans-serif; font-size: 16px; font-weight: normal; line-height: 1.3; padding: 0; text-align: left;">
                                       Congratulations, your participation in {{trans(event.name)}} {{
                                       occurrence.local_start_time.strftime('%d.%m.%Y %H.%M')}} has now been confirmed.
                                     </p>
                                     <p
-                                      style="Margin: 0; Margin-bottom: 10px; color: #0a0a0a; font-family: Helvetica, Arial, sans-serif; font-size: 16px; font-weight: normal; line-height: 1.3; margin: 0; margin-bottom: 10px; padding: 0; text-align: left;">
+                                      style="Margin: 0; margin: 0; Margin-bottom: 10px; margin-bottom: 10px; color: #0a0a0a; font-family: Helvetica, Arial, sans-serif; font-size: 16px; font-weight: normal; line-height: 1.3; padding: 0; text-align: left;">
                                       Please contact us if any obstacles arise that could prevent you from attending or
                                       you need to make other changes.</p>
                                     <p
-                                      style="Margin: 0; Margin-bottom: 10px; color: #0a0a0a; font-family: Helvetica, Arial, sans-serif; font-size: 16px; font-weight: normal; line-height: 1.3; margin: 0; margin-bottom: 10px; padding: 0; text-align: left;">
+                                      style="Margin: 0; margin: 0; Margin-bottom: 10px; margin-bottom: 10px; color: #0a0a0a; font-family: Helvetica, Arial, sans-serif; font-size: 16px; font-weight: normal; line-height: 1.3; padding: 0; text-align: left;">
                                       See you soon!</p>
 
                                     <h4
@@ -11353,7 +11353,7 @@ enrolment_approved|Ilmoittautuminen vahvistettu|Enrolment approved|Anmälan har 
                                       style="Margin: 0; Margin-bottom: 10px; color: inherit; font-family: Helvetica, Arial, sans-serif; font-size: 24px; font-weight: normal; line-height: 1.3; margin: 0; margin-bottom: 10px; padding: 0; text-align: left; word-wrap: normal;">
                                       Message from the organiser:</h4>
                                     <p
-                                      style="Margin: 0; Margin-bottom: 10px; color: #0a0a0a; font-family: Helvetica, Arial, sans-serif; font-size: 16px; font-weight: normal; line-height: 1.3; margin: 0; margin-bottom: 10px; padding: 0; text-align: left;">
+                                      style="Margin: 0; margin: 0; Margin-bottom: 10px; margin-bottom: 10px; color: #0a0a0a; font-family: Helvetica, Arial, sans-serif; font-size: 16px; font-weight: normal; line-height: 1.3; padding: 0; text-align: left;">
                                       {{custom_message}}</p>
                                     {% endif %} \u200b
                                     {% if not occurrence.p_event.contact_info_deleted_at %}
@@ -11766,7 +11766,7 @@ enrolment_approved|Ilmoittautuminen vahvistettu|Enrolment approved|Anmälan har 
                                                                                     <th
                                                                                         style="color: #0a0a0a; font-family: Helvetica, Arial, sans-serif; font-size: 16px; font-weight: normal; line-height: 1.3; margin: 0; padding: 0; text-align: left;">
                                                                                         <p class="text-right"
-                                                                                            style="Margin: 0; Margin-bottom: 10px; color: black; font-family: Helvetica, Arial, sans-serif; font-size: 16px; font-weight: normal; line-height: 1.3; margin: 0; margin-bottom: 0; padding: 0; text-align: right;">
+                                                                                            style="Margin: 0; margin: 0; Margin-bottom: 10px; margin-bottom: 10px; color: black; font-family: Helvetica, Arial, sans-serif; font-size: 16px; font-weight: normal; line-height: 1.3; padding: 0; text-align: right;">
                                                                                             KULTUS</p>
                                                                                     </th>
                                                                                 </tr>
@@ -11821,17 +11821,17 @@ enrolment_approved|Ilmoittautuminen vahvistettu|Enrolment approved|Anmälan har 
                                                                             style="color: inherit; font-family: Helvetica, Arial, sans-serif; font-size: 20px; font-weight: normal; line-height: 1.3; margin: 0; margin-bottom: 10px; padding: 0; text-align: left; word-wrap: normal;">
                                                                             Hej {{person.name }}!</h5>
                                                                         <p
-                                                                            style="Margin: 0; Margin-bottom: 10px; color: #0a0a0a; font-family: Helvetica, Arial, sans-serif; font-size: 16px; font-weight: normal; line-height: 1.3; margin: 0; margin-bottom: 10px; padding: 0; text-align: left;">
+                                                                            style="Margin: 0; margin: 0; Margin-bottom: 10px; margin-bottom: 10px; color: #0a0a0a; font-family: Helvetica, Arial, sans-serif; font-size: 16px; font-weight: normal; line-height: 1.3; padding: 0; text-align: left;">
                                                                             Fint, ert deltagande {{trans(event.name)}}
                                                                             {{
                                                                             occurrence.local_start_time.strftime('%d.%m.%Y
                                                                             kl %H.%M')}} har nu bekräftats.</p>
                                                                         <p
-                                                                            style="Margin: 0; Margin-bottom: 10px; color: #0a0a0a; font-family: Helvetica, Arial, sans-serif; font-size: 16px; font-weight: normal; line-height: 1.3; margin: 0; margin-bottom: 10px; padding: 0; text-align: left;">
+                                                                            style="Margin: 0; margin: 0; Margin-bottom: 10px; margin-bottom: 10px; color: #0a0a0a; font-family: Helvetica, Arial, sans-serif; font-size: 16px; font-weight: normal; line-height: 1.3; padding: 0; text-align: left;">
                                                                             Vänligen kontakta oss om ni får förhinder
                                                                             eller det dyker upp andra ändringar.</p>
                                                                         <p
-                                                                            style="Margin: 0; Margin-bottom: 10px; color: #0a0a0a; font-family: Helvetica, Arial, sans-serif; font-size: 16px; font-weight: normal; line-height: 1.3; margin: 0; margin-bottom: 10px; padding: 0; text-align: left;">
+                                                                            style="Margin: 0; margin: 0; Margin-bottom: 10px; margin-bottom: 10px; color: #0a0a0a; font-family: Helvetica, Arial, sans-serif; font-size: 16px; font-weight: normal; line-height: 1.3; padding: 0; text-align: left;">
                                                                             Välkommen, vi ses snart!</p>
 
                                                                         <h4
@@ -11873,7 +11873,7 @@ enrolment_approved|Ilmoittautuminen vahvistettu|Enrolment approved|Anmälan har 
                                                                             style="Margin: 0; Margin-bottom: 10px; color: inherit; font-family: Helvetica, Arial, sans-serif; font-size: 24px; font-weight: normal; line-height: 1.3; margin: 0; margin-bottom: 10px; padding: 0; text-align: left; word-wrap: normal;">
                                                                             Meddelande från arrangörerna:</h4>
                                                                         <p
-                                                                            style="Margin: 0; Margin-bottom: 10px; color: #0a0a0a; font-family: Helvetica, Arial, sans-serif; font-size: 16px; font-weight: normal; line-height: 1.3; margin: 0; margin-bottom: 10px; padding: 0; text-align: left;">
+                                                                            style="Margin: 0; margin: 0; Margin-bottom: 10px; margin-bottom: 10px; color: #0a0a0a; font-family: Helvetica, Arial, sans-serif; font-size: 16px; font-weight: normal; line-height: 1.3; padding: 0; text-align: left;">
                                                                             {{custom_message}}</p>
                                                                         {% endif %} \u200b
                                                                         {% if not occurrence.p_event.contact_info_deleted_at %}
@@ -12284,7 +12284,7 @@ occurrence_enrolment|Ilmoittautuminen vastaanotettu|Enrolment received|Anmälan 
                                           <th
                                             style="color: #0a0a0a; font-family: Helvetica, Arial, sans-serif; font-size: 16px; font-weight: normal; line-height: 1.3; margin: 0; padding: 0; text-align: left;">
                                             <p class="text-right"
-                                              style="Margin: 0; Margin-bottom: 10px; color: black; font-family: Helvetica, Arial, sans-serif; font-size: 16px; font-weight: normal; line-height: 1.3; margin: 0; margin-bottom: 0; padding: 0; text-align: right;">
+                                              style="Margin: 0; margin: 0; Margin-bottom: 10px; margin-bottom: 10px; color: black; font-family: Helvetica, Arial, sans-serif; font-size: 16px; font-weight: normal; line-height: 1.3; padding: 0; text-align: right;">
                                               KULTUS</p>
                                           </th>
                                         </tr>
@@ -12337,11 +12337,11 @@ occurrence_enrolment|Ilmoittautuminen vastaanotettu|Enrolment received|Anmälan 
                                       style="color: inherit; font-family: Helvetica, Arial, sans-serif; font-size: 20px; font-weight: normal; line-height: 1.3; margin: 0; margin-bottom: 10px; padding: 0; text-align: left; word-wrap: normal;">
                                       Hei {{ person.name }}, kiitos viestistäsi.</h5>
                                     <p
-                                      style="Margin: 0; Margin-bottom: 10px; color: #0a0a0a; font-family: Helvetica, Arial, sans-serif; font-size: 16px; font-weight: normal; line-height: 1.3; margin: 0; margin-bottom: 10px; padding: 0; text-align: left;">
+                                      style="Margin: 0; margin: 0; Margin-bottom: 10px; margin-bottom: 10px; color: #0a0a0a; font-family: Helvetica, Arial, sans-serif; font-size: 16px; font-weight: normal; line-height: 1.3; padding: 0; text-align: left;">
                                       <strong>Tapahtuma:</strong> {{trans(event.name)}}
                                     </p>
                                     <p
-                                      style="Margin: 0; Margin-bottom: 10px; color: #0a0a0a; font-family: Helvetica, Arial, sans-serif; font-size: 16px; font-weight: normal; line-height: 1.3; margin: 0; margin-bottom: 10px; padding: 0; text-align: left;">
+                                      style="Margin: 0; margin: 0; Margin-bottom: 10px; margin-bottom: 10px; color: #0a0a0a; font-family: Helvetica, Arial, sans-serif; font-size: 16px; font-weight: normal; line-height: 1.3; padding: 0; text-align: left;">
                                       <strong>Ryhmä:</strong> {{study_group.unit_name}}
                                     </p>
                                     <h4
@@ -12774,7 +12774,7 @@ occurrence_enrolment|Ilmoittautuminen vastaanotettu|Enrolment received|Anmälan 
                                           <th
                                             style="color: #0a0a0a; font-family: Helvetica, Arial, sans-serif; font-size: 16px; font-weight: normal; line-height: 1.3; margin: 0; padding: 0; text-align: left;">
                                             <p class="text-right"
-                                              style="Margin: 0; Margin-bottom: 10px; color: black; font-family: Helvetica, Arial, sans-serif; font-size: 16px; font-weight: normal; line-height: 1.3; margin: 0; margin-bottom: 0; padding: 0; text-align: right;">
+                                              style="Margin: 0; margin: 0; Margin-bottom: 10px; margin-bottom: 10px; color: black; font-family: Helvetica, Arial, sans-serif; font-size: 16px; font-weight: normal; line-height: 1.3; padding: 0; text-align: right;">
                                               KULTUS</p>
                                           </th>
                                         </tr>
@@ -12827,11 +12827,11 @@ occurrence_enrolment|Ilmoittautuminen vastaanotettu|Enrolment received|Anmälan 
                                       style="color: inherit; font-family: Helvetica, Arial, sans-serif; font-size: 20px; font-weight: normal; line-height: 1.3; margin: 0; margin-bottom: 10px; padding: 0; text-align: left; word-wrap: normal;">
                                       Hello {{ person.name }}, thank you for your message.</h5>
                                     <p
-                                      style="Margin: 0; Margin-bottom: 10px; color: #0a0a0a; font-family: Helvetica, Arial, sans-serif; font-size: 16px; font-weight: normal; line-height: 1.3; margin: 0; margin-bottom: 10px; padding: 0; text-align: left;">
+                                      style="Margin: 0; margin: 0; Margin-bottom: 10px; margin-bottom: 10px; color: #0a0a0a; font-family: Helvetica, Arial, sans-serif; font-size: 16px; font-weight: normal; line-height: 1.3; padding: 0; text-align: left;">
                                       <strong>Event:</strong> {{trans(event.name)}}
                                     </p>
                                     <p
-                                      style="Margin: 0; Margin-bottom: 10px; color: #0a0a0a; font-family: Helvetica, Arial, sans-serif; font-size: 16px; font-weight: normal; line-height: 1.3; margin: 0; margin-bottom: 10px; padding: 0; text-align: left;">
+                                      style="Margin: 0; margin: 0; Margin-bottom: 10px; margin-bottom: 10px; color: #0a0a0a; font-family: Helvetica, Arial, sans-serif; font-size: 16px; font-weight: normal; line-height: 1.3; padding: 0; text-align: left;">
                                       <strong>Group:</strong> {{study_group.unit_name}}
                                     </p>
                                     <h4
@@ -13264,7 +13264,7 @@ occurrence_enrolment|Ilmoittautuminen vastaanotettu|Enrolment received|Anmälan 
                                           <th
                                             style="color: #0a0a0a; font-family: Helvetica, Arial, sans-serif; font-size: 16px; font-weight: normal; line-height: 1.3; margin: 0; padding: 0; text-align: left;">
                                             <p class="text-right"
-                                              style="Margin: 0; Margin-bottom: 10px; color: black; font-family: Helvetica, Arial, sans-serif; font-size: 16px; font-weight: normal; line-height: 1.3; margin: 0; margin-bottom: 0; padding: 0; text-align: right;">
+                                              style="Margin: 0; margin: 0; Margin-bottom: 10px; margin-bottom: 10px; color: black; font-family: Helvetica, Arial, sans-serif; font-size: 16px; font-weight: normal; line-height: 1.3; padding: 0; text-align: right;">
                                               KULTUS</p>
                                           </th>
                                         </tr>
@@ -13317,11 +13317,11 @@ occurrence_enrolment|Ilmoittautuminen vastaanotettu|Enrolment received|Anmälan 
                                       style="color: inherit; font-family: Helvetica, Arial, sans-serif; font-size: 20px; font-weight: normal; line-height: 1.3; margin: 0; margin-bottom: 10px; padding: 0; text-align: left; word-wrap: normal;">
                                       Hej {{ person.name }}, tack för ditt meddelande.</h5>
                                     <p
-                                      style="Margin: 0; Margin-bottom: 10px; color: #0a0a0a; font-family: Helvetica, Arial, sans-serif; font-size: 16px; font-weight: normal; line-height: 1.3; margin: 0; margin-bottom: 10px; padding: 0; text-align: left;">
+                                      style="Margin: 0; margin: 0; Margin-bottom: 10px; margin-bottom: 10px; color: #0a0a0a; font-family: Helvetica, Arial, sans-serif; font-size: 16px; font-weight: normal; line-height: 1.3; padding: 0; text-align: left;">
                                       <strong>Evenemang:</strong> {{trans(event.name)}}
                                     </p>
                                     <p
-                                      style="Margin: 0; Margin-bottom: 10px; color: #0a0a0a; font-family: Helvetica, Arial, sans-serif; font-size: 16px; font-weight: normal; line-height: 1.3; margin: 0; margin-bottom: 10px; padding: 0; text-align: left;">
+                                      style="Margin: 0; margin: 0; Margin-bottom: 10px; margin-bottom: 10px; color: #0a0a0a; font-family: Helvetica, Arial, sans-serif; font-size: 16px; font-weight: normal; line-height: 1.3; padding: 0; text-align: left;">
                                       <strong>Grupp:</strong> {{study_group.unit_name}}
                                     </p>
                                     <h4
@@ -13761,7 +13761,7 @@ enrolment_cancellation|Ilmoittautumisen peruuttaminen|Enrolment cancellation|Avb
                                           <th
                                             style="color: #0a0a0a; font-family: Helvetica, Arial, sans-serif; font-size: 16px; font-weight: normal; line-height: 1.3; margin: 0; padding: 0; text-align: left;">
                                             <p class="text-right"
-                                              style="Margin: 0; Margin-bottom: 10px; color: black; font-family: Helvetica, Arial, sans-serif; font-size: 16px; font-weight: normal; line-height: 1.3; margin: 0; margin-bottom: 0; padding: 0; text-align: right;">
+                                              style="Margin: 0; margin: 0; Margin-bottom: 10px; margin-bottom: 10px; color: black; font-family: Helvetica, Arial, sans-serif; font-size: 16px; font-weight: normal; line-height: 1.3; padding: 0; text-align: right;">
                                               KULTUS</p>
                                           </th>
                                         </tr>
@@ -13817,11 +13817,11 @@ enrolment_cancellation|Ilmoittautumisen peruuttaminen|Enrolment cancellation|Avb
                                       Vahvistakaa peruuttaminen klikkaamalla seuraavaa linkkiä: {{
                                       enrolment.get_cancellation_url(language='fi') }}</h5>
                                     <p
-                                      style="Margin: 0; Margin-bottom: 10px; color: #0a0a0a; font-family: Helvetica, Arial, sans-serif; font-size: 16px; font-weight: normal; line-height: 1.3; margin: 0; margin-bottom: 10px; padding: 0; text-align: left;">
+                                      style="Margin: 0; margin: 0; Margin-bottom: 10px; margin-bottom: 10px; color: #0a0a0a; font-family: Helvetica, Arial, sans-serif; font-size: 16px; font-weight: normal; line-height: 1.3; padding: 0; text-align: left;">
                                       <strong>Tapahtuma:</strong> {{trans(event.name)}}
                                     </p>
                                     <p
-                                      style="Margin: 0; Margin-bottom: 10px; color: #0a0a0a; font-family: Helvetica, Arial, sans-serif; font-size: 16px; font-weight: normal; line-height: 1.3; margin: 0; margin-bottom: 10px; padding: 0; text-align: left;">
+                                      style="Margin: 0; margin: 0; Margin-bottom: 10px; margin-bottom: 10px; color: #0a0a0a; font-family: Helvetica, Arial, sans-serif; font-size: 16px; font-weight: normal; line-height: 1.3; padding: 0; text-align: left;">
                                       <strong>Ryhmä:</strong> {{study_group.unit_name}}
                                     </p>
 
@@ -13848,7 +13848,7 @@ enrolment_cancellation|Ilmoittautumisen peruuttaminen|Enrolment cancellation|Avb
                                       style="Margin: 0; Margin-bottom: 10px; color: inherit; font-family: Helvetica, Arial, sans-serif; font-size: 24px; font-weight: normal; line-height: 1.3; margin: 0; margin-bottom: 10px; padding: 0; text-align: left; word-wrap: normal;">
                                       Viesti järjestäjältä:</h4>
                                     <p
-                                      style="Margin: 0; Margin-bottom: 10px; color: #0a0a0a; font-family: Helvetica, Arial, sans-serif; font-size: 16px; font-weight: normal; line-height: 1.3; margin: 0; margin-bottom: 10px; padding: 0; text-align: left;">
+                                      style="Margin: 0; margin: 0; Margin-bottom: 10px; margin-bottom: 10px; color: #0a0a0a; font-family: Helvetica, Arial, sans-serif; font-size: 16px; font-weight: normal; line-height: 1.3; padding: 0; text-align: left;">
                                       {{custom_message}}</p>
                                     {% endif %} \u200b
                                     {% if not occurrence.p_event.contact_info_deleted_at %}
@@ -14257,7 +14257,7 @@ enrolment_cancellation|Ilmoittautumisen peruuttaminen|Enrolment cancellation|Avb
                                           <th
                                             style="color: #0a0a0a; font-family: Helvetica, Arial, sans-serif; font-size: 16px; font-weight: normal; line-height: 1.3; margin: 0; padding: 0; text-align: left;">
                                             <p class="text-right"
-                                              style="Margin: 0; Margin-bottom: 10px; color: black; font-family: Helvetica, Arial, sans-serif; font-size: 16px; font-weight: normal; line-height: 1.3; margin: 0; margin-bottom: 0; padding: 0; text-align: right;">
+                                              style="Margin: 0; margin: 0; Margin-bottom: 10px; margin-bottom: 10px; color: black; font-family: Helvetica, Arial, sans-serif; font-size: 16px; font-weight: normal; line-height: 1.3; padding: 0; text-align: right;">
                                               KULTUS</p>
                                           </th>
                                         </tr>
@@ -14313,11 +14313,11 @@ enrolment_cancellation|Ilmoittautumisen peruuttaminen|Enrolment cancellation|Avb
                                       confirm the cancellation by clicking on the following link: {{
                                       enrolment.get_cancellation_url(language='en') }}</h5>
                                     <p
-                                      style="Margin: 0; Margin-bottom: 10px; color: #0a0a0a; font-family: Helvetica, Arial, sans-serif; font-size: 16px; font-weight: normal; line-height: 1.3; margin: 0; margin-bottom: 10px; padding: 0; text-align: left;">
+                                      style="Margin: 0; margin: 0; Margin-bottom: 10px; margin-bottom: 10px; color: #0a0a0a; font-family: Helvetica, Arial, sans-serif; font-size: 16px; font-weight: normal; line-height: 1.3; padding: 0; text-align: left;">
                                       <strong>Event:</strong> {{trans(event.name)}}
                                     </p>
                                     <p
-                                      style="Margin: 0; Margin-bottom: 10px; color: #0a0a0a; font-family: Helvetica, Arial, sans-serif; font-size: 16px; font-weight: normal; line-height: 1.3; margin: 0; margin-bottom: 10px; padding: 0; text-align: left;">
+                                      style="Margin: 0; margin: 0; Margin-bottom: 10px; margin-bottom: 10px; color: #0a0a0a; font-family: Helvetica, Arial, sans-serif; font-size: 16px; font-weight: normal; line-height: 1.3; padding: 0; text-align: left;">
                                       <strong>Group:</strong> {{study_group.unit_name}}
                                     </p>
 
@@ -14350,7 +14350,7 @@ enrolment_cancellation|Ilmoittautumisen peruuttaminen|Enrolment cancellation|Avb
                                       style="Margin: 0; Margin-bottom: 10px; color: inherit; font-family: Helvetica, Arial, sans-serif; font-size: 24px; font-weight: normal; line-height: 1.3; margin: 0; margin-bottom: 10px; padding: 0; text-align: left; word-wrap: normal;">
                                       Message from the organiser:</h4>
                                     <p
-                                      style="Margin: 0; Margin-bottom: 10px; color: #0a0a0a; font-family: Helvetica, Arial, sans-serif; font-size: 16px; font-weight: normal; line-height: 1.3; margin: 0; margin-bottom: 10px; padding: 0; text-align: left;">
+                                      style="Margin: 0; margin: 0; Margin-bottom: 10px; margin-bottom: 10px; color: #0a0a0a; font-family: Helvetica, Arial, sans-serif; font-size: 16px; font-weight: normal; line-height: 1.3; padding: 0; text-align: left;">
                                       {{custom_message}}</p>
                                     {% endif %} \u200b
                                     {% if not occurrence.p_event.contact_info_deleted_at %}
@@ -14759,7 +14759,7 @@ enrolment_cancellation|Ilmoittautumisen peruuttaminen|Enrolment cancellation|Avb
                                           <th
                                             style="color: #0a0a0a; font-family: Helvetica, Arial, sans-serif; font-size: 16px; font-weight: normal; line-height: 1.3; margin: 0; padding: 0; text-align: left;">
                                             <p class="text-right"
-                                              style="Margin: 0; Margin-bottom: 10px; color: black; font-family: Helvetica, Arial, sans-serif; font-size: 16px; font-weight: normal; line-height: 1.3; margin: 0; margin-bottom: 0; padding: 0; text-align: right;">
+                                              style="Margin: 0; margin: 0; Margin-bottom: 10px; margin-bottom: 10px; color: black; font-family: Helvetica, Arial, sans-serif; font-size: 16px; font-weight: normal; line-height: 1.3; padding: 0; text-align: right;">
                                               KULTUS</p>
                                           </th>
                                         </tr>
@@ -14815,11 +14815,11 @@ enrolment_cancellation|Ilmoittautumisen peruuttaminen|Enrolment cancellation|Avb
                                       genom att klicka på följande länk: {{
                                       enrolment.get_cancellation_url(language='sv') }}</h5>
                                     <p
-                                      style="Margin: 0; Margin-bottom: 10px; color: #0a0a0a; font-family: Helvetica, Arial, sans-serif; font-size: 16px; font-weight: normal; line-height: 1.3; margin: 0; margin-bottom: 10px; padding: 0; text-align: left;">
+                                      style="Margin: 0; margin: 0; Margin-bottom: 10px; margin-bottom: 10px; color: #0a0a0a; font-family: Helvetica, Arial, sans-serif; font-size: 16px; font-weight: normal; line-height: 1.3; padding: 0; text-align: left;">
                                       <strong>Evenemang:</strong> {{trans(event.name)}}
                                     </p>
                                     <p
-                                      style="Margin: 0; Margin-bottom: 10px; color: #0a0a0a; font-family: Helvetica, Arial, sans-serif; font-size: 16px; font-weight: normal; line-height: 1.3; margin: 0; margin-bottom: 10px; padding: 0; text-align: left;">
+                                      style="Margin: 0; margin: 0; Margin-bottom: 10px; margin-bottom: 10px; color: #0a0a0a; font-family: Helvetica, Arial, sans-serif; font-size: 16px; font-weight: normal; line-height: 1.3; padding: 0; text-align: left;">
                                       <strong>Grupp:</strong> {{study_group.unit_name}}
                                     </p>
 
@@ -14852,7 +14852,7 @@ enrolment_cancellation|Ilmoittautumisen peruuttaminen|Enrolment cancellation|Avb
                                       style="Margin: 0; Margin-bottom: 10px; color: inherit; font-family: Helvetica, Arial, sans-serif; font-size: 24px; font-weight: normal; line-height: 1.3; margin: 0; margin-bottom: 10px; padding: 0; text-align: left; word-wrap: normal;">
                                       Meddelande från arrangörerna:</h4>
                                     <p
-                                      style="Margin: 0; Margin-bottom: 10px; color: #0a0a0a; font-family: Helvetica, Arial, sans-serif; font-size: 16px; font-weight: normal; line-height: 1.3; margin: 0; margin-bottom: 10px; padding: 0; text-align: left;">
+                                      style="Margin: 0; margin: 0; Margin-bottom: 10px; margin-bottom: 10px; color: #0a0a0a; font-family: Helvetica, Arial, sans-serif; font-size: 16px; font-weight: normal; line-height: 1.3; padding: 0; text-align: left;">
                                       {{custom_message}}</p>
                                     {% endif %} \u200b
                                     {% if not occurrence.p_event.contact_info_deleted_at %}
@@ -15263,7 +15263,7 @@ enrolment_cancelled|Ilmoittautumisen peruuttaminen vahvistettu|Enrolment cancell
                                           <th
                                             style="color: #0a0a0a; font-family: Helvetica, Arial, sans-serif; font-size: 16px; font-weight: normal; line-height: 1.3; margin: 0; padding: 0; text-align: left;">
                                             <p class="text-right"
-                                              style="Margin: 0; Margin-bottom: 10px; color: black; font-family: Helvetica, Arial, sans-serif; font-size: 16px; font-weight: normal; line-height: 1.3; margin: 0; margin-bottom: 0; padding: 0; text-align: right;">
+                                              style="Margin: 0; margin: 0; Margin-bottom: 10px; margin-bottom: 10px; color: black; font-family: Helvetica, Arial, sans-serif; font-size: 16px; font-weight: normal; line-height: 1.3; padding: 0; text-align: right;">
                                               KULTUS</p>
                                           </th>
                                         </tr>
@@ -15317,11 +15317,11 @@ enrolment_cancelled|Ilmoittautumisen peruuttaminen vahvistettu|Enrolment cancell
                                       style="color: inherit; font-family: Helvetica, Arial, sans-serif; font-size: 20px; font-weight: normal; line-height: 1.3; margin: 0; margin-bottom: 10px; padding: 0; text-align: left; word-wrap: normal;">
                                       Hei {{person.name }}. Ilmoittautumisen peruuttaminen on vahvistettu.</h5>
                                     <p
-                                      style="Margin: 0; Margin-bottom: 10px; color: #0a0a0a; font-family: Helvetica, Arial, sans-serif; font-size: 16px; font-weight: normal; line-height: 1.3; margin: 0; margin-bottom: 10px; padding: 0; text-align: left;">
+                                      style="Margin: 0; margin: 0; Margin-bottom: 10px; margin-bottom: 10px; color: #0a0a0a; font-family: Helvetica, Arial, sans-serif; font-size: 16px; font-weight: normal; line-height: 1.3; padding: 0; text-align: left;">
                                       <strong>Tapahtuma:</strong> {{trans(event.name)}}
                                     </p>
                                     <p
-                                      style="Margin: 0; Margin-bottom: 10px; color: #0a0a0a; font-family: Helvetica, Arial, sans-serif; font-size: 16px; font-weight: normal; line-height: 1.3; margin: 0; margin-bottom: 10px; padding: 0; text-align: left;">
+                                      style="Margin: 0; margin: 0; Margin-bottom: 10px; margin-bottom: 10px; color: #0a0a0a; font-family: Helvetica, Arial, sans-serif; font-size: 16px; font-weight: normal; line-height: 1.3; padding: 0; text-align: left;">
                                       <strong>Ryhmä:</strong> {{study_group.unit_name}}
                                     </p>
 
@@ -15354,7 +15354,7 @@ enrolment_cancelled|Ilmoittautumisen peruuttaminen vahvistettu|Enrolment cancell
                                       style="Margin: 0; Margin-bottom: 10px; color: inherit; font-family: Helvetica, Arial, sans-serif; font-size: 24px; font-weight: normal; line-height: 1.3; margin: 0; margin-bottom: 10px; padding: 0; text-align: left; word-wrap: normal;">
                                       Viesti järjestäjältä:</h4>
                                     <p
-                                      style="Margin: 0; Margin-bottom: 10px; color: #0a0a0a; font-family: Helvetica, Arial, sans-serif; font-size: 16px; font-weight: normal; line-height: 1.3; margin: 0; margin-bottom: 10px; padding: 0; text-align: left;">
+                                      style="Margin: 0; margin: 0; Margin-bottom: 10px; margin-bottom: 10px; color: #0a0a0a; font-family: Helvetica, Arial, sans-serif; font-size: 16px; font-weight: normal; line-height: 1.3; padding: 0; text-align: left;">
                                       {{custom_message}}</p>
                                     {% endif %} \u200b
                                     {% if not occurrence.p_event.contact_info_deleted_at %}
@@ -15763,7 +15763,7 @@ enrolment_cancelled|Ilmoittautumisen peruuttaminen vahvistettu|Enrolment cancell
                                           <th
                                             style="color: #0a0a0a; font-family: Helvetica, Arial, sans-serif; font-size: 16px; font-weight: normal; line-height: 1.3; margin: 0; padding: 0; text-align: left;">
                                             <p class="text-right"
-                                              style="Margin: 0; Margin-bottom: 10px; color: black; font-family: Helvetica, Arial, sans-serif; font-size: 16px; font-weight: normal; line-height: 1.3; margin: 0; margin-bottom: 0; padding: 0; text-align: right;">
+                                              style="Margin: 0; margin: 0; Margin-bottom: 10px; margin-bottom: 10px; color: black; font-family: Helvetica, Arial, sans-serif; font-size: 16px; font-weight: normal; line-height: 1.3; padding: 0; text-align: right;">
                                               KULTUS</p>
                                           </th>
                                         </tr>
@@ -15817,11 +15817,11 @@ enrolment_cancelled|Ilmoittautumisen peruuttaminen vahvistettu|Enrolment cancell
                                       style="color: inherit; font-family: Helvetica, Arial, sans-serif; font-size: 20px; font-weight: normal; line-height: 1.3; margin: 0; margin-bottom: 10px; padding: 0; text-align: left; word-wrap: normal;">
                                       Hello {{person.name }}. The cancellation of enrolment has been confirmed.</h5>
                                     <p
-                                      style="Margin: 0; Margin-bottom: 10px; color: #0a0a0a; font-family: Helvetica, Arial, sans-serif; font-size: 16px; font-weight: normal; line-height: 1.3; margin: 0; margin-bottom: 10px; padding: 0; text-align: left;">
+                                      style="Margin: 0; margin: 0; Margin-bottom: 10px; margin-bottom: 10px; color: #0a0a0a; font-family: Helvetica, Arial, sans-serif; font-size: 16px; font-weight: normal; line-height: 1.3; padding: 0; text-align: left;">
                                       <strong>Event:</strong> {{trans(event.name)}}
                                     </p>
                                     <p
-                                      style="Margin: 0; Margin-bottom: 10px; color: #0a0a0a; font-family: Helvetica, Arial, sans-serif; font-size: 16px; font-weight: normal; line-height: 1.3; margin: 0; margin-bottom: 10px; padding: 0; text-align: left;">
+                                      style="Margin: 0; margin: 0; Margin-bottom: 10px; margin-bottom: 10px; color: #0a0a0a; font-family: Helvetica, Arial, sans-serif; font-size: 16px; font-weight: normal; line-height: 1.3; padding: 0; text-align: left;">
                                       <strong>Group:</strong> {{study_group.unit_name}}
                                     </p>
 
@@ -15854,7 +15854,7 @@ enrolment_cancelled|Ilmoittautumisen peruuttaminen vahvistettu|Enrolment cancell
                                       style="Margin: 0; Margin-bottom: 10px; color: inherit; font-family: Helvetica, Arial, sans-serif; font-size: 24px; font-weight: normal; line-height: 1.3; margin: 0; margin-bottom: 10px; padding: 0; text-align: left; word-wrap: normal;">
                                       Message from the organiser:</h4>
                                     <p
-                                      style="Margin: 0; Margin-bottom: 10px; color: #0a0a0a; font-family: Helvetica, Arial, sans-serif; font-size: 16px; font-weight: normal; line-height: 1.3; margin: 0; margin-bottom: 10px; padding: 0; text-align: left;">
+                                      style="Margin: 0; margin: 0; Margin-bottom: 10px; margin-bottom: 10px; color: #0a0a0a; font-family: Helvetica, Arial, sans-serif; font-size: 16px; font-weight: normal; line-height: 1.3; padding: 0; text-align: left;">
                                       {{custom_message}}</p>
                                     {% endif %} \u200b
                                     {% if not occurrence.p_event.contact_info_deleted_at %}
@@ -16263,7 +16263,7 @@ enrolment_cancelled|Ilmoittautumisen peruuttaminen vahvistettu|Enrolment cancell
                                           <th
                                             style="color: #0a0a0a; font-family: Helvetica, Arial, sans-serif; font-size: 16px; font-weight: normal; line-height: 1.3; margin: 0; padding: 0; text-align: left;">
                                             <p class="text-right"
-                                              style="Margin: 0; Margin-bottom: 10px; color: black; font-family: Helvetica, Arial, sans-serif; font-size: 16px; font-weight: normal; line-height: 1.3; margin: 0; margin-bottom: 0; padding: 0; text-align: right;">
+                                              style="Margin: 0; margin: 0; Margin-bottom: 10px; margin-bottom: 10px; color: black; font-family: Helvetica, Arial, sans-serif; font-size: 16px; font-weight: normal; line-height: 1.3; padding: 0; text-align: right;">
                                               KULTUS</p>
                                           </th>
                                         </tr>
@@ -16317,11 +16317,11 @@ enrolment_cancelled|Ilmoittautumisen peruuttaminen vahvistettu|Enrolment cancell
                                       style="color: inherit; font-family: Helvetica, Arial, sans-serif; font-size: 20px; font-weight: normal; line-height: 1.3; margin: 0; margin-bottom: 10px; padding: 0; text-align: left; word-wrap: normal;">
                                       Hej {{person.name }}. Avbokningen av anmälan har bekräftats.</h5>
                                     <p
-                                      style="Margin: 0; Margin-bottom: 10px; color: #0a0a0a; font-family: Helvetica, Arial, sans-serif; font-size: 16px; font-weight: normal; line-height: 1.3; margin: 0; margin-bottom: 10px; padding: 0; text-align: left;">
+                                      style="Margin: 0; margin: 0; Margin-bottom: 10px; margin-bottom: 10px; color: #0a0a0a; font-family: Helvetica, Arial, sans-serif; font-size: 16px; font-weight: normal; line-height: 1.3; padding: 0; text-align: left;">
                                       <strong>Evenemang:</strong> {{trans(event.name)}}
                                     </p>
                                     <p
-                                      style="Margin: 0; Margin-bottom: 10px; color: #0a0a0a; font-family: Helvetica, Arial, sans-serif; font-size: 16px; font-weight: normal; line-height: 1.3; margin: 0; margin-bottom: 10px; padding: 0; text-align: left;">
+                                      style="Margin: 0; margin: 0; Margin-bottom: 10px; margin-bottom: 10px; color: #0a0a0a; font-family: Helvetica, Arial, sans-serif; font-size: 16px; font-weight: normal; line-height: 1.3; padding: 0; text-align: left;">
                                       <strong>Grupp:</strong> {{study_group.unit_name}}
                                     </p>
 
@@ -16354,7 +16354,7 @@ enrolment_cancelled|Ilmoittautumisen peruuttaminen vahvistettu|Enrolment cancell
                                       style="Margin: 0; Margin-bottom: 10px; color: inherit; font-family: Helvetica, Arial, sans-serif; font-size: 24px; font-weight: normal; line-height: 1.3; margin: 0; margin-bottom: 10px; padding: 0; text-align: left; word-wrap: normal;">
                                       Meddelande från arrangörerna:</h4>
                                     <p
-                                      style="Margin: 0; Margin-bottom: 10px; color: #0a0a0a; font-family: Helvetica, Arial, sans-serif; font-size: 16px; font-weight: normal; line-height: 1.3; margin: 0; margin-bottom: 10px; padding: 0; text-align: left;">
+                                      style="Margin: 0; margin: 0; Margin-bottom: 10px; margin-bottom: 10px; color: #0a0a0a; font-family: Helvetica, Arial, sans-serif; font-size: 16px; font-weight: normal; line-height: 1.3; padding: 0; text-align: left;">
                                       {{custom_message}}</p>
                                     {% endif %} \u200b
                                     {% if not occurrence.p_event.contact_info_deleted_at %}
@@ -16765,7 +16765,7 @@ enrolment_declined|Ilmoittautumisen peruutusilmoitus|Enrolment declined|Meddelan
                                           <th
                                             style="color: #0a0a0a; font-family: Helvetica, Arial, sans-serif; font-size: 16px; font-weight: normal; line-height: 1.3; margin: 0; padding: 0; text-align: left;">
                                             <p class="text-right"
-                                              style="Margin: 0; Margin-bottom: 10px; color: black; font-family: Helvetica, Arial, sans-serif; font-size: 16px; font-weight: normal; line-height: 1.3; margin: 0; margin-bottom: 0; padding: 0; text-align: right;">
+                                              style="Margin: 0; margin: 0; Margin-bottom: 10px; margin-bottom: 10px; color: black; font-family: Helvetica, Arial, sans-serif; font-size: 16px; font-weight: normal; line-height: 1.3; padding: 0; text-align: right;">
                                               KULTUS</p>
                                           </th>
                                         </tr>
@@ -16819,18 +16819,18 @@ enrolment_declined|Ilmoittautumisen peruutusilmoitus|Enrolment declined|Meddelan
                                       style="color: inherit; font-family: Helvetica, Arial, sans-serif; font-size: 20px; font-weight: normal; line-height: 1.3; margin: 0; margin-bottom: 10px; padding: 0; text-align: left; word-wrap: normal;">
                                       Hei {{person.name }}</h5>
                                     <p
-                                      style="Margin: 0; Margin-bottom: 10px; color: #0a0a0a; font-family: Helvetica, Arial, sans-serif; font-size: 16px; font-weight: normal; line-height: 1.3; margin: 0; margin-bottom: 10px; padding: 0; text-align: left;">
+                                      style="Margin: 0; margin: 0; Margin-bottom: 10px; margin-bottom: 10px; color: #0a0a0a; font-family: Helvetica, Arial, sans-serif; font-size: 16px; font-weight: normal; line-height: 1.3; padding: 0; text-align: left;">
                                       Harmin paikka, tällä kertaa emme onnistuneet saamaan ryhmällesi paikkoja
                                       {{trans(event.name)}} {{ occurrence.local_start_time.strftime('%d.%m.%Y klo
                                       %H.%M')}}.</p>
                                     <p
-                                      style="Margin: 0; Margin-bottom: 10px; color: #0a0a0a; font-family: Helvetica, Arial, sans-serif; font-size: 16px; font-weight: normal; line-height: 1.3; margin: 0; margin-bottom: 10px; padding: 0; text-align: left;">
+                                      style="Margin: 0; margin: 0; Margin-bottom: 10px; margin-bottom: 10px; color: #0a0a0a; font-family: Helvetica, Arial, sans-serif; font-size: 16px; font-weight: normal; line-height: 1.3; padding: 0; text-align: left;">
                                       Toivottavasti tarjonnasta löytyy joku toinen mukava vaihtoehto teille.</p>
                                     <p
-                                      style="Margin: 0; Margin-bottom: 10px; color: #0a0a0a; font-family: Helvetica, Arial, sans-serif; font-size: 16px; font-weight: normal; line-height: 1.3; margin: 0; margin-bottom: 10px; padding: 0; text-align: left;">
+                                      style="Margin: 0; margin: 0; Margin-bottom: 10px; margin-bottom: 10px; color: #0a0a0a; font-family: Helvetica, Arial, sans-serif; font-size: 16px; font-weight: normal; line-height: 1.3; padding: 0; text-align: left;">
                                       Kokeilethan uudelleen.</p>
                                     <p
-                                      style="Margin: 0; Margin-bottom: 10px; color: #0a0a0a; font-family: Helvetica, Arial, sans-serif; font-size: 16px; font-weight: normal; line-height: 1.3; margin: 0; margin-bottom: 10px; padding: 0; text-align: left;">
+                                      style="Margin: 0; margin: 0; Margin-bottom: 10px; margin-bottom: 10px; color: #0a0a0a; font-family: Helvetica, Arial, sans-serif; font-size: 16px; font-weight: normal; line-height: 1.3; padding: 0; text-align: left;">
                                       Toivottavasti tavataan pian.</p>
 
                                     <h4
@@ -16862,7 +16862,7 @@ enrolment_declined|Ilmoittautumisen peruutusilmoitus|Enrolment declined|Meddelan
                                       style="Margin: 0; Margin-bottom: 10px; color: inherit; font-family: Helvetica, Arial, sans-serif; font-size: 24px; font-weight: normal; line-height: 1.3; margin: 0; margin-bottom: 10px; padding: 0; text-align: left; word-wrap: normal;">
                                       Viesti järjestäjältä:</h4>
                                     <p
-                                      style="Margin: 0; Margin-bottom: 10px; color: #0a0a0a; font-family: Helvetica, Arial, sans-serif; font-size: 16px; font-weight: normal; line-height: 1.3; margin: 0; margin-bottom: 10px; padding: 0; text-align: left;">
+                                      style="Margin: 0; margin: 0; Margin-bottom: 10px; margin-bottom: 10px; color: #0a0a0a; font-family: Helvetica, Arial, sans-serif; font-size: 16px; font-weight: normal; line-height: 1.3; padding: 0; text-align: left;">
                                       {{custom_message}}</p>
                                     {% endif %} \u200b
                                     {% if not occurrence.p_event.contact_info_deleted_at %}
@@ -17271,7 +17271,7 @@ enrolment_declined|Ilmoittautumisen peruutusilmoitus|Enrolment declined|Meddelan
                                           <th
                                             style="color: #0a0a0a; font-family: Helvetica, Arial, sans-serif; font-size: 16px; font-weight: normal; line-height: 1.3; margin: 0; padding: 0; text-align: left;">
                                             <p class="text-right"
-                                              style="Margin: 0; Margin-bottom: 10px; color: black; font-family: Helvetica, Arial, sans-serif; font-size: 16px; font-weight: normal; line-height: 1.3; margin: 0; margin-bottom: 0; padding: 0; text-align: right;">
+                                              style="Margin: 0; margin: 0; Margin-bottom: 10px; margin-bottom: 10px; color: black; font-family: Helvetica, Arial, sans-serif; font-size: 16px; font-weight: normal; line-height: 1.3; padding: 0; text-align: right;">
                                               KULTUS</p>
                                           </th>
                                         </tr>
@@ -17325,19 +17325,19 @@ enrolment_declined|Ilmoittautumisen peruutusilmoitus|Enrolment declined|Meddelan
                                       style="color: inherit; font-family: Helvetica, Arial, sans-serif; font-size: 20px; font-weight: normal; line-height: 1.3; margin: 0; margin-bottom: 10px; padding: 0; text-align: left; word-wrap: normal;">
                                       Hello {{person.name }}</h5>
                                     <p
-                                      style="Margin: 0; Margin-bottom: 10px; color: #0a0a0a; font-family: Helvetica, Arial, sans-serif; font-size: 16px; font-weight: normal; line-height: 1.3; margin: 0; margin-bottom: 10px; padding: 0; text-align: left;">
+                                      style="Margin: 0; margin: 0; Margin-bottom: 10px; margin-bottom: 10px; color: #0a0a0a; font-family: Helvetica, Arial, sans-serif; font-size: 16px; font-weight: normal; line-height: 1.3; padding: 0; text-align: left;">
                                       Unfortunately we were unable to reserve places for your group at
                                       {{trans(event.name)}} {{ occurrence.local_start_time.strftime('%d.%m.%Y %H.%M')}}
                                       this time.</p>
                                     <p
-                                      style="Margin: 0; Margin-bottom: 10px; color: #0a0a0a; font-family: Helvetica, Arial, sans-serif; font-size: 16px; font-weight: normal; line-height: 1.3; margin: 0; margin-bottom: 10px; padding: 0; text-align: left;">
+                                      style="Margin: 0; margin: 0; Margin-bottom: 10px; margin-bottom: 10px; color: #0a0a0a; font-family: Helvetica, Arial, sans-serif; font-size: 16px; font-weight: normal; line-height: 1.3; padding: 0; text-align: left;">
                                       We hope that you will be able to find another fun option in our range of events.
                                     </p>
                                     <p
-                                      style="Margin: 0; Margin-bottom: 10px; color: #0a0a0a; font-family: Helvetica, Arial, sans-serif; font-size: 16px; font-weight: normal; line-height: 1.3; margin: 0; margin-bottom: 10px; padding: 0; text-align: left;">
+                                      style="Margin: 0; margin: 0; Margin-bottom: 10px; margin-bottom: 10px; color: #0a0a0a; font-family: Helvetica, Arial, sans-serif; font-size: 16px; font-weight: normal; line-height: 1.3; padding: 0; text-align: left;">
                                       Please try again.</p>
                                     <p
-                                      style="Margin: 0; Margin-bottom: 10px; color: #0a0a0a; font-family: Helvetica, Arial, sans-serif; font-size: 16px; font-weight: normal; line-height: 1.3; margin: 0; margin-bottom: 10px; padding: 0; text-align: left;">
+                                      style="Margin: 0; margin: 0; Margin-bottom: 10px; margin-bottom: 10px; color: #0a0a0a; font-family: Helvetica, Arial, sans-serif; font-size: 16px; font-weight: normal; line-height: 1.3; padding: 0; text-align: left;">
                                       Hope to see you soon!</p>
 
                                     <h4
@@ -17369,7 +17369,7 @@ enrolment_declined|Ilmoittautumisen peruutusilmoitus|Enrolment declined|Meddelan
                                       style="Margin: 0; Margin-bottom: 10px; color: inherit; font-family: Helvetica, Arial, sans-serif; font-size: 24px; font-weight: normal; line-height: 1.3; margin: 0; margin-bottom: 10px; padding: 0; text-align: left; word-wrap: normal;">
                                       Message from the organiser:</h4>
                                     <p
-                                      style="Margin: 0; Margin-bottom: 10px; color: #0a0a0a; font-family: Helvetica, Arial, sans-serif; font-size: 16px; font-weight: normal; line-height: 1.3; margin: 0; margin-bottom: 10px; padding: 0; text-align: left;">
+                                      style="Margin: 0; margin: 0; Margin-bottom: 10px; margin-bottom: 10px; color: #0a0a0a; font-family: Helvetica, Arial, sans-serif; font-size: 16px; font-weight: normal; line-height: 1.3; padding: 0; text-align: left;">
                                       {{custom_message}}</p>
                                     {% endif %} \u200b
                                     {% if not occurrence.p_event.contact_info_deleted_at %}
@@ -17778,7 +17778,7 @@ enrolment_declined|Ilmoittautumisen peruutusilmoitus|Enrolment declined|Meddelan
                                           <th
                                             style="color: #0a0a0a; font-family: Helvetica, Arial, sans-serif; font-size: 16px; font-weight: normal; line-height: 1.3; margin: 0; padding: 0; text-align: left;">
                                             <p class="text-right"
-                                              style="Margin: 0; Margin-bottom: 10px; color: black; font-family: Helvetica, Arial, sans-serif; font-size: 16px; font-weight: normal; line-height: 1.3; margin: 0; margin-bottom: 0; padding: 0; text-align: right;">
+                                              style="Margin: 0; margin: 0; Margin-bottom: 10px; margin-bottom: 10px; color: black; font-family: Helvetica, Arial, sans-serif; font-size: 16px; font-weight: normal; line-height: 1.3; padding: 0; text-align: right;">
                                               KULTUS</p>
                                           </th>
                                         </tr>
@@ -17832,18 +17832,18 @@ enrolment_declined|Ilmoittautumisen peruutusilmoitus|Enrolment declined|Meddelan
                                       style="color: inherit; font-family: Helvetica, Arial, sans-serif; font-size: 20px; font-weight: normal; line-height: 1.3; margin: 0; margin-bottom: 10px; padding: 0; text-align: left; word-wrap: normal;">
                                       Hej {{person.name }}!</h5>
                                     <p
-                                      style="Margin: 0; Margin-bottom: 10px; color: #0a0a0a; font-family: Helvetica, Arial, sans-serif; font-size: 16px; font-weight: normal; line-height: 1.3; margin: 0; margin-bottom: 10px; padding: 0; text-align: left;">
+                                      style="Margin: 0; margin: 0; Margin-bottom: 10px; margin-bottom: 10px; color: #0a0a0a; font-family: Helvetica, Arial, sans-serif; font-size: 16px; font-weight: normal; line-height: 1.3; padding: 0; text-align: left;">
                                       Synd, denna gång lyckades vi tyvärr inte komma åt platser för din grupp
                                       {{trans(event.name)}} {{ occurrence.local_start_time.strftime('%d.%m.%Y kl
                                       %H.%M')}}.</p>
                                     <p
-                                      style="Margin: 0; Margin-bottom: 10px; color: #0a0a0a; font-family: Helvetica, Arial, sans-serif; font-size: 16px; font-weight: normal; line-height: 1.3; margin: 0; margin-bottom: 10px; padding: 0; text-align: left;">
+                                      style="Margin: 0; margin: 0; Margin-bottom: 10px; margin-bottom: 10px; color: #0a0a0a; font-family: Helvetica, Arial, sans-serif; font-size: 16px; font-weight: normal; line-height: 1.3; padding: 0; text-align: left;">
                                       Hoppas ni hittar något annat trevligt alternativ i urvalet.</p>
                                     <p
-                                      style="Margin: 0; Margin-bottom: 10px; color: #0a0a0a; font-family: Helvetica, Arial, sans-serif; font-size: 16px; font-weight: normal; line-height: 1.3; margin: 0; margin-bottom: 10px; padding: 0; text-align: left;">
+                                      style="Margin: 0; margin: 0; Margin-bottom: 10px; margin-bottom: 10px; color: #0a0a0a; font-family: Helvetica, Arial, sans-serif; font-size: 16px; font-weight: normal; line-height: 1.3; padding: 0; text-align: left;">
                                       Vänligen prova på nytt.</p>
                                     <p
-                                      style="Margin: 0; Margin-bottom: 10px; color: #0a0a0a; font-family: Helvetica, Arial, sans-serif; font-size: 16px; font-weight: normal; line-height: 1.3; margin: 0; margin-bottom: 10px; padding: 0; text-align: left;">
+                                      style="Margin: 0; margin: 0; Margin-bottom: 10px; margin-bottom: 10px; color: #0a0a0a; font-family: Helvetica, Arial, sans-serif; font-size: 16px; font-weight: normal; line-height: 1.3; padding: 0; text-align: left;">
                                       Hoppas vi ses snart!</p>
 
                                     <h4
@@ -17875,7 +17875,7 @@ enrolment_declined|Ilmoittautumisen peruutusilmoitus|Enrolment declined|Meddelan
                                       style="Margin: 0; Margin-bottom: 10px; color: inherit; font-family: Helvetica, Arial, sans-serif; font-size: 24px; font-weight: normal; line-height: 1.3; margin: 0; margin-bottom: 10px; padding: 0; text-align: left; word-wrap: normal;">
                                       Meddelande från arrangörerna:</h4>
                                     <p
-                                      style="Margin: 0; Margin-bottom: 10px; color: #0a0a0a; font-family: Helvetica, Arial, sans-serif; font-size: 16px; font-weight: normal; line-height: 1.3; margin: 0; margin-bottom: 10px; padding: 0; text-align: left;">
+                                      style="Margin: 0; margin: 0; Margin-bottom: 10px; margin-bottom: 10px; color: #0a0a0a; font-family: Helvetica, Arial, sans-serif; font-size: 16px; font-weight: normal; line-height: 1.3; padding: 0; text-align: left;">
                                       {{custom_message}}</p>
                                     {% endif %} \u200b
                                     {% if not occurrence.p_event.contact_info_deleted_at %}
@@ -18285,7 +18285,7 @@ enrolment_summary_report|Ilmoittautumisen yhteenvetoraportti|Enrolment summary r
                                           <th
                                             style="color: #0a0a0a; font-family: Helvetica, Arial, sans-serif; font-size: 16px; font-weight: normal; line-height: 1.3; margin: 0; padding: 0; text-align: left;">
                                             <p class="text-right"
-                                              style="Margin: 0; Margin-bottom: 10px; color: black; font-family: Helvetica, Arial, sans-serif; font-size: 16px; font-weight: normal; line-height: 1.3; margin: 0; margin-bottom: 0; padding: 0; text-align: right;">
+                                              style="Margin: 0; margin: 0; Margin-bottom: 10px; margin-bottom: 10px; color: black; font-family: Helvetica, Arial, sans-serif; font-size: 16px; font-weight: normal; line-height: 1.3; padding: 0; text-align: right;">
                                               KULTUS</p>
                                           </th>
                                         </tr>
@@ -18761,7 +18761,7 @@ enrolment_summary_report|Ilmoittautumisen yhteenvetoraportti|Enrolment summary r
                                           <th
                                             style="color: #0a0a0a; font-family: Helvetica, Arial, sans-serif; font-size: 16px; font-weight: normal; line-height: 1.3; margin: 0; padding: 0; text-align: left;">
                                             <p class="text-right"
-                                              style="Margin: 0; Margin-bottom: 10px; color: black; font-family: Helvetica, Arial, sans-serif; font-size: 16px; font-weight: normal; line-height: 1.3; margin: 0; margin-bottom: 0; padding: 0; text-align: right;">
+                                              style="Margin: 0; margin: 0; Margin-bottom: 10px; margin-bottom: 10px; color: black; font-family: Helvetica, Arial, sans-serif; font-size: 16px; font-weight: normal; line-height: 1.3; padding: 0; text-align: right;">
                                               KULTUS</p>
                                           </th>
                                         </tr>
@@ -19238,7 +19238,7 @@ enrolment_summary_report|Ilmoittautumisen yhteenvetoraportti|Enrolment summary r
                                           <th
                                             style="color: #0a0a0a; font-family: Helvetica, Arial, sans-serif; font-size: 16px; font-weight: normal; line-height: 1.3; margin: 0; padding: 0; text-align: left;">
                                             <p class="text-right"
-                                              style="Margin: 0; Margin-bottom: 10px; color: black; font-family: Helvetica, Arial, sans-serif; font-size: 16px; font-weight: normal; line-height: 1.3; margin: 0; margin-bottom: 0; padding: 0; text-align: right;">
+                                              style="Margin: 0; margin: 0; Margin-bottom: 10px; margin-bottom: 10px; color: black; font-family: Helvetica, Arial, sans-serif; font-size: 16px; font-weight: normal; line-height: 1.3; padding: 0; text-align: right;">
                                               KULTUS</p>
                                           </th>
                                         </tr>
@@ -19715,7 +19715,7 @@ occurrence_cancelled|Peruutusilmoitus|Cancellation notification|Meddelande om in
                                           <th
                                             style="color: #0a0a0a; font-family: Helvetica, Arial, sans-serif; font-size: 16px; font-weight: normal; line-height: 1.3; margin: 0; padding: 0; text-align: left;">
                                             <p class="text-right"
-                                              style="Margin: 0; Margin-bottom: 10px; color: black; font-family: Helvetica, Arial, sans-serif; font-size: 16px; font-weight: normal; line-height: 1.3; margin: 0; margin-bottom: 0; padding: 0; text-align: right;">
+                                              style="Margin: 0; margin: 0; Margin-bottom: 10px; margin-bottom: 10px; color: black; font-family: Helvetica, Arial, sans-serif; font-size: 16px; font-weight: normal; line-height: 1.3; padding: 0; text-align: right;">
                                               KULTUS</p>
                                           </th>
                                         </tr>
@@ -19769,11 +19769,11 @@ occurrence_cancelled|Peruutusilmoitus|Cancellation notification|Meddelande om in
                                       Hei {{person.name }}, valitettavasti tapahtuma, johon olit osallistumassa, on
                                       peruttu</h5>
                                     <p
-                                      style="Margin: 0; Margin-bottom: 10px; color: #0a0a0a; font-family: Helvetica, Arial, sans-serif; font-size: 16px; font-weight: normal; line-height: 1.3; margin: 0; margin-bottom: 10px; padding: 0; text-align: left;">
+                                      style="Margin: 0; margin: 0; Margin-bottom: 10px; margin-bottom: 10px; color: #0a0a0a; font-family: Helvetica, Arial, sans-serif; font-size: 16px; font-weight: normal; line-height: 1.3; padding: 0; text-align: left;">
                                       <strong>Tapahtuma: </strong>{{trans(event.name)}}
                                     </p>
                                     <p
-                                      style="Margin: 0; Margin-bottom: 10px; color: #0a0a0a; font-family: Helvetica, Arial, sans-serif; font-size: 16px; font-weight: normal; line-height: 1.3; margin: 0; margin-bottom: 10px; padding: 0; text-align: left;">
+                                      style="Margin: 0; margin: 0; Margin-bottom: 10px; margin-bottom: 10px; color: #0a0a0a; font-family: Helvetica, Arial, sans-serif; font-size: 16px; font-weight: normal; line-height: 1.3; padding: 0; text-align: left;">
                                       <strong>Ryhmä: </strong>{{study_group.unit_name}}
                                     </p>
 
@@ -19808,7 +19808,7 @@ occurrence_cancelled|Peruutusilmoitus|Cancellation notification|Meddelande om in
                                       style="Margin: 0; Margin-bottom: 10px; color: inherit; font-family: Helvetica, Arial, sans-serif; font-size: 24px; font-weight: normal; line-height: 1.3; margin: 0; margin-bottom: 10px; padding: 0; text-align: left; word-wrap: normal;">
                                       Viesti järjestäjältä:</h4>
                                     <p
-                                      style="Margin: 0; Margin-bottom: 10px; color: #0a0a0a; font-family: Helvetica, Arial, sans-serif; font-size: 16px; font-weight: normal; line-height: 1.3; margin: 0; margin-bottom: 10px; padding: 0; text-align: left;">
+                                      style="Margin: 0; margin: 0; Margin-bottom: 10px; margin-bottom: 10px; color: #0a0a0a; font-family: Helvetica, Arial, sans-serif; font-size: 16px; font-weight: normal; line-height: 1.3; padding: 0; text-align: left;">
                                       {{custom_message}}</p>
                                     {% endif %}
                                     {% if not occurrence.p_event.contact_info_deleted_at %}
@@ -20216,7 +20216,7 @@ occurrence_cancelled|Peruutusilmoitus|Cancellation notification|Meddelande om in
                                           <th
                                             style="color: #0a0a0a; font-family: Helvetica, Arial, sans-serif; font-size: 16px; font-weight: normal; line-height: 1.3; margin: 0; padding: 0; text-align: left;">
                                             <p class="text-right"
-                                              style="Margin: 0; Margin-bottom: 10px; color: black; font-family: Helvetica, Arial, sans-serif; font-size: 16px; font-weight: normal; line-height: 1.3; margin: 0; margin-bottom: 0; padding: 0; text-align: right;">
+                                              style="Margin: 0; margin: 0; Margin-bottom: 10px; margin-bottom: 10px; color: black; font-family: Helvetica, Arial, sans-serif; font-size: 16px; font-weight: normal; line-height: 1.3; padding: 0; text-align: right;">
                                               KULTUS</p>
                                           </th>
                                         </tr>
@@ -20270,11 +20270,11 @@ occurrence_cancelled|Peruutusilmoitus|Cancellation notification|Meddelande om in
                                       Hello {{person.name }}, unfortunately the event you were planning to participate
                                       in has been cancelled.</h5>
                                     <p
-                                      style="Margin: 0; Margin-bottom: 10px; color: #0a0a0a; font-family: Helvetica, Arial, sans-serif; font-size: 16px; font-weight: normal; line-height: 1.3; margin: 0; margin-bottom: 10px; padding: 0; text-align: left;">
+                                      style="Margin: 0; margin: 0; Margin-bottom: 10px; margin-bottom: 10px; color: #0a0a0a; font-family: Helvetica, Arial, sans-serif; font-size: 16px; font-weight: normal; line-height: 1.3; padding: 0; text-align: left;">
                                       <strong>Event: </strong>{{trans(event.name)}}
                                     </p>
                                     <p
-                                      style="Margin: 0; Margin-bottom: 10px; color: #0a0a0a; font-family: Helvetica, Arial, sans-serif; font-size: 16px; font-weight: normal; line-height: 1.3; margin: 0; margin-bottom: 10px; padding: 0; text-align: left;">
+                                      style="Margin: 0; margin: 0; Margin-bottom: 10px; margin-bottom: 10px; color: #0a0a0a; font-family: Helvetica, Arial, sans-serif; font-size: 16px; font-weight: normal; line-height: 1.3; padding: 0; text-align: left;">
                                       <strong>Group: </strong>{{study_group.unit_name}}
                                     </p>
 
@@ -20309,7 +20309,7 @@ occurrence_cancelled|Peruutusilmoitus|Cancellation notification|Meddelande om in
                                       style="Margin: 0; Margin-bottom: 10px; color: inherit; font-family: Helvetica, Arial, sans-serif; font-size: 24px; font-weight: normal; line-height: 1.3; margin: 0; margin-bottom: 10px; padding: 0; text-align: left; word-wrap: normal;">
                                       Message from the organiser:</h4>
                                     <p
-                                      style="Margin: 0; Margin-bottom: 10px; color: #0a0a0a; font-family: Helvetica, Arial, sans-serif; font-size: 16px; font-weight: normal; line-height: 1.3; margin: 0; margin-bottom: 10px; padding: 0; text-align: left;">
+                                      style="Margin: 0; margin: 0; Margin-bottom: 10px; margin-bottom: 10px; color: #0a0a0a; font-family: Helvetica, Arial, sans-serif; font-size: 16px; font-weight: normal; line-height: 1.3; padding: 0; text-align: left;">
                                       {{custom_message}}</p>
                                     {% endif %}
                                     {% if not occurrence.p_event.contact_info_deleted_at %}
@@ -20717,7 +20717,7 @@ occurrence_cancelled|Peruutusilmoitus|Cancellation notification|Meddelande om in
                                           <th
                                             style="color: #0a0a0a; font-family: Helvetica, Arial, sans-serif; font-size: 16px; font-weight: normal; line-height: 1.3; margin: 0; padding: 0; text-align: left;">
                                             <p class="text-right"
-                                              style="Margin: 0; Margin-bottom: 10px; color: black; font-family: Helvetica, Arial, sans-serif; font-size: 16px; font-weight: normal; line-height: 1.3; margin: 0; margin-bottom: 0; padding: 0; text-align: right;">
+                                              style="Margin: 0; margin: 0; Margin-bottom: 10px; margin-bottom: 10px; color: black; font-family: Helvetica, Arial, sans-serif; font-size: 16px; font-weight: normal; line-height: 1.3; padding: 0; text-align: right;">
                                               KULTUS</p>
                                           </th>
                                         </tr>
@@ -20771,11 +20771,11 @@ occurrence_cancelled|Peruutusilmoitus|Cancellation notification|Meddelande om in
                                       Hej {{person.name }}. Evenemanget som du skulle delta i har tyvärr ställts in.
                                     </h5>
                                     <p
-                                      style="Margin: 0; Margin-bottom: 10px; color: #0a0a0a; font-family: Helvetica, Arial, sans-serif; font-size: 16px; font-weight: normal; line-height: 1.3; margin: 0; margin-bottom: 10px; padding: 0; text-align: left;">
+                                      style="Margin: 0; margin: 0; Margin-bottom: 10px; margin-bottom: 10px; color: #0a0a0a; font-family: Helvetica, Arial, sans-serif; font-size: 16px; font-weight: normal; line-height: 1.3; padding: 0; text-align: left;">
                                       <strong>Evenemang: </strong>{{trans(event.name)}}
                                     </p>
                                     <p
-                                      style="Margin: 0; Margin-bottom: 10px; color: #0a0a0a; font-family: Helvetica, Arial, sans-serif; font-size: 16px; font-weight: normal; line-height: 1.3; margin: 0; margin-bottom: 10px; padding: 0; text-align: left;">
+                                      style="Margin: 0; margin: 0; Margin-bottom: 10px; margin-bottom: 10px; color: #0a0a0a; font-family: Helvetica, Arial, sans-serif; font-size: 16px; font-weight: normal; line-height: 1.3; padding: 0; text-align: left;">
                                       <strong>Grupp: </strong>{{study_group.unit_name}}
                                     </p>
 
@@ -20811,7 +20811,7 @@ occurrence_cancelled|Peruutusilmoitus|Cancellation notification|Meddelande om in
                                       style="Margin: 0; Margin-bottom: 10px; color: inherit; font-family: Helvetica, Arial, sans-serif; font-size: 24px; font-weight: normal; line-height: 1.3; margin: 0; margin-bottom: 10px; padding: 0; text-align: left; word-wrap: normal;">
                                       Meddelande från arrangörerna:</h4>
                                     <p
-                                      style="Margin: 0; Margin-bottom: 10px; color: #0a0a0a; font-family: Helvetica, Arial, sans-serif; font-size: 16px; font-weight: normal; line-height: 1.3; margin: 0; margin-bottom: 10px; padding: 0; text-align: left;">
+                                      style="Margin: 0; margin: 0; Margin-bottom: 10px; margin-bottom: 10px; color: #0a0a0a; font-family: Helvetica, Arial, sans-serif; font-size: 16px; font-weight: normal; line-height: 1.3; padding: 0; text-align: left;">
                                       {{custom_message}}</p>
                                     {% endif %}
                                     {% if not occurrence.p_event.contact_info_deleted_at %}
@@ -21221,7 +21221,7 @@ occurrence_enrolment|Ilmoittautuminen vastaanotettu|Enrolment received|Anmälan 
                                           <th
                                             style="color: #0a0a0a; font-family: Helvetica, Arial, sans-serif; font-size: 16px; font-weight: normal; line-height: 1.3; margin: 0; padding: 0; text-align: left;">
                                             <p class="text-right"
-                                              style="Margin: 0; Margin-bottom: 10px; color: black; font-family: Helvetica, Arial, sans-serif; font-size: 16px; font-weight: normal; line-height: 1.3; margin: 0; margin-bottom: 0; padding: 0; text-align: right;">
+                                              style="Margin: 0; margin: 0; Margin-bottom: 10px; margin-bottom: 10px; color: black; font-family: Helvetica, Arial, sans-serif; font-size: 16px; font-weight: normal; line-height: 1.3; padding: 0; text-align: right;">
                                               KULTUS</p>
                                           </th>
                                         </tr>
@@ -21274,11 +21274,11 @@ occurrence_enrolment|Ilmoittautuminen vastaanotettu|Enrolment received|Anmälan 
                                       style="color: inherit; font-family: Helvetica, Arial, sans-serif; font-size: 20px; font-weight: normal; line-height: 1.3; margin: 0; margin-bottom: 10px; padding: 0; text-align: left; word-wrap: normal;">
                                       Hei {{ person.name }}, kiitos viestistäsi.</h5>
                                     <p
-                                      style="Margin: 0; Margin-bottom: 10px; color: #0a0a0a; font-family: Helvetica, Arial, sans-serif; font-size: 16px; font-weight: normal; line-height: 1.3; margin: 0; margin-bottom: 10px; padding: 0; text-align: left;">
+                                      style="Margin: 0; margin: 0; Margin-bottom: 10px; margin-bottom: 10px; color: #0a0a0a; font-family: Helvetica, Arial, sans-serif; font-size: 16px; font-weight: normal; line-height: 1.3; padding: 0; text-align: left;">
                                       <strong>Tapahtuma:</strong> {{trans(event.name)}}
                                     </p>
                                     <p
-                                      style="Margin: 0; Margin-bottom: 10px; color: #0a0a0a; font-family: Helvetica, Arial, sans-serif; font-size: 16px; font-weight: normal; line-height: 1.3; margin: 0; margin-bottom: 10px; padding: 0; text-align: left;">
+                                      style="Margin: 0; margin: 0; Margin-bottom: 10px; margin-bottom: 10px; color: #0a0a0a; font-family: Helvetica, Arial, sans-serif; font-size: 16px; font-weight: normal; line-height: 1.3; padding: 0; text-align: left;">
                                       <strong>Ryhmä:</strong> {{study_group.unit_name}}
                                     </p>
                                     <h4
@@ -21711,7 +21711,7 @@ occurrence_enrolment|Ilmoittautuminen vastaanotettu|Enrolment received|Anmälan 
                                           <th
                                             style="color: #0a0a0a; font-family: Helvetica, Arial, sans-serif; font-size: 16px; font-weight: normal; line-height: 1.3; margin: 0; padding: 0; text-align: left;">
                                             <p class="text-right"
-                                              style="Margin: 0; Margin-bottom: 10px; color: black; font-family: Helvetica, Arial, sans-serif; font-size: 16px; font-weight: normal; line-height: 1.3; margin: 0; margin-bottom: 0; padding: 0; text-align: right;">
+                                              style="Margin: 0; margin: 0; Margin-bottom: 10px; margin-bottom: 10px; color: black; font-family: Helvetica, Arial, sans-serif; font-size: 16px; font-weight: normal; line-height: 1.3; padding: 0; text-align: right;">
                                               KULTUS</p>
                                           </th>
                                         </tr>
@@ -21764,11 +21764,11 @@ occurrence_enrolment|Ilmoittautuminen vastaanotettu|Enrolment received|Anmälan 
                                       style="color: inherit; font-family: Helvetica, Arial, sans-serif; font-size: 20px; font-weight: normal; line-height: 1.3; margin: 0; margin-bottom: 10px; padding: 0; text-align: left; word-wrap: normal;">
                                       Hello {{ person.name }}, thank you for your message.</h5>
                                     <p
-                                      style="Margin: 0; Margin-bottom: 10px; color: #0a0a0a; font-family: Helvetica, Arial, sans-serif; font-size: 16px; font-weight: normal; line-height: 1.3; margin: 0; margin-bottom: 10px; padding: 0; text-align: left;">
+                                      style="Margin: 0; margin: 0; Margin-bottom: 10px; margin-bottom: 10px; color: #0a0a0a; font-family: Helvetica, Arial, sans-serif; font-size: 16px; font-weight: normal; line-height: 1.3; padding: 0; text-align: left;">
                                       <strong>Event:</strong> {{trans(event.name)}}
                                     </p>
                                     <p
-                                      style="Margin: 0; Margin-bottom: 10px; color: #0a0a0a; font-family: Helvetica, Arial, sans-serif; font-size: 16px; font-weight: normal; line-height: 1.3; margin: 0; margin-bottom: 10px; padding: 0; text-align: left;">
+                                      style="Margin: 0; margin: 0; Margin-bottom: 10px; margin-bottom: 10px; color: #0a0a0a; font-family: Helvetica, Arial, sans-serif; font-size: 16px; font-weight: normal; line-height: 1.3; padding: 0; text-align: left;">
                                       <strong>Group:</strong> {{study_group.unit_name}}
                                     </p>
                                     <h4
@@ -22201,7 +22201,7 @@ occurrence_enrolment|Ilmoittautuminen vastaanotettu|Enrolment received|Anmälan 
                                           <th
                                             style="color: #0a0a0a; font-family: Helvetica, Arial, sans-serif; font-size: 16px; font-weight: normal; line-height: 1.3; margin: 0; padding: 0; text-align: left;">
                                             <p class="text-right"
-                                              style="Margin: 0; Margin-bottom: 10px; color: black; font-family: Helvetica, Arial, sans-serif; font-size: 16px; font-weight: normal; line-height: 1.3; margin: 0; margin-bottom: 0; padding: 0; text-align: right;">
+                                              style="Margin: 0; margin: 0; Margin-bottom: 10px; margin-bottom: 10px; color: black; font-family: Helvetica, Arial, sans-serif; font-size: 16px; font-weight: normal; line-height: 1.3; padding: 0; text-align: right;">
                                               KULTUS</p>
                                           </th>
                                         </tr>
@@ -22254,11 +22254,11 @@ occurrence_enrolment|Ilmoittautuminen vastaanotettu|Enrolment received|Anmälan 
                                       style="color: inherit; font-family: Helvetica, Arial, sans-serif; font-size: 20px; font-weight: normal; line-height: 1.3; margin: 0; margin-bottom: 10px; padding: 0; text-align: left; word-wrap: normal;">
                                       Hej {{ person.name }}, tack för ditt meddelande.</h5>
                                     <p
-                                      style="Margin: 0; Margin-bottom: 10px; color: #0a0a0a; font-family: Helvetica, Arial, sans-serif; font-size: 16px; font-weight: normal; line-height: 1.3; margin: 0; margin-bottom: 10px; padding: 0; text-align: left;">
+                                      style="Margin: 0; margin: 0; Margin-bottom: 10px; margin-bottom: 10px; color: #0a0a0a; font-family: Helvetica, Arial, sans-serif; font-size: 16px; font-weight: normal; line-height: 1.3; padding: 0; text-align: left;">
                                       <strong>Evenemang:</strong> {{trans(event.name)}}
                                     </p>
                                     <p
-                                      style="Margin: 0; Margin-bottom: 10px; color: #0a0a0a; font-family: Helvetica, Arial, sans-serif; font-size: 16px; font-weight: normal; line-height: 1.3; margin: 0; margin-bottom: 10px; padding: 0; text-align: left;">
+                                      style="Margin: 0; margin: 0; Margin-bottom: 10px; margin-bottom: 10px; color: #0a0a0a; font-family: Helvetica, Arial, sans-serif; font-size: 16px; font-weight: normal; line-height: 1.3; padding: 0; text-align: left;">
                                       <strong>Grupp:</strong> {{study_group.unit_name}}
                                     </p>
                                     <h4
@@ -22702,7 +22702,7 @@ person_myprofile_accepted|Käyttäjätilisi Kultuksessa on valmis käytettäväk
                                                                                     <th
                                                                                         style="color: #0a0a0a; font-family: Helvetica, Arial, sans-serif; font-size: 16px; font-weight: normal; line-height: 1.3; margin: 0; padding: 0; text-align: left;">
                                                                                         <p class="text-right"
-                                                                                            style="Margin: 0; Margin-bottom: 10px; color: black; font-family: Helvetica, Arial, sans-serif; font-size: 16px; font-weight: normal; line-height: 1.3; margin: 0; margin-bottom: 0; padding: 0; text-align: right;">
+                                                                                            style="Margin: 0; margin: 0; Margin-bottom: 10px; margin-bottom: 10px; color: black; font-family: Helvetica, Arial, sans-serif; font-size: 16px; font-weight: normal; line-height: 1.3; padding: 0; text-align: right;">
                                                                                             KULTUS</p>
                                                                                     </th>
                                                                                 </tr>
@@ -22754,10 +22754,10 @@ person_myprofile_accepted|Käyttäjätilisi Kultuksessa on valmis käytettäväk
                                                                             Käyttäjätilisi on valmis käytettäväksi
                                                                         </h2>
                                                                         <p
-                                                                            style="Margin: 0; Margin-bottom: 10px; color: #0a0a0a; font-family: Helvetica, Arial, sans-serif; font-size: 16px; font-weight: normal; line-height: 1.3; margin: 0; margin-bottom: 10px; padding: 0; text-align: left;">
+                                                                            style="Margin: 0; margin: 0; Margin-bottom: 10px; margin-bottom: 10px; color: #0a0a0a; font-family: Helvetica, Arial, sans-serif; font-size: 16px; font-weight: normal; line-height: 1.3; padding: 0; text-align: left;">
                                                                             Hei {{person.name}}!</p>
                                                                         <p
-                                                                            style="Margin: 0; Margin-bottom: 10px; color: #0a0a0a; font-family: Helvetica, Arial, sans-serif; font-size: 16px; font-weight: normal; line-height: 1.3; margin: 0; margin-bottom: 10px; padding: 0; text-align: left;">
+                                                                            style="Margin: 0; margin: 0; Margin-bottom: 10px; margin-bottom: 10px; color: #0a0a0a; font-family: Helvetica, Arial, sans-serif; font-size: 16px; font-weight: normal; line-height: 1.3; padding: 0; text-align: left;">
                                                                             Sinun käyttäjätilisi on nyt valmis
                                                                             käytettäväksi
                                                                             Kultuksessa
@@ -22771,7 +22771,7 @@ person_myprofile_accepted|Käyttäjätilisi Kultuksessa on valmis käytettäväk
 
                                                                         {% if custom_message %}
                                                                         <p
-                                                                            style="Margin: 0; Margin-bottom: 10px; color: #0a0a0a; font-family: Helvetica, Arial, sans-serif; font-size: 16px; font-weight: normal; line-height: 1.3; margin: 0; margin-bottom: 10px; padding: 0; text-align: left;">
+                                                                            style="Margin: 0; margin: 0; Margin-bottom: 10px; margin-bottom: 10px; color: #0a0a0a; font-family: Helvetica, Arial, sans-serif; font-size: 16px; font-weight: normal; line-height: 1.3; padding: 0; text-align: left;">
                                                                             {{ custom_message }}</p>
                                                                         {% endif %}
                                                                     </th>
@@ -23172,7 +23172,7 @@ person_myprofile_accepted|Käyttäjätilisi Kultuksessa on valmis käytettäväk
                                                                                     <th
                                                                                         style="color: #0a0a0a; font-family: Helvetica, Arial, sans-serif; font-size: 16px; font-weight: normal; line-height: 1.3; margin: 0; padding: 0; text-align: left;">
                                                                                         <p class="text-right"
-                                                                                            style="Margin: 0; Margin-bottom: 10px; color: black; font-family: Helvetica, Arial, sans-serif; font-size: 16px; font-weight: normal; line-height: 1.3; margin: 0; margin-bottom: 0; padding: 0; text-align: right;">
+                                                                                            style="Margin: 0; margin: 0; Margin-bottom: 10px; margin-bottom: 10px; color: black; font-family: Helvetica, Arial, sans-serif; font-size: 16px; font-weight: normal; line-height: 1.3; padding: 0; text-align: right;">
                                                                                             KULTUS</p>
                                                                                     </th>
                                                                                 </tr>
@@ -23225,10 +23225,10 @@ person_myprofile_accepted|Käyttäjätilisi Kultuksessa on valmis käytettäväk
                                                                             Kultus
                                                                         </h2>
                                                                         <p
-                                                                            style="Margin: 0; Margin-bottom: 10px; color: #0a0a0a; font-family: Helvetica, Arial, sans-serif; font-size: 16px; font-weight: normal; line-height: 1.3; margin: 0; margin-bottom: 10px; padding: 0; text-align: left;">
+                                                                            style="Margin: 0; margin: 0; Margin-bottom: 10px; margin-bottom: 10px; color: #0a0a0a; font-family: Helvetica, Arial, sans-serif; font-size: 16px; font-weight: normal; line-height: 1.3; padding: 0; text-align: left;">
                                                                             Hi {{person.name}}!</p>
                                                                         <p
-                                                                            style="Margin: 0; Margin-bottom: 10px; color: #0a0a0a; font-family: Helvetica, Arial, sans-serif; font-size: 16px; font-weight: normal; line-height: 1.3; margin: 0; margin-bottom: 10px; padding: 0; text-align: left;">
+                                                                            style="Margin: 0; margin: 0; Margin-bottom: 10px; margin-bottom: 10px; color: #0a0a0a; font-family: Helvetica, Arial, sans-serif; font-size: 16px; font-weight: normal; line-height: 1.3; padding: 0; text-align: left;">
                                                                             Your account is now ready to be used in
                                                                             Kultus
                                                                             with the following organisations linked to
@@ -23242,7 +23242,7 @@ person_myprofile_accepted|Käyttäjätilisi Kultuksessa on valmis käytettäväk
 
                                                                         {% if custom_message %}
                                                                         <p
-                                                                            style="Margin: 0; Margin-bottom: 10px; color: #0a0a0a; font-family: Helvetica, Arial, sans-serif; font-size: 16px; font-weight: normal; line-height: 1.3; margin: 0; margin-bottom: 10px; padding: 0; text-align: left;">
+                                                                            style="Margin: 0; margin: 0; Margin-bottom: 10px; margin-bottom: 10px; color: #0a0a0a; font-family: Helvetica, Arial, sans-serif; font-size: 16px; font-weight: normal; line-height: 1.3; padding: 0; text-align: left;">
                                                                             {{ custom_message }}</p>
                                                                         {% endif %}
                                                                     </th>
@@ -23643,7 +23643,7 @@ person_myprofile_accepted|Käyttäjätilisi Kultuksessa on valmis käytettäväk
                                                                                     <th
                                                                                         style="color: #0a0a0a; font-family: Helvetica, Arial, sans-serif; font-size: 16px; font-weight: normal; line-height: 1.3; margin: 0; padding: 0; text-align: left;">
                                                                                         <p class="text-right"
-                                                                                            style="Margin: 0; Margin-bottom: 10px; color: black; font-family: Helvetica, Arial, sans-serif; font-size: 16px; font-weight: normal; line-height: 1.3; margin: 0; margin-bottom: 0; padding: 0; text-align: right;">
+                                                                                            style="Margin: 0; margin: 0; Margin-bottom: 10px; margin-bottom: 10px; color: black; font-family: Helvetica, Arial, sans-serif; font-size: 16px; font-weight: normal; line-height: 1.3; padding: 0; text-align: right;">
                                                                                             KULTUS</p>
                                                                                     </th>
                                                                                 </tr>
@@ -23696,10 +23696,10 @@ person_myprofile_accepted|Käyttäjätilisi Kultuksessa on valmis käytettäväk
                                                                             Kultus
                                                                         </h2>
                                                                         <p
-                                                                            style="Margin: 0; Margin-bottom: 10px; color: #0a0a0a; font-family: Helvetica, Arial, sans-serif; font-size: 16px; font-weight: normal; line-height: 1.3; margin: 0; margin-bottom: 10px; padding: 0; text-align: left;">
+                                                                            style="Margin: 0; margin: 0; Margin-bottom: 10px; margin-bottom: 10px; color: #0a0a0a; font-family: Helvetica, Arial, sans-serif; font-size: 16px; font-weight: normal; line-height: 1.3; padding: 0; text-align: left;">
                                                                             Hi {{person.name}}!</p>
                                                                         <p
-                                                                            style="Margin: 0; Margin-bottom: 10px; color: #0a0a0a; font-family: Helvetica, Arial, sans-serif; font-size: 16px; font-weight: normal; line-height: 1.3; margin: 0; margin-bottom: 10px; padding: 0; text-align: left;">
+                                                                            style="Margin: 0; margin: 0; Margin-bottom: 10px; margin-bottom: 10px; color: #0a0a0a; font-family: Helvetica, Arial, sans-serif; font-size: 16px; font-weight: normal; line-height: 1.3; padding: 0; text-align: left;">
                                                                             Your account is now ready to be used in
                                                                             Kultus
                                                                             with the following organisations linked to
@@ -23713,7 +23713,7 @@ person_myprofile_accepted|Käyttäjätilisi Kultuksessa on valmis käytettäväk
 
                                                                         {% if custom_message %}
                                                                         <p
-                                                                            style="Margin: 0; Margin-bottom: 10px; color: #0a0a0a; font-family: Helvetica, Arial, sans-serif; font-size: 16px; font-weight: normal; line-height: 1.3; margin: 0; margin-bottom: 10px; padding: 0; text-align: left;">
+                                                                            style="Margin: 0; margin: 0; Margin-bottom: 10px; margin-bottom: 10px; color: #0a0a0a; font-family: Helvetica, Arial, sans-serif; font-size: 16px; font-weight: normal; line-height: 1.3; padding: 0; text-align: left;">
                                                                             {{ custom_message }}</p>
                                                                         {% endif %}
                                                                     </th>
@@ -25611,7 +25611,7 @@ snapshots[
                                           <th
                                             style="color: #0a0a0a; font-family: Helvetica, Arial, sans-serif; font-size: 16px; font-weight: normal; line-height: 1.3; margin: 0; padding: 0; text-align: left;">
                                             <p class="text-right"
-                                              style="Margin: 0; Margin-bottom: 10px; color: black; font-family: Helvetica, Arial, sans-serif; font-size: 16px; font-weight: normal; line-height: 1.3; margin: 0; margin-bottom: 0; padding: 0; text-align: right;">
+                                              style="Margin: 0; margin: 0; Margin-bottom: 10px; margin-bottom: 10px; color: black; font-family: Helvetica, Arial, sans-serif; font-size: 16px; font-weight: normal; line-height: 1.3; padding: 0; text-align: right;">
                                               KULTUS</p>
                                           </th>
                                         </tr>
@@ -25665,15 +25665,15 @@ snapshots[
                                       style="color: inherit; font-family: Helvetica, Arial, sans-serif; font-size: 20px; font-weight: normal; line-height: 1.3; margin: 0; margin-bottom: 10px; padding: 0; text-align: left; word-wrap: normal;">
                                       Hei {{person.name }}</h5>
                                     <p
-                                      style="Margin: 0; Margin-bottom: 10px; color: #0a0a0a; font-family: Helvetica, Arial, sans-serif; font-size: 16px; font-weight: normal; line-height: 1.3; margin: 0; margin-bottom: 10px; padding: 0; text-align: left;">
+                                      style="Margin: 0; margin: 0; Margin-bottom: 10px; margin-bottom: 10px; color: #0a0a0a; font-family: Helvetica, Arial, sans-serif; font-size: 16px; font-weight: normal; line-height: 1.3; padding: 0; text-align: left;">
                                       Hienoa, osallistumisenne {{trans(event.name)}} {{
                                       occurrence.local_start_time.strftime('%d.%m.%Y klo %H.%M')}} on nyt vahvistettu.
                                     </p>
                                     <p
-                                      style="Margin: 0; Margin-bottom: 10px; color: #0a0a0a; font-family: Helvetica, Arial, sans-serif; font-size: 16px; font-weight: normal; line-height: 1.3; margin: 0; margin-bottom: 10px; padding: 0; text-align: left;">
+                                      style="Margin: 0; margin: 0; Margin-bottom: 10px; margin-bottom: 10px; color: #0a0a0a; font-family: Helvetica, Arial, sans-serif; font-size: 16px; font-weight: normal; line-height: 1.3; padding: 0; text-align: left;">
                                       Otathan yhteyttä jos teille tulee esteitä tai muita muutoksia.</p>
                                     <p
-                                      style="Margin: 0; Margin-bottom: 10px; color: #0a0a0a; font-family: Helvetica, Arial, sans-serif; font-size: 16px; font-weight: normal; line-height: 1.3; margin: 0; margin-bottom: 10px; padding: 0; text-align: left;">
+                                      style="Margin: 0; margin: 0; Margin-bottom: 10px; margin-bottom: 10px; color: #0a0a0a; font-family: Helvetica, Arial, sans-serif; font-size: 16px; font-weight: normal; line-height: 1.3; padding: 0; text-align: left;">
                                       Tervetuloa, tavataan pian.</p>
 
                                     <h4
@@ -25705,7 +25705,7 @@ snapshots[
                                       style="Margin: 0; Margin-bottom: 10px; color: inherit; font-family: Helvetica, Arial, sans-serif; font-size: 24px; font-weight: normal; line-height: 1.3; margin: 0; margin-bottom: 10px; padding: 0; text-align: left; word-wrap: normal;">
                                       Viesti järjestäjältä:</h4>
                                     <p
-                                      style="Margin: 0; Margin-bottom: 10px; color: #0a0a0a; font-family: Helvetica, Arial, sans-serif; font-size: 16px; font-weight: normal; line-height: 1.3; margin: 0; margin-bottom: 10px; padding: 0; text-align: left;">
+                                      style="Margin: 0; margin: 0; Margin-bottom: 10px; margin-bottom: 10px; color: #0a0a0a; font-family: Helvetica, Arial, sans-serif; font-size: 16px; font-weight: normal; line-height: 1.3; padding: 0; text-align: left;">
                                       {{custom_message}}</p>
                                     {% endif %} \u200b
                                     {% if not occurrence.p_event.contact_info_deleted_at %}
@@ -26114,7 +26114,7 @@ snapshots[
                                           <th
                                             style="color: #0a0a0a; font-family: Helvetica, Arial, sans-serif; font-size: 16px; font-weight: normal; line-height: 1.3; margin: 0; padding: 0; text-align: left;">
                                             <p class="text-right"
-                                              style="Margin: 0; Margin-bottom: 10px; color: black; font-family: Helvetica, Arial, sans-serif; font-size: 16px; font-weight: normal; line-height: 1.3; margin: 0; margin-bottom: 0; padding: 0; text-align: right;">
+                                              style="Margin: 0; margin: 0; Margin-bottom: 10px; margin-bottom: 10px; color: black; font-family: Helvetica, Arial, sans-serif; font-size: 16px; font-weight: normal; line-height: 1.3; padding: 0; text-align: right;">
                                               KULTUS</p>
                                           </th>
                                         </tr>
@@ -26168,16 +26168,16 @@ snapshots[
                                       style="color: inherit; font-family: Helvetica, Arial, sans-serif; font-size: 20px; font-weight: normal; line-height: 1.3; margin: 0; margin-bottom: 10px; padding: 0; text-align: left; word-wrap: normal;">
                                       Hello, {{person.name }}</h5>
                                     <p
-                                      style="Margin: 0; Margin-bottom: 10px; color: #0a0a0a; font-family: Helvetica, Arial, sans-serif; font-size: 16px; font-weight: normal; line-height: 1.3; margin: 0; margin-bottom: 10px; padding: 0; text-align: left;">
+                                      style="Margin: 0; margin: 0; Margin-bottom: 10px; margin-bottom: 10px; color: #0a0a0a; font-family: Helvetica, Arial, sans-serif; font-size: 16px; font-weight: normal; line-height: 1.3; padding: 0; text-align: left;">
                                       Congratulations, your participation in {{trans(event.name)}} {{
                                       occurrence.local_start_time.strftime('%d.%m.%Y %H.%M')}} has now been confirmed.
                                     </p>
                                     <p
-                                      style="Margin: 0; Margin-bottom: 10px; color: #0a0a0a; font-family: Helvetica, Arial, sans-serif; font-size: 16px; font-weight: normal; line-height: 1.3; margin: 0; margin-bottom: 10px; padding: 0; text-align: left;">
+                                      style="Margin: 0; margin: 0; Margin-bottom: 10px; margin-bottom: 10px; color: #0a0a0a; font-family: Helvetica, Arial, sans-serif; font-size: 16px; font-weight: normal; line-height: 1.3; padding: 0; text-align: left;">
                                       Please contact us if any obstacles arise that could prevent you from attending or
                                       you need to make other changes.</p>
                                     <p
-                                      style="Margin: 0; Margin-bottom: 10px; color: #0a0a0a; font-family: Helvetica, Arial, sans-serif; font-size: 16px; font-weight: normal; line-height: 1.3; margin: 0; margin-bottom: 10px; padding: 0; text-align: left;">
+                                      style="Margin: 0; margin: 0; Margin-bottom: 10px; margin-bottom: 10px; color: #0a0a0a; font-family: Helvetica, Arial, sans-serif; font-size: 16px; font-weight: normal; line-height: 1.3; padding: 0; text-align: left;">
                                       See you soon!</p>
 
                                     <h4
@@ -26209,7 +26209,7 @@ snapshots[
                                       style="Margin: 0; Margin-bottom: 10px; color: inherit; font-family: Helvetica, Arial, sans-serif; font-size: 24px; font-weight: normal; line-height: 1.3; margin: 0; margin-bottom: 10px; padding: 0; text-align: left; word-wrap: normal;">
                                       Message from the organiser:</h4>
                                     <p
-                                      style="Margin: 0; Margin-bottom: 10px; color: #0a0a0a; font-family: Helvetica, Arial, sans-serif; font-size: 16px; font-weight: normal; line-height: 1.3; margin: 0; margin-bottom: 10px; padding: 0; text-align: left;">
+                                      style="Margin: 0; margin: 0; Margin-bottom: 10px; margin-bottom: 10px; color: #0a0a0a; font-family: Helvetica, Arial, sans-serif; font-size: 16px; font-weight: normal; line-height: 1.3; padding: 0; text-align: left;">
                                       {{custom_message}}</p>
                                     {% endif %} \u200b
                                     {% if not occurrence.p_event.contact_info_deleted_at %}
@@ -26622,7 +26622,7 @@ snapshots[
                                                                                     <th
                                                                                         style="color: #0a0a0a; font-family: Helvetica, Arial, sans-serif; font-size: 16px; font-weight: normal; line-height: 1.3; margin: 0; padding: 0; text-align: left;">
                                                                                         <p class="text-right"
-                                                                                            style="Margin: 0; Margin-bottom: 10px; color: black; font-family: Helvetica, Arial, sans-serif; font-size: 16px; font-weight: normal; line-height: 1.3; margin: 0; margin-bottom: 0; padding: 0; text-align: right;">
+                                                                                            style="Margin: 0; margin: 0; Margin-bottom: 10px; margin-bottom: 10px; color: black; font-family: Helvetica, Arial, sans-serif; font-size: 16px; font-weight: normal; line-height: 1.3; padding: 0; text-align: right;">
                                                                                             KULTUS</p>
                                                                                     </th>
                                                                                 </tr>
@@ -26677,17 +26677,17 @@ snapshots[
                                                                             style="color: inherit; font-family: Helvetica, Arial, sans-serif; font-size: 20px; font-weight: normal; line-height: 1.3; margin: 0; margin-bottom: 10px; padding: 0; text-align: left; word-wrap: normal;">
                                                                             Hej {{person.name }}!</h5>
                                                                         <p
-                                                                            style="Margin: 0; Margin-bottom: 10px; color: #0a0a0a; font-family: Helvetica, Arial, sans-serif; font-size: 16px; font-weight: normal; line-height: 1.3; margin: 0; margin-bottom: 10px; padding: 0; text-align: left;">
+                                                                            style="Margin: 0; margin: 0; Margin-bottom: 10px; margin-bottom: 10px; color: #0a0a0a; font-family: Helvetica, Arial, sans-serif; font-size: 16px; font-weight: normal; line-height: 1.3; padding: 0; text-align: left;">
                                                                             Fint, ert deltagande {{trans(event.name)}}
                                                                             {{
                                                                             occurrence.local_start_time.strftime('%d.%m.%Y
                                                                             kl %H.%M')}} har nu bekräftats.</p>
                                                                         <p
-                                                                            style="Margin: 0; Margin-bottom: 10px; color: #0a0a0a; font-family: Helvetica, Arial, sans-serif; font-size: 16px; font-weight: normal; line-height: 1.3; margin: 0; margin-bottom: 10px; padding: 0; text-align: left;">
+                                                                            style="Margin: 0; margin: 0; Margin-bottom: 10px; margin-bottom: 10px; color: #0a0a0a; font-family: Helvetica, Arial, sans-serif; font-size: 16px; font-weight: normal; line-height: 1.3; padding: 0; text-align: left;">
                                                                             Vänligen kontakta oss om ni får förhinder
                                                                             eller det dyker upp andra ändringar.</p>
                                                                         <p
-                                                                            style="Margin: 0; Margin-bottom: 10px; color: #0a0a0a; font-family: Helvetica, Arial, sans-serif; font-size: 16px; font-weight: normal; line-height: 1.3; margin: 0; margin-bottom: 10px; padding: 0; text-align: left;">
+                                                                            style="Margin: 0; margin: 0; Margin-bottom: 10px; margin-bottom: 10px; color: #0a0a0a; font-family: Helvetica, Arial, sans-serif; font-size: 16px; font-weight: normal; line-height: 1.3; padding: 0; text-align: left;">
                                                                             Välkommen, vi ses snart!</p>
 
                                                                         <h4
@@ -26729,7 +26729,7 @@ snapshots[
                                                                             style="Margin: 0; Margin-bottom: 10px; color: inherit; font-family: Helvetica, Arial, sans-serif; font-size: 24px; font-weight: normal; line-height: 1.3; margin: 0; margin-bottom: 10px; padding: 0; text-align: left; word-wrap: normal;">
                                                                             Meddelande från arrangörerna:</h4>
                                                                         <p
-                                                                            style="Margin: 0; Margin-bottom: 10px; color: #0a0a0a; font-family: Helvetica, Arial, sans-serif; font-size: 16px; font-weight: normal; line-height: 1.3; margin: 0; margin-bottom: 10px; padding: 0; text-align: left;">
+                                                                            style="Margin: 0; margin: 0; Margin-bottom: 10px; margin-bottom: 10px; color: #0a0a0a; font-family: Helvetica, Arial, sans-serif; font-size: 16px; font-weight: normal; line-height: 1.3; padding: 0; text-align: left;">
                                                                             {{custom_message}}</p>
                                                                         {% endif %} \u200b
                                                                         {% if not occurrence.p_event.contact_info_deleted_at %}
