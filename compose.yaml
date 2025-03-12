@@ -2,10 +2,8 @@ services:
     kultus-db:
         image: postgres:13
         restart: on-failure
-        environment:
-            POSTGRES_USER: kultus
-            POSTGRES_PASSWORD: kultus
-            POSTGRES_DB: kultus
+        env_file:
+            - .env  # For POSTGRES_USER, POSTGRES_PASSWORD and POSTGRES_DB
         ports:
             - ${DB_PORT:-5434}:5432
         volumes:
@@ -15,12 +13,9 @@ services:
     django:
         build:
             context: .
-            target: ${DOCKER_TARGET:-development}
+            target: ${DOCKER_TARGET:-development}  # stage of Dockerfile to build
         env_file:
             - .env
-        environment:
-            DATABASE_URL: postgres://kultus:kultus@kultus-db/kultus
-            DATABASE_HOST: kultus-db.helsinki
         volumes:
             - .:/app
         ports:
