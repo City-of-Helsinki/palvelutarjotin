@@ -4,7 +4,7 @@ ipython
 pytest
 pytest-cov
 pytest-django
-snapshottest
+snapshottest>=1.0.0a1  # Allow pre-release version, please remove when stable up-to-date
 pre-commit
 responses
 parameterized

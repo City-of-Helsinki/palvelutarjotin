@@ -49,7 +49,7 @@ Prerequisites:
 
 - Docker
 - Docker Compose
-- Python 3.11 for running pre-commit hooks (see [.pre-commit-config.yaml](./.pre-commit-config.yaml))
+- Python 3.12 for running pre-commit hooks (see [.pre-commit-config.yaml](./.pre-commit-config.yaml))
 
 1. Copy `.env.example` to `.env`
 2. Configure settings, see [Configuration](#configuration)
@@ -62,7 +62,7 @@ The project is now running at http://localhost:8081
 Prerequisites (defined by [Dockerfile](./Dockerfile) and [compose.yaml](./compose.yaml)):
 
 - PostgreSQL 13
-- Python 3.11
+- Python 3.12
 
 Steps:
 
