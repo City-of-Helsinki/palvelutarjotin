@@ -1,4 +1,5 @@
 -c requirements.txt
+cryptography
 freezegun
 ipython
 pytest

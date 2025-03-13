@@ -10,6 +10,10 @@ certifi==2025.1.31
     # via
     #   -c /app/requirements.txt
     #   requests
+cffi==1.17.1
+    # via
+    #   -c /app/requirements.txt
+    #   cryptography
 cfgv==3.4.0
     # via pre-commit
 charset-normalizer==3.4.1
@@ -18,6 +22,10 @@ charset-normalizer==3.4.1
     #   requests
 coverage[toml]==7.6.12
     # via pytest-cov
+cryptography==44.0.2
+    # via
+    #   -c /app/requirements.txt
+    #   -r requirements-dev.in
 decorator==5.2.1
     # via ipython
 distlib==0.3.9
@@ -26,7 +34,7 @@ executing==2.2.0
     # via stack-data
 fastdiff==0.3.0
     # via snapshottest
-filelock==3.17.0
+filelock==3.18.0
     # via virtualenv
 freezegun==1.5.1
     # via -r requirements-dev.in
@@ -70,6 +78,10 @@ ptyprocess==0.7.0
     # via pexpect
 pure-eval==0.2.3
     # via stack-data
+pycparser==2.22
+    # via
+    #   -c /app/requirements.txt
+    #   cffi
 pygments==2.19.1
     # via
     #   ipython
@@ -100,7 +112,7 @@ requests-mock==1.12.1
     # via -r requirements-dev.in
 responses==0.25.7
     # via -r requirements-dev.in
-ruff==0.9.10
+ruff==0.10.0
     # via -r requirements-dev.in
 six==1.17.0
     # via
