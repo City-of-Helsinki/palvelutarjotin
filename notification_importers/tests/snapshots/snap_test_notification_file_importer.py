@@ -4,13 +4,12 @@ from __future__ import unicode_literals
 
 from snapshottest import Snapshot
 
+
 snapshots = Snapshot()
 
-snapshots[
-    "test_create_non_existing_and_update_existing_notifications 1"
-] = """enrolment_approved_sms|enrolment approved sms|enrolment approved sms|enrolment approved sms|Hei. Ilmoittautuminen hyväksytty tapahtumaan {{trans(event.name)}}. {{ occurrence.local_start_time.strftime('%d.%m.%Y klo %H.%M')}}. Ryhmä {{ study_group.unit_name }} {{study_group.group_size}} hlö. {% if event.location is defined %}{{trans(event.location.name)}}, {{trans(event.location.street_address)}}. {% endif %}Lisätietoja: {{occurrence.p_event.contact_email}}|Enrolment accepted for the event {{trans(event.name)}}. {{ occurrence.local_start_time.strftime('%d.%m.%Y at %H.%M')}}. Group {{ study_group.unit_name }} {{study_group.group_size}} ppl. {% if event.location is defined %}{{trans(event.location.name)}}, {{trans(event.location.street_address)}}. {% endif %}Info: {{occurrence.p_event.contact_email}}|Hej. Din anmälan till evenemanget {{trans(event.name)}}. {{ occurrence.local_start_time.strftime('%d.%m.%Y kl %H.%M')}} Grupp {{ study_group.unit_name }} {{study_group.group_size}} personer. {% if event.location is defined %}{{trans(event.location.name)}}, {{trans(event.location.street_address)}}. {% endif %}Mer information: {{occurrence.p_event.contact_email}}|||
+snapshots['test_create_non_existing_and_update_existing_notifications 1'] = '''enrolment_approved_sms|enrolment approved sms|enrolment approved sms|enrolment approved sms|Hei. Ilmoittautuminen hyväksytty tapahtumaan {{trans(event.name)}}. {{ occurrence.local_start_time.strftime('%d.%m.%Y klo %H.%M')}}. Ryhmä {{ study_group.unit_name }} {{study_group.group_size}} hlö. {% if event.location is defined %}{{trans(event.location.name)}}, {{trans(event.location.street_address)}}. {% endif %}Lisätietoja: {{occurrence.p_event.contact_email}}|Enrolment accepted for the event {{trans(event.name)}}. {{ occurrence.local_start_time.strftime('%d.%m.%Y at %H.%M')}}. Group {{ study_group.unit_name }} {{study_group.group_size}} ppl. {% if event.location is defined %}{{trans(event.location.name)}}, {{trans(event.location.street_address)}}. {% endif %}Info: {{occurrence.p_event.contact_email}}|Hej. Din anmälan till evenemanget {{trans(event.name)}}. {{ occurrence.local_start_time.strftime('%d.%m.%Y kl %H.%M')}} Grupp {{ study_group.unit_name }} {{study_group.group_size}} personer. {% if event.location is defined %}{{trans(event.location.name)}}, {{trans(event.location.street_address)}}. {% endif %}Mer information: {{occurrence.p_event.contact_email}}|||
 enrolment_cancellation|Ilmoittautumisen peruuttaminen|Enrolment cancellation|Avbokning av anmälan||||<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml">
+<html lang="fi" xml:lang="fi" xmlns="http://www.w3.org/1999/xhtml">
 
 <head>
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
@@ -506,7 +505,7 @@ enrolment_cancellation|Ilmoittautumisen peruuttaminen|Enrolment cancellation|Avb
 
 </html>
 |<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml">
+<html lang="en" xml:lang="en" xmlns="http://www.w3.org/1999/xhtml">
 
 <head>
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
@@ -1008,7 +1007,7 @@ enrolment_cancellation|Ilmoittautumisen peruuttaminen|Enrolment cancellation|Avb
 
 </html>
 |<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml">
+<html lang="sv" xml:lang="sv" xmlns="http://www.w3.org/1999/xhtml">
 
 <head>
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
@@ -1512,7 +1511,7 @@ enrolment_cancellation|Ilmoittautumisen peruuttaminen|Enrolment cancellation|Avb
 
 enrolment_cancellation_sms|enrolment cancellation sms|enrolment cancellation sms|enrolment cancellation sms|Hei. Voitte vahvistaa peruutuksenne liittyen tapahtumaan {{trans(event.name)}} seuraavalla linkillä: {{enrolment.get_cancellation_url(language='fi')}}. {{ occurrence.local_start_time.strftime('%d.%m.%Y klo %H.%M')}}. {% if event.location is defined %}{{trans(event.location.name)}}, {{trans(event.location.street_address)}}. {% endif %}Lisätietoja: {{occurrence.p_event.contact_email}}|Hi. You can confirm your cancellation to the event {{trans(event.name)}} at the following link: {{enrolment.get_cancellation_url(language='en')}}. {{ occurrence.local_start_time.strftime('%d.%m.%Y at %H.%M')}}. {% if event.location is defined %}{{trans(event.location.name)}}, {{trans(event.location.street_address)}}. {% endif %}Info: {{occurrence.p_event.contact_email}}|Hej. Du kan bekräfta din avbokning till evenemanget {{trans(event.name)}} på följande länk: {{enrolment.get_cancellation_url(language='sv')}}. {{ occurrence.local_start_time.strftime('%d.%m.%Y at %H.%M')}}. {% if event.location is defined %}{{trans(event.location.name)}}, {{trans(event.location.street_address)}}. {% endif %}Mer information: {{occurrence.p_event.contact_email}}|||
 enrolment_cancelled|Ilmoittautumisen peruuttaminen vahvistettu|Enrolment cancellation confirmed|Avbokning av anmälan bekräftad||||<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml">
+<html lang="fi" xml:lang="fi" xmlns="http://www.w3.org/1999/xhtml">
 
 <head>
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
@@ -2012,7 +2011,7 @@ enrolment_cancelled|Ilmoittautumisen peruuttaminen vahvistettu|Enrolment cancell
 
 </html>
 |<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml">
+<html lang="en" xml:lang="en" xmlns="http://www.w3.org/1999/xhtml">
 
 <head>
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
@@ -2512,7 +2511,7 @@ enrolment_cancelled|Ilmoittautumisen peruuttaminen vahvistettu|Enrolment cancell
 
 </html>
 |<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml">
+<html lang="sv" xml:lang="sv" xmlns="http://www.w3.org/1999/xhtml">
 
 <head>
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
@@ -3014,7 +3013,7 @@ enrolment_cancelled|Ilmoittautumisen peruuttaminen vahvistettu|Enrolment cancell
 
 enrolment_cancelled_sms|enrolment cancelled sms|enrolment cancelled sms|enrolment cancelled sms|Hei. Peruutuksenne tapahtumaan {{trans(event.name)}} on vahvistettu. {{ occurrence.local_start_time.strftime('%d.%m.%Y klo %H.%M')}}. {% if event.location is defined %}{{trans(event.location.name)}}, {{trans(event.location.street_address)}}. {% endif %}Lisätietoja: {{occurrence.p_event.contact_email}}|Hi. Your cancellation to the event {{trans(event.name)}} is confirmed. {{ occurrence.local_start_time.strftime('%d.%m.%Y at %H.%M')}}. {% if event.location is defined %}{{trans(event.location.name)}}, {{trans(event.location.street_address)}}. {% endif %}Info: {{occurrence.p_event.contact_email}}|Hej. Avbokningen av anmälan till evenemanget {{trans(event.name)}} har bekräftats. {{ occurrence.local_start_time.strftime('%d.%m.%Y at %H.%M')}}. {% if event.location is defined %}{{trans(event.location.name)}}, {{trans(event.location.street_address)}}. {% endif %}Mer information: {{occurrence.p_event.contact_email}}|||
 enrolment_declined|Ilmoittautumisen peruutusilmoitus|Enrolment declined|Meddelande om avbokning||||<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml">
+<html lang="fi" xml:lang="fi" xmlns="http://www.w3.org/1999/xhtml">
 
 <head>
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
@@ -3520,7 +3519,7 @@ enrolment_declined|Ilmoittautumisen peruutusilmoitus|Enrolment declined|Meddelan
 
 </html>
 |<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml">
+<html lang="en" xml:lang="en" xmlns="http://www.w3.org/1999/xhtml">
 
 <head>
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
@@ -4027,7 +4026,7 @@ enrolment_declined|Ilmoittautumisen peruutusilmoitus|Enrolment declined|Meddelan
 
 </html>
 |<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml">
+<html lang="sv" xml:lang="sv" xmlns="http://www.w3.org/1999/xhtml">
 
 <head>
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
@@ -4535,7 +4534,7 @@ enrolment_declined|Ilmoittautumisen peruutusilmoitus|Enrolment declined|Meddelan
 
 enrolment_declined_sms|enrolment declined sms|enrolment declined sms|enrolment declined sms|Hei. Valitettavasti emme pysty tarjoamaan paikkaa tapahtumaan {{trans(event.name)}}. {{ occurrence.local_start_time.strftime('%d.%m.%Y klo %H.%M')}}. Ryhmä {{ study_group.unit_name }} {{study_group.group_size}} hlö. {% if event.location is defined %}{{trans(event.location.name)}}, {{trans(event.location.street_address)}}. {% endif %}Lisätietoja: {{occurrence.p_event.contact_email}}|Hi. Unfortunately, we cannot offer you a place at the event {{trans(event.name)}}. {{ occurrence.local_start_time.strftime('%d.%m.%Y at %H.%M')}}. Group {{ study_group.unit_name }} {{study_group.group_size}} ppl. {% if event.location is defined %}{{trans(event.location.name)}}, {{trans(event.location.street_address)}}. {% endif %}Info: {{occurrence.p_event.contact_email}}|Hej. Vi kan tyvärr inte erbjuda en plats på evenemanget {{trans(event.name)}}. {{ occurrence.local_start_time.strftime('%d.%m.%Y kl %H.%M')}} Grupp {{ study_group.unit_name }} {{study_group.group_size}} personer. {% if event.location is defined %}{{trans(event.location.name)}}, {{trans(event.location.street_address)}}. {% endif %}Mer information: {{occurrence.p_event.contact_email}}|||
 enrolment_summary_report|Ilmoittautumisen yhteenvetoraportti|Enrolment summary report|Sammanfattningsrapport för inskrivning||||<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml">
+<html lang="fi" xml:lang="fi" xmlns="http://www.w3.org/1999/xhtml">
 
 <head>
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
@@ -5011,7 +5010,7 @@ enrolment_summary_report|Ilmoittautumisen yhteenvetoraportti|Enrolment summary r
 
 </html>
 |<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml">
+<html lang="en" xml:lang="en" xmlns="http://www.w3.org/1999/xhtml">
 
 <head>
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
@@ -5488,7 +5487,7 @@ enrolment_summary_report|Ilmoittautumisen yhteenvetoraportti|Enrolment summary r
 
 </html>
 |<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml">
+<html lang="sv" xml:lang="sv" xmlns="http://www.w3.org/1999/xhtml">
 
 <head>
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
@@ -5965,7 +5964,7 @@ enrolment_summary_report|Ilmoittautumisen yhteenvetoraportti|Enrolment summary r
 </html>
 
 occurrence_cancelled|Peruutusilmoitus|Cancellation notification|Meddelande om inställt evenemang||||<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml">
+<html lang="fi" xml:lang="fi" xmlns="http://www.w3.org/1999/xhtml">
 
 <head>
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
@@ -6466,7 +6465,7 @@ occurrence_cancelled|Peruutusilmoitus|Cancellation notification|Meddelande om in
 
 </html>
 |<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml">
+<html lang="en" xml:lang="en" xmlns="http://www.w3.org/1999/xhtml">
 
 <head>
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
@@ -6967,7 +6966,7 @@ occurrence_cancelled|Peruutusilmoitus|Cancellation notification|Meddelande om in
 
 </html>
 |<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml">
+<html lang="sv" xml:lang="sv" xmlns="http://www.w3.org/1999/xhtml">
 
 <head>
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
@@ -7476,7 +7475,7 @@ occurrence_upcoming_sms|occurrence upcoming sms|occurrence upcoming sms|occurren
 |Kom ihåg din anmälan till evenemanget {{trans(event.name)}}. {{occurrence.local_start_time.strftime('%d.%m.%Y kl %H.%M')}}. {{study_group.unit_name}}. Om du inte kan delta, vänligen avboka din bokning via e-post: {{occurrence.p_event.contact_email}}.
 |||
 person_myprofile_accepted|Käyttäjätilisi Kultuksessa on valmis käytettäväksi|Your user account in Kultus is ready for use|Ditt användarkonto i Kultus är klart för användning||||<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml">
+<html lang="fi" xml:lang="fi" xmlns="http://www.w3.org/1999/xhtml">
 
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
@@ -7946,7 +7945,7 @@ person_myprofile_accepted|Käyttäjätilisi Kultuksessa on valmis käytettäväk
 
 </html>
 |<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml">
+<html lang="en" xml:lang="en" xmlns="http://www.w3.org/1999/xhtml">
 
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
@@ -8417,7 +8416,7 @@ person_myprofile_accepted|Käyttäjätilisi Kultuksessa on valmis käytettäväk
 
 </html>
 |<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml">
+<html lang="sv" xml:lang="sv" xmlns="http://www.w3.org/1999/xhtml">
 
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
@@ -8889,7 +8888,7 @@ person_myprofile_accepted|Käyttäjätilisi Kultuksessa on valmis käytettäväk
 </html>
 
 person_myprofile_creation|Uusi käyttäjä luotu Kultukseen|New user created for Kultus|Ny användare skapad för Kultus||||<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml">
+<html lang="fi" xml:lang="fi" xmlns="http://www.w3.org/1999/xhtml">
 
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
@@ -9387,7 +9386,7 @@ person_myprofile_creation|Uusi käyttäjä luotu Kultukseen|New user created for
 
 </html>
 |<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml">
+<html lang="en" xml:lang="en" xmlns="http://www.w3.org/1999/xhtml">
 
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
@@ -9886,7 +9885,7 @@ person_myprofile_creation|Uusi käyttäjä luotu Kultukseen|New user created for
 
 </html>
 |<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml">
+<html lang="sv" xml:lang="sv" xmlns="http://www.w3.org/1999/xhtml">
 
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
@@ -10386,7 +10385,7 @@ person_myprofile_creation|Uusi käyttäjä luotu Kultukseen|New user created for
 </html>
 
 enrolment_approved|Ilmoittautuminen vahvistettu|Enrolment approved|Anmälan har bekräftats||||<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml">
+<html lang="fi" xml:lang="fi" xmlns="http://www.w3.org/1999/xhtml">
 
 <head>
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
@@ -10889,7 +10888,7 @@ enrolment_approved|Ilmoittautuminen vahvistettu|Enrolment approved|Anmälan har 
 
 </html>
 |<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml">
+<html lang="en" xml:lang="en" xmlns="http://www.w3.org/1999/xhtml">
 
 <head>
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
@@ -11393,7 +11392,7 @@ enrolment_approved|Ilmoittautuminen vahvistettu|Enrolment approved|Anmälan har 
 
 </html>
 |<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml">
+<html lang="sv" xml:lang="sv" xmlns="http://www.w3.org/1999/xhtml">
 
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
@@ -11916,7 +11915,7 @@ enrolment_approved|Ilmoittautuminen vahvistettu|Enrolment approved|Anmälan har 
 </html>
 
 occurrence_enrolment|Ilmoittautuminen vastaanotettu|Enrolment received|Anmälan mottagen||||<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml">
+<html lang="fi" xml:lang="fi" xmlns="http://www.w3.org/1999/xhtml">
 
 <head>
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
@@ -12406,7 +12405,7 @@ occurrence_enrolment|Ilmoittautuminen vastaanotettu|Enrolment received|Anmälan 
 
 </html>
 |<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml">
+<html lang="en" xml:lang="en" xmlns="http://www.w3.org/1999/xhtml">
 
 <head>
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
@@ -12896,7 +12895,7 @@ occurrence_enrolment|Ilmoittautuminen vastaanotettu|Enrolment received|Anmälan 
 
 </html>
 |<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml">
+<html lang="sv" xml:lang="sv" xmlns="http://www.w3.org/1999/xhtml">
 
 <head>
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
@@ -13385,14 +13384,12 @@ occurrence_enrolment|Ilmoittautuminen vastaanotettu|Enrolment received|Anmälan 
 </body>
 
 </html>
-"""
+'''
 
-snapshots[
-    "test_create_non_existing_notifications 1"
-] = """enrolment_approved|enrolment_approved fi original subject|enrolment_approved en original subject|enrolment_approved sv original subject||||enrolment_approved fi original body_html|enrolment_approved en original body_html|enrolment_approved sv original body_html
+snapshots['test_create_non_existing_notifications 1'] = '''enrolment_approved|enrolment_approved fi original subject|enrolment_approved en original subject|enrolment_approved sv original subject||||enrolment_approved fi original body_html|enrolment_approved en original body_html|enrolment_approved sv original body_html
 enrolment_approved_sms|enrolment approved sms|enrolment approved sms|enrolment approved sms|Hei. Ilmoittautuminen hyväksytty tapahtumaan {{trans(event.name)}}. {{ occurrence.local_start_time.strftime('%d.%m.%Y klo %H.%M')}}. Ryhmä {{ study_group.unit_name }} {{study_group.group_size}} hlö. {% if event.location is defined %}{{trans(event.location.name)}}, {{trans(event.location.street_address)}}. {% endif %}Lisätietoja: {{occurrence.p_event.contact_email}}|Enrolment accepted for the event {{trans(event.name)}}. {{ occurrence.local_start_time.strftime('%d.%m.%Y at %H.%M')}}. Group {{ study_group.unit_name }} {{study_group.group_size}} ppl. {% if event.location is defined %}{{trans(event.location.name)}}, {{trans(event.location.street_address)}}. {% endif %}Info: {{occurrence.p_event.contact_email}}|Hej. Din anmälan till evenemanget {{trans(event.name)}}. {{ occurrence.local_start_time.strftime('%d.%m.%Y kl %H.%M')}} Grupp {{ study_group.unit_name }} {{study_group.group_size}} personer. {% if event.location is defined %}{{trans(event.location.name)}}, {{trans(event.location.street_address)}}. {% endif %}Mer information: {{occurrence.p_event.contact_email}}|||
 enrolment_cancellation|Ilmoittautumisen peruuttaminen|Enrolment cancellation|Avbokning av anmälan||||<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml">
+<html lang="fi" xml:lang="fi" xmlns="http://www.w3.org/1999/xhtml">
 
 <head>
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
@@ -13888,7 +13885,7 @@ enrolment_cancellation|Ilmoittautumisen peruuttaminen|Enrolment cancellation|Avb
 
 </html>
 |<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml">
+<html lang="en" xml:lang="en" xmlns="http://www.w3.org/1999/xhtml">
 
 <head>
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
@@ -14390,7 +14387,7 @@ enrolment_cancellation|Ilmoittautumisen peruuttaminen|Enrolment cancellation|Avb
 
 </html>
 |<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml">
+<html lang="sv" xml:lang="sv" xmlns="http://www.w3.org/1999/xhtml">
 
 <head>
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
@@ -14894,7 +14891,7 @@ enrolment_cancellation|Ilmoittautumisen peruuttaminen|Enrolment cancellation|Avb
 
 enrolment_cancellation_sms|enrolment cancellation sms|enrolment cancellation sms|enrolment cancellation sms|Hei. Voitte vahvistaa peruutuksenne liittyen tapahtumaan {{trans(event.name)}} seuraavalla linkillä: {{enrolment.get_cancellation_url(language='fi')}}. {{ occurrence.local_start_time.strftime('%d.%m.%Y klo %H.%M')}}. {% if event.location is defined %}{{trans(event.location.name)}}, {{trans(event.location.street_address)}}. {% endif %}Lisätietoja: {{occurrence.p_event.contact_email}}|Hi. You can confirm your cancellation to the event {{trans(event.name)}} at the following link: {{enrolment.get_cancellation_url(language='en')}}. {{ occurrence.local_start_time.strftime('%d.%m.%Y at %H.%M')}}. {% if event.location is defined %}{{trans(event.location.name)}}, {{trans(event.location.street_address)}}. {% endif %}Info: {{occurrence.p_event.contact_email}}|Hej. Du kan bekräfta din avbokning till evenemanget {{trans(event.name)}} på följande länk: {{enrolment.get_cancellation_url(language='sv')}}. {{ occurrence.local_start_time.strftime('%d.%m.%Y at %H.%M')}}. {% if event.location is defined %}{{trans(event.location.name)}}, {{trans(event.location.street_address)}}. {% endif %}Mer information: {{occurrence.p_event.contact_email}}|||
 enrolment_cancelled|Ilmoittautumisen peruuttaminen vahvistettu|Enrolment cancellation confirmed|Avbokning av anmälan bekräftad||||<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml">
+<html lang="fi" xml:lang="fi" xmlns="http://www.w3.org/1999/xhtml">
 
 <head>
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
@@ -15394,7 +15391,7 @@ enrolment_cancelled|Ilmoittautumisen peruuttaminen vahvistettu|Enrolment cancell
 
 </html>
 |<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml">
+<html lang="en" xml:lang="en" xmlns="http://www.w3.org/1999/xhtml">
 
 <head>
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
@@ -15894,7 +15891,7 @@ enrolment_cancelled|Ilmoittautumisen peruuttaminen vahvistettu|Enrolment cancell
 
 </html>
 |<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml">
+<html lang="sv" xml:lang="sv" xmlns="http://www.w3.org/1999/xhtml">
 
 <head>
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
@@ -16396,7 +16393,7 @@ enrolment_cancelled|Ilmoittautumisen peruuttaminen vahvistettu|Enrolment cancell
 
 enrolment_cancelled_sms|enrolment cancelled sms|enrolment cancelled sms|enrolment cancelled sms|Hei. Peruutuksenne tapahtumaan {{trans(event.name)}} on vahvistettu. {{ occurrence.local_start_time.strftime('%d.%m.%Y klo %H.%M')}}. {% if event.location is defined %}{{trans(event.location.name)}}, {{trans(event.location.street_address)}}. {% endif %}Lisätietoja: {{occurrence.p_event.contact_email}}|Hi. Your cancellation to the event {{trans(event.name)}} is confirmed. {{ occurrence.local_start_time.strftime('%d.%m.%Y at %H.%M')}}. {% if event.location is defined %}{{trans(event.location.name)}}, {{trans(event.location.street_address)}}. {% endif %}Info: {{occurrence.p_event.contact_email}}|Hej. Avbokningen av anmälan till evenemanget {{trans(event.name)}} har bekräftats. {{ occurrence.local_start_time.strftime('%d.%m.%Y at %H.%M')}}. {% if event.location is defined %}{{trans(event.location.name)}}, {{trans(event.location.street_address)}}. {% endif %}Mer information: {{occurrence.p_event.contact_email}}|||
 enrolment_declined|Ilmoittautumisen peruutusilmoitus|Enrolment declined|Meddelande om avbokning||||<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml">
+<html lang="fi" xml:lang="fi" xmlns="http://www.w3.org/1999/xhtml">
 
 <head>
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
@@ -16902,7 +16899,7 @@ enrolment_declined|Ilmoittautumisen peruutusilmoitus|Enrolment declined|Meddelan
 
 </html>
 |<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml">
+<html lang="en" xml:lang="en" xmlns="http://www.w3.org/1999/xhtml">
 
 <head>
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
@@ -17409,7 +17406,7 @@ enrolment_declined|Ilmoittautumisen peruutusilmoitus|Enrolment declined|Meddelan
 
 </html>
 |<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml">
+<html lang="sv" xml:lang="sv" xmlns="http://www.w3.org/1999/xhtml">
 
 <head>
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
@@ -17917,7 +17914,7 @@ enrolment_declined|Ilmoittautumisen peruutusilmoitus|Enrolment declined|Meddelan
 
 enrolment_declined_sms|enrolment declined sms|enrolment declined sms|enrolment declined sms|Hei. Valitettavasti emme pysty tarjoamaan paikkaa tapahtumaan {{trans(event.name)}}. {{ occurrence.local_start_time.strftime('%d.%m.%Y klo %H.%M')}}. Ryhmä {{ study_group.unit_name }} {{study_group.group_size}} hlö. {% if event.location is defined %}{{trans(event.location.name)}}, {{trans(event.location.street_address)}}. {% endif %}Lisätietoja: {{occurrence.p_event.contact_email}}|Hi. Unfortunately, we cannot offer you a place at the event {{trans(event.name)}}. {{ occurrence.local_start_time.strftime('%d.%m.%Y at %H.%M')}}. Group {{ study_group.unit_name }} {{study_group.group_size}} ppl. {% if event.location is defined %}{{trans(event.location.name)}}, {{trans(event.location.street_address)}}. {% endif %}Info: {{occurrence.p_event.contact_email}}|Hej. Vi kan tyvärr inte erbjuda en plats på evenemanget {{trans(event.name)}}. {{ occurrence.local_start_time.strftime('%d.%m.%Y kl %H.%M')}} Grupp {{ study_group.unit_name }} {{study_group.group_size}} personer. {% if event.location is defined %}{{trans(event.location.name)}}, {{trans(event.location.street_address)}}. {% endif %}Mer information: {{occurrence.p_event.contact_email}}|||
 enrolment_summary_report|Ilmoittautumisen yhteenvetoraportti|Enrolment summary report|Sammanfattningsrapport för inskrivning||||<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml">
+<html lang="fi" xml:lang="fi" xmlns="http://www.w3.org/1999/xhtml">
 
 <head>
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
@@ -18393,7 +18390,7 @@ enrolment_summary_report|Ilmoittautumisen yhteenvetoraportti|Enrolment summary r
 
 </html>
 |<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml">
+<html lang="en" xml:lang="en" xmlns="http://www.w3.org/1999/xhtml">
 
 <head>
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
@@ -18870,7 +18867,7 @@ enrolment_summary_report|Ilmoittautumisen yhteenvetoraportti|Enrolment summary r
 
 </html>
 |<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml">
+<html lang="sv" xml:lang="sv" xmlns="http://www.w3.org/1999/xhtml">
 
 <head>
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
@@ -19347,7 +19344,7 @@ enrolment_summary_report|Ilmoittautumisen yhteenvetoraportti|Enrolment summary r
 </html>
 
 occurrence_cancelled|Peruutusilmoitus|Cancellation notification|Meddelande om inställt evenemang||||<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml">
+<html lang="fi" xml:lang="fi" xmlns="http://www.w3.org/1999/xhtml">
 
 <head>
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
@@ -19848,7 +19845,7 @@ occurrence_cancelled|Peruutusilmoitus|Cancellation notification|Meddelande om in
 
 </html>
 |<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml">
+<html lang="en" xml:lang="en" xmlns="http://www.w3.org/1999/xhtml">
 
 <head>
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
@@ -20349,7 +20346,7 @@ occurrence_cancelled|Peruutusilmoitus|Cancellation notification|Meddelande om in
 
 </html>
 |<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml">
+<html lang="sv" xml:lang="sv" xmlns="http://www.w3.org/1999/xhtml">
 
 <head>
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
@@ -20853,7 +20850,7 @@ occurrence_cancelled|Peruutusilmoitus|Cancellation notification|Meddelande om in
 
 occurrence_cancelled_sms|occurrence cancelled sms|occurrence cancelled sms|occurrence cancelled sms|Hei. Valitettavasti tapahtuma on peruttu. {{trans(event.name)}}. {{ occurrence.local_start_time.strftime('%d.%m.%Y klo %H.%M')}}. Ryhmä {{ study_group.unit_name }} {{study_group.group_size}} hlö. {% if event.location is defined %}{{trans(event.location.name)}}, {{trans(event.location.street_address)}}. {% endif %}Lisätietoja: {{occurrence.p_event.contact_email}}|Hi. Unfortunately, the event is cancelled. {{trans(event.name)}}. {{ occurrence.local_start_time.strftime('%d.%m.%Y at %H.%M')}}. Group {{ study_group.unit_name }} {{study_group.group_size}} ppl. {% if event.location is defined %}{{trans(event.location.name)}}, {{trans(event.location.street_address)}}. {% endif %}Info: {{occurrence.p_event.contact_email}}|Hej. Evenemanget har tyvärr ställts in. {{trans(event.name)}}. {{ occurrence.local_start_time.strftime('%d.%m.%Y kl %H.%M')}} Grupp {{ study_group.unit_name }} {{study_group.group_size}} personer. {% if event.location is defined %}{{trans(event.location.name)}}, {{trans(event.location.street_address)}}. {% endif %}Mer information: {{occurrence.p_event.contact_email}}|||
 occurrence_enrolment|Ilmoittautuminen vastaanotettu|Enrolment received|Anmälan mottagen||||<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml">
+<html lang="fi" xml:lang="fi" xmlns="http://www.w3.org/1999/xhtml">
 
 <head>
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
@@ -21343,7 +21340,7 @@ occurrence_enrolment|Ilmoittautuminen vastaanotettu|Enrolment received|Anmälan 
 
 </html>
 |<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml">
+<html lang="en" xml:lang="en" xmlns="http://www.w3.org/1999/xhtml">
 
 <head>
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
@@ -21833,7 +21830,7 @@ occurrence_enrolment|Ilmoittautuminen vastaanotettu|Enrolment received|Anmälan 
 
 </html>
 |<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml">
+<html lang="sv" xml:lang="sv" xmlns="http://www.w3.org/1999/xhtml">
 
 <head>
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
@@ -22329,7 +22326,7 @@ occurrence_upcoming_sms|occurrence upcoming sms|occurrence upcoming sms|occurren
 |Kom ihåg din anmälan till evenemanget {{trans(event.name)}}. {{occurrence.local_start_time.strftime('%d.%m.%Y kl %H.%M')}}. {{study_group.unit_name}}. Om du inte kan delta, vänligen avboka din bokning via e-post: {{occurrence.p_event.contact_email}}.
 |||
 person_myprofile_accepted|Käyttäjätilisi Kultuksessa on valmis käytettäväksi|Your user account in Kultus is ready for use|Ditt användarkonto i Kultus är klart för användning||||<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml">
+<html lang="fi" xml:lang="fi" xmlns="http://www.w3.org/1999/xhtml">
 
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
@@ -22799,7 +22796,7 @@ person_myprofile_accepted|Käyttäjätilisi Kultuksessa on valmis käytettäväk
 
 </html>
 |<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml">
+<html lang="en" xml:lang="en" xmlns="http://www.w3.org/1999/xhtml">
 
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
@@ -23270,7 +23267,7 @@ person_myprofile_accepted|Käyttäjätilisi Kultuksessa on valmis käytettäväk
 
 </html>
 |<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml">
+<html lang="sv" xml:lang="sv" xmlns="http://www.w3.org/1999/xhtml">
 
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
@@ -23742,7 +23739,7 @@ person_myprofile_accepted|Käyttäjätilisi Kultuksessa on valmis käytettäväk
 </html>
 
 person_myprofile_creation|Uusi käyttäjä luotu Kultukseen|New user created for Kultus|Ny användare skapad för Kultus||||<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml">
+<html lang="fi" xml:lang="fi" xmlns="http://www.w3.org/1999/xhtml">
 
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
@@ -24240,7 +24237,7 @@ person_myprofile_creation|Uusi käyttäjä luotu Kultukseen|New user created for
 
 </html>
 |<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml">
+<html lang="en" xml:lang="en" xmlns="http://www.w3.org/1999/xhtml">
 
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
@@ -24739,7 +24736,7 @@ person_myprofile_creation|Uusi käyttäjä luotu Kultukseen|New user created for
 
 </html>
 |<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml">
+<html lang="sv" xml:lang="sv" xmlns="http://www.w3.org/1999/xhtml">
 
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
@@ -25237,12 +25234,10 @@ person_myprofile_creation|Uusi käyttäjä luotu Kultukseen|New user created for
 </body>
 
 </html>
-"""
+'''
 
-snapshots[
-    "test_update_notifications 1"
-] = """enrolment_approved|Ilmoittautuminen vahvistettu|Enrolment approved|Anmälan har bekräftats||||<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml">
+snapshots['test_update_notifications 1'] = '''enrolment_approved|Ilmoittautuminen vahvistettu|Enrolment approved|Anmälan har bekräftats||||<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html lang="fi" xml:lang="fi" xmlns="http://www.w3.org/1999/xhtml">
 
 <head>
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
@@ -25745,7 +25740,7 @@ snapshots[
 
 </html>
 |<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml">
+<html lang="en" xml:lang="en" xmlns="http://www.w3.org/1999/xhtml">
 
 <head>
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
@@ -26249,7 +26244,7 @@ snapshots[
 
 </html>
 |<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml">
+<html lang="sv" xml:lang="sv" xmlns="http://www.w3.org/1999/xhtml">
 
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
@@ -26770,4 +26765,4 @@ snapshots[
 </body>
 
 </html>
-"""
+'''
