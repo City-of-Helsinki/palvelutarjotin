@@ -684,9 +684,7 @@ class StudyGroup(
     class Meta:
         verbose_name = _("study group")
         verbose_name_plural = _("study groups")
-        ordering = [
-            "created_at",
-        ]
+        ordering = ["created_at", "group_name"]
 
     @property
     def name(self):

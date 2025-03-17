@@ -110,11 +110,11 @@ snapshots['test_delete_profile_data_from_gdpr_api[most_complex] study group shou
         },
         {
             'key': 'UNIT_NAME',
-            'value': 'Daughter animal single whom involve. Different student moment apply president unit.'
+            'value': 'National since collection goal natural. Subject take stop debate.'
         },
         {
             'key': 'GROUP_SIZE',
-            'value': 420
+            'value': 857
         },
         {
             'key': 'AMOUNT_OF_ADULT',
@@ -122,15 +122,15 @@ snapshots['test_delete_profile_data_from_gdpr_api[most_complex] study group shou
         },
         {
             'key': 'GROUP_NAME',
-            'value': 'Resource set feeling within Mr total learn.'
+            'value': 'Box bring always million eat several. Seven section partner. During their at once exactly.'
         },
         {
             'key': 'EXTRA_NEEDS',
-            'value': 'Culture most page reduce green conference front. Decide very data four.'
+            'value': 'Whose our politics contain blood interview. Cup must tough edge part. Respond pressure people.'
         },
         {
             'key': 'PREFERRED_TIMES',
-            'value': 'Increase player power over.'
+            'value': 'Sport page if.'
         },
         {
             'key': 'STUDY_LEVELS',
@@ -341,6 +341,103 @@ Enjoy office water those notice medical. Already name likely behind mission netw
                             },
                             {
                                 'key': 'UNIT_NAME',
+                                'value': 'Bit college question animal long. Sometimes growth check court.'
+                            },
+                            {
+                                'key': 'GROUP_SIZE',
+                                'value': 519
+                            },
+                            {
+                                'key': 'AMOUNT_OF_ADULT',
+                                'value': 0
+                            },
+                            {
+                                'key': 'GROUP_NAME',
+                                'value': 'Decade address have turn serve me every traditional. Sound describe risk newspaper reflect four.'
+                            },
+                            {
+                                'key': 'EXTRA_NEEDS',
+                                'value': 'Arm listen money language which risk.'
+                            },
+                            {
+                                'key': 'PREFERRED_TIMES',
+                                'value': 'Result let join might player.'
+                            },
+                            {
+                                'key': 'STUDY_LEVELS',
+                                'value': 'Cultural cell at. (id: Democrat., level: 3), Myself simple paper. (id: Happen., level: 4), Town back though. (id: Decade., level: 9)'
+                            },
+                            {
+                                'children': [
+                                    {
+                                        'children': [
+                                            {
+                                                'key': 'ENROLMENT_TIME',
+                                                'value': '2020-01-04T00:00:00+00:00'
+                                            },
+                                            {
+                                                'key': 'UPDATED_AT',
+                                                'value': '2020-01-04T00:00:00+00:00'
+                                            },
+                                            {
+                                                'key': 'STATUS',
+                                                'value': 'pending'
+                                            },
+                                            {
+                                                'children': [
+                                                    {
+                                                        'key': 'START_TIME',
+                                                        'value': '1974-05-07T19:09:45.432928+00:00'
+                                                    },
+                                                    {
+                                                        'key': 'END_TIME',
+                                                        'value': '1997-04-17T20:53:24.246198+00:00'
+                                                    },
+                                                    {
+                                                        'key': 'CREATED_AT',
+                                                        'value': '2020-01-04T00:00:00+00:00'
+                                                    },
+                                                    {
+                                                        'key': 'UPDATED_AT',
+                                                        'value': '2020-01-04T00:00:00+00:00'
+                                                    },
+                                                    {
+                                                        'children': [
+                                                            {
+                                                                'key': 'LINKED_EVENT_ID',
+                                                                'value': 'mbLjf'
+                                                            },
+                                                            {
+                                                                'key': 'ORGANISATION',
+                                                                'value': 'Moon-Hernandez'
+                                                            },
+                                                            {
+                                                                'key': 'CONTACT_PERSON',
+                                                                'value': 'Charles Hansen, 419.442.1317, youngpeggy@example.org'
+                                                            }
+                                                        ],
+                                                        'key': 'PALVELUTARJOTINEVENT'
+                                                    }
+                                                ],
+                                                'key': 'OCCURRENCE'
+                                            }
+                                        ],
+                                        'key': 'ENROLMENT'
+                                    }
+                                ],
+                                'key': 'ENROLMENTS'
+                            }
+                        ],
+                        'key': 'STUDYGROUP'
+                    },
+                    {
+                        'children': [
+                            {
+                                'key': 'UNIT_ID',
+                                'value': None
+                            },
+                            {
+                                'key': 'UNIT_NAME',
                                 'value': 'Tough plant traditional after born up always. Return student light a point charge.'
                             },
                             {
@@ -469,103 +566,6 @@ Enjoy office water those notice medical. Already name likely behind mission netw
                                                             {
                                                                 'key': 'CONTACT_PERSON',
                                                                 'value': 'James Johnson, 962-942-2074x4988, bullockcarly@example.org'
-                                                            }
-                                                        ],
-                                                        'key': 'PALVELUTARJOTINEVENT'
-                                                    }
-                                                ],
-                                                'key': 'OCCURRENCE'
-                                            }
-                                        ],
-                                        'key': 'ENROLMENT'
-                                    }
-                                ],
-                                'key': 'ENROLMENTS'
-                            }
-                        ],
-                        'key': 'STUDYGROUP'
-                    },
-                    {
-                        'children': [
-                            {
-                                'key': 'UNIT_ID',
-                                'value': None
-                            },
-                            {
-                                'key': 'UNIT_NAME',
-                                'value': 'Bit college question animal long. Sometimes growth check court.'
-                            },
-                            {
-                                'key': 'GROUP_SIZE',
-                                'value': 519
-                            },
-                            {
-                                'key': 'AMOUNT_OF_ADULT',
-                                'value': 0
-                            },
-                            {
-                                'key': 'GROUP_NAME',
-                                'value': 'Decade address have turn serve me every traditional. Sound describe risk newspaper reflect four.'
-                            },
-                            {
-                                'key': 'EXTRA_NEEDS',
-                                'value': 'Arm listen money language which risk.'
-                            },
-                            {
-                                'key': 'PREFERRED_TIMES',
-                                'value': 'Result let join might player.'
-                            },
-                            {
-                                'key': 'STUDY_LEVELS',
-                                'value': 'Cultural cell at. (id: Democrat., level: 3), Myself simple paper. (id: Happen., level: 4), Town back though. (id: Decade., level: 9)'
-                            },
-                            {
-                                'children': [
-                                    {
-                                        'children': [
-                                            {
-                                                'key': 'ENROLMENT_TIME',
-                                                'value': '2020-01-04T00:00:00+00:00'
-                                            },
-                                            {
-                                                'key': 'UPDATED_AT',
-                                                'value': '2020-01-04T00:00:00+00:00'
-                                            },
-                                            {
-                                                'key': 'STATUS',
-                                                'value': 'pending'
-                                            },
-                                            {
-                                                'children': [
-                                                    {
-                                                        'key': 'START_TIME',
-                                                        'value': '1974-05-07T19:09:45.432928+00:00'
-                                                    },
-                                                    {
-                                                        'key': 'END_TIME',
-                                                        'value': '1997-04-17T20:53:24.246198+00:00'
-                                                    },
-                                                    {
-                                                        'key': 'CREATED_AT',
-                                                        'value': '2020-01-04T00:00:00+00:00'
-                                                    },
-                                                    {
-                                                        'key': 'UPDATED_AT',
-                                                        'value': '2020-01-04T00:00:00+00:00'
-                                                    },
-                                                    {
-                                                        'children': [
-                                                            {
-                                                                'key': 'LINKED_EVENT_ID',
-                                                                'value': 'mbLjf'
-                                                            },
-                                                            {
-                                                                'key': 'ORGANISATION',
-                                                                'value': 'Moon-Hernandez'
-                                                            },
-                                                            {
-                                                                'key': 'CONTACT_PERSON',
-                                                                'value': 'Charles Hansen, 419.442.1317, youngpeggy@example.org'
                                                             }
                                                         ],
                                                         'key': 'PALVELUTARJOTINEVENT'
