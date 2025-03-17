@@ -363,6 +363,7 @@ enrolment_cancellation|Ilmoittautumisen peruuttaminen|Enrolment cancellation|Avb
                                             style="color: #0a0a0a; font-family: Helvetica, Arial, sans-serif; font-size: 16px; font-weight: normal; line-height: 1.3; margin: 0; padding: 0; text-align: left;">
                                             <img
                                               src="https://www.hel.fi/wps/CoHTheme/themes/html/RWD_main_theme/img/logo/logo-hki-color-fi.png"
+                                              alt="Helsingin kaupungin logo"
                                               style="-ms-interpolation-mode: bicubic; clear: both; display: block; max-width: 100%; outline: none; text-decoration: none; width: auto;">
                                           </th>
                                         </tr>
@@ -859,6 +860,7 @@ enrolment_cancellation|Ilmoittautumisen peruuttaminen|Enrolment cancellation|Avb
                                             style="color: #0a0a0a; font-family: Helvetica, Arial, sans-serif; font-size: 16px; font-weight: normal; line-height: 1.3; margin: 0; padding: 0; text-align: left;">
                                             <img
                                               src="https://www.hel.fi/wps/CoHTheme/themes/html/RWD_main_theme/img/logo/logo-hki-color-fi.png"
+                                              alt="City of Helsinki logo"
                                               style="-ms-interpolation-mode: bicubic; clear: both; display: block; max-width: 100%; outline: none; text-decoration: none; width: auto;">
                                           </th>
                                         </tr>
@@ -1361,6 +1363,7 @@ enrolment_cancellation|Ilmoittautumisen peruuttaminen|Enrolment cancellation|Avb
                                             style="color: #0a0a0a; font-family: Helvetica, Arial, sans-serif; font-size: 16px; font-weight: normal; line-height: 1.3; margin: 0; padding: 0; text-align: left;">
                                             <img
                                               src="https://www.hel.fi/wps/CoHTheme/themes/html/RWD_main_theme/img/logo/logo-hki-color-fi.png"
+                                              alt="Helsingfors stads logotyp"
                                               style="-ms-interpolation-mode: bicubic; clear: both; display: block; max-width: 100%; outline: none; text-decoration: none; width: auto;">
                                           </th>
                                         </tr>
@@ -1865,6 +1868,7 @@ enrolment_cancelled|Ilmoittautumisen peruuttaminen vahvistettu|Enrolment cancell
                                             style="color: #0a0a0a; font-family: Helvetica, Arial, sans-serif; font-size: 16px; font-weight: normal; line-height: 1.3; margin: 0; padding: 0; text-align: left;">
                                             <img
                                               src="https://www.hel.fi/wps/CoHTheme/themes/html/RWD_main_theme/img/logo/logo-hki-color-fi.png"
+                                              alt="Helsingin kaupungin logo"
                                               style="-ms-interpolation-mode: bicubic; clear: both; display: block; max-width: 100%; outline: none; text-decoration: none; width: auto;">
                                           </th>
                                         </tr>
@@ -2365,6 +2369,7 @@ enrolment_cancelled|Ilmoittautumisen peruuttaminen vahvistettu|Enrolment cancell
                                             style="color: #0a0a0a; font-family: Helvetica, Arial, sans-serif; font-size: 16px; font-weight: normal; line-height: 1.3; margin: 0; padding: 0; text-align: left;">
                                             <img
                                               src="https://www.hel.fi/wps/CoHTheme/themes/html/RWD_main_theme/img/logo/logo-hki-color-fi.png"
+                                              alt="City of Helsinki logo"
                                               style="-ms-interpolation-mode: bicubic; clear: both; display: block; max-width: 100%; outline: none; text-decoration: none; width: auto;">
                                           </th>
                                         </tr>
@@ -2865,6 +2870,7 @@ enrolment_cancelled|Ilmoittautumisen peruuttaminen vahvistettu|Enrolment cancell
                                             style="color: #0a0a0a; font-family: Helvetica, Arial, sans-serif; font-size: 16px; font-weight: normal; line-height: 1.3; margin: 0; padding: 0; text-align: left;">
                                             <img
                                               src="https://www.hel.fi/wps/CoHTheme/themes/html/RWD_main_theme/img/logo/logo-hki-color-fi.png"
+                                              alt="Helsingfors stads logotyp"
                                               style="-ms-interpolation-mode: bicubic; clear: both; display: block; max-width: 100%; outline: none; text-decoration: none; width: auto;">
                                           </th>
                                         </tr>
@@ -3367,6 +3373,7 @@ enrolment_declined|Ilmoittautumisen peruutusilmoitus|Enrolment declined|Meddelan
                                             style="color: #0a0a0a; font-family: Helvetica, Arial, sans-serif; font-size: 16px; font-weight: normal; line-height: 1.3; margin: 0; padding: 0; text-align: left;">
                                             <img
                                               src="https://www.hel.fi/wps/CoHTheme/themes/html/RWD_main_theme/img/logo/logo-hki-color-fi.png"
+                                              alt="Helsingin kaupungin logo"
                                               style="-ms-interpolation-mode: bicubic; clear: both; display: block; max-width: 100%; outline: none; text-decoration: none; width: auto;">
                                           </th>
                                         </tr>
@@ -3873,6 +3880,7 @@ enrolment_declined|Ilmoittautumisen peruutusilmoitus|Enrolment declined|Meddelan
                                             style="color: #0a0a0a; font-family: Helvetica, Arial, sans-serif; font-size: 16px; font-weight: normal; line-height: 1.3; margin: 0; padding: 0; text-align: left;">
                                             <img
                                               src="https://www.hel.fi/wps/CoHTheme/themes/html/RWD_main_theme/img/logo/logo-hki-color-fi.png"
+                                              alt="City of Helsinki logo"
                                               style="-ms-interpolation-mode: bicubic; clear: both; display: block; max-width: 100%; outline: none; text-decoration: none; width: auto;">
                                           </th>
                                         </tr>
@@ -4380,6 +4388,7 @@ enrolment_declined|Ilmoittautumisen peruutusilmoitus|Enrolment declined|Meddelan
                                             style="color: #0a0a0a; font-family: Helvetica, Arial, sans-serif; font-size: 16px; font-weight: normal; line-height: 1.3; margin: 0; padding: 0; text-align: left;">
                                             <img
                                               src="https://www.hel.fi/wps/CoHTheme/themes/html/RWD_main_theme/img/logo/logo-hki-color-fi.png"
+                                              alt="Helsingfors stads logotyp"
                                               style="-ms-interpolation-mode: bicubic; clear: both; display: block; max-width: 100%; outline: none; text-decoration: none; width: auto;">
                                           </th>
                                         </tr>
@@ -4887,6 +4896,7 @@ enrolment_summary_report|Ilmoittautumisen yhteenvetoraportti|Enrolment summary r
                                             style="color: #0a0a0a; font-family: Helvetica, Arial, sans-serif; font-size: 16px; font-weight: normal; line-height: 1.3; margin: 0; padding: 0; text-align: left;">
                                             <img
                                               src="https://www.hel.fi/wps/CoHTheme/themes/html/RWD_main_theme/img/logo/logo-hki-color-fi.png"
+                                              alt="Helsingin kaupungin logo"
                                               style="-ms-interpolation-mode: bicubic; clear: both; display: block; max-width: 100%; outline: none; text-decoration: none; width: auto;">
                                           </th>
                                         </tr>
@@ -5363,6 +5373,7 @@ enrolment_summary_report|Ilmoittautumisen yhteenvetoraportti|Enrolment summary r
                                             style="color: #0a0a0a; font-family: Helvetica, Arial, sans-serif; font-size: 16px; font-weight: normal; line-height: 1.3; margin: 0; padding: 0; text-align: left;">
                                             <img
                                               src="https://www.hel.fi/wps/CoHTheme/themes/html/RWD_main_theme/img/logo/logo-hki-color-fi.png"
+                                              alt="City of Helsinki logo"
                                               style="-ms-interpolation-mode: bicubic; clear: both; display: block; max-width: 100%; outline: none; text-decoration: none; width: auto;">
                                           </th>
                                         </tr>
@@ -5840,6 +5851,7 @@ enrolment_summary_report|Ilmoittautumisen yhteenvetoraportti|Enrolment summary r
                                             style="color: #0a0a0a; font-family: Helvetica, Arial, sans-serif; font-size: 16px; font-weight: normal; line-height: 1.3; margin: 0; padding: 0; text-align: left;">
                                             <img
                                               src="https://www.hel.fi/wps/CoHTheme/themes/html/RWD_main_theme/img/logo/logo-hki-color-fi.png"
+                                              alt="Helsingfors stads logotyp"
                                               style="-ms-interpolation-mode: bicubic; clear: both; display: block; max-width: 100%; outline: none; text-decoration: none; width: auto;">
                                           </th>
                                         </tr>
@@ -6317,6 +6329,7 @@ occurrence_cancelled|Peruutusilmoitus|Cancellation notification|Meddelande om in
                                             style="color: #0a0a0a; font-family: Helvetica, Arial, sans-serif; font-size: 16px; font-weight: normal; line-height: 1.3; margin: 0; padding: 0; text-align: left;">
                                             <img
                                               src="https://www.hel.fi/wps/CoHTheme/themes/html/RWD_main_theme/img/logo/logo-hki-color-fi.png"
+                                              alt="Helsingin kaupungin logo"
                                               style="-ms-interpolation-mode: bicubic; clear: both; display: block; max-width: 100%; outline: none; text-decoration: none; width: auto;">
                                           </th>
                                         </tr>
@@ -6818,6 +6831,7 @@ occurrence_cancelled|Peruutusilmoitus|Cancellation notification|Meddelande om in
                                             style="color: #0a0a0a; font-family: Helvetica, Arial, sans-serif; font-size: 16px; font-weight: normal; line-height: 1.3; margin: 0; padding: 0; text-align: left;">
                                             <img
                                               src="https://www.hel.fi/wps/CoHTheme/themes/html/RWD_main_theme/img/logo/logo-hki-color-fi.png"
+                                              alt="City of Helsinki logo"
                                               style="-ms-interpolation-mode: bicubic; clear: both; display: block; max-width: 100%; outline: none; text-decoration: none; width: auto;">
                                           </th>
                                         </tr>
@@ -7319,6 +7333,7 @@ occurrence_cancelled|Peruutusilmoitus|Cancellation notification|Meddelande om in
                                             style="color: #0a0a0a; font-family: Helvetica, Arial, sans-serif; font-size: 16px; font-weight: normal; line-height: 1.3; margin: 0; padding: 0; text-align: left;">
                                             <img
                                               src="https://www.hel.fi/wps/CoHTheme/themes/html/RWD_main_theme/img/logo/logo-hki-color-fi.png"
+                                              alt="Helsingfors stads logotyp"
                                               style="-ms-interpolation-mode: bicubic; clear: both; display: block; max-width: 100%; outline: none; text-decoration: none; width: auto;">
                                           </th>
                                         </tr>
@@ -7831,6 +7846,7 @@ person_myprofile_accepted|Käyttäjätilisi Kultuksessa on valmis käytettäväk
                                                                                     <th
                                                                                         style="color: #0a0a0a; font-family: Helvetica, Arial, sans-serif; font-size: 16px; font-weight: normal; line-height: 1.3; margin: 0; padding: 0; text-align: left;">
                                                                                         <img src="https://www.hel.fi/wps/CoHTheme/themes/html/RWD_main_theme/img/logo/logo-hki-color-fi.png"
+                                                                                            alt="Helsingin kaupungin logo"
                                                                                             style="-ms-interpolation-mode: bicubic; clear: both; display: block; max-width: 100%; outline: none; text-decoration: none; width: auto;">
                                                                                     </th>
                                                                                 </tr>
@@ -8301,6 +8317,7 @@ person_myprofile_accepted|Käyttäjätilisi Kultuksessa on valmis käytettäväk
                                                                                     <th
                                                                                         style="color: #0a0a0a; font-family: Helvetica, Arial, sans-serif; font-size: 16px; font-weight: normal; line-height: 1.3; margin: 0; padding: 0; text-align: left;">
                                                                                         <img src="https://www.hel.fi/wps/CoHTheme/themes/html/RWD_main_theme/img/logo/logo-hki-color-fi.png"
+                                                                                            alt="City of Helsinki logo"
                                                                                             style="-ms-interpolation-mode: bicubic; clear: both; display: block; max-width: 100%; outline: none; text-decoration: none; width: auto;">
                                                                                     </th>
                                                                                 </tr>
@@ -8772,6 +8789,7 @@ person_myprofile_accepted|Käyttäjätilisi Kultuksessa on valmis käytettäväk
                                                                                     <th
                                                                                         style="color: #0a0a0a; font-family: Helvetica, Arial, sans-serif; font-size: 16px; font-weight: normal; line-height: 1.3; margin: 0; padding: 0; text-align: left;">
                                                                                         <img src="https://www.hel.fi/wps/CoHTheme/themes/html/RWD_main_theme/img/logo/logo-hki-color-fi.png"
+                                                                                            alt="Helsingfors stads logotyp"
                                                                                             style="-ms-interpolation-mode: bicubic; clear: both; display: block; max-width: 100%; outline: none; text-decoration: none; width: auto;">
                                                                                     </th>
                                                                                 </tr>
@@ -9244,6 +9262,7 @@ person_myprofile_creation|Uusi käyttäjä luotu Kultukseen|New user created for
                                                                                     <th
                                                                                         style="color: #0a0a0a; font-family: Helvetica, Arial, sans-serif; font-size: 16px; font-weight: normal; line-height: 1.3; margin: 0; padding: 0; text-align: left;">
                                                                                         <img src="https://www.hel.fi/wps/CoHTheme/themes/html/RWD_main_theme/img/logo/logo-hki-color-fi.png"
+                                                                                            alt="Helsingin kaupungin logo"
                                                                                             style="-ms-interpolation-mode: bicubic; clear: both; display: block; max-width: 100%; outline: none; text-decoration: none; width: auto;">
                                                                                     </th>
                                                                                 </tr>
@@ -9742,6 +9761,7 @@ person_myprofile_creation|Uusi käyttäjä luotu Kultukseen|New user created for
                                                                                     <th
                                                                                         style="color: #0a0a0a; font-family: Helvetica, Arial, sans-serif; font-size: 16px; font-weight: normal; line-height: 1.3; margin: 0; padding: 0; text-align: left;">
                                                                                         <img src="https://www.hel.fi/wps/CoHTheme/themes/html/RWD_main_theme/img/logo/logo-hki-color-fi.png"
+                                                                                            alt="City of Helsinki logo"
                                                                                             style="-ms-interpolation-mode: bicubic; clear: both; display: block; max-width: 100%; outline: none; text-decoration: none; width: auto;">
                                                                                     </th>
                                                                                 </tr>
@@ -10241,6 +10261,7 @@ person_myprofile_creation|Uusi käyttäjä luotu Kultukseen|New user created for
                                                                                     <th
                                                                                         style="color: #0a0a0a; font-family: Helvetica, Arial, sans-serif; font-size: 16px; font-weight: normal; line-height: 1.3; margin: 0; padding: 0; text-align: left;">
                                                                                         <img src="https://www.hel.fi/wps/CoHTheme/themes/html/RWD_main_theme/img/logo/logo-hki-color-fi.png"
+                                                                                            alt="Helsingfors stads logotyp"
                                                                                             style="-ms-interpolation-mode: bicubic; clear: both; display: block; max-width: 100%; outline: none; text-decoration: none; width: auto;">
                                                                                     </th>
                                                                                 </tr>
@@ -10739,6 +10760,7 @@ enrolment_approved|Ilmoittautuminen vahvistettu|Enrolment approved|Anmälan har 
                                             style="color: #0a0a0a; font-family: Helvetica, Arial, sans-serif; font-size: 16px; font-weight: normal; line-height: 1.3; margin: 0; padding: 0; text-align: left;">
                                             <img
                                               src="https://www.hel.fi/wps/CoHTheme/themes/html/RWD_main_theme/img/logo/logo-hki-color-fi.png"
+                                              alt="Helsingin kaupungin logo"
                                               style="-ms-interpolation-mode: bicubic; clear: both; display: block; max-width: 100%; outline: none; text-decoration: none; width: auto;">
                                           </th>
                                         </tr>
@@ -11242,6 +11264,7 @@ enrolment_approved|Ilmoittautuminen vahvistettu|Enrolment approved|Anmälan har 
                                             style="color: #0a0a0a; font-family: Helvetica, Arial, sans-serif; font-size: 16px; font-weight: normal; line-height: 1.3; margin: 0; padding: 0; text-align: left;">
                                             <img
                                               src="https://www.hel.fi/wps/CoHTheme/themes/html/RWD_main_theme/img/logo/logo-hki-color-fi.png"
+                                              alt="City of Helsinki logo"
                                               style="-ms-interpolation-mode: bicubic; clear: both; display: block; max-width: 100%; outline: none; text-decoration: none; width: auto;">
                                           </th>
                                         </tr>
@@ -11748,6 +11771,7 @@ enrolment_approved|Ilmoittautuminen vahvistettu|Enrolment approved|Anmälan har 
                                                                                     <th
                                                                                         style="color: #0a0a0a; font-family: Helvetica, Arial, sans-serif; font-size: 16px; font-weight: normal; line-height: 1.3; margin: 0; padding: 0; text-align: left;">
                                                                                         <img src="https://www.hel.fi/wps/CoHTheme/themes/html/RWD_main_theme/img/logo/logo-hki-color-fi.png"
+                                                                                            alt="Helsingfors stads logotyp"
                                                                                             style="-ms-interpolation-mode: bicubic; clear: both; display: block; max-width: 100%; outline: none; text-decoration: none; width: auto;">
                                                                                     </th>
                                                                                 </tr>
@@ -12268,6 +12292,7 @@ occurrence_enrolment|Ilmoittautuminen vastaanotettu|Enrolment received|Anmälan 
                                             style="color: #0a0a0a; font-family: Helvetica, Arial, sans-serif; font-size: 16px; font-weight: normal; line-height: 1.3; margin: 0; padding: 0; text-align: left;">
                                             <img
                                               src="https://www.hel.fi/wps/CoHTheme/themes/html/RWD_main_theme/img/logo/logo-hki-color-fi.png"
+                                              alt="Helsingin kaupungin logo"
                                               style="-ms-interpolation-mode: bicubic; clear: both; display: block; max-width: 100%; outline: none; text-decoration: none; width: auto;">
                                           </th>
                                         </tr>
@@ -12758,6 +12783,7 @@ occurrence_enrolment|Ilmoittautuminen vastaanotettu|Enrolment received|Anmälan 
                                             style="color: #0a0a0a; font-family: Helvetica, Arial, sans-serif; font-size: 16px; font-weight: normal; line-height: 1.3; margin: 0; padding: 0; text-align: left;">
                                             <img
                                               src="https://www.hel.fi/wps/CoHTheme/themes/html/RWD_main_theme/img/logo/logo-hki-color-fi.png"
+                                              alt="City of Helsinki logo"
                                               style="-ms-interpolation-mode: bicubic; clear: both; display: block; max-width: 100%; outline: none; text-decoration: none; width: auto;">
                                           </th>
                                         </tr>
@@ -13248,6 +13274,7 @@ occurrence_enrolment|Ilmoittautuminen vastaanotettu|Enrolment received|Anmälan 
                                             style="color: #0a0a0a; font-family: Helvetica, Arial, sans-serif; font-size: 16px; font-weight: normal; line-height: 1.3; margin: 0; padding: 0; text-align: left;">
                                             <img
                                               src="https://www.hel.fi/wps/CoHTheme/themes/html/RWD_main_theme/img/logo/logo-hki-color-fi.png"
+                                              alt="Helsingfors stads logotyp"
                                               style="-ms-interpolation-mode: bicubic; clear: both; display: block; max-width: 100%; outline: none; text-decoration: none; width: auto;">
                                           </th>
                                         </tr>
@@ -13743,6 +13770,7 @@ enrolment_cancellation|Ilmoittautumisen peruuttaminen|Enrolment cancellation|Avb
                                             style="color: #0a0a0a; font-family: Helvetica, Arial, sans-serif; font-size: 16px; font-weight: normal; line-height: 1.3; margin: 0; padding: 0; text-align: left;">
                                             <img
                                               src="https://www.hel.fi/wps/CoHTheme/themes/html/RWD_main_theme/img/logo/logo-hki-color-fi.png"
+                                              alt="Helsingin kaupungin logo"
                                               style="-ms-interpolation-mode: bicubic; clear: both; display: block; max-width: 100%; outline: none; text-decoration: none; width: auto;">
                                           </th>
                                         </tr>
@@ -14239,6 +14267,7 @@ enrolment_cancellation|Ilmoittautumisen peruuttaminen|Enrolment cancellation|Avb
                                             style="color: #0a0a0a; font-family: Helvetica, Arial, sans-serif; font-size: 16px; font-weight: normal; line-height: 1.3; margin: 0; padding: 0; text-align: left;">
                                             <img
                                               src="https://www.hel.fi/wps/CoHTheme/themes/html/RWD_main_theme/img/logo/logo-hki-color-fi.png"
+                                              alt="City of Helsinki logo"
                                               style="-ms-interpolation-mode: bicubic; clear: both; display: block; max-width: 100%; outline: none; text-decoration: none; width: auto;">
                                           </th>
                                         </tr>
@@ -14741,6 +14770,7 @@ enrolment_cancellation|Ilmoittautumisen peruuttaminen|Enrolment cancellation|Avb
                                             style="color: #0a0a0a; font-family: Helvetica, Arial, sans-serif; font-size: 16px; font-weight: normal; line-height: 1.3; margin: 0; padding: 0; text-align: left;">
                                             <img
                                               src="https://www.hel.fi/wps/CoHTheme/themes/html/RWD_main_theme/img/logo/logo-hki-color-fi.png"
+                                              alt="Helsingfors stads logotyp"
                                               style="-ms-interpolation-mode: bicubic; clear: both; display: block; max-width: 100%; outline: none; text-decoration: none; width: auto;">
                                           </th>
                                         </tr>
@@ -15245,6 +15275,7 @@ enrolment_cancelled|Ilmoittautumisen peruuttaminen vahvistettu|Enrolment cancell
                                             style="color: #0a0a0a; font-family: Helvetica, Arial, sans-serif; font-size: 16px; font-weight: normal; line-height: 1.3; margin: 0; padding: 0; text-align: left;">
                                             <img
                                               src="https://www.hel.fi/wps/CoHTheme/themes/html/RWD_main_theme/img/logo/logo-hki-color-fi.png"
+                                              alt="Helsingin kaupungin logo"
                                               style="-ms-interpolation-mode: bicubic; clear: both; display: block; max-width: 100%; outline: none; text-decoration: none; width: auto;">
                                           </th>
                                         </tr>
@@ -15745,6 +15776,7 @@ enrolment_cancelled|Ilmoittautumisen peruuttaminen vahvistettu|Enrolment cancell
                                             style="color: #0a0a0a; font-family: Helvetica, Arial, sans-serif; font-size: 16px; font-weight: normal; line-height: 1.3; margin: 0; padding: 0; text-align: left;">
                                             <img
                                               src="https://www.hel.fi/wps/CoHTheme/themes/html/RWD_main_theme/img/logo/logo-hki-color-fi.png"
+                                              alt="City of Helsinki logo"
                                               style="-ms-interpolation-mode: bicubic; clear: both; display: block; max-width: 100%; outline: none; text-decoration: none; width: auto;">
                                           </th>
                                         </tr>
@@ -16245,6 +16277,7 @@ enrolment_cancelled|Ilmoittautumisen peruuttaminen vahvistettu|Enrolment cancell
                                             style="color: #0a0a0a; font-family: Helvetica, Arial, sans-serif; font-size: 16px; font-weight: normal; line-height: 1.3; margin: 0; padding: 0; text-align: left;">
                                             <img
                                               src="https://www.hel.fi/wps/CoHTheme/themes/html/RWD_main_theme/img/logo/logo-hki-color-fi.png"
+                                              alt="Helsingfors stads logotyp"
                                               style="-ms-interpolation-mode: bicubic; clear: both; display: block; max-width: 100%; outline: none; text-decoration: none; width: auto;">
                                           </th>
                                         </tr>
@@ -16747,6 +16780,7 @@ enrolment_declined|Ilmoittautumisen peruutusilmoitus|Enrolment declined|Meddelan
                                             style="color: #0a0a0a; font-family: Helvetica, Arial, sans-serif; font-size: 16px; font-weight: normal; line-height: 1.3; margin: 0; padding: 0; text-align: left;">
                                             <img
                                               src="https://www.hel.fi/wps/CoHTheme/themes/html/RWD_main_theme/img/logo/logo-hki-color-fi.png"
+                                              alt="Helsingin kaupungin logo"
                                               style="-ms-interpolation-mode: bicubic; clear: both; display: block; max-width: 100%; outline: none; text-decoration: none; width: auto;">
                                           </th>
                                         </tr>
@@ -17253,6 +17287,7 @@ enrolment_declined|Ilmoittautumisen peruutusilmoitus|Enrolment declined|Meddelan
                                             style="color: #0a0a0a; font-family: Helvetica, Arial, sans-serif; font-size: 16px; font-weight: normal; line-height: 1.3; margin: 0; padding: 0; text-align: left;">
                                             <img
                                               src="https://www.hel.fi/wps/CoHTheme/themes/html/RWD_main_theme/img/logo/logo-hki-color-fi.png"
+                                              alt="City of Helsinki logo"
                                               style="-ms-interpolation-mode: bicubic; clear: both; display: block; max-width: 100%; outline: none; text-decoration: none; width: auto;">
                                           </th>
                                         </tr>
@@ -17760,6 +17795,7 @@ enrolment_declined|Ilmoittautumisen peruutusilmoitus|Enrolment declined|Meddelan
                                             style="color: #0a0a0a; font-family: Helvetica, Arial, sans-serif; font-size: 16px; font-weight: normal; line-height: 1.3; margin: 0; padding: 0; text-align: left;">
                                             <img
                                               src="https://www.hel.fi/wps/CoHTheme/themes/html/RWD_main_theme/img/logo/logo-hki-color-fi.png"
+                                              alt="Helsingfors stads logotyp"
                                               style="-ms-interpolation-mode: bicubic; clear: both; display: block; max-width: 100%; outline: none; text-decoration: none; width: auto;">
                                           </th>
                                         </tr>
@@ -18267,6 +18303,7 @@ enrolment_summary_report|Ilmoittautumisen yhteenvetoraportti|Enrolment summary r
                                             style="color: #0a0a0a; font-family: Helvetica, Arial, sans-serif; font-size: 16px; font-weight: normal; line-height: 1.3; margin: 0; padding: 0; text-align: left;">
                                             <img
                                               src="https://www.hel.fi/wps/CoHTheme/themes/html/RWD_main_theme/img/logo/logo-hki-color-fi.png"
+                                              alt="Helsingin kaupungin logo"
                                               style="-ms-interpolation-mode: bicubic; clear: both; display: block; max-width: 100%; outline: none; text-decoration: none; width: auto;">
                                           </th>
                                         </tr>
@@ -18743,6 +18780,7 @@ enrolment_summary_report|Ilmoittautumisen yhteenvetoraportti|Enrolment summary r
                                             style="color: #0a0a0a; font-family: Helvetica, Arial, sans-serif; font-size: 16px; font-weight: normal; line-height: 1.3; margin: 0; padding: 0; text-align: left;">
                                             <img
                                               src="https://www.hel.fi/wps/CoHTheme/themes/html/RWD_main_theme/img/logo/logo-hki-color-fi.png"
+                                              alt="City of Helsinki logo"
                                               style="-ms-interpolation-mode: bicubic; clear: both; display: block; max-width: 100%; outline: none; text-decoration: none; width: auto;">
                                           </th>
                                         </tr>
@@ -19220,6 +19258,7 @@ enrolment_summary_report|Ilmoittautumisen yhteenvetoraportti|Enrolment summary r
                                             style="color: #0a0a0a; font-family: Helvetica, Arial, sans-serif; font-size: 16px; font-weight: normal; line-height: 1.3; margin: 0; padding: 0; text-align: left;">
                                             <img
                                               src="https://www.hel.fi/wps/CoHTheme/themes/html/RWD_main_theme/img/logo/logo-hki-color-fi.png"
+                                              alt="Helsingfors stads logotyp"
                                               style="-ms-interpolation-mode: bicubic; clear: both; display: block; max-width: 100%; outline: none; text-decoration: none; width: auto;">
                                           </th>
                                         </tr>
@@ -19697,6 +19736,7 @@ occurrence_cancelled|Peruutusilmoitus|Cancellation notification|Meddelande om in
                                             style="color: #0a0a0a; font-family: Helvetica, Arial, sans-serif; font-size: 16px; font-weight: normal; line-height: 1.3; margin: 0; padding: 0; text-align: left;">
                                             <img
                                               src="https://www.hel.fi/wps/CoHTheme/themes/html/RWD_main_theme/img/logo/logo-hki-color-fi.png"
+                                              alt="Helsingin kaupungin logo"
                                               style="-ms-interpolation-mode: bicubic; clear: both; display: block; max-width: 100%; outline: none; text-decoration: none; width: auto;">
                                           </th>
                                         </tr>
@@ -20198,6 +20238,7 @@ occurrence_cancelled|Peruutusilmoitus|Cancellation notification|Meddelande om in
                                             style="color: #0a0a0a; font-family: Helvetica, Arial, sans-serif; font-size: 16px; font-weight: normal; line-height: 1.3; margin: 0; padding: 0; text-align: left;">
                                             <img
                                               src="https://www.hel.fi/wps/CoHTheme/themes/html/RWD_main_theme/img/logo/logo-hki-color-fi.png"
+                                              alt="City of Helsinki logo"
                                               style="-ms-interpolation-mode: bicubic; clear: both; display: block; max-width: 100%; outline: none; text-decoration: none; width: auto;">
                                           </th>
                                         </tr>
@@ -20699,6 +20740,7 @@ occurrence_cancelled|Peruutusilmoitus|Cancellation notification|Meddelande om in
                                             style="color: #0a0a0a; font-family: Helvetica, Arial, sans-serif; font-size: 16px; font-weight: normal; line-height: 1.3; margin: 0; padding: 0; text-align: left;">
                                             <img
                                               src="https://www.hel.fi/wps/CoHTheme/themes/html/RWD_main_theme/img/logo/logo-hki-color-fi.png"
+                                              alt="Helsingfors stads logotyp"
                                               style="-ms-interpolation-mode: bicubic; clear: both; display: block; max-width: 100%; outline: none; text-decoration: none; width: auto;">
                                           </th>
                                         </tr>
@@ -21203,6 +21245,7 @@ occurrence_enrolment|Ilmoittautuminen vastaanotettu|Enrolment received|Anmälan 
                                             style="color: #0a0a0a; font-family: Helvetica, Arial, sans-serif; font-size: 16px; font-weight: normal; line-height: 1.3; margin: 0; padding: 0; text-align: left;">
                                             <img
                                               src="https://www.hel.fi/wps/CoHTheme/themes/html/RWD_main_theme/img/logo/logo-hki-color-fi.png"
+                                              alt="Helsingin kaupungin logo"
                                               style="-ms-interpolation-mode: bicubic; clear: both; display: block; max-width: 100%; outline: none; text-decoration: none; width: auto;">
                                           </th>
                                         </tr>
@@ -21693,6 +21736,7 @@ occurrence_enrolment|Ilmoittautuminen vastaanotettu|Enrolment received|Anmälan 
                                             style="color: #0a0a0a; font-family: Helvetica, Arial, sans-serif; font-size: 16px; font-weight: normal; line-height: 1.3; margin: 0; padding: 0; text-align: left;">
                                             <img
                                               src="https://www.hel.fi/wps/CoHTheme/themes/html/RWD_main_theme/img/logo/logo-hki-color-fi.png"
+                                              alt="City of Helsinki logo"
                                               style="-ms-interpolation-mode: bicubic; clear: both; display: block; max-width: 100%; outline: none; text-decoration: none; width: auto;">
                                           </th>
                                         </tr>
@@ -22183,6 +22227,7 @@ occurrence_enrolment|Ilmoittautuminen vastaanotettu|Enrolment received|Anmälan 
                                             style="color: #0a0a0a; font-family: Helvetica, Arial, sans-serif; font-size: 16px; font-weight: normal; line-height: 1.3; margin: 0; padding: 0; text-align: left;">
                                             <img
                                               src="https://www.hel.fi/wps/CoHTheme/themes/html/RWD_main_theme/img/logo/logo-hki-color-fi.png"
+                                              alt="Helsingfors stads logotyp"
                                               style="-ms-interpolation-mode: bicubic; clear: both; display: block; max-width: 100%; outline: none; text-decoration: none; width: auto;">
                                           </th>
                                         </tr>
@@ -22682,6 +22727,7 @@ person_myprofile_accepted|Käyttäjätilisi Kultuksessa on valmis käytettäväk
                                                                                     <th
                                                                                         style="color: #0a0a0a; font-family: Helvetica, Arial, sans-serif; font-size: 16px; font-weight: normal; line-height: 1.3; margin: 0; padding: 0; text-align: left;">
                                                                                         <img src="https://www.hel.fi/wps/CoHTheme/themes/html/RWD_main_theme/img/logo/logo-hki-color-fi.png"
+                                                                                            alt="Helsingin kaupungin logo"
                                                                                             style="-ms-interpolation-mode: bicubic; clear: both; display: block; max-width: 100%; outline: none; text-decoration: none; width: auto;">
                                                                                     </th>
                                                                                 </tr>
@@ -23152,6 +23198,7 @@ person_myprofile_accepted|Käyttäjätilisi Kultuksessa on valmis käytettäväk
                                                                                     <th
                                                                                         style="color: #0a0a0a; font-family: Helvetica, Arial, sans-serif; font-size: 16px; font-weight: normal; line-height: 1.3; margin: 0; padding: 0; text-align: left;">
                                                                                         <img src="https://www.hel.fi/wps/CoHTheme/themes/html/RWD_main_theme/img/logo/logo-hki-color-fi.png"
+                                                                                            alt="City of Helsinki logo"
                                                                                             style="-ms-interpolation-mode: bicubic; clear: both; display: block; max-width: 100%; outline: none; text-decoration: none; width: auto;">
                                                                                     </th>
                                                                                 </tr>
@@ -23623,6 +23670,7 @@ person_myprofile_accepted|Käyttäjätilisi Kultuksessa on valmis käytettäväk
                                                                                     <th
                                                                                         style="color: #0a0a0a; font-family: Helvetica, Arial, sans-serif; font-size: 16px; font-weight: normal; line-height: 1.3; margin: 0; padding: 0; text-align: left;">
                                                                                         <img src="https://www.hel.fi/wps/CoHTheme/themes/html/RWD_main_theme/img/logo/logo-hki-color-fi.png"
+                                                                                            alt="Helsingfors stads logotyp"
                                                                                             style="-ms-interpolation-mode: bicubic; clear: both; display: block; max-width: 100%; outline: none; text-decoration: none; width: auto;">
                                                                                     </th>
                                                                                 </tr>
@@ -24095,6 +24143,7 @@ person_myprofile_creation|Uusi käyttäjä luotu Kultukseen|New user created for
                                                                                     <th
                                                                                         style="color: #0a0a0a; font-family: Helvetica, Arial, sans-serif; font-size: 16px; font-weight: normal; line-height: 1.3; margin: 0; padding: 0; text-align: left;">
                                                                                         <img src="https://www.hel.fi/wps/CoHTheme/themes/html/RWD_main_theme/img/logo/logo-hki-color-fi.png"
+                                                                                            alt="Helsingin kaupungin logo"
                                                                                             style="-ms-interpolation-mode: bicubic; clear: both; display: block; max-width: 100%; outline: none; text-decoration: none; width: auto;">
                                                                                     </th>
                                                                                 </tr>
@@ -24593,6 +24642,7 @@ person_myprofile_creation|Uusi käyttäjä luotu Kultukseen|New user created for
                                                                                     <th
                                                                                         style="color: #0a0a0a; font-family: Helvetica, Arial, sans-serif; font-size: 16px; font-weight: normal; line-height: 1.3; margin: 0; padding: 0; text-align: left;">
                                                                                         <img src="https://www.hel.fi/wps/CoHTheme/themes/html/RWD_main_theme/img/logo/logo-hki-color-fi.png"
+                                                                                            alt="City of Helsinki logo"
                                                                                             style="-ms-interpolation-mode: bicubic; clear: both; display: block; max-width: 100%; outline: none; text-decoration: none; width: auto;">
                                                                                     </th>
                                                                                 </tr>
@@ -25092,6 +25142,7 @@ person_myprofile_creation|Uusi käyttäjä luotu Kultukseen|New user created for
                                                                                     <th
                                                                                         style="color: #0a0a0a; font-family: Helvetica, Arial, sans-serif; font-size: 16px; font-weight: normal; line-height: 1.3; margin: 0; padding: 0; text-align: left;">
                                                                                         <img src="https://www.hel.fi/wps/CoHTheme/themes/html/RWD_main_theme/img/logo/logo-hki-color-fi.png"
+                                                                                            alt="Helsingfors stads logotyp"
                                                                                             style="-ms-interpolation-mode: bicubic; clear: both; display: block; max-width: 100%; outline: none; text-decoration: none; width: auto;">
                                                                                     </th>
                                                                                 </tr>
@@ -25591,6 +25642,7 @@ snapshots['test_update_notifications 1'] = '''enrolment_approved|Ilmoittautumine
                                             style="color: #0a0a0a; font-family: Helvetica, Arial, sans-serif; font-size: 16px; font-weight: normal; line-height: 1.3; margin: 0; padding: 0; text-align: left;">
                                             <img
                                               src="https://www.hel.fi/wps/CoHTheme/themes/html/RWD_main_theme/img/logo/logo-hki-color-fi.png"
+                                              alt="Helsingin kaupungin logo"
                                               style="-ms-interpolation-mode: bicubic; clear: both; display: block; max-width: 100%; outline: none; text-decoration: none; width: auto;">
                                           </th>
                                         </tr>
@@ -26094,6 +26146,7 @@ snapshots['test_update_notifications 1'] = '''enrolment_approved|Ilmoittautumine
                                             style="color: #0a0a0a; font-family: Helvetica, Arial, sans-serif; font-size: 16px; font-weight: normal; line-height: 1.3; margin: 0; padding: 0; text-align: left;">
                                             <img
                                               src="https://www.hel.fi/wps/CoHTheme/themes/html/RWD_main_theme/img/logo/logo-hki-color-fi.png"
+                                              alt="City of Helsinki logo"
                                               style="-ms-interpolation-mode: bicubic; clear: both; display: block; max-width: 100%; outline: none; text-decoration: none; width: auto;">
                                           </th>
                                         </tr>
@@ -26600,6 +26653,7 @@ snapshots['test_update_notifications 1'] = '''enrolment_approved|Ilmoittautumine
                                                                                     <th
                                                                                         style="color: #0a0a0a; font-family: Helvetica, Arial, sans-serif; font-size: 16px; font-weight: normal; line-height: 1.3; margin: 0; padding: 0; text-align: left;">
                                                                                         <img src="https://www.hel.fi/wps/CoHTheme/themes/html/RWD_main_theme/img/logo/logo-hki-color-fi.png"
+                                                                                            alt="Helsingfors stads logotyp"
                                                                                             style="-ms-interpolation-mode: bicubic; clear: both; display: block; max-width: 100%; outline: none; text-decoration: none; width: auto;">
                                                                                     </th>
                                                                                 </tr>
