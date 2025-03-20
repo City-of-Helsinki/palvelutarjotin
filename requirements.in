@@ -1,6 +1,7 @@
 certifi
 django-admin-list-filter-dropdown
 django-axes
+django-auditlog
 django-cors-headers
 django-csp
 django-environ
@@ -23,3 +24,4 @@ requests
 sentry-sdk
 social-auth-app-django
 urllib3
+django-auditlog-extra@git+https://github.com/City-of-Helsinki/django-auditlog-extra.git@bff5fa3921d6821bebdd6be6c9fd20db39d32d54#egg=django-auditlog-extra
