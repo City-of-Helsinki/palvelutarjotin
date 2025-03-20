@@ -3,6 +3,7 @@ import uuid
 
 import pytest
 import requests_mock
+from auditlog.models import LogEntry
 from django.conf import settings
 from django.contrib.auth import get_user_model
 from django.urls import reverse
@@ -219,14 +220,20 @@ def test_get_profile_data_from_gdpr_api(
     snapshot.assert_match(response.json())
 
 
-@pytest.mark.django_db(reset_sequences=True)
+@pytest.mark.django_db(reset_sequences=True, transaction=True)
 @pytest.mark.parametrize(
     "test_scope",
     ["simplest", "most_complex"],
 )
 def test_delete_profile_data_from_gdpr_api(
-    test_scope, snapshot, user, gdpr_api_client, requests_mock, mock_get_event_data
+    test_scope, snapshot, gdpr_api_client, requests_mock, mock_get_event_data
 ):
+    # Clear the LogEntry table before the test
+    LogEntry.objects.all().delete()
+    assert LogEntry.objects.count() == 0
+    # Create a new user
+    user = UserFactory()
+
     if test_scope == "most_complex":
         _test_person_with_all_data_relations_populated(user, assert_counts=True)
 
@@ -249,6 +256,22 @@ def test_delete_profile_data_from_gdpr_api(
     assert response.status_code == 204
     with pytest.raises(User.DoesNotExist):
         User.objects.get(username=user.username)
+
+    if test_scope == "most_complex":
+        all_count = LogEntry.objects.count()
+        assert all_count > 2
+        created = LogEntry.objects.filter(action=LogEntry.Action.CREATE)
+        deleted = LogEntry.objects.filter(action=LogEntry.Action.DELETE)
+        assert created.count() == all_count - deleted.count()
+        assert deleted.count() == 1
+        assert deleted.first().object_id == user.id
+    else:
+        assert LogEntry.objects.count() == 2
+        (created_log, deleted_log) = LogEntry.objects.all().order_by("id")
+        assert created_log.action == LogEntry.Action.CREATE
+        assert created_log.object_id == user.id
+        assert deleted_log.action == LogEntry.Action.DELETE
+        assert deleted_log.object_id == user.id
 
     # The enrolments and the study groups should still persist in the database,
     # but they should are anonymized
