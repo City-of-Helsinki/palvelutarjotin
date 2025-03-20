@@ -192,6 +192,8 @@ INSTALLED_APPS = [
     "django_filters",
     "axes",
     "django_admin_listfilter_dropdown",
+    "auditlog",
+    "auditlog_extra",
     # local apps under this line
     "utils",
     "organisations",
@@ -199,6 +201,7 @@ INSTALLED_APPS = [
     "verification_token",
     "reports",
     "notification_importers",
+    "palvelutarjotin",
 ]
 
 MIDDLEWARE = [
@@ -212,6 +215,7 @@ MIDDLEWARE = [
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
     "axes.middleware.AxesMiddleware",
+    "auditlog_extra.middleware.AuditlogMiddleware",
 ]
 
 TEMPLATES = [
@@ -411,3 +415,6 @@ HELUSERS_USER_MIGRATE_ENABLED = env.bool("HELUSERS_USER_MIGRATE_ENABLED", True)
 HELUSERS_BACK_CHANNEL_LOGOUT_ENABLED = env.bool(
     "HELUSERS_BACK_CHANNEL_LOGOUT_ENABLED", True
 )
+
+# Load auditlog settings
+from palvelutarjotin.auditlog_settings import *  # noqa: E402, F403
