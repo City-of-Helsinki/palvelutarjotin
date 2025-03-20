@@ -6,7 +6,7 @@ from django.http import HttpResponse
 from django.urls import include, path
 from django.utils.translation import gettext
 from django.views.decorators.csrf import csrf_exempt
-from django.views.decorators.http import require_GET
+from django.views.decorators.http import require_GET, require_http_methods
 from helusers.admin_site import admin
 
 from common.utils import get_api_version
@@ -35,10 +35,12 @@ urlpatterns = [
 #
 # Kubernetes liveness & readiness probes
 #
+@require_http_methods(["GET", "HEAD"])
 def healthz(*args, **kwargs):
     return HttpResponse(status=200)
 
 
+@require_http_methods(["GET", "HEAD"])
 def readiness(*args, **kwargs):
     return HttpResponse(status=200)
 
