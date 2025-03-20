@@ -1,6 +1,38 @@
 <!-- REMINDER: While updating changelog, also remember to update
 the version in palvelutarjotin/__init.py__ -->
 
+## [1.19.0](https://github.com/City-of-Helsinki/palvelutarjotin/compare/palvelutarjotin-v1.18.0...palvelutarjotin-v1.19.0) (2025-03-20)
+
+
+### Features
+
+* Add gitlint & md-toc to pre-commit hooks, update related README ([c09351f](https://github.com/City-of-Helsinki/palvelutarjotin/commit/c09351f2c24ba8acf6721764d2580835c6e7462d))
+* **dependabot:** Configure dependabot using .github/dependabot.yml ([dbe9147](https://github.com/City-of-Helsinki/palvelutarjotin/commit/dbe9147ecc8b98d901f2dd5d4382c67986a7ab5c))
+* **python:** Upgrade python from 3.11 to 3.12 everywhere in codebase ([cd87b14](https://github.com/City-of-Helsinki/palvelutarjotin/commit/cd87b14ce843e4f1d3a01d59e5a586181257431f))
+* **sonarcloud:** Add sonar-project.properties to configure SonarCloud ([8c9810b](https://github.com/City-of-Helsinki/palvelutarjotin/commit/8c9810b2f8a3e314a2a0ecf7b662baeafaa51b6a))
+
+
+### Bug Fixes
+
+* **license:** Update license year to current year of 2025 ([15659a5](https://github.com/City-of-Helsinki/palvelutarjotin/commit/15659a5ebe545497df537eb73260d9a1d8cc6d1b))
+* Order StudyGroups by (created_at, group_name) for predictability ([3c9482c](https://github.com/City-of-Helsinki/palvelutarjotin/commit/3c9482c4ef407fadb728b0837d7450c5627fac32))
+* **sonarcloud:** Add alt texts to &lt;img&gt; tags in email templates ([dbb6177](https://github.com/City-of-Helsinki/palvelutarjotin/commit/dbb6177bacc7d089adc674e5759782fca760ea0d))
+* **sonarcloud:** Add lang & xml:lang to email templates' html tags ([8105034](https://github.com/City-of-Helsinki/palvelutarjotin/commit/81050348c13e16cfdbf65259c18c7a3a4a3cf477))
+* **sonarcloud:** Allow deprecated attributes in email templates ([5f275db](https://github.com/City-of-Helsinki/palvelutarjotin/commit/5f275db33ce629878929281423c0abc923a710c8))
+* **sonarcloud:** Allow deprecated elements in email templates ([7ac1945](https://github.com/City-of-Helsinki/palvelutarjotin/commit/7ac19455e01c06db96fb5da8b93597d1d4a6f8fb))
+* **sonarcloud:** Allow tables without headers in email templates ([b9071d2](https://github.com/City-of-Helsinki/palvelutarjotin/commit/b9071d2689d58d3ad79dfd8f6f456aa245a7ea86))
+* **sonarcloud:** Don't hardcode debug mode SECRET_KEY, update README ([0792782](https://github.com/City-of-Helsinki/palvelutarjotin/commit/07927823c9df0163e43d043f1eeef76c2109e5e1))
+* **sonarcloud:** Fix margin CSS styles in email templates ([f22890a](https://github.com/City-of-Helsinki/palvelutarjotin/commit/f22890aa684ec9d032397c76275d4f697abbdf39))
+* **sonarcloud:** Fix rest of the margin CSS styles in email templates ([2700840](https://github.com/City-of-Helsinki/palvelutarjotin/commit/27008407139719823165ebea95f838119b98027f))
+* **sonarcloud:** Generate PEM key pair in tests instead of hardcoding it ([6194e23](https://github.com/City-of-Helsinki/palvelutarjotin/commit/6194e2357f0931ee4b9b42b51bc238881be1b76b))
+* **sonarcloud:** Ignore false positive "wrap &lt;li&gt; with &lt;ul&gt;" warnings ([343c172](https://github.com/City-of-Helsinki/palvelutarjotin/commit/343c1721d819521a86f41900c4695b7361e82103))
+* **sonarcloud:** Move DATABASE_URL default to .env.example ([2ddc4fc](https://github.com/City-of-Helsinki/palvelutarjotin/commit/2ddc4fc1f45738077266ed9c0ed1782934b001fb))
+* **sonarcloud:** Use safe HTTP methods with healthz/readiness endpoints ([0cab943](https://github.com/City-of-Helsinki/palvelutarjotin/commit/0cab9437156d07dc16e704d81e53cedddefccc84))
+* **sonarcloud:** Use signed & verified JWT token in tests ([94c09d4](https://github.com/City-of-Helsinki/palvelutarjotin/commit/94c09d4a1bef795e00882813a759aeb0e07e5bc0))
+* **sonarcloud:** Use tempfile for creating MAILER_LOCK_PATH default ([8656420](https://github.com/City-of-Helsinki/palvelutarjotin/commit/86564205b3dd68acdc997fbfebfaf757f53ea2fc))
+* **sonarcloud:** Use zoneinfo.ZoneInfo instead of pytz.timezone ([3c265a0](https://github.com/City-of-Helsinki/palvelutarjotin/commit/3c265a029eefe53dbbf8cae14d78523bc99d4a86))
+* Upgrade deps, fix Dockerfile, update ignores, unify env files ([d5e43a0](https://github.com/City-of-Helsinki/palvelutarjotin/commit/d5e43a08dbad216db94c84184a6466288042992c))
+
 ## [1.18.0](https://github.com/City-of-Helsinki/palvelutarjotin/compare/palvelutarjotin-v1.17.0...palvelutarjotin-v1.18.0) (2024-10-31)
 
 
