@@ -1,5 +1,6 @@
 from typing import Any
 
+from auditlog_extra.mixins import AuditlogAdminViewAccessLogMixin
 from django import forms
 from django.conf import settings
 from django.contrib import admin, messages
@@ -18,7 +19,7 @@ from organisations.models import Organisation, OrganisationProposal, Person, Use
 
 
 @admin.register(Organisation)
-class OrganisationAdmin(admin.ModelAdmin):
+class OrganisationAdmin(AuditlogAdminViewAccessLogMixin, admin.ModelAdmin):
     filter_horizontal = ("persons",)
     list_display = ("name", "type", "publisher_id")
     list_filter = ["type"]
@@ -74,7 +75,7 @@ class OrganisationProposalAdminForm(forms.ModelForm):
 
 
 @admin.register(OrganisationProposal)
-class OrganisationProposalAdmin(admin.ModelAdmin):
+class OrganisationProposalAdmin(AuditlogAdminViewAccessLogMixin, admin.ModelAdmin):
     list_display = ("name", "applicant")
     search_fields = (
         "name",
@@ -154,7 +155,8 @@ class PersonAdminForm(forms.ModelForm):
 
 
 @admin.register(Person)
-class PersonAdmin(admin.ModelAdmin):
+class PersonAdmin(AuditlogAdminViewAccessLogMixin, admin.ModelAdmin):
+    enable_list_view_audit_logging = True
     list_display = (
         "id",
         "name",
@@ -294,7 +296,8 @@ class UserAdminForm(UserChangeForm):
 
 
 @admin.register(get_user_model())
-class UserAdmin(DjangoUserAdmin):
+class UserAdmin(AuditlogAdminViewAccessLogMixin, DjangoUserAdmin):
+    enable_list_view_audit_logging = True
     fieldsets = (
         (None, {"fields": ("username", "password")}),
         (_("Personal info"), {"fields": ("first_name", "last_name", "email")}),
