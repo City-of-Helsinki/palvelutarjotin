@@ -1,3 +1,4 @@
+from auditlog_extra.mixins import AuditlogAdminViewAccessLogMixin
 from django.contrib import admin
 from django.contrib.admin.filters import BooleanFieldListFilter, DateFieldListFilter
 from django.http import HttpResponseRedirect
@@ -94,7 +95,8 @@ class HasUnitIdStudyGroupListFilter(admin.SimpleListFilter):
 
 
 @admin.register(StudyGroup)
-class StudyGroupAdmin(admin.ModelAdmin):
+class StudyGroupAdmin(AuditlogAdminViewAccessLogMixin, admin.ModelAdmin):
+    enable_list_view_audit_logging = True
     list_display = (
         "id",
         "unit_id",
@@ -133,13 +135,13 @@ class StudyGroupAdmin(admin.ModelAdmin):
 
 
 @admin.register(StudyLevel)
-class StudyLevelAdmin(admin.ModelAdmin):
+class StudyLevelAdmin(AuditlogAdminViewAccessLogMixin, admin.ModelAdmin):
     list_display = ("id", "label", "level")
     ordering = ("level",)
 
 
 @admin.register(Occurrence)
-class OccurrenceAdmin(admin.ModelAdmin):
+class OccurrenceAdmin(AuditlogAdminViewAccessLogMixin, admin.ModelAdmin):
     list_display = (
         "id",
         "p_event",
@@ -177,7 +179,8 @@ class OccurrenceAdmin(admin.ModelAdmin):
 
 
 @admin.register(Enrolment)
-class EnrolmentAdmin(admin.ModelAdmin):
+class EnrolmentAdmin(AuditlogAdminViewAccessLogMixin, admin.ModelAdmin):
+    enable_list_view_audit_logging = True
     list_display = ("id", "linked_event_id", "enrolment_time", "study_group", "status")
     list_filter = ["enrolment_time", "status"]
     search_fields = ["occurrence__p_event__linked_event_id", "study_group__unit_name"]
@@ -193,7 +196,7 @@ class EnrolmentAdmin(admin.ModelAdmin):
 
 
 @admin.register(EventQueueEnrolment)
-class EventQueueEnrolmentAdmin(admin.ModelAdmin):
+class EventQueueEnrolmentAdmin(AuditlogAdminViewAccessLogMixin, admin.ModelAdmin):
     list_display = (
         "id",
         "linked_event_id",
@@ -220,7 +223,7 @@ class EventQueueEnrolmentAdmin(admin.ModelAdmin):
 
 
 @admin.register(VenueCustomData)
-class VenueCustomDataAdmin(TranslatableAdmin):
+class VenueCustomDataAdmin(AuditlogAdminViewAccessLogMixin, TranslatableAdmin):
     list_display = (
         "place_id",
         "has_clothing_storage",
@@ -246,7 +249,7 @@ class VenueCustomDataAdmin(TranslatableAdmin):
 
 
 @admin.register(PalvelutarjotinEvent)
-class PalvelutarjotinEventAdmin(admin.ModelAdmin):
+class PalvelutarjotinEventAdmin(AuditlogAdminViewAccessLogMixin, admin.ModelAdmin):
     change_list_template = "admin/palvelutarjotinevent_changelist.html"
     list_display = (
         "linked_event_id",
@@ -312,7 +315,7 @@ class PalvelutarjotinEventAdmin(admin.ModelAdmin):
 
 
 @admin.register(EnrolleePersonalData)
-class EnrolleePersonalDataAdmin(admin.ModelAdmin):
+class EnrolleePersonalDataAdmin(AuditlogAdminViewAccessLogMixin, admin.ModelAdmin):
     list_display = (
         "name",
         "phone_number",
