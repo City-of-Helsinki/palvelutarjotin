@@ -2,6 +2,7 @@ certifi
 django-admin-list-filter-dropdown
 django-axes
 django-cors-headers
+django-csp
 django-environ
 django-filter
 django-graphql-jwt

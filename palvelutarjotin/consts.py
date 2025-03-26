@@ -23,3 +23,16 @@ MISSING_MANDATORY_INFORMATION_ERROR = "MISSING_MANDATORY_INFORMATION_ERROR"
 INVALID_TOKEN_ERROR = "INVALID_TOKEN_ERROR"
 INVALID_STUDY_GROUP_UNIT_INFO_ERROR = "INVALID_STUDY_GROUP_UNIT_INFO_ERROR"
 QUEUEING_NOT_ALLOWED_ERROR = "QUEUEING_NOT_ALLOWED_ERROR"
+
+
+class CSP:
+    """The “special” source values of 'self', 'unsafe-inline', 'unsafe-eval', 'none'
+    and hash-source ('sha256-...') must be quoted! e.g.: CSP_DEFAULT_SRC = ("'self'",).
+    Without quotes they will not work as intended.
+    Ref. https://django-csp.readthedocs.io/en/stable/configuration.html.
+    """
+
+    SELF = "'self'"
+    NONE = "'none'"
+    UNSAFE_INLINE = "'unsafe-inline'"
+    UNSAFE_EVAL = "'unsafe-eval'"
