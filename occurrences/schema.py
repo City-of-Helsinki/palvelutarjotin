@@ -2,6 +2,7 @@ import re
 from typing import List
 
 import graphene
+from auditlog_extra.graphene_decorators import auditlog_access
 from django.apps import apps
 from django.conf import settings
 from django.db import IntegrityError, transaction
@@ -313,6 +314,7 @@ class UnitNode(graphene.Union):
         return ExternalPlace
 
 
+@auditlog_access  # log access because of personal information
 class StudyGroupNode(DjangoObjectType):
     class Meta:
         model = StudyGroup
@@ -635,6 +637,7 @@ class EnrolmentConnectionWithCount(graphene.Connection):
         return root.length
 
 
+@auditlog_access  # log access because of personal information
 class EnrolmentNode(DjangoObjectType):
     notification_type = NotificationTypeEnum()
     status = EnrolmentStatusEnum()
@@ -659,6 +662,7 @@ class EnrolmentNode(DjangoObjectType):
         return queryset.user_can_view(info.context.user)
 
 
+@auditlog_access  # log access because of personal information
 class EventQueueEnrolmentNode(DjangoObjectType):
     notification_type = NotificationTypeEnum()
     status = EventQueueEnrolmentStatusEnum()
