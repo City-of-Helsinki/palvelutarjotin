@@ -316,6 +316,7 @@ class PalvelutarjotinEventAdmin(AuditlogAdminViewAccessLogMixin, admin.ModelAdmi
 
 @admin.register(EnrolleePersonalData)
 class EnrolleePersonalDataAdmin(AuditlogAdminViewAccessLogMixin, admin.ModelAdmin):
+    enable_list_view_audit_logging = True
     list_display = (
         "name",
         "phone_number",
