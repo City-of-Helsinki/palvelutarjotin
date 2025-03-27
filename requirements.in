@@ -6,6 +6,7 @@ django-csp
 django-environ
 django-filter
 django-graphql-jwt
+django-health-check
 django-helusers
 django-ilmoitin
 django-utils-six

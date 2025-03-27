@@ -1,16 +1,15 @@
-import json
-
 from csp.decorators import csp_update
 from django.conf import settings
 from django.conf.urls.static import static
-from django.http import HttpResponse
+from django.http import JsonResponse
 from django.urls import include, path, re_path
 from django.utils.translation import gettext
 from django.views.decorators.csrf import csrf_exempt
-from django.views.decorators.http import require_GET, require_http_methods
+from django.views.decorators.http import require_http_methods
 from helusers.admin_site import admin
 
 from common.utils import get_api_version
+from custom_health_checks.views import HealthCheckJSONView
 from palvelutarjotin import __version__
 from palvelutarjotin.consts import CSP
 from palvelutarjotin.views import SentryGraphQLView
@@ -46,17 +45,7 @@ urlpatterns = [
 # Kubernetes liveness & readiness probes
 #
 @require_http_methods(["GET", "HEAD"])
-def healthz(*args, **kwargs):
-    return HttpResponse(status=200)
-
-
-@require_http_methods(["GET", "HEAD"])
 def readiness(*args, **kwargs):
-    return HttpResponse(status=200)
-
-
-@require_GET
-def version(*args, **kwargs):
     response_json = {
         "status": "ok",
         "release": settings.APP_RELEASE,
@@ -64,13 +53,14 @@ def version(*args, **kwargs):
         "commitHash": settings.COMMIT_HASH.decode("utf-8"),
         "buildTime": settings.APP_BUILD_TIME.strftime("%Y-%m-%dT%H:%M:%S.000Z"),
     }
-    return HttpResponse(json.dumps(response_json), status=200)
+    return JsonResponse(response_json, status=200)
 
 
 urlpatterns += [
-    path("healthz", healthz),
+    path(r"healthz", HealthCheckJSONView.as_view(), name="healthz"),
     path("readiness", readiness),
-    path("api/version", version),
 ]
+
+
 if settings.DEBUG:
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
