@@ -196,7 +196,9 @@ INSTALLED_APPS = [
     "django_filters",
     "axes",
     "django_admin_listfilter_dropdown",
+    "health_check",
     # local apps under this line
+    "custom_health_checks",
     "utils",
     "organisations",
     "occurrences",

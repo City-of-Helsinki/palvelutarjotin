@@ -42,6 +42,7 @@ django==4.2.20
     #   django-csp
     #   django-filter
     #   django-graphql-jwt
+    #   django-health-check
     #   django-helusers
     #   django-ilmoitin
     #   django-mailer
@@ -66,6 +67,8 @@ django-environ==0.12.0
 django-filter==25.1
     # via -r requirements.in
 django-graphql-jwt==0.4.0
+    # via -r requirements.in
+django-health-check==3.18.3
     # via -r requirements.in
 django-helusers==0.13.3
     # via
