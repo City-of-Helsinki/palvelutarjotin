@@ -1,10 +1,12 @@
 import enum
 from datetime import datetime
+from typing import Optional
 
 import graphene
 from django.conf import settings
 from django.core.exceptions import PermissionDenied
 from django.db import transaction
+from django.http import HttpRequest
 from django.utils import timezone
 from django.utils.translation import gettext_lazy as _
 from graphene import Node
@@ -151,3 +153,41 @@ def raise_permission_denied_if_not_staff(user):
     """
     if not user or not getattr(user, "is_staff"):
         raise PermissionDenied(_("You do not have permission to perform this action"))
+
+
+def get_client_ip(request: Optional[HttpRequest]) -> Optional[str]:
+    """
+    Retrieves the client's IP address from the request.
+
+    This function prioritizes the 'HTTP_X_FORWARDED_FOR' header, which is commonly
+    used when the request passes through proxies or load balancers. If that
+    header is not available, it falls back to 'REMOTE_ADDR'.
+
+    Args:
+        request: The HttpRequest object, or None if no request is available.
+
+    Returns:
+        The client's IP address as a string, or None if it cannot be determined or
+        if request is None.
+    """
+    if not request:
+        return None
+
+    try:
+        x_forwarded_for: Optional[str] = request.META.get("HTTP_X_FORWARDED_FOR")
+        if x_forwarded_for:
+            ips = x_forwarded_for.split(",")
+            if ips:  # check if list is not empty
+                return ips[0].strip()
+
+        remote_addr: Optional[str] = request.META.get("REMOTE_ADDR")
+        if remote_addr:
+            return remote_addr
+
+        return None
+
+    except (AttributeError, IndexError):
+        return None  # Handle potential errors gracefully
+    except Exception as e:  # Catch any other error.
+        print(f"An unexpected error occured: {e}")
+        return None

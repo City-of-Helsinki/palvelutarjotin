@@ -6,11 +6,13 @@ from zoneinfo import ZoneInfo
 
 import graphene
 import pytest
+from django.http import HttpRequest
 from django.test.utils import override_settings
 from django.utils import timezone
 
 from common.utils import (
     deepfix_enum_values,
+    get_client_ip,
     is_enum_value,
     map_enums_to_values_in_kwargs,
     to_local_datetime_if_naive,
@@ -318,3 +320,43 @@ def test_to_local_datetime_if_naive_uses_current_timezone(settings):
         assert to_local_datetime_if_naive("2020-12-30").tzinfo == ZoneInfo(
             "America/New_York"
         )
+
+
+class TestGetClientIP:
+    def test_get_client_ip_x_forwarded_for(self):
+        request = HttpRequest()
+        request.META = {"HTTP_X_FORWARDED_FOR": "192.168.1.1, 10.0.0.1"}
+        assert get_client_ip(request) == "192.168.1.1"
+
+    def test_get_client_ip_x_forwarded_for_with_whitespace(self):
+        request = HttpRequest()
+        request.META = {"HTTP_X_FORWARDED_FOR": "  192.168.1.1  , 10.0.0.1"}
+        assert get_client_ip(request) == "192.168.1.1"
+
+    def test_get_client_ip_remote_addr(self):
+        request = HttpRequest()
+        request.META = {"REMOTE_ADDR": "127.0.0.1"}
+        assert get_client_ip(request) == "127.0.0.1"
+
+    def test_get_client_ip_no_headers(self):
+        request = HttpRequest()
+        request.META = {}
+        assert get_client_ip(request) is None
+
+    def test_get_client_ip_remote_addr_and_x_forwarded_for(self):
+        request = HttpRequest()
+        request.META = {
+            "REMOTE_ADDR": "127.0.0.1",
+            "HTTP_X_FORWARDED_FOR": "192.168.1.1",
+        }
+        assert get_client_ip(request) == "192.168.1.1"
+
+    def test_get_client_ip_x_forwarded_for_empty(self):
+        request = HttpRequest()
+        request.META = {"HTTP_X_FORWARDED_FOR": ""}
+        assert get_client_ip(request) is None
+
+    def test_get_client_ip_remote_addr_empty(self):
+        request = HttpRequest()
+        request.META = {"REMOTE_ADDR": ""}
+        assert get_client_ip(request) is None
