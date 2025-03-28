@@ -1,5 +1,6 @@
 import logging
 
+from auditlog_extra.mixins import AuditlogAdminViewAccessLogMixin
 from django import forms
 from django.contrib import admin, messages
 from django.db.models import F
@@ -137,7 +138,7 @@ class EnrolmentReportAdminForm(forms.ModelForm):
 
 
 @admin.register(EnrolmentReport)
-class EnrolmentReportAdmin(admin.ModelAdmin):
+class EnrolmentReportAdmin(AuditlogAdminViewAccessLogMixin, admin.ModelAdmin):
     change_list_template = "reports/admin/enrolmentreport_changelist.html"
     form = EnrolmentReportAdminForm
     list_display = [

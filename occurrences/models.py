@@ -435,7 +435,16 @@ class Occurrence(GDPRModel, SerializableMixin, TimestampedModel):
         self.__post_delete_unpublish_event()
 
     def __str__(self):
-        return f"{self.p_event.linked_event_id} {self.start_time} {self.place_id}"
+        if self.p_event:
+            return "Event {} at {} ({})".format(
+                self.p_event.linked_event_id,
+                self.place_id,
+                self.start_time.strftime("%Y-%m-%d %H:%M"),
+            )
+        else:
+            return "Event at {} ({})".format(
+                self.place_id, self.start_time.strftime("%Y-%m-%d %H:%M")
+            )
 
     @property
     def seats_approved(self):
@@ -916,7 +925,17 @@ class EventQueueEnrolment(GDPRModel, SerializableMixin, EnrolmentBase):
         ]
 
     def __str__(self):
-        return f"{self.id} {self.p_event.linked_event_id} {self.study_group.unit_name}"
+        parts = []
+        if self.p_event:
+            parts.append(f"Event: {self.p_event.linked_event_id}")
+        if self.study_group:
+            parts.append(f"Group: {self.study_group.unit_name}")
+        if not parts:
+            return f"ID: {self.id}"
+        else:
+            parts.append(f"(ID: {self.id})")
+
+        return ", ".join(parts)
 
     def is_editable_by_user(self, user):
         return user.person.organisations.filter(

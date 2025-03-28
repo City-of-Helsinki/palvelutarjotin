@@ -37,6 +37,8 @@ django==4.2.20
     # via
     #   -r requirements.in
     #   django-anymail
+    #   django-auditlog
+    #   django-auditlog-extra
     #   django-axes
     #   django-cors-headers
     #   django-csp
@@ -56,6 +58,12 @@ django-admin-list-filter-dropdown==1.0.3
     # via -r requirements.in
 django-anymail==12.0
     # via django-ilmoitin
+django-auditlog==3.0.0
+    # via
+    #   -r requirements.in
+    #   django-auditlog-extra
+django-auditlog-extra @ git+https://github.com/City-of-Helsinki/django-auditlog-extra.git@bff5fa3921d6821bebdd6be6c9fd20db39d32d54
+    # via -r requirements.in
 django-axes==7.0.2
     # via -r requirements.in
 django-cors-headers==4.7.0
@@ -94,7 +102,7 @@ ecdsa==0.19.1
     # via python-jose
 factory-boy==3.3.3
     # via -r requirements.in
-faker==37.0.0
+faker==37.0.2
     # via factory-boy
 geographiclib==2.0
     # via geopy
@@ -152,7 +160,9 @@ pyjwt==2.10.1
     #   django-graphql-jwt
     #   social-auth-core
 python-dateutil==2.9.0.post0
-    # via graphene
+    # via
+    #   django-auditlog
+    #   graphene
 python-jose==3.4.0
     # via django-helusers
 python3-openid==3.2.0
@@ -169,7 +179,7 @@ requests-oauthlib==2.0.0
     # via social-auth-core
 rsa==4.9
     # via python-jose
-sentry-sdk==2.22.0
+sentry-sdk==2.23.1
     # via -r requirements.in
 six==1.17.0
     # via

@@ -3,6 +3,8 @@ import datetime
 import logging
 from functools import lru_cache
 
+from auditlog.context import set_actor
+from auditlog.signals import accessed
 from django.conf import settings
 from django.contrib import messages
 from django.contrib.admin.views.decorators import staff_member_required
@@ -20,6 +22,7 @@ from rest_framework.authentication import SessionAuthentication
 from rest_framework.permissions import DjangoModelPermissions, IsAdminUser
 from rest_framework.views import APIView
 
+from common.mixins import LogListAccessMixin
 from common.utils import (
     get_node_id_from_global_id,
     to_local_datetime_if_naive,
@@ -36,6 +39,17 @@ logger = logging.getLogger(__name__)
 
 def naive_datetime_to_tz_aware(datetime: str) -> str:
     return datetime + "T00:00:00.000Z" if datetime else None
+
+
+class LogAccessMixin:
+    def get_queryset(self):
+        queryset = super().get_queryset()
+        user = self.request.user
+        # write access logs to auditlog
+        with set_actor(user):
+            for obj in queryset:
+                accessed.send(sender=obj.__class__, instance=obj)
+        return queryset
 
 
 class ExportReportViewMixin:
@@ -73,8 +87,6 @@ class ExportReportViewMixin:
 class PersonsMixin(ExportReportViewMixin):
     def get_queryset(self):
         queryset = super().get_queryset()
-        # TODO: Prefetching persons might just be enough.
-        # It may be needless to filter persons without users.
         return queryset.prefetch_related(
             Prefetch(
                 "organisations",
@@ -180,7 +192,7 @@ Admin views...
 
 
 @method_decorator(staff_member_required, name="dispatch")
-class PersonsAdminView(PersonsMixin, ListView):
+class PersonsAdminView(LogAccessMixin, PersonsMixin, ListView):
     """
     The admin view which renders a table of organisations persons.
     """
@@ -200,7 +212,7 @@ class PersonsAdminView(PersonsMixin, ListView):
 
 
 @method_decorator(staff_member_required, name="dispatch")
-class OrganisationPersonsAdminView(OrganisationPersonsMixin, ListView):
+class OrganisationPersonsAdminView(LogAccessMixin, OrganisationPersonsMixin, ListView):
     """
     The admin view which renders a table of organisations persons.
     """
@@ -221,7 +233,7 @@ class OrganisationPersonsAdminView(OrganisationPersonsMixin, ListView):
 
 @method_decorator(staff_member_required, name="dispatch")
 class PalvelutarjotinEventEnrolmentsAdminView(
-    PalvelutarjotinEventEnrolmentsMixin, ListView
+    LogAccessMixin, PalvelutarjotinEventEnrolmentsMixin, ListView
 ):
     """
     The admin view which renders a table of events occurrences and enrolments.
@@ -352,6 +364,9 @@ class OrganisationPersonsCsvView(OrganisationPersonsMixin, ExportReportCsvView):
         writer.writerow([_("Organisation"), _("Name"), _("Email"), _("Phone")])
         for organisation in self.get_queryset():
             for person in organisation.persons.all().order_by("name"):
+                # write access logs to auditlog
+                with set_actor(request.user):
+                    accessed.send(sender=person.__class__, instance=person)
                 writer.writerow(
                     [
                         organisation.name,
@@ -409,6 +424,9 @@ class PalvelutarjotinEventEnrolmentsCsvView(
             return get_place_json_from_linkedevents(place_id)
 
         for enrolment in self.get_queryset():
+            # write access logs to auditlog
+            with set_actor(request.user):
+                accessed.send(sender=enrolment.__class__, instance=enrolment)
             start_datetime = timezone.localtime(enrolment.occurrence.start_time)
             end_datetime = timezone.localtime(enrolment.occurrence.end_time)
             enrolment_datetime = timezone.localtime(enrolment.enrolment_time)
@@ -476,7 +494,7 @@ def sync_enrolment_reports_view(request):
     return HttpResponseRedirect(reverse("admin:reports_enrolmentreport_changelist"))
 
 
-class EnrolmentReportListView(generics.ListAPIView):
+class EnrolmentReportListView(LogListAccessMixin, generics.ListAPIView):
     """
     Return a list of all the enrolment reports.
 
@@ -544,8 +562,11 @@ class EnrolmentReportListView(generics.ListAPIView):
     # that there should be no pagination
     pagination_class = None
 
+    queryset = EnrolmentReport.objects.all()
+
     def get_queryset(self):
-        queryset = EnrolmentReport.objects.all()
+        queryset = super().get_queryset()
+
         # Parse non-datetime filter parameters
         filter_params = {
             k: self.request.query_params.get(k)

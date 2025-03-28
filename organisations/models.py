@@ -1,3 +1,5 @@
+from auditlog.context import disable_auditlog
+from auditlog.models import LogEntry
 from dateutil.relativedelta import relativedelta
 from django.conf import settings
 from django.contrib.auth import get_user_model
@@ -112,8 +114,18 @@ class User(AbstractUser, GDPRModel, SerializableMixin):
 
     @transaction.atomic
     def delete(self, *args, **kwargs):
+        # Delete the related event contact info before deleting the user
         self.delete_related_p_event_contact_info()
-        return super().delete(*args, **kwargs)
+        # Make a log entry for the deletion
+        LogEntry.objects.log_create(
+            self, force_log=True, action=LogEntry.Action.DELETE
+        ).save()
+        # Delete the user without creating a auditlog entry,
+        # because the log entry is already created above and
+        # there would be a foreign key constraint violation
+        # if the log entry is not created before the user is deleted.
+        with disable_auditlog():
+            return super().delete(*args, **kwargs)
 
     def delete_related_p_event_contact_info(self):
         if hasattr(self, "person"):

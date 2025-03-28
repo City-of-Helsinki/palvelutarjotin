@@ -15,6 +15,7 @@
 - [Configuration](#configuration)
   - [Generating secret key for Django](#generating-secret-key-for-django)
 - [API Documentation](#api-documentation)
+- [Audit logging](#audit-logging)
 - [Keeping Python requirements up to date](#keeping-python-requirements-up-to-date)
 - [Code linting & formatting](#code-linting--formatting)
 - [Pre-commit hooks](#pre-commit-hooks)
@@ -275,6 +276,24 @@ allowed_chars = string.ascii_lowercase + string.digits + "!@#$%^&*(-_=+)"
 
 To view the API documentation, in DEBUG mode visit http://localhost:8081/graphql and checkout the
 `Documentation Explorer` section
+
+## Audit logging
+
+Audit logging is implemented with `django-auditlog`, but it has some extended features applied with [auditlog_extra](https://github.com/City-of-Helsinki/django-auditlog-extra) -app.
+
+The configuration that defines which models are in the scope of the audit logging can be found in [auditlog_settings.py](./palvelutarjotin/auditlog_settings.py).
+
+The GraphQL query/mutation and admin site views can be logged by using the mixins and decorators that `auditlog_extra` provides.
+
+**References**:
+
+- Django-auditlog
+
+  > PyPi: https://pypi.org/project/django-auditlog/.
+  >
+  > Github: https://github.com/jazzband/django-auditlog.
+  >
+  > Docs: https://django-auditlog.readthedocs.io/en/latest/index.html.
 
 ## Keeping Python requirements up to date
 

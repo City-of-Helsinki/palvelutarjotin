@@ -1,4 +1,5 @@
 import graphene
+from auditlog_extra.graphene_decorators import auditlog_access
 from django.contrib.auth import get_user_model
 from django.core.exceptions import ValidationError
 from django.core.validators import validate_email
@@ -27,6 +28,7 @@ from palvelutarjotin.exceptions import (
 User = get_user_model()
 
 
+@auditlog_access  # log access because of personal information
 class PersonNode(DjangoObjectType):
     language = LanguageEnum(required=True)
     is_staff = Boolean(required=True)
