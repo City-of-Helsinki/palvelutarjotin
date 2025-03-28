@@ -3,6 +3,8 @@ import datetime
 import logging
 from functools import lru_cache
 
+from auditlog.context import set_actor
+from auditlog.signals import accessed
 from django.conf import settings
 from django.contrib import messages
 from django.contrib.admin.views.decorators import staff_member_required
@@ -20,7 +22,9 @@ from rest_framework.authentication import SessionAuthentication
 from rest_framework.permissions import DjangoModelPermissions, IsAdminUser
 from rest_framework.views import APIView
 
+from common.mixins import LogListAccessMixin
 from common.utils import (
+    get_client_ip,
     get_node_id_from_global_id,
     to_local_datetime_if_naive,
 )
@@ -36,6 +40,18 @@ logger = logging.getLogger(__name__)
 
 def naive_datetime_to_tz_aware(datetime: str) -> str:
     return datetime + "T00:00:00.000Z" if datetime else None
+
+
+class LogAccessMixin:
+    def get_queryset(self):
+        queryset = super().get_queryset()
+        # write access logs to auditlog
+        with set_actor(
+            actor=self.request.user, remote_addr=get_client_ip(self.request)
+        ):
+            for obj in queryset:
+                accessed.send(sender=obj.__class__, instance=obj)
+        return queryset
 
 
 class ExportReportViewMixin:
@@ -73,8 +89,6 @@ class ExportReportViewMixin:
 class PersonsMixin(ExportReportViewMixin):
     def get_queryset(self):
         queryset = super().get_queryset()
-        # TODO: Prefetching persons might just be enough.
-        # It may be needless to filter persons without users.
         return queryset.prefetch_related(
             Prefetch(
                 "organisations",
@@ -180,7 +194,7 @@ Admin views...
 
 
 @method_decorator(staff_member_required, name="dispatch")
-class PersonsAdminView(PersonsMixin, ListView):
+class PersonsAdminView(LogAccessMixin, PersonsMixin, ListView):
     """
     The admin view which renders a table of organisations persons.
     """
@@ -200,7 +214,7 @@ class PersonsAdminView(PersonsMixin, ListView):
 
 
 @method_decorator(staff_member_required, name="dispatch")
-class OrganisationPersonsAdminView(OrganisationPersonsMixin, ListView):
+class OrganisationPersonsAdminView(LogAccessMixin, OrganisationPersonsMixin, ListView):
     """
     The admin view which renders a table of organisations persons.
     """
@@ -213,10 +227,6 @@ class OrganisationPersonsAdminView(OrganisationPersonsMixin, ListView):
         context = super().get_context_data(**kwargs)
         context["opts"] = self.model._meta
         return context
-
-    # @staff_member_required
-    def get(self, request, *args, **kwargs):
-        return super().get(request, *args, **kwargs)
 
 
 @method_decorator(staff_member_required, name="dispatch")
@@ -239,14 +249,22 @@ class PalvelutarjotinEventEnrolmentsAdminView(
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
+        queryset = self.get_queryset()
         context["linked_events_root"] = settings.LINKED_EVENTS_API_CONFIG["ROOT"]
         context["total_children"] = sum(
-            enrolment.study_group.group_size for enrolment in self.get_queryset()
+            enrolment.study_group.group_size for enrolment in queryset
         )
         context["total_adults"] = sum(
-            enrolment.study_group.amount_of_adult for enrolment in self.get_queryset()
+            enrolment.study_group.amount_of_adult for enrolment in queryset
         )
         context["opts"] = self.model._meta
+
+        with set_actor(
+            actor=self.request.user, remote_addr=get_client_ip(self.request)
+        ):
+            for enrolment in queryset:
+                accessed.send(sender=enrolment.__class__, instance=enrolment)
+
         return context
 
 
@@ -310,8 +328,10 @@ class ExportReportCsvView(ExportReportViewMixin, APIView):
         field_names = [field.name for field in meta.fields]
         writer, response = self._create_csv_response_writer(meta)
         writer.writerow(field_names)
-        for obj in queryset:
-            writer.writerow([getattr(obj, field) for field in field_names])
+        with set_actor(actor=request.user, remote_addr=get_client_ip(request)):
+            for obj in queryset:
+                accessed.send(sender=obj.__class__, instance=obj)
+                writer.writerow([getattr(obj, field) for field in field_names])
 
         return response
 
@@ -326,15 +346,18 @@ class PersonsCsvView(PersonsMixin, ExportReportCsvView):
     def get(self, request, *args, **kwargs):
         writer, response = self._create_csv_response_writer("kultus_persons")
         writer.writerow([_("Name"), _("Email"), _("Phone"), _("Organisations")])
-        for person in self.get_queryset().order_by("name"):
-            writer.writerow(
-                [
-                    person.name,
-                    person.email_address,
-                    person.phone_number,
-                    ", ".join([o.name for o in person.organisations.all()]),
-                ]
-            )
+        with set_actor(actor=request.user, remote_addr=get_client_ip(request)):
+            for person in self.get_queryset().order_by("name"):
+                # write access logs to auditlog
+                accessed.send(sender=person.__class__, instance=person)
+                writer.writerow(
+                    [
+                        person.name,
+                        person.email_address,
+                        person.phone_number,
+                        ", ".join([o.name for o in person.organisations.all()]),
+                    ]
+                )
         return response
 
 
@@ -350,16 +373,20 @@ class OrganisationPersonsCsvView(OrganisationPersonsMixin, ExportReportCsvView):
             "kultus_organisations_persons"
         )
         writer.writerow([_("Organisation"), _("Name"), _("Email"), _("Phone")])
-        for organisation in self.get_queryset():
-            for person in organisation.persons.all().order_by("name"):
-                writer.writerow(
-                    [
-                        organisation.name,
-                        person.name,
-                        person.email_address,
-                        person.phone_number,
-                    ]
-                )
+
+        with set_actor(actor=request.user, remote_addr=get_client_ip(request)):
+            for organisation in self.get_queryset():
+                for person in organisation.persons.all().order_by("name"):
+                    # write access logs to auditlog
+                    accessed.send(sender=person.__class__, instance=person)
+                    writer.writerow(
+                        [
+                            organisation.name,
+                            person.name,
+                            person.email_address,
+                            person.phone_number,
+                        ]
+                    )
         return response
 
 
@@ -409,6 +436,12 @@ class PalvelutarjotinEventEnrolmentsCsvView(
             return get_place_json_from_linkedevents(place_id)
 
         for enrolment in self.get_queryset():
+            # write access logs to auditlog
+            with set_actor(
+                actor=request.user,
+                remote_addr=get_client_ip(request),
+            ):
+                accessed.send(sender=enrolment.__class__, instance=enrolment)
             start_datetime = timezone.localtime(enrolment.occurrence.start_time)
             end_datetime = timezone.localtime(enrolment.occurrence.end_time)
             enrolment_datetime = timezone.localtime(enrolment.enrolment_time)
@@ -476,7 +509,7 @@ def sync_enrolment_reports_view(request):
     return HttpResponseRedirect(reverse("admin:reports_enrolmentreport_changelist"))
 
 
-class EnrolmentReportListView(generics.ListAPIView):
+class EnrolmentReportListView(LogListAccessMixin, generics.ListAPIView):
     """
     Return a list of all the enrolment reports.
 
@@ -544,8 +577,11 @@ class EnrolmentReportListView(generics.ListAPIView):
     # that there should be no pagination
     pagination_class = None
 
+    queryset = EnrolmentReport.objects.all()
+
     def get_queryset(self):
-        queryset = EnrolmentReport.objects.all()
+        queryset = super().get_queryset()
+
         # Parse non-datetime filter parameters
         filter_params = {
             k: self.request.query_params.get(k)

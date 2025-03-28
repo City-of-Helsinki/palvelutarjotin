@@ -3,6 +3,8 @@ from datetime import timezone as datetime_timezone
 from unittest import mock
 
 import pytest
+from auditlog.context import disable_auditlog
+from auditlog.models import LogEntry
 from django.contrib.auth.models import Permission
 from django.contrib.contenttypes.models import ContentType
 from django.test import override_settings, TestCase
@@ -23,7 +25,7 @@ from occurrences.factories import (
 )
 from occurrences.models import Enrolment, PalvelutarjotinEvent
 from organisations.factories import OrganisationFactory, PersonFactory, UserFactory
-from organisations.models import Organisation
+from organisations.models import Organisation, Person
 from reports.factories import EnrolmentReportFactory
 from reports.models import EnrolmentReport
 from reports.views import (
@@ -33,7 +35,10 @@ from reports.views import (
     OrganisationPersonsMixin,
     PalvelutarjotinEventEnrolmentsAdminView,
     PalvelutarjotinEventEnrolmentsMixin,
+    PersonsAdminView,
 )
+
+REMOTE_ADDR = "127.0.0.1"
 
 
 def local_datetime(*args, **kwargs):
@@ -230,6 +235,34 @@ class PalvelutarjotinEventEnrolmentsMixinTest(TestCase):
 
 
 @pytest.mark.usefixtures("mock_get_event_data")
+class PersonsAdminViewTest(TestCase):
+    def setUp(self):
+        super().setUp()
+        # Setup request and view.
+        self.view = PersonsAdminView()
+
+    @pytest.mark.django_db
+    def test_auditlog_access_logging(self):
+        PERSONS_BATCH_COUNT = 5
+        user = UserFactory()
+        PersonFactory.create_batch(PERSONS_BATCH_COUNT)
+        self.view.request = RequestFactory().get(
+            "/fake-path/", headers={"X-Forwarded-For": REMOTE_ADDR}
+        )
+        self.view.request.user = user
+        queryset = self.view.get_queryset()
+        self.assertEqual(queryset.count(), PERSONS_BATCH_COUNT)
+        access_logs = LogEntry.objects.filter(action=LogEntry.Action.ACCESS)
+        self.assertEqual(
+            access_logs.count(),
+            PERSONS_BATCH_COUNT,
+        )
+        access_log_entry = access_logs.first()
+        self.assertEqual(access_log_entry.actor, user)
+        self.assertEqual(access_log_entry.remote_addr, REMOTE_ADDR)
+
+
+@pytest.mark.usefixtures("mock_get_event_data")
 class OrganisationPersonsAdminViewTest(TestCase):
     def setUp(self):
         super().setUp()
@@ -238,7 +271,9 @@ class OrganisationPersonsAdminViewTest(TestCase):
 
     @pytest.mark.django_db
     def test_get_context_data(self):
+        user = UserFactory()
         self.view.request = RequestFactory().get("/fake-path/")
+        self.view.request.user = user
         org1, org2 = OrganisationFactory.create_batch(2)
         PersonFactory.create_batch(2, organisations=[org1])
         PersonFactory.create_batch(2, organisations=[org2])
@@ -247,6 +282,30 @@ class OrganisationPersonsAdminViewTest(TestCase):
         # Launch Mixin's get_context_data
         context = self.view.get_context_data(object_list=[org1, org2], **kwargs)
         self.assertEqual(len(context["organisations"]), 2)
+
+    @pytest.mark.django_db
+    def test_auditlog_access_logging(
+        self,
+    ):
+        ORGANISATION_BATCH_COUNT = 2
+        user = UserFactory()
+        org1, org2 = OrganisationFactory.create_batch(ORGANISATION_BATCH_COUNT)
+        PersonFactory.create_batch(2, organisations=[org1])
+        PersonFactory.create_batch(2, organisations=[org2])
+        self.view.request = RequestFactory().get(
+            "/fake-path/", headers={"X-Forwarded-For": REMOTE_ADDR}
+        )
+        self.view.request.user = user
+        queryset = self.view.get_queryset()
+        self.assertEqual(queryset.count(), ORGANISATION_BATCH_COUNT)
+        access_logs = LogEntry.objects.filter(action=LogEntry.Action.ACCESS)
+        self.assertEqual(
+            access_logs.count(),
+            ORGANISATION_BATCH_COUNT,
+        )
+        access_log_entry = access_logs.first()
+        self.assertEqual(access_log_entry.actor, user)
+        self.assertEqual(access_log_entry.remote_addr, REMOTE_ADDR)
 
 
 @pytest.mark.usefixtures("mock_get_event_data")
@@ -265,7 +324,9 @@ class PalvelutarjotinEventEnrolmentsAdminViewTest(TestCase):
         }
     )
     def test_get_context_data(self):
+        user = UserFactory()
         self.view.request = RequestFactory().get("/fake-path/")
+        self.view.request.user = user
         today = datetime.now(tz=datetime_timezone.utc)
         p_events = PalvelutarjotinEventFactory.create_batch(3, enrolment_start=today)
         for p_event in p_events:
@@ -284,6 +345,110 @@ class PalvelutarjotinEventEnrolmentsAdminViewTest(TestCase):
         self.assertEqual(context["total_children"], 6)
         self.assertEqual(context["total_adults"], 3)
         self.assertIsNotNone(context["opts"])
+
+    @pytest.mark.django_db
+    def test_auditlog_access_logging(
+        self,
+    ):
+        EVENT_BATCH_COUNT = 2
+        ENROLMENT_BATCH_COUNT = 2
+        ENROLMENT_TOTAL_COUNT = EVENT_BATCH_COUNT * ENROLMENT_BATCH_COUNT
+        user = UserFactory()
+        today = datetime.now(tz=datetime_timezone.utc)
+
+        p_event1, p_event2 = PalvelutarjotinEventFactory.create_batch(
+            EVENT_BATCH_COUNT, enrolment_start=today
+        )
+        EnrolmentFactory.create_batch(
+            ENROLMENT_BATCH_COUNT,
+            occurrence__p_event=p_event1,
+            status=Enrolment.STATUS_APPROVED,
+        )
+        EnrolmentFactory.create_batch(
+            ENROLMENT_BATCH_COUNT,
+            occurrence__p_event=p_event2,
+            status=Enrolment.STATUS_APPROVED,
+        )
+        self.view.request = RequestFactory().get(
+            "/fake-path/", headers={"X-Forwarded-For": REMOTE_ADDR}
+        )
+        self.view.request.user = user
+        self.assertEqual(PalvelutarjotinEvent.objects.count(), EVENT_BATCH_COUNT)
+        self.assertEqual(Enrolment.objects.count(), ENROLMENT_TOTAL_COUNT)
+        kwargs = {}
+        self.view.get_context_data(object_list=[p_event1, p_event2], **kwargs)
+        access_logs = LogEntry.objects.filter(action=LogEntry.Action.ACCESS)
+        self.assertEqual(
+            access_logs.count(),
+            ENROLMENT_TOTAL_COUNT,
+        )
+        access_log_entry = access_logs.first()
+        self.assertEqual(access_log_entry.actor, user)
+        self.assertEqual(access_log_entry.remote_addr, REMOTE_ADDR)
+
+
+@pytest.mark.usefixtures("mock_get_event_data")
+class PersonsCsvViewTest(TestCase):
+    @pytest.mark.django_db
+    def test_export_persons_csv_data(
+        self,
+    ):
+        PERSONS_BATCH_COUNT = 2
+        person_1, person_2 = PersonFactory.create_batch(PERSONS_BATCH_COUNT)
+
+        admin_user = UserFactory(is_staff=True)
+        user = UserFactory(is_staff=False)
+
+        user_api_client = APIClient()
+        user_api_client.force_authenticate(user=user)
+
+        staff_api_client = APIClient()
+        staff_api_client.force_authenticate(user=admin_user)
+
+        response = user_api_client.get(
+            "/reports/persons/csv/?ids={}".format(person_1.id)
+        )
+        # Forbidden
+        assert response.status_code == status.HTTP_403_FORBIDDEN
+
+        response = staff_api_client.get(
+            "/reports/persons/csv/?ids={}".format(person_1.id)
+        )
+        assert response.status_code == status.HTTP_200_OK
+
+        self.assertContains(response, person_1.name)
+        self.assertContains(response, person_1.email_address)
+
+        self.assertNotContains(response, person_2.name)
+        self.assertNotContains(response, person_2.email_address)
+
+    @pytest.mark.django_db
+    def test_auditlog_access_logging(
+        self,
+    ):
+        PERSON_BATCH_COUNT = 2
+        admin_user = UserFactory(is_staff=True)
+        PersonFactory.create_batch(
+            PERSON_BATCH_COUNT,
+        )
+        staff_api_client = APIClient()
+        staff_api_client.force_authenticate(user=admin_user)
+        staff_api_client.get(
+            "/reports/persons/csv/",
+            headers={"X-Forwarded-For": REMOTE_ADDR},
+        )
+
+        self.assertEqual(Person.objects.count(), PERSON_BATCH_COUNT)
+        access_logs = LogEntry.objects.filter(
+            action=LogEntry.Action.ACCESS, actor=admin_user
+        )
+        self.assertEqual(
+            access_logs.count(),
+            PERSON_BATCH_COUNT,
+        )
+        access_log_entry = access_logs.first()
+        self.assertEqual(access_log_entry.actor, admin_user)
+        self.assertEqual(access_log_entry.remote_addr, REMOTE_ADDR)
 
 
 @pytest.mark.usefixtures("mock_get_event_data")
@@ -318,6 +483,43 @@ class OrganisationPersonsCsvViewTest(TestCase):
 
         self.assertNotContains(response, org2.name)
         self.assertNotContains(response, person_2.name)
+
+    @pytest.mark.django_db
+    def test_auditlog_access_logging(
+        self,
+    ):
+        ORGANISATION_BATCH_COUNT = 2
+        PERSON_BATCH_COUNT = 2
+        PERSON_TOTAL_COUNT = ORGANISATION_BATCH_COUNT * PERSON_BATCH_COUNT
+        admin_user = UserFactory(is_staff=True)
+        org1, org2 = OrganisationFactory.create_batch(ORGANISATION_BATCH_COUNT)
+        PersonFactory.create_batch(
+            PERSON_BATCH_COUNT,
+            organisations=[org1],
+        )
+        PersonFactory.create_batch(
+            PERSON_BATCH_COUNT,
+            organisations=[org2],
+        )
+        staff_api_client = APIClient()
+        staff_api_client.force_authenticate(user=admin_user)
+        staff_api_client.get(
+            "/reports/organisation/persons/csv/",
+            headers={"X-Forwarded-For": REMOTE_ADDR},
+        )
+
+        self.assertEqual(Organisation.objects.count(), ORGANISATION_BATCH_COUNT)
+        self.assertEqual(Person.objects.count(), PERSON_TOTAL_COUNT)
+        access_logs = LogEntry.objects.filter(
+            action=LogEntry.Action.ACCESS, actor=admin_user
+        )
+        self.assertEqual(
+            access_logs.count(),
+            PERSON_TOTAL_COUNT,
+        )
+        access_log_entry = access_logs.first()
+        self.assertEqual(access_log_entry.actor, admin_user)
+        self.assertEqual(access_log_entry.remote_addr, REMOTE_ADDR)
 
 
 @pytest.mark.usefixtures("mock_get_event_or_place_data")
@@ -364,6 +566,47 @@ class PalvelutarjotinEventEnrolmentsTest(TestCase):
 
         self.assertNotContains(response, p_events[1].linked_event_id)
         self.assertNotContains(response, p_events[2].linked_event_id)
+
+    @pytest.mark.django_db
+    def test_auditlog_access_logging(
+        self,
+    ):
+        EVENT_BATCH_COUNT = 2
+        ENROLMENT_BATCH_COUNT = 2
+        ENROLMENT_TOTAL_COUNT = EVENT_BATCH_COUNT * ENROLMENT_BATCH_COUNT
+        today = datetime.now(tz=datetime_timezone.utc)
+        admin_user = UserFactory(is_staff=True)
+        p_event1, p_event2 = PalvelutarjotinEventFactory.create_batch(
+            EVENT_BATCH_COUNT, enrolment_start=today
+        )
+        EnrolmentFactory.create_batch(
+            ENROLMENT_BATCH_COUNT,
+            occurrence__p_event=p_event1,
+            status=Enrolment.STATUS_APPROVED,
+        )
+        EnrolmentFactory.create_batch(
+            ENROLMENT_BATCH_COUNT,
+            occurrence__p_event=p_event2,
+            status=Enrolment.STATUS_APPROVED,
+        )
+        staff_api_client = APIClient()
+        staff_api_client.force_authenticate(user=admin_user)
+        staff_api_client.get(
+            "/reports/palvelutarjotinevent/enrolments/csv/",
+            headers={"X-Forwarded-For": REMOTE_ADDR},
+        )
+        self.assertEqual(PalvelutarjotinEvent.objects.count(), EVENT_BATCH_COUNT)
+        self.assertEqual(Enrolment.objects.count(), ENROLMENT_TOTAL_COUNT)
+        access_logs = LogEntry.objects.filter(
+            action=LogEntry.Action.ACCESS, actor=admin_user
+        )
+        self.assertEqual(
+            access_logs.count(),
+            ENROLMENT_TOTAL_COUNT,
+        )
+        access_log_entry = access_logs.first()
+        self.assertEqual(access_log_entry.actor, admin_user)
+        self.assertEqual(access_log_entry.remote_addr, REMOTE_ADDR)
 
 
 @pytest.mark.django_db
@@ -542,3 +785,36 @@ class EnrolmentReportListViewTest(TestCase):
             "?created_at__gte=2020-01-02&created_at__lte=2020-01-03"
         )
         assert len(response.json()) == 2
+
+    @parameterized.expand(
+        [(5, 5), (20, 20)]
+    )  # currently there is no paginator, so everything should be included.
+    def test_accesslog_written_from_every_result(self, batch_size, page_size):
+        """
+        Test that an access log entry is written for each object in the list view
+        result.
+
+        This test verifies that when a list view is accessed, a corresponding
+        LogEntry with action ACCESS is created for each object in the returned
+        list. It utilizes parameterized testing to cover different batch sizes,
+        ensuring that the access log is correctly generated regardless of the
+        number of objects.
+
+        Args:
+            batch_size (int): The number of EnrolmentReport objects to create.
+            page_size (int): The expected number of objects returned by the list view,
+                and therefore the expected number of created access log entries.
+        """
+        with disable_auditlog():
+            EnrolmentReportFactory.create_batch(batch_size)
+        self._authenticate()
+        response = self._goto_reports("?page_size=%s" % page_size)
+        assert EnrolmentReportListView.pagination_class is None
+        assert EnrolmentReport.objects.count() == batch_size
+        assert len(response.json()) == page_size
+        assert (
+            LogEntry.objects.filter(
+                actor=self.user, action=LogEntry.Action.ACCESS
+            ).count()
+            == page_size
+        )
