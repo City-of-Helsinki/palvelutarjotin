@@ -18,7 +18,7 @@ from occurrences.factories import (
     StudyGroupFactory,
     StudyLevelFactory,
 )
-from occurrences.models import Enrolment, EventQueueEnrolment, StudyGroup
+from occurrences.models import Enrolment, EventQueueEnrolment, StudyGroup, StudyLevel
 from organisations.factories import (
     OrganisationFactory,
     OrganisationProposalFactory,
@@ -81,7 +81,9 @@ def _test_person_with_all_data_relations_populated(user, assert_counts=True):
 
     OrganisationProposalFactory(applicant=person)
 
-    study_levels = StudyLevelFactory.create_batch(3)
+    study_levels = StudyLevel.objects.all()[:3]
+    if not study_levels:
+        study_levels = StudyLevelFactory.create_batch(3)
     # Person has 2 groups
     group1, group2 = StudyGroupFactory.create_batch(
         2, person=person, study_levels=study_levels

@@ -5,8 +5,9 @@ from django.conf import settings
 from django.contrib.auth import get_user_model
 from django.contrib.auth.models import UserManager
 from django.contrib.postgres.fields import ArrayField
-from django.db import models, transaction
+from django.db import models, router, transaction
 from django.db.models import Max, Q
+from django.db.models.deletion import Collector
 from django.utils import timezone
 from django.utils.translation import gettext_lazy as _
 from django.utils.translation import pgettext_lazy
@@ -112,24 +113,68 @@ class User(AbstractUser, GDPRModel, SerializableMixin):
             ),
         ]
 
+    def _delete_related_objects(self, using=None, keep_parents=False):
+        """
+        Deletes all related objects of the current instance.
+
+        Based on Django's Model.delete method:
+        https://github.com/django/django/blob/4.2.20/django/db/models/base.py#L1123-L1132
+
+        Args:
+            using (str, optional): The database alias to use. Defaults to None.
+            keep_parents (bool, optional): If True, prevents deletion of parent objects
+                in multi-table inheritance. Defaults to False.
+        """
+        if self.pk is None:
+            raise ValueError(
+                "%s object can't be deleted because its %s attribute is set "
+                "to None." % (self._meta.object_name, self._meta.pk.attname)
+            )
+        using = using or router.db_for_write(self.__class__, instance=self)
+        collector = Collector(using=using, origin=self)
+        # Don't include `self` in objs-parameter,
+        # so the User instance itself won't get deleted.
+        collector.collect([], keep_parents=keep_parents)
+        collector.delete()
+
+    def delete_related_p_event_contact_info(self):
+        """
+        Delete related p_event_contact_info objects.
+        """
+        if hasattr(self, "person"):
+            self.person.p_event.delete_contact_info()
+
     @transaction.atomic
     def delete(self, *args, **kwargs):
-        # Delete the related event contact info before deleting the user
+        """
+        Deletes the user and related objects, ensuring audit logs are created.
+
+        This method:
+        1.  Deletes related event contact information.
+        2.  Creates an audit log entry for the user deletion.
+        3.  Deletes all related objects of the user.
+        4.  Deletes the user object itself, disabling audit logging for this step.
+            (to prevent foreign key constraint violations).
+        """
+        # Anonymize contact info data in event details
         self.delete_related_p_event_contact_info()
-        # Make a log entry for the deletion
+
+        # Manually create a log entry of the user deletion.
+        # User cannot be a foreignkey in LogEntry when it's already deleted
         LogEntry.objects.log_create(
             self, force_log=True, action=LogEntry.Action.DELETE
         ).save()
+
+        # Delete all the related objects before disabling the auditlog,
+        # so auditlog will automatically create and persist LogEntry objects of them.
+        self._delete_related_objects(*args, **kwargs)
+
         # Delete the user without creating a auditlog entry,
         # because the log entry is already created above and
         # there would be a foreign key constraint violation
         # if the log entry is not created before the user is deleted.
         with disable_auditlog():
-            return super().delete(*args, **kwargs)
-
-    def delete_related_p_event_contact_info(self):
-        if hasattr(self, "person"):
-            self.person.p_event.delete_contact_info()
+            super().delete(*args, **kwargs)
 
 
 class Organisation(GDPRModel, SerializableMixin, models.Model):

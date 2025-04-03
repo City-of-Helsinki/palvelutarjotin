@@ -341,11 +341,11 @@ Enjoy office water those notice medical. Already name likely behind mission netw
                             },
                             {
                                 'key': 'UNIT_NAME',
-                                'value': 'Bit college question animal long. Sometimes growth check court.'
+                                'value': 'Conference thing much like test.'
                             },
                             {
                                 'key': 'GROUP_SIZE',
-                                'value': 519
+                                'value': 261
                             },
                             {
                                 'key': 'AMOUNT_OF_ADULT',
@@ -357,7 +357,7 @@ Enjoy office water those notice medical. Already name likely behind mission netw
                             },
                             {
                                 'key': 'EXTRA_NEEDS',
-                                'value': 'Arm listen money language which risk.'
+                                'value': 'Somebody determine sort under car medical. Particular page step radio.'
                             },
                             {
                                 'key': 'PREFERRED_TIMES',
@@ -365,7 +365,7 @@ Enjoy office water those notice medical. Already name likely behind mission netw
                             },
                             {
                                 'key': 'STUDY_LEVELS',
-                                'value': 'Cultural cell at. (id: Democrat., level: 3), Myself simple paper. (id: Happen., level: 4), Town back though. (id: Decade., level: 9)'
+                                'value': 'age 0-2 (id: age_0_2, level: 0), age 3-4 (id: age_3_4, level: 1), preschool (id: preschool, level: 2)'
                             },
                             {
                                 'children': [
@@ -438,11 +438,11 @@ Enjoy office water those notice medical. Already name likely behind mission netw
                             },
                             {
                                 'key': 'UNIT_NAME',
-                                'value': 'Tough plant traditional after born up always. Return student light a point charge.'
+                                'value': 'Control as receive cup. Subject family around year.'
                             },
                             {
                                 'key': 'GROUP_SIZE',
-                                'value': 2
+                                'value': 914
                             },
                             {
                                 'key': 'AMOUNT_OF_ADULT',
@@ -450,19 +450,19 @@ Enjoy office water those notice medical. Already name likely behind mission netw
                             },
                             {
                                 'key': 'GROUP_NAME',
-                                'value': 'Hand human value base pattern democratic focus. Kind various laugh smile behavior.'
+                                'value': 'Tough plant traditional after born up always. Return student light a point charge.'
                             },
                             {
                                 'key': 'EXTRA_NEEDS',
-                                'value': 'Hot identify each its general. By garden so country past involve choose.'
+                                'value': 'Prevent pressure point. Voice radio happen color scene.'
                             },
                             {
                                 'key': 'PREFERRED_TIMES',
-                                'value': 'Difficult special respond.'
+                                'value': 'New expert interview.'
                             },
                             {
                                 'key': 'STUDY_LEVELS',
-                                'value': 'Cultural cell at. (id: Democrat., level: 3), Myself simple paper. (id: Happen., level: 4), Town back though. (id: Decade., level: 9)'
+                                'value': 'age 0-2 (id: age_0_2, level: 0), age 3-4 (id: age_3_4, level: 1), preschool (id: preschool, level: 2)'
                             },
                             {
                                 'children': [
@@ -600,7 +600,7 @@ Enjoy office water those notice medical. Already name likely behind mission netw
                             },
                             {
                                 'key': 'STUDY_GROUP',
-                                'value': '1 Tough plant traditional after born up always. Return student light a point charge.'
+                                'value': '1 Control as receive cup. Subject family around year.'
                             },
                             {
                                 'children': [
