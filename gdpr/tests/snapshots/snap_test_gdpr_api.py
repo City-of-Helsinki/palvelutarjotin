@@ -51,7 +51,7 @@ snapshots['test_delete_profile_data_from_gdpr_api[most_complex] enrolment should
                         },
                         {
                             'key': 'CONTACT_PERSON',
-                            'value': 'Erika Martinez, (569)876-1296, mark29@example.com'
+                            'value': ''
                         }
                     ],
                     'key': 'PALVELUTARJOTINEVENT'
@@ -85,15 +85,15 @@ snapshots['test_delete_profile_data_from_gdpr_api[most_complex] event queue enro
             'children': [
                 {
                     'key': 'LINKED_EVENT_ID',
-                    'value': 'TwsLM'
+                    'value': 'NoYfT'
                 },
                 {
                     'key': 'ORGANISATION',
-                    'value': 'Singleton PLC'
+                    'value': 'Rosario and Sons'
                 },
                 {
                     'key': 'CONTACT_PERSON',
-                    'value': 'Robert Davis, 327.543.4893, lanekayla@example.org'
+                    'value': 'Justin Smith, 001-605-453-1010, santiagoalicia@example.net'
                 }
             ],
             'key': 'PALVELUTARJOTINEVENT'
@@ -156,11 +156,11 @@ snapshots['test_delete_profile_data_from_gdpr_api[most_complex] study group shou
                             'children': [
                                 {
                                     'key': 'START_TIME',
-                                    'value': '1974-05-07T19:09:45.432928+00:00'
+                                    'value': '1975-04-25T05:34:32.227218+00:00'
                                 },
                                 {
                                     'key': 'END_TIME',
-                                    'value': '1997-04-17T20:53:24.246198+00:00'
+                                    'value': '2007-03-16T16:41:40.163531+00:00'
                                 },
                                 {
                                     'key': 'CREATED_AT',
@@ -174,15 +174,15 @@ snapshots['test_delete_profile_data_from_gdpr_api[most_complex] study group shou
                                     'children': [
                                         {
                                             'key': 'LINKED_EVENT_ID',
-                                            'value': 'mbLjf'
+                                            'value': 'ulLnD'
                                         },
                                         {
                                             'key': 'ORGANISATION',
-                                            'value': 'Moon-Hernandez'
+                                            'value': 'Guerrero-Powell'
                                         },
                                         {
                                             'key': 'CONTACT_PERSON',
-                                            'value': 'Charles Hansen, 419.442.1317, youngpeggy@example.org'
+                                            'value': ''
                                         }
                                     ],
                                     'key': 'PALVELUTARJOTINEVENT'
@@ -387,11 +387,11 @@ Enjoy office water those notice medical. Already name likely behind mission netw
                                                 'children': [
                                                     {
                                                         'key': 'START_TIME',
-                                                        'value': '1974-05-07T19:09:45.432928+00:00'
+                                                        'value': '1975-04-25T05:34:32.227218+00:00'
                                                     },
                                                     {
                                                         'key': 'END_TIME',
-                                                        'value': '1997-04-17T20:53:24.246198+00:00'
+                                                        'value': '2007-03-16T16:41:40.163531+00:00'
                                                     },
                                                     {
                                                         'key': 'CREATED_AT',
@@ -405,15 +405,15 @@ Enjoy office water those notice medical. Already name likely behind mission netw
                                                         'children': [
                                                             {
                                                                 'key': 'LINKED_EVENT_ID',
-                                                                'value': 'mbLjf'
+                                                                'value': 'ulLnD'
                                                             },
                                                             {
                                                                 'key': 'ORGANISATION',
-                                                                'value': 'Moon-Hernandez'
+                                                                'value': 'Guerrero-Powell'
                                                             },
                                                             {
                                                                 'key': 'CONTACT_PERSON',
-                                                                'value': 'Charles Hansen, 419.442.1317, youngpeggy@example.org'
+                                                                'value': 'Tina Wilson, +1-910-423-2028x130, fhuynh@example.org'
                                                             }
                                                         ],
                                                         'key': 'PALVELUTARJOTINEVENT'
@@ -510,7 +510,7 @@ Enjoy office water those notice medical. Already name likely behind mission netw
                                                             },
                                                             {
                                                                 'key': 'CONTACT_PERSON',
-                                                                'value': 'Erika Martinez, (569)876-1296, mark29@example.com'
+                                                                'value': 'Tina Wilson, +1-910-423-2028x130, fhuynh@example.org'
                                                             }
                                                         ],
                                                         'key': 'PALVELUTARJOTINEVENT'
@@ -539,11 +539,11 @@ Enjoy office water those notice medical. Already name likely behind mission netw
                                                 'children': [
                                                     {
                                                         'key': 'START_TIME',
-                                                        'value': '2018-02-12T23:06:33.996487+00:00'
+                                                        'value': '2004-12-30T07:48:32.863351+00:00'
                                                     },
                                                     {
                                                         'key': 'END_TIME',
-                                                        'value': '2019-10-02T01:35:30.688102+00:00'
+                                                        'value': '1983-05-12T23:37:18.020950+00:00'
                                                     },
                                                     {
                                                         'key': 'CREATED_AT',
@@ -557,15 +557,15 @@ Enjoy office water those notice medical. Already name likely behind mission netw
                                                         'children': [
                                                             {
                                                                 'key': 'LINKED_EVENT_ID',
-                                                                'value': 'stCwh'
+                                                                'value': 'IWSGq'
                                                             },
                                                             {
                                                                 'key': 'ORGANISATION',
-                                                                'value': 'Walters, Taylor and Boyd'
+                                                                'value': 'Moore, Ryan and Morris'
                                                             },
                                                             {
                                                                 'key': 'CONTACT_PERSON',
-                                                                'value': 'James Johnson, 962-942-2074x4988, bullockcarly@example.org'
+                                                                'value': 'Tina Wilson, +1-910-423-2028x130, fhuynh@example.org'
                                                             }
                                                         ],
                                                         'key': 'PALVELUTARJOTINEVENT'
@@ -606,15 +606,15 @@ Enjoy office water those notice medical. Already name likely behind mission netw
                                 'children': [
                                     {
                                         'key': 'LINKED_EVENT_ID',
-                                        'value': 'TwsLM'
+                                        'value': 'NoYfT'
                                     },
                                     {
                                         'key': 'ORGANISATION',
-                                        'value': 'Singleton PLC'
+                                        'value': 'Rosario and Sons'
                                     },
                                     {
                                         'key': 'CONTACT_PERSON',
-                                        'value': 'Robert Davis, 327.543.4893, lanekayla@example.org'
+                                        'value': 'Justin Smith, 001-605-453-1010, santiagoalicia@example.net'
                                     }
                                 ],
                                 'key': 'PALVELUTARJOTINEVENT'
@@ -668,7 +668,7 @@ Enjoy office water those notice medical. Already name likely behind mission netw
                                             },
                                             {
                                                 'key': 'CONTACT_PERSON',
-                                                'value': 'Erika Martinez, (569)876-1296, mark29@example.com'
+                                                'value': 'Tina Wilson, +1-910-423-2028x130, fhuynh@example.org'
                                             }
                                         ],
                                         'key': 'PALVELUTARJOTINEVENT'
@@ -697,11 +697,11 @@ Enjoy office water those notice medical. Already name likely behind mission netw
                                 'children': [
                                     {
                                         'key': 'START_TIME',
-                                        'value': '2018-02-12T23:06:33.996487+00:00'
+                                        'value': '2004-12-30T07:48:32.863351+00:00'
                                     },
                                     {
                                         'key': 'END_TIME',
-                                        'value': '2019-10-02T01:35:30.688102+00:00'
+                                        'value': '1983-05-12T23:37:18.020950+00:00'
                                     },
                                     {
                                         'key': 'CREATED_AT',
@@ -715,15 +715,15 @@ Enjoy office water those notice medical. Already name likely behind mission netw
                                         'children': [
                                             {
                                                 'key': 'LINKED_EVENT_ID',
-                                                'value': 'stCwh'
+                                                'value': 'IWSGq'
                                             },
                                             {
                                                 'key': 'ORGANISATION',
-                                                'value': 'Walters, Taylor and Boyd'
+                                                'value': 'Moore, Ryan and Morris'
                                             },
                                             {
                                                 'key': 'CONTACT_PERSON',
-                                                'value': 'James Johnson, 962-942-2074x4988, bullockcarly@example.org'
+                                                'value': 'Tina Wilson, +1-910-423-2028x130, fhuynh@example.org'
                                             }
                                         ],
                                         'key': 'PALVELUTARJOTINEVENT'
@@ -752,11 +752,11 @@ Enjoy office water those notice medical. Already name likely behind mission netw
                                 'children': [
                                     {
                                         'key': 'START_TIME',
-                                        'value': '1974-05-07T19:09:45.432928+00:00'
+                                        'value': '1975-04-25T05:34:32.227218+00:00'
                                     },
                                     {
                                         'key': 'END_TIME',
-                                        'value': '1997-04-17T20:53:24.246198+00:00'
+                                        'value': '2007-03-16T16:41:40.163531+00:00'
                                     },
                                     {
                                         'key': 'CREATED_AT',
@@ -770,15 +770,15 @@ Enjoy office water those notice medical. Already name likely behind mission netw
                                         'children': [
                                             {
                                                 'key': 'LINKED_EVENT_ID',
-                                                'value': 'mbLjf'
+                                                'value': 'ulLnD'
                                             },
                                             {
                                                 'key': 'ORGANISATION',
-                                                'value': 'Moon-Hernandez'
+                                                'value': 'Guerrero-Powell'
                                             },
                                             {
                                                 'key': 'CONTACT_PERSON',
-                                                'value': 'Charles Hansen, 419.442.1317, youngpeggy@example.org'
+                                                'value': 'Tina Wilson, +1-910-423-2028x130, fhuynh@example.org'
                                             }
                                         ],
                                         'key': 'PALVELUTARJOTINEVENT'

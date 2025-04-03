@@ -88,10 +88,29 @@ def _test_person_with_all_data_relations_populated(user, assert_counts=True):
     group1, group2 = StudyGroupFactory.create_batch(
         2, person=person, study_levels=study_levels
     )
+
+    # Event contact person is another person, so should not be cleared
+    # event_contact_person = PersonFactory(
+    #     name='Event "Do not delete" Organiser',
+    #     email="another-person@gdpr-should-not-delete.com",
+    # )
+
+    # event contact person is the person himself, so should be cleared.
+    event_contact_person = person
+
     # Person has 2 enrolments which occurrences are related to the event for group 1
-    EnrolmentFactory.create_batch(2, person=person, study_group=group1)
+    EnrolmentFactory.create_batch(
+        2,
+        person=person,
+        study_group=group1,
+        occurrence__p_event__contact_person=event_contact_person,
+    )
     # Person has 1 enrolment which occurrence is related to the event for group 2
-    enrolment = EnrolmentFactory(person=person, study_group=group2)
+    enrolment = EnrolmentFactory(
+        person=person,
+        study_group=group2,
+        occurrence__p_event__contact_person=event_contact_person,
+    )
     # There are some other enrolments also made by unknown persons
     EnrolmentFactory.create_batch(5, occurrence=enrolment.occurrence)
     # Person is also in queue to the p_event where there are some enrolments already
