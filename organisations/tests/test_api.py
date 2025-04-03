@@ -402,7 +402,9 @@ def test_organisation_persons_should_not_be_publicly_readable(
 # This will probably lead to SSL verification errors".
 @freeze_time(timezone.now())
 def test_organisation_deactivated_persons_should_not_be_listed(
-    staff_api_client, person
+    mock_get_event_data,
+    staff_api_client,
+    person,
 ):
     organisation = person.organisations.first()
     p_event = PalvelutarjotinEventFactory(organisation=organisation)
