@@ -11,8 +11,8 @@ from palvelutarjotin.exceptions import ApiBadRequestError, ObjectDoesNotExistErr
 
 def sync_enrolment_reports(
     hydrate_linkedevents_event=True,
-    sync_from: datetime = None,
-    create_from: datetime = None,
+    sync_from: Optional[datetime] = None,
+    create_from: Optional[datetime] = None,
 ):
     """
     Synchronize the enrolemnts report table with enrolments table:
@@ -34,7 +34,7 @@ def sync_enrolment_reports(
 
 
 def get_unsynced_enrollments(
-    sync_from: datetime = None,
+    sync_from: Optional[datetime] = None,
 ) -> Union[models.QuerySet, List[occurrences_models.Enrolment]]:
     """Get a list of enrolments which are updated after latest report updates."""
     sync_from = sync_from or report_models.EnrolmentReport.objects.latest_sync()
@@ -44,7 +44,7 @@ def get_unsynced_enrollments(
 
 
 def get_missing_enrollments(
-    sync_from: datetime = None,
+    sync_from: Optional[datetime] = None,
 ) -> Union[models.QuerySet, List[occurrences_models.Enrolment]]:
     """Get a list of enrolments which are missing from EnrolmentReport db-table."""
     enrolments = get_unsynced_enrollments(sync_from=sync_from)
