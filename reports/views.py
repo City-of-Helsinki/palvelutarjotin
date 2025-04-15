@@ -408,105 +408,102 @@ class PalvelutarjotinEventEnrolmentsCsvView(
     def _get_place_from_linkedevents_or_cache(place_id):
         return get_place_json_from_linkedevents(place_id)
 
+    def _write_csv_header_row(self, writer):
+        writer.writerow(
+            [
+                _("Enrolment id"),
+                _("LinkedEvents id"),
+                _("LinkedEvents uri"),
+                _("Event starting date"),
+                _("Event starting time"),
+                _("Event ending date"),
+                _("Event ending time"),
+                _("Enrolment date"),
+                _("Enrolment time"),
+                _("Kindergarten / school / college"),
+                _("Group name"),
+                _("Study levels"),
+                _("Amount of children"),
+                _("Amount of adults"),
+                _("Event location"),
+                _("Extra needs"),
+                _("Contact mail"),
+                _("Contact phone"),
+            ]
+        )
+
+    def _write_csv_data_row(self, writer, enrolment):
+        start_datetime = timezone.localtime(enrolment.occurrence.start_time)
+        end_datetime = timezone.localtime(enrolment.occurrence.end_time)
+        enrolment_datetime = timezone.localtime(enrolment.enrolment_time)
+
+        place = (
+            self._get_place_from_linkedevents_or_cache(enrolment.occurrence.place_id)
+            if enrolment.occurrence.place_id
+            else None
+        )
+
+        if enrolment.person:
+            person_email_address = enrolment.person.email_address
+            person_phone_number = enrolment.person.phone_number
+        elif enrolment.person_deleted_at:
+            person_email_address = person_phone_number = (
+                f"{_('Deleted')} "
+                + f"{enrolment.person_deleted_at.strftime(self.DATE_FORMAT)}"
+            )
+        else:
+            person_email_address = person_phone_number = ""
+
+        writer.writerow(
+            [
+                enrolment.id,
+                enrolment.occurrence.p_event.linked_event_id,
+                "{linked_events_root}event/{linked_event_id}".format(
+                    linked_events_root=settings.LINKED_EVENTS_API_CONFIG["ROOT"],
+                    linked_event_id=enrolment.occurrence.p_event.linked_event_id,
+                ),
+                start_datetime.strftime(self.DATE_FORMAT),
+                start_datetime.strftime(self.TIME_FORMAT),
+                end_datetime.strftime(self.DATE_FORMAT),
+                end_datetime.strftime(self.TIME_FORMAT),
+                enrolment_datetime.strftime(self.DATE_FORMAT),
+                enrolment_datetime.strftime(self.TIME_FORMAT),
+                enrolment.study_group.unit_name,
+                enrolment.study_group.group_name,
+                ", ".join(
+                    [
+                        study_level.label
+                        for study_level in enrolment.study_group.study_levels.all()
+                    ]
+                ),
+                enrolment.study_group.group_size,
+                enrolment.study_group.amount_of_adult,
+                (
+                    place["name"].get("fi")
+                    or place["name"].get("sv")
+                    or place["name"].get("en")
+                )
+                if place
+                else "",
+                enrolment.study_group.extra_needs,
+                person_email_address,
+                person_phone_number,
+            ]
+        )
+
     def _write_csv_events_approved_enrolments_table(self, request):
         writer, response = self._create_csv_response_writer(
             "kultus_events_approved_enrolments"
         )
-
-        def _write_csv_header_row():
-            writer.writerow(
-                [
-                    _("Enrolment id"),
-                    _("LinkedEvents id"),
-                    _("LinkedEvents uri"),
-                    _("Event starting date"),
-                    _("Event starting time"),
-                    _("Event ending date"),
-                    _("Event ending time"),
-                    _("Enrolment date"),
-                    _("Enrolment time"),
-                    _("Kindergarten / school / college"),
-                    _("Group name"),
-                    _("Study levels"),
-                    _("Amount of children"),
-                    _("Amount of adults"),
-                    _("Event location"),
-                    _("Extra needs"),
-                    _("Contact mail"),
-                    _("Contact phone"),
-                ]
-            )
-
-        def _write_csv_data_row(enrolment):
-            start_datetime = timezone.localtime(enrolment.occurrence.start_time)
-            end_datetime = timezone.localtime(enrolment.occurrence.end_time)
-            enrolment_datetime = timezone.localtime(enrolment.enrolment_time)
-
-            place = (
-                self._get_place_from_linkedevents_or_cache(
-                    enrolment.occurrence.place_id
-                )
-                if enrolment.occurrence.place_id
-                else None
-            )
-
-            if enrolment.person:
-                person_email_address = enrolment.person.email_address
-                person_phone_number = enrolment.person.phone_number
-            elif enrolment.person_deleted_at:
-                person_email_address = person_phone_number = (
-                    f"{_('Deleted')} "
-                    + f"{enrolment.person_deleted_at.strftime(self.DATE_FORMAT)}"
-                )
-            else:
-                person_email_address = person_phone_number = ""
-
-            writer.writerow(
-                [
-                    enrolment.id,
-                    enrolment.occurrence.p_event.linked_event_id,
-                    "{linked_events_root}event/{linked_event_id}".format(
-                        linked_events_root=settings.LINKED_EVENTS_API_CONFIG["ROOT"],
-                        linked_event_id=enrolment.occurrence.p_event.linked_event_id,
-                    ),
-                    start_datetime.strftime(self.DATE_FORMAT),
-                    start_datetime.strftime(self.TIME_FORMAT),
-                    end_datetime.strftime(self.DATE_FORMAT),
-                    end_datetime.strftime(self.TIME_FORMAT),
-                    enrolment_datetime.strftime(self.DATE_FORMAT),
-                    enrolment_datetime.strftime(self.TIME_FORMAT),
-                    enrolment.study_group.unit_name,
-                    enrolment.study_group.group_name,
-                    ", ".join(
-                        [
-                            study_level.label
-                            for study_level in enrolment.study_group.study_levels.all()
-                        ]
-                    ),
-                    enrolment.study_group.group_size,
-                    enrolment.study_group.amount_of_adult,
-                    (
-                        place["name"].get("fi")
-                        or place["name"].get("sv")
-                        or place["name"].get("en")
-                    )
-                    if place
-                    else "",
-                    enrolment.study_group.extra_needs,
-                    person_email_address,
-                    person_phone_number,
-                ]
-            )
-
         # write access logs to auditlog
         with set_actor(
             actor=request.user,
             remote_addr=get_client_ip(request),
         ):
-            _write_csv_header_row()
+            self._write_csv_header_row(writer)
             for enrolment in self.get_queryset():
                 accessed.send(sender=enrolment.__class__, instance=enrolment)
-                _write_csv_data_row(enrolment)
+                self._write_csv_data_row(writer, enrolment)
 
         return response
 
