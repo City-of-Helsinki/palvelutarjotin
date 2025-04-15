@@ -2,6 +2,7 @@ import csv
 import datetime
 import logging
 from functools import lru_cache
+from typing import Optional
 
 from auditlog.context import set_actor
 from auditlog.signals import accessed
@@ -38,7 +39,7 @@ from reports.services import get_place_json_from_linkedevents, sync_enrolment_re
 logger = logging.getLogger(__name__)
 
 
-def naive_datetime_to_tz_aware(datetime: str) -> str:
+def naive_datetime_to_tz_aware(datetime: str) -> Optional[str]:
     return datetime + "T00:00:00.000Z" if datetime else None
 
 
@@ -46,9 +47,7 @@ class LogAccessMixin:
     def get_queryset(self):
         queryset = super().get_queryset()
         # write access logs to auditlog
-        with set_actor(
-            actor=self.request.user, remote_addr=get_client_ip(self.request)
-        ):
+        with set_actor(actor=self.request.user, remote_addr=get_client_ip(self.request)):
             for obj in queryset:
                 accessed.send(sender=obj.__class__, instance=obj)
         return queryset
@@ -116,10 +115,7 @@ class PalvelutarjotinEventEnrolmentsMixin(ExportReportViewMixin):
     def message_max_result(self, request):
         # Inform the user if not all the data was included
         if len(self.get_queryset()) == self.max_results:
-            logger.warning(
-                "Queryset items maximum count exceeded "
-                + "when fetching data for events enrolments report."
-            )
+            logger.warning("Queryset items maximum count exceeded " + "when fetching data for events enrolments report.")
             messages.add_message(
                 request,
                 messages.WARNING,
@@ -159,31 +155,21 @@ class PalvelutarjotinEventEnrolmentsMixin(ExportReportViewMixin):
         end_date = naive_datetime_to_tz_aware(self.request.GET.get("end", None))
 
         if start_date and end_date:
-            queryset = queryset.filter(
-                occurrence__p_event__enrolment_start__range=[start_date, end_date]
-            )
+            queryset = queryset.filter(occurrence__p_event__enrolment_start__range=[start_date, end_date])
         elif start_date:
-            queryset = queryset.filter(
-                occurrence__p_event__enrolment_start__gte=start_date
-            )
+            queryset = queryset.filter(occurrence__p_event__enrolment_start__gte=start_date)
         elif end_date:
-            queryset = queryset.filter(
-                occurrence__p_event__enrolment_start__lte=end_date
-            )
+            queryset = queryset.filter(occurrence__p_event__enrolment_start__lte=end_date)
 
         if not event_ids and not start_date and not end_date:
             # Get this years enrolments
             today = datetime.datetime.now(tz=datetime.timezone.utc)
-            queryset = queryset.filter(
-                occurrence__p_event__enrolment_start__year=today.year
-            )
+            queryset = queryset.filter(occurrence__p_event__enrolment_start__year=today.year)
 
         # Order by occurrence start time
         # and select all related content that is needed in report.
         # In case a whole db is trying to be fetched, limit the amount of fetched items
-        return queryset.order_by(
-            "-occurrence__p_event__enrolment_start"
-        ).select_related("occurrence__p_event", "study_group", "person")[
+        return queryset.order_by("-occurrence__p_event__enrolment_start").select_related("occurrence__p_event", "study_group", "person")[
             : self.max_results
         ]
 
@@ -230,9 +216,7 @@ class OrganisationPersonsAdminView(LogAccessMixin, OrganisationPersonsMixin, Lis
 
 
 @method_decorator(staff_member_required, name="dispatch")
-class PalvelutarjotinEventEnrolmentsAdminView(
-    PalvelutarjotinEventEnrolmentsMixin, ListView
-):
+class PalvelutarjotinEventEnrolmentsAdminView(PalvelutarjotinEventEnrolmentsMixin, ListView):
     """
     The admin view which renders a table of events occurrences and enrolments.
     """
@@ -251,17 +235,11 @@ class PalvelutarjotinEventEnrolmentsAdminView(
         context = super().get_context_data(**kwargs)
         queryset = self.get_queryset()
         context["linked_events_root"] = settings.LINKED_EVENTS_API_CONFIG["ROOT"]
-        context["total_children"] = sum(
-            enrolment.study_group.group_size for enrolment in queryset
-        )
-        context["total_adults"] = sum(
-            enrolment.study_group.amount_of_adult for enrolment in queryset
-        )
+        context["total_children"] = sum(enrolment.study_group.group_size for enrolment in queryset)
+        context["total_adults"] = sum(enrolment.study_group.amount_of_adult for enrolment in queryset)
         context["opts"] = self.model._meta
 
-        with set_actor(
-            actor=self.request.user, remote_addr=get_client_ip(self.request)
-        ):
+        with set_actor(actor=self.request.user, remote_addr=get_client_ip(self.request)):
             for enrolment in queryset:
                 accessed.send(sender=enrolment.__class__, instance=enrolment)
 
@@ -316,9 +294,7 @@ class ExportReportCsvView(ExportReportViewMixin, APIView):
         Using the semicolon (";") as a delimiter
         seems to fix UTF-8 issues with Microsoft Excel.
         """
-        writer = csv.writer(
-            response, dialect=self.csv_dialect, delimiter=self.csv_delimiter
-        )
+        writer = csv.writer(response, dialect=self.csv_dialect, delimiter=self.csv_delimiter)
 
         return (writer, response)
 
@@ -369,9 +345,7 @@ class OrganisationPersonsCsvView(OrganisationPersonsMixin, ExportReportCsvView):
     model = Organisation
 
     def get(self, request, *args, **kwargs):
-        writer, response = self._create_csv_response_writer(
-            "kultus_organisations_persons"
-        )
+        writer, response = self._create_csv_response_writer("kultus_organisations_persons")
         writer.writerow([_("Organisation"), _("Name"), _("Email"), _("Phone")])
 
         with set_actor(actor=request.user, remote_addr=get_client_ip(request)):
@@ -390,9 +364,7 @@ class OrganisationPersonsCsvView(OrganisationPersonsMixin, ExportReportCsvView):
         return response
 
 
-class PalvelutarjotinEventEnrolmentsCsvView(
-    PalvelutarjotinEventEnrolmentsMixin, ExportReportCsvView
-):
+class PalvelutarjotinEventEnrolmentsCsvView(PalvelutarjotinEventEnrolmentsMixin, ExportReportCsvView):
     """
     A csv of organisations persons.
     """
@@ -401,12 +373,16 @@ class PalvelutarjotinEventEnrolmentsCsvView(
     DATE_FORMAT = "%d.%m.%y"
     TIME_FORMAT = "%H:%M:%S"
 
+    # fetch every place_id only once
+    @staticmethod
+    @lru_cache()
+    def _get_place_from_linkedevents_or_cache(place_id):
+        return get_place_json_from_linkedevents(place_id)
+
     def get(self, request, *args, **kwargs):
         # Inform the user if not all the data was included
         self.message_max_result(request)
-        writer, response = self._create_csv_response_writer(
-            "kultus_events_approved_enrolments"
-        )
+        writer, response = self._create_csv_response_writer("kultus_events_approved_enrolments")
         writer.writerow(
             [
                 _("Enrolment id"),
@@ -430,67 +406,54 @@ class PalvelutarjotinEventEnrolmentsCsvView(
             ]
         )
 
-        # fetch every place_id only once
-        @lru_cache()
-        def get_place_from_linkedevents_or_cache(place_id):
-            return get_place_json_from_linkedevents(place_id)
-
-        for enrolment in self.get_queryset():
-            # write access logs to auditlog
-            with set_actor(
-                actor=request.user,
-                remote_addr=get_client_ip(request),
-            ):
+        # write access logs to auditlog
+        with set_actor(
+            actor=request.user,
+            remote_addr=get_client_ip(request),
+        ):
+            for enrolment in self.get_queryset():
                 accessed.send(sender=enrolment.__class__, instance=enrolment)
-            start_datetime = timezone.localtime(enrolment.occurrence.start_time)
-            end_datetime = timezone.localtime(enrolment.occurrence.end_time)
-            enrolment_datetime = timezone.localtime(enrolment.enrolment_time)
+                start_datetime = timezone.localtime(enrolment.occurrence.start_time)
+                end_datetime = timezone.localtime(enrolment.occurrence.end_time)
+                enrolment_datetime = timezone.localtime(enrolment.enrolment_time)
 
-            place = get_place_from_linkedevents_or_cache(enrolment.occurrence.place_id)
+                place = self._get_place_from_linkedevents_or_cache(enrolment.occurrence.place_id) if enrolment.occurrence.place_id else None
 
-            if enrolment.person:
-                person_email_address = enrolment.person.email_address
-                person_phone_number = enrolment.person.phone_number
-            elif enrolment.person_deleted_at:
-                person_email_address = person_phone_number = (
-                    f"{_('Deleted')} "
-                    + f"{enrolment.person_deleted_at.strftime(self.DATE_FORMAT)}"
+                if enrolment.person:
+                    person_email_address = enrolment.person.email_address
+                    person_phone_number = enrolment.person.phone_number
+                elif enrolment.person_deleted_at:
+                    person_email_address = person_phone_number = (
+                        f"{_('Deleted')} " + f"{enrolment.person_deleted_at.strftime(self.DATE_FORMAT)}"
+                    )
+                else:
+                    person_email_address = person_phone_number = ""
+
+                writer.writerow(
+                    [
+                        enrolment.id,
+                        enrolment.occurrence.p_event.linked_event_id,
+                        "{linked_events_root}event/{linked_event_id}".format(
+                            linked_events_root=settings.LINKED_EVENTS_API_CONFIG["ROOT"],
+                            linked_event_id=enrolment.occurrence.p_event.linked_event_id,
+                        ),
+                        start_datetime.strftime(self.DATE_FORMAT),
+                        start_datetime.strftime(self.TIME_FORMAT),
+                        end_datetime.strftime(self.DATE_FORMAT),
+                        end_datetime.strftime(self.TIME_FORMAT),
+                        enrolment_datetime.strftime(self.DATE_FORMAT),
+                        enrolment_datetime.strftime(self.TIME_FORMAT),
+                        enrolment.study_group.unit_name,
+                        enrolment.study_group.group_name,
+                        ", ".join([study_level.label for study_level in enrolment.study_group.study_levels.all()]),
+                        enrolment.study_group.group_size,
+                        enrolment.study_group.amount_of_adult,
+                        (place["name"].get("fi") or place["name"].get("sv") or place["name"].get("en")) if place else "",
+                        enrolment.study_group.extra_needs,
+                        person_email_address,
+                        person_phone_number,
+                    ]
                 )
-            else:
-                person_email_address = person_phone_number = ""
-
-            writer.writerow(
-                [
-                    enrolment.id,
-                    enrolment.occurrence.p_event.linked_event_id,
-                    "{linked_events_root}event/{linked_event_id}".format(
-                        linked_events_root=settings.LINKED_EVENTS_API_CONFIG["ROOT"],
-                        linked_event_id=enrolment.occurrence.p_event.linked_event_id,
-                    ),
-                    start_datetime.strftime(self.DATE_FORMAT),
-                    start_datetime.strftime(self.TIME_FORMAT),
-                    end_datetime.strftime(self.DATE_FORMAT),
-                    end_datetime.strftime(self.TIME_FORMAT),
-                    enrolment_datetime.strftime(self.DATE_FORMAT),
-                    enrolment_datetime.strftime(self.TIME_FORMAT),
-                    enrolment.study_group.unit_name,
-                    enrolment.study_group.group_name,
-                    ", ".join(
-                        [
-                            study_level.label
-                            for study_level in enrolment.study_group.study_levels.all()
-                        ]
-                    ),
-                    enrolment.study_group.group_size,
-                    enrolment.study_group.amount_of_adult,
-                    place["name"].get("fi")
-                    or place["name"].get("sv")
-                    or place["name"].get("en"),
-                    enrolment.study_group.extra_needs,
-                    person_email_address,
-                    person_phone_number,
-                ]
-            )
         return response
 
 
@@ -501,9 +464,7 @@ class EnrolmentReportCsvView(ExportReportCsvView):
 @staff_member_required
 @require_http_methods(["POST"])
 def sync_enrolment_reports_view(request):
-    create_from = Enrolment.objects.aggregate(Min("enrolment_time"))[
-        "enrolment_time__min"
-    ]
+    create_from = Enrolment.objects.aggregate(Min("enrolment_time"))["enrolment_time__min"]
     sync_enrolment_reports(hydrate_linkedevents_event=True, create_from=create_from)
     messages.add_message(request, messages.SUCCESS, _("Enrolment reports synced!"))
     return HttpResponseRedirect(reverse("admin:reports_enrolmentreport_changelist"))
@@ -584,9 +545,7 @@ class EnrolmentReportListView(LogListAccessMixin, generics.ListAPIView):
 
         # Parse non-datetime filter parameters
         filter_params = {
-            k: self.request.query_params.get(k)
-            for k in self.allowed_non_datetime_filter_keys
-            if self.request.query_params.get(k)
+            k: self.request.query_params.get(k) for k in self.allowed_non_datetime_filter_keys if self.request.query_params.get(k)
         }
         # Parse datetime filter parameters
         filter_params.update(
