@@ -360,3 +360,135 @@ class TestGetClientIP:
         request = HttpRequest()
         request.META = {"REMOTE_ADDR": ""}
         assert get_client_ip(request) is None
+
+
+class TestGetClientIPWithPort:
+    """Tests the get_client_ip function's ability to handle IP addresses
+    that include port numbers in the request metadata.
+    """
+
+    def test_get_client_ip_remote_addr_with_ipv4_port(self):
+        """
+        Tests retrieving an IPv4 address from REMOTE_ADDR when it includes a
+        port number. The function should return only the IP address.
+
+        Case Example: A direct connection from a client with IP '192.168.1.1'
+        using port '12345' to the server. REMOTE_ADDR might be '192.168.1.1:12345'.
+        """
+        request = HttpRequest()
+        request.META = {"REMOTE_ADDR": "192.168.1.1:12345"}
+        assert get_client_ip(request) == "192.168.1.1"
+
+    def test_get_client_ip_remote_addr_with_ipv6_port(self):
+        """
+        Tests retrieving an IPv6 address from REMOTE_ADDR (with brackets) when it
+        includes a port number. The function should return only the IP address.
+
+        Case Example: A direct IPv6 connection where the client's address is '[::1]'
+        and the connection uses port '8080'. REMOTE_ADDR might be '[::1]:8080'.
+        """
+        request = HttpRequest()
+        request.META = {"REMOTE_ADDR": "[::1]:8080"}
+        assert get_client_ip(request) == "::1"
+
+    def test_get_client_ip_remote_addr_with_ipv6_port_complex(self):
+        """
+        Tests retrieving a more complex IPv6 address from REMOTE_ADDR (with brackets)
+        when it includes a port number. The function should return only the IP address.
+
+        Case Example: A direct IPv6 connection with a more involved address
+        '[2001:0db8:85a3:0000:0000:8a2e:0370:7334]' using port '5432'.
+        REMOTE_ADDR might be '[2001:0db8:85a3:0000:0000:8a2e:0370:7334]:5432'.
+        """
+        request = HttpRequest()
+        request.META = {"REMOTE_ADDR": "[2001:0db8:85a3:0000:0000:8a2e:0370:7334]:5432"}
+        assert get_client_ip(request) == "2001:0db8:85a3:0000:0000:8a2e:0370:7334"
+
+    def test_get_client_ip_remote_addr_ipv4_with_non_numeric_port(self):
+        """
+        Tests handling an edge case where REMOTE_ADDR contains an IPv4 address
+        followed by a non-numeric port. The function should still extract the IP.
+
+        Case Example: A misconfigured client or intermediary sends a non-standard
+        REMOTE_ADDR like '192.168.1.1:abc'.
+        """
+        request = HttpRequest()
+        request.META = {"REMOTE_ADDR": "192.168.1.1:abc"}
+        assert get_client_ip(request) == "192.168.1.1"
+
+    def test_get_client_ip_remote_addr_ipv6_with_non_numeric_port(self):
+        """
+        Tests handling an edge case where REMOTE_ADDR contains an IPv6 address
+        (with brackets) followed by a non-numeric port. The function should still
+        extract the IP.
+
+        Case Example: A misconfigured client or intermediary sends a non-standard
+        REMOTE_ADDR like '[::1]:xyz'.
+        """
+        request = HttpRequest()
+        request.META = {"REMOTE_ADDR": "[::1]:xyz"}
+        assert get_client_ip(request) == "::1"
+
+    def test_get_client_ip_x_forwarded_for_with_port_should_ignore(self):
+        """
+        Tests that if the X-Forwarded-For header (which typically doesn't include
+        ports) contains an IP with a port, the function correctly extracts the IP.
+
+        Case Example: A proxy might incorrectly forward the client's IP with a port
+        in the X-Forwarded-For header as '192.168.1.1:9999'.
+        """
+        request = HttpRequest()
+        request.META = {"HTTP_X_FORWARDED_FOR": "192.168.1.1:9999"}
+        assert get_client_ip(request) == "192.168.1.1"
+
+    def test_get_client_ip_x_forwarded_for_multiple_with_port(self):
+        """
+        Tests handling the X-Forwarded-For header with multiple IP addresses, where
+        the first IP (the client's original IP) includes a port number. The function
+        should return the IP without the port.
+
+        Case Example: Multiple proxies are involved, and the first proxy (closest
+        to the client) forwards the IP with a port: '192.168.1.1:1111, 10.0.0.1'.
+        """
+        request = HttpRequest()
+        request.META = {"HTTP_X_FORWARDED_FOR": "192.168.1.1:1111, 10.0.0.1"}
+        assert get_client_ip(request) == "192.168.1.1"
+
+    def test_get_client_ip_x_forwarded_for_multiple_with_whitespace_and_port(self):
+        """
+        Tests handling the X-Forwarded-For header with multiple IP addresses, where
+        the first IP has leading/trailing whitespace and includes a port number.
+        The function should return the clean IP without the port.
+
+        Case Example: Poorly formatted X-Forwarded-For header:
+        '  192.168.1.1:2222  , 10.0.0.1'.
+        """
+        request = HttpRequest()
+        request.META = {"HTTP_X_FORWARDED_FOR": "  192.168.1.1:2222  , 10.0.0.1"}
+        assert get_client_ip(request) == "192.168.1.1"
+
+    def test_get_client_ip_remote_addr_ipv6_no_brackets_with_port(self):
+        """
+        Tests retrieving an IPv6 address from REMOTE_ADDR (without brackets), which
+        might occur in some older systems, when it includes a port number. The
+        function should return only the IP address.
+
+        Case Example: A direct IPv6 connection from an older client or through
+        a system that doesn't use brackets in REMOTE_ADDR: '::1:80'.
+        """
+        request = HttpRequest()
+        request.META = {"REMOTE_ADDR": "::1:80"}
+        assert get_client_ip(request) == "::1"
+
+    def test_get_client_ip_remote_addr_ipv6_complex_no_brackets_with_port(self):
+        """
+        Tests retrieving a more complex IPv6 address from REMOTE_ADDR (without
+        brackets) when it includes a port number. The function should return only
+        the IP address.
+
+        Case Example: A direct complex IPv6 connection without brackets where the
+        port is appended: '2001:db8:85a3::8a2e:370:7334:65535'.
+        """
+        request = HttpRequest()
+        request.META = {"REMOTE_ADDR": "2001:db8:85a3::8a2e:370:7334:65535"}
+        assert get_client_ip(request) == "2001:db8:85a3::8a2e:370:7334"
