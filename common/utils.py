@@ -157,37 +157,37 @@ def raise_permission_denied_if_not_staff(user):
 
 def get_client_ip(request: Optional[HttpRequest]) -> Optional[str]:
     """
-    Retrieves the client's IP address from the request.
+    Retrieves the client's IP address from the request, removing any port.
 
-    This function prioritizes the 'HTTP_X_FORWARDED_FOR' header, which is commonly
-    used when the request passes through proxies or load balancers. If that
-    header is not available, it falls back to 'REMOTE_ADDR'.
-
-    Args:
-        request: The HttpRequest object, or None if no request is available.
-
-    Returns:
-        The client's IP address as a string, or None if it cannot be determined or
-        if request is None.
+    Prioritizes 'HTTP_X_FORWARDED_FOR' and then falls back to 'REMOTE_ADDR'.
+    Removes any trailing port number.
     """
     if not request:
         return None
 
-    try:
-        x_forwarded_for: Optional[str] = request.META.get("HTTP_X_FORWARDED_FOR")
-        if x_forwarded_for:
-            ips = x_forwarded_for.split(",")
-            if ips:  # check if list is not empty
-                return ips[0].strip()
+    ip_address = request.headers.get("X-Forwarded-For")
+    if ip_address:
+        client_ip = ip_address.split(",")[0].strip()
+        if ":" in client_ip:
+            return client_ip.split(":")[0]
+        return client_ip
 
-        remote_addr: Optional[str] = request.META.get("REMOTE_ADDR")
-        if remote_addr:
-            return remote_addr
+    ip_address = request.META.get("REMOTE_ADDR")
+    if ip_address:
+        if ":" in ip_address:
+            if "[" in ip_address and "]" in ip_address:
+                # IPv6 with brackets: [address]:port
+                return ip_address.split("]")[0][1:]
+            elif "." in ip_address:
+                # IPv4: address:port
+                return ip_address.split(":")[0]
+            else:
+                # Likely IPv6 without brackets: address:port
+                parts = ip_address.split(":")
+                if len(parts) > 1 and parts[-1].isdigit():
+                    return ":".join(parts[:-1])
+                else:
+                    return ip_address
+        return ip_address
 
-        return None
-
-    except (AttributeError, IndexError):
-        return None  # Handle potential errors gracefully
-    except Exception as e:  # Catch any other error.
-        print(f"An unexpected error occured: {e}")
-        return None
+    return None
