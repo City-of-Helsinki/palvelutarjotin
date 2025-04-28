@@ -1,6 +1,64 @@
 <!-- REMINDER: While updating changelog, also remember to update
 the version in palvelutarjotin/__init.py__ -->
 
+## [1.19.0](https://github.com/City-of-Helsinki/palvelutarjotin/compare/palvelutarjotin-v1.18.0...palvelutarjotin-v1.19.0) (2025-04-28)
+
+
+### Features
+
+* Add gitlint & md-toc to pre-commit hooks, update related README ([c09351f](https://github.com/City-of-Helsinki/palvelutarjotin/commit/c09351f2c24ba8acf6721764d2580835c6e7462d))
+* **auditlog:** Common mixin to write accesslogs of REST list views ([1fa359f](https://github.com/City-of-Helsinki/palvelutarjotin/commit/1fa359ffda78531f2cccfc6436edb5885b27034d))
+* **auditlog:** Install and configure auditlog ([3153f61](https://github.com/City-of-Helsinki/palvelutarjotin/commit/3153f6143ee0a4795460b498c4ac37006ff2f5ad))
+* **auditlog:** List view read logging in EnrolleePersonalDataAdmin ([1609ca1](https://github.com/City-of-Helsinki/palvelutarjotin/commit/1609ca170b71380c25ddc770b059d70cd6d58857))
+* **auditlog:** Write access auditlogs in report views ([0be21ab](https://github.com/City-of-Helsinki/palvelutarjotin/commit/0be21abc259db9d08fbdbcab90d2d9ac59243691))
+* **auditlog:** Write access log in GraphQL endpoint ([c648589](https://github.com/City-of-Helsinki/palvelutarjotin/commit/c648589a5f4994b8fcba3b528d56f4452366d3c7))
+* **auditlog:** Write auditlogs about reads on admin-site ([cfe7a8a](https://github.com/City-of-Helsinki/palvelutarjotin/commit/cfe7a8acf1ef54f7da5c7468bec135b411ae089e))
+* **csp:** Install and configure CSP-plugin ([1399719](https://github.com/City-of-Helsinki/palvelutarjotin/commit/139971964bec49bbab27117edbacea30751f59cb))
+* **dependabot:** Configure dependabot using .github/dependabot.yml ([dbe9147](https://github.com/City-of-Helsinki/palvelutarjotin/commit/dbe9147ecc8b98d901f2dd5d4382c67986a7ab5c))
+* **health:** Improved health check to check database connection ([86b8cbc](https://github.com/City-of-Helsinki/palvelutarjotin/commit/86b8cbc9dbe0c99b7d901639888981b1f439c1a3))
+* **python:** Upgrade python from 3.11 to 3.12 everywhere in codebase ([cd87b14](https://github.com/City-of-Helsinki/palvelutarjotin/commit/cd87b14ce843e4f1d3a01d59e5a586181257431f))
+* **sonarcloud:** Add sonar-project.properties to configure SonarCloud ([8c9810b](https://github.com/City-of-Helsinki/palvelutarjotin/commit/8c9810b2f8a3e314a2a0ecf7b662baeafaa51b6a))
+
+
+### Bug Fixes
+
+* **auditlog:** Auditlogging in user deletion process ([be74fa7](https://github.com/City-of-Helsinki/palvelutarjotin/commit/be74fa7516f345846af742cf6e0f8baceae0ac55))
+* Gdpr accessor for event contact person ([ef9dfe1](https://github.com/City-of-Helsinki/palvelutarjotin/commit/ef9dfe1b737d59a0fc374d076599ccb196768a79))
+* **license:** Update license year to current year of 2025 ([15659a5](https://github.com/City-of-Helsinki/palvelutarjotin/commit/15659a5ebe545497df537eb73260d9a1d8cc6d1b))
+* Null pointer exceptions in some models __str__ ([cdc24cd](https://github.com/City-of-Helsinki/palvelutarjotin/commit/cdc24cd383c301e5a06d174c430acdefc89ec83a))
+* Order StudyGroups by (created_at, group_name) for predictability ([3c9482c](https://github.com/City-of-Helsinki/palvelutarjotin/commit/3c9482c4ef407fadb728b0837d7450c5627fac32))
+* Possible null pointer exception issue in place handling ([3177443](https://github.com/City-of-Helsinki/palvelutarjotin/commit/3177443855fe5ddcecb9e8673b00b60cd570fe76))
+* Remove dependabot reviewers, set comment for PT-1887 ([6181a0d](https://github.com/City-of-Helsinki/palvelutarjotin/commit/6181a0dbfa2dc777d08a602559d1ddf5680dff07))
+* Remove port from the response of `get_client_ip` ([6c3eb83](https://github.com/City-of-Helsinki/palvelutarjotin/commit/6c3eb83aecbfc64bf6e3c079f1c00ada17a1f30d))
+* **sonarcloud:** Add alt texts to &lt;img&gt; tags in email templates ([dbb6177](https://github.com/City-of-Helsinki/palvelutarjotin/commit/dbb6177bacc7d089adc674e5759782fca760ea0d))
+* **sonarcloud:** Add lang & xml:lang to email templates' html tags ([8105034](https://github.com/City-of-Helsinki/palvelutarjotin/commit/81050348c13e16cfdbf65259c18c7a3a4a3cf477))
+* **sonarcloud:** Allow deprecated attributes in email templates ([5f275db](https://github.com/City-of-Helsinki/palvelutarjotin/commit/5f275db33ce629878929281423c0abc923a710c8))
+* **sonarcloud:** Allow deprecated elements in email templates ([7ac1945](https://github.com/City-of-Helsinki/palvelutarjotin/commit/7ac19455e01c06db96fb5da8b93597d1d4a6f8fb))
+* **sonarcloud:** Allow tables without headers in email templates ([b9071d2](https://github.com/City-of-Helsinki/palvelutarjotin/commit/b9071d2689d58d3ad79dfd8f6f456aa245a7ea86))
+* **sonarcloud:** Don't hardcode debug mode SECRET_KEY, update README ([0792782](https://github.com/City-of-Helsinki/palvelutarjotin/commit/07927823c9df0163e43d043f1eeef76c2109e5e1))
+* **sonarcloud:** Fix margin CSS styles in email templates ([f22890a](https://github.com/City-of-Helsinki/palvelutarjotin/commit/f22890aa684ec9d032397c76275d4f697abbdf39))
+* **sonarcloud:** Fix rest of the margin CSS styles in email templates ([2700840](https://github.com/City-of-Helsinki/palvelutarjotin/commit/27008407139719823165ebea95f838119b98027f))
+* **sonarcloud:** Generate PEM key pair in tests instead of hardcoding it ([6194e23](https://github.com/City-of-Helsinki/palvelutarjotin/commit/6194e2357f0931ee4b9b42b51bc238881be1b76b))
+* **sonarcloud:** Ignore false positive "wrap &lt;li&gt; with &lt;ul&gt;" warnings ([343c172](https://github.com/City-of-Helsinki/palvelutarjotin/commit/343c1721d819521a86f41900c4695b7361e82103))
+* **sonarcloud:** Move DATABASE_URL default to .env.example ([2ddc4fc](https://github.com/City-of-Helsinki/palvelutarjotin/commit/2ddc4fc1f45738077266ed9c0ed1782934b001fb))
+* **sonarcloud:** Use safe HTTP methods with healthz/readiness endpoints ([0cab943](https://github.com/City-of-Helsinki/palvelutarjotin/commit/0cab9437156d07dc16e704d81e53cedddefccc84))
+* **sonarcloud:** Use signed & verified JWT token in tests ([94c09d4](https://github.com/City-of-Helsinki/palvelutarjotin/commit/94c09d4a1bef795e00882813a759aeb0e07e5bc0))
+* **sonarcloud:** Use tempfile for creating MAILER_LOCK_PATH default ([8656420](https://github.com/City-of-Helsinki/palvelutarjotin/commit/86564205b3dd68acdc997fbfebfaf757f53ea2fc))
+* **sonarcloud:** Use zoneinfo.ZoneInfo instead of pytz.timezone ([3c265a0](https://github.com/City-of-Helsinki/palvelutarjotin/commit/3c265a029eefe53dbbf8cae14d78523bc99d4a86))
+* Upgrade deps, fix Dockerfile, update ignores, unify env files ([d5e43a0](https://github.com/City-of-Helsinki/palvelutarjotin/commit/d5e43a08dbad216db94c84184a6466288042992c))
+* Variable typing ([c1beac6](https://github.com/City-of-Helsinki/palvelutarjotin/commit/c1beac67e9ac182d27777782ea55cd218b8057c1))
+
+
+### Dependencies
+
+* **auditlog:** Add django-auditlog and django-auditlog-extra ([acd7d89](https://github.com/City-of-Helsinki/palvelutarjotin/commit/acd7d89489440e27397f029cee587a30b1ce9e88))
+
+
+### Documentation
+
+* **auditlog:** Add auditlog to README ([11ae0db](https://github.com/City-of-Helsinki/palvelutarjotin/commit/11ae0db0409861443eba352f9df059c91082e016))
+* Improve readme with architecture image and release & deployments ([ecfc226](https://github.com/City-of-Helsinki/palvelutarjotin/commit/ecfc226d66e12f92e94f370d7537adf45e8ff0e8))
+
 ## [1.18.0](https://github.com/City-of-Helsinki/palvelutarjotin/compare/palvelutarjotin-v1.17.0...palvelutarjotin-v1.18.0) (2024-10-31)
 
 
