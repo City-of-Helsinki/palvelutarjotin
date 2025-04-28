@@ -6,7 +6,10 @@
 <!-- DON'T EDIT THE TOC SECTION, INSTEAD RE-RUN md-toc TO UPDATE IT -->
 <!--TOC-->
 
-- [Environments](#environments)
+- [About Kultus](#about-kultus)
+- [Service architecture](#service-architecture)
+  - [Environments](#environments)
+  - [Frameworks and Libraries](#frameworks-and-libraries)
 - [Development with Docker](#development-with-docker)
 - [Development without Docker](#development-without-docker)
   - [Installing Python requirements](#installing-python-requirements)
@@ -23,26 +26,155 @@
 - [Issues board](#issues-board)
 - [Maintaining](#maintaining)
   - [Enrolment reports](#enrolment-reports)
+- [Releases, changelogs and deployments](#releases-changelogs-and-deployments)
+  - [Conventional Commits](#conventional-commits)
+  - [Releasable units](#releasable-units)
+  - [Configuration](#configuration-1)
+  - [Troubleshoting release-please](#troubleshoting-release-please)
+    - [Fix merge conflicts by running release-please -action manually](#fix-merge-conflicts-by-running-release-please--action-manually)
+  - [Deployments](#deployments)
 
 <!--TOC-->
 
-## Environments
+## About Kultus
 
-Production environment:
+**What is it?**
+A service for teachers to find and book culture and leisure sectors activities for their student groups.
 
-- https://kultus.api.hel.fi/graphql
-- Triggered by creation of release-\* tag, e.g. `release-v0.1.0`
-  - Needs to be manually approved in pipeline to be deployed
+**Why is it?**
+To make booking culture and leisure activities easy to all participants:
+- help teachers find & enrol their student groups to activities
+- help providers (culture and leisure department and partly metropolitan-area ecosystem) to show activities for teachers & their student groups
+- gather data (equal possibilities and use to all groups, use of Kuva's work, resource needs etc) for service development
 
-Staging environment:
+**Who use the service?**
+- **Teacher**
+  - A school or kindergarten teacher who seeks educational activities for student groups.
+- **Provider**
+  - A third party or a Culture and Leisure Division (i.e. [KUVA](https://www.hel.fi/fi/kulttuuri-ja-vapaa-aika)) services user who wants to provide activities for teachers & their student groups
+- **Admin**
+  - A user who manages the system's rights, pages etc.
 
-- https://kultus.api.stage.hel.ninja/graphql
-- Automatically deployed by creation of release-\* tag, e.g. `release-v0.1.0`
+## Service architecture
 
-Testing environment:
+The Kultus service consists of:
 
-- https://kultus.api.test.hel.ninja/graphql
-- Automatically deployed by any change to master branch
+- **[Kultus API](https://github.com/City-of-Helsinki/palvelutarjotin):** The API backend service - The primary source of data. Integrates to LinkedEvents API and extends it's features.
+- **[Providers' UI](https://github.com/City-of-Helsinki/palvelutarjotin-admin):** A restricted UI where the events are maintained and published. Often called as "Admin UI".
+- **[Teachers' UI](https://github.com/City-of-Helsinki/palvelutarjotin-ui):** (This service). The frontend service where the groups can view and enrol in events.
+- **[Headless CMS](https://github.com/City-of-Helsinki/headless-cms):** Content Management Service that provides dynamic pages and dynamic content for the teachers' UI. It also provides content for the header and the footer. A React component library can be found from https://github.com/City-of-Helsinki/react-helsinki-headless-cms.
+- **[LinkedEvents API](https://github.com/City-of-Helsinki/linkedevents):** A city of Helsinki centralized API for events.
+- **[Notification Service API](https://github.com/City-of-Helsinki/notification-service-api):** A service used by the Kultus API to send SMS messages.
+- **[Unified Search](https://github.com/City-of-Helsinki/unified-search):** Provide a list of divisions.
+- **[Helsinki Profile (Keycloak)](https://github.com/City-of-Helsinki/open-city-profile):** Authorization service
+- **Mailer:** A service used by the Kultus API to send emails.
+- **PowerBI:** Data visualization.
+- **[Digia Iiris](https://iirishelp.digia.com/):** Web analytics (a [Matomo](https://matomo.org/) service).
+- **[Sentry](https://sentry.io/):** A monitoring service.
+
+```mermaid
+flowchart LR
+ subgraph ExternalServices["Third party services"]
+    direction LR
+        Matomo["Matomo"]
+        Sentry["Sentry"]
+        Mailer["Mailer"]
+  end
+ subgraph HelsinkiGraph["City of Helsinki services"]
+    direction LR
+        PowerBI["PowerBI"]
+        Keycloak["Keycloak"]
+        NotificationService["Notification Service"]
+        LinkedEvents["Linked Events"]
+        HeadlessCMS["HeadlessCMS"]
+        UnifiedSearch["UnifiedSearch"]
+  end
+ subgraph KultusBackend["Kultus Backend"]
+    direction LR
+        KultusAPI["Kultus API"]
+  end
+ subgraph PublicFrontend["Public Frontend"]
+    direction LR
+        KultusUI["Teachers UI"]
+  end
+ subgraph AdminInterface["Admin Interface"]
+    direction LR
+        KultusAdminUI["Providers UI"]
+  end
+ subgraph KultusInternal["Kultus"]
+    direction LR
+        KultusBackend
+        PublicFrontend
+        AdminInterface
+  end
+    KultusAPI == Syncs events data with ==> LinkedEvents
+    KultusAPI -- Authenticates via --> Keycloak
+    KultusAPI -- Sends SMS via --> NotificationService
+    KultusAPI -. Sends emails via .-> Mailer
+    KultusAPI -- Provides data for --> PowerBI
+    KultusAPI -. Reports errors to .-> Sentry
+    KultusUI == Depends on ==> KultusAPI
+    KultusUI == Uses content from ==> HeadlessCMS
+    KultusUI -- Getches divisions from --> UnifiedSearch
+    KultusUI -. Tracks usage via .-> Matomo
+    KultusUI -. Reports errors to .-> Sentry
+    KultusAdminUI == Depends on ==> KultusAPI
+    KultusAdminUI -- Authenticates with --> Keycloak
+    KultusAdminUI == Uses content from ==> HeadlessCMS
+    KultusAdminUI -. Tracks usage via .-> Matomo
+    KultusAdminUI -. Reports errors to .-> Sentry
+    style KultusInternal fill:#757575
+```
+
+### Environments
+
+Kultus API environments (this service):
+
+- **Production environment:** https://kultus.api.hel.fi/graphql
+- **Staging environment:** https://kultus.api.stage.hel.ninja/graphql
+- **Testing environment:** https://kultus.api.test.hel.ninja/graphql
+
+Teachers UI (the public UI) environments:
+
+- **Production environment:** https://kultus.hel.fi/
+- **Staging environment:** https://kultus-ui.stage.hel.ninja/
+- **Testing environment:** https://kultus-ui.test.hel.ninja/
+
+Providers UI (the admin client) environments:
+
+- **Production environment:** https://kultus-admin.hel.fi/
+- **Staging environment:** https://kultus-admin-ui.stage.hel.ninja/
+- **Testing environment:** https://kultus-admin-ui.test.hel.ninja/
+
+Headless CMS environments:
+
+- **Production environment:** https://kultus.content.api.hel.fi/graphql
+- **Testing environment:** https://kultus.app-staging.hkih.hion.dev/graphql
+
+LinkedEvents
+
+- **Production environment:** https://api.hel.fi/linkedevents/v1/
+- **Testing environment:** https://linkedevents.api.test.hel.ninja/v1/
+
+Notification service
+
+- **Production environment:** https://kuva-notification-service.api.hel.fi/v1/
+- **Testing environment:** https://kuva-notification-service.api.stage.hel.ninja/v1/
+
+Unified Search
+
+- **Production environment:** https://kuva-unified-search.api.hel.fi/search
+- **Testing environment:** https://kuva-unified-search.api.stage.hel.ninja/search
+
+
+### Frameworks and Libraries
+
+This API leverages the following key frameworks and libraries:
+
+- **[Django](https://www.djangoproject.com/):** A high-level Python Web framework that encourages rapid development and clean, pragmatic design. It provides a robust foundation for building web applications.
+- **[Graphene-Django](https://docs.graphene-python.org/projects/django/en/latest/):** A library that seamlessly integrates GraphQL with Django, allowing you to build powerful and efficient APIs.
+- **[Django REST framework](https://www.django-rest-framework.org/):** A powerful and flexible toolkit for building Web APIs with Django.
+- **[Django-helusers](https://github.com/City-of-Helsinki/django-helusers):** A set of Django utilities and extensions used by the City of Helsinki, likely providing features like user management or authentication specific to their ecosystem.
 
 ## Development with Docker
 
@@ -54,7 +186,7 @@ Prerequisites:
 
 1. Copy `.env.example` to `.env`
 2. Configure settings, see [Configuration](#configuration)
-3. Run `docker-compose up`
+3. Run `docker compose up`
 
 The project is now running at http://localhost:8081
 
@@ -384,3 +516,72 @@ related enrolment instance. The `sync_enrolment_reports` command takes in 2 opti
 - --sync_from, which can be used to set the date of the updated_at -field that will be used to fetch the enrolments
   being handled in the sync process.
 - --ignore_linkedevents, which can be used to prevent data fetching from LinkedEvents API.
+
+
+## Releases, changelogs and deployments
+
+The used environments are listed in [Service environments](#service-environments).
+
+The application uses automatic semantic versions and is released using [Release Please](https://github.com/googleapis/release-please).
+
+> Release Please is a GitHub Action that automates releases for you. It will create a GitHub release and a GitHub Pull Request with a changelog based on conventional commits.
+
+Each time you merge a "normal" pull request, the release-please-action will create or update a "Release PR" with the changelog and the version bump related to the changes (they're named like `release-please--branches--master--components--palvelutarjotin`).
+
+To create a new release for an app, this release PR is merged, which creates a new release with release notes and a new tag. This tag will be picked by Azure pipeline and trigger a new deployment to staging. From there, the release needs to be manually released to production.
+
+When merging release PRs, make sure to use the "Rebase and merge" (or "Squash and merge") option, so that Github doesn't create a merge commit. All the commits must follow the conventional commits format. This is important, because the release-please-action does not work correctly with merge commits (there's an open issue you can track: [Chronological commit sorting means that merged PRs can be ignored ](https://github.com/googleapis/release-please/issues/1533)).
+
+See [Release Please Implementation Design](https://github.com/googleapis/release-please/blob/main/docs/design.md) for more details.
+
+And all docs are available here: [release-please docs](https://github.com/googleapis/release-please/tree/main/docs).
+
+### Conventional Commits
+
+Use [Conventional Commits](https://www.conventionalcommits.org/) to ensure that the changelogs are generated correctly.
+
+### Releasable units
+
+Release please goes through commits and tries to find "releasable units" using commit messages as guidance - it will then add these units to their respective release PR's and figures out the version number from the types: `fix` for patch, `feat` for minor, `feat!` for major. None of the other types will be included in the changelog. So, you can use for example `chore` or `refactor` to do work that does not need to be included in the changelog and won't bump the version.
+
+### Configuration
+
+The release-please workflow is located in the [release-please.yml](./.github/workflows/release-please.yml) file.
+
+The configuration for release-please is located in the [release-please-config.json](./release-please-config.json) file.
+See all the options here: [release-please docs](https://github.com/googleapis/release-please/blob/main/docs/manifest-releaser.md).
+
+The manifest file is located in the [release-please-manifest.json](./.release-please-manifest.json) file.
+
+When adding a new app, add it to both the [release-please-config.json](./release-please-config.json) and [release-please-manifest.json](./.release-please-manifest.json) file with the current version of the app. After this, release-please will keep track of versions with [release-please-manifest.json](./.release-please-manifest.json).
+
+### Troubleshoting release-please
+
+If you were expecting a new release PR to be created or old one to be updated, but nothing happened, there's probably one of the older release PR's in pending state or action didn't run.
+
+1. Check if the release action ran for the last merge to main. If it didn't, run the action manually with a label.
+2. Check if there's any open release PR. If there is, the work is now included on this one (this is the normal scenario).
+3. If you do not see any open release PR related to the work, check if any of the closed PR's are labeled with `autorelease: pending` - ie. someone might have closed a release PR manually. Change the closed PR's label to `autorelease: tagged`. Then go and re-run the last merge workflow to trigger the release action - a new release PR should now appear.
+4. Finally check the output of the release action. Sometimes the bot can't parse the commit message and there is a notification about this in the action log. If this happens, it won't include the work in the commit either. You can fix this by changing the commit message to follow the [Conventional Commits](https://www.conventionalcommits.org/) format and rerun the action.
+
+**Important!** If you have closed a release PR manually, you need to change the label of closed release PR to `autorelease: tagged`. Otherwise, the release action will not create a new release PR.
+
+**Important!** Extra label will force release-please to re-generate PR's. This is done when action is run manually with prlabel -option
+
+Sometimes there might be a merge conflict in release PR - this should resolve itself on the next push to main. It is possible run release-please action manually with label, it should recreate the PR's. You can also resolve it manually, by updating the [release-please-manifest.json](./.release-please-manifest.json) file.
+
+#### Fix merge conflicts by running release-please -action manually
+
+1. Open [release-please github action](https://github.com/City-of-Helsinki/palvelutarjotin/actions/workflows/release-please.yml)
+2. Click **Run workflow**
+3. Check Branch is **master**
+4. Leave label field empty. New label is not needed to fix merge issues
+5. Click **Run workflow** -button
+
+There's also a CLI for debugging and manually running releases available for release-please: [release-please-cli](https://github.com/googleapis/release-please/blob/main/docs/cli.md)
+
+### Deployments
+
+When a Release-Please pull request is merged and a version tag is created (or a proper tag name for a commit is manually created), this tag will be picked by Azure pipeline, which then triggers a new deployment to staging. From there, the deployment needs to be manually approved to allow it to proceed to the production environment.
+
+The tag name is defined in the [azure-pipelines-release.yml](./azure-pipelines-release.yml).
