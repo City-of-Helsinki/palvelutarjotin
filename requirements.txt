@@ -9,6 +9,10 @@ asgiref==3.8.1
     #   django
     #   django-axes
     #   django-cors-headers
+attrs==25.3.0
+    # via
+    #   jsonschema
+    #   referencing
 authlib==1.5.1
     # via drf-oidc-auth
 cachetools==5.5.2
@@ -51,6 +55,7 @@ django==4.2.20
     #   django-parler
     #   djangorestframework
     #   drf-oidc-auth
+    #   drf-spectacular
     #   graphene-django
     #   helsinki-profile-gdpr-api
     #   social-auth-app-django
@@ -93,11 +98,14 @@ django-utils-six==2.0
 djangorestframework==3.15.2
     # via
     #   drf-oidc-auth
+    #   drf-spectacular
     #   helsinki-profile-gdpr-api
 drf-oidc-auth==3.0.0
     # via
     #   -r requirements.in
     #   helsinki-profile-gdpr-api
+drf-spectacular==0.28.0
+    # via -r requirements.in
 ecdsa==0.19.1
     # via python-jose
 factory-boy==3.3.3
@@ -133,8 +141,14 @@ idna==3.10
     # via requests
 importlib-metadata==8.6.1
     # via -r requirements.in
+inflection==0.5.1
+    # via drf-spectacular
 jinja2==3.1.6
     # via django-ilmoitin
+jsonschema==4.23.0
+    # via drf-spectacular
+jsonschema-specifications==2025.4.1
+    # via jsonschema
 lockfile==0.12.2
     # via django-mailer
 markupsafe==3.0.2
@@ -167,6 +181,12 @@ python-jose==3.4.0
     # via django-helusers
 python3-openid==3.2.0
     # via social-auth-core
+pyyaml==6.0.2
+    # via drf-spectacular
+referencing==0.36.2
+    # via
+    #   jsonschema
+    #   jsonschema-specifications
 requests==2.32.3
     # via
     #   -r requirements.in
@@ -177,6 +197,10 @@ requests==2.32.3
     #   social-auth-core
 requests-oauthlib==2.0.0
     # via social-auth-core
+rpds-py==0.24.0
+    # via
+    #   jsonschema
+    #   referencing
 rsa==4.9
     # via python-jose
 sentry-sdk==2.23.1
@@ -196,9 +220,13 @@ sqlparse==0.5.3
 text-unidecode==1.3
     # via graphene-django
 typing-extensions==4.12.2
-    # via graphene
+    # via
+    #   graphene
+    #   referencing
 tzdata==2025.1
     # via faker
+uritemplate==4.1.1
+    # via drf-spectacular
 urllib3==2.3.0
     # via
     #   -r requirements.in

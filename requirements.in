@@ -13,6 +13,7 @@ django-ilmoitin
 django-utils-six
 Django~=4.2.16
 drf-oidc-auth
+drf-spectacular
 factory-boy
 geopy
 graphene-django
