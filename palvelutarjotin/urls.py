@@ -6,6 +6,10 @@ from django.urls import include, path, re_path
 from django.utils.translation import gettext
 from django.views.decorators.csrf import csrf_exempt
 from django.views.decorators.http import require_http_methods
+from drf_spectacular.views import (
+    SpectacularAPIView,
+    SpectacularRedocView,
+)
 from helusers.admin_site import admin
 
 from common.utils import get_api_version
@@ -38,6 +42,16 @@ urlpatterns = [
     path("helauth/", include("helusers.urls")),
     path("gdpr-api/", include("helsinki_gdpr.urls")),
     re_path(r"^graphql/?$", graphql_view),
+]
+
+
+urlpatterns += [
+    path("api/schema/", SpectacularAPIView.as_view(), name="schema"),
+    path(
+        "api/schema/redoc/",
+        SpectacularRedocView.as_view(url_name="schema"),
+        name="redoc",
+    ),
 ]
 
 

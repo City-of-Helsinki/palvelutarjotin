@@ -189,6 +189,7 @@ INSTALLED_APPS = [
     "csp",
     "graphene_django",
     "rest_framework",
+    "drf_spectacular",
     "anymail",
     "mailer",
     "parler",
@@ -240,6 +241,16 @@ TEMPLATES = [
         },
     }
 ]
+
+REST_FRAMEWORK = {
+    "DEFAULT_SCHEMA_CLASS": "drf_spectacular.openapi.AutoSchema",
+}
+
+SPECTACULAR_SETTINGS = {
+    "TITLE": "Kultus API",
+    "VERSION": "1.0.0",
+    "SERVE_INCLUDE_SCHEMA": True,
+}
 
 CORS_ALLOWED_ORIGINS = env.list("CORS_ALLOWED_ORIGINS")
 CORS_ALLOWED_ORIGIN_REGEXES = env.list("CORS_ALLOWED_ORIGIN_REGEXES")
