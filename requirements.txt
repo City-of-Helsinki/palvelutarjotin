@@ -92,7 +92,9 @@ django-ilmoitin==0.7.1
 django-mailer==2.3.2
     # via django-ilmoitin
 django-parler==2.3
-    # via django-ilmoitin
+    # via
+    #   -r requirements.in
+    #   django-ilmoitin
 django-utils-six==2.0
     # via -r requirements.in
 djangorestframework==3.15.2
