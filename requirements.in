@@ -10,6 +10,7 @@ django-graphql-jwt
 django-health-check
 django-helusers
 django-ilmoitin
+django-parler
 django-utils-six
 Django~=4.2.16
 drf-oidc-auth
