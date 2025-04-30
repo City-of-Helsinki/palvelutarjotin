@@ -21,7 +21,6 @@ from django.views.generic import ListView
 from rest_framework import generics
 from rest_framework.authentication import SessionAuthentication
 from rest_framework.permissions import DjangoModelPermissions, IsAdminUser
-from rest_framework.views import APIView
 
 from common.mixins import LogListAccessMixin
 from common.utils import (
@@ -274,7 +273,7 @@ CSV Views...
 """
 
 
-class ExportReportCsvView(ExportReportViewMixin, APIView):
+class ExportReportCsvView(ExportReportViewMixin, generics.GenericAPIView):
     """
     A generic way to create csv reports from models.
     """
