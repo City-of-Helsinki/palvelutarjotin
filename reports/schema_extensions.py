@@ -1,6 +1,9 @@
 from typing import TYPE_CHECKING
 
-from drf_spectacular.extensions import OpenApiSerializerFieldExtension
+from drf_spectacular.extensions import (
+    OpenApiAuthenticationExtension,
+    OpenApiSerializerFieldExtension,
+)
 from drf_spectacular.plumbing import (
     build_array_type,
     build_basic_type,
@@ -91,4 +94,18 @@ class OCDIDFieldExtension(OpenApiSerializerFieldExtension):
                 "neighborhood": "Pasila",
                 "district": "Pasila",
             },
+        }
+
+
+class KultusApiTokenAuthenticationExtension(OpenApiAuthenticationExtension):
+    target_class = "palvelutarjotin.oidc.KultusApiTokenAuthentication"
+    name = "Kultus API token authentication"
+
+    def get_security_definition(self, auto_schema: "AutoSchema"):
+        return {
+            "header_name": "Authorization",
+            "token_prefix": "Bearer",  #  Most common prefix for Bearer authentication
+            "description": "Authentication using a Kultus API token. "
+            + "The token should be included in the Authorization header "
+            + "as a Bearer token.",
         }
