@@ -1,5 +1,8 @@
 import logging
 
+from django.utils.translation import gettext as _
+from drf_spectacular.types import OpenApiTypes
+from drf_spectacular.utils import extend_schema, OpenApiParameter, OpenApiResponse
 from rest_framework import generics
 from rest_framework.permissions import DjangoModelPermissions
 
@@ -15,7 +18,7 @@ logger = logging.getLogger(__name__)
 
 class EnrolmentReportListView(LogListAccessMixin, generics.ListAPIView):
     """
-    Return a list of all the enrolment reports.
+    API endpoint that returns a list of enrolment reports in JSON format.
 
     There are some query parameters available that can be used as filters to
     narrow the result of the queryset.
@@ -105,3 +108,42 @@ class EnrolmentReportListView(LogListAccessMixin, generics.ListAPIView):
             queryset = queryset.filter(**filter_params)
 
         return queryset.order_by(self.request.query_params.get("order_by", "id"))
+
+    @extend_schema(
+        operation_id="listEnrolmentReports",
+        summary=_("List all enrolment reports"),
+        description=_(
+            "Returns a list of all enrolment reports. Supports filtering by "
+            "updated at, created at, enrolment time, enrolment start time, "
+            "and enrolment status. Results can be ordered by any field."
+        ),
+        responses={
+            200: OpenApiResponse(
+                response=EnrolmentReportSerializer(many=True),
+                description=_("A list of enrolment reports in JSON format."),
+            ),
+        },
+        parameters=[
+            OpenApiParameter(
+                name=key,
+                type=OpenApiTypes.STR,
+                location=OpenApiParameter.QUERY,
+                description=_(f"Filter by {key}"),
+            )
+            for key in allowed_datetime_filter_keys + allowed_non_datetime_filter_keys
+        ]
+        + [
+            OpenApiParameter(
+                name="order_by",
+                type=OpenApiTypes.STR,
+                location=OpenApiParameter.QUERY,
+                description=_(
+                    "Order the results by a specific field "
+                    "(e.g., updated_at, -created_at)."
+                ),
+            ),
+        ],
+        tags=["Reports"],
+    )
+    def get(self, request, *args, **kwargs):
+        return super().get(request, *args, **kwargs)
