@@ -36,7 +36,27 @@ class PositionField(serializers.Field):
         return None
 
     def to_internal_value(self, data):
-        return [data["longitude"], data["latitude"]]
+        if not isinstance(data, dict):
+            raise serializers.ValidationError(
+                "Expected a dictionary containing longitude and latitude."
+            )
+        longitude = data.get("longitude")
+        latitude = data.get("latitude")
+
+        if longitude is None or latitude is None:
+            raise serializers.ValidationError(
+                "Both longitude and latitude are required."
+            )
+
+        try:
+            longitude = float(longitude)
+            latitude = float(latitude)
+        except (ValueError, TypeError):
+            raise serializers.ValidationError(
+                "Longitude and latitude must be numeric values."
+            )
+
+        return [longitude, latitude]
 
 
 class OCDIDField(serializers.Field):
