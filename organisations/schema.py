@@ -47,8 +47,12 @@ class PersonNode(DjangoObjectType):
         return queryset.user_can_view(info.context.user).order_by("name")
 
     def resolve_is_staff(self, info, **kwargs):
+        """
+        Check if the user is event staff. This is used in the admin interface
+        to determine if the user is event staff.
+        """
         try:
-            return self.user.is_staff if self.user else False
+            return self.user.is_event_staff if self.user else False
         # Contact person sharing the same Person model so it doesn't have user
         except User.DoesNotExist:
             return False

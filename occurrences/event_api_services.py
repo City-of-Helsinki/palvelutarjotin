@@ -24,7 +24,9 @@ def fetch_place_as_json(place_id: str, **filter_params):
     if not place_id:
         return None
 
-    result = api_client.retrieve("place", place_id, params=filter_params, is_staff=True)
+    result = api_client.retrieve(
+        "place", place_id, params=filter_params, is_event_staff=True
+    )
 
     if result.status_code == 400:
         raise ApiBadRequestError("Bad request to LinkedEvents API.")
@@ -43,7 +45,7 @@ def fetch_event_as_json(linked_event_id: str, **filter_params):
         return None
 
     result = api_client.retrieve(
-        "event", linked_event_id, params=filter_params, is_staff=True
+        "event", linked_event_id, params=filter_params, is_event_staff=True
     )
 
     if result.status_code == 400:

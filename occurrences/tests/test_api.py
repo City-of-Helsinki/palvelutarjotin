@@ -199,7 +199,7 @@ def test_occurrence_query(
 
 
 def test_add_occurrence_unauthorized(
-    api_client, user_api_client, organisation, p_event, staff_api_client
+    api_client, user_api_client, organisation, p_event, event_staff_api_client
 ):
     executed = api_client.execute(
         ADD_OCCURRENCE_MUTATION, variables=ADD_OCCURRENCE_VARIABLES
@@ -215,13 +215,15 @@ def test_add_occurrence_unauthorized(
     variables["input"]["pEventId"] = to_global_id(
         "PalvelutarjotinEventNode", p_event.id
     )
-    executed = staff_api_client.execute(ADD_OCCURRENCE_MUTATION, variables=variables)
+    executed = event_staff_api_client.execute(
+        ADD_OCCURRENCE_MUTATION, variables=variables
+    )
     assert_permission_denied(executed)
 
 
 def test_add_occurrence_to_published_event(
     snapshot,
-    staff_api_client,
+    event_staff_api_client,
     organisation,
     person,
     mock_get_event_data,
@@ -240,18 +242,22 @@ def test_add_occurrence_to_published_event(
             "name": person.name,
         }
     )
-    staff_api_client.user.person.organisations.add(organisation)
-    executed = staff_api_client.execute(ADD_OCCURRENCE_MUTATION, variables=variables)
+    event_staff_api_client.user.person.organisations.add(organisation)
+    executed = event_staff_api_client.execute(
+        ADD_OCCURRENCE_MUTATION, variables=variables
+    )
     snapshot.assert_match(executed)
     # test validation
     variables["input"]["endTime"] = variables["input"]["startTime"]
-    executed = staff_api_client.execute(ADD_OCCURRENCE_MUTATION, variables=variables)
+    executed = event_staff_api_client.execute(
+        ADD_OCCURRENCE_MUTATION, variables=variables
+    )
     assert_match_error_code(executed, DATA_VALIDATION_ERROR)
 
 
 def test_add_occurrence_to_unpublished_event(
     snapshot,
-    staff_api_client,
+    event_staff_api_client,
     organisation,
     person,
     mock_get_draft_event_data,
@@ -270,17 +276,21 @@ def test_add_occurrence_to_unpublished_event(
             "name": person.name,
         }
     )
-    staff_api_client.user.person.organisations.add(organisation)
-    executed = staff_api_client.execute(ADD_OCCURRENCE_MUTATION, variables=variables)
+    event_staff_api_client.user.person.organisations.add(organisation)
+    executed = event_staff_api_client.execute(
+        ADD_OCCURRENCE_MUTATION, variables=variables
+    )
     snapshot.assert_match(executed)
     # test validation
     variables["input"]["endTime"] = variables["input"]["startTime"]
-    executed = staff_api_client.execute(ADD_OCCURRENCE_MUTATION, variables=variables)
+    executed = event_staff_api_client.execute(
+        ADD_OCCURRENCE_MUTATION, variables=variables
+    )
     assert_match_error_code(executed, DATA_VALIDATION_ERROR)
 
 
 def test_add_occurrence_to_date_when_enrolling_has_not_started(
-    staff_api_client,
+    event_staff_api_client,
     organisation,
     person,
     mock_get_draft_event_data,
@@ -301,18 +311,22 @@ def test_add_occurrence_to_date_when_enrolling_has_not_started(
             "name": person.name,
         }
     )
-    staff_api_client.user.person.organisations.add(organisation)
+    event_staff_api_client.user.person.organisations.add(organisation)
     variables["input"]["startTime"] = p_event.enrolment_start
     variables["input"]["endTime"] = p_event.enrolment_start + timedelta(days=4)
 
-    executed = staff_api_client.execute(ADD_OCCURRENCE_MUTATION, variables=variables)
+    executed = event_staff_api_client.execute(
+        ADD_OCCURRENCE_MUTATION, variables=variables
+    )
     assert "errors" in executed
     assert_match_error_code(executed, DATA_VALIDATION_ERROR)
 
     variables["input"]["startTime"] = p_event.enrolment_start + timedelta(days=3)
     variables["input"]["endTime"] = p_event.enrolment_start + timedelta(days=4)
 
-    executed = staff_api_client.execute(ADD_OCCURRENCE_MUTATION, variables=variables)
+    executed = event_staff_api_client.execute(
+        ADD_OCCURRENCE_MUTATION, variables=variables
+    )
     assert "errors" not in executed
 
 
@@ -322,7 +336,7 @@ def test_update_occurrence_unauthorized(
     mock_get_event_data,
     mock_update_event_data,
     occurrence,
-    staff_api_client,
+    event_staff_api_client,
 ):
     variables = deepcopy(UPDATE_OCCURRENCE_VARIABLES)
     variables["input"]["id"] = to_global_id("OccurrenceNode", occurrence.id)
@@ -332,7 +346,9 @@ def test_update_occurrence_unauthorized(
     executed = user_api_client.execute(UPDATE_OCCURRENCE_MUTATION, variables=variables)
     assert_permission_denied(executed)
 
-    executed = staff_api_client.execute(UPDATE_OCCURRENCE_MUTATION, variables=variables)
+    executed = event_staff_api_client.execute(
+        UPDATE_OCCURRENCE_MUTATION, variables=variables
+    )
     assert_permission_denied(executed)
 
 
@@ -340,7 +356,7 @@ def test_update_occurrence_unauthorized(
 def test_update_occurrence_of_published_event_with_enrolments(
     group_size,
     amount_of_adult,
-    staff_api_client,
+    event_staff_api_client,
     organisation,
     person,
     mock_get_event_data,
@@ -377,15 +393,17 @@ def test_update_occurrence_of_published_event_with_enrolments(
             "name": new_person.name,
         },
     ]
-    staff_api_client.user.person.organisations.add(organisation)
+    event_staff_api_client.user.person.organisations.add(organisation)
     assert occurrence.seats_taken > 0
-    executed = staff_api_client.execute(UPDATE_OCCURRENCE_MUTATION, variables=variables)
+    executed = event_staff_api_client.execute(
+        UPDATE_OCCURRENCE_MUTATION, variables=variables
+    )
     assert_match_error_code(executed, API_USAGE_ERROR)
 
 
 def test_update_occurrence_of_published_event_without_enrolments(
     snapshot,
-    staff_api_client,
+    event_staff_api_client,
     organisation,
     person,
     mock_get_event_data,
@@ -418,18 +436,22 @@ def test_update_occurrence_of_published_event_without_enrolments(
         },
     ]
     assert occurrence.seats_taken == 0
-    staff_api_client.user.person.organisations.add(organisation)
-    executed = staff_api_client.execute(UPDATE_OCCURRENCE_MUTATION, variables=variables)
+    event_staff_api_client.user.person.organisations.add(organisation)
+    executed = event_staff_api_client.execute(
+        UPDATE_OCCURRENCE_MUTATION, variables=variables
+    )
     snapshot.assert_match(executed)
     # test validation
     variables["input"]["endTime"] = variables["input"].pop("startTime")
-    executed = staff_api_client.execute(UPDATE_OCCURRENCE_MUTATION, variables=variables)
+    executed = event_staff_api_client.execute(
+        UPDATE_OCCURRENCE_MUTATION, variables=variables
+    )
     assert_match_error_code(executed, DATA_VALIDATION_ERROR)
 
 
 def test_update_unpublished_occurrence(
     snapshot,
-    staff_api_client,
+    event_staff_api_client,
     organisation,
     person,
     mock_get_draft_event_data,
@@ -456,19 +478,23 @@ def test_update_unpublished_occurrence(
             "name": new_person.name,
         },
     ]
-    staff_api_client.user.person.organisations.add(organisation)
-    executed = staff_api_client.execute(UPDATE_OCCURRENCE_MUTATION, variables=variables)
+    event_staff_api_client.user.person.organisations.add(organisation)
+    executed = event_staff_api_client.execute(
+        UPDATE_OCCURRENCE_MUTATION, variables=variables
+    )
     snapshot.assert_match(executed)
     # test validation
     variables["input"]["endTime"] = variables["input"].pop("startTime")
-    executed = staff_api_client.execute(UPDATE_OCCURRENCE_MUTATION, variables=variables)
+    executed = event_staff_api_client.execute(
+        UPDATE_OCCURRENCE_MUTATION, variables=variables
+    )
     assert_match_error_code(executed, DATA_VALIDATION_ERROR)
 
 
 def test_delete_occurrence_unauthorized(
     api_client,
     user_api_client,
-    staff_api_client,
+    event_staff_api_client,
     mock_update_event_data,
     mock_get_event_data,
     occurrence,
@@ -481,23 +507,31 @@ def test_delete_occurrence_unauthorized(
     executed = user_api_client.execute(DELETE_OCCURRENCE_MUTATION, variables=variables)
     assert_permission_denied(executed)
 
-    executed = staff_api_client.execute(DELETE_OCCURRENCE_MUTATION, variables=variables)
+    executed = event_staff_api_client.execute(
+        DELETE_OCCURRENCE_MUTATION, variables=variables
+    )
     assert_permission_denied(executed)
     assert Occurrence.objects.count() == 1
 
 
 def test_delete_cancelled_occurrence(
-    snapshot, staff_api_client, mock_get_event_data, mock_update_event_data, occurrence
+    snapshot,
+    event_staff_api_client,
+    mock_get_event_data,
+    mock_update_event_data,
+    occurrence,
 ):
-    staff_api_client.user.person.organisations.add(occurrence.p_event.organisation)
-    executed = staff_api_client.execute(
+    event_staff_api_client.user.person.organisations.add(
+        occurrence.p_event.organisation
+    )
+    executed = event_staff_api_client.execute(
         DELETE_OCCURRENCE_MUTATION,
         variables={"input": {"id": to_global_id("OccurrenceNode", occurrence.id)}},
     )
     assert_match_error_code(executed, API_USAGE_ERROR)
     occurrence.cancelled = True
     occurrence.save()
-    executed = staff_api_client.execute(
+    executed = event_staff_api_client.execute(
         DELETE_OCCURRENCE_MUTATION,
         variables={"input": {"id": to_global_id("OccurrenceNode", occurrence.id)}},
     )
@@ -506,13 +540,15 @@ def test_delete_cancelled_occurrence(
 
 def test_delete_unpublished_occurrence(
     snapshot,
-    staff_api_client,
+    event_staff_api_client,
     mock_get_draft_event_data,
     mock_update_event_data,
     occurrence,
 ):
-    staff_api_client.user.person.organisations.add(occurrence.p_event.organisation)
-    executed = staff_api_client.execute(
+    event_staff_api_client.user.person.organisations.add(
+        occurrence.p_event.organisation
+    )
+    executed = event_staff_api_client.execute(
         DELETE_OCCURRENCE_MUTATION,
         variables={"input": {"id": to_global_id("OccurrenceNode", occurrence.id)}},
     )
@@ -578,9 +614,11 @@ def test_add_venue_permission_denied(api_client, user_api_client):
     assert_permission_denied(executed)
 
 
-def test_add_venue_staff_user(snapshot, staff_api_client):
+def test_add_venue_staff_user(snapshot, event_staff_api_client):
     venue_variables = deepcopy(ADD_VENUE_VARIABLES)
-    executed = staff_api_client.execute(ADD_VENUE_MUTATION, variables=venue_variables)
+    executed = event_staff_api_client.execute(
+        ADD_VENUE_MUTATION, variables=venue_variables
+    )
     snapshot.assert_match(executed)
 
 
@@ -596,10 +634,10 @@ def test_update_venue_permission_denied(api_client, user_api_client):
     assert_permission_denied(executed)
 
 
-def test_update_venue_staff_user(snapshot, staff_api_client, venue):
+def test_update_venue_staff_user(snapshot, event_staff_api_client, venue):
     venue_variables = deepcopy(UPDATE_VENUE_VARIABLES)
     venue_variables["input"]["id"] = venue.place_id
-    executed = staff_api_client.execute(
+    executed = event_staff_api_client.execute(
         UPDATE_VENUE_MUTATION, variables=venue_variables
     )
     snapshot.assert_match(executed)
@@ -617,8 +655,8 @@ def test_delete_venue_permission_denied(api_client, user_api_client):
     assert_permission_denied(executed)
 
 
-def test_delete_venue_staff_user(staff_api_client, venue):
-    staff_api_client.execute(
+def test_delete_venue_staff_user(event_staff_api_client, venue):
+    event_staff_api_client.execute(
         DELETE_VENUE_MUTATION,
         variables={"input": {"id": venue.place_id}},
     )
@@ -705,31 +743,31 @@ def test_update_study_group_unauthenticated(api_client, user_api_client):
 
 
 def test_update_study_group_staff_user(
-    snapshot, staff_api_client, study_group, person, mock_get_place_data
+    snapshot, event_staff_api_client, study_group, person, mock_get_place_data
 ):
     variables = deepcopy(UPDATE_STUDY_GROUP_VARIABLES)
     variables["input"]["id"] = to_global_id("StudyGroupNode", study_group.id)
-    executed = staff_api_client.execute(
+    executed = event_staff_api_client.execute(
         UPDATE_STUDY_GROUP_MUTATION, variables=variables
     )
     snapshot.assert_match(executed)
 
     variables["input"]["person"]["id"] = to_global_id("PersonNode", person.id)
-    executed = staff_api_client.execute(
+    executed = event_staff_api_client.execute(
         UPDATE_STUDY_GROUP_MUTATION, variables=variables
     )
     snapshot.assert_match(executed)
 
 
 def test_update_study_group_without_unit_info_raises_error(
-    staff_api_client, study_group, person, mock_get_place_data
+    event_staff_api_client, study_group, person, mock_get_place_data
 ):
     variables = deepcopy(UPDATE_STUDY_GROUP_VARIABLES)
     variables["input"]["id"] = to_global_id("StudyGroupNode", study_group.id)
     variables["input"]["person"]["id"] = to_global_id("PersonNode", person.id)
     variables["input"]["unitName"] = None
     variables["input"]["unitId"] = None
-    executed = staff_api_client.execute(
+    executed = event_staff_api_client.execute(
         UPDATE_STUDY_GROUP_MUTATION, variables=variables
     )
     assert_match_error_code(executed, INVALID_STUDY_GROUP_UNIT_INFO_ERROR)
@@ -747,8 +785,8 @@ def test_delete_study_group_permission_denied(api_client, user_api_client):
     assert_permission_denied(executed)
 
 
-def test_delete_study_group_staff_user(staff_api_client, study_group):
-    staff_api_client.execute(
+def test_delete_study_group_staff_user(event_staff_api_client, study_group):
+    event_staff_api_client.execute(
         DELETE_STUDY_GROUP_MUTATION,
         variables={"input": {"id": to_global_id("StudyGroupNode", study_group.id)}},
     )
@@ -1427,7 +1465,7 @@ def test_auto_accept_message_is_used_as_custom_message_in_auto_approved_enrolmen
 
 
 def test_unenrol_occurrence_unauthorized(
-    snapshot, api_client, user_api_client, staff_api_client, mock_get_event_data
+    snapshot, api_client, user_api_client, event_staff_api_client, mock_get_event_data
 ):
     study_group_15 = StudyGroupFactory(group_size=15)
     # Current date froze on 2020-01-04:
@@ -1456,14 +1494,14 @@ def test_unenrol_occurrence_unauthorized(
     assert_permission_denied(executed)
     executed = user_api_client.execute(UNENROL_OCCURRENCE_MUTATION, variables=variables)
     assert_permission_denied(executed)
-    executed = staff_api_client.execute(
+    executed = event_staff_api_client.execute(
         UNENROL_OCCURRENCE_MUTATION, variables=variables
     )
     assert_permission_denied(executed)
     assert occurrence.study_groups.count() == 1
 
 
-def test_unenrol_occurrence(snapshot, staff_api_client, mock_get_event_data):
+def test_unenrol_occurrence(snapshot, event_staff_api_client, mock_get_event_data):
     study_group_15 = StudyGroupFactory(group_size=15)
     # Current date froze on 2020-01-04:
     p_event_1 = PalvelutarjotinEventFactory(
@@ -1497,8 +1535,10 @@ def test_unenrol_occurrence(snapshot, staff_api_client, mock_get_event_data):
             "studyGroupId": to_global_id("StudyGroupNode", study_group_15.id),
         }
     }
-    staff_api_client.user.person.organisations.add(occurrence.p_event.organisation)
-    executed = staff_api_client.execute(
+    event_staff_api_client.user.person.organisations.add(
+        occurrence.p_event.organisation
+    )
+    executed = event_staff_api_client.execute(
         UNENROL_OCCURRENCE_MUTATION, variables=variables
     )
     snapshot.assert_match(executed)
@@ -1508,7 +1548,7 @@ def test_unenrol_occurrence(snapshot, staff_api_client, mock_get_event_data):
 
 
 def test_approve_cancelled_occurrence_enrolment(
-    snapshot, staff_api_client, mock_get_event_data
+    snapshot, event_staff_api_client, mock_get_event_data
 ):
     study_group = StudyGroupFactory(group_size=15)
     # Current date froze on 2020-01-04:
@@ -1531,14 +1571,18 @@ def test_approve_cancelled_occurrence_enrolment(
     enrolment = occurrence.enrolments.first()
 
     variables = {"input": {"enrolmentId": to_global_id("EnrolmentNode", enrolment.id)}}
-    staff_api_client.user.person.organisations.add(occurrence.p_event.organisation)
-    executed = staff_api_client.execute(APPROVE_ENROLMENT_MUTATION, variables=variables)
+    event_staff_api_client.user.person.organisations.add(
+        occurrence.p_event.organisation
+    )
+    executed = event_staff_api_client.execute(
+        APPROVE_ENROLMENT_MUTATION, variables=variables
+    )
     assert_match_error_code(executed, ENROL_CANCELLED_OCCURRENCE_ERROR)
 
 
 def test_approve_enrolment(
     snapshot,
-    staff_api_client,
+    event_staff_api_client,
     mock_get_event_data,
     mock_enrolment_unique_id,
     notification_template_enrolment_approved_en,
@@ -1570,8 +1614,12 @@ def test_approve_enrolment(
     assert enrolment.status == Enrolment.STATUS_PENDING
 
     variables = {"input": {"enrolmentId": to_global_id("EnrolmentNode", enrolment.id)}}
-    staff_api_client.user.person.organisations.add(occurrence.p_event.organisation)
-    executed = staff_api_client.execute(APPROVE_ENROLMENT_MUTATION, variables=variables)
+    event_staff_api_client.user.person.organisations.add(
+        occurrence.p_event.organisation
+    )
+    executed = event_staff_api_client.execute(
+        APPROVE_ENROLMENT_MUTATION, variables=variables
+    )
     snapshot.assert_match(executed)
     assert len(mail.outbox) == 1
     assert_mails_match_snapshot(snapshot)
@@ -1582,13 +1630,15 @@ def test_approve_enrolment(
         # Check if unrelated enrolments do not change
         assert e.status == Enrolment.STATUS_PENDING
 
-    executed = staff_api_client.execute(APPROVE_ENROLMENT_MUTATION, variables=variables)
+    executed = event_staff_api_client.execute(
+        APPROVE_ENROLMENT_MUTATION, variables=variables
+    )
     assert_match_error_code(executed, API_USAGE_ERROR)
 
 
 def test_approve_enrolment_with_custom_message(
     snapshot,
-    staff_api_client,
+    event_staff_api_client,
     mock_get_event_data,
     mock_enrolment_unique_id,
     notification_template_enrolment_approved_en,
@@ -1621,15 +1671,19 @@ def test_approve_enrolment_with_custom_message(
             "customMessage": "custom message",
         }
     }
-    staff_api_client.user.person.organisations.add(occurrence.p_event.organisation)
-    executed = staff_api_client.execute(APPROVE_ENROLMENT_MUTATION, variables=variables)
+    event_staff_api_client.user.person.organisations.add(
+        occurrence.p_event.organisation
+    )
+    executed = event_staff_api_client.execute(
+        APPROVE_ENROLMENT_MUTATION, variables=variables
+    )
     snapshot.assert_match(executed)
     assert len(mail.outbox) == 1
     assert_mails_match_snapshot(snapshot)
 
 
 def test_approve_enrolment_with_single_enrolment_when_multiple_needed(
-    snapshot, staff_api_client, mock_get_event_data
+    snapshot, event_staff_api_client, mock_get_event_data
 ):
     study_group_15 = StudyGroupFactory(group_size=15)
     # Current date froze on 2020-01-04:
@@ -1650,15 +1704,19 @@ def test_approve_enrolment_with_single_enrolment_when_multiple_needed(
         occurrence=occurrence, study_group=study_group_15, person=study_group_15.person
     )
     variables = {"input": {"enrolmentId": to_global_id("EnrolmentNode", enrolment.id)}}
-    staff_api_client.user.person.organisations.add(occurrence.p_event.organisation)
-    executed = staff_api_client.execute(APPROVE_ENROLMENT_MUTATION, variables=variables)
+    event_staff_api_client.user.person.organisations.add(
+        occurrence.p_event.organisation
+    )
+    executed = event_staff_api_client.execute(
+        APPROVE_ENROLMENT_MUTATION, variables=variables
+    )
     # Do not approve enrolment if needed_occurrences > 1
     assert_match_error_code(executed, API_USAGE_ERROR)
 
 
 def test_decline_enrolment(
     snapshot,
-    staff_api_client,
+    event_staff_api_client,
     mock_get_event_data,
     notification_template_enrolment_declined_en,
     notification_template_enrolment_declined_fi,
@@ -1708,8 +1766,12 @@ def test_decline_enrolment(
     assert enrolment.status == Enrolment.STATUS_PENDING
 
     variables = {"input": {"enrolmentId": to_global_id("EnrolmentNode", enrolment.id)}}
-    staff_api_client.user.person.organisations.add(occurrence.p_event.organisation)
-    executed = staff_api_client.execute(DECLINE_ENROLMENT_MUTATION, variables=variables)
+    event_staff_api_client.user.person.organisations.add(
+        occurrence.p_event.organisation
+    )
+    executed = event_staff_api_client.execute(
+        DECLINE_ENROLMENT_MUTATION, variables=variables
+    )
     snapshot.assert_match(executed)
     assert len(mail.outbox) == 2
     assert_mails_match_snapshot(snapshot)
@@ -1720,13 +1782,15 @@ def test_decline_enrolment(
         # Check if unrelated enrolments do not change
         assert e.status == Enrolment.STATUS_PENDING
 
-    executed = staff_api_client.execute(DECLINE_ENROLMENT_MUTATION, variables=variables)
+    executed = event_staff_api_client.execute(
+        DECLINE_ENROLMENT_MUTATION, variables=variables
+    )
     assert_match_error_code(executed, API_USAGE_ERROR)
 
 
 def test_decline_enrolment_with_custom_message(
     snapshot,
-    staff_api_client,
+    event_staff_api_client,
     mock_get_event_data,
     notification_template_enrolment_declined_en,
     notification_template_enrolment_declined_fi,
@@ -1757,8 +1821,12 @@ def test_decline_enrolment_with_custom_message(
             "customMessage": "custom message",
         }
     }
-    staff_api_client.user.person.organisations.add(occurrence.p_event.organisation)
-    executed = staff_api_client.execute(DECLINE_ENROLMENT_MUTATION, variables=variables)
+    event_staff_api_client.user.person.organisations.add(
+        occurrence.p_event.organisation
+    )
+    executed = event_staff_api_client.execute(
+        DECLINE_ENROLMENT_MUTATION, variables=variables
+    )
     snapshot.assert_match(executed)
     assert len(mail.outbox) == 1
     assert_mails_match_snapshot(snapshot)
@@ -1793,7 +1861,7 @@ def test_update_enrolment_unauthorized(
 
 
 def test_update_enrolment(
-    snapshot, staff_api_client, mock_get_event_data, mock_update_event_data
+    snapshot, event_staff_api_client, mock_get_event_data, mock_update_event_data
 ):
     study_group_15 = StudyGroupFactory(group_size=15)
     study_group_10 = StudyGroupFactory(group_size=10)
@@ -1818,7 +1886,9 @@ def test_update_enrolment(
         amount_of_seats=35,
     )
     EnrolmentFactory(occurrence=occurrence_1, study_group=study_group_15)
-    staff_api_client.user.person.organisations.add(occurrence_1.p_event.organisation)
+    event_staff_api_client.user.person.organisations.add(
+        occurrence_1.p_event.organisation
+    )
     enrolment = Enrolment.objects.first()
     EnrolmentFactory(occurrence=occurrence_2, study_group=study_group_15)
     EnrolmentFactory(occurrence=occurrence_1, study_group=study_group_10)
@@ -1843,7 +1913,9 @@ def test_update_enrolment(
         }
     }
 
-    executed = staff_api_client.execute(UPDATE_ENROLMENT_MUTATION, variables=variables)
+    executed = event_staff_api_client.execute(
+        UPDATE_ENROLMENT_MUTATION, variables=variables
+    )
     snapshot.assert_match(executed)
     unrelated_enrolments = Enrolment.objects.filter(study_group=study_group_10)
     for e in unrelated_enrolments:
@@ -2047,34 +2119,34 @@ def test_occurrences_ordering_by_order_by_start_time(
 
 
 def test_occurrences_order_by_with_different_input_types(
-    staff_api_client, mock_get_event_data, mock_update_event_data, organisation
+    event_staff_api_client, mock_get_event_data, mock_update_event_data, organisation
 ):
     OccurrenceFactory.create_batch(10, p_event__organisation=organisation)
-    staff_api_client.user.person.organisations.add(organisation)
-    execute_asc1 = staff_api_client.execute(
+    event_staff_api_client.user.person.organisations.add(organisation)
+    execute_asc1 = event_staff_api_client.execute(
         OCCURRENCES_QUERY, variables={"orderBy": ["startTime"]}
     )
     assert execute_asc1["data"]["occurrences"]["edges"][0]["node"] is not None
-    execute_asc2 = staff_api_client.execute(
+    execute_asc2 = event_staff_api_client.execute(
         OCCURRENCES_QUERY, variables={"orderBy": ["start_time"]}
     )
     assert execute_asc1 == execute_asc2
 
-    execute_desc1 = staff_api_client.execute(
+    execute_desc1 = event_staff_api_client.execute(
         OCCURRENCES_QUERY, variables={"orderBy": ["-startTime"]}
     )
-    execute_desc2 = staff_api_client.execute(
+    execute_desc2 = event_staff_api_client.execute(
         OCCURRENCES_QUERY, variables={"orderBy": ["-start_time"]}
     )
     assert execute_desc1 == execute_desc2
 
     assert execute_asc1 != execute_desc1
 
-    execute_asc3 = staff_api_client.execute(
+    execute_asc3 = event_staff_api_client.execute(
         OCCURRENCES_QUERY, variables={"orderBy": "startTime"}
     )
 
-    execute_desc3 = staff_api_client.execute(
+    execute_desc3 = event_staff_api_client.execute(
         OCCURRENCES_QUERY, variables={"orderBy": "-startTime"}
     )
     assert execute_asc1 == execute_asc3
@@ -2220,7 +2292,7 @@ def test_notification_template_query(
 def test_cancel_occurrence_unauthorized(
     api_client,
     user_api_client,
-    staff_api_client,
+    event_staff_api_client,
     mock_get_event_data,
     mock_update_event_data,
     occurrence,
@@ -2235,7 +2307,7 @@ def test_cancel_occurrence_unauthorized(
         variables={"input": {"id": to_global_id("OccurrenceNode", occurrence.id)}},
     )
     assert_permission_denied(executed)
-    executed = staff_api_client.execute(
+    executed = event_staff_api_client.execute(
         CANCEL_OCCURRENCE_MUTATION,
         variables={"input": {"id": to_global_id("OccurrenceNode", occurrence.id)}},
     )
@@ -2243,16 +2315,22 @@ def test_cancel_occurrence_unauthorized(
 
 
 def test_cancel_occurrence(
-    snapshot, staff_api_client, mock_get_event_data, mock_update_event_data, occurrence
+    snapshot,
+    event_staff_api_client,
+    mock_get_event_data,
+    mock_update_event_data,
+    occurrence,
 ):
     assert not occurrence.cancelled
-    staff_api_client.user.person.organisations.add(occurrence.p_event.organisation)
-    executed = staff_api_client.execute(
+    event_staff_api_client.user.person.organisations.add(
+        occurrence.p_event.organisation
+    )
+    executed = event_staff_api_client.execute(
         CANCEL_OCCURRENCE_MUTATION,
         variables={"input": {"id": to_global_id("OccurrenceNode", occurrence.id)}},
     )
     snapshot.assert_match(executed)
-    executed = staff_api_client.execute(
+    executed = event_staff_api_client.execute(
         CANCEL_OCCURRENCE_MUTATION,
         variables={"input": {"id": to_global_id("OccurrenceNode", occurrence.id)}},
     )
@@ -2262,7 +2340,7 @@ def test_cancel_occurrence(
 
 
 def test_occurrence_enrolments_unauthorized(
-    staff_api_client, api_client, mock_get_event_data, occurrence
+    event_staff_api_client, api_client, mock_get_event_data, occurrence
 ):
     OCCURRENCE_ENROLMENTS_QUERY = """
         query Occurrence($id: ID!){
@@ -2289,7 +2367,7 @@ def test_occurrence_enrolments_unauthorized(
     assert_permission_denied(executed)
 
     # Invalid case: The organisation does not match
-    executed = staff_api_client.execute(
+    executed = event_staff_api_client.execute(
         OCCURRENCE_ENROLMENTS_QUERY,
         variables={"id": to_global_id("OccurrenceNode", occurrence.id)},
     )
@@ -2298,8 +2376,10 @@ def test_occurrence_enrolments_unauthorized(
     assert executed["data"]["occurrence"]["enrolments"]["edges"] == []
 
     # Valid case: The organisation matches
-    staff_api_client.user.person.organisations.add(occurrence.p_event.organisation)
-    executed = staff_api_client.execute(
+    event_staff_api_client.user.person.organisations.add(
+        occurrence.p_event.organisation
+    )
+    executed = event_staff_api_client.execute(
         OCCURRENCE_ENROLMENTS_QUERY,
         variables={"id": to_global_id("OccurrenceNode", occurrence.id)},
     )
@@ -2307,7 +2387,7 @@ def test_occurrence_enrolments_unauthorized(
 
 
 def test_occurrence_study_groups_unauthorized(
-    staff_api_client, api_client, mock_get_event_data, occurrence
+    event_staff_api_client, api_client, mock_get_event_data, occurrence
 ):
     OCCURRENCE_STUDY_GROUPS_QUERY = """
         query Occurrence($id: ID!){
@@ -2334,15 +2414,17 @@ def test_occurrence_study_groups_unauthorized(
     assert_permission_denied(executed)
 
     # Invalid case: The organisation does not match
-    executed = staff_api_client.execute(
+    executed = event_staff_api_client.execute(
         OCCURRENCE_STUDY_GROUPS_QUERY,
         variables={"id": to_global_id("OccurrenceNode", occurrence.id)},
     )
     assert executed["data"]["occurrence"]["studyGroups"]["edges"] == []
 
     # Valid case: The organisation matches
-    staff_api_client.user.person.organisations.add(occurrence.p_event.organisation)
-    executed = staff_api_client.execute(
+    event_staff_api_client.user.person.organisations.add(
+        occurrence.p_event.organisation
+    )
+    executed = event_staff_api_client.execute(
         OCCURRENCE_STUDY_GROUPS_QUERY,
         variables={"id": to_global_id("OccurrenceNode", occurrence.id)},
     )
@@ -2350,7 +2432,7 @@ def test_occurrence_study_groups_unauthorized(
 
 
 def test_enrolments_summary_unauthorized(
-    snapshot, api_client, user_api_client, staff_api_client, organisation
+    snapshot, api_client, user_api_client, event_staff_api_client, organisation
 ):
     organisation_gid = to_global_id("OrganisationNode", organisation.id)
     executed = api_client.execute(
@@ -2364,14 +2446,14 @@ def test_enrolments_summary_unauthorized(
     assert_permission_denied(executed)
 
     # assert organisation not in staff_api_client.user.person.organisations
-    executed = staff_api_client.execute(
+    executed = event_staff_api_client.execute(
         ENROLMENTS_SUMMARY_QUERY, variables={"organisationId": organisation_gid}
     )
     assert_permission_denied(executed)
 
 
 def test_enrolments_summary(
-    snapshot, staff_api_client, mock_get_event_data, occurrence
+    snapshot, event_staff_api_client, mock_get_event_data, occurrence
 ):
     organisation_gid = to_global_id(
         "OrganisationNode", occurrence.p_event.organisation.id
@@ -2391,31 +2473,33 @@ def test_enrolments_summary(
     )
 
     assert Enrolment.objects.count() == 4
-    staff_api_client.user.person.organisations.add(occurrence.p_event.organisation)
-    executed = staff_api_client.execute(
+    event_staff_api_client.user.person.organisations.add(
+        occurrence.p_event.organisation
+    )
+    executed = event_staff_api_client.execute(
         ENROLMENTS_SUMMARY_QUERY, variables={"organisationId": organisation_gid}
     )
     snapshot.assert_match(executed)
     for status, _ in Enrolment.STATUSES:
-        executed = staff_api_client.execute(
+        executed = event_staff_api_client.execute(
             ENROLMENTS_SUMMARY_QUERY,
             variables={"organisationId": organisation_gid, "status": status.upper()},
         )
         snapshot.assert_match(executed)
 
 
-def test_enrolment_query(snapshot, staff_api_client, mock_get_event_data):
+def test_enrolment_query(snapshot, event_staff_api_client, mock_get_event_data):
     enrolment = EnrolmentFactory()
     organisation = enrolment.occurrence.p_event.organisation
-    staff_api_client.user.person.organisations.add(organisation)
-    executed = staff_api_client.execute(
+    event_staff_api_client.user.person.organisations.add(organisation)
+    executed = event_staff_api_client.execute(
         ENROLMENT_QUERY, variables={"id": to_global_id("EnrolmentNode", enrolment.id)}
     )
     snapshot.assert_match(executed)
 
 
 def test_enrolment_query_unauthorized(
-    api_client, staff_api_client, mock_get_event_data, occurrence
+    api_client, event_staff_api_client, mock_get_event_data, occurrence
 ):
     enrolment = EnrolmentFactory(occurrence=occurrence)
     # With public client and without organisation
@@ -2424,7 +2508,7 @@ def test_enrolment_query_unauthorized(
     )
     assert_permission_denied(executed)
     # With staff client but without organisation
-    executed = staff_api_client.execute(
+    executed = event_staff_api_client.execute(
         ENROLMENT_QUERY, variables={"id": to_global_id("EnrolmentNode", enrolment.id)}
     )
     # FIXME: The permission denied error should be raised
@@ -2433,8 +2517,8 @@ def test_enrolment_query_unauthorized(
 
     # With a wrong organisation
     other_organisation = OrganisationFactory()
-    staff_api_client.user.person.organisations.add(other_organisation)
-    executed = staff_api_client.execute(
+    event_staff_api_client.user.person.organisations.add(other_organisation)
+    executed = event_staff_api_client.execute(
         ENROLMENT_QUERY, variables={"id": to_global_id("EnrolmentNode", enrolment.id)}
     )
     # FIXME: The permission denied error should be raised
@@ -2581,7 +2665,7 @@ def test_cancel_enrolment_mutation(
 
 
 def test_mass_approve_enrolment_mutation(
-    snapshot, staff_api_client, mock_get_event_data
+    snapshot, event_staff_api_client, mock_get_event_data
 ):
     occurrence = OccurrenceFactory(
         p_event__needed_occurrences=1,
@@ -2591,8 +2675,10 @@ def test_mass_approve_enrolment_mutation(
     enrolment_1 = EnrolmentFactory(occurrence=occurrence, study_group__group_size=10)
     enrolment_2 = EnrolmentFactory(occurrence=occurrence, study_group__group_size=10)
     enrolment_3 = EnrolmentFactory(occurrence=occurrence, study_group__group_size=10)
-    staff_api_client.user.person.organisations.add(occurrence.p_event.organisation)
-    executed = staff_api_client.execute(
+    event_staff_api_client.user.person.organisations.add(
+        occurrence.p_event.organisation
+    )
+    executed = event_staff_api_client.execute(
         MASS_APPROVE_ENROLMENTS_MUTATION,
         variables={
             "input": {
@@ -2609,7 +2695,7 @@ def test_mass_approve_enrolment_mutation(
 
 
 def test_mass_approve_multi_occurrences_enrolment_mutation(
-    snapshot, staff_api_client, mock_get_event_data
+    snapshot, event_staff_api_client, mock_get_event_data
 ):
     occurrence = OccurrenceFactory(
         p_event__needed_occurrences=2,
@@ -2619,8 +2705,10 @@ def test_mass_approve_multi_occurrences_enrolment_mutation(
     enrolment_1 = EnrolmentFactory(occurrence=occurrence, study_group__group_size=10)
     enrolment_2 = EnrolmentFactory(occurrence=occurrence, study_group__group_size=10)
     enrolment_3 = EnrolmentFactory(occurrence=occurrence, study_group__group_size=10)
-    staff_api_client.user.person.organisations.add(occurrence.p_event.organisation)
-    executed = staff_api_client.execute(
+    event_staff_api_client.user.person.organisations.add(
+        occurrence.p_event.organisation
+    )
+    executed = event_staff_api_client.execute(
         MASS_APPROVE_ENROLMENTS_MUTATION,
         variables={
             "input": {
@@ -2638,9 +2726,9 @@ def test_mass_approve_multi_occurrences_enrolment_mutation(
 
 
 def test_event_queue_enrolments_query(
-    snapshot, organisation, staff_api_client, mock_get_event_data
+    snapshot, organisation, event_staff_api_client, mock_get_event_data
 ):
-    staff_api_client.user.person.organisations.add(organisation)
+    event_staff_api_client.user.person.organisations.add(organisation)
     p_event = PalvelutarjotinEventFactory(organisation=organisation)
     other_p_event = PalvelutarjotinEventFactory(organisation=organisation)
     EventQueueEnrolmentFactory.create_batch(15, p_event=p_event)
@@ -2650,7 +2738,7 @@ def test_event_queue_enrolments_query(
 
     # Without the pEventId filter,
     # there should be all enrolments from the organisation
-    executed = staff_api_client.execute(
+    executed = event_staff_api_client.execute(
         EVENT_QUEUE_ENROLMENTS_QUERY,
         variables={
             "first": 10,
@@ -2660,7 +2748,7 @@ def test_event_queue_enrolments_query(
     assert len(executed["data"]["eventQueueEnrolments"]["edges"]) == 10
 
     # With a pEventId filter there should be only 1 event enrolments
-    executed = staff_api_client.execute(
+    executed = event_staff_api_client.execute(
         EVENT_QUEUE_ENROLMENTS_QUERY,
         variables={
             "pEventId": to_global_id("PalvelutarjotinEventNode", p_event.id),
@@ -2672,7 +2760,7 @@ def test_event_queue_enrolments_query(
     snapshot.assert_match(executed)
 
     # With pEvent filter, but the second page
-    executed = staff_api_client.execute(
+    executed = event_staff_api_client.execute(
         EVENT_QUEUE_ENROLMENTS_QUERY,
         variables={
             "pEventId": to_global_id("PalvelutarjotinEventNode", p_event.id),
@@ -2687,7 +2775,7 @@ def test_event_queue_enrolments_query(
     # With a pEvent filter that does not fit to any pEvent
     # the result set will be unfiltered
     # TODO: Instead of returning all, it would be better if it would return empty
-    executed = staff_api_client.execute(
+    executed = event_staff_api_client.execute(
         EVENT_QUEUE_ENROLMENTS_QUERY,
         variables={
             "pEventId": "not-an-id-that-would-match",
@@ -2699,7 +2787,7 @@ def test_event_queue_enrolments_query(
 
 
 def test_event_queue_enrolments_query_unauthorized(
-    api_client, staff_api_client, organisation
+    api_client, event_staff_api_client, organisation
 ):
     p_event = PalvelutarjotinEventFactory(organisation=organisation)
     EventQueueEnrolmentFactory.create_batch(5, p_event=p_event)
@@ -2713,7 +2801,7 @@ def test_event_queue_enrolments_query_unauthorized(
     )
     assert_permission_denied(executed)
     # Staff without organisation
-    executed = staff_api_client.execute(
+    executed = event_staff_api_client.execute(
         EVENT_QUEUE_ENROLMENTS_QUERY,
         variables={
             "pEventId": to_global_id("PalvelutarjotinEventNode", p_event.id),
@@ -2725,8 +2813,8 @@ def test_event_queue_enrolments_query_unauthorized(
     assert executed["data"]["eventQueueEnrolments"] == {"count": 0, "edges": []}
     # With a wrong organisation
     other_organisation = OrganisationFactory()
-    staff_api_client.user.person.organisations.add(other_organisation)
-    executed = staff_api_client.execute(
+    event_staff_api_client.user.person.organisations.add(other_organisation)
+    executed = event_staff_api_client.execute(
         EVENT_QUEUE_ENROLMENTS_QUERY,
         variables={
             "pEventId": to_global_id("PalvelutarjotinEventNode", p_event.id),
@@ -2739,12 +2827,12 @@ def test_event_queue_enrolments_query_unauthorized(
 
 
 def test_event_queue_enrolment_query(
-    snapshot, organisation, staff_api_client, mock_get_event_data
+    snapshot, organisation, event_staff_api_client, mock_get_event_data
 ):
     p_event = PalvelutarjotinEventFactory(organisation=organisation)
     event_queue_enrolment = EventQueueEnrolmentFactory(p_event=p_event)
-    staff_api_client.user.person.organisations.add(p_event.organisation)
-    executed = staff_api_client.execute(
+    event_staff_api_client.user.person.organisations.add(p_event.organisation)
+    executed = event_staff_api_client.execute(
         EVENT_QUEUE_ENROLMENT_QUERY,
         variables={
             "id": to_global_id("EventQueueEnrolmentNode", event_queue_enrolment.id),
@@ -2754,7 +2842,7 @@ def test_event_queue_enrolment_query(
 
 
 def test_event_queue_enrolment_query_unauthorized(
-    organisation, api_client, staff_api_client, mock_get_event_data
+    organisation, api_client, event_staff_api_client, mock_get_event_data
 ):
     p_event = PalvelutarjotinEventFactory(organisation=organisation)
     event_queue_enrolment = EventQueueEnrolmentFactory(p_event=p_event)
@@ -2765,7 +2853,7 @@ def test_event_queue_enrolment_query_unauthorized(
         },
     )
     assert_permission_denied(executed)
-    executed = staff_api_client.execute(
+    executed = event_staff_api_client.execute(
         EVENT_QUEUE_ENROLMENT_QUERY,
         variables={
             "id": to_global_id("EventQueueEnrolmentNode", event_queue_enrolment.id),
@@ -2776,8 +2864,8 @@ def test_event_queue_enrolment_query_unauthorized(
     assert executed["data"]["eventQueueEnrolment"] is None
     # With a wrong organisation
     other_organisation = OrganisationFactory()
-    staff_api_client.user.person.organisations.add(other_organisation)
-    executed = staff_api_client.execute(
+    event_staff_api_client.user.person.organisations.add(other_organisation)
+    executed = event_staff_api_client.execute(
         EVENT_QUEUE_ENROLMENT_QUERY,
         variables={
             "id": to_global_id("EventQueueEnrolmentNode", event_queue_enrolment.id),
@@ -2817,7 +2905,11 @@ def test_enrol_event_queue_mutation_queueing_not_allowed(
 
 @pytest.mark.parametrize("is_queueing_allowed", [False, True])
 def test_unenrol_event_queue_mutation(
-    snapshot, staff_api_client, organisation, mock_get_event_data, is_queueing_allowed
+    snapshot,
+    event_staff_api_client,
+    organisation,
+    mock_get_event_data,
+    is_queueing_allowed,
 ):
     study_group_15 = StudyGroupFactory(group_size=15)
     p_event = PalvelutarjotinEventFactory(
@@ -2832,8 +2924,8 @@ def test_unenrol_event_queue_mutation(
             "studyGroupId": to_global_id("StudyGroupNode", study_group_15.id),
         }
     }
-    staff_api_client.user.person.organisations.add(p_event.organisation)
-    executed = staff_api_client.execute(
+    event_staff_api_client.user.person.organisations.add(p_event.organisation)
+    executed = event_staff_api_client.execute(
         UNENROL_EVENT_QUEUE_MUTATION, variables=variables
     )
     # Unenrolling from event queue is allowed even if queueing is not
@@ -2860,7 +2952,7 @@ def test_unenrol_event_queue_mutation_unauthorized(
 
 
 def test_pick_enrolment_from_queue(
-    snapshot, staff_api_client, organisation, mock_get_event_data
+    snapshot, event_staff_api_client, organisation, mock_get_event_data
 ):
     p_event = PalvelutarjotinEventFactory(organisation=organisation)
     occurrence = OccurrenceFactory(p_event=p_event)
@@ -2871,9 +2963,9 @@ def test_pick_enrolment_from_queue(
             "eventQueueEnrolmentId": to_global_id("EventQueueEnrolmentNode", queue.id),
         }
     }
-    staff_api_client.user.person.organisations.add(organisation)
+    event_staff_api_client.user.person.organisations.add(organisation)
     assert Enrolment.objects.count() == 0
-    executed = staff_api_client.execute(
+    executed = event_staff_api_client.execute(
         PICK_ENROLMENT_FROM_QUEUE_MUTATION, variables=variables
     )
     assert Enrolment.objects.count() == 1
@@ -2881,7 +2973,7 @@ def test_pick_enrolment_from_queue(
 
 
 def test_pick_enrolment_from_queue_unauthorized(
-    api_client, staff_api_client, organisation, mock_get_event_data
+    api_client, event_staff_api_client, organisation, mock_get_event_data
 ):
     p_event = PalvelutarjotinEventFactory(organisation=organisation)
     occurrence = OccurrenceFactory(p_event=p_event)
@@ -2900,7 +2992,7 @@ def test_pick_enrolment_from_queue_unauthorized(
     assert Enrolment.objects.count() == 0
 
     # As a staff member, but without the organisation
-    executed = staff_api_client.execute(
+    executed = event_staff_api_client.execute(
         PICK_ENROLMENT_FROM_QUEUE_MUTATION, variables=variables
     )
     assert_permission_denied(executed)
@@ -2908,8 +3000,8 @@ def test_pick_enrolment_from_queue_unauthorized(
 
     # As a staff member, but in a wrong organisation
     other_organisation = OrganisationFactory()
-    staff_api_client.user.person.organisations.add(other_organisation)
-    executed = staff_api_client.execute(
+    event_staff_api_client.user.person.organisations.add(other_organisation)
+    executed = event_staff_api_client.execute(
         PICK_ENROLMENT_FROM_QUEUE_MUTATION, variables=variables
     )
     assert_permission_denied(executed)
@@ -2917,7 +3009,7 @@ def test_pick_enrolment_from_queue_unauthorized(
 
 
 def test_pick_enrolment_from_queue_duplicate_entry(
-    staff_api_client, organisation, mock_get_event_data
+    event_staff_api_client, organisation, mock_get_event_data
 ):
     p_event = PalvelutarjotinEventFactory(organisation=organisation)
     occurrence = OccurrenceFactory(p_event=p_event)
@@ -2932,8 +3024,8 @@ def test_pick_enrolment_from_queue_duplicate_entry(
     assert Enrolment.objects.count() == 0
     queue.create_enrolment(occurrence)
     assert Enrolment.objects.count() == 1
-    staff_api_client.user.person.organisations.add(organisation)
-    executed = staff_api_client.execute(
+    event_staff_api_client.user.person.organisations.add(organisation)
+    executed = event_staff_api_client.execute(
         PICK_ENROLMENT_FROM_QUEUE_MUTATION, variables=variables
     )
     assert_match_error_code(executed, ALREADY_JOINED_EVENT_ERROR)
@@ -2941,7 +3033,7 @@ def test_pick_enrolment_from_queue_duplicate_entry(
 
 
 def test_pick_enrolment_from_queue_event_validation(
-    staff_api_client, organisation, mock_get_event_data
+    event_staff_api_client, organisation, mock_get_event_data
 ):
     p_event = PalvelutarjotinEventFactory(organisation=organisation)
     another_p_event = PalvelutarjotinEventFactory(organisation=organisation)
@@ -2953,8 +3045,8 @@ def test_pick_enrolment_from_queue_event_validation(
             "eventQueueEnrolmentId": to_global_id("EventQueueEnrolmentNode", queue.id),
         }
     }
-    staff_api_client.user.person.organisations.add(organisation)
-    executed = staff_api_client.execute(
+    event_staff_api_client.user.person.organisations.add(organisation)
+    executed = event_staff_api_client.execute(
         PICK_ENROLMENT_FROM_QUEUE_MUTATION, variables=variables
     )
     assert_match_error_code(executed, API_USAGE_ERROR)
@@ -2962,7 +3054,7 @@ def test_pick_enrolment_from_queue_event_validation(
 
 
 def test_pick_enrolment_from_queue_if_occurrence_cancelled(
-    staff_api_client, organisation, mock_get_event_data
+    event_staff_api_client, organisation, mock_get_event_data
 ):
     p_event = PalvelutarjotinEventFactory(organisation=organisation)
     occurrence = OccurrenceFactory(p_event=p_event, cancelled=True)
@@ -2973,8 +3065,8 @@ def test_pick_enrolment_from_queue_if_occurrence_cancelled(
             "eventQueueEnrolmentId": to_global_id("EventQueueEnrolmentNode", queue.id),
         }
     }
-    staff_api_client.user.person.organisations.add(organisation)
-    executed = staff_api_client.execute(
+    event_staff_api_client.user.person.organisations.add(organisation)
+    executed = event_staff_api_client.execute(
         PICK_ENROLMENT_FROM_QUEUE_MUTATION, variables=variables
     )
     assert_match_error_code(executed, ENROL_CANCELLED_OCCURRENCE_ERROR)

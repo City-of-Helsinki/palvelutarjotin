@@ -431,7 +431,7 @@ def test_mass_approve_enrolment_mutation(
     mock_send_sms,
     full_event,
     snapshot,
-    staff_api_client,
+    event_staff_api_client,
     mock_get_event_data,
     mock_enrolment_unique_id,
     notification_template_enrolment_approved_en,
@@ -450,8 +450,10 @@ def test_mass_approve_enrolment_mutation(
         study_group__group_size=10,
         notification_type=NOTIFICATION_TYPE_ALL,
     )
-    staff_api_client.user.person.organisations.add(occurrence.p_event.organisation)
-    staff_api_client.execute(
+    event_staff_api_client.user.person.organisations.add(
+        occurrence.p_event.organisation
+    )
+    event_staff_api_client.execute(
         MASS_APPROVE_ENROLMENTS_MUTATION,
         variables={
             "input": {

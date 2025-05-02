@@ -261,17 +261,6 @@ class UserAdminForm(UserChangeForm):
     class Meta:
         model = User
         fields = "__all__"
-        help_texts = {
-            "is_staff": _(
-                "Gives the user the permissions to be a provider "
-                + "and create and edit the events. "
-                + "Designates whether the user can log into this admin site."
-            ),
-            "is_admin": _(
-                "Designates whether the user can administrate the providers users. "
-                + "Admins also receives some administrative emails."
-            ),
-        }
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
@@ -306,7 +295,7 @@ class UserAdmin(AuditlogAdminViewAccessLogMixin, DjangoUserAdmin):
             {
                 "fields": (
                     "is_active",
-                    "is_staff",
+                    "is_event_staff",
                     "organisation_proposals",
                     "organisations",
                 ),
@@ -317,6 +306,7 @@ class UserAdmin(AuditlogAdminViewAccessLogMixin, DjangoUserAdmin):
             {
                 "fields": (
                     "is_admin",
+                    "is_staff",
                     "is_superuser",
                     "groups",
                     "user_permissions",
@@ -341,6 +331,7 @@ class UserAdmin(AuditlogAdminViewAccessLogMixin, DjangoUserAdmin):
     list_filter = (
         "date_joined",
         "last_login",
+        "is_event_staff",
         "is_staff",
         "is_admin",
         "is_superuser",
@@ -379,15 +370,15 @@ class UserAdmin(AuditlogAdminViewAccessLogMixin, DjangoUserAdmin):
         if self.has_person(original_user):
             is_notifiable_changes_done = self._has_organisations_changed(
                 original_user.person, form
-            ) or self._has_is_staff_changed(form)
+            ) or self._has_is_event_staff_changed(form)
 
         user = super().save_form(request, form, change)
 
-        # And the organisations or is_staff status are changed...
+        # And the organisations or is_event_staff status are changed...
         if is_notifiable_changes_done:
             # And the edited user is accepted as a provider,
-            # since he is a staff member...
-            if user.is_staff:
+            # since he is an event staff member...
+            if getattr(user, "is_event_staff", False):
                 # And he is linked to some organisations...
                 if user.person.organisations.count() > 0:
                     # And the user instance is different than the current user..
@@ -437,8 +428,8 @@ class UserAdmin(AuditlogAdminViewAccessLogMixin, DjangoUserAdmin):
             else False
         )
 
-    def _has_is_staff_changed(self, form):
-        return bool("is_staff" in form.changed_data)
+    def _has_is_event_staff_changed(self, form):
+        return bool("is_event_staff" in form.changed_data)
 
     def _notify_user_of_account_activation(self, request, form):
         user = form.instance

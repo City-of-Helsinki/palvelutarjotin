@@ -284,7 +284,9 @@ UPDATE_ORGANISATION_VARIABLES = {
 }
 
 
-def test_persons_query(snapshot, api_client, user_api_client, staff_api_client, person):
+def test_persons_query(
+    snapshot, api_client, user_api_client, event_staff_api_client, person
+):
     # Anonymous user should see any person info
     executed = api_client.execute(PERSONS_QUERY)
     snapshot.assert_match(executed)
@@ -298,25 +300,27 @@ def test_persons_query(snapshot, api_client, user_api_client, staff_api_client, 
     snapshot.assert_match(executed)
 
     # Staff user should see every person info
-    executed = staff_api_client.execute(PERSONS_QUERY)
+    executed = event_staff_api_client.execute(PERSONS_QUERY)
     snapshot.assert_match(executed)
 
 
-def test_persons_query_should_not_include_deactivated_users(staff_api_client):
+def test_persons_query_should_not_include_deactivated_users(event_staff_api_client):
     (active_person, deactivated_person) = PersonFactory.create_batch(2)
     deactivated_person.user.is_active = False
     deactivated_person.user.save()
-    executed = staff_api_client.execute(PERSONS_QUERY)
+    executed = event_staff_api_client.execute(PERSONS_QUERY)
     assert deactivated_person.name not in [
         e["node"]["name"] for e in executed["data"]["persons"]["edges"]
     ]
     assert all(
         (name in (e["node"]["name"] for e in executed["data"]["persons"]["edges"]))
-        for name in [active_person.name, staff_api_client.user.person.name]
+        for name in [active_person.name, event_staff_api_client.user.person.name]
     )
 
 
-def test_person_query(snapshot, api_client, user_api_client, staff_api_client, person):
+def test_person_query(
+    snapshot, api_client, user_api_client, event_staff_api_client, person
+):
     person_id = to_global_id("PersonNode", person.id)
     # Anonymous user should see any person info
     executed = api_client.execute(PERSON_QUERY, variables={"id": person_id})
@@ -333,7 +337,7 @@ def test_person_query(snapshot, api_client, user_api_client, staff_api_client, p
     snapshot.assert_match(executed)
 
     # Staff user should see every person info
-    executed = staff_api_client.execute(PERSON_QUERY, variables={"id": person_id})
+    executed = event_staff_api_client.execute(PERSON_QUERY, variables={"id": person_id})
     snapshot.assert_match(executed)
 
 
@@ -342,12 +346,12 @@ def test_organisations_query(snapshot, api_client, organisation):
     snapshot.assert_match(executed)
 
 
-def test_organisations_query_large_max_limit(staff_api_client, organisation):
+def test_organisations_query_large_max_limit(event_staff_api_client, organisation):
     persons = PersonFactory.create_batch(size=250, organisations=[organisation]) + [
-        staff_api_client.user.person
+        event_staff_api_client.user.person
     ]
     organisation.persons.add(*persons)
-    executed = staff_api_client.execute(ORGANISATIONS_QUERY)
+    executed = event_staff_api_client.execute(ORGANISATIONS_QUERY)
     organisation_edges = executed["data"]["organisations"]["edges"]
     assert any(
         len(organisation_edge["node"]["persons"]["edges"]) == 251
@@ -381,7 +385,7 @@ def test_organisation_query(snapshot, api_client, organisation):
 
 
 def test_organisation_persons_should_not_be_publicly_readable(
-    api_client, staff_api_client, organisation
+    api_client, event_staff_api_client, organisation
 ):
     PERSONS_COUNT = 3
     PersonFactory.create_batch(PERSONS_COUNT, organisations=[organisation])
@@ -391,7 +395,9 @@ def test_organisation_persons_should_not_be_publicly_readable(
         variables=variables,
     )
     assert len(anonym_executed["data"]["organisation"]["persons"]["edges"]) == 0
-    staff_executed = staff_api_client.execute(ORGANISATION_QUERY, variables=variables)
+    staff_executed = event_staff_api_client.execute(
+        ORGANISATION_QUERY, variables=variables
+    )
     assert (
         len(staff_executed["data"]["organisation"]["persons"]["edges"]) == PERSONS_COUNT
     )
@@ -403,7 +409,7 @@ def test_organisation_persons_should_not_be_publicly_readable(
 @freeze_time(timezone.now())
 def test_organisation_deactivated_persons_should_not_be_listed(
     mock_get_event_data,
-    staff_api_client,
+    event_staff_api_client,
     person,
 ):
     organisation = person.organisations.first()
@@ -424,7 +430,7 @@ def test_organisation_deactivated_persons_should_not_be_listed(
         (p in org_persons) for p in [person, deactivated_person, study_group_person]
     )
 
-    executed = staff_api_client.execute(
+    executed = event_staff_api_client.execute(
         ORGANISATION_QUERY,
         variables={"id": to_global_id("OrganisationNode", organisation.id)},
     )
@@ -454,21 +460,25 @@ def test_my_profile_query_unauthenticated(snapshot, api_client, organisation):
     assert_permission_denied(executed)
 
 
-def test_my_profile_query(snapshot, person_api_client, organisation, staff_api_client):
-    organisation.persons.add(staff_api_client.user.person)
+def test_my_profile_query(
+    snapshot, person_api_client, organisation, event_staff_api_client
+):
+    organisation.persons.add(event_staff_api_client.user.person)
     organisation.persons.add(person_api_client.user.person)
     executed = person_api_client.execute(MY_PROFILE_QUERY)
     snapshot.assert_match(executed)
-    executed = staff_api_client.execute(MY_PROFILE_QUERY)
+    executed = event_staff_api_client.execute(MY_PROFILE_QUERY)
     snapshot.assert_match(executed)
 
 
-def test_my_profile_query_persons_large_max_limit(staff_api_client, organisation):
+def test_my_profile_query_persons_large_max_limit(event_staff_api_client, organisation):
     persons = PersonFactory.create_batch(size=300, organisations=[organisation]) + [
-        staff_api_client.user.person
+        event_staff_api_client.user.person
     ]
     organisation.persons.add(*persons)
-    executed = staff_api_client.execute(MY_PROFILE_QUERY_WITH_ORGANISATIONS_PERSONS)
+    executed = event_staff_api_client.execute(
+        MY_PROFILE_QUERY_WITH_ORGANISATIONS_PERSONS
+    )
     organisation_edges = executed["data"]["myProfile"]["organisations"]["edges"]
     assert len(organisation_edges) == 1
     assert len(organisation_edges[0]["node"]["persons"]["edges"]) == 301
@@ -536,7 +546,7 @@ def test_update_my_profile(snapshot, person_api_client):
 
 
 def test_update_person_mutation_unauthorized(
-    api_client, user_api_client, staff_api_client
+    api_client, user_api_client, event_staff_api_client
 ):
     # Only superusers are allowed to update person data
     executed = api_client.execute(
@@ -547,7 +557,7 @@ def test_update_person_mutation_unauthorized(
         UPDATE_PERSON_MUTATION, variables=UPDATE_PERSON_VARIABLES
     )
     assert_permission_denied(executed)
-    executed = staff_api_client.execute(
+    executed = event_staff_api_client.execute(
         UPDATE_PERSON_MUTATION, variables=UPDATE_PERSON_VARIABLES
     )
     assert_permission_denied(executed)
@@ -575,7 +585,9 @@ def test_update_person_mutation(
         assert_match_error_code(executed, INVALID_EMAIL_FORMAT_ERROR)
 
 
-def test_add_organisation_unauthorized(api_client, user_api_client, staff_api_client):
+def test_add_organisation_unauthorized(
+    api_client, user_api_client, event_staff_api_client
+):
     # Only superusers are allowed to create/update organisation
     executed = api_client.execute(
         ADD_ORGANISATION_MUTATION, variables=ADD_ORGANISATION_VARIABLES
@@ -585,7 +597,7 @@ def test_add_organisation_unauthorized(api_client, user_api_client, staff_api_cl
         ADD_ORGANISATION_MUTATION, variables=ADD_ORGANISATION_VARIABLES
     )
     assert_permission_denied(executed)
-    executed = staff_api_client.execute(
+    executed = event_staff_api_client.execute(
         ADD_ORGANISATION_MUTATION, variables=ADD_ORGANISATION_VARIABLES
     )
     assert_permission_denied(executed)
@@ -645,7 +657,7 @@ def test_add_organisation_with_empty_or_whitespace_only_publisher_id(
 
 
 def test_update_organisation_unauthorized(
-    api_client, user_api_client, staff_api_client
+    api_client, user_api_client, event_staff_api_client
 ):
     # Only superusers are allowed to create/update organisation
     executed = api_client.execute(
@@ -656,7 +668,7 @@ def test_update_organisation_unauthorized(
         UPDATE_ORGANISATION_MUTATION, variables=UPDATE_ORGANISATION_VARIABLES
     )
     assert_permission_denied(executed)
-    executed = staff_api_client.execute(
+    executed = event_staff_api_client.execute(
         UPDATE_ORGANISATION_MUTATION, variables=UPDATE_ORGANISATION_VARIABLES
     )
     assert_permission_denied(executed)
@@ -722,14 +734,16 @@ query Person($id:ID!){
 """
 
 
-def test_person_queued_enrolments(snapshot, staff_api_client, person, organisation):
-    person = staff_api_client.user.person
+def test_person_queued_enrolments(
+    snapshot, event_staff_api_client, person, organisation
+):
+    person = event_staff_api_client.user.person
     person.organisations.add(organisation)
     p_event = PalvelutarjotinEventFactory(organisation=organisation)
     EventQueueEnrolmentFactory.create_batch(5, person=person, p_event=p_event)
     assert person.eventqueueenrolment_set.all().count() == 5
-    staff_api_client.user.person.organisations.add(organisation)
-    executed = staff_api_client.execute(
+    event_staff_api_client.user.person.organisations.add(organisation)
+    executed = event_staff_api_client.execute(
         PERSON_QUEUED_ENROLMENTS_QUERY,
         variables={"id": to_global_id("PersonNode", person.id)},
     )
@@ -738,7 +752,7 @@ def test_person_queued_enrolments(snapshot, staff_api_client, person, organisati
 
 
 def test_person_queued_enrolments_unauthorized(
-    api_client, staff_api_client, person, organisation
+    api_client, event_staff_api_client, person, organisation
 ):
     EventQueueEnrolmentFactory.create_batch(5, person=person)
     assert person.eventqueueenrolment_set.all().count() == 5
@@ -751,16 +765,16 @@ def test_person_queued_enrolments_unauthorized(
     assert executed["data"]["person"] is None
 
     # with staff API without organisation
-    assert staff_api_client.user.person.organisations.count() == 0
-    executed = staff_api_client.execute(
+    assert event_staff_api_client.user.person.organisations.count() == 0
+    executed = event_staff_api_client.execute(
         PERSON_QUEUED_ENROLMENTS_QUERY,
         variables={"id": to_global_id("PersonNode", person.id)},
     )
     assert executed["data"]["person"]["eventqueueenrolmentSet"]["edges"] == []
 
     # with staff API with other organisation
-    staff_api_client.user.person.organisations.add(organisation)
-    executed = staff_api_client.execute(
+    event_staff_api_client.user.person.organisations.add(organisation)
+    executed = event_staff_api_client.execute(
         PERSON_QUEUED_ENROLMENTS_QUERY,
         variables={"id": to_global_id("PersonNode", person.id)},
     )
@@ -786,16 +800,16 @@ query Person($id:ID!){
 
 
 def test_person_enrolments(
-    snapshot, mock_get_event_data, staff_api_client, organisation
+    snapshot, mock_get_event_data, event_staff_api_client, organisation
 ):
-    person = staff_api_client.user.person
+    person = event_staff_api_client.user.person
     person.organisations.add(organisation)
     p_event = PalvelutarjotinEventFactory(organisation=organisation)
     EnrolmentFactory.create_batch(
         5, study_group__person=person, person=person, occurrence__p_event=p_event
     )
     assert person.enrolment_set.all().count() == 5
-    executed = staff_api_client.execute(
+    executed = event_staff_api_client.execute(
         PERSON_ENROLMENTS_QUERY,
         variables={"id": to_global_id("PersonNode", person.id)},
     )
@@ -804,7 +818,7 @@ def test_person_enrolments(
 
 
 def test_person_enrolments_unauthorized(
-    mock_get_event_data, api_client, staff_api_client, person, organisation
+    mock_get_event_data, api_client, event_staff_api_client, person, organisation
 ):
     EnrolmentFactory.create_batch(5, person=person)
     assert person.enrolment_set.count() == 5
@@ -817,16 +831,16 @@ def test_person_enrolments_unauthorized(
     assert executed["data"]["person"] is None
 
     # with staff API without organisations
-    assert staff_api_client.user.person.organisations.count() == 0
-    executed = staff_api_client.execute(
+    assert event_staff_api_client.user.person.organisations.count() == 0
+    executed = event_staff_api_client.execute(
         PERSON_ENROLMENTS_QUERY,
         variables={"id": to_global_id("PersonNode", person.id)},
     )
     assert executed["data"]["person"]["enrolmentSet"]["edges"] == []
 
     # with staff API with other organisation
-    staff_api_client.user.person.organisations.add(organisation)
-    executed = staff_api_client.execute(
+    event_staff_api_client.user.person.organisations.add(organisation)
+    executed = event_staff_api_client.execute(
         PERSON_ENROLMENTS_QUERY,
         variables={"id": to_global_id("PersonNode", person.id)},
     )
@@ -850,16 +864,16 @@ query Person($id:ID!){
 
 
 def test_person_study_groups(
-    snapshot, mock_get_event_data, staff_api_client, organisation
+    snapshot, mock_get_event_data, event_staff_api_client, organisation
 ):
-    person = staff_api_client.user.person
+    person = event_staff_api_client.user.person
     person.organisations.add(organisation)
     p_event = PalvelutarjotinEventFactory(organisation=organisation)
     EnrolmentFactory.create_batch(
         5, study_group__person=person, person=person, occurrence__p_event=p_event
     )
     assert person.studygroup_set.count() == 5
-    executed = staff_api_client.execute(
+    executed = event_staff_api_client.execute(
         PERSON_STUDY_GROUPS_QUERY,
         variables={"id": to_global_id("PersonNode", person.id)},
     )
@@ -868,7 +882,7 @@ def test_person_study_groups(
 
 
 def test_person_study_groups_unauthorized(
-    mock_get_event_data, api_client, staff_api_client, person, organisation
+    mock_get_event_data, api_client, event_staff_api_client, person, organisation
 ):
     EnrolmentFactory.create_batch(5, study_group__person=person, person=person)
     assert person.studygroup_set.count() == 5
@@ -881,16 +895,16 @@ def test_person_study_groups_unauthorized(
     assert executed["data"]["person"] is None
 
     # with staff API without organisations
-    assert staff_api_client.user.person.organisations.count() == 0
-    executed = staff_api_client.execute(
+    assert event_staff_api_client.user.person.organisations.count() == 0
+    executed = event_staff_api_client.execute(
         PERSON_STUDY_GROUPS_QUERY,
         variables={"id": to_global_id("PersonNode", person.id)},
     )
     assert executed["data"]["person"]["studygroupSet"]["edges"] == []
 
     # with staff API with other organisation
-    staff_api_client.user.person.organisations.add(organisation)
-    executed = staff_api_client.execute(
+    event_staff_api_client.user.person.organisations.add(organisation)
+    executed = event_staff_api_client.execute(
         PERSON_STUDY_GROUPS_QUERY,
         variables={"id": to_global_id("PersonNode", person.id)},
     )

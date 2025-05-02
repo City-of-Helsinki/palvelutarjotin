@@ -142,17 +142,19 @@ def get_editable_obj_from_global_id(info, global_id, expected_obj_type):
             f"{obj.__class__.__name__} model does not implement is_editable_by_user()."
         )
     raise PermissionDenied(
-        f"User does not have permission to edit this {expected_obj_type.__name__}"
+        f"User does not have permission to edit this {expected_obj_type.__name__}."
     )
 
 
-def raise_permission_denied_if_not_staff(user):
+def raise_permission_denied_if_not_event_staff(user):
     """
-    Raise PermissionDenied if user is not staff
-    :raises django.core.exceptions.PermissionDenied: If user is not staff
+    Raise PermissionDenied if user is not event staff
+    :raises django.core.exceptions.PermissionDenied: If user is not event staff
     """
-    if not user or not getattr(user, "is_staff"):
-        raise PermissionDenied(_("You do not have permission to perform this action"))
+    if not user or not getattr(user, "is_event_staff", False):
+        raise PermissionDenied(
+            _("User does not have permission to perform this admin action.")
+        )
 
 
 def get_client_ip(request: Optional[HttpRequest]) -> Optional[str]:

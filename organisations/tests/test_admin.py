@@ -45,7 +45,7 @@ class UserAdminViewTest(TestCase):
             "user_permissions",
         )
         superuser = UserFactory(is_superuser=True)
-        user = UserFactory(is_staff=True)
+        user = UserFactory(is_event_staff=True)
         superuser_fields = self.admin.get_readonly_fields(MockRequest(user=superuser))
         user_fields = self.admin.get_readonly_fields(MockRequest(user=user))
         assert all(
@@ -66,11 +66,11 @@ class UserAdminViewTest(TestCase):
         assert self.admin._has_organisations_changed(None, user_admin_form) is False
 
     @pytest.mark.django_db
-    def test_user_admin_has_is_staff_changed(self):
+    def test_user_admin_has_is_event_staff_changed(self):
         user_admin_form = UserAdminForm()
-        assert self.admin._has_is_staff_changed(user_admin_form) is False
-        user_admin_form.changed_data = ["is_staff"]
-        assert self.admin._has_is_staff_changed(user_admin_form) is True
+        assert self.admin._has_is_event_staff_changed(user_admin_form) is False
+        user_admin_form.changed_data = ["is_event_staff"]
+        assert self.admin._has_is_event_staff_changed(user_admin_form) is True
 
     @pytest.mark.django_db
     @mock.patch("django.contrib.messages.add_message")
@@ -91,21 +91,21 @@ class UserAdminViewTest(TestCase):
         person = PersonFactory()
         user = person.user
         superuser = UserFactory(is_superuser=True)
-        """
-        Test without organisation and is_staff changes -
-        Then the email should not be sent.
-        """
+        # Test without organisation and is_event_staff changes -
+        # Then the email should not be sent.
         user_admin_form = UserAdminForm(user.__dict__, instance=user)
         assert user_admin_form.is_valid()  # Call is_valid to populate cleaned_data
         request = MockRequest(user=superuser)
         assert self.admin.save_form(request, user_admin_form, True) == user
         assert add_message.called is False
-        """
-        Test with organisation and is_staff changes - Then the email should be sent.
-        """
+        # Test with organisation and is_event_staff changes -
+        # Then the email should be sent.
         organisations = OrganisationFactory.create_batch(2)
         user_admin_form = UserAdminForm(
-            {**user.__dict__, **{"is_staff": True, "organisations": organisations}},
+            {
+                **user.__dict__,
+                **{"is_event_staff": True, "organisations": organisations},
+            },
             instance=user,
         )
         assert user_admin_form.is_valid()  # Call is_valid to populate cleaned_data

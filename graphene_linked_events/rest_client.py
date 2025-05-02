@@ -22,10 +22,10 @@ class LinkedEventsApiClient(object):
             "upload": {"method": "POST", "url": url + "/"},
         }
 
-    def retrieve(self, resource, id, params=None, is_staff=False):
+    def retrieve(self, resource, id, params=None, is_event_staff=False):
         actions = self.get_actions(resource)
         formatted_params = self.convert_to_string_param(params)
-        if is_staff:
+        if is_event_staff:
             headers = {"apikey": self.api_key, "Cache-Control": "no-cache"}
             cookies = dict(nocache="meow")
             return requests.request(
@@ -43,7 +43,7 @@ class LinkedEventsApiClient(object):
             timeout=self.CONNECTION_TIMEOUT,
         )
 
-    def list(self, resource, filter_list=None, is_staff=False):
+    def list(self, resource, filter_list=None, is_event_staff=False):
         actions = self.get_actions(resource)
         filter_params = self.convert_to_string_param(filter_list)
 
@@ -52,7 +52,7 @@ class LinkedEventsApiClient(object):
         if resource == "event" and filter_params and "data_source" not in filter_params:
             filter_params["data_source"] = self.data_source
 
-        if is_staff:
+        if is_event_staff:
             headers = {"apikey": self.api_key, "Cache-Control": "no-cache"}
             cookies = dict(nocache="meow")
             return requests.request(
