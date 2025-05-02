@@ -12,14 +12,13 @@ from django.utils.translation import gettext_lazy as _
 from graphene.utils.str_converters import to_snake_case
 from graphene_django import DjangoConnectionField, DjangoObjectType
 from graphene_django.filter import DjangoFilterConnectionField
-from graphql_jwt.decorators import staff_member_required
 
 from common.utils import (
     get_editable_obj_from_global_id,
     get_node_id_from_global_id,
     LanguageEnum,
     map_enums_to_values_in_kwargs,
-    raise_permission_denied_if_not_staff,
+    raise_permission_denied_if_not_event_staff,
     update_object,
     update_object_with_translations,
 )
@@ -50,6 +49,7 @@ from occurrences.schema_services import (
     verify_captcha,
     verify_enrolment_token,
 )
+from organisations.decorators import event_staff_member_required
 from organisations.models import Organisation
 from organisations.schema import PersonNodeInput
 from palvelutarjotin.exceptions import (
@@ -146,7 +146,9 @@ class OccurrenceNode(DjangoObjectType):
 
     def resolve_linked_event(self, info, **kwargs):
         response = api_client.retrieve(
-            "event", self.p_event.linked_event_id, is_staff=info.context.user.is_staff
+            "event",
+            self.p_event.linked_event_id,
+            is_event_staff=getattr(info.context.user, "is_event_staff", False),
         )
         obj = json2obj(format_response(response))
         return obj
@@ -360,7 +362,7 @@ class StudyGroupNode(DjangoObjectType):
             or path == "enrolOccurrence.enrolments.<int>.studyGroup"
         ):
             return queryset
-        raise_permission_denied_if_not_staff(info.context.user)
+        raise_permission_denied_if_not_event_staff(info.context.user)
         return queryset.user_can_view(info.context.user)
 
 
@@ -430,7 +432,7 @@ class AddOccurrenceMutation(graphene.relay.ClientIDMutation):
     occurrence = graphene.Field(OccurrenceNode)
 
     @classmethod
-    @staff_member_required
+    @event_staff_member_required
     @transaction.atomic
     @map_enums_to_values_in_kwargs
     def mutate_and_get_payload(cls, root, info, **kwargs):
@@ -480,7 +482,7 @@ class UpdateOccurrenceMutation(graphene.relay.ClientIDMutation):
     occurrence = graphene.Field(OccurrenceNode)
 
     @classmethod
-    @staff_member_required
+    @event_staff_member_required
     @transaction.atomic
     @map_enums_to_values_in_kwargs
     def mutate_and_get_payload(cls, root, info, **kwargs):
@@ -521,7 +523,7 @@ class DeleteOccurrenceMutation(graphene.ClientIDMutation):
         id = graphene.GlobalID()
 
     @classmethod
-    @staff_member_required
+    @event_staff_member_required
     @transaction.atomic
     @map_enums_to_values_in_kwargs
     def mutate_and_get_payload(cls, root, info, **kwargs):
@@ -543,7 +545,7 @@ class CancelOccurrenceMutation(graphene.ClientIDMutation):
     occurrence = graphene.Field(OccurrenceNode)
 
     @classmethod
-    @staff_member_required
+    @event_staff_member_required
     @transaction.atomic
     @map_enums_to_values_in_kwargs
     def mutate_and_get_payload(cls, root, info, **kwargs):
@@ -570,7 +572,7 @@ class AddVenueMutation(graphene.relay.ClientIDMutation):
     venue = graphene.Field(VenueNode)
 
     @classmethod
-    @staff_member_required
+    @event_staff_member_required
     @transaction.atomic
     @map_enums_to_values_in_kwargs
     def mutate_and_get_payload(cls, root, info, **kwargs):
@@ -597,7 +599,7 @@ class UpdateVenueMutation(graphene.relay.ClientIDMutation):
     venue = graphene.Field(VenueNode)
 
     @classmethod
-    @staff_member_required
+    @event_staff_member_required
     @transaction.atomic
     @map_enums_to_values_in_kwargs
     def mutate_and_get_payload(cls, root, info, **kwargs):
@@ -615,7 +617,7 @@ class DeleteVenueMutation(graphene.relay.ClientIDMutation):
         id = graphene.ID(description="Place id from linked event", required=True)
 
     @classmethod
-    @staff_member_required
+    @event_staff_member_required
     @transaction.atomic
     @map_enums_to_values_in_kwargs
     def mutate_and_get_payload(cls, root, info, **kwargs):
@@ -650,7 +652,7 @@ class EnrolmentNode(DjangoObjectType):
         connection_class = EnrolmentConnectionWithCount
 
     @classmethod
-    @staff_member_required
+    @event_staff_member_required
     def get_queryset(cls, queryset, info):
         """
         The enrolments are available only for the staff members.
@@ -675,7 +677,7 @@ class EventQueueEnrolmentNode(DjangoObjectType):
         connection_class = EnrolmentConnectionWithCount
 
     @classmethod
-    @staff_member_required
+    @event_staff_member_required
     def get_queryset(cls, queryset, info):
         """
         The enrolments are available only for the staff members.
@@ -770,7 +772,7 @@ class UnenrolEventQueueMutation(graphene.relay.ClientIDMutation):
     study_group = graphene.Field(StudyGroupNode)
 
     @classmethod
-    @staff_member_required
+    @event_staff_member_required
     @transaction.atomic
     @map_enums_to_values_in_kwargs
     def mutate_and_get_payload(cls, root, info, **kwargs):
@@ -799,7 +801,7 @@ class PickEnrolmentFromQueueMutation(graphene.relay.ClientIDMutation):
     enrolment = graphene.Field(EnrolmentNode)
 
     @classmethod
-    @staff_member_required
+    @event_staff_member_required
     @transaction.atomic
     @map_enums_to_values_in_kwargs
     def mutate_and_get_payload(cls, root, info, **kwargs):
@@ -891,7 +893,7 @@ class UnenrolOccurrenceMutation(graphene.relay.ClientIDMutation):
     study_group = graphene.Field(StudyGroupNode)
 
     @classmethod
-    @staff_member_required
+    @event_staff_member_required
     @transaction.atomic
     @map_enums_to_values_in_kwargs
     def mutate_and_get_payload(cls, root, info, **kwargs):
@@ -927,7 +929,7 @@ class UpdateEnrolmentMutation(graphene.relay.ClientIDMutation):
     enrolment = graphene.Field(EnrolmentNode)
 
     @classmethod
-    @staff_member_required
+    @event_staff_member_required
     @transaction.atomic
     @map_enums_to_values_in_kwargs
     def mutate_and_get_payload(cls, root, info, **kwargs):
@@ -967,7 +969,7 @@ class ApproveEnrolmentMutation(graphene.relay.ClientIDMutation):
     enrolment = graphene.Field(EnrolmentNode)
 
     @classmethod
-    @staff_member_required
+    @event_staff_member_required
     @transaction.atomic
     @map_enums_to_values_in_kwargs
     def mutate_and_get_payload(cls, root, info, **kwargs):
@@ -996,7 +998,7 @@ class MassApproveEnrolmentsMutation(graphene.relay.ClientIDMutation):
     enrolments = graphene.NonNull(graphene.List(EnrolmentNode))
 
     @classmethod
-    @staff_member_required
+    @event_staff_member_required
     @transaction.atomic
     @map_enums_to_values_in_kwargs
     def mutate_and_get_payload(cls, root, info, **kwargs):
@@ -1028,7 +1030,7 @@ class DeclineEnrolmentMutation(graphene.relay.ClientIDMutation):
     enrolment = graphene.Field(EnrolmentNode)
 
     @classmethod
-    @staff_member_required
+    @event_staff_member_required
     @transaction.atomic
     @map_enums_to_values_in_kwargs
     def mutate_and_get_payload(cls, root, info, **kwargs):
@@ -1088,7 +1090,7 @@ class UpdateStudyGroupMutation(graphene.relay.ClientIDMutation):
     study_group = graphene.Field(StudyGroupNode)
 
     @classmethod
-    @staff_member_required
+    @event_staff_member_required
     @transaction.atomic
     @map_enums_to_values_in_kwargs
     def mutate_and_get_payload(cls, root, info, **kwargs):
@@ -1101,7 +1103,7 @@ class DeleteStudyGroupMutation(graphene.relay.ClientIDMutation):
         id = graphene.GlobalID()
 
     @classmethod
-    @staff_member_required
+    @event_staff_member_required
     @transaction.atomic
     @map_enums_to_values_in_kwargs
     def mutate_and_get_payload(cls, root, info, **kwargs):
@@ -1225,7 +1227,7 @@ class Query:
         except StudyLevel.DoesNotExist:
             return None
 
-    @staff_member_required
+    @event_staff_member_required
     @map_enums_to_values_in_kwargs
     def resolve_enrolment_summary(self, info, **kwargs):
         try:

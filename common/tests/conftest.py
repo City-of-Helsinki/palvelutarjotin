@@ -49,9 +49,9 @@ def user_api_client():
 
 
 @pytest.fixture
-def staff_api_client(person):
+def event_staff_api_client(person):
     return _create_api_client_with_user(
-        PersonFactory(user=UserFactory(is_staff=True)).user
+        PersonFactory(user=UserFactory(is_event_staff=True)).user
     )
 
 

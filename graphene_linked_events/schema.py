@@ -23,7 +23,6 @@ from graphene import (
     String,
 )
 from graphene_file_upload.scalars import Upload
-from graphql_jwt.decorators import staff_member_required
 
 from common.utils import (
     get_editable_obj_from_global_id,
@@ -42,6 +41,7 @@ from graphene_linked_events.utils import (
 )
 from occurrences.event_api_services import prepare_published_event_data
 from occurrences.models import PalvelutarjotinEvent, VenueCustomData
+from organisations.decorators import event_staff_member_required
 from organisations.models import Organisation, Person
 from palvelutarjotin.exceptions import (
     DataValidationError,
@@ -494,7 +494,7 @@ class Query:
             "event",
             kwargs.pop("id"),
             params=kwargs,
-            is_staff=info.context.user.is_staff,
+            is_event_staff=getattr(info.context.user, "is_event_staff", False),
         )
         response.raise_for_status()
         obj = json2obj(format_response(response))
@@ -555,7 +555,9 @@ class Query:
         )
 
         response = api_client.list(
-            "event", filter_list=kwargs, is_staff=info.context.user.is_staff
+            "event",
+            filter_list=kwargs,
+            is_event_staff=getattr(info.context.user, "is_event_staff", False),
         )
         response.raise_for_status()
         events_json = format_response(response)
@@ -815,7 +817,7 @@ class AddEventMutation(Mutation):
 
     response = Field(EventMutationResponse)
 
-    @staff_member_required
+    @event_staff_member_required
     @transaction.atomic
     @map_enums_to_values_in_kwargs
     def mutate(root, info, **kwargs):
@@ -883,7 +885,7 @@ class UpdateEventMutation(Mutation):
 
     response = Field(EventMutationResponse)
 
-    @staff_member_required
+    @event_staff_member_required
     @transaction.atomic
     @map_enums_to_values_in_kwargs
     def mutate(root, info, **kwargs):
@@ -952,7 +954,7 @@ class PublishEventMutation(UpdateEventMutation):
 
     response = Field(EventMutationResponse)
 
-    @staff_member_required
+    @event_staff_member_required
     @transaction.atomic
     @map_enums_to_values_in_kwargs
     def mutate(root, info, **kwargs):
@@ -975,7 +977,7 @@ class UnpublishEventMutation(UpdateEventMutation):
 
     response = Field(EventMutationResponse)
 
-    @staff_member_required
+    @event_staff_member_required
     @transaction.atomic
     @map_enums_to_values_in_kwargs
     def mutate(root, info, **kwargs):
@@ -996,7 +998,7 @@ class DeleteEventMutation(Mutation):
 
     response = Field(EventMutationResponse)
 
-    @staff_member_required
+    @event_staff_member_required
     @map_enums_to_values_in_kwargs
     def mutate(root, info, **kwargs):
         event_id = kwargs["event_id"]
@@ -1050,7 +1052,7 @@ class UploadImageMutation(Mutation):
 
     response = Field(ImageMutationResponse)
 
-    @staff_member_required
+    @event_staff_member_required
     @map_enums_to_values_in_kwargs
     def mutate(root, info, **kwargs):
         image = kwargs["image"].pop("image")
@@ -1072,7 +1074,7 @@ class UpdateImageMutation(Mutation):
 
     response = Field(ImageMutationResponse)
 
-    @staff_member_required
+    @event_staff_member_required
     @map_enums_to_values_in_kwargs
     def mutate(root, info, **kwargs):
         image_id = kwargs["image"].pop("id")
@@ -1091,7 +1093,7 @@ class DeleteImageMutation(Mutation):
 
     response = Field(ImageMutationResponse)
 
-    @staff_member_required
+    @event_staff_member_required
     @map_enums_to_values_in_kwargs
     def mutate(root, info, **kwargs):
         image_id = kwargs["image_id"]

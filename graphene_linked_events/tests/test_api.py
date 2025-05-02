@@ -678,7 +678,7 @@ def test_resolve_events_parameter_mapping(
     linkedEventsApiClientMock.assert_called_with(
         "event",
         filter_list={"publisher": organisation.publisher_id, expected: ["test"]},
-        is_staff=False,
+        is_event_staff=False,
     )
 
 
@@ -882,7 +882,7 @@ CREATE_EVENT_VARIABLES = {
 
 
 def test_create_event_unauthorized(
-    api_client, user_api_client, staff_api_client, person, organisation
+    api_client, user_api_client, event_staff_api_client, person, organisation
 ):
     executed = api_client.execute(
         CREATE_EVENT_MUTATION, variables=CREATE_EVENT_VARIABLES
@@ -903,16 +903,20 @@ def test_create_event_unauthorized(
         "PersonNode", person.id
     )
 
-    executed = staff_api_client.execute(CREATE_EVENT_MUTATION, variables=variables)
+    executed = event_staff_api_client.execute(
+        CREATE_EVENT_MUTATION, variables=variables
+    )
     assert_permission_denied(executed)
     # Still contact person doesn't belong to organisation
-    staff_api_client.user.person.organisations.add(organisation)
-    executed = staff_api_client.execute(CREATE_EVENT_MUTATION, variables=variables)
+    event_staff_api_client.user.person.organisations.add(organisation)
+    executed = event_staff_api_client.execute(
+        CREATE_EVENT_MUTATION, variables=variables
+    )
     assert_permission_denied(executed)
 
 
 def test_create_invalid_event(
-    staff_api_client, snapshot, person, mock_create_event_data, organisation
+    event_staff_api_client, snapshot, person, mock_create_event_data, organisation
 ):
     variables = deepcopy(CREATE_EVENT_VARIABLES)
     variables["input"]["organisationId"] = to_global_id(
@@ -923,14 +927,16 @@ def test_create_invalid_event(
         "neededOccurrences": 2,
         "autoAcceptance": False,
     }
-    staff_api_client.user.person.organisations.add(organisation)
+    event_staff_api_client.user.person.organisations.add(organisation)
     person.organisations.add(organisation)
-    executed = staff_api_client.execute(CREATE_EVENT_MUTATION, variables=variables)
+    executed = event_staff_api_client.execute(
+        CREATE_EVENT_MUTATION, variables=variables
+    )
     assert_match_error_code(executed, DATA_VALIDATION_ERROR)
 
 
 def test_create_event_without_organisation_id(
-    staff_api_client, person, mock_create_event_data, organisation
+    event_staff_api_client, person, mock_create_event_data, organisation
 ):
     variables = deepcopy(CREATE_EVENT_VARIABLES)
     del variables["input"]["organisationId"]
@@ -938,9 +944,11 @@ def test_create_event_without_organisation_id(
         "PersonNode", person.id
     )
     assert "organisationId" not in variables["input"]
-    staff_api_client.user.person.organisations.add(organisation)
+    event_staff_api_client.user.person.organisations.add(organisation)
     person.organisations.add(organisation)
-    executed = staff_api_client.execute(CREATE_EVENT_MUTATION, variables=variables)
+    executed = event_staff_api_client.execute(
+        CREATE_EVENT_MUTATION, variables=variables
+    )
     assert PalvelutarjotinEvent.objects.count() == 0
     assert executed.get("errors")
     assert executed["errors"][0]["extensions"]["code"] == "GENERAL_ERROR"
@@ -951,16 +959,18 @@ def test_create_event_without_organisation_id(
 
 
 def test_create_event_with_null_organisation_id(
-    staff_api_client, person, mock_create_event_data, organisation
+    event_staff_api_client, person, mock_create_event_data, organisation
 ):
     variables = deepcopy(CREATE_EVENT_VARIABLES)
     variables["input"]["organisationId"] = None
     variables["input"]["pEvent"]["contactPersonId"] = to_global_id(
         "PersonNode", person.id
     )
-    staff_api_client.user.person.organisations.add(organisation)
+    event_staff_api_client.user.person.organisations.add(organisation)
     person.organisations.add(organisation)
-    executed = staff_api_client.execute(CREATE_EVENT_MUTATION, variables=variables)
+    executed = event_staff_api_client.execute(
+        CREATE_EVENT_MUTATION, variables=variables
+    )
     assert PalvelutarjotinEvent.objects.count() == 0
     assert executed.get("errors")
     assert executed["errors"][0]["extensions"]["code"] == "GENERAL_ERROR"
@@ -972,16 +982,18 @@ def test_create_event_with_null_organisation_id(
 
 @pytest.mark.parametrize("organisationId", ["", " ", " " * 10])
 def test_create_event_with_empty_or_whitespace_only_organisation_id(
-    staff_api_client, person, mock_create_event_data, organisation, organisationId
+    event_staff_api_client, person, mock_create_event_data, organisation, organisationId
 ):
     variables = deepcopy(CREATE_EVENT_VARIABLES)
     variables["input"]["organisationId"] = organisationId
     variables["input"]["pEvent"]["contactPersonId"] = to_global_id(
         "PersonNode", person.id
     )
-    staff_api_client.user.person.organisations.add(organisation)
+    event_staff_api_client.user.person.organisations.add(organisation)
     person.organisations.add(organisation)
-    executed = staff_api_client.execute(CREATE_EVENT_MUTATION, variables=variables)
+    executed = event_staff_api_client.execute(
+        CREATE_EVENT_MUTATION, variables=variables
+    )
     assert PalvelutarjotinEvent.objects.count() == 0
     assert executed.get("errors")
     assert executed["errors"][0]["extensions"]["code"] == "GENERAL_ERROR"
@@ -989,7 +1001,7 @@ def test_create_event_with_empty_or_whitespace_only_organisation_id(
 
 
 def test_create_event(
-    staff_api_client, snapshot, person, mock_create_event_data, organisation
+    event_staff_api_client, snapshot, person, mock_create_event_data, organisation
 ):
     variables = deepcopy(CREATE_EVENT_VARIABLES)
     variables["input"]["organisationId"] = to_global_id(
@@ -998,9 +1010,11 @@ def test_create_event(
     variables["input"]["pEvent"]["contactPersonId"] = to_global_id(
         "PersonNode", person.id
     )
-    staff_api_client.user.person.organisations.add(organisation)
+    event_staff_api_client.user.person.organisations.add(organisation)
     person.organisations.add(organisation)
-    executed = staff_api_client.execute(CREATE_EVENT_MUTATION, variables=variables)
+    executed = event_staff_api_client.execute(
+        CREATE_EVENT_MUTATION, variables=variables
+    )
     assert PalvelutarjotinEvent.objects.count() == 1
     snapshot.assert_match(executed)
 
@@ -1015,7 +1029,7 @@ P_EVENT_WITH_EXTERNAL_ENROLMENT_VARIABLES = {
 
 
 def test_create_event_with_external_enrolment(
-    staff_api_client, snapshot, person, mock_create_event_data, organisation
+    event_staff_api_client, snapshot, person, mock_create_event_data, organisation
 ):
     variables = deepcopy(CREATE_EVENT_VARIABLES)
     variables["input"]["organisationId"] = to_global_id(
@@ -1029,9 +1043,11 @@ def test_create_event_with_external_enrolment(
         **P_EVENT_WITH_EXTERNAL_ENROLMENT_VARIABLES,
     }
 
-    staff_api_client.user.person.organisations.add(organisation)
+    event_staff_api_client.user.person.organisations.add(organisation)
     person.organisations.add(organisation)
-    executed = staff_api_client.execute(CREATE_EVENT_MUTATION, variables=variables)
+    executed = event_staff_api_client.execute(
+        CREATE_EVENT_MUTATION, variables=variables
+    )
     assert PalvelutarjotinEvent.objects.count() == 1
     snapshot.assert_match(executed)
 
@@ -1046,7 +1062,7 @@ P_EVENT_WITHOUT_ENROLMENT_VARIABLES = {
 
 
 def test_create_event_without_enrolment(
-    staff_api_client, snapshot, person, mock_create_event_data, organisation
+    event_staff_api_client, snapshot, person, mock_create_event_data, organisation
 ):
     variables = deepcopy(CREATE_EVENT_VARIABLES)
     variables["input"]["organisationId"] = to_global_id(
@@ -1061,15 +1077,17 @@ def test_create_event_without_enrolment(
         **P_EVENT_WITHOUT_ENROLMENT_VARIABLES,
     }
 
-    staff_api_client.user.person.organisations.add(organisation)
+    event_staff_api_client.user.person.organisations.add(organisation)
     person.organisations.add(organisation)
-    executed = staff_api_client.execute(CREATE_EVENT_MUTATION, variables=variables)
+    executed = event_staff_api_client.execute(
+        CREATE_EVENT_MUTATION, variables=variables
+    )
     assert PalvelutarjotinEvent.objects.count() == 1
     snapshot.assert_match(executed)
 
 
 def test_create_event_without_p_event_translations(
-    staff_api_client, snapshot, person, mock_create_event_data, organisation
+    event_staff_api_client, snapshot, person, mock_create_event_data, organisation
 ):
     variables = deepcopy(CREATE_EVENT_VARIABLES)
     variables["input"]["organisationId"] = to_global_id(
@@ -1079,9 +1097,11 @@ def test_create_event_without_p_event_translations(
         "PersonNode", person.id
     )
     del variables["input"]["pEvent"]["translations"]
-    staff_api_client.user.person.organisations.add(organisation)
+    event_staff_api_client.user.person.organisations.add(organisation)
     person.organisations.add(organisation)
-    executed = staff_api_client.execute(CREATE_EVENT_MUTATION, variables=variables)
+    executed = event_staff_api_client.execute(
+        CREATE_EVENT_MUTATION, variables=variables
+    )
     assert PalvelutarjotinEvent.objects.count() == 1
     snapshot.assert_match(executed)
 
@@ -1089,7 +1109,7 @@ def test_create_event_without_p_event_translations(
 @patch("graphene_linked_events.schema.api_client.delete")
 def test_create_event_with_p_event_creation_exception_raised(
     spy_api_client_delete,
-    staff_api_client,
+    event_staff_api_client,
     person,
     mock_create_event_data,
     mock_delete_event_data,
@@ -1106,14 +1126,14 @@ def test_create_event_with_p_event_creation_exception_raised(
         "PersonNode", person.id
     )
     del variables["input"]["pEvent"]["translations"]
-    staff_api_client.user.person.organisations.add(organisation)
+    event_staff_api_client.user.person.organisations.add(organisation)
     person.organisations.add(organisation)
 
     with patch(
         "occurrences.models.PalvelutarjotinEvent.objects.get_or_create",
         mock_get_or_create,
     ):
-        staff_api_client.execute(CREATE_EVENT_MUTATION, variables=variables)
+        event_staff_api_client.execute(CREATE_EVENT_MUTATION, variables=variables)
         spy_api_client_delete.assert_called_once()
     assert PalvelutarjotinEvent.objects.count() == 0
 
@@ -1227,7 +1247,7 @@ UPDATE_EVENT_VARIABLES = {
 
 
 def test_update_event_unauthorized(
-    api_client, user_api_client, person, staff_api_client, organisation
+    api_client, user_api_client, person, event_staff_api_client, organisation
 ):
     executed = api_client.execute(
         UPDATE_EVENT_MUTATION, variables=UPDATE_EVENT_VARIABLES
@@ -1245,16 +1265,20 @@ def test_update_event_unauthorized(
     variables["input"]["pEvent"]["contactPersonId"] = to_global_id(
         "PersonNode", person.id
     )
-    executed = staff_api_client.execute(UPDATE_EVENT_MUTATION, variables=variables)
+    executed = event_staff_api_client.execute(
+        UPDATE_EVENT_MUTATION, variables=variables
+    )
     assert_permission_denied(executed)
     # Still contact person doesn't belong to organisation
-    staff_api_client.user.person.organisations.add(organisation)
-    executed = staff_api_client.execute(UPDATE_EVENT_MUTATION, variables=variables)
+    event_staff_api_client.user.person.organisations.add(organisation)
+    executed = event_staff_api_client.execute(
+        UPDATE_EVENT_MUTATION, variables=variables
+    )
     assert_permission_denied(executed)
 
 
 def test_update_event(
-    staff_api_client, snapshot, person, mock_update_event_data, organisation
+    event_staff_api_client, snapshot, person, mock_update_event_data, organisation
 ):
     variables = deepcopy(UPDATE_EVENT_VARIABLES)
     variables["input"]["organisationId"] = to_global_id(
@@ -1268,14 +1292,16 @@ def test_update_event(
         organisation=organisation,
         auto_acceptance=True,
     )
-    staff_api_client.user.person.organisations.add(organisation)
+    event_staff_api_client.user.person.organisations.add(organisation)
     person.organisations.add(organisation)
-    executed = staff_api_client.execute(UPDATE_EVENT_MUTATION, variables=variables)
+    executed = event_staff_api_client.execute(
+        UPDATE_EVENT_MUTATION, variables=variables
+    )
     snapshot.assert_match(executed)
 
 
 def test_update_event_without_organisation_id(
-    staff_api_client, person, mock_update_event_data, organisation
+    event_staff_api_client, person, mock_update_event_data, organisation
 ):
     variables = deepcopy(UPDATE_EVENT_VARIABLES)
     del variables["input"]["organisationId"]
@@ -1288,9 +1314,11 @@ def test_update_event_without_organisation_id(
         organisation=organisation,
         auto_acceptance=True,
     )
-    staff_api_client.user.person.organisations.add(organisation)
+    event_staff_api_client.user.person.organisations.add(organisation)
     person.organisations.add(organisation)
-    executed = staff_api_client.execute(UPDATE_EVENT_MUTATION, variables=variables)
+    executed = event_staff_api_client.execute(
+        UPDATE_EVENT_MUTATION, variables=variables
+    )
     assert executed.get("errors")
     assert executed["errors"][0]["extensions"]["code"] == "GENERAL_ERROR"
     assert (
@@ -1300,7 +1328,7 @@ def test_update_event_without_organisation_id(
 
 
 def test_update_event_with_null_organisation_id(
-    staff_api_client, person, mock_update_event_data, organisation
+    event_staff_api_client, person, mock_update_event_data, organisation
 ):
     variables = deepcopy(UPDATE_EVENT_VARIABLES)
     variables["input"]["organisationId"] = None
@@ -1312,9 +1340,11 @@ def test_update_event_with_null_organisation_id(
         organisation=organisation,
         auto_acceptance=True,
     )
-    staff_api_client.user.person.organisations.add(organisation)
+    event_staff_api_client.user.person.organisations.add(organisation)
     person.organisations.add(organisation)
-    executed = staff_api_client.execute(UPDATE_EVENT_MUTATION, variables=variables)
+    executed = event_staff_api_client.execute(
+        UPDATE_EVENT_MUTATION, variables=variables
+    )
     assert executed.get("errors")
     assert executed["errors"][0]["extensions"]["code"] == "GENERAL_ERROR"
     assert (
@@ -1325,7 +1355,7 @@ def test_update_event_with_null_organisation_id(
 
 @pytest.mark.parametrize("organisationId", ["", " ", " " * 10])
 def test_update_event_with_empty_or_whitespace_only_organisation_id(
-    staff_api_client, person, mock_update_event_data, organisation, organisationId
+    event_staff_api_client, person, mock_update_event_data, organisation, organisationId
 ):
     variables = deepcopy(UPDATE_EVENT_VARIABLES)
     variables["input"]["organisationId"] = organisationId
@@ -1337,9 +1367,11 @@ def test_update_event_with_empty_or_whitespace_only_organisation_id(
         organisation=organisation,
         auto_acceptance=True,
     )
-    staff_api_client.user.person.organisations.add(organisation)
+    event_staff_api_client.user.person.organisations.add(organisation)
     person.organisations.add(organisation)
-    executed = staff_api_client.execute(UPDATE_EVENT_MUTATION, variables=variables)
+    executed = event_staff_api_client.execute(
+        UPDATE_EVENT_MUTATION, variables=variables
+    )
     assert executed.get("errors")
     assert executed["errors"][0]["extensions"]["code"] == "GENERAL_ERROR"
     assert "Invalid Global ID" in executed["errors"][0]["message"]
@@ -1370,10 +1402,10 @@ def test_delete_event_unauthorized(api_client, user_api_client):
     assert_permission_denied(executed)
 
 
-def test_delete_event(staff_api_client, snapshot, mock_delete_event_data):
+def test_delete_event(event_staff_api_client, snapshot, mock_delete_event_data):
     PalvelutarjotinEventFactory(linked_event_id="helsinki:afy57kkxdm")
     assert PalvelutarjotinEvent.objects.count() == 1
-    executed = staff_api_client.execute(DELETE_EVENT_MUTATION)
+    executed = event_staff_api_client.execute(DELETE_EVENT_MUTATION)
     snapshot.assert_match(executed)
     assert PalvelutarjotinEvent.objects.count() == 0
 
@@ -1466,8 +1498,8 @@ def test_update_image_unauthorized(api_client, user_api_client):
     assert_permission_denied(executed)
 
 
-def test_update_image(staff_api_client, snapshot, mock_update_image_data):
-    executed = staff_api_client.execute(
+def test_update_image(event_staff_api_client, snapshot, mock_update_image_data):
+    executed = event_staff_api_client.execute(
         UPDATE_IMAGE_MUTATION, variables=UPDATE_IMAGE_VARIABLES
     )
     snapshot.assert_match(executed)
@@ -1491,8 +1523,8 @@ def test_delete_image_unauthorized(api_client, user_api_client):
     assert_permission_denied(executed)
 
 
-def test_delete_image(staff_api_client, snapshot, mock_delete_image_data):
-    executed = staff_api_client.execute(DELETE_IMAGE_MUTATION)
+def test_delete_image(event_staff_api_client, snapshot, mock_delete_image_data):
+    executed = event_staff_api_client.execute(DELETE_IMAGE_MUTATION)
     snapshot.assert_match(executed)
 
 
@@ -1517,7 +1549,7 @@ def test_publish_event_unauthorized(
     snapshot,
     api_client,
     user_api_client,
-    staff_api_client,
+    event_staff_api_client,
     mock_update_event_data,
     mock_get_draft_event_data,
     organisation,
@@ -1540,11 +1572,15 @@ def test_publish_event_unauthorized(
         linked_event_id=UPDATE_EVENT_VARIABLES["input"]["id"], organisation=organisation
     )
     OccurrenceFactory(p_event=p_event)
-    executed = staff_api_client.execute(PUBLISH_EVENT_MUTATION, variables=variables)
+    executed = event_staff_api_client.execute(
+        PUBLISH_EVENT_MUTATION, variables=variables
+    )
     assert_permission_denied(executed)
     # Still contact person doesn't belong to organisation
-    staff_api_client.user.person.organisations.add(organisation)
-    executed = staff_api_client.execute(PUBLISH_EVENT_MUTATION, variables=variables)
+    event_staff_api_client.user.person.organisations.add(organisation)
+    executed = event_staff_api_client.execute(
+        PUBLISH_EVENT_MUTATION, variables=variables
+    )
     assert_permission_denied(executed)
 
 
@@ -1560,7 +1596,7 @@ def test_publish_event(
     snapshot,
     api_client,
     user_api_client,
-    staff_api_client,
+    event_staff_api_client,
     mock_get_draft_event_data,
     organisation,
     person,
@@ -1579,15 +1615,19 @@ def test_publish_event(
         organisation=organisation,
         enrolment_start=p_event_enrolment_start,
     )
-    staff_api_client.user.person.organisations.add(organisation)
+    event_staff_api_client.user.person.organisations.add(organisation)
     person.organisations.add(organisation)
-    executed = staff_api_client.execute(PUBLISH_EVENT_MUTATION, variables=variables)
+    executed = event_staff_api_client.execute(
+        PUBLISH_EVENT_MUTATION, variables=variables
+    )
     # cannot publish event without occurrence
     assert_match_error_code(executed, API_USAGE_ERROR)
     occurrence = OccurrenceFactory(p_event=p_event)
     assert occurrence.start_time is not None
     assert occurrence.end_time is not None
-    executed = staff_api_client.execute(PUBLISH_EVENT_MUTATION, variables=variables)
+    executed = event_staff_api_client.execute(
+        PUBLISH_EVENT_MUTATION, variables=variables
+    )
     event_response = json.loads(mocked_update_event_data.call_args[0][2])
     assert __eq_dt_with_tz(event_response["start_time"], occurrence.start_time)
     assert __eq_dt_with_tz(event_response["end_time"], occurrence.end_time)
@@ -1607,7 +1647,7 @@ def test_publish_event_with_external_enrolments(
     snapshot,
     api_client,
     user_api_client,
-    staff_api_client,
+    event_staff_api_client,
     mock_update_event_data,
     mock_get_draft_event_data,
     organisation,
@@ -1632,10 +1672,12 @@ def test_publish_event_with_external_enrolments(
             },
         }
     )
-    staff_api_client.user.person.organisations.add(organisation)
+    event_staff_api_client.user.person.organisations.add(organisation)
     person.organisations.add(organisation)
     OccurrenceFactory(p_event=p_event)
-    executed = staff_api_client.execute(PUBLISH_EVENT_MUTATION, variables=variables)
+    executed = event_staff_api_client.execute(
+        PUBLISH_EVENT_MUTATION, variables=variables
+    )
     snapshot.assert_match(executed)
 
 
@@ -1643,7 +1685,7 @@ def test_publish_event_without_enrolments(
     snapshot,
     api_client,
     user_api_client,
-    staff_api_client,
+    event_staff_api_client,
     mock_update_event_data,
     mock_get_draft_event_data,
     organisation,
@@ -1668,10 +1710,12 @@ def test_publish_event_without_enrolments(
             },
         }
     )
-    staff_api_client.user.person.organisations.add(organisation)
+    event_staff_api_client.user.person.organisations.add(organisation)
     person.organisations.add(organisation)
     OccurrenceFactory(p_event=p_event)
-    executed = staff_api_client.execute(PUBLISH_EVENT_MUTATION, variables=variables)
+    executed = event_staff_api_client.execute(
+        PUBLISH_EVENT_MUTATION, variables=variables
+    )
     snapshot.assert_match(executed)
 
 
@@ -1696,7 +1740,7 @@ def test_unpublish_event_unauthorized(
     snapshot,
     api_client,
     user_api_client,
-    staff_api_client,
+    event_staff_api_client,
     mock_update_event_data,
     mock_get_event_data,
     organisation,
@@ -1720,18 +1764,22 @@ def test_unpublish_event_unauthorized(
         linked_event_id=UPDATE_EVENT_VARIABLES["input"]["id"], organisation=organisation
     )
     OccurrenceFactory(p_event=p_event)
-    executed = staff_api_client.execute(UNPUBLISH_EVENT_MUTATION, variables=variables)
+    executed = event_staff_api_client.execute(
+        UNPUBLISH_EVENT_MUTATION, variables=variables
+    )
     assert_permission_denied(executed)
     # Still contact person doesn't belong to organisation
-    staff_api_client.user.person.organisations.add(organisation)
-    executed = staff_api_client.execute(UNPUBLISH_EVENT_MUTATION, variables=variables)
+    event_staff_api_client.user.person.organisations.add(organisation)
+    executed = event_staff_api_client.execute(
+        UNPUBLISH_EVENT_MUTATION, variables=variables
+    )
     assert_permission_denied(executed)
 
 
 def test_unpublish_event(
     snapshot,
     api_client,
-    staff_api_client,
+    event_staff_api_client,
     mock_unpublish_event_data,
     organisation,
     person,
@@ -1748,9 +1796,11 @@ def test_unpublish_event(
     PalvelutarjotinEventFactory(
         linked_event_id=UPDATE_EVENT_VARIABLES["input"]["id"], organisation=organisation
     )
-    staff_api_client.user.person.organisations.add(organisation)
+    event_staff_api_client.user.person.organisations.add(organisation)
     person.organisations.add(organisation)
-    executed = staff_api_client.execute(UNPUBLISH_EVENT_MUTATION, variables=variables)
+    executed = event_staff_api_client.execute(
+        UNPUBLISH_EVENT_MUTATION, variables=variables
+    )
     # Mock data might not reflect correct publication status
     snapshot.assert_match(executed)
 

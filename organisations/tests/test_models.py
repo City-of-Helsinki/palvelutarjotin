@@ -236,3 +236,53 @@ def test_user_deletion_deletes_palvelutarjotin_event_contact_info(delete_via_que
     assert another_event.contact_email == "test_another_event@example.com"
     assert another_event.contact_phone_number == "7654321"
     assert not another_event.contact_info_deleted_at
+
+
+@pytest.mark.django_db
+@pytest.mark.parametrize(
+    "is_admin, is_staff, is_event_staff, is_staff_expected, is_event_staff_expected",  # noqa: E501
+    [
+        pytest.param(True, False, False, True, True, id="admin_sets_both"),
+        pytest.param(
+            True,
+            True,
+            False,
+            True,
+            True,
+            id="admin_existing_staff_sets_event_staff",
+        ),
+        pytest.param(
+            True, False, True, True, True, id="admin_existing_event_staff_sets_staff"
+        ),
+        pytest.param(True, True, True, True, True, id="admin_both_existing"),
+        pytest.param(False, True, False, True, True, id="staff_sets_event_staff"),
+        pytest.param(False, True, True, True, True, id="staff_existing_event_staff"),
+        pytest.param(False, False, False, False, False, id="non_staff_non_admin"),
+        pytest.param(
+            False,
+            False,
+            True,
+            False,
+            True,
+            id="non_staff_non_admin_existing_event_staff",
+        ),
+    ],
+)
+def test_save_permission_implications(
+    is_admin,
+    is_staff,
+    is_event_staff,
+    is_staff_expected,
+    is_event_staff_expected,
+):
+    """Test permission implications on user save."""
+    user = User(
+        username=f"testuser_a{is_admin}_s{is_staff}_e{is_event_staff}",
+        is_admin=is_admin,
+        is_staff=is_staff,
+        is_event_staff=is_event_staff,
+    )
+    user.save()
+
+    assert user.is_staff is is_staff_expected
+    assert user.is_event_staff is is_event_staff_expected

@@ -65,7 +65,7 @@ def send_myprofile_organisations_accepted_notification(person: Person, **kwargs)
     """
     Notify the person about his / her account is accepted and ready to use.
     This notification should be sent at least when the user has
-    write permissions for events (the  is_staff -flag is set to True)
+    write permissions for events (the is_event_staff -flag is set to True)
     and he has been linked to some organisations.
     """
     context = {"person": person, **kwargs}

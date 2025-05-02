@@ -226,12 +226,15 @@ class PalvelutarjotinEvent(
             self.contact_info_deleted_at = None
         return super().save(*args, **kwargs)
 
-    def get_event_data(self, is_staff=False):
+    def get_event_data(self, is_event_staff=False):
         # We need query event location as well
         params = {"include": "location"}
         try:
             data = retrieve_linked_events_data(
-                "event", self.linked_event_id, params=params, is_staff=is_staff
+                "event",
+                self.linked_event_id,
+                params=params,
+                is_event_staff=is_event_staff,
             )
         except ObjectDoesNotExistError:
             return None
@@ -250,7 +253,7 @@ class PalvelutarjotinEvent(
         return True
 
     def is_published(self):
-        event = self.get_event_data(is_staff=True)
+        event = self.get_event_data(is_event_staff=True)
         if not event:
             return False
         return (
