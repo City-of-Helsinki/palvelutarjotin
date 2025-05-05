@@ -5,7 +5,7 @@ from rest_framework import serializers
 from reports.models import EnrolmentReport
 
 
-class Size2ArrayField(serializers.Field):
+class NamedPairField(serializers.Field):
     def __init__(self, first_value_name: str = "id", second_value_name: str = "label"):
         self.first_value_name = first_value_name
         self.second_value_name = second_value_name
@@ -14,7 +14,7 @@ class Size2ArrayField(serializers.Field):
     def _array_to_dict(self, entry: List[str]):
         if len(entry) != 2:
             raise ValueError(
-                "Size2ArrayField field value should always "
+                "NamedPairField field value should always "
                 "have a length of 2 (id, interpretation)."
             )
         return {self.first_value_name: entry[0], self.second_value_name: entry[1]}
@@ -169,13 +169,13 @@ class EnrolmentReportSerializer(serializers.ModelSerializer):
     study_group_unit_position = PositionField()
     study_group_unit_divisions = OCDIDField()
     occurrence_place_divisions = OCDIDField()
-    study_group_study_levels = Size2ArrayField(
+    study_group_study_levels = NamedPairField(
         first_value_name="id", second_value_name="label"
     )
-    occurrence_languages = Size2ArrayField(
+    occurrence_languages = NamedPairField(
         first_value_name="id", second_value_name="name"
     )
-    keywords = Size2ArrayField(first_value_name="id", second_value_name="name")
+    keywords = NamedPairField(first_value_name="id", second_value_name="name")
 
     class Meta:
         model = EnrolmentReport

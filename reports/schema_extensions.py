@@ -15,8 +15,8 @@ if TYPE_CHECKING:
     from drf_spectacular.utils import Direction
 
 
-class Size2ArrayFieldExtension(OpenApiSerializerFieldExtension):
-    target_class = "reports.serializers.Size2ArrayField"  # Replace 'your_app'
+class NamedPairFieldExtension(OpenApiSerializerFieldExtension):
+    target_class = "reports.serializers.NamedPairField"
 
     def map_serializer_field(self, auto_schema: "AutoSchema", direction: "Direction"):
         field = self.target
