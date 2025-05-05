@@ -1,6 +1,15 @@
 <!-- REMINDER: While updating changelog, also remember to update
 the version in palvelutarjotin/__init.py__ -->
 
+## [1.20.0](https://github.com/City-of-Helsinki/palvelutarjotin/compare/palvelutarjotin-v1.19.0...palvelutarjotin-v1.20.0) (2025-05-05)
+
+
+### Features
+
+* **openapi:** Add schema extensions for API docs generation ([21f17d7](https://github.com/City-of-Helsinki/palvelutarjotin/commit/21f17d7d9cc31b59ac43d5a950c329b39901e48c))
+* **openapi:** Serve API schema and Redoc UI ([81f7dc0](https://github.com/City-of-Helsinki/palvelutarjotin/commit/81f7dc001f22a8f38df03631f7ddce8f7053a9de))
+* **openapi:** Use schema extensions for custom fields in reports ([5c760e1](https://github.com/City-of-Helsinki/palvelutarjotin/commit/5c760e11410a1d4832a181b7e68b6242129828ae))
+
 ## [1.19.0](https://github.com/City-of-Helsinki/palvelutarjotin/compare/palvelutarjotin-v1.18.0...palvelutarjotin-v1.19.0) (2025-04-28)
 
 
