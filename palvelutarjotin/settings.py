@@ -84,6 +84,10 @@ env = environ.Env(
     TOKEN_AUTH_API_AUTHORIZATION_FIELD=(str, "authorization.permissions.scopes"),
     HELUSERS_BACK_CHANNEL_LOGOUT_ENABLED=(bool, False),
     HELUSERS_USER_MIGRATE_ENABLED=(bool, False),
+    HELUSERS_PASSWORD_LOGIN_DISABLED=(bool, True),
+    SOCIAL_AUTH_TUNNISTAMO_KEY=(str, ""),  # empty to ignore it's being unset.
+    SOCIAL_AUTH_TUNNISTAMO_OIDC_ENDPOINT=(str, ""),  # empty to ignore it's being unset.
+    SOCIAL_AUTH_TUNNISTAMO_SECRET=(str, ""),  # empty to ignore it's being unset.
 )
 
 if os.path.exists(env_file):
@@ -233,6 +237,7 @@ TEMPLATES = [
         "APP_DIRS": True,
         "OPTIONS": {
             "context_processors": [
+                "helusers.context_processors.settings",
                 "django.template.context_processors.debug",
                 "django.template.context_processors.request",
                 "django.contrib.auth.context_processors.auth",
@@ -295,7 +300,15 @@ LOGIN_REDIRECT_URL = "/"
 LOGOUT_REDIRECT_URL = "/"
 SESSION_SERIALIZER = "django.contrib.sessions.serializers.PickleSerializer"
 AUTH_USER_MODEL = "organisations.User"
-SOCIAL_AUTH_TUNNISTAMO_AUTH_EXTRA_ARGUMENTS = {"ui_locales": ""}
+
+# Keycloak parameters. Reference to Tunnistamo is necessary, although
+# the naming convention is primarily historical.
+if SOCIAL_AUTH_TUNNISTAMO_SECRET := env.str("SOCIAL_AUTH_TUNNISTAMO_SECRET"):
+    SOCIAL_AUTH_TUNNISTAMO_OIDC_ENDPOINT = env.str(
+        "SOCIAL_AUTH_TUNNISTAMO_OIDC_ENDPOINT", env.list("TOKEN_AUTH_AUTHSERVER_URL")[0]
+    )
+    SOCIAL_AUTH_TUNNISTAMO_KEY = env.str("SOCIAL_AUTH_TUNNISTAMO_KEY")
+    SOCIAL_AUTH_TUNNISTAMO_AUTH_EXTRA_ARGUMENTS = {"ui_locales": "fi"}
 
 OIDC_API_TOKEN_AUTH = {
     # Audience that must be present in the token for it to be
@@ -463,6 +476,8 @@ HELUSERS_USER_MIGRATE_ENABLED = env.bool("HELUSERS_USER_MIGRATE_ENABLED", True)
 HELUSERS_BACK_CHANNEL_LOGOUT_ENABLED = env.bool(
     "HELUSERS_BACK_CHANNEL_LOGOUT_ENABLED", True
 )
+# A boolean that disables/enables Django admin password login
+HELUSERS_PASSWORD_LOGIN_DISABLED = env.bool("HELUSERS_PASSWORD_LOGIN_DISABLED")
 
 # Load auditlog settings
 from palvelutarjotin.auditlog_settings import *  # noqa: E402, F403
