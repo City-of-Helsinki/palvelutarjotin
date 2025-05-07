@@ -28,6 +28,34 @@ from palvelutarjotin.exceptions import (
 User = get_user_model()
 
 
+class PublicPersonNode(DjangoObjectType):
+    """
+    Public person node used in public API:
+    Unlike the `PersonNode`, access to this node is not restricted
+    by the user permissions.
+
+    This node is used in the public API to get the list of persons
+    and their contact information.
+
+    NOTE: access to this node should not be logged to the auditlog,
+    since it is public information and accessed by anonymous users.
+    """
+
+    class Meta:
+        model = Person
+        fields = ("id", "name", "phone_number", "email_address")
+        # Skip the registry, or this PublicPersonNode
+        # would overlap with the PersonNode, which would then lead to
+        # situations where a wrong node type is used in wrong places.
+        skip_registry = True
+        interfaces = (relay.Node,)
+
+    @classmethod
+    def get_queryset(cls, queryset, info):
+        queryset = queryset.filter(Q(user__isnull=True) | Q(user__is_active=True))
+        return queryset.order_by("name")
+
+
 @auditlog_access  # log access because of personal information
 class PersonNode(DjangoObjectType):
     language = LanguageEnum(required=True)
