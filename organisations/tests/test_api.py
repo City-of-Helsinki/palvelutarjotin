@@ -1,9 +1,11 @@
+import json
 from copy import deepcopy
 
 import pytest
 from django.core import mail
 from django.utils import timezone
 from freezegun import freeze_time
+from graphene_django.utils.testing import Client
 from graphql_relay import to_global_id
 
 from common.tests.utils import assert_match_error_code, assert_permission_denied
@@ -13,7 +15,11 @@ from occurrences.factories import (
     PalvelutarjotinEventFactory,
 )
 from organisations.factories import OrganisationFactory, PersonFactory, UserFactory
-from organisations.models import Organisation, Person
+from organisations.models import (
+    Organisation,
+    Person,
+)
+from organisations.tests.schema import test_schema
 from palvelutarjotin.consts import (
     API_USAGE_ERROR,
     INVALID_EMAIL_FORMAT_ERROR,
@@ -909,3 +915,147 @@ def test_person_study_groups_unauthorized(
         variables={"id": to_global_id("PersonNode", person.id)},
     )
     assert executed["data"]["person"]["studygroupSet"]["edges"] == []
+
+
+@pytest.mark.django_db
+class PublicPersonNodeTests:
+    @pytest.fixture
+    def client(self):
+        return Client(schema=test_schema)
+
+    @pytest.fixture
+    def users(self):
+        active_user = UserFactory(username="active", is_staff=True)
+        inactive_user = UserFactory(username="inactive", is_staff=False)
+        return {"active": active_user, "inactive": inactive_user}
+
+    @pytest.fixture
+    def persons(self, users):
+        public_person1 = Person.objects.create(
+            name="Public Person One",
+            phone_number="111-111-1111",
+            email_address="public1@example.com",
+            user=None,
+        )
+        public_person2 = Person.objects.create(
+            name="Public Person Two",
+            phone_number="222-222-2222",
+            email_address="public2@example.com",
+            user=users["active"],
+        )
+        private_person = Person.objects.create(
+            name="Private Person",
+            phone_number="333-333-3333",
+            email_address="private@example.com",
+            user=users["inactive"],
+        )
+        return {
+            "public1": public_person1,
+            "public2": public_person2,
+            "private": private_person,
+        }
+
+    def _execute_query(self, client, query):
+        response = client.post(
+            "/graphql", json={"query": query}, content_type="application/json"
+        )
+        assert response.status_code == 200
+        content = json.loads(response.content.decode("utf-8"))
+        assert "errors" not in content
+        return content["data"]["allPublicPersonNodes"]["edges"]
+
+    def test_public_person_node_fields(self, client, persons):
+        query = """
+            query {
+                allPublicPersonNodes {
+                    edges {
+                        node {
+                            id
+                            name
+                            phoneNumber
+                            emailAddress
+                        }
+                    }
+                }
+            }
+        """
+        edges = self._execute_query(client, query)
+        assert len(edges) == 2
+        names = {edge["node"]["name"] for edge in edges}
+        assert "Public Person One" in names
+        assert "Public Person Two" in names
+        assert "Private Person" not in names
+        person_one_data = next(
+            edge["node"]
+            for edge in edges
+            if edge["node"]["name"] == "Public Person One"
+        )
+        assert person_one_data["phoneNumber"] == "111-111-1111"
+        assert person_one_data["emailAddress"] == "public1@example.com"
+
+    def test_public_person_node_queryset_filter(self, client, persons):
+        query = """
+            query {
+                allPublicPersonNodes {
+                    edges {
+                        node {
+                            name
+                        }
+                    }
+                }
+            }
+        """
+        edges = self._execute_query(client, query)
+        names = {edge["node"]["name"] for edge in edges}
+        assert "Public Person One" in names
+        assert "Public Person Two" in names
+        assert "Private Person" not in names
+
+    def test_public_person_node_queryset_ordering(self, client, persons):
+        query = """
+            query {
+                allPublicPersonNodes {
+                    edges {
+                        node {
+                            name
+                        }
+                    }
+                }
+            }
+        """
+        edges = self._execute_query(client, query)
+        names_ordered = [edge["node"]["name"] for edge in edges]
+        assert names_ordered == ["Public Person One", "Public Person Two"]
+
+    def test_public_person_node_id_field(self, client, persons):
+        query = """
+            query {
+                allPublicPersonNodes {
+                    edges {
+                        node {
+                            id
+                        }
+                    }
+                }
+            }
+        """
+        edges = self._execute_query(client, query)
+        assert len(edges) == 2
+        for edge in edges:
+            assert edge["node"]["id"] is not None
+
+    def test_public_person_node_relay_interface(self, client, persons):
+        query = """
+            query {
+                allPublicPersonNodes {
+                    edges {
+                        node {
+                            __typename
+                        }
+                    }
+                }
+            }
+        """
+        edges = self._execute_query(client, query)
+        for edge in edges:
+            assert edge["node"]["__typename"] == "PublicPersonNode"
