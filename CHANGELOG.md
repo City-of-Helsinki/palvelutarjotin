@@ -1,6 +1,13 @@
 <!-- REMINDER: While updating changelog, also remember to update
 the version in palvelutarjotin/__init.py__ -->
 
+## [1.21.0](https://github.com/City-of-Helsinki/palvelutarjotin/compare/palvelutarjotin-v1.20.0...palvelutarjotin-v1.21.0) (2025-05-09)
+
+
+### Features
+
+* Migrate to new field to indicate whether User is an event admin ([42c696a](https://github.com/City-of-Helsinki/palvelutarjotin/commit/42c696a3057ce35145b514a6142771eb0ac9074c))
+
 ## [1.20.0](https://github.com/City-of-Helsinki/palvelutarjotin/compare/palvelutarjotin-v1.19.0...palvelutarjotin-v1.20.0) (2025-05-05)
 
 
