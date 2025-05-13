@@ -310,9 +310,11 @@ AUTH_USER_MODEL = "organisations.User"
 # Keycloak parameters. Reference to Tunnistamo is necessary, although
 # the naming convention is primarily historical.
 if SOCIAL_AUTH_TUNNISTAMO_SECRET := env.str("SOCIAL_AUTH_TUNNISTAMO_SECRET"):
-    SOCIAL_AUTH_TUNNISTAMO_OIDC_ENDPOINT = env.str(
-        "SOCIAL_AUTH_TUNNISTAMO_OIDC_ENDPOINT", env.list("TOKEN_AUTH_AUTHSERVER_URL")[0]
-    )
+    oidc_endpoint_env = env.str("SOCIAL_AUTH_TUNNISTAMO_OIDC_ENDPOINT")
+    if oidc_endpoint_env:
+        SOCIAL_AUTH_TUNNISTAMO_OIDC_ENDPOINT = oidc_endpoint_env
+    else:
+        SOCIAL_AUTH_TUNNISTAMO_OIDC_ENDPOINT = env.list("TOKEN_AUTH_AUTHSERVER_URL")[0]
     SOCIAL_AUTH_TUNNISTAMO_KEY = env.str("SOCIAL_AUTH_TUNNISTAMO_KEY")
     SOCIAL_AUTH_TUNNISTAMO_AUTH_EXTRA_ARGUMENTS = {"ui_locales": "fi"}
 
