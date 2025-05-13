@@ -88,6 +88,8 @@ env = environ.Env(
     SOCIAL_AUTH_TUNNISTAMO_KEY=(str, ""),  # empty to ignore it's being unset.
     SOCIAL_AUTH_TUNNISTAMO_OIDC_ENDPOINT=(str, ""),  # empty to ignore it's being unset.
     SOCIAL_AUTH_TUNNISTAMO_SECRET=(str, ""),  # empty to ignore it's being unset.
+    LOGIN_REDIRECT_URL=(str, "/admin/"),
+    LOGOUT_REDIRECT_URL=(str, "/admin/"),
 )
 
 if os.path.exists(env_file):
@@ -296,8 +298,12 @@ AUTHENTICATION_BACKENDS = [
     "django.contrib.auth.backends.ModelBackend",
     "palvelutarjotin.oidc.GraphQLApiTokenAuthentication",
 ]
-LOGIN_REDIRECT_URL = "/"
-LOGOUT_REDIRECT_URL = "/"
+
+# Environment variables required for django-admin Keycloak login:
+# (See https://github.com/City-of-Helsinki/django-helusers/blob/v0.13.0/README.md)
+LOGIN_REDIRECT_URL = env.str("LOGIN_REDIRECT_URL")
+LOGOUT_REDIRECT_URL = env.str("LOGOUT_REDIRECT_URL")
+
 SESSION_SERIALIZER = "django.contrib.sessions.serializers.PickleSerializer"
 AUTH_USER_MODEL = "organisations.User"
 
