@@ -85,6 +85,9 @@ env = environ.Env(
     HELUSERS_BACK_CHANNEL_LOGOUT_ENABLED=(bool, False),
     HELUSERS_USER_MIGRATE_ENABLED=(bool, False),
     HELUSERS_PASSWORD_LOGIN_DISABLED=(bool, True),
+    TOKEN_AUTH_BROWSER_TEST_JWT_256BIT_SIGN_SECRET=(str, ""),
+    TOKEN_AUTH_BROWSER_TEST_JWT_ISSUER=(list, []),
+    TOKEN_AUTH_BROWSER_TEST_ENABLED=(bool, False),
     SOCIAL_AUTH_TUNNISTAMO_KEY=(str, ""),  # empty to ignore it's being unset.
     SOCIAL_AUTH_TUNNISTAMO_OIDC_ENDPOINT=(str, ""),  # empty to ignore it's being unset.
     SOCIAL_AUTH_TUNNISTAMO_SECRET=(str, ""),  # empty to ignore it's being unset.
@@ -294,8 +297,9 @@ CSP_IMG_SRC = [
 
 AUTHENTICATION_BACKENDS = [
     "axes.backends.AxesBackend",
-    "helusers.tunnistamo_oidc.TunnistamoOIDCAuth",
+    "helusers.tunnistamo_oidc.TunnistamoOIDCAuth",  # For django-admin Keycloak login
     "django.contrib.auth.backends.ModelBackend",
+    "palvelutarjotin.oidc.BrowserTestAwareJWTAuthentication",
     "palvelutarjotin.oidc.GraphQLApiTokenAuthentication",
 ]
 
@@ -357,6 +361,16 @@ OIDC_API_TOKEN_AUTH = {
 }
 
 OIDC_AUTH = {"OIDC_LEEWAY": 60 * 60}
+
+OIDC_BROWSER_TEST_API_TOKEN_AUTH = {
+    "ENABLED": env("TOKEN_AUTH_BROWSER_TEST_ENABLED"),
+    "JWT_SIGN_SECRET": env("TOKEN_AUTH_BROWSER_TEST_JWT_256BIT_SIGN_SECRET"),
+    "ISSUER": env("TOKEN_AUTH_BROWSER_TEST_JWT_ISSUER"),
+    "AUDIENCE": env("TOKEN_AUTH_ACCEPTED_AUDIENCE"),
+    "API_SCOPE_PREFIX": env("TOKEN_AUTH_ACCEPTED_SCOPE_PREFIX"),
+    "REQUIRE_API_SCOPE_FOR_AUTHENTICATION": env("TOKEN_AUTH_REQUIRE_SCOPE_PREFIX"),
+    "API_AUTHORIZATION_FIELD": env("TOKEN_AUTH_API_AUTHORIZATION_FIELD"),
+}
 
 SITE_ID = 1
 SITE_URL = env.str("ENVIRONMENT_URL")

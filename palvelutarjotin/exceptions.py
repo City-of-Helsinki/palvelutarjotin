@@ -41,6 +41,10 @@ class AlreadyJoinedEventError(PalvelutarjotinGraphQLError):
     """Study group already enrol in the event"""
 
 
+class AuthenticationExpiredError(PalvelutarjotinGraphQLError):
+    """Authentication expired."""
+
+
 class EnrolmentMaxNeededOccurrenceReached(PalvelutarjotinGraphQLError):
     """Number of enroled occurrences greater than needed occurrences"""
 

@@ -5,10 +5,13 @@ from django.core.exceptions import ObjectDoesNotExist, PermissionDenied
 from graphene_file_upload.django import FileUploadGraphQLView
 from graphql import ExecutionResult
 from graphql_jwt.exceptions import PermissionDenied as JwtPermissionDenied
+from helusers.oidc import AuthenticationError
 
 from palvelutarjotin.consts import (
     ALREADY_JOINED_EVENT_ERROR,
     API_USAGE_ERROR,
+    AUTHENTICATION_ERROR,
+    AUTHENTICATION_EXPIRED_ERROR,
     CAPTCHA_VALIDATION_FAILED_ERROR,
     DATA_VALIDATION_ERROR,
     ENROL_CANCELLED_OCCURRENCE_ERROR,
@@ -33,6 +36,7 @@ from palvelutarjotin.consts import (
 from palvelutarjotin.exceptions import (
     AlreadyJoinedEventError,
     ApiUsageError,
+    AuthenticationExpiredError,
     CaptchaValidationFailedError,
     DataValidationError,
     EnrolCancelledOccurrenceError,
@@ -68,6 +72,8 @@ error_codes_shared = {
 error_codes_palvelutarjotin = {
     MissingDefaultTranslationError: MISSING_DEFAULT_TRANSLATION_ERROR,
     AlreadyJoinedEventError: ALREADY_JOINED_EVENT_ERROR,
+    AuthenticationError: AUTHENTICATION_ERROR,
+    AuthenticationExpiredError: AUTHENTICATION_EXPIRED_ERROR,
     EnrolmentNotEnoughCapacityError: NOT_ENOUGH_CAPACITY_ERROR,
     EnrolmentNotStartedError: ENROLMENT_NOT_STARTED_ERROR,
     EnrolmentClosedError: ENROLMENT_CLOSED_ERROR,
@@ -83,10 +89,13 @@ error_codes_palvelutarjotin = {
     QueueingNotAllowedError: QUEUEING_NOT_ALLOWED_ERROR,
 }
 
+# List of errors that should not be sent to Sentry.
+# NOTE: These are base classes i.e. all subclasses are also ignored
 sentry_ignored_errors = (
-    ObjectDoesNotExist,
-    JwtPermissionDenied,
-    PermissionDenied,
+    PalvelutarjotinGraphQLError,  # Custom GraphQL errors that are not sent to Sentry
+    ObjectDoesNotExist,  # From django.core.exceptions
+    PermissionDenied,  # From django.core.exceptions
+    JwtPermissionDenied,  # From graphql_jwt.exceptions
 )
 
 error_codes = {**error_codes_shared, **error_codes_palvelutarjotin}
@@ -103,7 +112,7 @@ class SentryGraphQLView(FileUploadGraphQLView):
                 e
                 for e in result.errors
                 if not isinstance(
-                    getattr(e, "original_error", None), PalvelutarjotinGraphQLError
+                    getattr(e, "original_error", None), sentry_ignored_errors
                 )
             ]
             if errors:
@@ -111,12 +120,12 @@ class SentryGraphQLView(FileUploadGraphQLView):
         return result
 
     def _capture_sentry_exceptions(self, errors, query):
-        with sentry_sdk.configure_scope() as scope:
-            scope.set_extra("graphql_query", query)
-            for error in errors:
-                if hasattr(error, "original_error"):
-                    error = error.original_error
-                sentry_sdk.capture_exception(error)
+        scope = sentry_sdk.get_current_scope()
+        scope.set_extra("graphql_query", query)
+        for error in errors:
+            if hasattr(error, "original_error"):
+                error = error.original_error
+            sentry_sdk.capture_exception(error)
 
     @staticmethod
     def format_error(error):
