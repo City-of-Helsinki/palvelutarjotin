@@ -51,7 +51,7 @@ from occurrences.schema_services import (
 )
 from organisations.decorators import event_staff_member_required
 from organisations.models import Organisation
-from organisations.schema import PersonNodeInput
+from organisations.schema import PersonNodeInput, PublicPersonNode
 from palvelutarjotin.exceptions import (
     AlreadyJoinedEventError,
     ApiUsageError,
@@ -193,6 +193,7 @@ class PalvelutarjotinEventNode(DjangoObjectType):
         "ACCEPT-LANGUAGE header "
     )
     translations = graphene.List(PalvelutarjotinEventTranslationType)
+    contact_person = graphene.Field(PublicPersonNode)
 
     class Meta:
         model = PalvelutarjotinEvent
