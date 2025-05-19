@@ -1,6 +1,20 @@
 <!-- REMINDER: While updating changelog, also remember to update
 the version in palvelutarjotin/__init.py__ -->
 
+## [1.21.0](https://github.com/City-of-Helsinki/palvelutarjotin/compare/palvelutarjotin-v1.20.0...palvelutarjotin-v1.21.0) (2025-05-19)
+
+
+### Features
+
+* Authenticate symm. signed JWT with shared secret for browser tests ([465c4f4](https://github.com/City-of-Helsinki/palvelutarjotin/commit/465c4f4a67e3e9692989179a3d7fafd62be1e371))
+* Migrate to new field to indicate whether User is an event admin ([42c696a](https://github.com/City-of-Helsinki/palvelutarjotin/commit/42c696a3057ce35145b514a6142771eb0ac9074c))
+
+
+### Bug Fixes
+
+* Admin keycloak logout url ([412b9a7](https://github.com/City-of-Helsinki/palvelutarjotin/commit/412b9a71844b2fc90ef3470ea5ebce9eb3b8a914))
+* Default oidc endpoint configuration ([554bbf0](https://github.com/City-of-Helsinki/palvelutarjotin/commit/554bbf0b96fc26c10f88ed014b6b0ceb57c74f07))
+
 ## [1.20.0](https://github.com/City-of-Helsinki/palvelutarjotin/compare/palvelutarjotin-v1.19.0...palvelutarjotin-v1.20.0) (2025-05-05)
 
 
