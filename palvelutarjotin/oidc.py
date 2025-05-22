@@ -2,8 +2,10 @@ import logging
 from typing import Optional
 
 from django.conf import settings
+from django.contrib.auth import get_user_model
 from django.contrib.auth.models import update_last_login
 from django.core.exceptions import ImproperlyConfigured
+from django.db import transaction
 from django.utils import timezone
 from helusers.authz import UserAuthorization
 from helusers.jwt import JWT, ValidationError
@@ -13,14 +15,17 @@ from helusers.oidc import (
     RequestJWTAuthentication,
 )
 from helusers.settings import api_token_auth_settings
-from helusers.user_utils import get_or_create_user
+from helusers.user_utils import get_or_create_user as helusers_get_or_create_user
 from jose import ExpiredSignatureError
 from jose import jwt as jose_jwt
 
+from organisations.models import Organisation, Person
 from palvelutarjotin.exceptions import AuthenticationExpiredError
 from palvelutarjotin.tests.utils.jwt_utils import is_valid_256_bit_key
 
 logger = logging.getLogger(__name__)
+
+User = get_user_model()
 
 
 class ApiTokenAuthSettings:
@@ -37,7 +42,30 @@ class BrowserTestAwareJWTAuthentication(RequestJWTAuthentication):
         }
         self._api_token_auth_settings = ApiTokenAuthSettings(**combined_settings)
         self.algorithms = ["HS256"]
-
+        # Data used to create organisations for browser tests.
+        self.browser_test_organisations = [
+            # "Culture and Leisure Division" provider organisation,
+            # see https://api.hel.fi/linkedevents/v1/organization/ahjo:u480400/
+            {
+                "name": "Kulttuurin ja vapaa-ajan toimiala",
+                "type": "provider",
+                "publisher_id": "ahjo:u480400",
+            },
+            # "Cultural Services" provider organisation,
+            # see https://api.hel.fi/linkedevents/v1/organization/ahjo:u48040010/
+            {
+                "name": "Kulttuuripalvelukokonaisuus",
+                "type": "provider",
+                "publisher_id": "ahjo:u48040010",
+            },
+            # "Kultus" user organisation,
+            # see https://api.hel.fi/linkedevents/v1/organization/kultus:0/
+            {
+                "name": "Kultus",
+                "type": "user",
+                "publisher_id": "kultus:0",
+            },
+        ]
         if self._api_token_auth_settings.ENABLED:
             if not self._api_token_auth_settings.ISSUER:
                 raise ImproperlyConfigured(
@@ -118,6 +146,43 @@ class BrowserTestAwareJWTAuthentication(RequestJWTAuthentication):
     def is_browser_testing_jwt_enabled(self) -> bool:
         return self._api_token_auth_settings.ENABLED
 
+    @transaction.atomic
+    def _get_or_create_event_staff_user_and_person(self, claims) -> tuple[User, Person]:
+        """
+        Get/create an event staff user and person using the given JWT claims.
+
+        The person is linked to the user and will have name and email address
+        from the JWT claims, all browser test organisations, and an unusable password.
+        """
+        # Create event staff user
+        user = helusers_get_or_create_user(claims, oidc=True)
+        user.is_staff = user.is_superuser = False
+        user.is_event_staff = True
+        user.set_unusable_password()
+        user.save()
+        user.refresh_from_db()
+
+        # Link person to the event staff user
+        # and add browser test organisations to the person
+        person_name = claims.get("given_name") or user.get_full_name()
+        person_email = claims.get("email") or user.email
+        person, _ = Person.objects.get_or_create(
+            user=user,
+            defaults={"name": person_name, "email_address": person_email},
+        )
+        person.name = person_name
+        person.email_address = person_email
+        person.organisations.clear()
+        for org_data in self.browser_test_organisations:
+            org, created = Organisation.objects.get_or_create(**org_data)
+            if created:
+                logger.info(f"Organisation '{org.name}' created for browser tests")
+            person.organisations.add(org)
+        person.save()
+        person.refresh_from_db()
+
+        return user, person
+
     def authenticate_test_user(self, jwt: JWT) -> UserAuthorization:
         """Authenticates a user with a JWT issued for browser testing.
 
@@ -129,11 +194,15 @@ class BrowserTestAwareJWTAuthentication(RequestJWTAuthentication):
         logger.debug(
             "The symmetrically signed JWT was valid.", extra={"jwt_claims": jwt.claims}
         )
-        user = get_or_create_user(jwt.claims, oidc=True)
+        user, person = self._get_or_create_event_staff_user_and_person(jwt.claims)
         logger.debug(
-            "User authenticated: %s",
+            "User %s with linked person %s authenticated.",
             user,
-            extra={"user": getattr(user, "__dict__", str(user))},
+            person,
+            extra={
+                "user": getattr(user, "__dict__", str(user)),
+                "person": getattr(person, "__dict__", str(person)),
+            },
         )
         return UserAuthorization(user, jwt.claims)
 
