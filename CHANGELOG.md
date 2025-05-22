@@ -1,6 +1,13 @@
 <!-- REMINDER: While updating changelog, also remember to update
 the version in palvelutarjotin/__init.py__ -->
 
+## [1.22.0](https://github.com/City-of-Helsinki/palvelutarjotin/compare/palvelutarjotin-v1.21.0...palvelutarjotin-v1.22.0) (2025-05-22)
+
+
+### Features
+
+* **browsertest:** Authenticate user as event staff with organisations ([37b633c](https://github.com/City-of-Helsinki/palvelutarjotin/commit/37b633c2c304f98fbd1d2958c5151bc2f9904013))
+
 ## [1.21.0](https://github.com/City-of-Helsinki/palvelutarjotin/compare/palvelutarjotin-v1.20.0...palvelutarjotin-v1.21.0) (2025-05-19)
 
 
