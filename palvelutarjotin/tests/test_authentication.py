@@ -15,7 +15,7 @@ from helusers.oidc import AuthenticationError
 from jose import ExpiredSignatureError, JWTError
 
 from common.tests.utils import assert_match_error_code, assert_permission_denied
-from organisations.factories import PersonFactory
+from organisations.factories import PersonFactory, UserFactory
 from palvelutarjotin.consts import (
     AUTHENTICATION_ERROR,
     AUTHENTICATION_EXPIRED_ERROR,
@@ -118,33 +118,99 @@ def test_browser_test_authentication_using_live_server(
     live_server, get_browser_test_bearer_token_for_user
 ):
     """The test JWT should be valid for authentication."""
-    person = PersonFactory(email_address="jane.doe@example.com")
+    person = PersonFactory(
+        email_address="email_from_person@example.org",
+        user=UserFactory(email="email_from_user@example.org"),
+    )
     response = graphql_request(
         live_server,
         headers={"authorization": get_browser_test_bearer_token_for_user(person.user)},
     )
     json = response.json()
-    assert json["data"]["myProfile"]["emailAddress"] == "jane.doe@example.com"
+    assert json["data"]["myProfile"]["emailAddress"] == "email_from_user@example.org"
 
 
-@patch("palvelutarjotin.oidc.get_or_create_user")
+@patch("palvelutarjotin.oidc.helusers_get_or_create_user")
 @patch(
     "palvelutarjotin.oidc.BrowserTestAwareJWTAuthentication._validate_symmetrically_signed_jwt"
 )
 @pytest.mark.django_db()
-def test_authenticate_test_user(mock_validate_jwt, mock_get_or_create_user):
-    """The test JWT validation should be called when a test token is used."""
-    jwt_claims = {
-        "iss": "test_issuer",
-        "sub": "test_user_id",
-    }
+def test_authenticate_test_user_calls_validate_jwt(
+    mock_validate_jwt, mock_helusers_get_or_create_user
+):
+    """
+    The test JWT validation should be called when a test token is used.
+    """
+    jwt_claims = {"iss": "test_issuer", "sub": "test_user_id"}
     jwt = Mock(spec=JWT, claims=jwt_claims)
-    mock_get_or_create_user.return_value = "test_user"
+    test_user = UserFactory()
+    mock_helusers_get_or_create_user.return_value = test_user
     auth = BrowserTestAwareJWTAuthentication()
     result = auth.authenticate_test_user(jwt)
     assert isinstance(result, UserAuthorization)
-    assert result.user == "test_user"
+    assert result.user == test_user
     mock_validate_jwt.assert_called_once_with(jwt)
+
+
+@patch("palvelutarjotin.oidc.helusers_get_or_create_user")
+@patch(
+    "palvelutarjotin.oidc.BrowserTestAwareJWTAuthentication._validate_symmetrically_signed_jwt"
+)
+@pytest.mark.django_db()
+def test_authenticate_test_user_result(
+    mock_validate_jwt, mock_helusers_get_or_create_user
+):
+    """
+    User & person should be set up correctly after successful test JWT authentication.
+    """
+    jwt_claims = {
+        "iss": "test_issuer",
+        "sub": "test_user_id",
+        "email": "email_from_jwt_claim@example.org",
+        "given_name": "Given name in JWT claim",
+        "family_name": "Family name in JWT claim",
+    }
+    jwt = Mock(spec=JWT, claims=jwt_claims)
+    test_user = UserFactory(
+        first_name="User first name",
+        last_name="User last name",
+        email="email_from_user@example.org",
+    )
+    mock_helusers_get_or_create_user.return_value = test_user
+    auth = BrowserTestAwareJWTAuthentication()
+    result = auth.authenticate_test_user(jwt)
+    assert isinstance(result, UserAuthorization)
+    assert result.user == test_user
+    assert result.user.first_name == "User first name"
+    assert result.user.last_name == "User last name"
+    assert result.user.email == "email_from_user@example.org"
+    assert result.user.is_active is True
+    assert result.user.is_staff is False
+    assert result.user.is_event_staff is True
+    assert result.user.is_superuser is False
+    mock_validate_jwt.assert_called_once_with(jwt)
+    assert result.user.person is not None
+    assert result.user.person.name == "Given name in JWT claim"
+    assert result.user.person.email_address == "email_from_jwt_claim@example.org"
+
+    # Organisations linked to the person should be
+    # exactly the ones intended for browser testing
+    assert result.user.person.organisations.count() == 3
+    org1, org2, org3 = sorted(
+        result.user.person.organisations.all(), key=lambda org: org.name
+    )
+
+    assert org1.name == "Kulttuurin ja vapaa-ajan toimiala"
+    assert org1.type == "provider"
+    assert org1.publisher_id == "ahjo:u480400"
+
+    assert org2.name == "Kulttuuripalvelukokonaisuus"
+    assert org2.type == "provider"
+    assert org2.publisher_id == "ahjo:u48040010"
+
+    assert org3.name == "Kultus"
+    assert org3.type == "user"
+    assert org3.publisher_id == "kultus:0"
 
 
 def test_get_auth_header_jwt_valid(request_factory):
