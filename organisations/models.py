@@ -266,7 +266,7 @@ class Organisation(GDPRModel, SerializableMixin, models.Model):
         (TYPE_USER, _("User")),
         (TYPE_PROVIDER, _("Provider")),
     )
-    name = models.CharField(max_length=255, verbose_name=_("name"))
+    name = models.CharField(max_length=255, verbose_name=_("name"), db_index=True)
     phone_number = models.CharField(
         verbose_name=_("phone number"), max_length=64, blank=True
     )
@@ -276,7 +276,9 @@ class Organisation(GDPRModel, SerializableMixin, models.Model):
     persons = models.ManyToManyField(
         "Person", verbose_name=_("persons"), related_name="organisations", blank=True
     )
-    publisher_id = models.CharField(max_length=255, verbose_name=_("publisher id"))
+    publisher_id = models.CharField(
+        max_length=255, verbose_name=_("publisher id"), db_index=True
+    )
 
     objects = SerializableMixin.SerializableManager()
 
@@ -298,6 +300,9 @@ class Organisation(GDPRModel, SerializableMixin, models.Model):
                 name="publisher_id_neq_empty_or_whitespace_only_string",
             )
         ]
+        # Ordering by name is the major use case, but ordering by other
+        # secondary fields to make sort order more predictable.
+        ordering = ["name", "publisher_id", "id"]
 
     def __str__(self):
         return f"{self.name} ({self.id})"
