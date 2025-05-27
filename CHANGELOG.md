@@ -1,6 +1,19 @@
 <!-- REMINDER: While updating changelog, also remember to update
 the version in palvelutarjotin/__init.py__ -->
 
+## [1.22.0](https://github.com/City-of-Helsinki/palvelutarjotin/compare/palvelutarjotin-v1.21.0...palvelutarjotin-v1.22.0) (2025-05-27)
+
+
+### Features
+
+* **browsertest:** Authenticate user as event staff with organisations ([37b633c](https://github.com/City-of-Helsinki/palvelutarjotin/commit/37b633c2c304f98fbd1d2958c5151bc2f9904013))
+* **organisation:** Make order predictable, index name & publisher_id ([5532d74](https://github.com/City-of-Helsinki/palvelutarjotin/commit/5532d74830394a95ca90ebefa604743ccf06309f))
+
+
+### Dependencies
+
+* Bump django from 4.2.20 to 4.2.21 ([d1e48f5](https://github.com/City-of-Helsinki/palvelutarjotin/commit/d1e48f5faa79a81a5f27e301a7ba21849581ec26))
+
 ## [1.21.0](https://github.com/City-of-Helsinki/palvelutarjotin/compare/palvelutarjotin-v1.20.0...palvelutarjotin-v1.21.0) (2025-05-19)
 
 
