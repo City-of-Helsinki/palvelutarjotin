@@ -1,6 +1,18 @@
 <!-- REMINDER: While updating changelog, also remember to update
 the version in palvelutarjotin/__init.py__ -->
 
+## [1.22.1](https://github.com/City-of-Helsinki/palvelutarjotin/compare/palvelutarjotin-v1.22.0...palvelutarjotin-v1.22.1) (2025-05-28)
+
+
+### Bug Fixes
+
+* Add is_event_admin column to user admin list ([80e9f26](https://github.com/City-of-Helsinki/palvelutarjotin/commit/80e9f26097825fee03012e2a74e02e0398eeb705))
+
+
+### Documentation
+
+* Add gruppo to architecture README ([464197b](https://github.com/City-of-Helsinki/palvelutarjotin/commit/464197b07b23986387cbcf109bf45a8d13bc0d82))
+
 ## [1.22.0](https://github.com/City-of-Helsinki/palvelutarjotin/compare/palvelutarjotin-v1.21.0...palvelutarjotin-v1.22.0) (2025-05-27)
 
 
