@@ -71,11 +71,13 @@ The Kultus service consists of:
 - **PowerBI:** Data visualization.
 - **[Digia Iiris](https://iirishelp.digia.com/):** Web analytics (a [Matomo](https://matomo.org/) service).
 - **[Sentry](https://sentry.io/):** A monitoring service.
+- **[Gruppo](https://www.gruppo.fi/):** Email newsletter service (https://api.createsend.com/api/v3.2/).
 
 ```mermaid
 flowchart LR
  subgraph ExternalServices["Third party services"]
     direction LR
+        Gruppo["Gruppo"]
         Matomo["Matomo"]
         Sentry["Sentry"]
         Mailer["Mailer"]
@@ -118,6 +120,7 @@ flowchart LR
     KultusUI -- Getches divisions from --> UnifiedSearch
     KultusUI -. Tracks usage via .-> Matomo
     KultusUI -. Reports errors to .-> Sentry
+    KultusUI -. Subscribe to newsletter .-> Gruppo
     KultusAdminUI == Depends on ==> KultusAPI
     KultusAdminUI -- Authenticates with --> Keycloak
     KultusAdminUI == Uses content from ==> HeadlessCMS
