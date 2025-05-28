@@ -322,11 +322,17 @@ class UserAdmin(AuditlogAdminViewAccessLogMixin, DjangoUserAdmin):
             },
         ),
     )
-    list_display = DjangoUserAdmin.list_display + (
+    list_display = (
+        "username",
+        "email",
+        "first_name",
+        "last_name",
+        "is_event_staff",
+        "is_staff",
+        "has_person",
+        "uuid",
         "date_joined",
         "last_login",
-        "uuid",
-        "has_person",
     )
     list_filter = (
         "date_joined",
