@@ -5,6 +5,7 @@ trigger:
   branches:
     include:
       - master
+      - main
   paths:
     exclude:
     - '*release-please*'
@@ -47,6 +48,3 @@ extends:
     #   DEBUG: 1
     # configMap: # pod environment variables
     #   DEBUG: 1
-    ## Default value to pythonVersion is set on template.
-    ## Used tool version
-    # pythonVersion: 3.11
