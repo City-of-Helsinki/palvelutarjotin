@@ -14,5 +14,3 @@ jobs:
     with:
       python-version: 3.12
       postgres-major-version: 13
-      extra-commands: |
-        echo 'SECRET_KEY=topsecret123' >> .env
