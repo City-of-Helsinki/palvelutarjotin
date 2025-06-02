@@ -1,0 +1,18 @@
+name: CI
+
+on:
+  push:
+    branches: [main, master]
+  pull_request:
+    branches: [main, master]
+  workflow_dispatch:
+
+jobs:
+  common:
+    uses: City-of-Helsinki/.github/.github/workflows/ci-django-api.yml@main
+    secrets: inherit
+    with:
+      python-version: 3.12
+      postgres-major-version: 13
+      extra-commands: |
+        echo 'SECRET_KEY=topsecret123' >> .env
