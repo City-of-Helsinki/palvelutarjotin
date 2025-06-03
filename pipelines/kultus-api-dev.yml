@@ -34,18 +34,9 @@ resources:
     # Azure DevOps repository
     - repository: kultus-pipelines
       type: git
-      ref: refs/heads/ansible_automation_update
       # Azure DevOps project/repository
       name: kultus/kultus-pipelines
 
 extends:
   # Filename in Azure DevOps Repository
   template: components/kultus-api/pipelines/kultus-api-dev.yml@kultus-pipelines
-  # parameters:
-    # Application build arguments and config map values as key value pairs.
-    # Does not contain all buildArguments or configMap values, the rest located in kultus-pipelines
-    # The values here will override the values defined in the kultus-pipelines repository
-    # buildArgs:
-    #   DEBUG: 1
-    # configMap: # pod environment variables
-    #   DEBUG: 1
