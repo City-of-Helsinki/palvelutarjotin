@@ -45,3 +45,4 @@ resources:
 extends:
   # Filename in Azure DevOps Repository
   template: components/kultus-api/pipelines/kultus-api-review.yml@kultus-pipelines
+
