@@ -1,6 +1,18 @@
 <!-- REMINDER: While updating changelog, also remember to update
 the version in palvelutarjotin/__init.py__ -->
 
+## [1.23.0](https://github.com/City-of-Helsinki/palvelutarjotin/compare/palvelutarjotin-v1.22.1...palvelutarjotin-v1.23.0) (2025-06-05)
+
+
+### Features
+
+* Remove persons with cronjob when retention period has exceeded ([d211e7f](https://github.com/City-of-Helsinki/palvelutarjotin/commit/d211e7fc841188194d2a03896c1f127b4720e28c))
+
+
+### Bug Fixes
+
+* Csp rules for notification importers preview view ([3c81303](https://github.com/City-of-Helsinki/palvelutarjotin/commit/3c81303d756c096127e5958bdf7ab3d917be3ac2))
+
 ## [1.22.1](https://github.com/City-of-Helsinki/palvelutarjotin/compare/palvelutarjotin-v1.22.0...palvelutarjotin-v1.22.1) (2025-05-28)
 
 
