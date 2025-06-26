@@ -6,3 +6,5 @@
 #
 uwsgi==2.0.28
     # via -r requirements-prod.in
+uwsgitop==0.12
+    # via -r requirements-prod.in
