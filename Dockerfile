@@ -18,7 +18,9 @@ RUN yum update -y && yum install -y \
     nc \
     && pip install -U pip \
     && pip install --no-cache-dir -r /app/requirements.txt \
-    && pip install --no-cache-dir  -r /app/requirements-prod.txt
+    && pip install --no-cache-dir  -r /app/requirements-prod.txt \
+    && uwsgi --build-plugin https://github.com/City-of-Helsinki/uwsgi-sentry \
+    && yum clean all
 
 # fatal: detected dubious ownership in repository at '/app'
 RUN git config --system --add safe.directory /app
