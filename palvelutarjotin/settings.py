@@ -49,7 +49,7 @@ env = environ.Env(
     SENTRY_ENVIRONMENT=(str, ""),
     CORS_ALLOWED_ORIGINS=(list, []),
     CORS_ALLOWED_ORIGIN_REGEXES=(list, []),
-    CORS_ORIGIN_ALLOW_ALL=(bool, False),
+    CORS_ALLOW_ALL_ORIGINS=(bool, False),
     TOKEN_AUTH_ACCEPTED_SCOPE_PREFIX=(str, ""),
     TOKEN_AUTH_REQUIRE_SCOPE_PREFIX=(bool, False),
     TOKEN_AUTH_ACCEPTED_AUDIENCE=(list, ["kultus-api-dev"]),
@@ -268,8 +268,7 @@ SPECTACULAR_SETTINGS = {
 
 CORS_ALLOWED_ORIGINS = env.list("CORS_ALLOWED_ORIGINS")
 CORS_ALLOWED_ORIGIN_REGEXES = env.list("CORS_ALLOWED_ORIGIN_REGEXES")
-CORS_ORIGIN_ALLOW_ALL = env.bool("CORS_ORIGIN_ALLOW_ALL")
-
+CORS_ALLOW_ALL_ORIGINS = env.bool("CORS_ALLOW_ALL_ORIGINS")
 
 # Configure the default CSP rule for different source types
 CSP_DEFAULT_SRC = [CSP.SELF]
