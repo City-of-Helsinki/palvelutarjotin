@@ -1,5 +1,4 @@
 import os
-import subprocess
 import tempfile
 from datetime import datetime
 from pathlib import Path
@@ -10,6 +9,7 @@ from django.core.exceptions import ImproperlyConfigured
 from django.utils.translation import gettext_lazy as _
 from sentry_sdk.integrations.django import DjangoIntegration
 
+from palvelutarjotin import __version__
 from palvelutarjotin.consts import CSP
 
 checkout_dir = environ.Path(__file__) - 2
@@ -94,6 +94,7 @@ env = environ.Env(
     SOCIAL_AUTH_TUNNISTAMO_SECRET=(str, ""),  # empty to ignore it's being unset.
     LOGIN_REDIRECT_URL=(str, "/admin/"),
     LOGOUT_REDIRECT_URL=(str, "/admin/"),
+    OPENSHIFT_BUILD_COMMIT=(str, ""),
 )
 
 if os.path.exists(env_file):
@@ -158,14 +159,11 @@ ILMOITIN_TRANSLATED_FROM_EMAIL = env("ILMOITIN_TRANSLATED_FROM_EMAIL")
 ILMOITIN_QUEUE_NOTIFICATIONS = env("ILMOITIN_QUEUE_NOTIFICATIONS")
 TRANSLATED_SMS_SENDER = env("TRANSLATED_SMS_SENDER")
 
-try:
-    COMMIT_HASH = subprocess.check_output(["git", "rev-parse", "HEAD"]).strip()
-except Exception:
-    COMMIT_HASH = b"n/a"
-
+COMMIT_HASH = env("OPENSHIFT_BUILD_COMMIT")
+VERSION = __version__
 sentry_sdk.init(
     dsn=env.str("SENTRY_DSN"),
-    release=COMMIT_HASH,
+    release=env.str("OPENSHIFT_BUILD_COMMIT", VERSION),
     environment=env("SENTRY_ENVIRONMENT"),
     integrations=[DjangoIntegration()],
 )
