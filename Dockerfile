@@ -22,9 +22,6 @@ RUN yum update -y && yum install -y \
     && uwsgi --build-plugin https://github.com/City-of-Helsinki/uwsgi-sentry \
     && yum clean all
 
-# fatal: detected dubious ownership in repository at '/app'
-RUN git config --system --add safe.directory /app
-
 COPY --chown=root:root --chmod=755 docker-entrypoint.sh /entrypoint/docker-entrypoint.sh
 ENTRYPOINT ["/entrypoint/docker-entrypoint.sh"]
 

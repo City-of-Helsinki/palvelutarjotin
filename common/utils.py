@@ -86,7 +86,7 @@ def update_object_with_translations(model, model_data):
 
 
 def get_api_version():
-    return " | ".join((__version__, settings.COMMIT_HASH.decode("utf-8")))
+    return " | ".join((__version__, settings.COMMIT_HASH))
 
 
 def get_node_id_from_global_id(global_id, node_name):
