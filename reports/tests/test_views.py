@@ -396,8 +396,8 @@ class PersonsCsvViewTest(TestCase):
         PERSONS_BATCH_COUNT = 2
         person_1, person_2 = PersonFactory.create_batch(PERSONS_BATCH_COUNT)
 
-        admin_user = UserFactory(is_staff=True)
-        user = UserFactory(is_staff=False)
+        admin_user = UserFactory(is_event_staff=True)
+        user = UserFactory(is_event_staff=False)
 
         user_api_client = APIClient()
         user_api_client.force_authenticate(user=user)
@@ -427,7 +427,7 @@ class PersonsCsvViewTest(TestCase):
         self,
     ):
         PERSON_BATCH_COUNT = 2
-        admin_user = UserFactory(is_staff=True)
+        admin_user = UserFactory(is_event_staff=True)
         PersonFactory.create_batch(
             PERSON_BATCH_COUNT,
         )
@@ -458,8 +458,8 @@ class OrganisationPersonsCsvViewTest(TestCase):
         person_1 = PersonFactory.create(organisations=[org1])
         person_2 = PersonFactory.create(organisations=[org2])
 
-        admin_user = UserFactory(is_staff=True)
-        user = UserFactory(is_staff=False)
+        admin_user = UserFactory(is_event_staff=True)
+        user = UserFactory(is_event_staff=False)
 
         user_api_client = APIClient()
         user_api_client.force_authenticate(user=user)
@@ -536,8 +536,8 @@ class PalvelutarjotinEventEnrolmentsTest(TestCase):
                 study_group=StudyGroupFactory(group_size=2, amount_of_adult=1),
             )
 
-        admin_user = UserFactory(is_staff=True)
-        user = UserFactory(is_staff=False)
+        admin_user = UserFactory(is_event_staff=True)
+        user = UserFactory(is_event_staff=False)
 
         user_api_client = APIClient()
         user_api_client.force_authenticate(user=user)
