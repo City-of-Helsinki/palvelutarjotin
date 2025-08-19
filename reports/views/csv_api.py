@@ -12,7 +12,7 @@ from drf_spectacular.types import OpenApiTypes
 from drf_spectacular.utils import extend_schema, OpenApiExample, OpenApiResponse
 from rest_framework import generics
 from rest_framework.authentication import SessionAuthentication
-from rest_framework.permissions import IsAdminUser
+from rest_framework.permissions import BasePermission
 
 from common.utils import (
     get_client_ip,
@@ -33,6 +33,15 @@ from reports.views.mixins import (
 logger = logging.getLogger(__name__)
 
 
+class IsEventAdminUser(BasePermission):
+    """
+    Allows access only to event admin users.
+    """
+
+    def has_permission(self, request, view):
+        return bool(request.user and request.user.is_event_staff)
+
+
 class ExportReportCsvView(ExportReportViewMixin, generics.GenericAPIView):
     """
     A generic API view that provides functionality to export model data as a CSV file.
@@ -49,7 +58,7 @@ class ExportReportCsvView(ExportReportViewMixin, generics.GenericAPIView):
     model = None
     serializer_class = None
     authentication_classes = [KultusApiTokenAuthentication, SessionAuthentication]
-    permission_classes = [IsAdminUser]
+    permission_classes = [IsEventAdminUser]
     csv_dialect = csv.excel
     csv_delimiter = ";"
 
