@@ -1038,7 +1038,10 @@ class Enrolment(GDPRModel, SerializableMixin, EnrolmentBase):
         self.save()
 
     def get_contact_people(self) -> List[Person]:
-        contact_people = [self.person]
+        if self.person is None:
+            contact_people = []
+        else:
+            contact_people = [self.person]
         if self.person != self.study_group.person:
             contact_people.append(self.study_group.person)
         return contact_people
