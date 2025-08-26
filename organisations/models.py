@@ -8,7 +8,7 @@ from django.contrib.auth import get_user_model
 from django.contrib.auth.models import UserManager
 from django.contrib.postgres.fields import ArrayField
 from django.db import models, router, transaction
-from django.db.models import Max, Q
+from django.db.models import Q
 from django.db.models.deletion import Collector
 from django.utils import timezone
 from django.utils.translation import gettext_lazy as _
@@ -37,27 +37,34 @@ class PersonQuerySet(models.QuerySet):
             return self.none()
 
     def retention_period_exceeded(self):
+        """
+        Return queryset of Person objects whose personal data
+        retention period has exceeded.
+
+        This excludes:
+        - Persons with a user account
+        - Persons with any valid (recent) enrolments
+        """
         earliest_valid_timestamp = timezone.now() - relativedelta(
             months=settings.PERSONAL_DATA_RETENTION_PERIOD_MONTHS
         )
 
-        all_enrolments_too_old = Q(max_enrolment_end_time=None) | Q(
-            max_enrolment_end_time__lt=earliest_valid_timestamp
-        )
-        all_study_groups_too_old = Q(max_studygroup_end_time=None) | Q(
-            max_studygroup_end_time__lt=earliest_valid_timestamp
-        )
-
+        # Return persons who:
+        # 1. Don't have a user account
+        # 2. Don't have any valid enrolments (either as person or study group contact)
+        # 3. Don't have any valid event queue enrolments
         return (
-            # At least for now returns only unauthenticated Person's
-            self.filter(user=None)
-            .annotate(
-                max_enrolment_end_time=Max("enrolment__occurrence__end_time"),
-                max_studygroup_end_time=Max(
-                    "studygroup__enrolments__occurrence__end_time"
-                ),
+            self.exclude(user__isnull=False)
+            .exclude(enrolment__occurrence__end_time__gt=earliest_valid_timestamp)
+            .exclude(
+                studygroup__enrolments__occurrence__end_time__gt=earliest_valid_timestamp
             )
-            .filter(all_enrolments_too_old & all_study_groups_too_old)
+            .exclude(
+                studygroup__queued_enrolments__p_event__occurrences__end_time__gt=earliest_valid_timestamp
+            )
+            .exclude(
+                eventqueueenrolment__p_event__occurrences__end_time__gt=earliest_valid_timestamp
+            )
         )
 
     @transaction.atomic
