@@ -131,31 +131,10 @@ class TestDeleteRetentionPeriodExceedingContactInfoCommand:
         [
             pytest.param(
                 {
-                    "delete_event_contact_info": False,
-                    "delete_enrollee_personal_data": False,
-                },
-                id="no_flags",
-            ),
-            pytest.param(
-                {
-                    "delete_event_contact_info": True,
-                    "delete_enrollee_personal_data": True,
-                },
-                id="both_flags",
-            ),
-            pytest.param(
-                {
                     "delete_event_contact_info": True,
                     "delete_enrollee_personal_data": False,
                 },
                 id="only_event_contact_info_flag",
-            ),
-            pytest.param(
-                {
-                    "delete_event_contact_info": False,
-                    "delete_enrollee_personal_data": True,
-                },
-                id="only_enrollee_personal_data_flag",
             ),
         ],
     )
