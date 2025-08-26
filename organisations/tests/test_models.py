@@ -4,7 +4,12 @@ from django.contrib.auth import get_user_model
 from django.db import IntegrityError
 from django.utils import timezone
 
-from occurrences.factories import EnrolmentFactory, PalvelutarjotinEventFactory
+from occurrences.factories import (
+    EnrolmentFactory,
+    EventQueueEnrolmentFactory,
+    OccurrenceFactory,
+    PalvelutarjotinEventFactory,
+)
 from organisations.factories import (
     OrganisationFactory,
     OrganisationProposalFactory,
@@ -205,6 +210,84 @@ def test_too_old_personal_data(mock_get_event_data):
         occurrence__end_time=still_valid,
     )
 
+    results = Person.objects.retention_period_exceeded()
+    assert len(results) == len(expected_people)
+    assert all(person in results for person in expected_people)
+
+
+@pytest.mark.django_db
+def test_old_personal_data_deletion_with_valid_enrolments(mock_get_event_data):
+    too_old = timezone.now() - relativedelta(months=24, days=1)
+    still_valid = timezone.now() - relativedelta(days=1)
+
+    (
+        enrolment_person,
+        study_group_person,
+        enrolment_and_study_group_person,
+        no_enrolment_or_study_group_person,
+        event_queue_enrolment_person,
+        event_queue_study_group_person,
+    ) = PersonFactory.create_batch(6, user=None)
+
+    # too old enrolment for the enrolment person
+    EnrolmentFactory(person=enrolment_person, occurrence__end_time=too_old)
+
+    # too old enrolment for the study group person
+    EnrolmentFactory(
+        study_group__person=study_group_person, occurrence__end_time=too_old
+    )
+
+    # too old enrolment for the enrolment and study group person
+    EnrolmentFactory(
+        person=enrolment_and_study_group_person,
+        study_group__person=enrolment_and_study_group_person,
+        occurrence__end_time=too_old,
+    )
+
+    too_old_p_event = PalvelutarjotinEventFactory()
+    OccurrenceFactory(end_time=too_old, p_event=too_old_p_event)
+
+    # too old event queue enrolment for the event queue enrolment person
+    EventQueueEnrolmentFactory(
+        person=event_queue_enrolment_person, p_event=too_old_p_event
+    )
+    # too old event queue enrolment for the event queue study group person
+    EventQueueEnrolmentFactory(
+        study_group__person=event_queue_study_group_person,
+        p_event=too_old_p_event,
+    )
+
+    # valid enrolment for the enrolment person
+    EnrolmentFactory(person=enrolment_person, occurrence__end_time=still_valid)
+    # valid enrolment for the study group person
+    EnrolmentFactory(
+        study_group__person=study_group_person, occurrence__end_time=still_valid
+    )
+
+    valid_p_event = PalvelutarjotinEventFactory()
+    OccurrenceFactory(end_time=still_valid, p_event=valid_p_event)
+
+    # valid event queue enrolment for the event queue enrolment person
+    EventQueueEnrolmentFactory(
+        person=event_queue_enrolment_person, p_event=valid_p_event
+    )
+    # valid enrolment for the event queue enrolment person
+    EventQueueEnrolmentFactory(
+        person=event_queue_enrolment_person, p_event=valid_p_event
+    )
+    # valid enrolment for the event queue study group person
+    EventQueueEnrolmentFactory(
+        study_group__person=event_queue_study_group_person, p_event=valid_p_event
+    )
+    # person with a user
+    PersonFactory(user=UserFactory())
+
+    expected_people = [
+        enrolment_and_study_group_person,
+        no_enrolment_or_study_group_person,
+    ]
+
+    # only persons without any valid enrolments should be returned
     results = Person.objects.retention_period_exceeded()
     assert len(results) == len(expected_people)
     assert all(person in results for person in expected_people)
