@@ -1,6 +1,14 @@
 <!-- REMINDER: While updating changelog, also remember to update
 the version in palvelutarjotin/__init.py__ -->
 
+## [1.24.1](https://github.com/City-of-Helsinki/palvelutarjotin/compare/palvelutarjotin-v1.24.0...palvelutarjotin-v1.24.1) (2025-08-28)
+
+
+### Bug Fixes
+
+* Add person to contacts only when it exists ([c8fffac](https://github.com/City-of-Helsinki/palvelutarjotin/commit/c8fffaccc55523052fea74a51ba383d097ff2793))
+* Update person retention period deletion logic ([723b9e0](https://github.com/City-of-Helsinki/palvelutarjotin/commit/723b9e0ed818f52dfd1c8b69013a02e2d2318cdb))
+
 ## [1.24.0](https://github.com/City-of-Helsinki/palvelutarjotin/compare/palvelutarjotin-v1.23.0...palvelutarjotin-v1.24.0) (2025-08-20)
 
 
