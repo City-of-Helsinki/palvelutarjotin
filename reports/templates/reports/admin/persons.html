@@ -23,14 +23,14 @@
     </thead>
     <tbody>
         {% for person in persons %}
-            
+
             <tr>
                 <td>{{person.name}}</td>
                 <td>{{person.email}}</td>
                 <td>{{person.phone_number}}</td>
                 <td>{% for org in person.organisations.all %}{{org.name}}{% if not forloop.last %}, {% endif %}{% endfor %}</td>
             </tr>
-            
+
         {% endfor %}
     </tbody>
 </table>
