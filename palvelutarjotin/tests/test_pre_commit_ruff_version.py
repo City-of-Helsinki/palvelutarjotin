@@ -3,14 +3,16 @@ import re
 RUFF_VERSION_PRE_COMMIT_REGEX = re.compile(
     r"rev: v(\d+(\.\d+)+)\s*# ruff-pre-commit version"
 )
+RUFF_VERSION_DEV_REQS_REGEX = re.compile(r"^ruff==(\d+(\.\d+)+)\s*\S$")
 
 
 def get_ruff_version_from_dev_requirements() -> str | None:
     with open("./requirements-dev.txt") as file:
         dev_requirements = file.read()
     for line in dev_requirements.splitlines():
-        if line.startswith("ruff=="):
-            return line.split("==")[1].strip()
+        match = RUFF_VERSION_DEV_REQS_REGEX.search(line)
+        if match:
+            return match.group(1)
     return None
 
 

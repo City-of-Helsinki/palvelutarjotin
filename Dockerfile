@@ -14,13 +14,12 @@ RUN mkdir /entrypoint
 # see .dockerignore for info on what is not copied here:
 COPY --chown=root:root --chmod=755 . /app/
 
-RUN yum update -y && yum install -y \
-    nc \
-    && pip install -U pip \
+RUN dnf update -y  \
+    && dnf install -y nmap-ncat  \
+    && pip install --upgrade pip setuptools wheel \
     && pip install --no-cache-dir -r /app/requirements.txt \
-    && pip install --no-cache-dir  -r /app/requirements-prod.txt \
     && uwsgi --build-plugin https://github.com/City-of-Helsinki/uwsgi-sentry \
-    && yum clean all
+    && dnf clean all
 
 COPY --chown=root:root --chmod=755 docker-entrypoint.sh /entrypoint/docker-entrypoint.sh
 ENTRYPOINT ["/entrypoint/docker-entrypoint.sh"]
