@@ -219,7 +219,8 @@ class PalvelutarjotinEventNode(DjangoObjectType):
 
     def resolve_has_space_for_enrolments(self, info, **kwargs):
         """
-        Determines whether any upcoming occurrence has any space left for enrolments.
+        Determines whether any upcoming or ongoing occurrence has any space left for
+        enrolments.
 
         This method leverages the internal `has_space_for_enrolments` logic to ascertain
         if there are any future event occurrences with available spaces for enrollment.
@@ -231,7 +232,8 @@ class PalvelutarjotinEventNode(DjangoObjectType):
                 (may not be used in this specific implementation).
 
         Returns:
-            - True: If at least one upcoming occurrence has space for enrolments.
+            - True: If at least one upcoming or ongoing occurrence has space for
+                enrolments.
             - False: If no upcoming occurrences have space for enrolments.
             - None: If the event doesn't utilize the enrolments system or
                 relies on an external enrolments system.
