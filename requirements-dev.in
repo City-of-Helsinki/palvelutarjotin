@@ -1,9 +1,9 @@
 -c requirements.txt
 cryptography
 freezegun
-ipython
 parameterized
 pre-commit
+pip-tools
 pytest
 pytest-cov
 pytest-django
