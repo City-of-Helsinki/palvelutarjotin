@@ -980,20 +980,90 @@ def test_palvelutarjotin_event_has_space_for_enrolments_returning_boolean(
     mock_get_event_data,
 ):
     p_event = PalvelutarjotinEventFactory()
+    # Past occurrences
+    OccurrenceFactory.create_batch(
+        4,
+        p_event=p_event,
+        cancelled=False,
+        start_time=timezone.now() - timedelta(days=2),
+        end_time=timezone.now() - timedelta(days=1),
+    )
+    # Ongoing occurrences
+    OccurrenceFactory.create_batch(
+        2,
+        p_event=p_event,
+        cancelled=False,
+        start_time=timezone.now() - timedelta(days=1),
+        end_time=timezone.now() + timedelta(days=1),
+    )
+    # Future occurrences
     OccurrenceFactory.create_batch(
         3,
         p_event=p_event,
         cancelled=False,
         start_time=timezone.now() + timedelta(days=1),
+        end_time=timezone.now() + timedelta(days=2),
     )
+    assert p_event.occurrences.count() == 9
+    assert p_event.occurrences.filter_upcoming().count() == 3
+    assert p_event.occurrences.filter_ongoing().count() == 2
+    with patch(
+        "occurrences.models.PalvelutarjotinEvent.has_external_enrolments_system",
+        return_value=False,
+    ):
+        with patch(
+            "occurrences.models.PalvelutarjotinEvent.has_internal_enrolments_system",
+            return_value=True,
+        ):
+            with patch(
+                "occurrences.models.Occurrence.has_space_left"
+            ) as mock_has_space_left:
+                mock_has_space_left.return_value = False
+                assert p_event.has_space_for_enrolments() is False
+                assert mock_has_space_left.call_count == 3
+    with patch(
+        "occurrences.models.PalvelutarjotinEvent.has_external_enrolments_system",
+        return_value=False,
+    ):
+        with patch(
+            "occurrences.models.PalvelutarjotinEvent.has_internal_enrolments_system",
+            return_value=True,
+        ):
+            with patch(
+                "occurrences.models.Occurrence.has_space_left"
+            ) as mock_has_space_left:
+                # 2nd occurrence returns True, so result is True
+                # and any-call returns after 2nd round.
+                mock_has_space_left.side_effect = [False, True, False]
+                assert p_event.has_space_for_enrolments() is True
+                assert mock_has_space_left.call_count == 2
+
+
+@pytest.mark.django_db
+def test_palvelutarjotin_event_has_space_for_enrolments_ongoing_events(
+    mock_get_event_data,
+):
+    """Ongoing events are not considered"""
+    p_event = PalvelutarjotinEventFactory(enrolment_end_days=None)
+    # Past occurrences
+    OccurrenceFactory.create_batch(
+        2,
+        p_event=p_event,
+        cancelled=False,
+        start_time=timezone.now() - timedelta(days=2),
+        end_time=timezone.now() - timedelta(days=1),
+    )
+    # Ongoing occurrences
     OccurrenceFactory.create_batch(
         3,
         p_event=p_event,
         cancelled=False,
         start_time=timezone.now() - timedelta(days=1),
+        end_time=timezone.now() + timedelta(days=1),
     )
-    assert p_event.occurrences.count() == 6
-    assert p_event.occurrences.filter_upcoming().count() == 3
+    assert p_event.occurrences.count() == 5
+    assert p_event.occurrences.filter_upcoming().count() == 0
+    assert p_event.occurrences.filter_ongoing().count() == 3
     with patch(
         "occurrences.models.PalvelutarjotinEvent.has_external_enrolments_system",
         return_value=False,
