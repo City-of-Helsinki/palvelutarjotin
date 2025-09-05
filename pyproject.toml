@@ -18,6 +18,11 @@ extend-select = [
     "W",   # Enable pycodestyle warning (W) rules
 ]
 
+[tool.pip-tools.compile]
+allow-unsafe = true
+generate-hashes = true
+strip-extras = true
+
 [tool.ruff.lint.isort]
 # isort options for ruff:
 # https://docs.astral.sh/ruff/settings/#lintisort
