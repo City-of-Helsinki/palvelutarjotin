@@ -291,11 +291,12 @@ class PalvelutarjotinEvent(
 
     def has_space_for_enrolments(self) -> Optional[bool]:
         """
-        Determines whether any (upcoming) occurrence has any space left
+        Determines whether any upcoming or ongoing occurrence has any space left
         for enrolments.
 
         Returns:
-            - True: If at least one upcoming occurrence has space for enrolments.
+            - True: If at least one upcoming or ongoing occurrence has space for
+                enrolments.
             - False: If no upcoming occurrences have space for enrolments.
             - None: If the event doesn't utilize the enrolments system or
                 relies on an external enrolments system.
@@ -303,10 +304,19 @@ class PalvelutarjotinEvent(
         if not self.has_enrolments_system() or self.has_external_enrolments_system():
             return None
 
-        return any(
+        has_upcoming_space = any(
             occurrence.has_space_left()
             for occurrence in self.occurrences.filter_upcoming()
         )
+
+        if self.enrolment_end_days is None:
+            # No limit to when enrolments can be made before the occurrence start.
+            return has_upcoming_space or any(
+                occurrence.has_space_left()
+                for occurrence in self.occurrences.filter_ongoing()
+            )
+
+        return has_upcoming_space
 
 
 class OccurrenceQueryset(models.QuerySet):
@@ -315,10 +325,13 @@ class OccurrenceQueryset(models.QuerySet):
             obj.delete()
 
     def filter_upcoming(self, *args, **kwargs):
-        """Filter occurrences that are not not cancelled and
-        are held in the future.
-        """
+        """Filter occurrences that are not cancelled and are held in the future."""
         return self.filter(cancelled=False, start_time__gte=timezone.now())
+
+    def filter_ongoing(self, *args, **kwargs):
+        """Filter occurrences that are not cancelled and are ongoing at the moment."""
+        now = timezone.now()
+        return self.filter(cancelled=False, start_time__lte=now, end_time__gte=now)
 
 
 class Occurrence(GDPRModel, SerializableMixin, TimestampedModel):
