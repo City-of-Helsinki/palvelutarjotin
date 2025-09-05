@@ -21,9 +21,12 @@ graphene-django
 graphene-file-upload
 helsinki-profile-gdpr-api
 importlib_metadata
-psycopg2-binary
+ipython
+psycopg2
 requests
 sentry-sdk
 social-auth-app-django
 urllib3
-django-auditlog-extra@git+https://github.com/City-of-Helsinki/django-auditlog-extra.git@bff5fa3921d6821bebdd6be6c9fd20db39d32d54#egg=django-auditlog-extra
+django-auditlog-extra@https://github.com/City-of-Helsinki/django-auditlog-extra/archive/bff5fa3921d6821bebdd6be6c9fd20db39d32d54.zip
+uwsgi
+uwsgitop
