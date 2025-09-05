@@ -1,35 +1,39 @@
-# Pre-commit hook documentation:
-# - https://pre-commit.com/
-# - https://pre-commit.com/hooks.html
-#
-# Ruff pre-commit hook documentation:
-# - https://github.com/astral-sh/ruff-pre-commit
 default_language_version:
-  python: python3
+    python: python3
+default_install_hook_types: [pre-commit, commit-msg]
+default_stages: [pre-commit, manual]
 repos:
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v6.0.0
+    hooks:
+      - id: trailing-whitespace
+      - id: end-of-file-fixer
+        exclude: notification_importers/templates/sms/
+      - id: check-yaml
+      - id: check-toml
+      - id: check-added-large-files
   - repo: https://github.com/astral-sh/ruff-pre-commit
     # NOTE: Don't move the trailing "ruff-pre-commit version" comment from
     # the ruff's version line, it is used by test_pre_commit_ruff_version.py
     # test case in order not to have to add a YAML library dependency just
     # to test this version:
-    rev: v0.10.0 # ruff-pre-commit version
+    rev: v0.12.12 # ruff-pre-commit version
     hooks:
       # Run the linter
       - id: ruff
         args: [ --fix ]
       # Run the formatter
       - id: ruff-format
-  - repo: https://github.com/compilerla/conventional-pre-commit
-    rev: v4.0.0
+  - repo: https://github.com/alessandrojcm/commitlint-pre-commit-hook
+    rev: v9.22.0
     hooks:
-      - id: conventional-pre-commit
-        stages: [commit-msg]
-        args: []
-  - repo: https://github.com/jorisroovers/gitlint
-    rev: v0.19.1
+      - id: commitlint
+        stages: [ commit-msg, manual ]
+        additional_dependencies: [ "@commitlint/config-conventional" ]
+  - repo: https://github.com/koalaman/shellcheck-precommit
+    rev: v0.11.0
     hooks:
-      - id: gitlint
-        stages: [commit-msg]
+      - id: shellcheck
   - repo: https://github.com/frnmst/md-toc
     rev: 9.0.0
     hooks:
