@@ -1,0 +1,608 @@
+# serializer version: 1
+# name: test_add_organisation
+  dict({
+    'data': dict({
+      'addOrganisation': dict({
+        'organisation': dict({
+          'name': 'New organisation',
+          'phoneNumber': '012345678',
+          'publisherId': 'publisher_id',
+          'type': 'PROVIDER',
+        }),
+      }),
+    }),
+  })
+# ---
+# name: test_create_my_profile
+  dict({
+    'data': dict({
+      'createMyProfile': dict({
+        'myProfile': dict({
+          'emailAddress': 'newEmail@address.com',
+          'isStaff': False,
+          'language': 'EN',
+          'name': 'New name',
+          'organisationproposalSet': dict({
+            'edges': list([
+              dict({
+                'node': dict({
+                  'name': '3rd party org',
+                }),
+              }),
+            ]),
+          }),
+          'organisations': dict({
+            'edges': list([
+              dict({
+                'node': dict({
+                  'name': 'Myers, Ellis and Gonzalez',
+                }),
+              }),
+            ]),
+          }),
+          'phoneNumber': '',
+          'placeIds': list([
+          ]),
+        }),
+      }),
+    }),
+  })
+# ---
+# name: test_create_my_profile_with_place_ids
+  dict({
+    'data': dict({
+      'createMyProfile': dict({
+        'myProfile': dict({
+          'emailAddress': 'newEmail@address.com',
+          'isStaff': False,
+          'language': 'EN',
+          'name': 'New name',
+          'organisationproposalSet': dict({
+            'edges': list([
+              dict({
+                'node': dict({
+                  'name': '3rd party org',
+                }),
+              }),
+            ]),
+          }),
+          'organisations': dict({
+            'edges': list([
+              dict({
+                'node': dict({
+                  'name': 'Myers, Ellis and Gonzalez',
+                }),
+              }),
+            ]),
+          }),
+          'phoneNumber': '',
+          'placeIds': list([
+            'xyz:123',
+            'abc321',
+          ]),
+        }),
+      }),
+    }),
+  })
+# ---
+# name: test_my_profile_query
+  dict({
+    'data': dict({
+      'myProfile': dict({
+        'emailAddress': 'hutchinsonrachel@example.org',
+        'isStaff': False,
+        'language': 'FI',
+        'name': 'Amanda Newton',
+        'organisations': dict({
+          'edges': list([
+            dict({
+              'node': dict({
+                'name': 'Smith, Wood and Baker',
+              }),
+            }),
+          ]),
+        }),
+        'phoneNumber': '497-963-8034x6697',
+        'placeIds': list([
+          'VXgFfhhcjebLxIzCCeza',
+          'knnouKQItjsGbbnCZaIe',
+        ]),
+      }),
+    }),
+  })
+# ---
+# name: test_my_profile_query.1
+  dict({
+    'data': dict({
+      'myProfile': dict({
+        'emailAddress': 'jmoore@example.org',
+        'isStaff': True,
+        'language': 'FI',
+        'name': 'Cheyenne Carson',
+        'organisations': dict({
+          'edges': list([
+            dict({
+              'node': dict({
+                'name': 'Smith, Wood and Baker',
+              }),
+            }),
+          ]),
+        }),
+        'phoneNumber': '001-895-799-1183x2639',
+        'placeIds': list([
+          'yOWeWgxNvIdaNadghCet',
+          'YgCAuXtmqVxzDraSqNld',
+        ]),
+      }),
+    }),
+  })
+# ---
+# name: test_organisation_query
+  dict({
+    'data': dict({
+      'organisation': dict({
+        'name': 'Graves and Sons',
+        'persons': dict({
+          'edges': list([
+          ]),
+        }),
+        'phoneNumber': '+1-990-963-3345',
+        'publisherId': 'rtOzV',
+        'type': 'USER',
+      }),
+    }),
+  })
+# ---
+# name: test_organisations_query
+  dict({
+    'data': dict({
+      'organisations': dict({
+        'edges': list([
+          dict({
+            'node': dict({
+              'name': 'Graves and Sons',
+              'persons': dict({
+                'edges': list([
+                ]),
+              }),
+              'phoneNumber': '+1-990-963-3345',
+              'publisherId': 'rtOzV',
+              'type': 'USER',
+            }),
+          }),
+        ]),
+      }),
+    }),
+  })
+# ---
+# name: test_organisations_query_type_filter
+  dict({
+    'data': dict({
+      'organisations': dict({
+        'edges': list([
+          dict({
+            'node': dict({
+              'name': 'Bryant-Davis',
+              'persons': dict({
+                'edges': list([
+                ]),
+              }),
+              'phoneNumber': '206-575-0649x763',
+              'publisherId': 'nvThb',
+              'type': 'PROVIDER',
+            }),
+          }),
+          dict({
+            'node': dict({
+              'name': 'Garcia Group',
+              'persons': dict({
+                'edges': list([
+                ]),
+              }),
+              'phoneNumber': '+1-515-291-0232x0281',
+              'publisherId': 'yiWRb',
+              'type': 'PROVIDER',
+            }),
+          }),
+          dict({
+            'node': dict({
+              'name': 'Graves and Sons',
+              'persons': dict({
+                'edges': list([
+                ]),
+              }),
+              'phoneNumber': '+1-990-963-3345',
+              'publisherId': 'VrtOz',
+              'type': 'PROVIDER',
+            }),
+          }),
+        ]),
+      }),
+    }),
+  })
+# ---
+# name: test_organisations_query_type_filter.1
+  dict({
+    'data': dict({
+      'organisations': dict({
+        'edges': list([
+          dict({
+            'node': dict({
+              'name': 'Hawkins, Davis and Porter',
+              'persons': dict({
+                'edges': list([
+                ]),
+              }),
+              'phoneNumber': '8127344744',
+              'publisherId': 'QItjs',
+              'type': 'USER',
+            }),
+          }),
+          dict({
+            'node': dict({
+              'name': 'Travis, Thomas and Ochoa',
+              'persons': dict({
+                'edges': list([
+                ]),
+              }),
+              'phoneNumber': '+1-583-401-9054',
+              'publisherId': 'jOnQt',
+              'type': 'USER',
+            }),
+          }),
+        ]),
+      }),
+    }),
+  })
+# ---
+# name: test_person_enrolments
+  dict({
+    'data': dict({
+      'person': dict({
+        'enrolmentSet': dict({
+          'edges': list([
+            dict({
+              'node': dict({
+                'studyGroup': dict({
+                  'groupName': 'Hand human value base pattern democratic focus. Kind various laugh smile behavior.',
+                }),
+              }),
+            }),
+            dict({
+              'node': dict({
+                'studyGroup': dict({
+                  'groupName': 'Close term where up notice environment father stay. Hold project month similar support line.',
+                }),
+              }),
+            }),
+            dict({
+              'node': dict({
+                'studyGroup': dict({
+                  'groupName': 'Eat design give per kind history ahead. Herself consider fight us claim. Age feeling speech eye.',
+                }),
+              }),
+            }),
+            dict({
+              'node': dict({
+                'studyGroup': dict({
+                  'groupName': '''
+                    Apply somebody especially far. Color price environmental.
+                    Market him beyond.
+                  ''',
+                }),
+              }),
+            }),
+            dict({
+              'node': dict({
+                'studyGroup': dict({
+                  'groupName': 'Civil find learn follow. Tend practice other poor.',
+                }),
+              }),
+            }),
+          ]),
+        }),
+        'name': 'Patrick Estrada',
+      }),
+    }),
+  })
+# ---
+# name: test_person_query
+  dict({
+    'data': dict({
+      'person': None,
+    }),
+  })
+# ---
+# name: test_person_query.1
+  dict({
+    'data': dict({
+      'person': None,
+    }),
+  })
+# ---
+# name: test_person_query.2
+  dict({
+    'data': dict({
+      'person': dict({
+        'emailAddress': 'jacobbrown@example.net',
+        'language': 'FI',
+        'name': 'Brian Daniels',
+        'organisations': dict({
+          'edges': list([
+          ]),
+        }),
+        'phoneNumber': '440.584.7694x703',
+        'placeIds': list([
+          'nddsAMQQNGTIkhlhOSlf',
+          'VcHUQIIHoLALPuMgdVNr',
+        ]),
+      }),
+    }),
+  })
+# ---
+# name: test_person_query.3
+  dict({
+    'data': dict({
+      'person': dict({
+        'emailAddress': 'ochoaangela@example.org',
+        'language': 'FI',
+        'name': 'Carolyn Scott',
+        'organisations': dict({
+          'edges': list([
+            dict({
+              'node': dict({
+                'name': 'Williams-Newton',
+              }),
+            }),
+          ]),
+        }),
+        'phoneNumber': '244.468.5816x6245',
+        'placeIds': list([
+          'JDOXAmjOnQtrkEQOlnVO',
+        ]),
+      }),
+    }),
+  })
+# ---
+# name: test_person_queued_enrolments
+  dict({
+    'data': dict({
+      'person': dict({
+        'eventqueueenrolmentSet': dict({
+          'edges': list([
+            dict({
+              'node': dict({
+                'studyGroup': dict({
+                  'groupName': 'Let join might player example environment. Then offer organization model.',
+                }),
+              }),
+            }),
+            dict({
+              'node': dict({
+                'studyGroup': dict({
+                  'groupName': 'By rate activity business let art. Admit think edge once election seat.',
+                }),
+              }),
+            }),
+            dict({
+              'node': dict({
+                'studyGroup': dict({
+                  'groupName': 'Play make war chance discover throw. Crime imagine wall two economy. Far power animal society Mrs.',
+                }),
+              }),
+            }),
+            dict({
+              'node': dict({
+                'studyGroup': dict({
+                  'groupName': 'Reach ask I cut ok. Perhaps teacher involve all my improve our Congress.',
+                }),
+              }),
+            }),
+            dict({
+              'node': dict({
+                'studyGroup': dict({
+                  'groupName': 'Second yet pay. First teach democratic.',
+                }),
+              }),
+            }),
+          ]),
+        }),
+        'name': 'Patrick Estrada',
+      }),
+    }),
+  })
+# ---
+# name: test_person_study_groups
+  dict({
+    'data': dict({
+      'person': dict({
+        'name': 'Patrick Estrada',
+        'studygroupSet': dict({
+          'edges': list([
+            dict({
+              'node': dict({
+                'groupName': 'Hand human value base pattern democratic focus. Kind various laugh smile behavior.',
+              }),
+            }),
+            dict({
+              'node': dict({
+                'groupName': 'Close term where up notice environment father stay. Hold project month similar support line.',
+              }),
+            }),
+            dict({
+              'node': dict({
+                'groupName': 'Eat design give per kind history ahead. Herself consider fight us claim. Age feeling speech eye.',
+              }),
+            }),
+            dict({
+              'node': dict({
+                'groupName': '''
+                  Apply somebody especially far. Color price environmental.
+                  Market him beyond.
+                ''',
+              }),
+            }),
+            dict({
+              'node': dict({
+                'groupName': 'Civil find learn follow. Tend practice other poor.',
+              }),
+            }),
+          ]),
+        }),
+      }),
+    }),
+  })
+# ---
+# name: test_persons_query
+  dict({
+    'data': dict({
+      'persons': dict({
+        'edges': list([
+        ]),
+      }),
+    }),
+  })
+# ---
+# name: test_persons_query.1
+  dict({
+    'data': dict({
+      'persons': dict({
+        'edges': list([
+        ]),
+      }),
+    }),
+  })
+# ---
+# name: test_persons_query.2
+  dict({
+    'data': dict({
+      'persons': dict({
+        'edges': list([
+          dict({
+            'node': dict({
+              'emailAddress': 'jacobbrown@example.net',
+              'language': 'FI',
+              'name': 'Brian Daniels',
+              'organisations': dict({
+                'edges': list([
+                ]),
+              }),
+              'phoneNumber': '440.584.7694x703',
+            }),
+          }),
+        ]),
+      }),
+    }),
+  })
+# ---
+# name: test_persons_query.3
+  dict({
+    'data': dict({
+      'persons': dict({
+        'edges': list([
+          dict({
+            'node': dict({
+              'emailAddress': 'michael41@example.net',
+              'language': 'FI',
+              'name': 'Brett Dean',
+              'organisations': dict({
+                'edges': list([
+                ]),
+              }),
+              'phoneNumber': '+1-362-312-6661x44948',
+            }),
+          }),
+          dict({
+            'node': dict({
+              'emailAddress': 'jacobbrown@example.net',
+              'language': 'FI',
+              'name': 'Brian Daniels',
+              'organisations': dict({
+                'edges': list([
+                ]),
+              }),
+              'phoneNumber': '440.584.7694x703',
+            }),
+          }),
+          dict({
+            'node': dict({
+              'emailAddress': 'ochoaangela@example.org',
+              'language': 'FI',
+              'name': 'Carolyn Scott',
+              'organisations': dict({
+                'edges': list([
+                  dict({
+                    'node': dict({
+                      'name': 'Williams-Newton',
+                    }),
+                  }),
+                ]),
+              }),
+              'phoneNumber': '244.468.5816x6245',
+            }),
+          }),
+        ]),
+      }),
+    }),
+  })
+# ---
+# name: test_update_my_profile
+  dict({
+    'data': dict({
+      'updateMyProfile': dict({
+        'myProfile': dict({
+          'emailAddress': 'newEmail@address.com',
+          'isStaff': False,
+          'language': 'SV',
+          'name': 'New name',
+          'organisations': dict({
+            'edges': list([
+            ]),
+          }),
+          'phoneNumber': '497-963-8034x6697',
+          'placeIds': list([
+            'xyz:123',
+            'xxx:123',
+          ]),
+        }),
+      }),
+    }),
+  })
+# ---
+# name: test_update_organisation
+  dict({
+    'data': dict({
+      'updateOrganisation': dict({
+        'organisation': dict({
+          'name': 'New name',
+          'phoneNumber': '497-963-8034x6697',
+          'publisherId': 'publisher_id',
+          'type': 'USER',
+        }),
+      }),
+    }),
+  })
+# ---
+# name: test_update_person_mutation[firstlast@example.com-True]
+  dict({
+    'data': dict({
+      'updatePerson': dict({
+        'person': dict({
+          'emailAddress': 'firstlast@example.com',
+          'language': 'SV',
+          'name': 'New name',
+          'organisations': dict({
+            'edges': list([
+              dict({
+                'node': dict({
+                  'name': 'Williams-Newton',
+                }),
+              }),
+            ]),
+          }),
+          'phoneNumber': '244.468.5816x6245',
+        }),
+      }),
+    }),
+  })
+# ---

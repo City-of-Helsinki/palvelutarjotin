@@ -10,4 +10,4 @@ pytest-django
 requests-mock
 responses
 ruff
-snapshottest>=1.0.0a1  # Allow pre-release version, please remove when stable up-to-date
+syrupy

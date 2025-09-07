@@ -301,30 +301,26 @@ def test_delete_profile_data_from_gdpr_api(
         enrolment = Enrolment.objects.first()
         assert enrolment.person is None
         assert enrolment.study_group.person is None
-        snapshot.assert_match(
-            enrolment.serialize(),
-            "enrolment should exist "
-            "but not contain any person related sensitive data after deletion",
-        )
+        # enrolment should exist but not contain any person related sensitive data after
+        # deletion
+        snapshot.assert_match(enrolment.serialize())
     if study_group_count:
         study_group = StudyGroup.objects.first()
         # TODO: Should the study_group.person be cleared?
         # assert study_group.person is None
-        snapshot.assert_match(
-            study_group.serialize(),
-            "study group should exist "
-            "but not contain any person related sensitive data after deletion",
-        )
+
+        # study group should exist but not contain any person related sensitive data
+        # after deletion
+        snapshot.assert_match(study_group.serialize())
     if event_queue_enrolment_count:
         event_queue_enrolment = EventQueueEnrolment.objects.first()
         assert event_queue_enrolment.person is None
         # TODO: Should the enrolment.study_group.person be cleared?
         # assert event_queue_enrolment.study_group.person is None
-        snapshot.assert_match(
-            event_queue_enrolment.serialize(),
-            "event queue enrolment should exist "
-            "but not contain any person related sensitive data after deletion",
-        )
+
+        # event queue enrolment should exist but not contain any person related
+        # sensitive data after deletion
+        snapshot.assert_match(event_queue_enrolment.serialize())
 
 
 @pytest.mark.django_db

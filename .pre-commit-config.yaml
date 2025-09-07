@@ -7,11 +7,13 @@ repos:
     rev: v6.0.0
     hooks:
       - id: trailing-whitespace
+        exclude: ^.*\.ambr$
       - id: end-of-file-fixer
         exclude: notification_importers/templates/sms/
       - id: check-yaml
       - id: check-toml
       - id: check-added-large-files
+        exclude: ^.*\.ambr$
   - repo: https://github.com/astral-sh/ruff-pre-commit
     # NOTE: Don't move the trailing "ruff-pre-commit version" comment from
     # the ruff's version line, it is used by test_pre_commit_ruff_version.py

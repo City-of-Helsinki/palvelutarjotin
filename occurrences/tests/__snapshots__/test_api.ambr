@@ -1,0 +1,3151 @@
+# serializer version: 1
+# name: test_add_occurrence_to_published_event
+  dict({
+    'data': dict({
+      'addOccurrence': dict({
+        'occurrence': dict({
+          'contactPersons': dict({
+            'edges': list([
+              dict({
+                'node': dict({
+                  'name': 'New name',
+                }),
+              }),
+              dict({
+                'node': dict({
+                  'name': 'Sean Rocha',
+                }),
+              }),
+            ]),
+          }),
+          'endTime': '2020-05-06T00:00:00+00:00',
+          'languages': dict({
+            'edges': list([
+              dict({
+                'node': dict({
+                  'id': 'ar',
+                  'name': 'Arabic',
+                }),
+              }),
+              dict({
+                'node': dict({
+                  'id': 'zh_hans',
+                  'name': 'Chinese',
+                }),
+              }),
+              dict({
+                'node': dict({
+                  'id': 'en',
+                  'name': 'English',
+                }),
+              }),
+              dict({
+                'node': dict({
+                  'id': 'ru',
+                  'name': 'Russia',
+                }),
+              }),
+              dict({
+                'node': dict({
+                  'id': 'sv',
+                  'name': 'Swedish',
+                }),
+              }),
+            ]),
+          }),
+          'maxGroupSize': None,
+          'minGroupSize': 10,
+          'pEvent': dict({
+            'autoAcceptance': False,
+            'contactEmail': 'barrettjason@example.org',
+            'contactPhoneNumber': '271-434-1145',
+            'enrolmentEndDays': 0,
+            'enrolmentStart': '1980-03-10T09:11:49.213826+00:00',
+            'externalEnrolmentUrl': None,
+            'linkedEventId': 'QoxZH',
+            'mandatoryAdditionalInformation': False,
+            'neededOccurrences': 2,
+          }),
+          'startTime': '2020-05-05T00:00:00+00:00',
+        }),
+      }),
+    }),
+  })
+# ---
+# name: test_add_occurrence_to_unpublished_event
+  dict({
+    'data': dict({
+      'addOccurrence': dict({
+        'occurrence': dict({
+          'contactPersons': dict({
+            'edges': list([
+              dict({
+                'node': dict({
+                  'name': 'New name',
+                }),
+              }),
+              dict({
+                'node': dict({
+                  'name': 'Sean Rocha',
+                }),
+              }),
+            ]),
+          }),
+          'endTime': '2020-05-06T00:00:00+00:00',
+          'languages': dict({
+            'edges': list([
+              dict({
+                'node': dict({
+                  'id': 'ar',
+                  'name': 'Arabic',
+                }),
+              }),
+              dict({
+                'node': dict({
+                  'id': 'zh_hans',
+                  'name': 'Chinese',
+                }),
+              }),
+              dict({
+                'node': dict({
+                  'id': 'en',
+                  'name': 'English',
+                }),
+              }),
+              dict({
+                'node': dict({
+                  'id': 'ru',
+                  'name': 'Russia',
+                }),
+              }),
+              dict({
+                'node': dict({
+                  'id': 'sv',
+                  'name': 'Swedish',
+                }),
+              }),
+            ]),
+          }),
+          'maxGroupSize': None,
+          'minGroupSize': 10,
+          'pEvent': dict({
+            'autoAcceptance': False,
+            'contactEmail': 'barrettjason@example.org',
+            'contactPhoneNumber': '271-434-1145',
+            'enrolmentEndDays': 0,
+            'enrolmentStart': '1980-03-10T09:11:49.213826+00:00',
+            'externalEnrolmentUrl': None,
+            'linkedEventId': 'QoxZH',
+            'mandatoryAdditionalInformation': False,
+            'neededOccurrences': 2,
+          }),
+          'startTime': '2020-05-05T00:00:00+00:00',
+        }),
+      }),
+    }),
+  })
+# ---
+# name: test_add_study_group
+  dict({
+    'data': dict({
+      'addStudyGroup': dict({
+        'studyGroup': dict({
+          'amountOfAdult': 1,
+          'extraNeeds': 'Extra needs',
+          'groupName': 'Sample group name',
+          'groupSize': 20,
+          'person': dict({
+            'emailAddress': 'email@address.com',
+            'language': 'SV',
+            'name': 'Name',
+            'phoneNumber': '123123',
+          }),
+          'studyLevels': dict({
+            'edges': list([
+              dict({
+                'node': dict({
+                  'id': 'grade_1',
+                  'label': 'first grade',
+                  'level': 3,
+                  'translations': list([
+                    dict({
+                      'label': 'first grade',
+                      'languageCode': 'EN',
+                    }),
+                  ]),
+                }),
+              }),
+            ]),
+          }),
+          'unit': dict({
+            'internalId': 'https://api.hel.fi/linkedevents/v1/event/helsinki:afxp6tv4xa/',
+            'name': dict({
+              'fi': 'Raija Malka & Kaija Saariaho: Blick',
+            }),
+          }),
+          'unitId': 'helsinki:afxp6tv4xa',
+          'unitName': 'Sample study group name',
+        }),
+      }),
+    }),
+  })
+# ---
+# name: test_add_study_group.1
+  dict({
+    'data': dict({
+      'addStudyGroup': dict({
+        'studyGroup': dict({
+          'amountOfAdult': 1,
+          'extraNeeds': 'Extra needs',
+          'groupName': 'Sample group name',
+          'groupSize': 20,
+          'person': dict({
+            'emailAddress': 'kimberlyshort@example.org',
+            'language': 'FI',
+            'name': 'Charles Anderson',
+            'phoneNumber': '213.341.1450x892',
+          }),
+          'studyLevels': dict({
+            'edges': list([
+              dict({
+                'node': dict({
+                  'id': 'grade_1',
+                  'label': 'first grade',
+                  'level': 3,
+                  'translations': list([
+                    dict({
+                      'label': 'first grade',
+                      'languageCode': 'EN',
+                    }),
+                  ]),
+                }),
+              }),
+            ]),
+          }),
+          'unit': dict({
+            'internalId': 'https://api.hel.fi/linkedevents/v1/event/helsinki:afxp6tv4xa/',
+            'name': dict({
+              'fi': 'Raija Malka & Kaija Saariaho: Blick',
+            }),
+          }),
+          'unitId': 'helsinki:afxp6tv4xa',
+          'unitName': 'Sample study group name',
+        }),
+      }),
+    }),
+  })
+# ---
+# name: test_add_venue_staff_user
+  dict({
+    'data': dict({
+      'addVenue': dict({
+        'venue': dict({
+          'description': 'Venue description in FI',
+          'hasAreaForGroupWork': True,
+          'hasClothingStorage': True,
+          'hasIndoorPlayingArea': True,
+          'hasOutdoorPlayingArea': True,
+          'hasSnackEatingPlace': True,
+          'hasToiletNearby': True,
+          'id': 'place_id',
+          'outdoorActivity': True,
+          'translations': list([
+            dict({
+              'description': 'Venue description in FI',
+            }),
+            dict({
+              'description': 'Venue description in EN',
+            }),
+          ]),
+        }),
+      }),
+    }),
+  })
+# ---
+# name: test_approve_enrolment
+  dict({
+    'data': dict({
+      'approveEnrolment': dict({
+        'enrolment': dict({
+          'status': 'APPROVED',
+        }),
+      }),
+    }),
+  })
+# ---
+# name: test_approve_enrolment.1
+  list([
+    '''
+      no-reply@hel.ninja|['kimberlyshort@example.org']|Enrolment approved FI|
+          Event FI: Raija Malka & Kaija Saariaho: Blick
+          Extra event info: VFlOj
+          Study group: Leave serve important probably. Sea something western research.
+          Occurrence: 06.01.2020 02.00
+          Person: kimberlyshort@example.org
+          Click this link to cancel the enrolment:
+          https://kultus.hel.fi/fi/enrolments/cancel/mock-enrolment-unique-id-abc123xyz456
+      
+  
+    ''',
+  ])
+# ---
+# name: test_approve_enrolment_with_custom_message
+  dict({
+    'data': dict({
+      'approveEnrolment': dict({
+        'enrolment': dict({
+          'status': 'APPROVED',
+        }),
+      }),
+    }),
+  })
+# ---
+# name: test_approve_enrolment_with_custom_message.1
+  list([
+    '''
+      no-reply@hel.ninja|['kimberlyshort@example.org']|Enrolment approved FI|
+          Event FI: Raija Malka & Kaija Saariaho: Blick
+          Extra event info: MYfOB
+          Study group: Leave serve important probably. Sea something western research.
+          Occurrence: 06.01.2020 02.00
+          Person: kimberlyshort@example.org
+          Click this link to cancel the enrolment:
+          https://kultus.hel.fi/fi/enrolments/cancel/mock-enrolment-unique-id-abc123xyz456
+      
+          Custom message: custom message
+  
+    ''',
+  ])
+# ---
+# name: test_ask_for_cancelled_confirmation_mutation
+  dict({
+    'data': dict({
+      'cancelEnrolment': dict({
+        'enrolment': dict({
+          'status': 'PENDING',
+        }),
+      }),
+    }),
+  })
+# ---
+# name: test_auto_accept_message_is_used_as_custom_message_in_auto_approved_enrolments[False]
+  dict({
+    'data': dict({
+      'enrolOccurrence': dict({
+        'enrolments': list([
+          dict({
+            'notificationType': 'EMAIL',
+            'occurrence': dict({
+              'amountOfSeats': 50,
+              'remainingSeats': 35,
+              'seatType': 'CHILDREN_COUNT',
+              'seatsApproved': 15,
+              'seatsTaken': 15,
+              'startTime': '2020-01-06T00:00:00+00:00',
+            }),
+            'status': 'APPROVED',
+            'studyGroup': dict({
+              'unitName': 'To be created group',
+            }),
+          }),
+        ]),
+      }),
+    }),
+  })
+# ---
+# name: test_auto_accept_message_is_used_as_custom_message_in_auto_approved_enrolments[True]
+  dict({
+    'data': dict({
+      'enrolOccurrence': dict({
+        'enrolments': list([
+          dict({
+            'notificationType': 'EMAIL',
+            'occurrence': dict({
+              'amountOfSeats': 50,
+              'remainingSeats': 35,
+              'seatType': 'CHILDREN_COUNT',
+              'seatsApproved': 15,
+              'seatsTaken': 15,
+              'startTime': '2020-01-06T00:00:00+00:00',
+            }),
+            'status': 'APPROVED',
+            'studyGroup': dict({
+              'unitName': 'To be created group',
+            }),
+          }),
+        ]),
+      }),
+    }),
+  })
+# ---
+# name: test_auto_accept_message_is_used_as_custom_message_in_auto_approved_enrolments[True].1
+  list([
+    '''
+      no-reply@hel.ninja|['hutchinsonrachel@example.org']|Enrolment approved FI|
+          Event FI: Raija Malka & Kaija Saariaho: Blick
+          Extra event info: EOTtw
+          Study group: To be created group
+          Occurrence: 06.01.2020 02.00
+          Person: hutchinsonrachel@example.org
+      
+          Custom message: Testing auto acceptance message
+  
+    ''',
+  ])
+# ---
+# name: test_cancel_enrolment_mutation
+  dict({
+    'data': dict({
+      'cancelEnrolment': dict({
+        'enrolment': dict({
+          'status': 'CANCELLED',
+        }),
+      }),
+    }),
+  })
+# ---
+# name: test_cancel_enrolment_query
+  dict({
+    'data': dict({
+      'cancellingEnrolment': dict({
+        'enrolmentTime': '2020-01-04T00:00:00+00:00',
+        'occurrence': dict({
+          'seatsTaken': 229,
+        }),
+        'status': 'PENDING',
+        'studyGroup': dict({
+          'groupSize': 229,
+          'unitName': 'Campaign college career fight data. Generation man process white visit step.',
+        }),
+      }),
+    }),
+  })
+# ---
+# name: test_cancel_occurrence
+  dict({
+    'data': dict({
+      'cancelOccurrence': dict({
+        'occurrence': dict({
+          'cancelled': True,
+        }),
+      }),
+    }),
+  })
+# ---
+# name: test_decline_enrolment
+  dict({
+    'data': dict({
+      'declineEnrolment': dict({
+        'enrolment': dict({
+          'status': 'DECLINED',
+        }),
+      }),
+    }),
+  })
+# ---
+# name: test_decline_enrolment.1
+  list([
+    '''
+      no-reply@hel.ninja|['kimberlyshort@example.org']|Enrolment declined FI|
+          Event FI: Raija Malka & Kaija Saariaho: Blick
+          Extra event info: VFlOj
+          Study group: Leave serve important probably. Sea something western research.
+          Occurrence: 06.01.2020 02.00
+          Person: kimberlyshort@example.org
+      
+  
+    ''',
+    '''
+      no-reply@hel.ninja|['kimberlyshort@example.org']|Enrolment declined FI|
+          Event FI: Raija Malka & Kaija Saariaho: Blick
+          Extra event info: VFlOj
+          Study group: Leave serve important probably. Sea something western research.
+          Occurrence: 06.01.2020 02.00
+          Person: kimberlyshort@example.org
+      
+  
+    ''',
+  ])
+# ---
+# name: test_decline_enrolment_with_custom_message
+  dict({
+    'data': dict({
+      'declineEnrolment': dict({
+        'enrolment': dict({
+          'status': 'DECLINED',
+        }),
+      }),
+    }),
+  })
+# ---
+# name: test_decline_enrolment_with_custom_message.1
+  list([
+    '''
+      no-reply@hel.ninja|['kimberlyshort@example.org']|Enrolment declined FI|
+          Event FI: Raija Malka & Kaija Saariaho: Blick
+          Extra event info: MYfOB
+          Study group: Leave serve important probably. Sea something western research.
+          Occurrence: 06.01.2020 02.00
+          Person: kimberlyshort@example.org
+      
+          Custom message: custom message
+  
+    ''',
+  ])
+# ---
+# name: test_delete_cancelled_occurrence
+  dict({
+    'data': dict({
+      'deleteOccurrence': dict({
+        '__typename': 'DeleteOccurrenceMutationPayload',
+      }),
+    }),
+  })
+# ---
+# name: test_delete_unpublished_occurrence
+  dict({
+    'data': dict({
+      'deleteOccurrence': dict({
+        '__typename': 'DeleteOccurrenceMutationPayload',
+      }),
+    }),
+  })
+# ---
+# name: test_enrol_auto_acceptance_occurrence
+  dict({
+    'data': dict({
+      'enrolOccurrence': dict({
+        'enrolments': list([
+          dict({
+            'notificationType': 'EMAIL',
+            'occurrence': dict({
+              'amountOfSeats': 50,
+              'remainingSeats': 35,
+              'seatType': 'CHILDREN_COUNT',
+              'seatsApproved': 0,
+              'seatsTaken': 15,
+              'startTime': '2020-01-06T00:00:00+00:00',
+            }),
+            'status': 'PENDING',
+            'studyGroup': dict({
+              'unitName': 'To be created group',
+            }),
+          }),
+        ]),
+      }),
+    }),
+  })
+# ---
+# name: test_enrol_auto_acceptance_occurrence.1
+  dict({
+    'data': dict({
+      'enrolOccurrence': dict({
+        'enrolments': list([
+          dict({
+            'notificationType': 'EMAIL',
+            'occurrence': dict({
+              'amountOfSeats': 50,
+              'remainingSeats': 35,
+              'seatType': 'CHILDREN_COUNT',
+              'seatsApproved': 15,
+              'seatsTaken': 15,
+              'startTime': '2020-01-06T00:00:00+00:00',
+            }),
+            'status': 'APPROVED',
+            'studyGroup': dict({
+              'unitName': 'To be created group',
+            }),
+          }),
+        ]),
+      }),
+    }),
+  })
+# ---
+# name: test_enrol_event_queue_mutation
+  dict({
+    'data': dict({
+      'enrolEventQueue': dict({
+        'eventQueueEnrolment': dict({
+          'notificationType': 'EMAIL_SMS',
+          'pEvent': dict({
+            'autoAcceptance': False,
+            'contactEmail': 'patriciacervantes@example.net',
+            'contactPhoneNumber': '001-299-601-3232x13168',
+            'enrolmentEndDays': 2,
+            'enrolmentStart': '2019-09-02T21:49:06.027297+00:00',
+            'externalEnrolmentUrl': None,
+            'isQueueingAllowed': True,
+            'linkedEventId': 'kSRpd',
+            'mandatoryAdditionalInformation': False,
+            'neededOccurrences': 2,
+          }),
+          'status': 'HAS_NO_ENROLMENTS',
+          'studyGroup': dict({
+            'preferredTimes': 'Only tuesdays',
+            'unitName': 'To be created group',
+          }),
+        }),
+      }),
+    }),
+  })
+# ---
+# name: test_enrol_occurrence
+  dict({
+    'data': dict({
+      'enrolOccurrence': dict({
+        'enrolments': list([
+          dict({
+            'notificationType': 'EMAIL',
+            'occurrence': dict({
+              'amountOfSeats': 50,
+              'remainingSeats': 35,
+              'seatType': 'CHILDREN_COUNT',
+              'seatsApproved': 0,
+              'seatsTaken': 15,
+              'startTime': '2020-01-06T00:00:00+00:00',
+            }),
+            'status': 'PENDING',
+            'studyGroup': dict({
+              'unitName': 'To be created group',
+            }),
+          }),
+          dict({
+            'notificationType': 'EMAIL',
+            'occurrence': dict({
+              'amountOfSeats': 2,
+              'remainingSeats': 1,
+              'seatType': 'ENROLMENT_COUNT',
+              'seatsApproved': 0,
+              'seatsTaken': 1,
+              'startTime': '2020-01-06T00:00:00+00:00',
+            }),
+            'status': 'PENDING',
+            'studyGroup': dict({
+              'unitName': 'To be created group',
+            }),
+          }),
+        ]),
+      }),
+    }),
+  })
+# ---
+# name: test_enrol_occurrence_with_captcha
+  dict({
+    'data': dict({
+      'enrolOccurrence': dict({
+        'enrolments': list([
+          dict({
+            'notificationType': 'EMAIL',
+            'occurrence': dict({
+              'amountOfSeats': 50,
+              'remainingSeats': 35,
+              'seatType': 'CHILDREN_COUNT',
+              'seatsApproved': 0,
+              'seatsTaken': 15,
+              'startTime': '2020-01-06T00:00:00+00:00',
+            }),
+            'status': 'PENDING',
+            'studyGroup': dict({
+              'unitName': 'To be created group',
+            }),
+          }),
+        ]),
+      }),
+    }),
+  })
+# ---
+# name: test_enrolment_query
+  dict({
+    'data': dict({
+      'enrolment': dict({
+        'occurrence': dict({
+          'endTime': '1984-08-14T20:17:50.965825+00:00',
+          'pEvent': dict({
+            'linkedEventId': 'rBcjT',
+          }),
+          'seatsTaken': 838,
+          'startTime': '1976-10-26T19:25:30.627463+00:00',
+        }),
+        'status': 'PENDING',
+        'studyGroup': dict({
+          'groupName': 'Hot identify each its general. By garden so country past involve choose.',
+        }),
+      }),
+    }),
+  })
+# ---
+# name: test_enrolments_summary
+  dict({
+    'data': dict({
+      'enrolmentSummary': dict({
+        'count': 4,
+        'edges': list([
+          dict({
+            'node': dict({
+              'status': 'APPROVED',
+            }),
+          }),
+          dict({
+            'node': dict({
+              'status': 'CANCELLED',
+            }),
+          }),
+          dict({
+            'node': dict({
+              'status': 'DECLINED',
+            }),
+          }),
+          dict({
+            'node': dict({
+              'status': 'PENDING',
+            }),
+          }),
+        ]),
+      }),
+    }),
+  })
+# ---
+# name: test_enrolments_summary.1
+  dict({
+    'data': dict({
+      'enrolmentSummary': dict({
+        'count': 1,
+        'edges': list([
+          dict({
+            'node': dict({
+              'status': 'APPROVED',
+            }),
+          }),
+        ]),
+      }),
+    }),
+  })
+# ---
+# name: test_enrolments_summary.2
+  dict({
+    'data': dict({
+      'enrolmentSummary': dict({
+        'count': 1,
+        'edges': list([
+          dict({
+            'node': dict({
+              'status': 'PENDING',
+            }),
+          }),
+        ]),
+      }),
+    }),
+  })
+# ---
+# name: test_enrolments_summary.3
+  dict({
+    'data': dict({
+      'enrolmentSummary': dict({
+        'count': 1,
+        'edges': list([
+          dict({
+            'node': dict({
+              'status': 'CANCELLED',
+            }),
+          }),
+        ]),
+      }),
+    }),
+  })
+# ---
+# name: test_enrolments_summary.4
+  dict({
+    'data': dict({
+      'enrolmentSummary': dict({
+        'count': 1,
+        'edges': list([
+          dict({
+            'node': dict({
+              'status': 'DECLINED',
+            }),
+          }),
+        ]),
+      }),
+    }),
+  })
+# ---
+# name: test_event_queue_enrolment_query
+  dict({
+    'data': dict({
+      'eventQueueEnrolment': dict({
+        'pEvent': dict({
+          'isQueueingAllowed': True,
+          'linkedEventId': 'GVbfW',
+        }),
+        'status': 'HAS_NO_ENROLMENTS',
+        'studyGroup': dict({
+          'groupName': 'Close term where up notice environment father stay. Hold project month similar support line.',
+          'preferredTimes': 'Only drug follow research.',
+        }),
+      }),
+    }),
+  })
+# ---
+# name: test_event_queue_enrolments_query
+  dict({
+    'data': dict({
+      'eventQueueEnrolments': dict({
+        'count': 15,
+        'edges': list([
+          dict({
+            'cursor': 'YXJyYXljb25uZWN0aW9uOjA=',
+            'node': dict({
+              'pEvent': dict({
+                'isQueueingAllowed': True,
+                'linkedEventId': 'GVbfW',
+                'organisation': dict({
+                  'name': 'Graves and Sons',
+                }),
+              }),
+              'status': 'HAS_NO_ENROLMENTS',
+              'studyGroup': dict({
+                'groupName': 'Hotel event already college. Ok court type hit.',
+                'preferredTimes': 'Fund nor white identify.',
+              }),
+            }),
+          }),
+          dict({
+            'cursor': 'YXJyYXljb25uZWN0aW9uOjE=',
+            'node': dict({
+              'pEvent': dict({
+                'isQueueingAllowed': True,
+                'linkedEventId': 'GVbfW',
+                'organisation': dict({
+                  'name': 'Graves and Sons',
+                }),
+              }),
+              'status': 'HAS_NO_ENROLMENTS',
+              'studyGroup': dict({
+                'groupName': '''
+                  Apply somebody especially far. Color price environmental.
+                  Market him beyond.
+                ''',
+                'preferredTimes': 'Pattern administration early.',
+              }),
+            }),
+          }),
+          dict({
+            'cursor': 'YXJyYXljb25uZWN0aW9uOjI=',
+            'node': dict({
+              'pEvent': dict({
+                'isQueueingAllowed': True,
+                'linkedEventId': 'GVbfW',
+                'organisation': dict({
+                  'name': 'Graves and Sons',
+                }),
+              }),
+              'status': 'HAS_NO_ENROLMENTS',
+              'studyGroup': dict({
+                'groupName': 'Reach ask I cut ok. Perhaps teacher involve all my improve our Congress.',
+                'preferredTimes': 'Future upon a key fast white.',
+              }),
+            }),
+          }),
+          dict({
+            'cursor': 'YXJyYXljb25uZWN0aW9uOjM=',
+            'node': dict({
+              'pEvent': dict({
+                'isQueueingAllowed': True,
+                'linkedEventId': 'GVbfW',
+                'organisation': dict({
+                  'name': 'Graves and Sons',
+                }),
+              }),
+              'status': 'HAS_NO_ENROLMENTS',
+              'studyGroup': dict({
+                'groupName': 'Space oil painting. Cut region decade hold point firm. Interesting technology group.',
+                'preferredTimes': 'Defense field east.',
+              }),
+            }),
+          }),
+          dict({
+            'cursor': 'YXJyYXljb25uZWN0aW9uOjQ=',
+            'node': dict({
+              'pEvent': dict({
+                'isQueueingAllowed': True,
+                'linkedEventId': 'GVbfW',
+                'organisation': dict({
+                  'name': 'Graves and Sons',
+                }),
+              }),
+              'status': 'HAS_NO_ENROLMENTS',
+              'studyGroup': dict({
+                'groupName': 'Offer record quite window station. And natural seven. Hit performance daughter.',
+                'preferredTimes': 'Home argue way all moment.',
+              }),
+            }),
+          }),
+          dict({
+            'cursor': 'YXJyYXljb25uZWN0aW9uOjU=',
+            'node': dict({
+              'pEvent': dict({
+                'isQueueingAllowed': True,
+                'linkedEventId': 'GVbfW',
+                'organisation': dict({
+                  'name': 'Graves and Sons',
+                }),
+              }),
+              'status': 'HAS_NO_ENROLMENTS',
+              'studyGroup': dict({
+                'groupName': 'Yeah rock evening player. According however energy large change history.',
+                'preferredTimes': 'Leg ready building.',
+              }),
+            }),
+          }),
+          dict({
+            'cursor': 'YXJyYXljb25uZWN0aW9uOjY=',
+            'node': dict({
+              'pEvent': dict({
+                'isQueueingAllowed': True,
+                'linkedEventId': 'GVbfW',
+                'organisation': dict({
+                  'name': 'Graves and Sons',
+                }),
+              }),
+              'status': 'HAS_NO_ENROLMENTS',
+              'studyGroup': dict({
+                'groupName': 'Peace relationship hear increase us. Population along collection though.',
+                'preferredTimes': 'Pressure health design admit.',
+              }),
+            }),
+          }),
+          dict({
+            'cursor': 'YXJyYXljb25uZWN0aW9uOjc=',
+            'node': dict({
+              'pEvent': dict({
+                'isQueueingAllowed': True,
+                'linkedEventId': 'GVbfW',
+                'organisation': dict({
+                  'name': 'Graves and Sons',
+                }),
+              }),
+              'status': 'HAS_NO_ENROLMENTS',
+              'studyGroup': dict({
+                'groupName': 'Simple spend decade born. Day range age.',
+                'preferredTimes': 'Image identify and.',
+              }),
+            }),
+          }),
+          dict({
+            'cursor': 'YXJyYXljb25uZWN0aW9uOjg=',
+            'node': dict({
+              'pEvent': dict({
+                'isQueueingAllowed': True,
+                'linkedEventId': 'GVbfW',
+                'organisation': dict({
+                  'name': 'Graves and Sons',
+                }),
+              }),
+              'status': 'HAS_NO_ENROLMENTS',
+              'studyGroup': dict({
+                'groupName': 'Friend clear focus operation its bar anyone he.',
+                'preferredTimes': 'Yes back traditional.',
+              }),
+            }),
+          }),
+          dict({
+            'cursor': 'YXJyYXljb25uZWN0aW9uOjk=',
+            'node': dict({
+              'pEvent': dict({
+                'isQueueingAllowed': True,
+                'linkedEventId': 'GVbfW',
+                'organisation': dict({
+                  'name': 'Graves and Sons',
+                }),
+              }),
+              'status': 'HAS_NO_ENROLMENTS',
+              'studyGroup': dict({
+                'groupName': 'Consumer miss sense remember. House senior popular end.',
+                'preferredTimes': 'Site score center.',
+              }),
+            }),
+          }),
+        ]),
+      }),
+    }),
+  })
+# ---
+# name: test_event_queue_enrolments_query.1
+  dict({
+    'data': dict({
+      'eventQueueEnrolments': dict({
+        'count': 15,
+        'edges': list([
+          dict({
+            'cursor': 'YXJyYXljb25uZWN0aW9uOjEw',
+            'node': dict({
+              'pEvent': dict({
+                'isQueueingAllowed': True,
+                'linkedEventId': 'GVbfW',
+                'organisation': dict({
+                  'name': 'Graves and Sons',
+                }),
+              }),
+              'status': 'HAS_NO_ENROLMENTS',
+              'studyGroup': dict({
+                'groupName': 'Away watch above bad car. List short color produce include threat.',
+                'preferredTimes': 'Street sign education field.',
+              }),
+            }),
+          }),
+          dict({
+            'cursor': 'YXJyYXljb25uZWN0aW9uOjEx',
+            'node': dict({
+              'pEvent': dict({
+                'isQueueingAllowed': True,
+                'linkedEventId': 'GVbfW',
+                'organisation': dict({
+                  'name': 'Graves and Sons',
+                }),
+              }),
+              'status': 'HAS_NO_ENROLMENTS',
+              'studyGroup': dict({
+                'groupName': 'Before charge difficult number. Leave part and test benefit.',
+                'preferredTimes': 'Hotel near deal.',
+              }),
+            }),
+          }),
+          dict({
+            'cursor': 'YXJyYXljb25uZWN0aW9uOjEy',
+            'node': dict({
+              'pEvent': dict({
+                'isQueueingAllowed': True,
+                'linkedEventId': 'GVbfW',
+                'organisation': dict({
+                  'name': 'Graves and Sons',
+                }),
+              }),
+              'status': 'HAS_NO_ENROLMENTS',
+              'studyGroup': dict({
+                'groupName': 'The threat organization check may available. Offer much discuss.',
+                'preferredTimes': 'Range seek turn how.',
+              }),
+            }),
+          }),
+          dict({
+            'cursor': 'YXJyYXljb25uZWN0aW9uOjEz',
+            'node': dict({
+              'pEvent': dict({
+                'isQueueingAllowed': True,
+                'linkedEventId': 'GVbfW',
+                'organisation': dict({
+                  'name': 'Graves and Sons',
+                }),
+              }),
+              'status': 'HAS_NO_ENROLMENTS',
+              'studyGroup': dict({
+                'groupName': 'Card support wait clearly.',
+                'preferredTimes': 'Ago include poor example.',
+              }),
+            }),
+          }),
+          dict({
+            'cursor': 'YXJyYXljb25uZWN0aW9uOjE0',
+            'node': dict({
+              'pEvent': dict({
+                'isQueueingAllowed': True,
+                'linkedEventId': 'GVbfW',
+                'organisation': dict({
+                  'name': 'Graves and Sons',
+                }),
+              }),
+              'status': 'HAS_NO_ENROLMENTS',
+              'studyGroup': dict({
+                'groupName': 'Project hope eight week still. Mission program point piece simple too walk. Talk hand price author.',
+                'preferredTimes': 'On performance detail sure.',
+              }),
+            }),
+          }),
+        ]),
+      }),
+    }),
+  })
+# ---
+# name: test_language_query
+  dict({
+    'data': dict({
+      'language': dict({
+        'id': 'aAVEavNlmo',
+        'name': 'Him question stay.',
+      }),
+    }),
+  })
+# ---
+# name: test_languages_query
+  dict({
+    'data': dict({
+      'languages': dict({
+        'edges': list([
+          dict({
+            'node': dict({
+              'id': 'ar',
+              'name': 'Arabic',
+            }),
+          }),
+          dict({
+            'node': dict({
+              'id': 'zh_hans',
+              'name': 'Chinese',
+            }),
+          }),
+          dict({
+            'node': dict({
+              'id': 'en',
+              'name': 'English',
+            }),
+          }),
+          dict({
+            'node': dict({
+              'id': 'fi',
+              'name': 'Finnish',
+            }),
+          }),
+          dict({
+            'node': dict({
+              'id': 'aAVEavNlmo',
+              'name': 'Him question stay.',
+            }),
+          }),
+          dict({
+            'node': dict({
+              'id': 'ru',
+              'name': 'Russia',
+            }),
+          }),
+          dict({
+            'node': dict({
+              'id': 'sv',
+              'name': 'Swedish',
+            }),
+          }),
+        ]),
+      }),
+    }),
+  })
+# ---
+# name: test_mass_approve_enrolment_mutation
+  dict({
+    'data': dict({
+      'massApproveEnrolments': dict({
+        'enrolments': list([
+          dict({
+            'status': 'APPROVED',
+          }),
+          dict({
+            'status': 'APPROVED',
+          }),
+          dict({
+            'status': 'APPROVED',
+          }),
+        ]),
+      }),
+    }),
+  })
+# ---
+# name: test_notification_template_query
+  dict({
+    'data': dict({
+      'notificationTemplate': dict({
+        'customContextPreviewHtml': '''
+          <p>
+              Event EN: Name in english
+              Extra event info: linked_event_id
+              Study group: group name
+              Occurrence: 2020-12-12
+              Person: email@me.com
+          
+              Custom message: custom_message
+          </p>
+        ''',
+        'customContextPreviewText': '''
+          
+              Event EN: Name in english
+              Extra event info: linked_event_id
+              Study group: group name
+              Occurrence: 2020-12-12
+              Person: email@me.com
+          
+              Custom message: custom_message
+  
+        ''',
+        'template': dict({
+          'type': 'enrolment_approved',
+        }),
+      }),
+    }),
+  })
+# ---
+# name: test_occurrence_query
+  dict({
+    'data': dict({
+      'occurrence': dict({
+        'amountOfSeats': 33,
+        'contactPersons': dict({
+          'edges': list([
+          ]),
+        }),
+        'endTime': '1992-07-05T12:04:13.244825+00:00',
+        'languages': dict({
+          'edges': list([
+          ]),
+        }),
+        'linkedEvent': dict({
+          'name': dict({
+            'en': 'Raija Malka & Kaija Saariaho: Blick',
+            'fi': 'Raija Malka & Kaija Saariaho: Blick',
+            'sv': 'Raija Malka & Kaija Saariaho: Blick',
+          }),
+        }),
+        'maxGroupSize': 383,
+        'minGroupSize': 341,
+        'pEvent': dict({
+          'autoAcceptance': False,
+          'contactEmail': 'eperry@example.org',
+          'contactPhoneNumber': '5646976380',
+          'enrolmentEndDays': 1,
+          'enrolmentStart': '1989-08-31T23:14:42.824885+00:00',
+          'externalEnrolmentUrl': None,
+          'linkedEventId': 'ytHjL',
+          'mandatoryAdditionalInformation': False,
+          'neededOccurrences': 5,
+        }),
+        'placeId': 'Record card my. Sure sister return.',
+        'remainingSeats': 33,
+        'seatsApproved': 0,
+        'seatsTaken': 0,
+        'startTime': '2002-04-18T06:53:11.806335+00:00',
+      }),
+    }),
+  })
+# ---
+# name: test_occurrences_filter_by_cancelled
+  dict({
+    'data': dict({
+      'occurrences': dict({
+        'edges': list([
+          dict({
+            'node': dict({
+              'amountOfSeats': 48,
+              'contactPersons': dict({
+                'edges': list([
+                ]),
+              }),
+              'endTime': '2010-06-18T23:16:49.508200+00:00',
+              'maxGroupSize': 588,
+              'minGroupSize': 752,
+              'pEvent': dict({
+                'autoAcceptance': False,
+                'contactEmail': 'dsellers@example.net',
+                'contactPhoneNumber': '934.957.7355',
+                'enrolmentEndDays': 2,
+                'enrolmentStart': '1990-12-14T02:05:00.660682+00:00',
+                'externalEnrolmentUrl': None,
+                'linkedEventId': 'aAVEa',
+                'mandatoryAdditionalInformation': False,
+                'neededOccurrences': 3,
+              }),
+              'placeId': 'Event lay yes policy data control as receive.',
+              'remainingSeats': 48,
+              'seatType': 'CHILDREN_COUNT',
+              'seatsApproved': 0,
+              'seatsTaken': 0,
+              'startTime': '2010-05-25T06:23:10.664303+00:00',
+            }),
+          }),
+          dict({
+            'node': dict({
+              'amountOfSeats': 27,
+              'contactPersons': dict({
+                'edges': list([
+                ]),
+              }),
+              'endTime': '1992-11-11T22:23:23.275974+00:00',
+              'maxGroupSize': 779,
+              'minGroupSize': 292,
+              'pEvent': dict({
+                'autoAcceptance': False,
+                'contactEmail': 'dsellers@example.net',
+                'contactPhoneNumber': '934.957.7355',
+                'enrolmentEndDays': 2,
+                'enrolmentStart': '1990-12-14T02:05:00.660682+00:00',
+                'externalEnrolmentUrl': None,
+                'linkedEventId': 'aAVEa',
+                'mandatoryAdditionalInformation': False,
+                'neededOccurrences': 3,
+              }),
+              'placeId': 'Foreign go age. Thought price gas heavy affect difficult look.',
+              'remainingSeats': 27,
+              'seatType': 'CHILDREN_COUNT',
+              'seatsApproved': 0,
+              'seatsTaken': 0,
+              'startTime': '2017-11-29T20:14:25.983420+00:00',
+            }),
+          }),
+        ]),
+      }),
+    }),
+  })
+# ---
+# name: test_occurrences_filter_by_cancelled.1
+  dict({
+    'data': dict({
+      'occurrences': dict({
+        'edges': list([
+          dict({
+            'node': dict({
+              'amountOfSeats': 19,
+              'contactPersons': dict({
+                'edges': list([
+                ]),
+              }),
+              'endTime': '1999-05-25T03:21:42.257063+00:00',
+              'maxGroupSize': 808,
+              'minGroupSize': 974,
+              'pEvent': dict({
+                'autoAcceptance': False,
+                'contactEmail': 'dsellers@example.net',
+                'contactPhoneNumber': '934.957.7355',
+                'enrolmentEndDays': 2,
+                'enrolmentStart': '1990-12-14T02:05:00.660682+00:00',
+                'externalEnrolmentUrl': None,
+                'linkedEventId': 'aAVEa',
+                'mandatoryAdditionalInformation': False,
+                'neededOccurrences': 3,
+              }),
+              'placeId': 'Think significant land especially can quite.',
+              'remainingSeats': 19,
+              'seatType': 'CHILDREN_COUNT',
+              'seatsApproved': 0,
+              'seatsTaken': 0,
+              'startTime': '1992-03-25T02:06:42.233338+00:00',
+            }),
+          }),
+        ]),
+      }),
+    }),
+  })
+# ---
+# name: test_occurrences_filter_by_date
+  dict({
+    'data': dict({
+      'occurrences': dict({
+        'edges': list([
+          dict({
+            'node': dict({
+              'amountOfSeats': 14,
+              'contactPersons': dict({
+                'edges': list([
+                ]),
+              }),
+              'endTime': '1992-03-25T02:06:42.233338+00:00',
+              'maxGroupSize': 808,
+              'minGroupSize': 974,
+              'pEvent': dict({
+                'autoAcceptance': False,
+                'contactEmail': 'huntveronica@example.net',
+                'contactPhoneNumber': '946-620-0377x22182',
+                'enrolmentEndDays': 2,
+                'enrolmentStart': '1995-07-09T08:34:53.846489+00:00',
+                'externalEnrolmentUrl': None,
+                'linkedEventId': 'Eprsb',
+                'mandatoryAdditionalInformation': False,
+                'neededOccurrences': 9,
+              }),
+              'placeId': 'Today friend maintain marriage ok thank realize.',
+              'remainingSeats': 14,
+              'seatType': 'CHILDREN_COUNT',
+              'seatsApproved': 0,
+              'seatsTaken': 0,
+              'startTime': '2020-01-02T00:00:00+00:00',
+            }),
+          }),
+        ]),
+      }),
+    }),
+  })
+# ---
+# name: test_occurrences_filter_by_date.1
+  dict({
+    'data': dict({
+      'occurrences': dict({
+        'edges': list([
+          dict({
+            'node': dict({
+              'amountOfSeats': 14,
+              'contactPersons': dict({
+                'edges': list([
+                ]),
+              }),
+              'endTime': '1992-03-25T02:06:42.233338+00:00',
+              'maxGroupSize': 808,
+              'minGroupSize': 974,
+              'pEvent': dict({
+                'autoAcceptance': False,
+                'contactEmail': 'huntveronica@example.net',
+                'contactPhoneNumber': '946-620-0377x22182',
+                'enrolmentEndDays': 2,
+                'enrolmentStart': '1995-07-09T08:34:53.846489+00:00',
+                'externalEnrolmentUrl': None,
+                'linkedEventId': 'Eprsb',
+                'mandatoryAdditionalInformation': False,
+                'neededOccurrences': 9,
+              }),
+              'placeId': 'Today friend maintain marriage ok thank realize.',
+              'remainingSeats': 14,
+              'seatType': 'CHILDREN_COUNT',
+              'seatsApproved': 0,
+              'seatsTaken': 0,
+              'startTime': '2020-01-02T00:00:00+00:00',
+            }),
+          }),
+          dict({
+            'node': dict({
+              'amountOfSeats': 46,
+              'contactPersons': dict({
+                'edges': list([
+                ]),
+              }),
+              'endTime': '2009-07-10T23:31:56.453060+00:00',
+              'maxGroupSize': 285,
+              'minGroupSize': 350,
+              'pEvent': dict({
+                'autoAcceptance': False,
+                'contactEmail': 'flowersbryan@example.net',
+                'contactPhoneNumber': '(951)826-3008x4654',
+                'enrolmentEndDays': 2,
+                'enrolmentStart': '1987-07-08T20:58:36.505491+00:00',
+                'externalEnrolmentUrl': None,
+                'linkedEventId': 'jGwiN',
+                'mandatoryAdditionalInformation': False,
+                'neededOccurrences': 10,
+              }),
+              'placeId': 'Traditional whether serious sister work.',
+              'remainingSeats': 46,
+              'seatType': 'CHILDREN_COUNT',
+              'seatsApproved': 0,
+              'seatsTaken': 0,
+              'startTime': '2020-01-02T00:00:00+00:00',
+            }),
+          }),
+        ]),
+      }),
+    }),
+  })
+# ---
+# name: test_occurrences_filter_by_enrollable[0-3]
+  dict({
+    'data': dict({
+      'occurrences': dict({
+        'edges': list([
+          dict({
+            'node': dict({
+              'amountOfSeats': 2,
+              'contactPersons': dict({
+                'edges': list([
+                ]),
+              }),
+              'endTime': '2010-02-19T14:44:08.844371+00:00',
+              'maxGroupSize': 714,
+              'minGroupSize': 757,
+              'pEvent': dict({
+                'autoAcceptance': False,
+                'contactEmail': 'thompsonjessica@example.com',
+                'contactPhoneNumber': '001-833-934-5773x55777',
+                'enrolmentEndDays': 0,
+                'enrolmentStart': '2020-01-05T00:00:00+00:00',
+                'externalEnrolmentUrl': None,
+                'linkedEventId': 'aAVEa',
+                'mandatoryAdditionalInformation': False,
+                'neededOccurrences': 6,
+              }),
+              'placeId': 'Put matter benefit treat final. Father boy economy the.',
+              'remainingSeats': 2,
+              'seatType': 'CHILDREN_COUNT',
+              'seatsApproved': 0,
+              'seatsTaken': 0,
+              'startTime': '2020-01-05T00:00:00+00:00',
+            }),
+          }),
+          dict({
+            'node': dict({
+              'amountOfSeats': 37,
+              'contactPersons': dict({
+                'edges': list([
+                ]),
+              }),
+              'endTime': '1985-05-19T11:46:06.872667+00:00',
+              'maxGroupSize': 859,
+              'minGroupSize': 99,
+              'pEvent': dict({
+                'autoAcceptance': False,
+                'contactEmail': 'thompsonjessica@example.com',
+                'contactPhoneNumber': '001-833-934-5773x55777',
+                'enrolmentEndDays': 0,
+                'enrolmentStart': '2020-01-05T00:00:00+00:00',
+                'externalEnrolmentUrl': None,
+                'linkedEventId': 'aAVEa',
+                'mandatoryAdditionalInformation': False,
+                'neededOccurrences': 6,
+              }),
+              'placeId': 'Party door better performance race story.',
+              'remainingSeats': 37,
+              'seatType': 'CHILDREN_COUNT',
+              'seatsApproved': 0,
+              'seatsTaken': 0,
+              'startTime': '2020-01-06T00:00:00+00:00',
+            }),
+          }),
+          dict({
+            'node': dict({
+              'amountOfSeats': 15,
+              'contactPersons': dict({
+                'edges': list([
+                ]),
+              }),
+              'endTime': '1987-01-08T13:12:09.032776+00:00',
+              'maxGroupSize': 873,
+              'minGroupSize': 799,
+              'pEvent': dict({
+                'autoAcceptance': False,
+                'contactEmail': 'thompsonjessica@example.com',
+                'contactPhoneNumber': '001-833-934-5773x55777',
+                'enrolmentEndDays': 0,
+                'enrolmentStart': '2020-01-05T00:00:00+00:00',
+                'externalEnrolmentUrl': None,
+                'linkedEventId': 'aAVEa',
+                'mandatoryAdditionalInformation': False,
+                'neededOccurrences': 6,
+              }),
+              'placeId': 'Toward scientist service wonder everything.',
+              'remainingSeats': 15,
+              'seatType': 'CHILDREN_COUNT',
+              'seatsApproved': 0,
+              'seatsTaken': 0,
+              'startTime': '2020-01-07T00:00:00+00:00',
+            }),
+          }),
+        ]),
+      }),
+    }),
+  })
+# ---
+# name: test_occurrences_filter_by_enrollable[1-2]
+  dict({
+    'data': dict({
+      'occurrences': dict({
+        'edges': list([
+          dict({
+            'node': dict({
+              'amountOfSeats': 37,
+              'contactPersons': dict({
+                'edges': list([
+                ]),
+              }),
+              'endTime': '1985-05-19T11:46:06.872667+00:00',
+              'maxGroupSize': 859,
+              'minGroupSize': 99,
+              'pEvent': dict({
+                'autoAcceptance': False,
+                'contactEmail': 'thompsonjessica@example.com',
+                'contactPhoneNumber': '001-833-934-5773x55777',
+                'enrolmentEndDays': 1,
+                'enrolmentStart': '2020-01-05T00:00:00+00:00',
+                'externalEnrolmentUrl': None,
+                'linkedEventId': 'aAVEa',
+                'mandatoryAdditionalInformation': False,
+                'neededOccurrences': 6,
+              }),
+              'placeId': 'Party door better performance race story.',
+              'remainingSeats': 37,
+              'seatType': 'CHILDREN_COUNT',
+              'seatsApproved': 0,
+              'seatsTaken': 0,
+              'startTime': '2020-01-06T00:00:00+00:00',
+            }),
+          }),
+          dict({
+            'node': dict({
+              'amountOfSeats': 15,
+              'contactPersons': dict({
+                'edges': list([
+                ]),
+              }),
+              'endTime': '1987-01-08T13:12:09.032776+00:00',
+              'maxGroupSize': 873,
+              'minGroupSize': 799,
+              'pEvent': dict({
+                'autoAcceptance': False,
+                'contactEmail': 'thompsonjessica@example.com',
+                'contactPhoneNumber': '001-833-934-5773x55777',
+                'enrolmentEndDays': 1,
+                'enrolmentStart': '2020-01-05T00:00:00+00:00',
+                'externalEnrolmentUrl': None,
+                'linkedEventId': 'aAVEa',
+                'mandatoryAdditionalInformation': False,
+                'neededOccurrences': 6,
+              }),
+              'placeId': 'Toward scientist service wonder everything.',
+              'remainingSeats': 15,
+              'seatType': 'CHILDREN_COUNT',
+              'seatsApproved': 0,
+              'seatsTaken': 0,
+              'startTime': '2020-01-07T00:00:00+00:00',
+            }),
+          }),
+        ]),
+      }),
+    }),
+  })
+# ---
+# name: test_occurrences_filter_by_enrollable[None-3]
+  dict({
+    'data': dict({
+      'occurrences': dict({
+        'edges': list([
+          dict({
+            'node': dict({
+              'amountOfSeats': 2,
+              'contactPersons': dict({
+                'edges': list([
+                ]),
+              }),
+              'endTime': '2010-02-19T14:44:08.844371+00:00',
+              'maxGroupSize': 714,
+              'minGroupSize': 757,
+              'pEvent': dict({
+                'autoAcceptance': False,
+                'contactEmail': 'thompsonjessica@example.com',
+                'contactPhoneNumber': '001-833-934-5773x55777',
+                'enrolmentEndDays': None,
+                'enrolmentStart': '2020-01-05T00:00:00+00:00',
+                'externalEnrolmentUrl': None,
+                'linkedEventId': 'aAVEa',
+                'mandatoryAdditionalInformation': False,
+                'neededOccurrences': 6,
+              }),
+              'placeId': 'Put matter benefit treat final. Father boy economy the.',
+              'remainingSeats': 2,
+              'seatType': 'CHILDREN_COUNT',
+              'seatsApproved': 0,
+              'seatsTaken': 0,
+              'startTime': '2020-01-05T00:00:00+00:00',
+            }),
+          }),
+          dict({
+            'node': dict({
+              'amountOfSeats': 37,
+              'contactPersons': dict({
+                'edges': list([
+                ]),
+              }),
+              'endTime': '1985-05-19T11:46:06.872667+00:00',
+              'maxGroupSize': 859,
+              'minGroupSize': 99,
+              'pEvent': dict({
+                'autoAcceptance': False,
+                'contactEmail': 'thompsonjessica@example.com',
+                'contactPhoneNumber': '001-833-934-5773x55777',
+                'enrolmentEndDays': None,
+                'enrolmentStart': '2020-01-05T00:00:00+00:00',
+                'externalEnrolmentUrl': None,
+                'linkedEventId': 'aAVEa',
+                'mandatoryAdditionalInformation': False,
+                'neededOccurrences': 6,
+              }),
+              'placeId': 'Party door better performance race story.',
+              'remainingSeats': 37,
+              'seatType': 'CHILDREN_COUNT',
+              'seatsApproved': 0,
+              'seatsTaken': 0,
+              'startTime': '2020-01-06T00:00:00+00:00',
+            }),
+          }),
+          dict({
+            'node': dict({
+              'amountOfSeats': 15,
+              'contactPersons': dict({
+                'edges': list([
+                ]),
+              }),
+              'endTime': '1987-01-08T13:12:09.032776+00:00',
+              'maxGroupSize': 873,
+              'minGroupSize': 799,
+              'pEvent': dict({
+                'autoAcceptance': False,
+                'contactEmail': 'thompsonjessica@example.com',
+                'contactPhoneNumber': '001-833-934-5773x55777',
+                'enrolmentEndDays': None,
+                'enrolmentStart': '2020-01-05T00:00:00+00:00',
+                'externalEnrolmentUrl': None,
+                'linkedEventId': 'aAVEa',
+                'mandatoryAdditionalInformation': False,
+                'neededOccurrences': 6,
+              }),
+              'placeId': 'Toward scientist service wonder everything.',
+              'remainingSeats': 15,
+              'seatType': 'CHILDREN_COUNT',
+              'seatsApproved': 0,
+              'seatsTaken': 0,
+              'startTime': '2020-01-07T00:00:00+00:00',
+            }),
+          }),
+        ]),
+      }),
+    }),
+  })
+# ---
+# name: test_occurrences_filter_by_p_event
+  dict({
+    'data': dict({
+      'occurrences': dict({
+        'edges': list([
+          dict({
+            'node': dict({
+              'amountOfSeats': 27,
+              'contactPersons': dict({
+                'edges': list([
+                ]),
+              }),
+              'endTime': '1982-11-06T04:40:33.407924+00:00',
+              'maxGroupSize': 22,
+              'minGroupSize': 6,
+              'pEvent': dict({
+                'autoAcceptance': False,
+                'contactEmail': 'dsellers@example.net',
+                'contactPhoneNumber': '934.957.7355',
+                'enrolmentEndDays': 2,
+                'enrolmentStart': '1990-12-14T02:05:00.660682+00:00',
+                'externalEnrolmentUrl': None,
+                'linkedEventId': 'aAVEa',
+                'mandatoryAdditionalInformation': False,
+                'neededOccurrences': 3,
+              }),
+              'placeId': 'Need benefit ready though street.',
+              'remainingSeats': 27,
+              'seatType': 'CHILDREN_COUNT',
+              'seatsApproved': 0,
+              'seatsTaken': 0,
+              'startTime': '2008-02-13T12:08:42.493034+00:00',
+            }),
+          }),
+          dict({
+            'node': dict({
+              'amountOfSeats': 3,
+              'contactPersons': dict({
+                'edges': list([
+                ]),
+              }),
+              'endTime': '1983-12-18T04:04:52.499467+00:00',
+              'maxGroupSize': 128,
+              'minGroupSize': 574,
+              'pEvent': dict({
+                'autoAcceptance': False,
+                'contactEmail': 'dsellers@example.net',
+                'contactPhoneNumber': '934.957.7355',
+                'enrolmentEndDays': 2,
+                'enrolmentStart': '1990-12-14T02:05:00.660682+00:00',
+                'externalEnrolmentUrl': None,
+                'linkedEventId': 'aAVEa',
+                'mandatoryAdditionalInformation': False,
+                'neededOccurrences': 3,
+              }),
+              'placeId': 'Course plant strong truth customer.',
+              'remainingSeats': 3,
+              'seatType': 'CHILDREN_COUNT',
+              'seatsApproved': 0,
+              'seatsTaken': 0,
+              'startTime': '2009-08-12T09:04:07.768068+00:00',
+            }),
+          }),
+        ]),
+      }),
+    }),
+  })
+# ---
+# name: test_occurrences_filter_by_p_event.1
+  dict({
+    'data': dict({
+      'occurrences': dict({
+        'edges': list([
+          dict({
+            'node': dict({
+              'amountOfSeats': 49,
+              'contactPersons': dict({
+                'edges': list([
+                ]),
+              }),
+              'endTime': '1975-07-12T08:02:11.536273+00:00',
+              'maxGroupSize': 990,
+              'minGroupSize': 749,
+              'pEvent': dict({
+                'autoAcceptance': False,
+                'contactEmail': 'cmartin@example.org',
+                'contactPhoneNumber': '+1-777-693-4055x5508',
+                'enrolmentEndDays': 1,
+                'enrolmentStart': '2004-08-22T05:11:59.521157+00:00',
+                'externalEnrolmentUrl': None,
+                'linkedEventId': 'rzzET',
+                'mandatoryAdditionalInformation': False,
+                'neededOccurrences': 10,
+              }),
+              'placeId': 'End look once strong artist save. Run hand human value base.',
+              'remainingSeats': 49,
+              'seatType': 'CHILDREN_COUNT',
+              'seatsApproved': 0,
+              'seatsTaken': 0,
+              'startTime': '2018-10-21T22:46:45.180823+00:00',
+            }),
+          }),
+        ]),
+      }),
+    }),
+  })
+# ---
+# name: test_occurrences_filter_by_time
+  dict({
+    'data': dict({
+      'occurrences': dict({
+        'edges': list([
+          dict({
+            'node': dict({
+              'amountOfSeats': 33,
+              'contactPersons': dict({
+                'edges': list([
+                ]),
+              }),
+              'endTime': '2002-04-18T06:53:11.806335+00:00',
+              'maxGroupSize': 383,
+              'minGroupSize': 341,
+              'pEvent': dict({
+                'autoAcceptance': False,
+                'contactEmail': 'bthomas@example.org',
+                'contactPhoneNumber': '(806)849-7638x034',
+                'enrolmentEndDays': 1,
+                'enrolmentStart': '2006-07-17T08:32:28.440059+00:00',
+                'externalEnrolmentUrl': None,
+                'linkedEventId': 'xytHj',
+                'mandatoryAdditionalInformation': False,
+                'neededOccurrences': 7,
+              }),
+              'placeId': 'Record card my. Sure sister return.',
+              'remainingSeats': 33,
+              'seatType': 'CHILDREN_COUNT',
+              'seatsApproved': 0,
+              'seatsTaken': 0,
+              'startTime': '2020-01-01T10:00:00+00:00',
+            }),
+          }),
+        ]),
+      }),
+    }),
+  })
+# ---
+# name: test_occurrences_filter_by_time.1
+  dict({
+    'data': dict({
+      'occurrences': dict({
+        'edges': list([
+          dict({
+            'node': dict({
+              'amountOfSeats': 24,
+              'contactPersons': dict({
+                'edges': list([
+                ]),
+              }),
+              'endTime': '1970-04-03T02:18:45.929522+00:00',
+              'maxGroupSize': 288,
+              'minGroupSize': 67,
+              'pEvent': dict({
+                'autoAcceptance': False,
+                'contactEmail': 'pwilliams@example.org',
+                'contactPhoneNumber': '737.279.4021x78779',
+                'enrolmentEndDays': 2,
+                'enrolmentStart': '2007-04-19T17:41:37.637441+00:00',
+                'externalEnrolmentUrl': None,
+                'linkedEventId': 'Tfgkj',
+                'mandatoryAdditionalInformation': False,
+                'neededOccurrences': 3,
+              }),
+              'placeId': 'Few eye first walk west six feel. Fast authority key crime.',
+              'remainingSeats': 24,
+              'seatType': 'CHILDREN_COUNT',
+              'seatsApproved': 0,
+              'seatsTaken': 0,
+              'startTime': '2020-01-02T12:00:00+00:00',
+            }),
+          }),
+        ]),
+      }),
+    }),
+  })
+# ---
+# name: test_occurrences_filter_by_time.2
+  dict({
+    'data': dict({
+      'occurrences': dict({
+        'edges': list([
+          dict({
+            'node': dict({
+              'amountOfSeats': 46,
+              'contactPersons': dict({
+                'edges': list([
+                ]),
+              }),
+              'endTime': '2009-07-10T23:31:56.453060+00:00',
+              'maxGroupSize': 285,
+              'minGroupSize': 350,
+              'pEvent': dict({
+                'autoAcceptance': False,
+                'contactEmail': 'flowersbryan@example.net',
+                'contactPhoneNumber': '(951)826-3008x4654',
+                'enrolmentEndDays': 2,
+                'enrolmentStart': '1987-07-08T20:58:36.505491+00:00',
+                'externalEnrolmentUrl': None,
+                'linkedEventId': 'jGwiN',
+                'mandatoryAdditionalInformation': False,
+                'neededOccurrences': 10,
+              }),
+              'placeId': 'Traditional whether serious sister work.',
+              'remainingSeats': 46,
+              'seatType': 'CHILDREN_COUNT',
+              'seatsApproved': 0,
+              'seatsTaken': 0,
+              'startTime': '2020-01-01T11:00:00+00:00',
+            }),
+          }),
+          dict({
+            'node': dict({
+              'amountOfSeats': 14,
+              'contactPersons': dict({
+                'edges': list([
+                ]),
+              }),
+              'endTime': '1992-03-25T02:06:42.233338+00:00',
+              'maxGroupSize': 808,
+              'minGroupSize': 974,
+              'pEvent': dict({
+                'autoAcceptance': False,
+                'contactEmail': 'huntveronica@example.net',
+                'contactPhoneNumber': '946-620-0377x22182',
+                'enrolmentEndDays': 2,
+                'enrolmentStart': '1995-07-09T08:34:53.846489+00:00',
+                'externalEnrolmentUrl': None,
+                'linkedEventId': 'Eprsb',
+                'mandatoryAdditionalInformation': False,
+                'neededOccurrences': 9,
+              }),
+              'placeId': 'Today friend maintain marriage ok thank realize.',
+              'remainingSeats': 14,
+              'seatType': 'CHILDREN_COUNT',
+              'seatsApproved': 0,
+              'seatsTaken': 0,
+              'startTime': '2020-01-02T11:00:00+00:00',
+            }),
+          }),
+        ]),
+      }),
+    }),
+  })
+# ---
+# name: test_occurrences_filter_by_time.3
+  dict({
+    'data': dict({
+      'occurrences': dict({
+        'edges': list([
+          dict({
+            'node': dict({
+              'amountOfSeats': 46,
+              'contactPersons': dict({
+                'edges': list([
+                ]),
+              }),
+              'endTime': '2009-07-10T23:31:56.453060+00:00',
+              'maxGroupSize': 285,
+              'minGroupSize': 350,
+              'pEvent': dict({
+                'autoAcceptance': False,
+                'contactEmail': 'flowersbryan@example.net',
+                'contactPhoneNumber': '(951)826-3008x4654',
+                'enrolmentEndDays': 2,
+                'enrolmentStart': '1987-07-08T20:58:36.505491+00:00',
+                'externalEnrolmentUrl': None,
+                'linkedEventId': 'jGwiN',
+                'mandatoryAdditionalInformation': False,
+                'neededOccurrences': 10,
+              }),
+              'placeId': 'Traditional whether serious sister work.',
+              'remainingSeats': 46,
+              'seatType': 'CHILDREN_COUNT',
+              'seatsApproved': 0,
+              'seatsTaken': 0,
+              'startTime': '2020-01-01T11:00:00+00:00',
+            }),
+          }),
+          dict({
+            'node': dict({
+              'amountOfSeats': 14,
+              'contactPersons': dict({
+                'edges': list([
+                ]),
+              }),
+              'endTime': '1992-03-25T02:06:42.233338+00:00',
+              'maxGroupSize': 808,
+              'minGroupSize': 974,
+              'pEvent': dict({
+                'autoAcceptance': False,
+                'contactEmail': 'huntveronica@example.net',
+                'contactPhoneNumber': '946-620-0377x22182',
+                'enrolmentEndDays': 2,
+                'enrolmentStart': '1995-07-09T08:34:53.846489+00:00',
+                'externalEnrolmentUrl': None,
+                'linkedEventId': 'Eprsb',
+                'mandatoryAdditionalInformation': False,
+                'neededOccurrences': 9,
+              }),
+              'placeId': 'Today friend maintain marriage ok thank realize.',
+              'remainingSeats': 14,
+              'seatType': 'CHILDREN_COUNT',
+              'seatsApproved': 0,
+              'seatsTaken': 0,
+              'startTime': '2020-01-02T11:00:00+00:00',
+            }),
+          }),
+        ]),
+      }),
+    }),
+  })
+# ---
+# name: test_occurrences_filter_by_upcoming
+  dict({
+    'data': dict({
+      'occurrences': dict({
+        'edges': list([
+          dict({
+            'node': dict({
+              'amountOfSeats': 43,
+              'contactPersons': dict({
+                'edges': list([
+                ]),
+              }),
+              'endTime': '2020-01-05T00:00:00+00:00',
+              'maxGroupSize': 709,
+              'minGroupSize': 132,
+              'pEvent': dict({
+                'autoAcceptance': False,
+                'contactEmail': 'thompsonjessica@example.com',
+                'contactPhoneNumber': '001-833-934-5773x55777',
+                'enrolmentEndDays': 10,
+                'enrolmentStart': '2020-01-05T00:00:00+00:00',
+                'externalEnrolmentUrl': None,
+                'linkedEventId': 'aAVEa',
+                'mandatoryAdditionalInformation': False,
+                'neededOccurrences': 6,
+              }),
+              'placeId': 'Success commercial recently from front affect senior.',
+              'remainingSeats': 43,
+              'seatType': 'CHILDREN_COUNT',
+              'seatsApproved': 0,
+              'seatsTaken': 0,
+              'startTime': '2020-01-04T00:00:00+00:00',
+            }),
+          }),
+          dict({
+            'node': dict({
+              'amountOfSeats': 22,
+              'contactPersons': dict({
+                'edges': list([
+                ]),
+              }),
+              'endTime': '2020-01-06T00:00:00+00:00',
+              'maxGroupSize': 407,
+              'minGroupSize': 589,
+              'pEvent': dict({
+                'autoAcceptance': False,
+                'contactEmail': 'thompsonjessica@example.com',
+                'contactPhoneNumber': '001-833-934-5773x55777',
+                'enrolmentEndDays': 10,
+                'enrolmentStart': '2020-01-05T00:00:00+00:00',
+                'externalEnrolmentUrl': None,
+                'linkedEventId': 'aAVEa',
+                'mandatoryAdditionalInformation': False,
+                'neededOccurrences': 6,
+              }),
+              'placeId': 'Option PM put matter benefit.',
+              'remainingSeats': 22,
+              'seatType': 'CHILDREN_COUNT',
+              'seatsApproved': 0,
+              'seatsTaken': 0,
+              'startTime': '2020-01-05T00:00:00+00:00',
+            }),
+          }),
+          dict({
+            'node': dict({
+              'amountOfSeats': 19,
+              'contactPersons': dict({
+                'edges': list([
+                ]),
+              }),
+              'endTime': '2020-01-07T00:00:00+00:00',
+              'maxGroupSize': 859,
+              'minGroupSize': 99,
+              'pEvent': dict({
+                'autoAcceptance': False,
+                'contactEmail': 'thompsonjessica@example.com',
+                'contactPhoneNumber': '001-833-934-5773x55777',
+                'enrolmentEndDays': 10,
+                'enrolmentStart': '2020-01-05T00:00:00+00:00',
+                'externalEnrolmentUrl': None,
+                'linkedEventId': 'aAVEa',
+                'mandatoryAdditionalInformation': False,
+                'neededOccurrences': 6,
+              }),
+              'placeId': 'Dream party door better performance race story.',
+              'remainingSeats': 19,
+              'seatType': 'CHILDREN_COUNT',
+              'seatsApproved': 0,
+              'seatsTaken': 0,
+              'startTime': '2020-01-06T00:00:00+00:00',
+            }),
+          }),
+        ]),
+      }),
+    }),
+  })
+# ---
+# name: test_occurrences_ordering_by_order_by_end_time
+  dict({
+    'data': dict({
+      'occurrences': dict({
+        'edges': list([
+          dict({
+            'node': dict({
+              'amountOfSeats': 46,
+              'contactPersons': dict({
+                'edges': list([
+                ]),
+              }),
+              'endTime': '2020-01-05T00:00:00+00:00',
+              'maxGroupSize': 285,
+              'minGroupSize': 350,
+              'pEvent': dict({
+                'autoAcceptance': False,
+                'contactEmail': 'flowersbryan@example.net',
+                'contactPhoneNumber': '(951)826-3008x4654',
+                'enrolmentEndDays': 2,
+                'enrolmentStart': '1987-07-08T20:58:36.505491+00:00',
+                'externalEnrolmentUrl': None,
+                'linkedEventId': 'jGwiN',
+                'mandatoryAdditionalInformation': False,
+                'neededOccurrences': 10,
+              }),
+              'placeId': 'Traditional whether serious sister work.',
+              'remainingSeats': 46,
+              'seatType': 'CHILDREN_COUNT',
+              'seatsApproved': 0,
+              'seatsTaken': 0,
+              'startTime': '2009-07-10T23:31:56.453060+00:00',
+            }),
+          }),
+          dict({
+            'node': dict({
+              'amountOfSeats': 33,
+              'contactPersons': dict({
+                'edges': list([
+                ]),
+              }),
+              'endTime': '2020-01-06T00:00:00+00:00',
+              'maxGroupSize': 383,
+              'minGroupSize': 341,
+              'pEvent': dict({
+                'autoAcceptance': False,
+                'contactEmail': 'bthomas@example.org',
+                'contactPhoneNumber': '(806)849-7638x034',
+                'enrolmentEndDays': 1,
+                'enrolmentStart': '2006-07-17T08:32:28.440059+00:00',
+                'externalEnrolmentUrl': None,
+                'linkedEventId': 'xytHj',
+                'mandatoryAdditionalInformation': False,
+                'neededOccurrences': 7,
+              }),
+              'placeId': 'Record card my. Sure sister return.',
+              'remainingSeats': 33,
+              'seatType': 'CHILDREN_COUNT',
+              'seatsApproved': 0,
+              'seatsTaken': 0,
+              'startTime': '2002-04-18T06:53:11.806335+00:00',
+            }),
+          }),
+          dict({
+            'node': dict({
+              'amountOfSeats': 14,
+              'contactPersons': dict({
+                'edges': list([
+                ]),
+              }),
+              'endTime': '2020-01-07T00:00:00+00:00',
+              'maxGroupSize': 808,
+              'minGroupSize': 974,
+              'pEvent': dict({
+                'autoAcceptance': False,
+                'contactEmail': 'huntveronica@example.net',
+                'contactPhoneNumber': '946-620-0377x22182',
+                'enrolmentEndDays': 2,
+                'enrolmentStart': '1995-07-09T08:34:53.846489+00:00',
+                'externalEnrolmentUrl': None,
+                'linkedEventId': 'Eprsb',
+                'mandatoryAdditionalInformation': False,
+                'neededOccurrences': 9,
+              }),
+              'placeId': 'Today friend maintain marriage ok thank realize.',
+              'remainingSeats': 14,
+              'seatType': 'CHILDREN_COUNT',
+              'seatsApproved': 0,
+              'seatsTaken': 0,
+              'startTime': '1992-03-25T02:06:42.233338+00:00',
+            }),
+          }),
+        ]),
+      }),
+    }),
+  })
+# ---
+# name: test_occurrences_ordering_by_order_by_end_time.1
+  dict({
+    'data': dict({
+      'occurrences': dict({
+        'edges': list([
+          dict({
+            'node': dict({
+              'amountOfSeats': 14,
+              'contactPersons': dict({
+                'edges': list([
+                ]),
+              }),
+              'endTime': '2020-01-07T00:00:00+00:00',
+              'maxGroupSize': 808,
+              'minGroupSize': 974,
+              'pEvent': dict({
+                'autoAcceptance': False,
+                'contactEmail': 'huntveronica@example.net',
+                'contactPhoneNumber': '946-620-0377x22182',
+                'enrolmentEndDays': 2,
+                'enrolmentStart': '1995-07-09T08:34:53.846489+00:00',
+                'externalEnrolmentUrl': None,
+                'linkedEventId': 'Eprsb',
+                'mandatoryAdditionalInformation': False,
+                'neededOccurrences': 9,
+              }),
+              'placeId': 'Today friend maintain marriage ok thank realize.',
+              'remainingSeats': 14,
+              'seatType': 'CHILDREN_COUNT',
+              'seatsApproved': 0,
+              'seatsTaken': 0,
+              'startTime': '1992-03-25T02:06:42.233338+00:00',
+            }),
+          }),
+          dict({
+            'node': dict({
+              'amountOfSeats': 33,
+              'contactPersons': dict({
+                'edges': list([
+                ]),
+              }),
+              'endTime': '2020-01-06T00:00:00+00:00',
+              'maxGroupSize': 383,
+              'minGroupSize': 341,
+              'pEvent': dict({
+                'autoAcceptance': False,
+                'contactEmail': 'bthomas@example.org',
+                'contactPhoneNumber': '(806)849-7638x034',
+                'enrolmentEndDays': 1,
+                'enrolmentStart': '2006-07-17T08:32:28.440059+00:00',
+                'externalEnrolmentUrl': None,
+                'linkedEventId': 'xytHj',
+                'mandatoryAdditionalInformation': False,
+                'neededOccurrences': 7,
+              }),
+              'placeId': 'Record card my. Sure sister return.',
+              'remainingSeats': 33,
+              'seatType': 'CHILDREN_COUNT',
+              'seatsApproved': 0,
+              'seatsTaken': 0,
+              'startTime': '2002-04-18T06:53:11.806335+00:00',
+            }),
+          }),
+          dict({
+            'node': dict({
+              'amountOfSeats': 46,
+              'contactPersons': dict({
+                'edges': list([
+                ]),
+              }),
+              'endTime': '2020-01-05T00:00:00+00:00',
+              'maxGroupSize': 285,
+              'minGroupSize': 350,
+              'pEvent': dict({
+                'autoAcceptance': False,
+                'contactEmail': 'flowersbryan@example.net',
+                'contactPhoneNumber': '(951)826-3008x4654',
+                'enrolmentEndDays': 2,
+                'enrolmentStart': '1987-07-08T20:58:36.505491+00:00',
+                'externalEnrolmentUrl': None,
+                'linkedEventId': 'jGwiN',
+                'mandatoryAdditionalInformation': False,
+                'neededOccurrences': 10,
+              }),
+              'placeId': 'Traditional whether serious sister work.',
+              'remainingSeats': 46,
+              'seatType': 'CHILDREN_COUNT',
+              'seatsApproved': 0,
+              'seatsTaken': 0,
+              'startTime': '2009-07-10T23:31:56.453060+00:00',
+            }),
+          }),
+        ]),
+      }),
+    }),
+  })
+# ---
+# name: test_occurrences_ordering_by_order_by_start_time
+  dict({
+    'data': dict({
+      'occurrences': dict({
+        'edges': list([
+          dict({
+            'node': dict({
+              'amountOfSeats': 46,
+              'contactPersons': dict({
+                'edges': list([
+                ]),
+              }),
+              'endTime': '2009-07-10T23:31:56.453060+00:00',
+              'maxGroupSize': 285,
+              'minGroupSize': 350,
+              'pEvent': dict({
+                'autoAcceptance': False,
+                'contactEmail': 'flowersbryan@example.net',
+                'contactPhoneNumber': '(951)826-3008x4654',
+                'enrolmentEndDays': 2,
+                'enrolmentStart': '1987-07-08T20:58:36.505491+00:00',
+                'externalEnrolmentUrl': None,
+                'linkedEventId': 'jGwiN',
+                'mandatoryAdditionalInformation': False,
+                'neededOccurrences': 10,
+              }),
+              'placeId': 'Traditional whether serious sister work.',
+              'remainingSeats': 46,
+              'seatType': 'CHILDREN_COUNT',
+              'seatsApproved': 0,
+              'seatsTaken': 0,
+              'startTime': '2020-01-05T00:00:00+00:00',
+            }),
+          }),
+          dict({
+            'node': dict({
+              'amountOfSeats': 33,
+              'contactPersons': dict({
+                'edges': list([
+                ]),
+              }),
+              'endTime': '2002-04-18T06:53:11.806335+00:00',
+              'maxGroupSize': 383,
+              'minGroupSize': 341,
+              'pEvent': dict({
+                'autoAcceptance': False,
+                'contactEmail': 'bthomas@example.org',
+                'contactPhoneNumber': '(806)849-7638x034',
+                'enrolmentEndDays': 1,
+                'enrolmentStart': '2006-07-17T08:32:28.440059+00:00',
+                'externalEnrolmentUrl': None,
+                'linkedEventId': 'xytHj',
+                'mandatoryAdditionalInformation': False,
+                'neededOccurrences': 7,
+              }),
+              'placeId': 'Record card my. Sure sister return.',
+              'remainingSeats': 33,
+              'seatType': 'CHILDREN_COUNT',
+              'seatsApproved': 0,
+              'seatsTaken': 0,
+              'startTime': '2020-01-06T00:00:00+00:00',
+            }),
+          }),
+          dict({
+            'node': dict({
+              'amountOfSeats': 14,
+              'contactPersons': dict({
+                'edges': list([
+                ]),
+              }),
+              'endTime': '1992-03-25T02:06:42.233338+00:00',
+              'maxGroupSize': 808,
+              'minGroupSize': 974,
+              'pEvent': dict({
+                'autoAcceptance': False,
+                'contactEmail': 'huntveronica@example.net',
+                'contactPhoneNumber': '946-620-0377x22182',
+                'enrolmentEndDays': 2,
+                'enrolmentStart': '1995-07-09T08:34:53.846489+00:00',
+                'externalEnrolmentUrl': None,
+                'linkedEventId': 'Eprsb',
+                'mandatoryAdditionalInformation': False,
+                'neededOccurrences': 9,
+              }),
+              'placeId': 'Today friend maintain marriage ok thank realize.',
+              'remainingSeats': 14,
+              'seatType': 'CHILDREN_COUNT',
+              'seatsApproved': 0,
+              'seatsTaken': 0,
+              'startTime': '2020-01-07T00:00:00+00:00',
+            }),
+          }),
+        ]),
+      }),
+    }),
+  })
+# ---
+# name: test_occurrences_ordering_by_order_by_start_time.1
+  dict({
+    'data': dict({
+      'occurrences': dict({
+        'edges': list([
+          dict({
+            'node': dict({
+              'amountOfSeats': 14,
+              'contactPersons': dict({
+                'edges': list([
+                ]),
+              }),
+              'endTime': '1992-03-25T02:06:42.233338+00:00',
+              'maxGroupSize': 808,
+              'minGroupSize': 974,
+              'pEvent': dict({
+                'autoAcceptance': False,
+                'contactEmail': 'huntveronica@example.net',
+                'contactPhoneNumber': '946-620-0377x22182',
+                'enrolmentEndDays': 2,
+                'enrolmentStart': '1995-07-09T08:34:53.846489+00:00',
+                'externalEnrolmentUrl': None,
+                'linkedEventId': 'Eprsb',
+                'mandatoryAdditionalInformation': False,
+                'neededOccurrences': 9,
+              }),
+              'placeId': 'Today friend maintain marriage ok thank realize.',
+              'remainingSeats': 14,
+              'seatType': 'CHILDREN_COUNT',
+              'seatsApproved': 0,
+              'seatsTaken': 0,
+              'startTime': '2020-01-07T00:00:00+00:00',
+            }),
+          }),
+          dict({
+            'node': dict({
+              'amountOfSeats': 33,
+              'contactPersons': dict({
+                'edges': list([
+                ]),
+              }),
+              'endTime': '2002-04-18T06:53:11.806335+00:00',
+              'maxGroupSize': 383,
+              'minGroupSize': 341,
+              'pEvent': dict({
+                'autoAcceptance': False,
+                'contactEmail': 'bthomas@example.org',
+                'contactPhoneNumber': '(806)849-7638x034',
+                'enrolmentEndDays': 1,
+                'enrolmentStart': '2006-07-17T08:32:28.440059+00:00',
+                'externalEnrolmentUrl': None,
+                'linkedEventId': 'xytHj',
+                'mandatoryAdditionalInformation': False,
+                'neededOccurrences': 7,
+              }),
+              'placeId': 'Record card my. Sure sister return.',
+              'remainingSeats': 33,
+              'seatType': 'CHILDREN_COUNT',
+              'seatsApproved': 0,
+              'seatsTaken': 0,
+              'startTime': '2020-01-06T00:00:00+00:00',
+            }),
+          }),
+          dict({
+            'node': dict({
+              'amountOfSeats': 46,
+              'contactPersons': dict({
+                'edges': list([
+                ]),
+              }),
+              'endTime': '2009-07-10T23:31:56.453060+00:00',
+              'maxGroupSize': 285,
+              'minGroupSize': 350,
+              'pEvent': dict({
+                'autoAcceptance': False,
+                'contactEmail': 'flowersbryan@example.net',
+                'contactPhoneNumber': '(951)826-3008x4654',
+                'enrolmentEndDays': 2,
+                'enrolmentStart': '1987-07-08T20:58:36.505491+00:00',
+                'externalEnrolmentUrl': None,
+                'linkedEventId': 'jGwiN',
+                'mandatoryAdditionalInformation': False,
+                'neededOccurrences': 10,
+              }),
+              'placeId': 'Traditional whether serious sister work.',
+              'remainingSeats': 46,
+              'seatType': 'CHILDREN_COUNT',
+              'seatsApproved': 0,
+              'seatsTaken': 0,
+              'startTime': '2020-01-05T00:00:00+00:00',
+            }),
+          }),
+        ]),
+      }),
+    }),
+  })
+# ---
+# name: test_occurrences_query
+  dict({
+    'data': dict({
+      'occurrences': dict({
+        'edges': list([
+          dict({
+            'node': dict({
+              'amountOfSeats': 33,
+              'contactPersons': dict({
+                'edges': list([
+                ]),
+              }),
+              'endTime': '1992-07-05T12:04:13.244825+00:00',
+              'maxGroupSize': 383,
+              'minGroupSize': 341,
+              'pEvent': dict({
+                'autoAcceptance': False,
+                'contactEmail': 'eperry@example.org',
+                'contactPhoneNumber': '5646976380',
+                'enrolmentEndDays': 1,
+                'enrolmentStart': '1989-08-31T23:14:42.824885+00:00',
+                'externalEnrolmentUrl': None,
+                'linkedEventId': 'ytHjL',
+                'mandatoryAdditionalInformation': False,
+                'neededOccurrences': 5,
+              }),
+              'placeId': 'Record card my. Sure sister return.',
+              'remainingSeats': 33,
+              'seatType': 'CHILDREN_COUNT',
+              'seatsApproved': 0,
+              'seatsTaken': 0,
+              'startTime': '2002-04-18T06:53:11.806335+00:00',
+            }),
+          }),
+        ]),
+      }),
+    }),
+  })
+# ---
+# name: test_pick_enrolment_from_queue
+  dict({
+    'data': dict({
+      'pickEnrolmentFromQueue': dict({
+        'enrolment': dict({
+          'notificationType': 'EMAIL',
+          'person': dict({
+            'emailAddress': 'rose06@example.com',
+            'name': 'Robert Gray',
+          }),
+          'status': 'PENDING',
+          'studyGroup': dict({
+            'groupName': 'Decade address have turn serve me every traditional. Sound describe risk newspaper reflect four.',
+          }),
+        }),
+      }),
+    }),
+  })
+# ---
+# name: test_study_level_query
+  dict({
+    'data': dict({
+      'studyLevel': dict({
+        'id': 'age_0_2',
+        'label': 'age 0-2',
+        'level': 0,
+        'translations': list([
+          dict({
+            'label': 'age 0-2',
+            'languageCode': 'EN',
+          }),
+        ]),
+      }),
+    }),
+  })
+# ---
+# name: test_study_levels_query
+  dict({
+    'data': dict({
+      'studyLevels': dict({
+        'edges': list([
+          dict({
+            'node': dict({
+              'id': 'age_0_2',
+              'label': 'age 0-2',
+              'level': 0,
+              'translations': list([
+                dict({
+                  'label': 'age 0-2',
+                  'languageCode': 'EN',
+                }),
+              ]),
+            }),
+          }),
+          dict({
+            'node': dict({
+              'id': 'age_3_4',
+              'label': 'age 3-4',
+              'level': 1,
+              'translations': list([
+                dict({
+                  'label': 'age 3-4',
+                  'languageCode': 'EN',
+                }),
+              ]),
+            }),
+          }),
+          dict({
+            'node': dict({
+              'id': 'preschool',
+              'label': 'preschool',
+              'level': 2,
+              'translations': list([
+                dict({
+                  'label': 'preschool',
+                  'languageCode': 'EN',
+                }),
+              ]),
+            }),
+          }),
+          dict({
+            'node': dict({
+              'id': 'grade_1',
+              'label': 'first grade',
+              'level': 3,
+              'translations': list([
+                dict({
+                  'label': 'first grade',
+                  'languageCode': 'EN',
+                }),
+              ]),
+            }),
+          }),
+          dict({
+            'node': dict({
+              'id': 'grade_2',
+              'label': 'second grade',
+              'level': 4,
+              'translations': list([
+                dict({
+                  'label': 'second grade',
+                  'languageCode': 'EN',
+                }),
+              ]),
+            }),
+          }),
+          dict({
+            'node': dict({
+              'id': 'grade_3',
+              'label': 'third grade',
+              'level': 5,
+              'translations': list([
+                dict({
+                  'label': 'third grade',
+                  'languageCode': 'EN',
+                }),
+              ]),
+            }),
+          }),
+          dict({
+            'node': dict({
+              'id': 'grade_4',
+              'label': 'fourth grade',
+              'level': 6,
+              'translations': list([
+                dict({
+                  'label': 'fourth grade',
+                  'languageCode': 'EN',
+                }),
+              ]),
+            }),
+          }),
+          dict({
+            'node': dict({
+              'id': 'grade_5',
+              'label': 'fifth grade',
+              'level': 7,
+              'translations': list([
+                dict({
+                  'label': 'fifth grade',
+                  'languageCode': 'EN',
+                }),
+              ]),
+            }),
+          }),
+          dict({
+            'node': dict({
+              'id': 'grade_6',
+              'label': 'sixth grade',
+              'level': 8,
+              'translations': list([
+                dict({
+                  'label': 'sixth grade',
+                  'languageCode': 'EN',
+                }),
+              ]),
+            }),
+          }),
+          dict({
+            'node': dict({
+              'id': 'grade_7',
+              'label': 'seventh grade',
+              'level': 9,
+              'translations': list([
+                dict({
+                  'label': 'seventh grade',
+                  'languageCode': 'EN',
+                }),
+              ]),
+            }),
+          }),
+          dict({
+            'node': dict({
+              'id': 'grade_8',
+              'label': 'eighth grade',
+              'level': 10,
+              'translations': list([
+                dict({
+                  'label': 'eighth grade',
+                  'languageCode': 'EN',
+                }),
+              ]),
+            }),
+          }),
+          dict({
+            'node': dict({
+              'id': 'grade_9',
+              'label': 'ninth grade',
+              'level': 11,
+              'translations': list([
+                dict({
+                  'label': 'ninth grade',
+                  'languageCode': 'EN',
+                }),
+              ]),
+            }),
+          }),
+          dict({
+            'node': dict({
+              'id': 'grade_10',
+              'label': 'tenth grade',
+              'level': 12,
+              'translations': list([
+                dict({
+                  'label': 'tenth grade',
+                  'languageCode': 'EN',
+                }),
+              ]),
+            }),
+          }),
+          dict({
+            'node': dict({
+              'id': 'secondary',
+              'label': 'secondary',
+              'level': 13,
+              'translations': list([
+                dict({
+                  'label': 'secondary',
+                  'languageCode': 'EN',
+                }),
+              ]),
+            }),
+          }),
+          dict({
+            'node': dict({
+              'id': 'other',
+              'label': 'other group',
+              'level': 14,
+              'translations': list([
+                dict({
+                  'label': 'other group',
+                  'languageCode': 'EN',
+                }),
+              ]),
+            }),
+          }),
+        ]),
+      }),
+    }),
+  })
+# ---
+# name: test_unenrol_event_queue_mutation[False]
+  dict({
+    'data': dict({
+      'unenrolEventQueue': dict({
+        'pEvent': dict({
+          'isQueueingAllowed': False,
+          'linkedEventId': 'MYfOB',
+        }),
+        'studyGroup': dict({
+          'unitName': 'Tough plant traditional after born up always. Return student light a point charge.',
+        }),
+      }),
+    }),
+  })
+# ---
+# name: test_unenrol_event_queue_mutation[True]
+  dict({
+    'data': dict({
+      'unenrolEventQueue': dict({
+        'pEvent': dict({
+          'isQueueingAllowed': True,
+          'linkedEventId': 'MYfOB',
+        }),
+        'studyGroup': dict({
+          'unitName': 'Tough plant traditional after born up always. Return student light a point charge.',
+        }),
+      }),
+    }),
+  })
+# ---
+# name: test_unenrol_occurrence
+  dict({
+    'data': dict({
+      'unenrolOccurrence': dict({
+        'occurrence': dict({
+          'amountOfSeats': 50,
+          'remainingSeats': 50,
+          'seatsApproved': 0,
+          'seatsTaken': 0,
+          'startTime': '2020-01-06T00:00:00+00:00',
+        }),
+        'studyGroup': dict({
+          'unitName': 'Leave serve important probably. Sea something western research.',
+        }),
+      }),
+    }),
+  })
+# ---
+# name: test_update_enrolment
+  dict({
+    'data': dict({
+      'updateEnrolment': dict({
+        'enrolment': dict({
+          'notificationType': 'SMS',
+          'occurrence': dict({
+            'amountOfSeats': 35,
+            'remainingSeats': 6,
+            'seatsApproved': 0,
+            'seatsTaken': 29,
+            'startTime': '2020-01-06T00:00:00+00:00',
+          }),
+          'status': 'PENDING',
+          'studyGroup': dict({
+            'amountOfAdult': 3,
+            'enrolments': dict({
+              'edges': list([
+                dict({
+                  'node': dict({
+                    'notificationType': 'SMS',
+                  }),
+                }),
+                dict({
+                  'node': dict({
+                    'notificationType': 'SMS',
+                  }),
+                }),
+              ]),
+            }),
+            'groupName': 'Updated study group name',
+            'groupSize': 16,
+            'unitName': 'Updated name',
+          }),
+        }),
+      }),
+    }),
+  })
+# ---
+# name: test_update_occurrence_of_published_event_without_enrolments
+  dict({
+    'data': dict({
+      'updateOccurrence': dict({
+        'occurrence': dict({
+          'contactPersons': dict({
+            'edges': list([
+              dict({
+                'node': dict({
+                  'name': 'Julie Parrish',
+                }),
+              }),
+            ]),
+          }),
+          'endTime': '2020-05-06T00:00:00+00:00',
+          'languages': dict({
+            'edges': list([
+              dict({
+                'node': dict({
+                  'id': 'en',
+                  'name': 'English',
+                }),
+              }),
+              dict({
+                'node': dict({
+                  'id': 'fi',
+                  'name': 'Finnish',
+                }),
+              }),
+              dict({
+                'node': dict({
+                  'id': 'sv',
+                  'name': 'Swedish',
+                }),
+              }),
+            ]),
+          }),
+          'maxGroupSize': 10,
+          'minGroupSize': 10,
+          'pEvent': dict({
+            'contactEmail': 'donald78@example.net',
+            'contactPhoneNumber': '001-658-731-3222x29493',
+            'enrolmentEndDays': 2,
+            'enrolmentStart': '1981-07-25T08:53:14.019007+00:00',
+            'externalEnrolmentUrl': None,
+            'linkedEventId': 'helsinki:afxp6tv4xa',
+            'mandatoryAdditionalInformation': False,
+            'neededOccurrences': 0,
+          }),
+          'startTime': '2020-05-05T00:00:00+00:00',
+        }),
+      }),
+    }),
+  })
+# ---
+# name: test_update_study_group_staff_user
+  dict({
+    'data': dict({
+      'updateStudyGroup': dict({
+        'studyGroup': dict({
+          'amountOfAdult': 2,
+          'extraNeeds': 'Extra needs',
+          'groupName': 'Sample group name',
+          'groupSize': 20,
+          'person': dict({
+            'emailAddress': 'email@address.com',
+            'language': 'FI',
+            'name': 'Name',
+            'phoneNumber': '123123',
+          }),
+          'studyLevels': dict({
+            'edges': list([
+              dict({
+                'node': dict({
+                  'id': 'grade_2',
+                  'label': 'second grade',
+                  'level': 4,
+                  'translations': list([
+                    dict({
+                      'label': 'second grade',
+                      'languageCode': 'EN',
+                    }),
+                  ]),
+                }),
+              }),
+            ]),
+          }),
+          'unit': dict({
+            'internalId': 'https://api.hel.fi/linkedevents/v1/place/tprek:15417/',
+            'name': dict({
+              'fi': 'Sellon kirjasto',
+            }),
+          }),
+          'unitId': 'helsinki:afxp6tv4xa',
+          'unitName': 'Sample study group name',
+        }),
+      }),
+    }),
+  })
+# ---
+# name: test_update_study_group_staff_user.1
+  dict({
+    'data': dict({
+      'updateStudyGroup': dict({
+        'studyGroup': dict({
+          'amountOfAdult': 2,
+          'extraNeeds': 'Extra needs',
+          'groupName': 'Sample group name',
+          'groupSize': 20,
+          'person': dict({
+            'emailAddress': 'shawndouglas@example.com',
+            'language': 'FI',
+            'name': 'Sean Rocha',
+            'phoneNumber': '001-215-991-0232x02813',
+          }),
+          'studyLevels': dict({
+            'edges': list([
+              dict({
+                'node': dict({
+                  'id': 'grade_2',
+                  'label': 'second grade',
+                  'level': 4,
+                  'translations': list([
+                    dict({
+                      'label': 'second grade',
+                      'languageCode': 'EN',
+                    }),
+                  ]),
+                }),
+              }),
+            ]),
+          }),
+          'unit': dict({
+            'internalId': 'https://api.hel.fi/linkedevents/v1/place/tprek:15417/',
+            'name': dict({
+              'fi': 'Sellon kirjasto',
+            }),
+          }),
+          'unitId': 'helsinki:afxp6tv4xa',
+          'unitName': 'Sample study group name',
+        }),
+      }),
+    }),
+  })
+# ---
+# name: test_update_unpublished_occurrence
+  dict({
+    'data': dict({
+      'updateOccurrence': dict({
+        'occurrence': dict({
+          'contactPersons': dict({
+            'edges': list([
+              dict({
+                'node': dict({
+                  'name': 'Julie Parrish',
+                }),
+              }),
+            ]),
+          }),
+          'endTime': '2020-05-06T00:00:00+00:00',
+          'languages': dict({
+            'edges': list([
+              dict({
+                'node': dict({
+                  'id': 'en',
+                  'name': 'English',
+                }),
+              }),
+              dict({
+                'node': dict({
+                  'id': 'fi',
+                  'name': 'Finnish',
+                }),
+              }),
+              dict({
+                'node': dict({
+                  'id': 'sv',
+                  'name': 'Swedish',
+                }),
+              }),
+            ]),
+          }),
+          'maxGroupSize': 588,
+          'minGroupSize': 10,
+          'pEvent': dict({
+            'contactEmail': 'travishopkins@example.net',
+            'contactPhoneNumber': '(722)729-4934',
+            'enrolmentEndDays': 0,
+            'enrolmentStart': '1980-12-30T21:30:40.750124+00:00',
+            'externalEnrolmentUrl': None,
+            'linkedEventId': 'raSqN',
+            'mandatoryAdditionalInformation': False,
+            'neededOccurrences': 3,
+          }),
+          'startTime': '2020-05-05T00:00:00+00:00',
+        }),
+      }),
+    }),
+  })
+# ---
+# name: test_update_venue_staff_user
+  dict({
+    'data': dict({
+      'updateVenue': dict({
+        'venue': dict({
+          'description': 'Venue description',
+          'hasAreaForGroupWork': True,
+          'hasClothingStorage': True,
+          'hasIndoorPlayingArea': True,
+          'hasOutdoorPlayingArea': True,
+          'hasSnackEatingPlace': True,
+          'hasToiletNearby': True,
+          'id': 'Irtal',
+          'outdoorActivity': True,
+          'translations': list([
+            dict({
+              'description': 'Venue description',
+            }),
+            dict({
+              'description': 'Venue description in EN',
+            }),
+          ]),
+        }),
+      }),
+    }),
+  })
+# ---
+# name: test_venue_query
+  dict({
+    'data': dict({
+      'venue': dict({
+        'description': 'Answer entire increase thank certainly again thought. Beyond than trial western.',
+        'hasAreaForGroupWork': False,
+        'hasClothingStorage': False,
+        'hasIndoorPlayingArea': False,
+        'hasOutdoorPlayingArea': False,
+        'hasSnackEatingPlace': True,
+        'hasToiletNearby': False,
+        'id': 'PcMpy',
+        'outdoorActivity': False,
+        'translations': list([
+          dict({
+            'description': 'Answer entire increase thank certainly again thought. Beyond than trial western.',
+          }),
+        ]),
+      }),
+    }),
+  })
+# ---
+# name: test_venues_query
+  dict({
+    'data': dict({
+      'venues': dict({
+        'edges': list([
+          dict({
+            'node': dict({
+              'description': 'Answer entire increase thank certainly again thought. Beyond than trial western.',
+              'hasAreaForGroupWork': False,
+              'hasClothingStorage': False,
+              'hasIndoorPlayingArea': False,
+              'hasOutdoorPlayingArea': False,
+              'hasSnackEatingPlace': True,
+              'hasToiletNearby': False,
+              'id': 'PcMpy',
+              'outdoorActivity': False,
+              'translations': list([
+                dict({
+                  'description': 'Answer entire increase thank certainly again thought. Beyond than trial western.',
+                }),
+              ]),
+            }),
+          }),
+        ]),
+      }),
+    }),
+  })
+# ---

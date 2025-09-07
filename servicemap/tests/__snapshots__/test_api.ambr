@@ -1,0 +1,38 @@
+# serializer version: 1
+# name: test_list_helsinki_schools_and_kindergartens
+  dict({
+    'data': dict({
+      'schoolsAndKindergartensList': dict({
+        'data': list([
+          dict({
+            'id': 'tprek:3',
+            'name': dict({
+              'en': 'Daycare Kannel',
+              'fi': 'Päiväkoti Kannel',
+              'sv': 'Päiväkoti Kannel',
+            }),
+          }),
+          dict({
+            'id': 'tprek:2266',
+            'name': dict({
+              'en': 'Family day care Itä-Kannelmäki - Hakuninmaa - Maununneva',
+              'fi': 'Perhepäivähoito Kaarela',
+              'sv': 'Perhepäivähoito Kaarela',
+            }),
+          }),
+          dict({
+            'id': 'tprek:73213',
+            'name': dict({
+              'en': 'Daycare Kannelmäki, preschool groups',
+              'fi': 'Päiväkoti Kannelmäki, esiopetusryhmät',
+              'sv': 'Päiväkoti Kannelmäki, förskolegrupper',
+            }),
+          }),
+        ]),
+        'meta': dict({
+          'count': 3,
+        }),
+      }),
+    }),
+  })
+# ---
