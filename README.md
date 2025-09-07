@@ -20,8 +20,8 @@
 - [API Documentation](#api-documentation)
 - [Audit logging](#audit-logging)
 - [Keeping Python requirements up to date](#keeping-python-requirements-up-to-date)
-- [Code linting & formatting](#code-linting--formatting)
-- [Pre-commit hooks](#pre-commit-hooks)
+- [Code format](#code-format)
+- [Commit message format](#commit-message-format)
 - [Issues board](#issues-board)
 - [Maintaining](#maintaining)
   - [Enrolment reports](#enrolment-reports)
@@ -450,36 +450,29 @@ The GraphQL query/mutation and admin site views can be logged by using the mixin
 
    - `pip-sync requirements.txt`
 
-## Code linting & formatting
+## Code format
 
-This project uses [ruff](https://github.com/astral-sh/ruff) for Python code linting and formatting.
-Ruff is configured through [pyproject.toml](./pyproject.toml).
+This project uses [Ruff](https://docs.astral.sh/ruff/) for code formatting and quality checking.
+
 Basic `ruff` commands:
 
-- Check linting: `ruff check`
-- Check & auto-fix linting: `ruff check --fix`
-- Format: `ruff format`
+* lint: `ruff check`
+* apply safe lint fixes: `ruff check --fix`
+* check formatting: `ruff format --check`
+* format: `ruff format`
 
-Basically:
- - Ruff linter (i.e. `ruff check --fix`) does what `flake8` and `isort` did before.
- - Ruff formatter (i.e. `ruff format`) does what `black` did before.
+[`pre-commit`](https://pre-commit.com/) can be used to install and
+run all the formatting tools as git hooks automatically before a
+commit.
 
-Integrations for `ruff` are available for many editors:
- - https://docs.astral.sh/ruff/integrations/
+## Commit message format
 
-## Pre-commit hooks
+New commit messages must adhere to the [Conventional Commits](https://www.conventionalcommits.org/)
+specification, and line length is limited to 72 characters.
 
-You can use [`pre-commit`](https://pre-commit.com/) to lint and format your code before committing:
+When [`pre-commit`](https://pre-commit.com/) is in use, [`commitlint`](https://github.com/conventional-changelog/commitlint)
+checks new commit messages for the correct format.
 
-1. Install `pre-commit` (there are many ways to do that, but let's use pip as an example):
-   - `pip install pre-commit`
-2. Set up git hooks from `.pre-commit-config.yaml` by running these commands from project root:
-   - `pre-commit install` to enable pre-commit code formatting & linting
-   - `pre-commit install --hook-type commit-msg` to enable pre-commit commit message linting
-
-After that, linting and formatting hooks will run against all changed files before committing.
-
-Git commit message linting is configured in [.gitlint](./.gitlint)
 
 ## Issues board
 
