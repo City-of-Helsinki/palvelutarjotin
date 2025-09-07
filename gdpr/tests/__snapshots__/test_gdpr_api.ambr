@@ -1,0 +1,868 @@
+# serializer version: 1
+# name: test_delete_profile_data_from_gdpr_api[most_complex]
+  dict({
+    'children': list([
+      dict({
+        'key': 'ENROLMENT_TIME',
+        'value': '2020-01-04T00:00:00+00:00',
+      }),
+      dict({
+        'key': 'UPDATED_AT',
+        'value': '2020-01-04T00:00:00+00:00',
+      }),
+      dict({
+        'key': 'STATUS',
+        'value': 'pending',
+      }),
+      dict({
+        'children': list([
+          dict({
+            'key': 'START_TIME',
+            'value': '2010-07-23T14:55:55.542261+00:00',
+          }),
+          dict({
+            'key': 'END_TIME',
+            'value': '2008-11-04T18:51:30.730104+00:00',
+          }),
+          dict({
+            'key': 'CREATED_AT',
+            'value': '2020-01-04T00:00:00+00:00',
+          }),
+          dict({
+            'key': 'UPDATED_AT',
+            'value': '2020-01-04T00:00:00+00:00',
+          }),
+          dict({
+            'children': list([
+              dict({
+                'key': 'LINKED_EVENT_ID',
+                'value': 'FrTcm',
+              }),
+              dict({
+                'key': 'ORGANISATION',
+                'value': 'Carroll, Adams and Evans',
+              }),
+              dict({
+                'key': 'CONTACT_PERSON',
+                'value': '',
+              }),
+            ]),
+            'key': 'PALVELUTARJOTINEVENT',
+          }),
+        ]),
+        'key': 'OCCURRENCE',
+      }),
+    ]),
+    'key': 'ENROLMENT',
+  })
+# ---
+# name: test_delete_profile_data_from_gdpr_api[most_complex].1
+  dict({
+    'children': list([
+      dict({
+        'key': 'UNIT_ID',
+        'value': None,
+      }),
+      dict({
+        'key': 'UNIT_NAME',
+        'value': 'National since collection goal natural. Subject take stop debate.',
+      }),
+      dict({
+        'key': 'GROUP_SIZE',
+        'value': 857,
+      }),
+      dict({
+        'key': 'AMOUNT_OF_ADULT',
+        'value': 0,
+      }),
+      dict({
+        'key': 'GROUP_NAME',
+        'value': 'Box bring always million eat several. Seven section partner. During their at once exactly.',
+      }),
+      dict({
+        'key': 'EXTRA_NEEDS',
+        'value': 'Whose our politics contain blood interview. Cup must tough edge part. Respond pressure people.',
+      }),
+      dict({
+        'key': 'PREFERRED_TIMES',
+        'value': 'Sport page if.',
+      }),
+      dict({
+        'key': 'STUDY_LEVELS',
+        'value': '',
+      }),
+      dict({
+        'children': list([
+          dict({
+            'children': list([
+              dict({
+                'key': 'ENROLMENT_TIME',
+                'value': '2020-01-04T00:00:00+00:00',
+              }),
+              dict({
+                'key': 'UPDATED_AT',
+                'value': '2020-01-04T00:00:00+00:00',
+              }),
+              dict({
+                'key': 'STATUS',
+                'value': 'pending',
+              }),
+              dict({
+                'children': list([
+                  dict({
+                    'key': 'START_TIME',
+                    'value': '1975-04-25T05:34:32.227218+00:00',
+                  }),
+                  dict({
+                    'key': 'END_TIME',
+                    'value': '2007-03-16T16:41:40.163531+00:00',
+                  }),
+                  dict({
+                    'key': 'CREATED_AT',
+                    'value': '2020-01-04T00:00:00+00:00',
+                  }),
+                  dict({
+                    'key': 'UPDATED_AT',
+                    'value': '2020-01-04T00:00:00+00:00',
+                  }),
+                  dict({
+                    'children': list([
+                      dict({
+                        'key': 'LINKED_EVENT_ID',
+                        'value': 'ulLnD',
+                      }),
+                      dict({
+                        'key': 'ORGANISATION',
+                        'value': 'Guerrero-Powell',
+                      }),
+                      dict({
+                        'key': 'CONTACT_PERSON',
+                        'value': '',
+                      }),
+                    ]),
+                    'key': 'PALVELUTARJOTINEVENT',
+                  }),
+                ]),
+                'key': 'OCCURRENCE',
+              }),
+            ]),
+            'key': 'ENROLMENT',
+          }),
+        ]),
+        'key': 'ENROLMENTS',
+      }),
+    ]),
+    'key': 'STUDYGROUP',
+  })
+# ---
+# name: test_delete_profile_data_from_gdpr_api[most_complex].2
+  dict({
+    'children': list([
+      dict({
+        'key': 'ENROLMENT_TIME',
+        'value': '2020-01-04T00:00:00+00:00',
+      }),
+      dict({
+        'key': 'UPDATED_AT',
+        'value': '2020-01-04T00:00:00+00:00',
+      }),
+      dict({
+        'key': 'NOTIFICATION_TYPE',
+        'value': 'email',
+      }),
+      dict({
+        'key': 'STUDY_GROUP',
+        'value': '1 Tough plant traditional after born up always. Return student light a point charge.',
+      }),
+      dict({
+        'children': list([
+          dict({
+            'key': 'LINKED_EVENT_ID',
+            'value': 'NoYfT',
+          }),
+          dict({
+            'key': 'ORGANISATION',
+            'value': 'Rosario and Sons',
+          }),
+          dict({
+            'key': 'CONTACT_PERSON',
+            'value': 'Justin Smith, 001-605-453-1010, santiagoalicia@example.net',
+          }),
+        ]),
+        'key': 'PALVELUTARJOTINEVENT',
+      }),
+    ]),
+    'key': 'EVENTQUEUEENROLMENT',
+  })
+# ---
+# name: test_get_profile_data_from_gdpr_api[Complex User, Deleted]
+  dict({
+    'children': list([
+      dict({
+        'key': 'UUID',
+        'value': '26850000-2e85-11ea-b347-acde48001122',
+      }),
+      dict({
+        'key': 'USERNAME',
+        'value': 'u-e2cqaaboqui6vm2hvtpeqaarei',
+      }),
+      dict({
+        'key': 'FIRST_NAME',
+        'value': '',
+      }),
+      dict({
+        'key': 'LAST_NAME',
+        'value': '',
+      }),
+      dict({
+        'key': 'EMAIL',
+        'value': '',
+      }),
+      dict({
+        'key': 'LAST_LOGIN',
+        'value': None,
+      }),
+      dict({
+        'key': 'DATE_JOINED',
+        'value': '2020-01-04T00:00:00+00:00',
+      }),
+    ]),
+    'key': 'USER',
+  })
+# ---
+# name: test_get_profile_data_from_gdpr_api[Complex User, Undeleted]
+  dict({
+    'children': list([
+      dict({
+        'key': 'UUID',
+        'value': '26850000-2e85-11ea-b347-acde48001122',
+      }),
+      dict({
+        'key': 'USERNAME',
+        'value': 'jeffersonkimberly_3MmHFh',
+      }),
+      dict({
+        'key': 'FIRST_NAME',
+        'value': 'Alexis',
+      }),
+      dict({
+        'key': 'LAST_NAME',
+        'value': 'Black',
+      }),
+      dict({
+        'key': 'EMAIL',
+        'value': 'joshuajohnson@example.com',
+      }),
+      dict({
+        'key': 'LAST_LOGIN',
+        'value': '2020-01-04T00:00:00+00:00',
+      }),
+      dict({
+        'key': 'DATE_JOINED',
+        'value': '2020-01-04T00:00:00+00:00',
+      }),
+      dict({
+        'children': list([
+          dict({
+            'key': 'NAME',
+            'value': 'Tina Wilson',
+          }),
+          dict({
+            'key': 'PHONE_NUMBER',
+            'value': '+1-910-423-2028x130',
+          }),
+          dict({
+            'key': 'EMAIL_ADDRESS',
+            'value': 'fhuynh@example.org',
+          }),
+          dict({
+            'key': 'LANGUAGE',
+            'value': 'fi',
+          }),
+          dict({
+            'key': 'PLACE_IDS',
+            'value': 'SedRknnouKQItjsGbbnC, aIeOatnXjyxRexoPZaRK, VOMVMNZoGFTsuALvDSCv',
+          }),
+          dict({
+            'children': list([
+              dict({
+                'children': list([
+                  dict({
+                    'key': 'NAME',
+                    'value': 'Williams-Newton',
+                  }),
+                  dict({
+                    'key': 'PHONE_NUMBER',
+                    'value': '497-963-8034x6697',
+                  }),
+                  dict({
+                    'key': 'TYPE',
+                    'value': 'user',
+                  }),
+                  dict({
+                    'key': 'PUBLISHER_ID',
+                    'value': 'TUOfT',
+                  }),
+                ]),
+                'key': 'ORGANISATION',
+              }),
+            ]),
+            'key': 'ORGANISATIONS',
+          }),
+          list([
+            dict({
+              'children': list([
+                dict({
+                  'key': 'NAME',
+                  'value': 'Young, Garcia and Dean',
+                }),
+                dict({
+                  'key': 'PHONE_NUMBER',
+                  'value': '+1-582-474-0847x69470',
+                }),
+                dict({
+                  'key': 'DESCRIPTION',
+                  'value': '''
+                    Beautiful if his their. Stuff election stay every. Base may middle good father boy economy.
+                    Enjoy office water those notice medical. Already name likely behind mission network. Think significant land especially can quite.
+                  ''',
+                }),
+              ]),
+              'key': 'ORGANISATIONPROPOSAL',
+            }),
+          ]),
+          list([
+            dict({
+              'children': list([
+                dict({
+                  'key': 'UNIT_ID',
+                  'value': None,
+                }),
+                dict({
+                  'key': 'UNIT_NAME',
+                  'value': 'Conference thing much like test.',
+                }),
+                dict({
+                  'key': 'GROUP_SIZE',
+                  'value': 261,
+                }),
+                dict({
+                  'key': 'AMOUNT_OF_ADULT',
+                  'value': 0,
+                }),
+                dict({
+                  'key': 'GROUP_NAME',
+                  'value': 'Decade address have turn serve me every traditional. Sound describe risk newspaper reflect four.',
+                }),
+                dict({
+                  'key': 'EXTRA_NEEDS',
+                  'value': 'Somebody determine sort under car medical. Particular page step radio.',
+                }),
+                dict({
+                  'key': 'PREFERRED_TIMES',
+                  'value': 'Result let join might player.',
+                }),
+                dict({
+                  'key': 'STUDY_LEVELS',
+                  'value': 'age 0-2 (id: age_0_2, level: 0), age 3-4 (id: age_3_4, level: 1), preschool (id: preschool, level: 2)',
+                }),
+                dict({
+                  'children': list([
+                    dict({
+                      'children': list([
+                        dict({
+                          'key': 'ENROLMENT_TIME',
+                          'value': '2020-01-04T00:00:00+00:00',
+                        }),
+                        dict({
+                          'key': 'UPDATED_AT',
+                          'value': '2020-01-04T00:00:00+00:00',
+                        }),
+                        dict({
+                          'key': 'STATUS',
+                          'value': 'pending',
+                        }),
+                        dict({
+                          'children': list([
+                            dict({
+                              'key': 'START_TIME',
+                              'value': '1975-04-25T05:34:32.227218+00:00',
+                            }),
+                            dict({
+                              'key': 'END_TIME',
+                              'value': '2007-03-16T16:41:40.163531+00:00',
+                            }),
+                            dict({
+                              'key': 'CREATED_AT',
+                              'value': '2020-01-04T00:00:00+00:00',
+                            }),
+                            dict({
+                              'key': 'UPDATED_AT',
+                              'value': '2020-01-04T00:00:00+00:00',
+                            }),
+                            dict({
+                              'children': list([
+                                dict({
+                                  'key': 'LINKED_EVENT_ID',
+                                  'value': 'ulLnD',
+                                }),
+                                dict({
+                                  'key': 'ORGANISATION',
+                                  'value': 'Guerrero-Powell',
+                                }),
+                                dict({
+                                  'key': 'CONTACT_PERSON',
+                                  'value': 'Tina Wilson, +1-910-423-2028x130, fhuynh@example.org',
+                                }),
+                              ]),
+                              'key': 'PALVELUTARJOTINEVENT',
+                            }),
+                          ]),
+                          'key': 'OCCURRENCE',
+                        }),
+                      ]),
+                      'key': 'ENROLMENT',
+                    }),
+                  ]),
+                  'key': 'ENROLMENTS',
+                }),
+              ]),
+              'key': 'STUDYGROUP',
+            }),
+            dict({
+              'children': list([
+                dict({
+                  'key': 'UNIT_ID',
+                  'value': None,
+                }),
+                dict({
+                  'key': 'UNIT_NAME',
+                  'value': 'Control as receive cup. Subject family around year.',
+                }),
+                dict({
+                  'key': 'GROUP_SIZE',
+                  'value': 914,
+                }),
+                dict({
+                  'key': 'AMOUNT_OF_ADULT',
+                  'value': 0,
+                }),
+                dict({
+                  'key': 'GROUP_NAME',
+                  'value': 'Tough plant traditional after born up always. Return student light a point charge.',
+                }),
+                dict({
+                  'key': 'EXTRA_NEEDS',
+                  'value': 'Prevent pressure point. Voice radio happen color scene.',
+                }),
+                dict({
+                  'key': 'PREFERRED_TIMES',
+                  'value': 'New expert interview.',
+                }),
+                dict({
+                  'key': 'STUDY_LEVELS',
+                  'value': 'age 0-2 (id: age_0_2, level: 0), age 3-4 (id: age_3_4, level: 1), preschool (id: preschool, level: 2)',
+                }),
+                dict({
+                  'children': list([
+                    dict({
+                      'children': list([
+                        dict({
+                          'key': 'ENROLMENT_TIME',
+                          'value': '2020-01-04T00:00:00+00:00',
+                        }),
+                        dict({
+                          'key': 'UPDATED_AT',
+                          'value': '2020-01-04T00:00:00+00:00',
+                        }),
+                        dict({
+                          'key': 'STATUS',
+                          'value': 'pending',
+                        }),
+                        dict({
+                          'children': list([
+                            dict({
+                              'key': 'START_TIME',
+                              'value': '2010-07-23T14:55:55.542261+00:00',
+                            }),
+                            dict({
+                              'key': 'END_TIME',
+                              'value': '2008-11-04T18:51:30.730104+00:00',
+                            }),
+                            dict({
+                              'key': 'CREATED_AT',
+                              'value': '2020-01-04T00:00:00+00:00',
+                            }),
+                            dict({
+                              'key': 'UPDATED_AT',
+                              'value': '2020-01-04T00:00:00+00:00',
+                            }),
+                            dict({
+                              'children': list([
+                                dict({
+                                  'key': 'LINKED_EVENT_ID',
+                                  'value': 'FrTcm',
+                                }),
+                                dict({
+                                  'key': 'ORGANISATION',
+                                  'value': 'Carroll, Adams and Evans',
+                                }),
+                                dict({
+                                  'key': 'CONTACT_PERSON',
+                                  'value': 'Tina Wilson, +1-910-423-2028x130, fhuynh@example.org',
+                                }),
+                              ]),
+                              'key': 'PALVELUTARJOTINEVENT',
+                            }),
+                          ]),
+                          'key': 'OCCURRENCE',
+                        }),
+                      ]),
+                      'key': 'ENROLMENT',
+                    }),
+                    dict({
+                      'children': list([
+                        dict({
+                          'key': 'ENROLMENT_TIME',
+                          'value': '2020-01-04T00:00:00+00:00',
+                        }),
+                        dict({
+                          'key': 'UPDATED_AT',
+                          'value': '2020-01-04T00:00:00+00:00',
+                        }),
+                        dict({
+                          'key': 'STATUS',
+                          'value': 'pending',
+                        }),
+                        dict({
+                          'children': list([
+                            dict({
+                              'key': 'START_TIME',
+                              'value': '2004-12-30T07:48:32.863351+00:00',
+                            }),
+                            dict({
+                              'key': 'END_TIME',
+                              'value': '1983-05-12T23:37:18.020950+00:00',
+                            }),
+                            dict({
+                              'key': 'CREATED_AT',
+                              'value': '2020-01-04T00:00:00+00:00',
+                            }),
+                            dict({
+                              'key': 'UPDATED_AT',
+                              'value': '2020-01-04T00:00:00+00:00',
+                            }),
+                            dict({
+                              'children': list([
+                                dict({
+                                  'key': 'LINKED_EVENT_ID',
+                                  'value': 'IWSGq',
+                                }),
+                                dict({
+                                  'key': 'ORGANISATION',
+                                  'value': 'Moore, Ryan and Morris',
+                                }),
+                                dict({
+                                  'key': 'CONTACT_PERSON',
+                                  'value': 'Tina Wilson, +1-910-423-2028x130, fhuynh@example.org',
+                                }),
+                              ]),
+                              'key': 'PALVELUTARJOTINEVENT',
+                            }),
+                          ]),
+                          'key': 'OCCURRENCE',
+                        }),
+                      ]),
+                      'key': 'ENROLMENT',
+                    }),
+                  ]),
+                  'key': 'ENROLMENTS',
+                }),
+              ]),
+              'key': 'STUDYGROUP',
+            }),
+          ]),
+          list([
+            dict({
+              'children': list([
+                dict({
+                  'key': 'ENROLMENT_TIME',
+                  'value': '2020-01-04T00:00:00+00:00',
+                }),
+                dict({
+                  'key': 'UPDATED_AT',
+                  'value': '2020-01-04T00:00:00+00:00',
+                }),
+                dict({
+                  'key': 'NOTIFICATION_TYPE',
+                  'value': 'email',
+                }),
+                dict({
+                  'key': 'STUDY_GROUP',
+                  'value': '1 Control as receive cup. Subject family around year.',
+                }),
+                dict({
+                  'children': list([
+                    dict({
+                      'key': 'LINKED_EVENT_ID',
+                      'value': 'NoYfT',
+                    }),
+                    dict({
+                      'key': 'ORGANISATION',
+                      'value': 'Rosario and Sons',
+                    }),
+                    dict({
+                      'key': 'CONTACT_PERSON',
+                      'value': 'Justin Smith, 001-605-453-1010, santiagoalicia@example.net',
+                    }),
+                  ]),
+                  'key': 'PALVELUTARJOTINEVENT',
+                }),
+              ]),
+              'key': 'EVENTQUEUEENROLMENT',
+            }),
+          ]),
+          list([
+            dict({
+              'children': list([
+                dict({
+                  'key': 'ENROLMENT_TIME',
+                  'value': '2020-01-04T00:00:00+00:00',
+                }),
+                dict({
+                  'key': 'UPDATED_AT',
+                  'value': '2020-01-04T00:00:00+00:00',
+                }),
+                dict({
+                  'key': 'STATUS',
+                  'value': 'pending',
+                }),
+                dict({
+                  'children': list([
+                    dict({
+                      'key': 'START_TIME',
+                      'value': '2010-07-23T14:55:55.542261+00:00',
+                    }),
+                    dict({
+                      'key': 'END_TIME',
+                      'value': '2008-11-04T18:51:30.730104+00:00',
+                    }),
+                    dict({
+                      'key': 'CREATED_AT',
+                      'value': '2020-01-04T00:00:00+00:00',
+                    }),
+                    dict({
+                      'key': 'UPDATED_AT',
+                      'value': '2020-01-04T00:00:00+00:00',
+                    }),
+                    dict({
+                      'children': list([
+                        dict({
+                          'key': 'LINKED_EVENT_ID',
+                          'value': 'FrTcm',
+                        }),
+                        dict({
+                          'key': 'ORGANISATION',
+                          'value': 'Carroll, Adams and Evans',
+                        }),
+                        dict({
+                          'key': 'CONTACT_PERSON',
+                          'value': 'Tina Wilson, +1-910-423-2028x130, fhuynh@example.org',
+                        }),
+                      ]),
+                      'key': 'PALVELUTARJOTINEVENT',
+                    }),
+                  ]),
+                  'key': 'OCCURRENCE',
+                }),
+              ]),
+              'key': 'ENROLMENT',
+            }),
+            dict({
+              'children': list([
+                dict({
+                  'key': 'ENROLMENT_TIME',
+                  'value': '2020-01-04T00:00:00+00:00',
+                }),
+                dict({
+                  'key': 'UPDATED_AT',
+                  'value': '2020-01-04T00:00:00+00:00',
+                }),
+                dict({
+                  'key': 'STATUS',
+                  'value': 'pending',
+                }),
+                dict({
+                  'children': list([
+                    dict({
+                      'key': 'START_TIME',
+                      'value': '2004-12-30T07:48:32.863351+00:00',
+                    }),
+                    dict({
+                      'key': 'END_TIME',
+                      'value': '1983-05-12T23:37:18.020950+00:00',
+                    }),
+                    dict({
+                      'key': 'CREATED_AT',
+                      'value': '2020-01-04T00:00:00+00:00',
+                    }),
+                    dict({
+                      'key': 'UPDATED_AT',
+                      'value': '2020-01-04T00:00:00+00:00',
+                    }),
+                    dict({
+                      'children': list([
+                        dict({
+                          'key': 'LINKED_EVENT_ID',
+                          'value': 'IWSGq',
+                        }),
+                        dict({
+                          'key': 'ORGANISATION',
+                          'value': 'Moore, Ryan and Morris',
+                        }),
+                        dict({
+                          'key': 'CONTACT_PERSON',
+                          'value': 'Tina Wilson, +1-910-423-2028x130, fhuynh@example.org',
+                        }),
+                      ]),
+                      'key': 'PALVELUTARJOTINEVENT',
+                    }),
+                  ]),
+                  'key': 'OCCURRENCE',
+                }),
+              ]),
+              'key': 'ENROLMENT',
+            }),
+            dict({
+              'children': list([
+                dict({
+                  'key': 'ENROLMENT_TIME',
+                  'value': '2020-01-04T00:00:00+00:00',
+                }),
+                dict({
+                  'key': 'UPDATED_AT',
+                  'value': '2020-01-04T00:00:00+00:00',
+                }),
+                dict({
+                  'key': 'STATUS',
+                  'value': 'pending',
+                }),
+                dict({
+                  'children': list([
+                    dict({
+                      'key': 'START_TIME',
+                      'value': '1975-04-25T05:34:32.227218+00:00',
+                    }),
+                    dict({
+                      'key': 'END_TIME',
+                      'value': '2007-03-16T16:41:40.163531+00:00',
+                    }),
+                    dict({
+                      'key': 'CREATED_AT',
+                      'value': '2020-01-04T00:00:00+00:00',
+                    }),
+                    dict({
+                      'key': 'UPDATED_AT',
+                      'value': '2020-01-04T00:00:00+00:00',
+                    }),
+                    dict({
+                      'children': list([
+                        dict({
+                          'key': 'LINKED_EVENT_ID',
+                          'value': 'ulLnD',
+                        }),
+                        dict({
+                          'key': 'ORGANISATION',
+                          'value': 'Guerrero-Powell',
+                        }),
+                        dict({
+                          'key': 'CONTACT_PERSON',
+                          'value': 'Tina Wilson, +1-910-423-2028x130, fhuynh@example.org',
+                        }),
+                      ]),
+                      'key': 'PALVELUTARJOTINEVENT',
+                    }),
+                  ]),
+                  'key': 'OCCURRENCE',
+                }),
+              ]),
+              'key': 'ENROLMENT',
+            }),
+          ]),
+        ]),
+        'key': 'PERSON',
+      }),
+    ]),
+    'key': 'USER',
+  })
+# ---
+# name: test_get_profile_data_from_gdpr_api[Simple User, Deleted]
+  dict({
+    'children': list([
+      dict({
+        'key': 'UUID',
+        'value': '26850000-2e85-11ea-b347-acde48001122',
+      }),
+      dict({
+        'key': 'USERNAME',
+        'value': 'u-e2cqaaboqui6vm2hvtpeqaarei',
+      }),
+      dict({
+        'key': 'FIRST_NAME',
+        'value': '',
+      }),
+      dict({
+        'key': 'LAST_NAME',
+        'value': '',
+      }),
+      dict({
+        'key': 'EMAIL',
+        'value': '',
+      }),
+      dict({
+        'key': 'LAST_LOGIN',
+        'value': None,
+      }),
+      dict({
+        'key': 'DATE_JOINED',
+        'value': '2020-01-04T00:00:00+00:00',
+      }),
+    ]),
+    'key': 'USER',
+  })
+# ---
+# name: test_get_profile_data_from_gdpr_api[Simple User, Undeleted]
+  dict({
+    'children': list([
+      dict({
+        'key': 'UUID',
+        'value': '26850000-2e85-11ea-b347-acde48001122',
+      }),
+      dict({
+        'key': 'USERNAME',
+        'value': 'jeffersonkimberly_3MmHFh',
+      }),
+      dict({
+        'key': 'FIRST_NAME',
+        'value': 'Alexis',
+      }),
+      dict({
+        'key': 'LAST_NAME',
+        'value': 'Black',
+      }),
+      dict({
+        'key': 'EMAIL',
+        'value': 'joshuajohnson@example.com',
+      }),
+      dict({
+        'key': 'LAST_LOGIN',
+        'value': '2020-01-04T00:00:00+00:00',
+      }),
+      dict({
+        'key': 'DATE_JOINED',
+        'value': '2020-01-04T00:00:00+00:00',
+      }),
+    ]),
+    'key': 'USER',
+  })
+# ---

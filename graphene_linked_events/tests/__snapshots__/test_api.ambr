@@ -1,0 +1,1932 @@
+# serializer version: 1
+# name: test_create_event
+  dict({
+    'data': dict({
+      'addEventMutation': dict({
+        'response': dict({
+          'body': dict({
+            'description': dict({
+              'en': 'desc en',
+              'fi': 'desc',
+              'sv': 'desc sv',
+            }),
+            'id': 'helsinki:afy6aghr2y',
+            'infoUrl': None,
+            'keywords': list([
+              dict({
+                'id': None,
+              }),
+            ]),
+            'location': dict({
+              'id': None,
+            }),
+            'offers': list([
+              dict({
+                'isFree': False,
+              }),
+            ]),
+            'pEvent': dict({
+              'autoAcceptance': True,
+              'autoAcceptanceMessage': 'Automaattisen hyväksynnän viesti',
+              'contactEmail': 'contact@email.me',
+              'contactPerson': dict({
+                'name': 'Sean Rocha',
+              }),
+              'contactPhoneNumber': '123123',
+              'enrolmentEndDays': 2,
+              'enrolmentStart': '2020-06-06T16:40:48+00:00',
+              'externalEnrolmentUrl': None,
+              'isQueueingAllowed': True,
+              'linkedEventId': 'helsinki:afy6aghr2y',
+              'mandatoryAdditionalInformation': True,
+              'neededOccurrences': 1,
+              'organisation': dict({
+                'name': 'Chapman, Scott and Martin',
+              }),
+              'translations': list([
+                dict({
+                  'autoAcceptanceMessage': 'Automaattisen hyväksynnän viesti',
+                  'languageCode': 'FI',
+                }),
+                dict({
+                  'autoAcceptanceMessage': 'Custom message of auto approvance',
+                  'languageCode': 'EN',
+                }),
+              ]),
+            }),
+            'shortDescription': dict({
+              'en': 'short desc en',
+              'fi': 'short desc',
+              'sv': 'short desc sv',
+            }),
+            'startTime': '2020-05-05',
+          }),
+          'statusCode': 201,
+        }),
+      }),
+    }),
+  })
+# ---
+# name: test_create_event_with_external_enrolment
+  dict({
+    'data': dict({
+      'addEventMutation': dict({
+        'response': dict({
+          'body': dict({
+            'description': dict({
+              'en': 'desc en',
+              'fi': 'desc',
+              'sv': 'desc sv',
+            }),
+            'id': 'helsinki:afy6aghr2y',
+            'infoUrl': None,
+            'keywords': list([
+              dict({
+                'id': None,
+              }),
+            ]),
+            'location': dict({
+              'id': None,
+            }),
+            'offers': list([
+              dict({
+                'isFree': False,
+              }),
+            ]),
+            'pEvent': dict({
+              'autoAcceptance': False,
+              'autoAcceptanceMessage': 'Automaattisen hyväksynnän viesti',
+              'contactEmail': 'contact@email.me',
+              'contactPerson': dict({
+                'name': 'Sean Rocha',
+              }),
+              'contactPhoneNumber': '123123',
+              'enrolmentEndDays': None,
+              'enrolmentStart': None,
+              'externalEnrolmentUrl': 'http://test.org',
+              'isQueueingAllowed': True,
+              'linkedEventId': 'helsinki:afy6aghr2y',
+              'mandatoryAdditionalInformation': True,
+              'neededOccurrences': 0,
+              'organisation': dict({
+                'name': 'Chapman, Scott and Martin',
+              }),
+              'translations': list([
+                dict({
+                  'autoAcceptanceMessage': 'Automaattisen hyväksynnän viesti',
+                  'languageCode': 'FI',
+                }),
+                dict({
+                  'autoAcceptanceMessage': 'Custom message of auto approvance',
+                  'languageCode': 'EN',
+                }),
+              ]),
+            }),
+            'shortDescription': dict({
+              'en': 'short desc en',
+              'fi': 'short desc',
+              'sv': 'short desc sv',
+            }),
+            'startTime': '2020-05-05',
+          }),
+          'statusCode': 201,
+        }),
+      }),
+    }),
+  })
+# ---
+# name: test_create_event_without_enrolment
+  dict({
+    'data': dict({
+      'addEventMutation': dict({
+        'response': dict({
+          'body': dict({
+            'description': dict({
+              'en': 'desc en',
+              'fi': 'desc',
+              'sv': 'desc sv',
+            }),
+            'id': 'helsinki:afy6aghr2y',
+            'infoUrl': None,
+            'keywords': list([
+              dict({
+                'id': None,
+              }),
+            ]),
+            'location': dict({
+              'id': None,
+            }),
+            'offers': list([
+              dict({
+                'isFree': False,
+              }),
+            ]),
+            'pEvent': dict({
+              'autoAcceptance': False,
+              'autoAcceptanceMessage': 'Automaattisen hyväksynnän viesti',
+              'contactEmail': 'contact@email.me',
+              'contactPerson': dict({
+                'name': 'Sean Rocha',
+              }),
+              'contactPhoneNumber': '123123',
+              'enrolmentEndDays': None,
+              'enrolmentStart': None,
+              'externalEnrolmentUrl': None,
+              'isQueueingAllowed': True,
+              'linkedEventId': 'helsinki:afy6aghr2y',
+              'mandatoryAdditionalInformation': True,
+              'neededOccurrences': 0,
+              'organisation': dict({
+                'name': 'Chapman, Scott and Martin',
+              }),
+              'translations': list([
+                dict({
+                  'autoAcceptanceMessage': 'Automaattisen hyväksynnän viesti',
+                  'languageCode': 'FI',
+                }),
+                dict({
+                  'autoAcceptanceMessage': 'Custom message of auto approvance',
+                  'languageCode': 'EN',
+                }),
+              ]),
+            }),
+            'shortDescription': dict({
+              'en': 'short desc en',
+              'fi': 'short desc',
+              'sv': 'short desc sv',
+            }),
+            'startTime': '2020-05-05',
+          }),
+          'statusCode': 201,
+        }),
+      }),
+    }),
+  })
+# ---
+# name: test_create_event_without_p_event_translations
+  dict({
+    'data': dict({
+      'addEventMutation': dict({
+        'response': dict({
+          'body': dict({
+            'description': dict({
+              'en': 'desc en',
+              'fi': 'desc',
+              'sv': 'desc sv',
+            }),
+            'id': 'helsinki:afy6aghr2y',
+            'infoUrl': None,
+            'keywords': list([
+              dict({
+                'id': None,
+              }),
+            ]),
+            'location': dict({
+              'id': None,
+            }),
+            'offers': list([
+              dict({
+                'isFree': False,
+              }),
+            ]),
+            'pEvent': dict({
+              'autoAcceptance': True,
+              'autoAcceptanceMessage': None,
+              'contactEmail': 'contact@email.me',
+              'contactPerson': dict({
+                'name': 'Sean Rocha',
+              }),
+              'contactPhoneNumber': '123123',
+              'enrolmentEndDays': 2,
+              'enrolmentStart': '2020-06-06T16:40:48+00:00',
+              'externalEnrolmentUrl': None,
+              'isQueueingAllowed': True,
+              'linkedEventId': 'helsinki:afy6aghr2y',
+              'mandatoryAdditionalInformation': True,
+              'neededOccurrences': 1,
+              'organisation': dict({
+                'name': 'Chapman, Scott and Martin',
+              }),
+              'translations': list([
+              ]),
+            }),
+            'shortDescription': dict({
+              'en': 'short desc en',
+              'fi': 'short desc',
+              'sv': 'short desc sv',
+            }),
+            'startTime': '2020-05-05',
+          }),
+          'statusCode': 201,
+        }),
+      }),
+    }),
+  })
+# ---
+# name: test_delete_event
+  dict({
+    'data': dict({
+      'deleteEventMutation': dict({
+        'response': dict({
+          'body': None,
+          'statusCode': 204,
+        }),
+      }),
+    }),
+  })
+# ---
+# name: test_delete_image
+  dict({
+    'data': dict({
+      'deleteImageMutation': dict({
+        'response': dict({
+          'statusCode': 204,
+        }),
+      }),
+    }),
+  })
+# ---
+# name: test_get_event
+  dict({
+    'data': dict({
+      'event': dict({
+        'activities': list([
+          dict({
+            'id': 'helfi:12',
+          }),
+        ]),
+        'additionalCriteria': list([
+          dict({
+            'id': 'helfi:12',
+          }),
+        ]),
+        'audience': list([
+        ]),
+        'audienceMaxAge': None,
+        'audienceMinAge': None,
+        'categories': list([
+          dict({
+            'id': 'helfi:12',
+          }),
+        ]),
+        'createdTime': '2019-12-13T12:49:40.545273Z',
+        'customData': None,
+        'dataSource': 'helsinki',
+        'datePublished': None,
+        'description': dict({
+          'en': '<p>Visual artist Raija Malka and composer Kaija Saariaho will take over Amos Rex’s exhibition space in a new and experiential way next summer. The work is painterly, spatial and musical all at once, offering visitors an opportunity to shape the space with their own creativity.</p><p>The exhibition title, Blick (Gaze), is a reference to visual artist Wassily Kandinsky’s poem from 1912 that is included in the soundscape by Kaija Saariaho. The gazes of the two artists are brought together in a three-dimensional space.</p><p>The exhibition is a multisensory experience that invites people to stay. In a world made up of the colours and sounds of Malka and Saariaho, visitors can build their own arrangements.</p><p>Amos Rex<br>10.6.-30.8. </p><p>Mon, Fri 11.00-18.00<br>Wed, Thu 11.00-20.00<br>Sat, Sun 11.00-17.00</p><p>Admission fee 5-15€, under 18 yrs free entry</p>',
+          'fi': '<p>Kuvataiteilija Raija Malka ja säveltäjä Kaija Saariaho täyttävät ensi kesänä Amos Rexin näyttelytilan uudella kokemuksellisella tavalla. Teos on yhtä aikaa maalauksellinen, tilallinen ja musiikillinen. </p><p>Näyttelyn nimi Blick (Katse) viittaa kuvataiteilija Wassily Kandinskyn 1912 julkaistuun runoon, joka sisältyy Kaija Saariahon näyttelyssä kuultavaan äänimaisemaan. Kahden taiteilijan katseet yhdistyvät näyttelyn kolmiulotteisessa tilassa.</p><p>Näyttely on moniaistinen kokonaisuus, joka houkuttelee viipymään. Kävijä voi rakentaa omia asetelmiaan Malkan ja Saariahon väri- ja äänimaailmaan.</p><p>Amos Rex<br>10.6.-30.8. </p><p>ma, pe klo 11-18<br>ke, to klo 11-20<br>la, su klo 11-17</p><p>Sisäänpääsy 5-15€, alle 18-vuotiaille vapaa pääsy</p>',
+          'sv': '<p>Bildkonstnären Raija Malka och kompositören Kaija Saariaho fyller Amos Rex utställningsutrymme på ett nytt och experimentellt sätt nästa sommaren. Deras verk är på en och samma gång måleriskt, rumsligt och musikaliskt. </p><p>Utställningstiteln, Blick, syftar på bildkonstnären Wassily Kandinskys dikt från 1912. Texten ingår i Kaija Saariahos ljuder i utställningen. De två konstnärernas blickar möts i det tredimensionella utställningsutrymmet.</p><p>Utställningen utgör en sinnlig helhet som lockar besökare att dröja kvar. De kan bidra till Malkas och Saariahos färg- och ljudvärld med sina egna byggstenar.</p><p>Amos Rex<br>10.6.-30.8. </p><p>må, fre kl 11-18<br>ons, to kl 11-20<br>lö, sö kl 11-17</p><p>Inträde 5-15€, under 18 år fritt inträde</p>',
+        }),
+        'endTime': None,
+        'enrolmentEndTime': None,
+        'enrolmentStartTime': None,
+        'eventStatus': 'EventPostponed',
+        'externalLinks': list([
+        ]),
+        'id': 'helsinki:afxp6tv4xa',
+        'images': list([
+          dict({
+            'internalId': 'https://api.hel.fi/linkedevents/v1/image/61106/',
+          }),
+        ]),
+        'inLanguage': list([
+        ]),
+        'infoUrl': dict({
+          'en': 'http://www.amosrex.fi',
+          'fi': 'http://www.amosrex.fi',
+          'sv': 'http://www.amosrex.fi',
+        }),
+        'internalContext': 'http://schema.org',
+        'internalId': 'https://api.hel.fi/linkedevents/v1/event/helsinki:afxp6tv4xa/',
+        'internalType': 'Event/LinkedEvent',
+        'keywords': list([
+          dict({
+            'internalId': 'https://api.hel.fi/linkedevents/v1/keyword/helfi:12/',
+          }),
+          dict({
+            'internalId': 'https://api.hel.fi/linkedevents/v1/keyword/yso:p5121/',
+          }),
+          dict({
+            'internalId': 'https://api.hel.fi/linkedevents/v1/keyword/yso:p6889/',
+          }),
+          dict({
+            'internalId': 'https://api.hel.fi/linkedevents/v1/keyword/yso:p1808/',
+          }),
+        ]),
+        'lastModifiedTime': '2020-05-05T09:24:58.569334Z',
+        'localizationExtraInfo': None,
+        'location': dict({
+          'internalId': 'https://linkedevents.api.test.hel.ninja/v1/place/tprek:15321/',
+        }),
+        'maximumAttendeeCapacity': None,
+        'minimumAttendeeCapacity': None,
+        'name': dict({
+          'en': 'Raija Malka & Kaija Saariaho: Blick',
+          'fi': 'Raija Malka & Kaija Saariaho: Blick',
+          'sv': 'Raija Malka & Kaija Saariaho: Blick',
+        }),
+        'offers': list([
+          dict({
+            'isFree': False,
+          }),
+        ]),
+        'provider': dict({
+          'en': 'Amos Rex',
+          'fi': 'Amos Rex',
+          'sv': 'Amos Rex',
+        }),
+        'providerContactInfo': None,
+        'publicationStatus': 'public',
+        'publisher': 'ytj:0586977-6',
+        'remainingAttendeeCapacity': None,
+        'shortDescription': dict({
+          'en': 'Visual artist Raija Malka and composer Kaija Saariaho will take over Amos Rex’s exhibition space in a new and experiential way next summer. ',
+          'fi': 'Kuvataiteilija Raija Malka ja säveltäjä Kaija Saariaho täyttävät ensi kesänä Amos Rexin näyttelytilan uudella kokemuksellisella tavalla. ',
+          'sv': 'Bildkonstnären Raija Malka och kompositören Kaija Saariaho fyller Amos Rex utställningsutrymme på ett nytt och experimentellt sätt nästa sommaren.',
+        }),
+        'startTime': None,
+        'subEvents': list([
+        ]),
+        'superEvent': None,
+        'superEventType': None,
+      }),
+    }),
+  })
+# ---
+# name: test_get_event_not_found
+  dict({
+    'data': dict({
+      'event': None,
+    }),
+    'errors': list([
+      dict({
+        'extensions': dict({
+          'code': 'GENERAL_ERROR',
+        }),
+        'locations': list([
+          dict({
+            'column': 3,
+            'line': 3,
+          }),
+        ]),
+        'message': 'A mocked generic HTTP error',
+        'path': list([
+          'event',
+        ]),
+      }),
+    ]),
+  })
+# ---
+# name: test_get_event_without_location
+  dict({
+    'data': dict({
+      'event': dict({
+        'activities': list([
+          dict({
+            'id': 'helfi:12',
+          }),
+        ]),
+        'additionalCriteria': list([
+          dict({
+            'id': 'helfi:12',
+          }),
+        ]),
+        'audience': list([
+        ]),
+        'audienceMaxAge': None,
+        'audienceMinAge': None,
+        'categories': list([
+          dict({
+            'id': 'helfi:12',
+          }),
+        ]),
+        'createdTime': '2019-12-13T12:49:40.545273Z',
+        'customData': None,
+        'dataSource': 'helsinki',
+        'datePublished': None,
+        'description': dict({
+          'en': '<p>Visual artist Raija Malka and composer Kaija Saariaho will take over Amos Rex’s exhibition space in a new and experiential way next summer. The work is painterly, spatial and musical all at once, offering visitors an opportunity to shape the space with their own creativity.</p><p>The exhibition title, Blick (Gaze), is a reference to visual artist Wassily Kandinsky’s poem from 1912 that is included in the soundscape by Kaija Saariaho. The gazes of the two artists are brought together in a three-dimensional space.</p><p>The exhibition is a multisensory experience that invites people to stay. In a world made up of the colours and sounds of Malka and Saariaho, visitors can build their own arrangements.</p><p>Amos Rex<br>10.6.-30.8. </p><p>Mon, Fri 11.00-18.00<br>Wed, Thu 11.00-20.00<br>Sat, Sun 11.00-17.00</p><p>Admission fee 5-15€, under 18 yrs free entry</p>',
+          'fi': '<p>Kuvataiteilija Raija Malka ja säveltäjä Kaija Saariaho täyttävät ensi kesänä Amos Rexin näyttelytilan uudella kokemuksellisella tavalla. Teos on yhtä aikaa maalauksellinen, tilallinen ja musiikillinen. </p><p>Näyttelyn nimi Blick (Katse) viittaa kuvataiteilija Wassily Kandinskyn 1912 julkaistuun runoon, joka sisältyy Kaija Saariahon näyttelyssä kuultavaan äänimaisemaan. Kahden taiteilijan katseet yhdistyvät näyttelyn kolmiulotteisessa tilassa.</p><p>Näyttely on moniaistinen kokonaisuus, joka houkuttelee viipymään. Kävijä voi rakentaa omia asetelmiaan Malkan ja Saariahon väri- ja äänimaailmaan.</p><p>Amos Rex<br>10.6.-30.8. </p><p>ma, pe klo 11-18<br>ke, to klo 11-20<br>la, su klo 11-17</p><p>Sisäänpääsy 5-15€, alle 18-vuotiaille vapaa pääsy</p>',
+          'sv': '<p>Bildkonstnären Raija Malka och kompositören Kaija Saariaho fyller Amos Rex utställningsutrymme på ett nytt och experimentellt sätt nästa sommaren. Deras verk är på en och samma gång måleriskt, rumsligt och musikaliskt. </p><p>Utställningstiteln, Blick, syftar på bildkonstnären Wassily Kandinskys dikt från 1912. Texten ingår i Kaija Saariahos ljuder i utställningen. De två konstnärernas blickar möts i det tredimensionella utställningsutrymmet.</p><p>Utställningen utgör en sinnlig helhet som lockar besökare att dröja kvar. De kan bidra till Malkas och Saariahos färg- och ljudvärld med sina egna byggstenar.</p><p>Amos Rex<br>10.6.-30.8. </p><p>må, fre kl 11-18<br>ons, to kl 11-20<br>lö, sö kl 11-17</p><p>Inträde 5-15€, under 18 år fritt inträde</p>',
+        }),
+        'endTime': None,
+        'enrolmentEndTime': None,
+        'enrolmentStartTime': None,
+        'eventStatus': 'EventPostponed',
+        'externalLinks': list([
+        ]),
+        'id': 'helsinki:afxp6tv4xa',
+        'images': list([
+          dict({
+            'internalId': 'https://api.hel.fi/linkedevents/v1/image/61106/',
+          }),
+        ]),
+        'inLanguage': list([
+        ]),
+        'infoUrl': dict({
+          'en': 'http://www.amosrex.fi',
+          'fi': 'http://www.amosrex.fi',
+          'sv': 'http://www.amosrex.fi',
+        }),
+        'internalContext': 'http://schema.org',
+        'internalId': 'https://api.hel.fi/linkedevents/v1/event/helsinki:afxp6tv4xa/',
+        'internalType': 'Event/LinkedEvent',
+        'keywords': list([
+          dict({
+            'internalId': 'https://api.hel.fi/linkedevents/v1/keyword/helfi:12/',
+          }),
+          dict({
+            'internalId': 'https://api.hel.fi/linkedevents/v1/keyword/yso:p5121/',
+          }),
+          dict({
+            'internalId': 'https://api.hel.fi/linkedevents/v1/keyword/yso:p6889/',
+          }),
+          dict({
+            'internalId': 'https://api.hel.fi/linkedevents/v1/keyword/yso:p1808/',
+          }),
+        ]),
+        'lastModifiedTime': '2020-05-05T09:24:58.569334Z',
+        'localizationExtraInfo': None,
+        'location': dict({
+          'internalId': 'https://linkedevents.api.test.hel.ninja/v1/place/tprek:15321/',
+        }),
+        'maximumAttendeeCapacity': None,
+        'minimumAttendeeCapacity': None,
+        'name': dict({
+          'en': 'Raija Malka & Kaija Saariaho: Blick',
+          'fi': 'Raija Malka & Kaija Saariaho: Blick',
+          'sv': 'Raija Malka & Kaija Saariaho: Blick',
+        }),
+        'offers': list([
+          dict({
+            'isFree': False,
+          }),
+        ]),
+        'provider': dict({
+          'en': 'Amos Rex',
+          'fi': 'Amos Rex',
+          'sv': 'Amos Rex',
+        }),
+        'providerContactInfo': None,
+        'publicationStatus': 'public',
+        'publisher': 'ytj:0586977-6',
+        'remainingAttendeeCapacity': None,
+        'shortDescription': dict({
+          'en': 'Visual artist Raija Malka and composer Kaija Saariaho will take over Amos Rex’s exhibition space in a new and experiential way next summer. ',
+          'fi': 'Kuvataiteilija Raija Malka ja säveltäjä Kaija Saariaho täyttävät ensi kesänä Amos Rexin näyttelytilan uudella kokemuksellisella tavalla. ',
+          'sv': 'Bildkonstnären Raija Malka och kompositören Kaija Saariaho fyller Amos Rex utställningsutrymme på ett nytt och experimentellt sätt nästa sommaren.',
+        }),
+        'startTime': None,
+        'subEvents': list([
+        ]),
+        'superEvent': None,
+        'superEventType': None,
+      }),
+    }),
+  })
+# ---
+# name: test_get_events
+  dict({
+    'data': dict({
+      'events': dict({
+        'data': list([
+          dict({
+            'audience': list([
+            ]),
+            'audienceMaxAge': None,
+            'audienceMinAge': None,
+            'createdTime': '2020-05-05T09:27:45.644890Z',
+            'customData': None,
+            'dataSource': 'helsinki',
+            'datePublished': None,
+            'description': dict({
+              'en': None,
+              'fi': '<p>Tule kuulolle ja kysymään muun muassa Viikin, Pukinmäen, Puistolan, Suutarilan, Pihlajamäen, Tapanilan ja Malmin ajankohtaisista suunnitteluasioista. Koilliseen suunnitellaan uusia asuntoja ja liiketiloja, kadut ja viheralueet kohenevat.<br>Malmin lentokentän alueelle suunnitellaan asuntoja noin 25 000 ihmiselle ja Viikin-Malmin pikaraitiotiestä kaavaillaan koillisen uutta raideyhteyttä. Asemanseuduilla eli Tapulikaupunki – Puistola -alueella ja Pukinmäessä hahmotellaan kehittämisperiaatteita. Raide-Jokerin rakentaminen edistyy.<br>Osallistu kotisohvaltasi kaavoituksen sekä liikenteen ja puistojen suunnittelun tilaisuuteen maanantaina 1.6. klo 17−19. Kirjaudu sisään jo klo 16.45. Lisätietoa, ohjeet, liittymislinkki ja vinkit ennakko-osallistumisesta: hel.fi/suunnitelmat.</p><p>Esittelyssä mukana olevat hankkeet:<br>Asemakaavoitus ja muu maankäytön suunnittelu / Ota kantaa juuri nyt<br>· Malmin uimahallin laajennus<br>· Malmin energiakortteli Tattarisuon teollisuusalueen eteläpuolelle</p><p>Kadut, puistot ja viheralueet / Ota kantaa juuri nyt<br>· Katariina Saksilaisen kadun eteläosan katusuunnitelma ja Pornaistenniemen puistosuunnitelma, jotka sisältävät pyöräliikenteen baanayhteyden<br>· Kivikon puistosilta, joka ylittää Lahdenväylän ja johtaa lentokenttäalueelta Kivikon ulkoilupuistoon<br>· Maatullinkujan katusuunnitelma välillä Henrik Forsiuksen tie - Kämnerintie<br>· Suutarilan alueen katusuunnitelmia: Jupiterintie, Marsintie, Merkuriuksentie, Pikkaraistie, Riimukuja, Saturnuksentie ja Uranuksentie</p><p>Ajankohtaiskatsaus – missä mennään muiden koillisen hankkeiden kanssa <br>· Lentoasemankorttelit<br>· Lentokenttäalueen puistokilpailu ja väliaikaiskäytön ajankohtaiset suunnitelmat<br>· Malmin keskustan suunnittelutilanne<br>· Pukinmäki, Säterinportti 3, Säterintie 7-9, Madetojankuja 1 <br>· Pukinmäki, Rälssintien ja Isonkaivontien alueet <br>· Malmi, (Pihlajamäki), Rapakivenkuja 2 Pihlajamäen ostoskeskus <br>· Tapanilan asemanseudun eteläosa <br>· Töyrynummi, Puutarhakortteli <br>· Tapulikaupunki, Kämnerintie <br>· Viikki, Maakaarenkuja 2 ja Aleksanteri Nevskin katu <br>· Mellunkylä, Kivikon pelastusasematontti (helikopterikenttä) <br>· Tapulikaupunki ja Puistolan asemanseutu <br>· Pukinmäen täydennysrakentaminen<br>· Viikin-Malmin pikaraitiotie<br>· Raide-Jokerin rakentamistilanne<br>· Vanhan Porvoontien suunnittelu välillä Suurmetsäntie-Heikinlaaksontie, sisältää melusuojauksen suunnittelun</p>',
+              'sv': None,
+            }),
+            'endTime': '2020-06-01T16:00:00Z',
+            'enrolmentEndTime': None,
+            'enrolmentStartTime': None,
+            'eventStatus': 'EventScheduled',
+            'externalLinks': list([
+            ]),
+            'id': 'helsinki:afy6ikna3u',
+            'images': list([
+              dict({
+                'internalId': 'https://api.hel.fi/linkedevents/v1/image/64235/',
+              }),
+            ]),
+            'inLanguage': list([
+              dict({
+                'internalId': 'https://api.hel.fi/linkedevents/v1/language/fi/',
+              }),
+            ]),
+            'infoUrl': dict({
+              'en': None,
+              'fi': 'https://www.hel.fi/Helsinki/fi/asuminen-ja-ymparisto/kaavoitus/ajankohtaiset-suunnitelmat/',
+              'sv': None,
+            }),
+            'internalContext': 'http://schema.org',
+            'internalId': 'https://api.hel.fi/linkedevents/v1/event/helsinki:afy6ikna3u/',
+            'internalType': 'Event/LinkedEvent',
+            'keywords': list([
+              dict({
+                'internalId': 'https://api.hel.fi/linkedevents/v1/keyword/yso:p15875/',
+              }),
+              dict({
+                'internalId': 'https://api.hel.fi/linkedevents/v1/keyword/yso:p13980/',
+              }),
+              dict({
+                'internalId': 'https://api.hel.fi/linkedevents/v1/keyword/yso:p14004/',
+              }),
+              dict({
+                'internalId': 'https://api.hel.fi/linkedevents/v1/keyword/yso:p8270/',
+              }),
+              dict({
+                'internalId': 'https://api.hel.fi/linkedevents/v1/keyword/yso:p15882/',
+              }),
+              dict({
+                'internalId': 'https://api.hel.fi/linkedevents/v1/keyword/yso:p26626/',
+              }),
+              dict({
+                'internalId': 'https://api.hel.fi/linkedevents/v1/keyword/yso:p8268/',
+              }),
+            ]),
+            'lastModifiedTime': '2020-05-05T09:27:45.644920Z',
+            'localizationExtraInfo': None,
+            'location': dict({
+              'internalId': 'https://api.hel.fi/linkedevents/v1/place/helsinki:internet/',
+            }),
+            'maximumAttendeeCapacity': None,
+            'minimumAttendeeCapacity': None,
+            'name': dict({
+              'en': None,
+              'fi': 'Uutta Koillis-Helsinkiä verkkotilaisuus',
+              'sv': None,
+            }),
+            'offers': list([
+              dict({
+                'isFree': True,
+              }),
+            ]),
+            'provider': None,
+            'providerContactInfo': None,
+            'publicationStatus': None,
+            'publisher': 'ahjo:u541000',
+            'remainingAttendeeCapacity': None,
+            'shortDescription': dict({
+              'en': None,
+              'fi': 'Tule kuulemaan ja keskustelemaan verkkoon uudistuvasta Koillis-Helsingistä omalta kotisohvaltasi. Juuri nyt voit vaikuttaa useisiin suunnittelukohteisiin!',
+              'sv': None,
+            }),
+            'startTime': '2020-06-01T13:45:00Z',
+            'subEvents': list([
+            ]),
+            'superEvent': None,
+            'superEventType': None,
+          }),
+        ]),
+        'meta': dict({
+          'count': 151775,
+          'next': 'https://api.hel.fi/linkedevents/v1/event/?page=2',
+          'previous': None,
+        }),
+      }),
+    }),
+  })
+# ---
+# name: test_get_events_with_occurrences
+  dict({
+    'data': dict({
+      'events': dict({
+        'data': list([
+          dict({
+            'id': 'helsinki:afy6ikna3u',
+            'internalId': 'https://api.hel.fi/linkedevents/v1/event/helsinki:afy6ikna3u/',
+            'pEvent': dict({
+              'lastOccurrenceDatetime': '2020-01-06T00:00:00+00:00',
+              'nextOccurrenceDatetime': '2020-01-05T00:00:00+00:00',
+            }),
+          }),
+          dict({
+            'id': 'helsinki:afxp6tv4xa',
+            'internalId': 'https://api.hel.fi/linkedevents/v1/event/helsinki:afxp6tv4xa/',
+            'pEvent': dict({
+              'lastOccurrenceDatetime': '2020-01-06T00:00:00+00:00',
+              'nextOccurrenceDatetime': '2020-01-05T00:00:00+00:00',
+            }),
+          }),
+        ]),
+        'meta': dict({
+          'count': 151775,
+          'next': 'https://api.hel.fi/linkedevents/v1/event/?page=2',
+          'previous': None,
+        }),
+      }),
+    }),
+  })
+# ---
+# name: test_get_keyword
+  dict({
+    'data': dict({
+      'keyword': dict({
+        'aggregate': False,
+        'altLabels': list([
+          'spädbarn',
+          'lapset',
+          'imeväisikäiset',
+          'barn',
+        ]),
+        'createdTime': '2014-06-23T11:37:27.705000Z',
+        'dataSource': 'yso',
+        'deprecated': False,
+        'id': 'yso:p4354',
+        'image': None,
+        'internalContext': 'http://schema.org',
+        'internalId': 'https://api.hel.fi/linkedevents/v1/keyword/yso:p4354/',
+        'internalType': 'Keyword',
+        'lastModifiedTime': '2017-09-06T05:20:47.061426Z',
+        'nEvents': 54082,
+        'name': dict({
+          'en': 'children (age groups)',
+          'fi': 'lapset (ikäryhmät)',
+          'sv': 'barn (åldersgrupper)',
+        }),
+        'publisher': 'hy:kansalliskirjasto',
+      }),
+    }),
+  })
+# ---
+# name: test_get_keyword_set
+  dict({
+    'data': dict({
+      'keywordSet': dict({
+        'id': 'kultus:categories',
+        'internalId': 'http://localhost:8080/v1/keyword_set/kultus:categories/',
+        'keywords': list([
+          dict({
+            'id': 'helfi:12',
+            'internalId': 'http://localhost:8080/v1/keyword/yso:p27033/',
+            'name': dict({
+              'en': "Valentine's Day",
+              'fi': 'ystävänpäivä',
+              'sv': 'alla hjärtans dag',
+            }),
+          }),
+        ]),
+      }),
+    }),
+  })
+# ---
+# name: test_get_keyword_set.1
+  dict({
+    'data': dict({
+      'keywordSet': dict({
+        'id': 'kultus:categories',
+        'internalId': 'http://localhost:8080/v1/keyword_set/kultus:categories/',
+        'keywords': list([
+          dict({
+            'id': 'helfi:12',
+            'internalId': 'http://localhost:8080/v1/keyword/yso:p27033/',
+            'name': dict({
+              'en': "Valentine's Day",
+              'fi': 'ystävänpäivä',
+              'sv': 'alla hjärtans dag',
+            }),
+          }),
+        ]),
+      }),
+    }),
+  })
+# ---
+# name: test_get_keyword_set.2
+  dict({
+    'data': dict({
+      'keywordSet': dict({
+        'id': 'kultus:categories',
+        'internalId': 'http://localhost:8080/v1/keyword_set/kultus:categories/',
+        'keywords': list([
+          dict({
+            'id': 'helfi:12',
+            'internalId': 'http://localhost:8080/v1/keyword/yso:p27033/',
+            'name': dict({
+              'en': "Valentine's Day",
+              'fi': 'ystävänpäivä',
+              'sv': 'alla hjärtans dag',
+            }),
+          }),
+        ]),
+      }),
+    }),
+  })
+# ---
+# name: test_get_keyword_set.3
+  dict({
+    'data': dict({
+      'keywordSet': dict({
+        'id': 'kultus:categories',
+        'internalId': 'http://localhost:8080/v1/keyword_set/kultus:categories/',
+        'keywords': list([
+          dict({
+            'id': 'helfi:12',
+            'internalId': 'http://localhost:8080/v1/keyword/yso:p27033/',
+            'name': dict({
+              'en': "Valentine's Day",
+              'fi': 'ystävänpäivä',
+              'sv': 'alla hjärtans dag',
+            }),
+          }),
+        ]),
+      }),
+    }),
+  })
+# ---
+# name: test_get_keywords
+  dict({
+    'data': dict({
+      'keywords': dict({
+        'data': list([
+          dict({
+            'aggregate': False,
+            'altLabels': list([
+              'spädbarn',
+              'lapset',
+              'imeväisikäiset',
+              'barn',
+            ]),
+            'createdTime': '2014-06-23T11:37:27.705000Z',
+            'dataSource': 'yso',
+            'deprecated': False,
+            'id': 'yso:p4354',
+            'image': None,
+            'internalContext': 'http://schema.org',
+            'internalId': 'https://api.hel.fi/linkedevents/v1/keyword/yso:p4354/',
+            'internalType': 'Keyword',
+            'lastModifiedTime': '2017-09-06T05:20:47.061426Z',
+            'nEvents': 54082,
+            'name': dict({
+              'en': 'children (age groups)',
+              'fi': 'lapset (ikäryhmät)',
+              'sv': 'barn (åldersgrupper)',
+            }),
+            'publisher': 'hy:kansalliskirjasto',
+          }),
+          dict({
+            'aggregate': False,
+            'altLabels': list([
+              'ydinperheet',
+              'perhe',
+              'familjer (grupper)',
+              'kärnfamiljer',
+              'familj',
+            ]),
+            'createdTime': '2014-06-23T11:37:28.246000Z',
+            'dataSource': 'yso',
+            'deprecated': False,
+            'id': 'yso:p4363',
+            'image': None,
+            'internalContext': 'http://schema.org',
+            'internalId': 'https://api.hel.fi/linkedevents/v1/keyword/yso:p4363/',
+            'internalType': 'Keyword',
+            'lastModifiedTime': '2019-05-11T04:20:04.577893Z',
+            'nEvents': 29262,
+            'name': dict({
+              'en': 'families',
+              'fi': 'perheet',
+              'sv': 'familjer',
+            }),
+            'publisher': 'hy:kansalliskirjasto',
+          }),
+        ]),
+        'meta': dict({
+          'count': 1992,
+          'next': 'https://api.hel.fi/linkedevents/v1/keyword/?page=2&page_size=2',
+          'previous': None,
+        }),
+      }),
+    }),
+  })
+# ---
+# name: test_get_place
+  dict({
+    'data': dict({
+      'place': dict({
+        'addressCountry': None,
+        'addressLocality': dict({
+          'en': 'Espoo',
+          'fi': 'Espoo',
+          'sv': 'Esbo',
+        }),
+        'addressRegion': None,
+        'contactType': None,
+        'createdTime': None,
+        'customData': None,
+        'dataSource': 'tprek',
+        'deleted': False,
+        'description': None,
+        'divisions': list([
+          dict({
+            'municipality': None,
+            'ocdId': None,
+          }),
+        ]),
+        'email': 'sellonkirjasto@espoo.fi',
+        'id': 'tprek:15417',
+        'image': 54259,
+        'infoUrl': dict({
+          'en': 'http://www.helmet.fi/sellolibrary',
+          'fi': 'http://www.helmet.fi/sello',
+          'sv': 'http://www.helmet.fi/sellobiblioteket',
+        }),
+        'internalContext': 'http://schema.org',
+        'internalId': 'https://api.hel.fi/linkedevents/v1/place/tprek:15417/',
+        'internalType': 'Place',
+        'lastModifiedTime': '2020-04-25T05:09:10.712132Z',
+        'nEvents': 27264,
+        'name': dict({
+          'en': 'Sello Library',
+          'fi': 'Sellon kirjasto',
+          'sv': 'Sellobiblioteket',
+        }),
+        'parent': None,
+        'position': dict({
+          'coordinates': list([
+            24.80992,
+            60.21748,
+          ]),
+          'type': 'Point',
+        }),
+        'postOfficeBoxNum': None,
+        'postalCode': '02600',
+        'publisher': 'ahjo:u021600',
+        'replacedBy': None,
+        'streetAddress': dict({
+          'en': 'Leppävaarankatu 9',
+          'fi': 'Leppävaarankatu 9',
+          'sv': 'Albergagatan 9',
+        }),
+        'telephone': dict({
+          'en': None,
+          'fi': '+358 9 8165 7603',
+          'sv': None,
+        }),
+      }),
+    }),
+  })
+# ---
+# name: test_get_places
+  dict({
+    'data': dict({
+      'places': dict({
+        'data': list([
+          dict({
+            'addressCountry': None,
+            'addressLocality': dict({
+              'en': 'Espoo',
+              'fi': 'Espoo',
+              'sv': 'Esbo',
+            }),
+            'addressRegion': None,
+            'contactType': None,
+            'createdTime': None,
+            'customData': None,
+            'dataSource': 'tprek',
+            'deleted': False,
+            'description': None,
+            'divisions': list([
+              dict({
+                'municipality': None,
+                'ocdId': None,
+              }),
+            ]),
+            'email': 'sellonkirjasto@espoo.fi',
+            'id': 'tprek:15417',
+            'image': 54259,
+            'infoUrl': dict({
+              'en': 'http://www.helmet.fi/sellolibrary',
+              'fi': 'http://www.helmet.fi/sello',
+              'sv': 'http://www.helmet.fi/sellobiblioteket',
+            }),
+            'internalContext': 'http://schema.org',
+            'internalId': 'https://api.hel.fi/linkedevents/v1/place/tprek:15417/',
+            'internalType': 'Place',
+            'lastModifiedTime': '2020-04-25T05:09:10.712132Z',
+            'nEvents': 27264,
+            'name': dict({
+              'en': 'Sello Library',
+              'fi': 'Sellon kirjasto',
+              'sv': 'Sellobiblioteket',
+            }),
+            'parent': None,
+            'position': dict({
+              'coordinates': list([
+                24.80992,
+                60.21748,
+              ]),
+              'type': 'Point',
+            }),
+            'postOfficeBoxNum': None,
+            'postalCode': '02600',
+            'publisher': 'ahjo:u021600',
+            'replacedBy': None,
+            'streetAddress': dict({
+              'en': 'Leppävaarankatu 9',
+              'fi': 'Leppävaarankatu 9',
+              'sv': 'Albergagatan 9',
+            }),
+            'telephone': dict({
+              'en': None,
+              'fi': '+358 9 8165 7603',
+              'sv': None,
+            }),
+          }),
+          dict({
+            'addressCountry': None,
+            'addressLocality': dict({
+              'en': 'Espoo',
+              'fi': 'Espoo',
+              'sv': 'Esbo',
+            }),
+            'addressRegion': None,
+            'contactType': None,
+            'createdTime': None,
+            'customData': None,
+            'dataSource': 'tprek',
+            'deleted': False,
+            'description': None,
+            'divisions': list([
+              dict({
+                'municipality': None,
+                'ocdId': None,
+              }),
+            ]),
+            'email': 'kirjasto.entresse@espoo.fi',
+            'id': 'tprek:15321',
+            'image': 54251,
+            'infoUrl': dict({
+              'en': 'http://www.helmet.fi/entressebibliotek',
+              'fi': 'http://www.helmet.fi/entressenkirjasto',
+              'sv': 'http://www.helmet.fi/entressebibliotek',
+            }),
+            'internalContext': 'http://schema.org',
+            'internalId': 'https://api.hel.fi/linkedevents/v1/place/tprek:15321/',
+            'internalType': 'Place',
+            'lastModifiedTime': '2019-09-19T14:10:59.747979Z',
+            'nEvents': 7745,
+            'name': dict({
+              'en': 'Entresse Library',
+              'fi': 'Entressen kirjasto',
+              'sv': 'Entressebiblioteket',
+            }),
+            'parent': None,
+            'position': dict({
+              'coordinates': list([
+                24.657864,
+                60.203636,
+              ]),
+              'type': 'Point',
+            }),
+            'postOfficeBoxNum': None,
+            'postalCode': '02770',
+            'publisher': 'ahjo:u021600',
+            'replacedBy': None,
+            'streetAddress': dict({
+              'en': 'Siltakatu 11',
+              'fi': 'Siltakatu 11',
+              'sv': 'Brogatan 11',
+            }),
+            'telephone': dict({
+              'en': None,
+              'fi': '+358 9 8165 3776',
+              'sv': None,
+            }),
+          }),
+        ]),
+        'meta': dict({
+          'count': 1346,
+          'next': 'https://api.hel.fi/linkedevents/v1/place/?page=2&page_size=2&show_all_places=',
+          'previous': None,
+        }),
+      }),
+    }),
+  })
+# ---
+# name: test_get_popular_kultus_keywords[None-None-1]
+  dict({
+    'data': dict({
+      'popularKultusKeywords': dict({
+        'data': list([
+          dict({
+            'dataSource': 'yso',
+            'id': 'yso:p84',
+            'internalId': 'http://localhost:8080/v1/keyword/yso:p84/',
+            'nEvents': 200,
+            'name': dict({
+              'en': 'education and training',
+              'fi': 'koulutus',
+              'sv': 'utbildning',
+            }),
+          }),
+        ]),
+        'meta': dict({
+          'count': 1,
+        }),
+      }),
+    }),
+  })
+# ---
+# name: test_get_popular_kultus_keywords[True-1-1]
+  dict({
+    'data': dict({
+      'popularKultusKeywords': dict({
+        'data': list([
+          dict({
+            'dataSource': 'yso',
+            'id': 'yso:p84',
+            'internalId': 'http://localhost:8080/v1/keyword/yso:p84/',
+            'nEvents': 200,
+            'name': dict({
+              'en': 'education and training',
+              'fi': 'koulutus',
+              'sv': 'utbildning',
+            }),
+          }),
+        ]),
+        'meta': dict({
+          'count': 1,
+        }),
+      }),
+    }),
+  })
+# ---
+# name: test_get_popular_kultus_keywords[True-None-2]
+  dict({
+    'data': dict({
+      'popularKultusKeywords': dict({
+        'data': list([
+          dict({
+            'dataSource': 'yso',
+            'id': 'yso:p84',
+            'internalId': 'http://localhost:8080/v1/keyword/yso:p84/',
+            'nEvents': 200,
+            'name': dict({
+              'en': 'education and training',
+              'fi': 'koulutus',
+              'sv': 'utbildning',
+            }),
+          }),
+          dict({
+            'dataSource': 'yso',
+            'id': 'helfi:12',
+            'internalId': 'http://localhost:8080/v1/keyword/yso:p27033/',
+            'nEvents': 0,
+            'name': dict({
+              'en': "Valentine's Day",
+              'fi': 'ystävänpäivä',
+              'sv': 'alla hjärtans dag',
+            }),
+          }),
+        ]),
+        'meta': dict({
+          'count': 2,
+        }),
+      }),
+    }),
+  })
+# ---
+# name: test_get_upcoming_events[False-False-False]
+  dict({
+    'data': dict({
+      'upcomingEvents': dict({
+        'data': list([
+        ]),
+        'pageInfo': dict({
+          'hasNextPage': False,
+          'hasPreviousPage': False,
+          'page': 0,
+          'pageSize': 10,
+          'pages': 0,
+          'totalCount': 0,
+        }),
+      }),
+    }),
+  })
+# ---
+# name: test_get_upcoming_events[False-False-True]
+  dict({
+    'data': dict({
+      'upcomingEvents': dict({
+        'data': list([
+        ]),
+        'pageInfo': dict({
+          'hasNextPage': False,
+          'hasPreviousPage': False,
+          'page': 0,
+          'pageSize': 10,
+          'pages': 0,
+          'totalCount': 0,
+        }),
+      }),
+    }),
+  })
+# ---
+# name: test_get_upcoming_events[False-True-False]
+  dict({
+    'data': dict({
+      'upcomingEvents': dict({
+        'data': list([
+        ]),
+        'pageInfo': dict({
+          'hasNextPage': False,
+          'hasPreviousPage': False,
+          'page': 0,
+          'pageSize': 10,
+          'pages': 0,
+          'totalCount': 0,
+        }),
+      }),
+    }),
+  })
+# ---
+# name: test_get_upcoming_events[False-True-True]
+  dict({
+    'data': dict({
+      'upcomingEvents': dict({
+        'data': list([
+        ]),
+        'pageInfo': dict({
+          'hasNextPage': False,
+          'hasPreviousPage': False,
+          'page': 0,
+          'pageSize': 10,
+          'pages': 0,
+          'totalCount': 0,
+        }),
+      }),
+    }),
+  })
+# ---
+# name: test_get_upcoming_events[True-False-False]
+  dict({
+    'data': dict({
+      'upcomingEvents': dict({
+        'data': list([
+          dict({
+            'id': 'kultus:3',
+            'pEvent': dict({
+              'linkedEventId': 'kultus:3',
+            }),
+          }),
+          dict({
+            'id': 'kultus:2',
+            'pEvent': dict({
+              'linkedEventId': 'kultus:2',
+            }),
+          }),
+          dict({
+            'id': 'kultus:1',
+            'pEvent': dict({
+              'linkedEventId': 'kultus:1',
+            }),
+          }),
+        ]),
+        'pageInfo': dict({
+          'hasNextPage': False,
+          'hasPreviousPage': False,
+          'page': 1,
+          'pageSize': 10,
+          'pages': 1,
+          'totalCount': 3,
+        }),
+      }),
+    }),
+  })
+# ---
+# name: test_get_upcoming_events[True-False-True]
+  dict({
+    'data': dict({
+      'upcomingEvents': dict({
+        'data': list([
+          dict({
+            'id': 'kultus:3',
+            'pEvent': dict({
+              'linkedEventId': 'kultus:3',
+            }),
+          }),
+          dict({
+            'id': 'kultus:2',
+            'pEvent': dict({
+              'linkedEventId': 'kultus:2',
+            }),
+          }),
+          dict({
+            'id': 'kultus:1',
+            'pEvent': dict({
+              'linkedEventId': 'kultus:1',
+            }),
+          }),
+        ]),
+        'pageInfo': dict({
+          'hasNextPage': False,
+          'hasPreviousPage': False,
+          'page': 1,
+          'pageSize': 10,
+          'pages': 1,
+          'totalCount': 3,
+        }),
+      }),
+    }),
+  })
+# ---
+# name: test_get_upcoming_events[True-True-False]
+  dict({
+    'data': dict({
+      'upcomingEvents': dict({
+        'data': list([
+          dict({
+            'id': 'kultus:3',
+            'pEvent': dict({
+              'linkedEventId': 'kultus:3',
+            }),
+          }),
+          dict({
+            'id': 'kultus:2',
+            'pEvent': dict({
+              'linkedEventId': 'kultus:2',
+            }),
+          }),
+          dict({
+            'id': 'kultus:1',
+            'pEvent': dict({
+              'linkedEventId': 'kultus:1',
+            }),
+          }),
+        ]),
+        'pageInfo': dict({
+          'hasNextPage': False,
+          'hasPreviousPage': False,
+          'page': 1,
+          'pageSize': 10,
+          'pages': 1,
+          'totalCount': 3,
+        }),
+      }),
+    }),
+  })
+# ---
+# name: test_get_upcoming_events[True-True-True]
+  dict({
+    'data': dict({
+      'upcomingEvents': dict({
+        'data': list([
+          dict({
+            'id': 'kultus:3',
+            'pEvent': dict({
+              'linkedEventId': 'kultus:3',
+            }),
+          }),
+          dict({
+            'id': 'kultus:2',
+            'pEvent': dict({
+              'linkedEventId': 'kultus:2',
+            }),
+          }),
+          dict({
+            'id': 'kultus:1',
+            'pEvent': dict({
+              'linkedEventId': 'kultus:1',
+            }),
+          }),
+        ]),
+        'pageInfo': dict({
+          'hasNextPage': False,
+          'hasPreviousPage': False,
+          'page': 1,
+          'pageSize': 10,
+          'pages': 1,
+          'totalCount': 3,
+        }),
+      }),
+    }),
+  })
+# ---
+# name: test_image_query
+  dict({
+    'data': dict({
+      'image': dict({
+        'altText': 'Kaksi naista istuu tien laidassa',
+        'cropping': '0,478,1920,2399',
+        'dataSource': 'helsinki',
+        'id': '64390',
+        'name': 'Tuohtumus',
+        'photographerName': 'Suomen Kansallisteatteri (c) Katri Naukkarinen',
+        'url': 'https://api.hel.fi/linkedevents/media/images/49776780903_bf54fd7b90_o.jpg',
+      }),
+    }),
+  })
+# ---
+# name: test_images_query
+  dict({
+    'data': dict({
+      'images': dict({
+        'data': list([
+          dict({
+            'altText': 'Kaksi naista istuu tien laidassa',
+            'cropping': '0,478,1920,2399',
+            'dataSource': 'helsinki',
+            'id': '64390',
+            'name': 'Tuohtumus',
+            'photographerName': 'Suomen Kansallisteatteri (c) Katri Naukkarinen',
+            'url': 'https://api.hel.fi/linkedevents/media/images/49776780903_bf54fd7b90_o.jpg',
+          }),
+          dict({
+            'altText': None,
+            'cropping': '',
+            'dataSource': 'kulke',
+            'id': '64389',
+            'name': '',
+            'photographerName': None,
+            'url': 'http://www.vuotalo.fi/instancedata/prime_product_resurssivaraus/kulke/embeds/EventPic_671268.jpg',
+          }),
+        ]),
+        'meta': dict({
+          'count': 64258,
+          'next': 'https://api.hel.fi/linkedevents/v1/image/?page=2',
+          'previous': None,
+        }),
+      }),
+    }),
+  })
+# ---
+# name: test_nearby_events
+  dict({
+    'data': dict({
+      'events': dict({
+        'data': list([
+          dict({
+            'id': 'helsinki:afy6ikna3u',
+            'internalId': 'https://api.hel.fi/linkedevents/v1/event/helsinki:afy6ikna3u/',
+            'name': dict({
+              'en': None,
+              'fi': 'Uutta Koillis-Helsinkiä verkkotilaisuus',
+              'sv': None,
+            }),
+          }),
+        ]),
+        'meta': dict({
+          'count': 151775,
+          'next': 'https://api.hel.fi/linkedevents/v1/event/?page=2',
+          'previous': None,
+        }),
+      }),
+    }),
+  })
+# ---
+# name: test_publish_event[None]
+  dict({
+    'data': dict({
+      'publishEventMutation': dict({
+        'response': dict({
+          'body': dict({
+            'endTime': None,
+            'id': 'helsinki:afy6aghr2y',
+            'publicationStatus': 'public',
+            'startTime': '2020-05-07',
+          }),
+          'statusCode': 200,
+        }),
+      }),
+    }),
+  })
+# ---
+# name: test_publish_event[p_event_enrolment_start1]
+  dict({
+    'data': dict({
+      'publishEventMutation': dict({
+        'response': dict({
+          'body': dict({
+            'endTime': None,
+            'id': 'helsinki:afy6aghr2y',
+            'publicationStatus': 'public',
+            'startTime': '2020-05-07',
+          }),
+          'statusCode': 200,
+        }),
+      }),
+    }),
+  })
+# ---
+# name: test_publish_event_with_external_enrolments
+  dict({
+    'data': dict({
+      'publishEventMutation': dict({
+        'response': dict({
+          'body': dict({
+            'endTime': None,
+            'id': 'helsinki:afy6aghr2y',
+            'publicationStatus': 'public',
+            'startTime': '2020-05-07',
+          }),
+          'statusCode': 200,
+        }),
+      }),
+    }),
+  })
+# ---
+# name: test_publish_event_without_enrolments
+  dict({
+    'data': dict({
+      'publishEventMutation': dict({
+        'response': dict({
+          'body': dict({
+            'endTime': None,
+            'id': 'helsinki:afy6aghr2y',
+            'publicationStatus': 'public',
+            'startTime': '2020-05-07',
+          }),
+          'statusCode': 200,
+        }),
+      }),
+    }),
+  })
+# ---
+# name: test_search_events
+  dict({
+    'data': dict({
+      'eventsSearch': dict({
+        'data': list([
+          dict({
+            'audience': list([
+            ]),
+            'audienceMaxAge': None,
+            'audienceMinAge': None,
+            'createdTime': '2020-05-05T09:27:45.644890Z',
+            'customData': None,
+            'dataSource': 'helsinki',
+            'datePublished': None,
+            'description': dict({
+              'en': None,
+              'fi': '<p>Tule kuulolle ja kysymään muun muassa Viikin, Pukinmäen, Puistolan, Suutarilan, Pihlajamäen, Tapanilan ja Malmin ajankohtaisista suunnitteluasioista. Koilliseen suunnitellaan uusia asuntoja ja liiketiloja, kadut ja viheralueet kohenevat.<br>Malmin lentokentän alueelle suunnitellaan asuntoja noin 25 000 ihmiselle ja Viikin-Malmin pikaraitiotiestä kaavaillaan koillisen uutta raideyhteyttä. Asemanseuduilla eli Tapulikaupunki – Puistola -alueella ja Pukinmäessä hahmotellaan kehittämisperiaatteita. Raide-Jokerin rakentaminen edistyy.<br>Osallistu kotisohvaltasi kaavoituksen sekä liikenteen ja puistojen suunnittelun tilaisuuteen maanantaina 1.6. klo 17−19. Kirjaudu sisään jo klo 16.45. Lisätietoa, ohjeet, liittymislinkki ja vinkit ennakko-osallistumisesta: hel.fi/suunnitelmat.</p><p>Esittelyssä mukana olevat hankkeet:<br>Asemakaavoitus ja muu maankäytön suunnittelu / Ota kantaa juuri nyt<br>· Malmin uimahallin laajennus<br>· Malmin energiakortteli Tattarisuon teollisuusalueen eteläpuolelle</p><p>Kadut, puistot ja viheralueet / Ota kantaa juuri nyt<br>· Katariina Saksilaisen kadun eteläosan katusuunnitelma ja Pornaistenniemen puistosuunnitelma, jotka sisältävät pyöräliikenteen baanayhteyden<br>· Kivikon puistosilta, joka ylittää Lahdenväylän ja johtaa lentokenttäalueelta Kivikon ulkoilupuistoon<br>· Maatullinkujan katusuunnitelma välillä Henrik Forsiuksen tie - Kämnerintie<br>· Suutarilan alueen katusuunnitelmia: Jupiterintie, Marsintie, Merkuriuksentie, Pikkaraistie, Riimukuja, Saturnuksentie ja Uranuksentie</p><p>Ajankohtaiskatsaus – missä mennään muiden koillisen hankkeiden kanssa <br>· Lentoasemankorttelit<br>· Lentokenttäalueen puistokilpailu ja väliaikaiskäytön ajankohtaiset suunnitelmat<br>· Malmin keskustan suunnittelutilanne<br>· Pukinmäki, Säterinportti 3, Säterintie 7-9, Madetojankuja 1 <br>· Pukinmäki, Rälssintien ja Isonkaivontien alueet <br>· Malmi, (Pihlajamäki), Rapakivenkuja 2 Pihlajamäen ostoskeskus <br>· Tapanilan asemanseudun eteläosa <br>· Töyrynummi, Puutarhakortteli <br>· Tapulikaupunki, Kämnerintie <br>· Viikki, Maakaarenkuja 2 ja Aleksanteri Nevskin katu <br>· Mellunkylä, Kivikon pelastusasematontti (helikopterikenttä) <br>· Tapulikaupunki ja Puistolan asemanseutu <br>· Pukinmäen täydennysrakentaminen<br>· Viikin-Malmin pikaraitiotie<br>· Raide-Jokerin rakentamistilanne<br>· Vanhan Porvoontien suunnittelu välillä Suurmetsäntie-Heikinlaaksontie, sisältää melusuojauksen suunnittelun</p>',
+              'sv': None,
+            }),
+            'endTime': '2020-06-01T16:00:00Z',
+            'enrolmentEndTime': None,
+            'enrolmentStartTime': None,
+            'eventStatus': 'EventScheduled',
+            'externalLinks': list([
+            ]),
+            'id': 'helsinki:afy6ikna3u',
+            'images': list([
+              dict({
+                'internalId': 'https://api.hel.fi/linkedevents/v1/image/64235/',
+              }),
+            ]),
+            'inLanguage': list([
+              dict({
+                'internalId': 'https://api.hel.fi/linkedevents/v1/language/fi/',
+              }),
+            ]),
+            'infoUrl': dict({
+              'en': None,
+              'fi': 'https://www.hel.fi/Helsinki/fi/asuminen-ja-ymparisto/kaavoitus/ajankohtaiset-suunnitelmat/',
+              'sv': None,
+            }),
+            'internalContext': 'http://schema.org',
+            'internalId': 'https://api.hel.fi/linkedevents/v1/event/helsinki:afy6ikna3u/',
+            'internalType': 'Event/LinkedEvent',
+            'keywords': list([
+              dict({
+                'internalId': 'https://api.hel.fi/linkedevents/v1/keyword/yso:p15875/',
+              }),
+              dict({
+                'internalId': 'https://api.hel.fi/linkedevents/v1/keyword/yso:p13980/',
+              }),
+              dict({
+                'internalId': 'https://api.hel.fi/linkedevents/v1/keyword/yso:p14004/',
+              }),
+              dict({
+                'internalId': 'https://api.hel.fi/linkedevents/v1/keyword/yso:p8270/',
+              }),
+              dict({
+                'internalId': 'https://api.hel.fi/linkedevents/v1/keyword/yso:p15882/',
+              }),
+              dict({
+                'internalId': 'https://api.hel.fi/linkedevents/v1/keyword/yso:p26626/',
+              }),
+              dict({
+                'internalId': 'https://api.hel.fi/linkedevents/v1/keyword/yso:p8268/',
+              }),
+            ]),
+            'lastModifiedTime': '2020-05-05T09:27:45.644920Z',
+            'localizationExtraInfo': None,
+            'location': dict({
+              'internalId': 'https://api.hel.fi/linkedevents/v1/place/helsinki:internet/',
+            }),
+            'maximumAttendeeCapacity': None,
+            'minimumAttendeeCapacity': None,
+            'name': dict({
+              'en': None,
+              'fi': 'Uutta Koillis-Helsinkiä verkkotilaisuus',
+              'sv': None,
+            }),
+            'offers': list([
+              dict({
+                'isFree': True,
+              }),
+            ]),
+            'provider': None,
+            'providerContactInfo': None,
+            'publicationStatus': None,
+            'publisher': 'ahjo:u541000',
+            'remainingAttendeeCapacity': None,
+            'shortDescription': dict({
+              'en': None,
+              'fi': 'Tule kuulemaan ja keskustelemaan verkkoon uudistuvasta Koillis-Helsingistä omalta kotisohvaltasi. Juuri nyt voit vaikuttaa useisiin suunnittelukohteisiin!',
+              'sv': None,
+            }),
+            'startTime': '2020-06-01T13:45:00Z',
+            'subEvents': list([
+            ]),
+            'superEvent': None,
+            'superEventType': None,
+          }),
+          dict({
+            'audience': list([
+            ]),
+            'audienceMaxAge': None,
+            'audienceMinAge': None,
+            'createdTime': '2019-12-13T12:49:40.545273Z',
+            'customData': None,
+            'dataSource': 'helsinki',
+            'datePublished': None,
+            'description': dict({
+              'en': '<p>Visual artist Raija Malka and composer Kaija Saariaho will take over Amos Rex’s exhibition space in a new and experiential way next summer. The work is painterly, spatial and musical all at once, offering visitors an opportunity to shape the space with their own creativity.</p><p>The exhibition title, Blick (Gaze), is a reference to visual artist Wassily Kandinsky’s poem from 1912 that is included in the soundscape by Kaija Saariaho. The gazes of the two artists are brought together in a three-dimensional space.</p><p>The exhibition is a multisensory experience that invites people to stay. In a world made up of the colours and sounds of Malka and Saariaho, visitors can build their own arrangements.</p><p>Amos Rex<br>10.6.-30.8. </p><p>Mon, Fri 11.00-18.00<br>Wed, Thu 11.00-20.00<br>Sat, Sun 11.00-17.00</p><p>Admission fee 5-15€, under 18 yrs free entry</p>',
+              'fi': '<p>Kuvataiteilija Raija Malka ja säveltäjä Kaija Saariaho täyttävät ensi kesänä Amos Rexin näyttelytilan uudella kokemuksellisella tavalla. Teos on yhtä aikaa maalauksellinen, tilallinen ja musiikillinen. </p><p>Näyttelyn nimi Blick (Katse) viittaa kuvataiteilija Wassily Kandinskyn 1912 julkaistuun runoon, joka sisältyy Kaija Saariahon näyttelyssä kuultavaan äänimaisemaan. Kahden taiteilijan katseet yhdistyvät näyttelyn kolmiulotteisessa tilassa.</p><p>Näyttely on moniaistinen kokonaisuus, joka houkuttelee viipymään. Kävijä voi rakentaa omia asetelmiaan Malkan ja Saariahon väri- ja äänimaailmaan.</p><p>Amos Rex<br>10.6.-30.8. </p><p>ma, pe klo 11-18<br>ke, to klo 11-20<br>la, su klo 11-17</p><p>Sisäänpääsy 5-15€, alle 18-vuotiaille vapaa pääsy</p>',
+              'sv': '<p>Bildkonstnären Raija Malka och kompositören Kaija Saariaho fyller Amos Rex utställningsutrymme på ett nytt och experimentellt sätt nästa sommaren. Deras verk är på en och samma gång måleriskt, rumsligt och musikaliskt. </p><p>Utställningstiteln, Blick, syftar på bildkonstnären Wassily Kandinskys dikt från 1912. Texten ingår i Kaija Saariahos ljuder i utställningen. De två konstnärernas blickar möts i det tredimensionella utställningsutrymmet.</p><p>Utställningen utgör en sinnlig helhet som lockar besökare att dröja kvar. De kan bidra till Malkas och Saariahos färg- och ljudvärld med sina egna byggstenar.</p><p>Amos Rex<br>10.6.-30.8. </p><p>må, fre kl 11-18<br>ons, to kl 11-20<br>lö, sö kl 11-17</p><p>Inträde 5-15€, under 18 år fritt inträde</p>',
+            }),
+            'endTime': None,
+            'enrolmentEndTime': None,
+            'enrolmentStartTime': None,
+            'eventStatus': 'EventPostponed',
+            'externalLinks': list([
+            ]),
+            'id': 'helsinki:afxp6tv4xa',
+            'images': list([
+              dict({
+                'internalId': 'https://api.hel.fi/linkedevents/v1/image/61106/',
+              }),
+            ]),
+            'inLanguage': list([
+            ]),
+            'infoUrl': dict({
+              'en': 'http://www.amosrex.fi',
+              'fi': 'http://www.amosrex.fi',
+              'sv': 'http://www.amosrex.fi',
+            }),
+            'internalContext': 'http://schema.org',
+            'internalId': 'https://api.hel.fi/linkedevents/v1/event/helsinki:afxp6tv4xa/',
+            'internalType': 'Event/LinkedEvent',
+            'keywords': list([
+              dict({
+                'internalId': 'https://api.hel.fi/linkedevents/v1/keyword/helfi:12/',
+              }),
+              dict({
+                'internalId': 'https://api.hel.fi/linkedevents/v1/keyword/yso:p5121/',
+              }),
+              dict({
+                'internalId': 'https://api.hel.fi/linkedevents/v1/keyword/yso:p6889/',
+              }),
+              dict({
+                'internalId': 'https://api.hel.fi/linkedevents/v1/keyword/yso:p1808/',
+              }),
+            ]),
+            'lastModifiedTime': '2020-05-05T09:24:58.569334Z',
+            'localizationExtraInfo': None,
+            'location': dict({
+              'internalId': 'https://api.hel.fi/linkedevents/v1/place/tprek:55959/',
+            }),
+            'maximumAttendeeCapacity': None,
+            'minimumAttendeeCapacity': None,
+            'name': dict({
+              'en': 'Raija Malka & Kaija Saariaho: Blick',
+              'fi': 'Raija Malka & Kaija Saariaho: Blick',
+              'sv': 'Raija Malka & Kaija Saariaho: Blick',
+            }),
+            'offers': list([
+              dict({
+                'isFree': False,
+              }),
+            ]),
+            'provider': dict({
+              'en': 'Amos Rex',
+              'fi': 'Amos Rex',
+              'sv': 'Amos Rex',
+            }),
+            'providerContactInfo': None,
+            'publicationStatus': None,
+            'publisher': 'ytj:0586977-6',
+            'remainingAttendeeCapacity': None,
+            'shortDescription': dict({
+              'en': 'Visual artist Raija Malka and composer Kaija Saariaho will take over Amos Rex’s exhibition space in a new and experiential way next summer. ',
+              'fi': 'Kuvataiteilija Raija Malka ja säveltäjä Kaija Saariaho täyttävät ensi kesänä Amos Rexin näyttelytilan uudella kokemuksellisella tavalla. ',
+              'sv': 'Bildkonstnären Raija Malka och kompositören Kaija Saariaho fyller Amos Rex utställningsutrymme på ett nytt och experimentellt sätt nästa sommaren.',
+            }),
+            'startTime': None,
+            'subEvents': list([
+            ]),
+            'superEvent': None,
+            'superEventType': None,
+          }),
+        ]),
+        'meta': dict({
+          'count': 151775,
+          'next': 'https://api.hel.fi/linkedevents/v1/event/?page=2',
+          'previous': None,
+        }),
+      }),
+    }),
+  })
+# ---
+# name: test_search_places
+  dict({
+    'data': dict({
+      'placesSearch': dict({
+        'data': list([
+          dict({
+            'addressCountry': None,
+            'addressLocality': dict({
+              'en': 'Espoo',
+              'fi': 'Espoo',
+              'sv': 'Esbo',
+            }),
+            'addressRegion': None,
+            'contactType': None,
+            'createdTime': None,
+            'customData': None,
+            'dataSource': 'tprek',
+            'deleted': False,
+            'description': None,
+            'divisions': list([
+              dict({
+                'municipality': None,
+                'ocdId': None,
+              }),
+            ]),
+            'email': 'sellonkirjasto@espoo.fi',
+            'id': 'tprek:15417',
+            'image': 54259,
+            'infoUrl': dict({
+              'en': 'http://www.helmet.fi/sellolibrary',
+              'fi': 'http://www.helmet.fi/sello',
+              'sv': 'http://www.helmet.fi/sellobiblioteket',
+            }),
+            'internalContext': 'http://schema.org',
+            'internalId': 'https://api.hel.fi/linkedevents/v1/place/tprek:15417/',
+            'internalType': 'Place',
+            'lastModifiedTime': '2020-04-25T05:09:10.712132Z',
+            'nEvents': 27264,
+            'name': dict({
+              'en': 'Sello Library',
+              'fi': 'Sellon kirjasto',
+              'sv': 'Sellobiblioteket',
+            }),
+            'parent': None,
+            'position': dict({
+              'coordinates': list([
+                24.80992,
+                60.21748,
+              ]),
+              'type': 'Point',
+            }),
+            'postOfficeBoxNum': None,
+            'postalCode': '02600',
+            'publisher': 'ahjo:u021600',
+            'replacedBy': None,
+            'streetAddress': dict({
+              'en': 'Leppävaarankatu 9',
+              'fi': 'Leppävaarankatu 9',
+              'sv': 'Albergagatan 9',
+            }),
+            'telephone': dict({
+              'en': None,
+              'fi': '+358 9 8165 7603',
+              'sv': None,
+            }),
+          }),
+          dict({
+            'addressCountry': None,
+            'addressLocality': dict({
+              'en': 'Espoo',
+              'fi': 'Espoo',
+              'sv': 'Esbo',
+            }),
+            'addressRegion': None,
+            'contactType': None,
+            'createdTime': None,
+            'customData': None,
+            'dataSource': 'tprek',
+            'deleted': False,
+            'description': None,
+            'divisions': list([
+              dict({
+                'municipality': None,
+                'ocdId': None,
+              }),
+            ]),
+            'email': 'kirjasto.entresse@espoo.fi',
+            'id': 'tprek:15321',
+            'image': 54251,
+            'infoUrl': dict({
+              'en': 'http://www.helmet.fi/entressebibliotek',
+              'fi': 'http://www.helmet.fi/entressenkirjasto',
+              'sv': 'http://www.helmet.fi/entressebibliotek',
+            }),
+            'internalContext': 'http://schema.org',
+            'internalId': 'https://api.hel.fi/linkedevents/v1/place/tprek:15321/',
+            'internalType': 'Place',
+            'lastModifiedTime': '2019-09-19T14:10:59.747979Z',
+            'nEvents': 7745,
+            'name': dict({
+              'en': 'Entresse Library',
+              'fi': 'Entressen kirjasto',
+              'sv': 'Entressebiblioteket',
+            }),
+            'parent': None,
+            'position': dict({
+              'coordinates': list([
+                24.657864,
+                60.203636,
+              ]),
+              'type': 'Point',
+            }),
+            'postOfficeBoxNum': None,
+            'postalCode': '02770',
+            'publisher': 'ahjo:u021600',
+            'replacedBy': None,
+            'streetAddress': dict({
+              'en': 'Siltakatu 11',
+              'fi': 'Siltakatu 11',
+              'sv': 'Brogatan 11',
+            }),
+            'telephone': dict({
+              'en': None,
+              'fi': '+358 9 8165 3776',
+              'sv': None,
+            }),
+          }),
+        ]),
+        'meta': dict({
+          'count': 1346,
+          'next': 'https://api.hel.fi/linkedevents/v1/place/?page=2&page_size=2&show_all_places=',
+          'previous': None,
+        }),
+      }),
+    }),
+  })
+# ---
+# name: test_unpublish_event
+  dict({
+    'data': dict({
+      'unpublishEventMutation': dict({
+        'response': dict({
+          'body': dict({
+            'endTime': None,
+            'id': 'helsinki:afy6aghr2y',
+            'publicationStatus': 'draft',
+            'startTime': '2020-05-07',
+          }),
+          'statusCode': 200,
+        }),
+      }),
+    }),
+  })
+# ---
+# name: test_update_event
+  dict({
+    'data': dict({
+      'updateEventMutation': dict({
+        'response': dict({
+          'body': dict({
+            'description': dict({
+              'en': 'desc en',
+              'fi': 'desc',
+              'sv': 'desc sv',
+            }),
+            'id': 'helsinki:afy6aghr2y',
+            'infoUrl': None,
+            'keywords': list([
+              dict({
+                'id': None,
+              }),
+            ]),
+            'location': dict({
+              'id': None,
+            }),
+            'offers': list([
+              dict({
+                'isFree': False,
+              }),
+            ]),
+            'pEvent': dict({
+              'autoAcceptance': True,
+              'autoAcceptanceMessage': 'Päivitetty viesti',
+              'contactEmail': 'contact@email.me',
+              'contactPerson': dict({
+                'name': 'Sean Rocha',
+              }),
+              'contactPhoneNumber': '123123',
+              'enrolmentEndDays': 2,
+              'enrolmentStart': '2020-06-06T16:40:48+00:00',
+              'externalEnrolmentUrl': None,
+              'isQueueingAllowed': True,
+              'linkedEventId': 'helsinki:afy6aghr2y',
+              'mandatoryAdditionalInformation': True,
+              'neededOccurrences': 1,
+              'organisation': dict({
+                'name': 'Chapman, Scott and Martin',
+              }),
+              'translations': list([
+                dict({
+                  'autoAcceptanceMessage': 'Päivitetty viesti',
+                  'languageCode': 'FI',
+                }),
+                dict({
+                  'autoAcceptanceMessage': 'Updated custom message',
+                  'languageCode': 'EN',
+                }),
+              ]),
+            }),
+            'shortDescription': dict({
+              'en': 'short desc en',
+              'fi': 'short desc',
+              'sv': 'short desc sv',
+            }),
+            'startTime': '2020-05-07',
+          }),
+          'statusCode': 200,
+        }),
+      }),
+    }),
+  })
+# ---
+# name: test_update_image
+  dict({
+    'data': dict({
+      'updateImageMutation': dict({
+        'response': dict({
+          'body': dict({
+            'altText': 'Kaksi naista istuu tien laidassa',
+            'cropping': '0,478,1920,2399',
+            'dataSource': 'helsinki',
+            'id': '64390',
+            'name': 'Tuohtumus',
+            'photographerName': 'Suomen Kansallisteatteri (c) Katri Naukkarinen',
+            'url': 'https://api.hel.fi/linkedevents/media/images/49776780903_bf54fd7b90_o.jpg',
+          }),
+          'statusCode': 200,
+        }),
+      }),
+    }),
+  })
+# ---
