@@ -22,7 +22,6 @@
 - [Keeping Python requirements up to date](#keeping-python-requirements-up-to-date)
 - [Code linting & formatting](#code-linting--formatting)
 - [Pre-commit hooks](#pre-commit-hooks)
-- [Contact infomation](#contact-infomation)
 - [Issues board](#issues-board)
 - [Maintaining](#maintaining)
   - [Enrolment reports](#enrolment-reports)
@@ -481,10 +480,6 @@ You can use [`pre-commit`](https://pre-commit.com/) to lint and format your code
 After that, linting and formatting hooks will run against all changed files before committing.
 
 Git commit message linting is configured in [.gitlint](./.gitlint)
-
-## Contact infomation
-
-@quyenlq @nikomakela
 
 ## Issues board
 
