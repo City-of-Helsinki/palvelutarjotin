@@ -1,6 +1,13 @@
 <!-- REMINDER: While updating changelog, also remember to update
 the version in palvelutarjotin/__init.py__ -->
 
+## [1.25.0](https://github.com/City-of-Helsinki/palvelutarjotin/compare/palvelutarjotin-v1.24.1...palvelutarjotin-v1.25.0) (2025-09-08)
+
+
+### Features
+
+* Event with ongoing occurrences can have space for enrolment ([4405b23](https://github.com/City-of-Helsinki/palvelutarjotin/commit/4405b234f2bd931b7ff6a36fb52c8c03360f520b))
+
 ## [1.24.1](https://github.com/City-of-Helsinki/palvelutarjotin/compare/palvelutarjotin-v1.24.0...palvelutarjotin-v1.24.1) (2025-08-28)
 
 
