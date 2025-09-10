@@ -12,7 +12,7 @@ django-helusers
 django-ilmoitin
 django-parler
 django-utils-six
-Django~=4.2.22
+Django~=4.2.24
 drf-oidc-auth
 drf-spectacular
 factory-boy
