@@ -1,6 +1,13 @@
 <!-- REMINDER: While updating changelog, also remember to update
 the version in palvelutarjotin/__init.py__ -->
 
+## [1.25.1](https://github.com/City-of-Helsinki/palvelutarjotin/compare/palvelutarjotin-v1.25.0...palvelutarjotin-v1.25.1) (2025-09-10)
+
+
+### Dependencies
+
+* Bump django from 4.2.22 to 4.2.24 ([fd480fb](https://github.com/City-of-Helsinki/palvelutarjotin/commit/fd480fbdc3805ff7022b15365a7012dad281a5a5))
+
 ## [1.25.0](https://github.com/City-of-Helsinki/palvelutarjotin/compare/palvelutarjotin-v1.24.1...palvelutarjotin-v1.25.0) (2025-09-08)
 
 
