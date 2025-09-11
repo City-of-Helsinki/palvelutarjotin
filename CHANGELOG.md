@@ -1,6 +1,19 @@
 <!-- REMINDER: While updating changelog, also remember to update
 the version in palvelutarjotin/__init.py__ -->
 
+## [1.25.2](https://github.com/City-of-Helsinki/palvelutarjotin/compare/palvelutarjotin-v1.25.1...palvelutarjotin-v1.25.2) (2025-09-11)
+
+
+### Dependencies
+
+* Improve requirements ([30e26e8](https://github.com/City-of-Helsinki/palvelutarjotin/commit/30e26e8bdc532424e032f8b4078d86efab5186a3))
+
+
+### Documentation
+
+* **readme:** Update parts regarding code and git commit message formats ([943f601](https://github.com/City-of-Helsinki/palvelutarjotin/commit/943f6017133efb4c691958a476e3a35c067df6a2))
+* Remove contact information from README ([3422570](https://github.com/City-of-Helsinki/palvelutarjotin/commit/34225709964bcaf805661092224951929a022ded))
+
 ## [1.25.1](https://github.com/City-of-Helsinki/palvelutarjotin/compare/palvelutarjotin-v1.25.0...palvelutarjotin-v1.25.1) (2025-09-10)
 
 
