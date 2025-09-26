@@ -19,7 +19,7 @@ repos:
     # the ruff's version line, it is used by test_pre_commit_ruff_version.py
     # test case in order not to have to add a YAML library dependency just
     # to test this version:
-    rev: v0.12.12 # ruff-pre-commit version
+    rev: v0.13.2 # ruff-pre-commit version
     hooks:
       # Run the linter
       - id: ruff
