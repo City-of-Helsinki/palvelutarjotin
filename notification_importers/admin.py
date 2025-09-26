@@ -1,6 +1,7 @@
 import importlib
 import logging
 
+from csp.constants import UNSAFE_INLINE as CSP_UNSAFE_INLINE
 from csp.decorators import csp_update
 from django.conf import settings
 from django.contrib import admin, messages
@@ -10,8 +11,6 @@ from django.utils.translation import gettext_lazy as _
 from django.utils.translation import ngettext_lazy
 from django_ilmoitin.admin import NotificationTemplateAdmin
 from django_ilmoitin.models import NotificationTemplate
-
-from palvelutarjotin.consts import CSP
 
 from .notification_importer import (
     AbstractNotificationImporter,
@@ -113,7 +112,10 @@ class NotificationTemplateAdminWithImporter(NotificationTemplateAdmin):
     # Acecpt CSP_UNSAFE_INLINE for the changeform view to allow
     # the preview template to work correctly.
     @csp_update(
-        SCRIPT_SRC=settings.CSP_SCRIPT_SRC + [CSP.UNSAFE_INLINE],
+        {
+            "script-src": settings.CONTENT_SECURITY_POLICY["DIRECTIVES"]["script-src"]
+            + [CSP_UNSAFE_INLINE],
+        }
     )
     def changeform_view(self, request, object_id=None, form_url="", extra_context=None):
         return super().changeform_view(

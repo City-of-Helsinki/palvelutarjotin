@@ -3,7 +3,7 @@ django-admin-list-filter-dropdown
 django-axes
 django-auditlog
 django-cors-headers
-django-csp
+django-csp~=4.0
 django-environ
 django-filter
 django-graphql-jwt
