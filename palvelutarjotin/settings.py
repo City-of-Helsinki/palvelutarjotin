@@ -5,12 +5,13 @@ from pathlib import Path
 
 import environ
 import sentry_sdk
+from csp.constants import SELF as CSP_SELF
+from csp.constants import UNSAFE_INLINE as CSP_UNSAFE_INLINE
 from django.core.exceptions import ImproperlyConfigured
 from django.utils.translation import gettext_lazy as _
 from sentry_sdk.integrations.django import DjangoIntegration
 
 from palvelutarjotin import __version__
-from palvelutarjotin.consts import CSP
 
 checkout_dir = environ.Path(__file__) - 2
 assert os.path.exists(checkout_dir("manage.py"))
@@ -268,33 +269,25 @@ CORS_ALLOWED_ORIGINS = env.list("CORS_ALLOWED_ORIGINS")
 CORS_ALLOWED_ORIGIN_REGEXES = env.list("CORS_ALLOWED_ORIGIN_REGEXES")
 CORS_ALLOW_ALL_ORIGINS = env.bool("CORS_ALLOW_ALL_ORIGINS")
 
-# Configure the default CSP rule for different source types
-CSP_DEFAULT_SRC = [CSP.SELF]
+# Configure default CSP rules for different source types
+CSP_BLOB = "blob:"
+CSP_DATA = "data:"
+CSP_CDN = "cdn.jsdelivr.net"
 
-# CSP_STYLE_SRC includes 'unsafe-inline' for inline styles added by `django-helusers`.
-CSP_STYLE_SRC = [
-    CSP.SELF,
-    CSP.UNSAFE_INLINE,
-    "cdn.jsdelivr.net",
-    "blob:",
-]
-
-CSP_SCRIPT_SRC = [
-    CSP.SELF,
-    "cdn.jsdelivr.net",  # /graphql/ endpoint
-    "blob:",
-]
-
-CSP_FONT_SRC = [
-    CSP.SELF,
-    "data:",  # /graphql/ endpoint uses "data:font/woff2"
-]
-
-CSP_IMG_SRC = [
-    CSP.SELF,
-    "blob:",
-    "data:",
-]
+CONTENT_SECURITY_POLICY = {
+    "DIRECTIVES": {
+        "default-src": [CSP_SELF],
+        "font-src": [CSP_SELF, CSP_DATA],  # /graphql/ endpoint uses "data:font/woff2"
+        "img-src": [CSP_SELF, CSP_BLOB, CSP_DATA],
+        "script-src": [CSP_SELF, CSP_CDN, CSP_BLOB],  # /graphql/ endpoint
+        "style-src": [
+            CSP_SELF,
+            CSP_UNSAFE_INLINE,
+            CSP_CDN,
+            CSP_BLOB,
+        ],  # 'unsafe-inline' needed for `django-helusers`.
+    }
+}
 
 AUTHENTICATION_BACKENDS = [
     "axes.backends.AxesBackend",

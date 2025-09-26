@@ -1,3 +1,4 @@
+from csp.constants import UNSAFE_INLINE as CSP_UNSAFE_INLINE
 from csp.decorators import csp_update
 from django.conf import settings
 from django.conf.urls.static import static
@@ -15,7 +16,6 @@ from helusers.admin_site import admin
 from common.utils import get_api_version
 from custom_health_checks.views import HealthCheckJSONView
 from palvelutarjotin import __version__
-from palvelutarjotin.consts import CSP
 from palvelutarjotin.views import SentryGraphQLView
 
 admin.site.index_title = " ".join([gettext("Kultus API"), get_api_version()])
@@ -25,8 +25,10 @@ IS_GRAPHIQL_ENABLED = settings.ENABLE_GRAPHIQL or settings.DEBUG
 
 # Add unsafe-inline to enable GraphiQL interface at /graphql/
 @csp_update(
-    SCRIPT_SRC=settings.CSP_SCRIPT_SRC
-    + ([CSP.UNSAFE_INLINE] if IS_GRAPHIQL_ENABLED else [])
+    {
+        "script-src": settings.CONTENT_SECURITY_POLICY["DIRECTIVES"]["script-src"]
+        + ([CSP_UNSAFE_INLINE] if IS_GRAPHIQL_ENABLED else []),
+    }
 )
 @csrf_exempt
 def graphql_view(request, *args, **kwargs):
