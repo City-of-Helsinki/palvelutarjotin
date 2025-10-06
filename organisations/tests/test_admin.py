@@ -104,7 +104,8 @@ class UserAdminViewTest(TestCase):
         user_admin_form = UserAdminForm(
             {
                 **user.__dict__,
-                **{"is_event_staff": True, "organisations": organisations},
+                "is_event_staff": True,
+                "organisations": organisations,
             },
             instance=user,
         )

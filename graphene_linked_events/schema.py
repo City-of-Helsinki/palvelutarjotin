@@ -820,7 +820,7 @@ class AddEventMutation(Mutation):
     @event_staff_member_required
     @transaction.atomic
     @map_enums_to_values_in_kwargs
-    def mutate(root, info, **kwargs):
+    def mutate(self, info, **kwargs):
         # Format to JSON POST body
         p_event_data = kwargs["event"].pop("p_event")
         validate_p_event_data(p_event_data)
@@ -869,8 +869,8 @@ class AddEventMutation(Mutation):
         )
         return AddEventMutation(response=response)
 
-    def _create_p_event(event_obj, organisation, p_event_data) -> PalvelutarjotinEvent:
-        p_event_data["linked_event_id"] = event_obj.id
+    def _create_p_event(self, organisation, p_event_data) -> PalvelutarjotinEvent:
+        p_event_data["linked_event_id"] = self.id
         p_event_data["organisation_id"] = organisation.id
         translations = p_event_data.pop("translations", None)
         p_event, _ = PalvelutarjotinEvent.objects.get_or_create(**p_event_data)
@@ -888,7 +888,7 @@ class UpdateEventMutation(Mutation):
     @event_staff_member_required
     @transaction.atomic
     @map_enums_to_values_in_kwargs
-    def mutate(root, info, **kwargs):
+    def mutate(self, info, **kwargs):
         # Format to JSON POST body
         event_id = kwargs["event"].pop("id")
         p_event_data = kwargs["event"].pop("p_event", None)
@@ -957,7 +957,7 @@ class PublishEventMutation(UpdateEventMutation):
     @event_staff_member_required
     @transaction.atomic
     @map_enums_to_values_in_kwargs
-    def mutate(root, info, **kwargs):
+    def mutate(self, info, **kwargs):
         event_id = kwargs["event"].get("id")
         try:
             p_event: PalvelutarjotinEvent = PalvelutarjotinEvent.objects.get(
@@ -967,7 +967,7 @@ class PublishEventMutation(UpdateEventMutation):
         except PalvelutarjotinEvent.DoesNotExist as e:
             raise ObjectDoesNotExistError(e)
         # Publish event is actually update event, reuse UpdateEventMutation
-        response = UpdateEventMutation.mutate(root, info, **kwargs).response
+        response = UpdateEventMutation.mutate(self, info, **kwargs).response
         return PublishEventMutation(response=response)
 
 
@@ -980,7 +980,7 @@ class UnpublishEventMutation(UpdateEventMutation):
     @event_staff_member_required
     @transaction.atomic
     @map_enums_to_values_in_kwargs
-    def mutate(root, info, **kwargs):
+    def mutate(self, info, **kwargs):
         try:
             kwargs["event"].update(
                 {"publication_status": PalvelutarjotinEvent.PUBLICATION_STATUS_DRAFT}
@@ -988,7 +988,7 @@ class UnpublishEventMutation(UpdateEventMutation):
         except PalvelutarjotinEvent.DoesNotExist as e:
             raise ObjectDoesNotExistError(e)
         # Unpublish event is actually update event, reuse UpdateEventMutation
-        response = UpdateEventMutation.mutate(root, info, **kwargs).response
+        response = UpdateEventMutation.mutate(self, info, **kwargs).response
         return UnpublishEventMutation(response=response)
 
 
@@ -1000,7 +1000,7 @@ class DeleteEventMutation(Mutation):
 
     @event_staff_member_required
     @map_enums_to_values_in_kwargs
-    def mutate(root, info, **kwargs):
+    def mutate(self, info, **kwargs):
         event_id = kwargs["event_id"]
         # TODO: proper validation if necessary
         result = api_client.delete("event", event_id)
@@ -1054,7 +1054,7 @@ class UploadImageMutation(Mutation):
 
     @event_staff_member_required
     @map_enums_to_values_in_kwargs
-    def mutate(root, info, **kwargs):
+    def mutate(self, info, **kwargs):
         image = kwargs["image"].pop("image")
         _validate_image_upload(image)
         body = kwargs["image"]
@@ -1076,7 +1076,7 @@ class UpdateImageMutation(Mutation):
 
     @event_staff_member_required
     @map_enums_to_values_in_kwargs
-    def mutate(root, info, **kwargs):
+    def mutate(self, info, **kwargs):
         image_id = kwargs["image"].pop("id")
         body = format_request(kwargs["image"])
         result = api_client.update("image", image_id, body)
@@ -1095,7 +1095,7 @@ class DeleteImageMutation(Mutation):
 
     @event_staff_member_required
     @map_enums_to_values_in_kwargs
-    def mutate(root, info, **kwargs):
+    def mutate(self, info, **kwargs):
         image_id = kwargs["image_id"]
         result = api_client.delete("image", image_id)
         response = ImageMutationResponse(

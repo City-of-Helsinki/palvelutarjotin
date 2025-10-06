@@ -303,5 +303,3 @@ class KultusApiTokenAuthentication(FixTunnistamoMixin, ApiTokenAuthentication):
     Implemented to fix Tunnistamo AMR-issue, when needed.
     Tunnistamo is fixed with FixTunnistamoMixin.
     """
-
-    pass

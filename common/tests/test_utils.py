@@ -92,7 +92,7 @@ def test_is_enum_value_false(value):
         "ENUM_VALUE_1",
         "ENUM_VALUE_2",
         "LAST_ENUM_VALUE",
-        {1, 2, 3, "test", 2},
+        {1, 2, 3, "test"},
         (1, 2, 3, "test", 2),
         [1, 2, 3, "test", 2],
         (1, [2, {3: {4, (11, (12,), 13, None, "test")}}]),
@@ -173,7 +173,6 @@ def test_deepfix_enum_values_changes_output_but_not_input():
                     2,
                 ],
                 "ENUM_VALUE_1": {
-                    2,
                     2,
                     "ENUM_VALUE_1",
                 },
