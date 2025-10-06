@@ -2,12 +2,10 @@
 cryptography
 freezegun
 parameterized
-pre-commit
 pip-tools
 pytest
 pytest-cov
 pytest-django
 requests-mock
 responses
-ruff
 syrupy

@@ -3,7 +3,7 @@ django-admin-list-filter-dropdown
 django-axes
 django-auditlog
 django-cors-headers
-django-csp~=4.0
+django-csp
 django-environ
 django-filter
 django-graphql-jwt
@@ -12,8 +12,7 @@ django-helusers
 django-ilmoitin
 django-parler
 django-utils-six
-Django~=4.2.25
-drf-oidc-auth
+Django~=5.2
 drf-spectacular
 factory-boy
 geopy
@@ -22,7 +21,7 @@ graphene-file-upload
 helsinki-profile-gdpr-api
 importlib_metadata
 ipython
-psycopg2
+psycopg[c]
 requests
 sentry-sdk
 social-auth-app-django
