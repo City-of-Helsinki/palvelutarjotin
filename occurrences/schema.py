@@ -637,8 +637,8 @@ class EnrolmentConnectionWithCount(graphene.Connection):
 
     count = graphene.Int()
 
-    def resolve_count(root, info, **kwargs):
-        return root.length
+    def resolve_count(self, info, **kwargs):
+        return self.length
 
 
 @auditlog_access  # log access because of personal information

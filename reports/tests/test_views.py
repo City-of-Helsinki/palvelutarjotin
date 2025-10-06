@@ -654,11 +654,11 @@ class EnrolmentReportListViewTest(TestCase):
         self._authenticate()
         # Ascending
         response = self._goto_reports(f"?order_by={param}")
-        assert [e["id"] for e in response.json()] == [getattr(r, "id") for r in reports]
+        assert [e["id"] for e in response.json()] == [r.id for r in reports]
         # Descending
         response = self._goto_reports(f"?order_by=-{param}")
         assert [e["id"] for e in response.json()] == list(
-            reversed([getattr(r, "id") for r in reports])
+            reversed([r.id for r in reports])
         )
 
     def test_filtering_with_enrolment_status_from_enrolment(self):

@@ -31,10 +31,8 @@ dummy_context.update(
     {
         NotificationTemplate.MYPROFILE_CREATION: {
             **DEFAULT_DUMMY_CONTEXT,
-            **{
-                "user_change_form_url": get_user_change_form_url(person),
-                "user_list_url": get_user_list_url(),
-            },
+            "user_change_form_url": get_user_change_form_url(person),
+            "user_list_url": get_user_list_url(),
         },
         NotificationTemplate.MYPROFILE_ACCEPTED: DEFAULT_DUMMY_CONTEXT,
     }

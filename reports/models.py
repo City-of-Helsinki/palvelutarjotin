@@ -276,14 +276,14 @@ class EnrolmentReport(TimestampedModel):
     def _rehydrate(self, hydrate_linkedevents_event=False):
         try:
             # enrolment setter hydrates everything
-            if getattr(self, "_enrolment"):
+            if self._enrolment:
                 # Trigger the setter
-                self.enrolment = getattr(self, "_enrolment")
+                self.enrolment = self._enrolment
             # If enrolment instance is not available,
             # hydrate with occurrence setter is the 2nd best thing
-            elif getattr(self, "_occurrence"):
+            elif self._occurrence:
                 # Trigger the setter
-                self.occurrence = getattr(self, "_occurrence")
+                self.occurrence = self._occurrence
 
             if self.occurrence and not self.publisher:
                 self.publisher = self._get_publisher_id_from_occurrence()
