@@ -5,18 +5,27 @@ requires-python = ">= 3.12"
 
 [tool.ruff]
 target-version = "py312"
-extend-exclude = ["migrations", "snapshots"]
+extend-exclude = ["migrations"]
 
 [tool.ruff.lint]
-# See https://docs.astral.sh/ruff/rules/ for documentation of rules
-extend-select = [
-    "B01", # Enable B01* part of flake8-bugbear (B) rules, e.g. B015 and B018
-    "C90", # Enable mccabe (C90) rules
-    "E",   # Enable pycodestyle error (E) rules
-    "F",   # Enable Pyflakes (F) rules
-    "I",   # Enable isort (I) rules
-    "W",   # Enable pycodestyle warning (W) rules
+select = [
+    # Pyflakes
+    "F",
+    # pycodestyle
+    "E",
+    "W",
+    # isort
+    "I",
+    # pep8-naming
+    "N",
+    # flake8-bugbear without opinionated rules
+    "B0",
+    # flake8-pie
+    "PIE",
+    # flake8-print
+    "T20",
 ]
+extend-per-file-ignores = { "*/migrations/*" = ["E501"], "*/tests/*" = ["E501"] }
 
 [tool.pip-tools.compile]
 allow-unsafe = true
