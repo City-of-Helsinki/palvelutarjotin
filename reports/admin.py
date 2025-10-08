@@ -10,7 +10,7 @@ from django.utils.translation import gettext as _
 from django.utils.translation import ngettext_lazy
 
 from occurrences.models import Language, StudyLevel
-from reports.exceptions import EnrolmentReportCouldNotHydrateLinkedEventsData
+from reports.exceptions import EnrolmentReportCouldNotHydrateLinkedEventsDataError
 from reports.models import EnrolmentReport
 
 logger = logging.getLogger(__name__)
@@ -251,7 +251,7 @@ class EnrolmentReportAdmin(AuditlogAdminViewAccessLogMixin, admin.ModelAdmin):
             for report in queryset:
                 report._rehydrate(hydrate_linkedevents_event=hydrate_linkedevents_event)
                 report.save()
-        except EnrolmentReportCouldNotHydrateLinkedEventsData as e:
+        except EnrolmentReportCouldNotHydrateLinkedEventsDataError as e:
             self._send_error_message(request, e)
             return
 

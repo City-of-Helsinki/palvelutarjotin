@@ -45,7 +45,7 @@ class AuthenticationExpiredError(PalvelutarjotinGraphQLError):
     """Authentication expired."""
 
 
-class EnrolmentMaxNeededOccurrenceReached(PalvelutarjotinGraphQLError):
+class EnrolmentMaxNeededOccurrenceReachedError(PalvelutarjotinGraphQLError):
     """Number of enroled occurrences greater than needed occurrences"""
 
 

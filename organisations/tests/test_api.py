@@ -387,8 +387,8 @@ def test_organisation_query(snapshot, api_client, organisation):
 def test_organisation_persons_should_not_be_publicly_readable(
     api_client, event_staff_api_client, organisation
 ):
-    PERSONS_COUNT = 3
-    PersonFactory.create_batch(PERSONS_COUNT, organisations=[organisation])
+    persons_count = 3
+    PersonFactory.create_batch(persons_count, organisations=[organisation])
     variables = {"id": to_global_id("OrganisationNode", organisation.id)}
     anonym_executed = api_client.execute(
         ORGANISATION_QUERY,
@@ -399,7 +399,7 @@ def test_organisation_persons_should_not_be_publicly_readable(
         ORGANISATION_QUERY, variables=variables
     )
     assert (
-        len(staff_executed["data"]["organisation"]["persons"]["edges"]) == PERSONS_COUNT
+        len(staff_executed["data"]["organisation"]["persons"]["edges"]) == persons_count
     )
 
 

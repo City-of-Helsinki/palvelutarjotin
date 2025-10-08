@@ -669,13 +669,13 @@ def test_resolve_events_parameter_mapping(
     linked_event_id = EVENTS_DATA["data"][0]["id"]
     organisation_id = to_global_id("OrganisationNode", organisation.id)
     PalvelutarjotinEventFactory(linked_event_id=linked_event_id)
-    with patch.object(LinkedEventsApiClient, "list") as linkedEventsApiClientMock:
+    with patch.object(LinkedEventsApiClient, "list") as linked_events_api_client_mock:
         api_client.execute(
             GET_EVENTS_QUERY,
             variables={"organisationId": organisation_id, given: ["test"]},
         )
 
-    linkedEventsApiClientMock.assert_called_with(
+    linked_events_api_client_mock.assert_called_with(
         "event",
         filter_list={"publisher": organisation.publisher_id, expected: ["test"]},
         is_event_staff=False,
@@ -980,12 +980,16 @@ def test_create_event_with_null_organisation_id(
     ) in executed["errors"][0]["message"]
 
 
-@pytest.mark.parametrize("organisationId", ["", " ", " " * 10])
+@pytest.mark.parametrize("organisation_id", ["", " ", " " * 10])
 def test_create_event_with_empty_or_whitespace_only_organisation_id(
-    event_staff_api_client, person, mock_create_event_data, organisation, organisationId
+    event_staff_api_client,
+    person,
+    mock_create_event_data,
+    organisation,
+    organisation_id,
 ):
     variables = deepcopy(CREATE_EVENT_VARIABLES)
-    variables["input"]["organisationId"] = organisationId
+    variables["input"]["organisationId"] = organisation_id
     variables["input"]["pEvent"]["contactPersonId"] = to_global_id(
         "PersonNode", person.id
     )
@@ -1353,12 +1357,16 @@ def test_update_event_with_null_organisation_id(
     ) in executed["errors"][0]["message"]
 
 
-@pytest.mark.parametrize("organisationId", ["", " ", " " * 10])
+@pytest.mark.parametrize("organisation_id", ["", " ", " " * 10])
 def test_update_event_with_empty_or_whitespace_only_organisation_id(
-    event_staff_api_client, person, mock_update_event_data, organisation, organisationId
+    event_staff_api_client,
+    person,
+    mock_update_event_data,
+    organisation,
+    organisation_id,
 ):
     variables = deepcopy(UPDATE_EVENT_VARIABLES)
-    variables["input"]["organisationId"] = organisationId
+    variables["input"]["organisationId"] = organisation_id
     variables["input"]["pEvent"]["contactPersonId"] = to_global_id(
         "PersonNode", person.id
     )
@@ -1927,24 +1935,24 @@ def test_get_upcoming_events(
     Event are ordered so that the event with the next upcoming occurrence is first.
     """
     mocked_responses.assert_all_requests_are_fired = False
-    UPCOMING_MOCKED_EVENTS = []
+    upcoming_mocked_events = []
 
     for i in range(1, 4):
         p_event = PalvelutarjotinEventFactory(
             linked_event_id=f"kultus:{i}", organisation=organisation
         )
-        MOCK_EVENT_DATA = {**EVENT_DATA, "id": p_event.linked_event_id}
+        mock_event_data = {**EVENT_DATA, "id": p_event.linked_event_id}
         mocked_responses.add(
             responses.GET,
             url=settings.LINKED_EVENTS_API_CONFIG["ROOT"]
             + f"event/{p_event.linked_event_id}/",
-            json=MOCK_EVENT_DATA,
+            json=mock_event_data,
         )
         mocked_responses.add(
             responses.PUT,
             url=settings.LINKED_EVENTS_API_CONFIG["ROOT"]
             + f"event/{p_event.linked_event_id}/",
-            json=MOCK_EVENT_DATA,
+            json=mock_event_data,
         )
 
         if cancelled:
@@ -1967,7 +1975,7 @@ def test_get_upcoming_events(
             end = start + timedelta(hours=1)
             OccurrenceFactory.create(p_event=p_event, start_time=start, end_time=end)
 
-            UPCOMING_MOCKED_EVENTS.append(MOCK_EVENT_DATA)
+            upcoming_mocked_events.append(mock_event_data)
 
     if upcoming:
         ds = settings.LINKED_EVENTS_API_CONFIG["DATA_SOURCE"]
@@ -1977,11 +1985,11 @@ def test_get_upcoming_events(
             url=f"{settings.LINKED_EVENTS_API_CONFIG['ROOT']}event/?{query_string}",
             json={
                 "meta": {
-                    "count": len(UPCOMING_MOCKED_EVENTS),
+                    "count": len(upcoming_mocked_events),
                     "next": None,
                     "previous": None,
                 },
-                "data": UPCOMING_MOCKED_EVENTS,
+                "data": upcoming_mocked_events,
             },
         )
 

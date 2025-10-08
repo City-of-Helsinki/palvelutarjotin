@@ -87,6 +87,9 @@ from palvelutarjotin.consts import (
 )
 from verification_token.models import VerificationToken
 
+# Module-level tzinfo variable for parametrized tests
+tzinfo = timezone.now().tzinfo
+
 
 @pytest.fixture(autouse=True)
 def autouse_db(db):
@@ -799,11 +802,11 @@ def test_enrol_not_started_occurrence(
     # Current date froze on 2020-01-04:
     study_group = StudyGroupFactory(group_size=10)
     p_event_1 = PalvelutarjotinEventFactory(
-        enrolment_start=datetime(2020, 1, 5, 0, 0, 0, tzinfo=timezone.now().tzinfo),
+        enrolment_start=datetime(2020, 1, 5, 0, 0, 0, tzinfo=tzinfo),
         enrolment_end_days=2,
     )
     not_started_occurrence = OccurrenceFactory(
-        start_time=datetime(2020, 1, 8, 0, 0, 0, tzinfo=timezone.now().tzinfo),
+        start_time=datetime(2020, 1, 8, 0, 0, 0, tzinfo=tzinfo),
         p_event=p_event_1,
         min_group_size=5,
         max_group_size=15,
@@ -839,11 +842,11 @@ def test_enrol_past_occurrence(
     # Current date froze on 2020-01-04:
     study_group = StudyGroupFactory(group_size=10)
     p_event_1 = PalvelutarjotinEventFactory(
-        enrolment_start=datetime(2020, 1, 1, 0, 0, 0, tzinfo=timezone.now().tzinfo),
+        enrolment_start=datetime(2020, 1, 1, 0, 0, 0, tzinfo=tzinfo),
         enrolment_end_days=2,
     )
     past_occurrence = OccurrenceFactory(
-        start_time=datetime(2020, 1, 5, 0, 0, 0, tzinfo=timezone.now().tzinfo),
+        start_time=datetime(2020, 1, 5, 0, 0, 0, tzinfo=tzinfo),
         p_event=p_event_1,
         min_group_size=5,
         max_group_size=15,
@@ -878,11 +881,11 @@ def test_enrol_invalid_group_size(
     study_group_9 = StudyGroupFactory(group_size=9)
     # Current date froze on 2020-01-04:
     p_event_1 = PalvelutarjotinEventFactory(
-        enrolment_start=datetime(2020, 1, 3, 0, 0, 0, tzinfo=timezone.now().tzinfo),
+        enrolment_start=datetime(2020, 1, 3, 0, 0, 0, tzinfo=tzinfo),
         enrolment_end_days=2,
     )
     occurrence = OccurrenceFactory(
-        start_time=datetime(2020, 1, 6, 0, 0, 0, tzinfo=timezone.now().tzinfo),
+        start_time=datetime(2020, 1, 6, 0, 0, 0, tzinfo=tzinfo),
         p_event=p_event_1,
         min_group_size=16,
         max_group_size=20,
@@ -935,11 +938,11 @@ def test_enrol_without_participants(
     empty_study_group = StudyGroupFactory(group_size=0, amount_of_adult=0)
     # Current date froze on 2020-01-04:
     p_event_1 = PalvelutarjotinEventFactory(
-        enrolment_start=datetime(2020, 1, 3, 0, 0, 0, tzinfo=timezone.now().tzinfo),
+        enrolment_start=datetime(2020, 1, 3, 0, 0, 0, tzinfo=tzinfo),
         enrolment_end_days=2,
     )
     occurrence = OccurrenceFactory(
-        start_time=datetime(2020, 1, 6, 0, 0, 0, tzinfo=timezone.now().tzinfo),
+        start_time=datetime(2020, 1, 6, 0, 0, 0, tzinfo=tzinfo),
         p_event=p_event_1,
     )
 
@@ -988,7 +991,7 @@ def test_enrol_full_people_count_seat_type_occurrence(
     study_group_20 = StudyGroupFactory(group_size=20)
     # Current date froze on 2020-01-04:
     p_event_1 = PalvelutarjotinEventFactory(
-        enrolment_start=datetime(2020, 1, 3, 0, 0, 0, tzinfo=timezone.now().tzinfo),
+        enrolment_start=datetime(2020, 1, 3, 0, 0, 0, tzinfo=tzinfo),
         enrolment_end_days=2,
         auto_acceptance=auto_acceptance,
         needed_occurrences=2,
@@ -996,7 +999,7 @@ def test_enrol_full_people_count_seat_type_occurrence(
 
     # Invalid occurrence which does not support such a large study group
     invalid_occurrence = OccurrenceFactory(
-        start_time=datetime(2020, 1, 6, 0, 0, 0, tzinfo=timezone.now().tzinfo),
+        start_time=datetime(2020, 1, 6, 0, 0, 0, tzinfo=tzinfo),
         p_event=p_event_1,
         min_group_size=10,
         max_group_size=20,
@@ -1006,7 +1009,7 @@ def test_enrol_full_people_count_seat_type_occurrence(
     # if is_multi_enrolment is True, multiple occurrences are needed
     if is_multi_enrolment:
         valid_occurrence = OccurrenceFactory(
-            start_time=datetime(2020, 1, 6, 0, 0, 0, tzinfo=timezone.now().tzinfo),
+            start_time=datetime(2020, 1, 6, 0, 0, 0, tzinfo=tzinfo),
             p_event=p_event_1,
             min_group_size=10,
             max_group_size=20,
@@ -1058,12 +1061,12 @@ def test_enrol_full_enrolment_count_seat_type_occurrence(
     study_group_20 = StudyGroupFactory(group_size=20)
     # Current date froze on 2020-01-04:
     p_event_1 = PalvelutarjotinEventFactory(
-        enrolment_start=datetime(2020, 1, 3, 0, 0, 0, tzinfo=timezone.now().tzinfo),
+        enrolment_start=datetime(2020, 1, 3, 0, 0, 0, tzinfo=tzinfo),
         enrolment_end_days=2,
         auto_acceptance=auto_acceptance,
     )
     occurrence = OccurrenceFactory(
-        start_time=datetime(2020, 1, 6, 0, 0, 0, tzinfo=timezone.now().tzinfo),
+        start_time=datetime(2020, 1, 6, 0, 0, 0, tzinfo=tzinfo),
         p_event=p_event_1,
         min_group_size=10,
         max_group_size=101,
@@ -1160,11 +1163,11 @@ def test_enrol_occurrence(snapshot, api_client, mock_get_event_data):
     study_group_15 = StudyGroupFactory(group_size=15)
     # Current date froze on 2020-01-04:
     p_event_1 = PalvelutarjotinEventFactory(
-        enrolment_start=datetime(2020, 1, 3, 0, 0, 0, tzinfo=timezone.now().tzinfo),
+        enrolment_start=datetime(2020, 1, 3, 0, 0, 0, tzinfo=tzinfo),
         enrolment_end_days=2,
     )
     occurrence = OccurrenceFactory(
-        start_time=datetime(2020, 1, 6, 0, 0, 0, tzinfo=timezone.now().tzinfo),
+        start_time=datetime(2020, 1, 6, 0, 0, 0, tzinfo=tzinfo),
         p_event=p_event_1,
         min_group_size=10,
         max_group_size=20,
@@ -1172,7 +1175,7 @@ def test_enrol_occurrence(snapshot, api_client, mock_get_event_data):
     )
 
     occurrence_2 = OccurrenceFactory(
-        start_time=datetime(2020, 1, 6, 0, 0, 0, tzinfo=timezone.now().tzinfo),
+        start_time=datetime(2020, 1, 6, 0, 0, 0, tzinfo=tzinfo),
         p_event=p_event_1,
         min_group_size=10,
         max_group_size=20,
@@ -1210,11 +1213,11 @@ def test_enrol_occurrence_without_unit_info_should_raise_error(
     study_group_15 = StudyGroupFactory(group_size=15)
     # Current date froze on 2020-01-04:
     p_event_1 = PalvelutarjotinEventFactory(
-        enrolment_start=datetime(2020, 1, 3, 0, 0, 0, tzinfo=timezone.now().tzinfo),
+        enrolment_start=datetime(2020, 1, 3, 0, 0, 0, tzinfo=tzinfo),
         enrolment_end_days=2,
     )
     occurrence = OccurrenceFactory(
-        start_time=datetime(2020, 1, 6, 0, 0, 0, tzinfo=timezone.now().tzinfo),
+        start_time=datetime(2020, 1, 6, 0, 0, 0, tzinfo=tzinfo),
         p_event=p_event_1,
         min_group_size=10,
         max_group_size=20,
@@ -1222,7 +1225,7 @@ def test_enrol_occurrence_without_unit_info_should_raise_error(
     )
 
     occurrence_2 = OccurrenceFactory(
-        start_time=datetime(2020, 1, 6, 0, 0, 0, tzinfo=timezone.now().tzinfo),
+        start_time=datetime(2020, 1, 6, 0, 0, 0, tzinfo=tzinfo),
         p_event=p_event_1,
         min_group_size=10,
         max_group_size=20,
@@ -1260,11 +1263,11 @@ def test_enrol_occurrence_with_captcha(
     study_group_15 = StudyGroupFactory(group_size=15)
     # Current date froze on 2020-01-04:
     p_event_1 = PalvelutarjotinEventFactory(
-        enrolment_start=datetime(2020, 1, 3, 0, 0, 0, tzinfo=timezone.now().tzinfo),
+        enrolment_start=datetime(2020, 1, 3, 0, 0, 0, tzinfo=tzinfo),
         enrolment_end_days=2,
     )
     occurrence = OccurrenceFactory(
-        start_time=datetime(2020, 1, 6, 0, 0, 0, tzinfo=timezone.now().tzinfo),
+        start_time=datetime(2020, 1, 6, 0, 0, 0, tzinfo=tzinfo),
         p_event=p_event_1,
         min_group_size=10,
         max_group_size=20,
@@ -1299,16 +1302,16 @@ def test_enrol_auto_acceptance_occurrence(snapshot, api_client, mock_get_event_d
     study_group_15 = StudyGroupFactory(group_size=15)
     # Current date froze on 2020-01-04:
     p_event_1 = PalvelutarjotinEventFactory(
-        enrolment_start=datetime(2020, 1, 3, 0, 0, 0, tzinfo=timezone.now().tzinfo),
+        enrolment_start=datetime(2020, 1, 3, 0, 0, 0, tzinfo=tzinfo),
         enrolment_end_days=2,
     )
     auto_accept_p_event = PalvelutarjotinEventFactory(
-        enrolment_start=datetime(2020, 1, 3, 0, 0, 0, tzinfo=timezone.now().tzinfo),
+        enrolment_start=datetime(2020, 1, 3, 0, 0, 0, tzinfo=tzinfo),
         enrolment_end_days=2,
         auto_acceptance=True,
     )
     occurrence = OccurrenceFactory(
-        start_time=datetime(2020, 1, 6, 0, 0, 0, tzinfo=timezone.now().tzinfo),
+        start_time=datetime(2020, 1, 6, 0, 0, 0, tzinfo=tzinfo),
         p_event=p_event_1,
         min_group_size=10,
         max_group_size=20,
@@ -1316,7 +1319,7 @@ def test_enrol_auto_acceptance_occurrence(snapshot, api_client, mock_get_event_d
     )
 
     auto_accept_occurrence = OccurrenceFactory(
-        start_time=datetime(2020, 1, 6, 0, 0, 0, tzinfo=timezone.now().tzinfo),
+        start_time=datetime(2020, 1, 6, 0, 0, 0, tzinfo=tzinfo),
         p_event=auto_accept_p_event,
         min_group_size=10,
         max_group_size=20,
@@ -1370,14 +1373,14 @@ def test_enrol_max_needed_occurrences(snapshot, api_client, mock_get_event_data)
     study_group_15 = StudyGroupFactory(group_size=15)
     # Current date froze on 2020-01-04:
     p_event_1 = PalvelutarjotinEventFactory(
-        enrolment_start=datetime(2020, 1, 3, 0, 0, 0, tzinfo=timezone.now().tzinfo),
+        enrolment_start=datetime(2020, 1, 3, 0, 0, 0, tzinfo=tzinfo),
         enrolment_end_days=2,
         needed_occurrences=2,
     )
 
     occurrences = OccurrenceFactory.create_batch(
         3,
-        start_time=datetime(2020, 1, 6, 0, 0, 0, tzinfo=timezone.now().tzinfo),
+        start_time=datetime(2020, 1, 6, 0, 0, 0, tzinfo=tzinfo),
         p_event=p_event_1,
         min_group_size=10,
         max_group_size=20,
@@ -1421,13 +1424,13 @@ def test_auto_accept_message_is_used_as_custom_message_in_auto_approved_enrolmen
     # Current date froze on 2020-01-04:
     auto_acceptance_message = "Testing auto acceptance message"
     auto_accept_p_event: PalvelutarjotinEvent = PalvelutarjotinEventFactory(
-        enrolment_start=datetime(2020, 1, 3, 0, 0, 0, tzinfo=timezone.now().tzinfo),
+        enrolment_start=datetime(2020, 1, 3, 0, 0, 0, tzinfo=tzinfo),
         enrolment_end_days=2,
         auto_acceptance=True,
         auto_acceptance_message=auto_acceptance_message,
     )
     auto_accept_occurrence = OccurrenceFactory(
-        start_time=datetime(2020, 1, 6, 0, 0, 0, tzinfo=timezone.now().tzinfo),
+        start_time=datetime(2020, 1, 6, 0, 0, 0, tzinfo=tzinfo),
         p_event=auto_accept_p_event,
         min_group_size=10,
         max_group_size=20,
@@ -1470,11 +1473,11 @@ def test_unenrol_occurrence_unauthorized(
     study_group_15 = StudyGroupFactory(group_size=15)
     # Current date froze on 2020-01-04:
     p_event_1 = PalvelutarjotinEventFactory(
-        enrolment_start=datetime(2020, 1, 3, 0, 0, 0, tzinfo=timezone.now().tzinfo),
+        enrolment_start=datetime(2020, 1, 3, 0, 0, 0, tzinfo=tzinfo),
         enrolment_end_days=2,
     )
     occurrence = OccurrenceFactory(
-        start_time=datetime(2020, 1, 6, 0, 0, 0, tzinfo=timezone.now().tzinfo),
+        start_time=datetime(2020, 1, 6, 0, 0, 0, tzinfo=tzinfo),
         p_event=p_event_1,
         min_group_size=10,
         max_group_size=20,
@@ -1505,19 +1508,19 @@ def test_unenrol_occurrence(snapshot, event_staff_api_client, mock_get_event_dat
     study_group_15 = StudyGroupFactory(group_size=15)
     # Current date froze on 2020-01-04:
     p_event_1 = PalvelutarjotinEventFactory(
-        enrolment_start=datetime(2020, 1, 3, 0, 0, 0, tzinfo=timezone.now().tzinfo),
+        enrolment_start=datetime(2020, 1, 3, 0, 0, 0, tzinfo=tzinfo),
         enrolment_end_days=2,
         needed_occurrences=2,
     )
     occurrence = OccurrenceFactory(
-        start_time=datetime(2020, 1, 6, 0, 0, 0, tzinfo=timezone.now().tzinfo),
+        start_time=datetime(2020, 1, 6, 0, 0, 0, tzinfo=tzinfo),
         p_event=p_event_1,
         min_group_size=10,
         max_group_size=20,
         amount_of_seats=50,
     )
     occurrence_2 = OccurrenceFactory(
-        start_time=datetime(2020, 1, 6, 0, 0, 0, tzinfo=timezone.now().tzinfo),
+        start_time=datetime(2020, 1, 6, 0, 0, 0, tzinfo=tzinfo),
         p_event=p_event_1,
         min_group_size=10,
         max_group_size=20,
@@ -1553,12 +1556,12 @@ def test_approve_cancelled_occurrence_enrolment(
     study_group = StudyGroupFactory(group_size=15)
     # Current date froze on 2020-01-04:
     p_event = PalvelutarjotinEventFactory(
-        enrolment_start=datetime(2020, 1, 3, 0, 0, 0, tzinfo=timezone.now().tzinfo),
+        enrolment_start=datetime(2020, 1, 3, 0, 0, 0, tzinfo=tzinfo),
         enrolment_end_days=2,
         needed_occurrences=1,
     )
     occurrence = OccurrenceFactory(
-        start_time=datetime(2020, 1, 6, 0, 0, 0, tzinfo=timezone.now().tzinfo),
+        start_time=datetime(2020, 1, 6, 0, 0, 0, tzinfo=tzinfo),
         p_event=p_event,
         min_group_size=10,
         max_group_size=20,
@@ -1592,12 +1595,12 @@ def test_approve_enrolment(
     study_group_10 = StudyGroupFactory(group_size=10)
     # Current date froze on 2020-01-04:
     p_event_1 = PalvelutarjotinEventFactory(
-        enrolment_start=datetime(2020, 1, 3, 0, 0, 0, tzinfo=timezone.now().tzinfo),
+        enrolment_start=datetime(2020, 1, 3, 0, 0, 0, tzinfo=tzinfo),
         enrolment_end_days=2,
         needed_occurrences=1,
     )
     occurrence = OccurrenceFactory(
-        start_time=datetime(2020, 1, 6, 0, 0, 0, tzinfo=timezone.now().tzinfo),
+        start_time=datetime(2020, 1, 6, 0, 0, 0, tzinfo=tzinfo),
         p_event=p_event_1,
         min_group_size=10,
         max_group_size=20,
@@ -1647,12 +1650,12 @@ def test_approve_enrolment_with_custom_message(
     study_group_15 = StudyGroupFactory(group_size=15)
     # Current date froze on 2020-01-04:
     p_event_1 = PalvelutarjotinEventFactory(
-        enrolment_start=datetime(2020, 1, 3, 0, 0, 0, tzinfo=timezone.now().tzinfo),
+        enrolment_start=datetime(2020, 1, 3, 0, 0, 0, tzinfo=tzinfo),
         enrolment_end_days=2,
         needed_occurrences=1,
     )
     occurrence = OccurrenceFactory(
-        start_time=datetime(2020, 1, 6, 0, 0, 0, tzinfo=timezone.now().tzinfo),
+        start_time=datetime(2020, 1, 6, 0, 0, 0, tzinfo=tzinfo),
         p_event=p_event_1,
         min_group_size=10,
         max_group_size=20,
@@ -1688,13 +1691,13 @@ def test_approve_enrolment_with_single_enrolment_when_multiple_needed(
     study_group_15 = StudyGroupFactory(group_size=15)
     # Current date froze on 2020-01-04:
     p_event_1 = PalvelutarjotinEventFactory(
-        enrolment_start=datetime(2020, 1, 3, 0, 0, 0, tzinfo=timezone.now().tzinfo),
+        enrolment_start=datetime(2020, 1, 3, 0, 0, 0, tzinfo=tzinfo),
         enrolment_end_days=2,
         needed_occurrences=2,
         auto_acceptance=False,
     )
     occurrence = OccurrenceFactory(
-        start_time=datetime(2020, 1, 6, 0, 0, 0, tzinfo=timezone.now().tzinfo),
+        start_time=datetime(2020, 1, 6, 0, 0, 0, tzinfo=tzinfo),
         p_event=p_event_1,
         min_group_size=10,
         max_group_size=20,
@@ -1725,19 +1728,19 @@ def test_decline_enrolment(
     study_group_10 = StudyGroupFactory(group_size=10)
     # Current date froze on 2020-01-04:
     p_event_1 = PalvelutarjotinEventFactory(
-        enrolment_start=datetime(2020, 1, 3, 0, 0, 0, tzinfo=timezone.now().tzinfo),
+        enrolment_start=datetime(2020, 1, 3, 0, 0, 0, tzinfo=tzinfo),
         enrolment_end_days=2,
         needed_occurrences=2,
     )
     occurrence = OccurrenceFactory(
-        start_time=datetime(2020, 1, 6, 0, 0, 0, tzinfo=timezone.now().tzinfo),
+        start_time=datetime(2020, 1, 6, 0, 0, 0, tzinfo=tzinfo),
         p_event=p_event_1,
         min_group_size=10,
         max_group_size=20,
         amount_of_seats=50,
     )
     occurrence_2 = OccurrenceFactory(
-        start_time=datetime(2020, 1, 6, 0, 0, 0, tzinfo=timezone.now().tzinfo),
+        start_time=datetime(2020, 1, 6, 0, 0, 0, tzinfo=tzinfo),
         p_event=p_event_1,
         min_group_size=10,
         max_group_size=20,
@@ -1798,11 +1801,11 @@ def test_decline_enrolment_with_custom_message(
     study_group_15 = StudyGroupFactory(group_size=15)
     # Current date froze on 2020-01-04:
     p_event_1 = PalvelutarjotinEventFactory(
-        enrolment_start=datetime(2020, 1, 3, 0, 0, 0, tzinfo=timezone.now().tzinfo),
+        enrolment_start=datetime(2020, 1, 3, 0, 0, 0, tzinfo=tzinfo),
         enrolment_end_days=2,
     )
     occurrence = OccurrenceFactory(
-        start_time=datetime(2020, 1, 6, 0, 0, 0, tzinfo=timezone.now().tzinfo),
+        start_time=datetime(2020, 1, 6, 0, 0, 0, tzinfo=tzinfo),
         p_event=p_event_1,
         min_group_size=10,
         max_group_size=20,
@@ -1838,11 +1841,11 @@ def test_update_enrolment_unauthorized(
     study_group_15 = StudyGroupFactory(group_size=15)
     # Current date froze on 2020-01-04:
     p_event_1 = PalvelutarjotinEventFactory(
-        enrolment_start=datetime(2020, 1, 3, 0, 0, 0, tzinfo=timezone.now().tzinfo),
+        enrolment_start=datetime(2020, 1, 3, 0, 0, 0, tzinfo=tzinfo),
         enrolment_end_days=2,
     )
     occurrence = OccurrenceFactory(
-        start_time=datetime(2020, 1, 6, 0, 0, 0, tzinfo=timezone.now().tzinfo),
+        start_time=datetime(2020, 1, 6, 0, 0, 0, tzinfo=tzinfo),
         p_event=p_event_1,
         min_group_size=10,
         max_group_size=20,
@@ -1867,19 +1870,19 @@ def test_update_enrolment(
     study_group_10 = StudyGroupFactory(group_size=10)
     # Current date froze on 2020-01-04:
     p_event_1 = PalvelutarjotinEventFactory(
-        enrolment_start=datetime(2020, 1, 3, 0, 0, 0, tzinfo=timezone.now().tzinfo),
+        enrolment_start=datetime(2020, 1, 3, 0, 0, 0, tzinfo=tzinfo),
         enrolment_end_days=2,
         needed_occurrences=2,
     )
     occurrence_1 = OccurrenceFactory(
-        start_time=datetime(2020, 1, 6, 0, 0, 0, tzinfo=timezone.now().tzinfo),
+        start_time=datetime(2020, 1, 6, 0, 0, 0, tzinfo=tzinfo),
         p_event=p_event_1,
         min_group_size=10,
         max_group_size=20,
         amount_of_seats=35,
     )
     occurrence_2 = OccurrenceFactory(
-        start_time=datetime(2020, 1, 6, 0, 0, 0, tzinfo=timezone.now().tzinfo),
+        start_time=datetime(2020, 1, 6, 0, 0, 0, tzinfo=tzinfo),
         p_event=p_event_1,
         min_group_size=10,
         max_group_size=20,
@@ -1927,10 +1930,10 @@ def test_occurrences_filter_by_date(
     api_client, snapshot, mock_get_event_data, mock_update_event_data
 ):
     OccurrenceFactory(
-        start_time=datetime(2020, 1, 1, 0, 0, 0, tzinfo=timezone.now().tzinfo),
+        start_time=datetime(2020, 1, 1, 0, 0, 0, tzinfo=tzinfo),
     )
     OccurrenceFactory(
-        start_time=datetime(2020, 1, 2, 0, 0, 0, tzinfo=timezone.now().tzinfo),
+        start_time=datetime(2020, 1, 2, 0, 0, 0, tzinfo=tzinfo),
     )
     variables = {"date": "2020-01-02"}
     executed = api_client.execute(OCCURRENCES_QUERY, variables=variables)
@@ -1938,7 +1941,7 @@ def test_occurrences_filter_by_date(
     assert len(executed["data"]["occurrences"]["edges"]) == 1
     snapshot.assert_match(executed)
     OccurrenceFactory(
-        start_time=datetime(2020, 1, 2, 0, 0, 0, tzinfo=timezone.now().tzinfo),
+        start_time=datetime(2020, 1, 2, 0, 0, 0, tzinfo=tzinfo),
     )
     executed = api_client.execute(OCCURRENCES_QUERY, variables=variables)
     assert len(executed["data"]["occurrences"]["edges"]) == 2
@@ -1950,14 +1953,16 @@ def test_occurrences_filter_by_time(
 ):
     for i in range(10, 12):
         OccurrenceFactory(
-            start_time=datetime(2020, 1, 1, i, 0, 0, tzinfo=timezone.now().tzinfo),
+            start_time=datetime(2020, 1, 1, i, 0, 0, tzinfo=tzinfo),
         )
         OccurrenceFactory(
-            start_time=datetime(2020, 1, 2, i + 1, 0, 0, tzinfo=timezone.now().tzinfo),
+            start_time=datetime(2020, 1, 2, i + 1, 0, 0, tzinfo=tzinfo),
         )
+
     OccurrenceFactory(
-        start_time=datetime(2020, 1, 1, 13, 0, 0, tzinfo=timezone.now().tzinfo),
+        start_time=datetime(2020, 1, 1, 13, 0, 0, tzinfo=tzinfo),
     )
+
     variables_1 = {"time": "12:00:00"}
     variables_2 = {"time": "14:00:00+02:00"}
     variables_3 = {"time": "11:00:00+00:00"}
@@ -1981,29 +1986,29 @@ def test_occurrences_filter_by_upcoming(
     mock_update_event_data,
 ):
     p_event_1 = PalvelutarjotinEventFactory(
-        enrolment_start=datetime(2020, 1, 5, 0, 0, 0, tzinfo=timezone.now().tzinfo),
+        enrolment_start=datetime(2020, 1, 5, 0, 0, 0, tzinfo=tzinfo),
         enrolment_end_days=10,
     )
     # Current date froze on 2020-01-04:
     # Past occurrences
     OccurrenceFactory(
-        start_time=datetime(2020, 1, 2, 0, 0, 0, tzinfo=timezone.now().tzinfo),
-        end_time=datetime(2020, 1, 3, 0, 0, 0, tzinfo=timezone.now().tzinfo),
+        start_time=datetime(2020, 1, 2, 0, 0, 0, tzinfo=tzinfo),
+        end_time=datetime(2020, 1, 3, 0, 0, 0, tzinfo=tzinfo),
         p_event=p_event_1,
     )
     OccurrenceFactory(
-        start_time=datetime(2020, 1, 6, 0, 0, 0, tzinfo=timezone.now().tzinfo),
-        end_time=datetime(2020, 1, 7, 0, 0, 0, tzinfo=timezone.now().tzinfo),
+        start_time=datetime(2020, 1, 6, 0, 0, 0, tzinfo=tzinfo),
+        end_time=datetime(2020, 1, 7, 0, 0, 0, tzinfo=tzinfo),
         p_event=p_event_1,
     )
     OccurrenceFactory(
-        start_time=datetime(2020, 1, 5, 0, 0, 0, tzinfo=timezone.now().tzinfo),
-        end_time=datetime(2020, 1, 6, 0, 0, 0, tzinfo=timezone.now().tzinfo),
+        start_time=datetime(2020, 1, 5, 0, 0, 0, tzinfo=tzinfo),
+        end_time=datetime(2020, 1, 6, 0, 0, 0, tzinfo=tzinfo),
         p_event=p_event_1,
     )
     OccurrenceFactory(
-        start_time=datetime(2020, 1, 4, 0, 0, 0, tzinfo=timezone.now().tzinfo),
-        end_time=datetime(2020, 1, 5, 0, 0, 0, tzinfo=timezone.now().tzinfo),
+        start_time=datetime(2020, 1, 4, 0, 0, 0, tzinfo=tzinfo),
+        end_time=datetime(2020, 1, 5, 0, 0, 0, tzinfo=tzinfo),
         p_event=p_event_1,
     )
 
@@ -2022,23 +2027,23 @@ def test_occurrences_filter_by_enrollable(
     mock_update_event_data,
 ):
     p_event_1 = PalvelutarjotinEventFactory(
-        enrolment_start=datetime(2020, 1, 5, 0, 0, 0, tzinfo=timezone.now().tzinfo),
+        enrolment_start=datetime(2020, 1, 5, 0, 0, 0, tzinfo=tzinfo),
         enrolment_end_days=enrolment_end_days,
     )
 
     OccurrenceFactory(
-        start_time=datetime(2020, 1, 7, 0, 0, 0, tzinfo=timezone.now().tzinfo),
+        start_time=datetime(2020, 1, 7, 0, 0, 0, tzinfo=tzinfo),
         p_event=p_event_1,
     )
 
     OccurrenceFactory(
-        start_time=datetime(2020, 1, 6, 0, 0, 0, tzinfo=timezone.now().tzinfo),
+        start_time=datetime(2020, 1, 6, 0, 0, 0, tzinfo=tzinfo),
         p_event=p_event_1,
     )
 
     # Past occurrences
     OccurrenceFactory(
-        start_time=datetime(2020, 1, 5, 0, 0, 0, tzinfo=timezone.now().tzinfo),
+        start_time=datetime(2020, 1, 5, 0, 0, 0, tzinfo=tzinfo),
         p_event=p_event_1,
     )
 
@@ -2093,13 +2098,13 @@ def test_occurrences_ordering_by_order_by_start_time(
     snapshot, api_client, mock_get_event_data, mock_update_event_data
 ):
     OccurrenceFactory(
-        start_time=datetime(2020, 1, 6, 0, 0, 0, tzinfo=timezone.now().tzinfo),
+        start_time=datetime(2020, 1, 6, 0, 0, 0, tzinfo=tzinfo),
     )
     OccurrenceFactory(
-        start_time=datetime(2020, 1, 7, 0, 0, 0, tzinfo=timezone.now().tzinfo),
+        start_time=datetime(2020, 1, 7, 0, 0, 0, tzinfo=tzinfo),
     )
     OccurrenceFactory(
-        start_time=datetime(2020, 1, 5, 0, 0, 0, tzinfo=timezone.now().tzinfo),
+        start_time=datetime(2020, 1, 5, 0, 0, 0, tzinfo=tzinfo),
     )
 
     executed_asc = api_client.execute(
@@ -2157,13 +2162,13 @@ def test_occurrences_ordering_by_order_by_end_time(
     snapshot, api_client, mock_get_event_data, mock_update_event_data
 ):
     OccurrenceFactory(
-        end_time=datetime(2020, 1, 6, 0, 0, 0, tzinfo=timezone.now().tzinfo),
+        end_time=datetime(2020, 1, 6, 0, 0, 0, tzinfo=tzinfo),
     )
     OccurrenceFactory(
-        end_time=datetime(2020, 1, 7, 0, 0, 0, tzinfo=timezone.now().tzinfo),
+        end_time=datetime(2020, 1, 7, 0, 0, 0, tzinfo=tzinfo),
     )
     OccurrenceFactory(
-        end_time=datetime(2020, 1, 5, 0, 0, 0, tzinfo=timezone.now().tzinfo),
+        end_time=datetime(2020, 1, 5, 0, 0, 0, tzinfo=tzinfo),
     )
 
     executed_asc = api_client.execute(
@@ -2189,26 +2194,26 @@ def test_occurrences_next_and_last_occurrence(
     # Current date froze on 2020-01-04:
     OccurrenceFactory(
         p_event=p_event,
-        start_time=datetime(2020, 1, 3, 0, 0, 0, tzinfo=timezone.now().tzinfo),
+        start_time=datetime(2020, 1, 3, 0, 0, 0, tzinfo=tzinfo),
     )
     OccurrenceFactory(
         p_event=p_event,
-        start_time=datetime(2020, 1, 7, 0, 0, 0, tzinfo=timezone.now().tzinfo),
+        start_time=datetime(2020, 1, 7, 0, 0, 0, tzinfo=tzinfo),
     )
     OccurrenceFactory(
         p_event=p_event,
-        start_time=datetime(2020, 1, 6, 0, 0, 0, tzinfo=timezone.now().tzinfo),
+        start_time=datetime(2020, 1, 6, 0, 0, 0, tzinfo=tzinfo),
     )
     # next, but cancelled, so won't be picked
     OccurrenceFactory(
         p_event=p_event,
-        start_time=datetime(2020, 1, 5, 0, 0, 0, tzinfo=timezone.now().tzinfo),
+        start_time=datetime(2020, 1, 5, 0, 0, 0, tzinfo=tzinfo),
         cancelled=True,
     )
     # last, but cancelled, so won't be picked
     OccurrenceFactory(
         p_event=p_event,
-        start_time=datetime(2020, 1, 8, 0, 0, 0, tzinfo=timezone.now().tzinfo),
+        start_time=datetime(2020, 1, 8, 0, 0, 0, tzinfo=tzinfo),
         cancelled=True,
     )
 
@@ -2342,7 +2347,7 @@ def test_cancel_occurrence(
 def test_occurrence_enrolments_unauthorized(
     event_staff_api_client, api_client, mock_get_event_data, occurrence
 ):
-    OCCURRENCE_ENROLMENTS_QUERY = """
+    occurrence_enrolments_query = """
         query Occurrence($id: ID!){
             occurrence(id: $id){
                 enrolments {
@@ -2361,14 +2366,14 @@ def test_occurrence_enrolments_unauthorized(
 
     # Invalid case: Not using the API client as a staff member
     executed = api_client.execute(
-        OCCURRENCE_ENROLMENTS_QUERY,
+        occurrence_enrolments_query,
         variables={"id": to_global_id("OccurrenceNode", occurrence.id)},
     )
     assert_permission_denied(executed)
 
     # Invalid case: The organisation does not match
     executed = event_staff_api_client.execute(
-        OCCURRENCE_ENROLMENTS_QUERY,
+        occurrence_enrolments_query,
         variables={"id": to_global_id("OccurrenceNode", occurrence.id)},
     )
     # FIXME: The permission denied error should be raised
@@ -2380,7 +2385,7 @@ def test_occurrence_enrolments_unauthorized(
         occurrence.p_event.organisation
     )
     executed = event_staff_api_client.execute(
-        OCCURRENCE_ENROLMENTS_QUERY,
+        occurrence_enrolments_query,
         variables={"id": to_global_id("OccurrenceNode", occurrence.id)},
     )
     assert len(executed["data"]["occurrence"]["enrolments"]["edges"]) == 5
@@ -2389,7 +2394,7 @@ def test_occurrence_enrolments_unauthorized(
 def test_occurrence_study_groups_unauthorized(
     event_staff_api_client, api_client, mock_get_event_data, occurrence
 ):
-    OCCURRENCE_STUDY_GROUPS_QUERY = """
+    occurrence_study_groups_query = """
         query Occurrence($id: ID!){
             occurrence(id: $id){
                 studyGroups {
@@ -2408,14 +2413,14 @@ def test_occurrence_study_groups_unauthorized(
 
     # Invalid case: Not using the API client as a staff member
     executed = api_client.execute(
-        OCCURRENCE_STUDY_GROUPS_QUERY,
+        occurrence_study_groups_query,
         variables={"id": to_global_id("OccurrenceNode", occurrence.id)},
     )
     assert_permission_denied(executed)
 
     # Invalid case: The organisation does not match
     executed = event_staff_api_client.execute(
-        OCCURRENCE_STUDY_GROUPS_QUERY,
+        occurrence_study_groups_query,
         variables={"id": to_global_id("OccurrenceNode", occurrence.id)},
     )
     assert executed["data"]["occurrence"]["studyGroups"]["edges"] == []
@@ -2425,7 +2430,7 @@ def test_occurrence_study_groups_unauthorized(
         occurrence.p_event.organisation
     )
     executed = event_staff_api_client.execute(
-        OCCURRENCE_STUDY_GROUPS_QUERY,
+        occurrence_study_groups_query,
         variables={"id": to_global_id("OccurrenceNode", occurrence.id)},
     )
     assert len(executed["data"]["occurrence"]["studyGroups"]["edges"]) == 5

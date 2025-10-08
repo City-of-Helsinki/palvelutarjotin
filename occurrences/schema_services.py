@@ -25,7 +25,7 @@ from palvelutarjotin.exceptions import (
     DataValidationError,
     EnrolCancelledOccurrenceError,
     EnrolmentClosedError,
-    EnrolmentMaxNeededOccurrenceReached,
+    EnrolmentMaxNeededOccurrenceReachedError,
     EnrolmentNotEnoughCapacityError,
     EnrolmentNotStartedError,
     InvalidStudyGroupSizeError,
@@ -128,7 +128,7 @@ def validate_enrolment(  # noqa: C901
             ).count()
             >= occurrence.p_event.needed_occurrences
         ):
-            raise EnrolmentMaxNeededOccurrenceReached(
+            raise EnrolmentMaxNeededOccurrenceReachedError(
                 "Number of enrolled occurrences is greater than the needed occurrences"
             )
         if (
@@ -243,13 +243,13 @@ def get_or_create_contact_person(contact_person_data):
     return person
 
 
-def get_instance_list(ModelClass, instance_pks: List[str]):
+def get_instance_list(model_class, instance_pks: List[str]):
     result = []
     for instance_pk in instance_pks:
         try:
-            instance = ModelClass.objects.get(pk=instance_pk)
+            instance = model_class.objects.get(pk=instance_pk)
             result.append(instance)
-        except ModelClass.DoesNotExist as e:
+        except model_class.DoesNotExist as e:
             raise ObjectDoesNotExistError(e)
     return result
 

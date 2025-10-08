@@ -10,7 +10,7 @@ from geopy import distance
 import occurrences.models as occurrences_models
 import reports.services as reports_services
 from common.models import TimestampedModel
-from reports.exceptions import EnrolmentReportCouldNotHydrateLinkedEventsData
+from reports.exceptions import EnrolmentReportCouldNotHydrateLinkedEventsDataError
 from reports.utils import get_event_keywords, get_event_provider
 
 logger = logging.getLogger(__name__)
@@ -296,7 +296,10 @@ class EnrolmentReport(TimestampedModel):
 
             # calculate the distance
             self.set_distance_from_unit_to_event_place()
-        except (AttributeError, EnrolmentReportCouldNotHydrateLinkedEventsData) as e:
+        except (
+            AttributeError,
+            EnrolmentReportCouldNotHydrateLinkedEventsDataError,
+        ) as e:
             logger.warning(
                 "Error in rehydration of enrolment report "
                 f"(id: {self.id}, _enrolment.id: {self._enrolment_id}) - {e}."
