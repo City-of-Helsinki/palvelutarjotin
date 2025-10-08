@@ -88,7 +88,7 @@ class LocalisedObjectInput(InputObjectType):
 
 class Division(ObjectType):
     type = String(required=True)
-    ocdId = String(description="Open Civic Data ID")
+    ocd_id = String(description="Open Civic Data ID")
     municipality = String()
     name = Field(LocalisedObject)
 

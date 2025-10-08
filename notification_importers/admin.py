@@ -14,7 +14,7 @@ from django_ilmoitin.models import NotificationTemplate
 
 from .notification_importer import (
     AbstractNotificationImporter,
-    NotificationImporterException,
+    NotificationImporterExceptionError,
 )
 
 logger = logging.getLogger(__name__)
@@ -30,7 +30,7 @@ class NotificationTemplateAdminWithImporter(NotificationTemplateAdmin):
     def changelist_view(self, request, *args, **kwargs):
         try:
             self.importer = self.__load_importer_class_from_settings()
-        except NotificationImporterException as e:
+        except NotificationImporterExceptionError as e:
             self._send_error_message(request, e)
         return super().changelist_view(request, *args, **kwargs)
 
@@ -55,7 +55,7 @@ class NotificationTemplateAdminWithImporter(NotificationTemplateAdmin):
 
         try:
             num_of_updated = self.importer.update_notifications(queryset)
-        except NotificationImporterException as e:
+        except NotificationImporterExceptionError as e:
             self._send_error_message(request, e)
             return
 
@@ -88,7 +88,7 @@ class NotificationTemplateAdminWithImporter(NotificationTemplateAdmin):
         if self.importer:
             try:
                 num_of_created = self.importer.create_missing_notifications()
-            except NotificationImporterException as e:
+            except NotificationImporterExceptionError as e:
                 self._send_error_message(request, e)
             else:
                 if num_of_created:

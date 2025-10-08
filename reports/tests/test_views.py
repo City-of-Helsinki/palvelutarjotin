@@ -243,19 +243,19 @@ class PersonsAdminViewTest(TestCase):
 
     @pytest.mark.django_db
     def test_auditlog_access_logging(self):
-        PERSONS_BATCH_COUNT = 5
+        persons_batch_count = 5
         user = UserFactory()
-        PersonFactory.create_batch(PERSONS_BATCH_COUNT)
+        PersonFactory.create_batch(persons_batch_count)
         self.view.request = RequestFactory().get(
             "/fake-path/", headers={"X-Forwarded-For": REMOTE_ADDR}
         )
         self.view.request.user = user
         queryset = self.view.get_queryset()
-        self.assertEqual(queryset.count(), PERSONS_BATCH_COUNT)
+        self.assertEqual(queryset.count(), persons_batch_count)
         access_logs = LogEntry.objects.filter(action=LogEntry.Action.ACCESS)
         self.assertEqual(
             access_logs.count(),
-            PERSONS_BATCH_COUNT,
+            persons_batch_count,
         )
         access_log_entry = access_logs.first()
         self.assertEqual(access_log_entry.actor, user)
@@ -287,9 +287,9 @@ class OrganisationPersonsAdminViewTest(TestCase):
     def test_auditlog_access_logging(
         self,
     ):
-        ORGANISATION_BATCH_COUNT = 2
+        organisation_batch_count = 2
         user = UserFactory()
-        org1, org2 = OrganisationFactory.create_batch(ORGANISATION_BATCH_COUNT)
+        org1, org2 = OrganisationFactory.create_batch(organisation_batch_count)
         PersonFactory.create_batch(2, organisations=[org1])
         PersonFactory.create_batch(2, organisations=[org2])
         self.view.request = RequestFactory().get(
@@ -297,11 +297,11 @@ class OrganisationPersonsAdminViewTest(TestCase):
         )
         self.view.request.user = user
         queryset = self.view.get_queryset()
-        self.assertEqual(queryset.count(), ORGANISATION_BATCH_COUNT)
+        self.assertEqual(queryset.count(), organisation_batch_count)
         access_logs = LogEntry.objects.filter(action=LogEntry.Action.ACCESS)
         self.assertEqual(
             access_logs.count(),
-            ORGANISATION_BATCH_COUNT,
+            organisation_batch_count,
         )
         access_log_entry = access_logs.first()
         self.assertEqual(access_log_entry.actor, user)
@@ -350,22 +350,22 @@ class PalvelutarjotinEventEnrolmentsAdminViewTest(TestCase):
     def test_auditlog_access_logging(
         self,
     ):
-        EVENT_BATCH_COUNT = 2
-        ENROLMENT_BATCH_COUNT = 2
-        ENROLMENT_TOTAL_COUNT = EVENT_BATCH_COUNT * ENROLMENT_BATCH_COUNT
+        event_batch_count = 2
+        enrolment_batch_count = 2
+        enrolment_total_count = event_batch_count * enrolment_batch_count
         user = UserFactory()
         today = datetime.now(tz=datetime_timezone.utc)
 
         p_event1, p_event2 = PalvelutarjotinEventFactory.create_batch(
-            EVENT_BATCH_COUNT, enrolment_start=today
+            event_batch_count, enrolment_start=today
         )
         EnrolmentFactory.create_batch(
-            ENROLMENT_BATCH_COUNT,
+            enrolment_batch_count,
             occurrence__p_event=p_event1,
             status=Enrolment.STATUS_APPROVED,
         )
         EnrolmentFactory.create_batch(
-            ENROLMENT_BATCH_COUNT,
+            enrolment_batch_count,
             occurrence__p_event=p_event2,
             status=Enrolment.STATUS_APPROVED,
         )
@@ -373,14 +373,14 @@ class PalvelutarjotinEventEnrolmentsAdminViewTest(TestCase):
             "/fake-path/", headers={"X-Forwarded-For": REMOTE_ADDR}
         )
         self.view.request.user = user
-        self.assertEqual(PalvelutarjotinEvent.objects.count(), EVENT_BATCH_COUNT)
-        self.assertEqual(Enrolment.objects.count(), ENROLMENT_TOTAL_COUNT)
+        self.assertEqual(PalvelutarjotinEvent.objects.count(), event_batch_count)
+        self.assertEqual(Enrolment.objects.count(), enrolment_total_count)
         kwargs = {}
         self.view.get_context_data(object_list=[p_event1, p_event2], **kwargs)
         access_logs = LogEntry.objects.filter(action=LogEntry.Action.ACCESS)
         self.assertEqual(
             access_logs.count(),
-            ENROLMENT_TOTAL_COUNT,
+            enrolment_total_count,
         )
         access_log_entry = access_logs.first()
         self.assertEqual(access_log_entry.actor, user)
@@ -393,8 +393,8 @@ class PersonsCsvViewTest(TestCase):
     def test_export_persons_csv_data(
         self,
     ):
-        PERSONS_BATCH_COUNT = 2
-        person_1, person_2 = PersonFactory.create_batch(PERSONS_BATCH_COUNT)
+        persons_batch_count = 2
+        person_1, person_2 = PersonFactory.create_batch(persons_batch_count)
 
         admin_user = UserFactory(is_event_staff=True)
         user = UserFactory(is_event_staff=False)
@@ -426,10 +426,10 @@ class PersonsCsvViewTest(TestCase):
     def test_auditlog_access_logging(
         self,
     ):
-        PERSON_BATCH_COUNT = 2
+        person_batch_count = 2
         admin_user = UserFactory(is_event_staff=True)
         PersonFactory.create_batch(
-            PERSON_BATCH_COUNT,
+            person_batch_count,
         )
         staff_api_client = APIClient()
         staff_api_client.force_authenticate(user=admin_user)
@@ -438,13 +438,13 @@ class PersonsCsvViewTest(TestCase):
             headers={"X-Forwarded-For": REMOTE_ADDR},
         )
 
-        self.assertEqual(Person.objects.count(), PERSON_BATCH_COUNT)
+        self.assertEqual(Person.objects.count(), person_batch_count)
         access_logs = LogEntry.objects.filter(
             action=LogEntry.Action.ACCESS, actor=admin_user
         )
         self.assertEqual(
             access_logs.count(),
-            PERSON_BATCH_COUNT,
+            person_batch_count,
         )
         access_log_entry = access_logs.first()
         self.assertEqual(access_log_entry.actor, admin_user)
@@ -488,17 +488,17 @@ class OrganisationPersonsCsvViewTest(TestCase):
     def test_auditlog_access_logging(
         self,
     ):
-        ORGANISATION_BATCH_COUNT = 2
-        PERSON_BATCH_COUNT = 2
-        PERSON_TOTAL_COUNT = ORGANISATION_BATCH_COUNT * PERSON_BATCH_COUNT
+        organisation_batch_count = 2
+        person_batch_count = 2
+        person_total_count = organisation_batch_count * person_batch_count
         admin_user = UserFactory(is_staff=True)
-        org1, org2 = OrganisationFactory.create_batch(ORGANISATION_BATCH_COUNT)
+        org1, org2 = OrganisationFactory.create_batch(organisation_batch_count)
         PersonFactory.create_batch(
-            PERSON_BATCH_COUNT,
+            person_batch_count,
             organisations=[org1],
         )
         PersonFactory.create_batch(
-            PERSON_BATCH_COUNT,
+            person_batch_count,
             organisations=[org2],
         )
         staff_api_client = APIClient()
@@ -508,14 +508,14 @@ class OrganisationPersonsCsvViewTest(TestCase):
             headers={"X-Forwarded-For": REMOTE_ADDR},
         )
 
-        self.assertEqual(Organisation.objects.count(), ORGANISATION_BATCH_COUNT)
-        self.assertEqual(Person.objects.count(), PERSON_TOTAL_COUNT)
+        self.assertEqual(Organisation.objects.count(), organisation_batch_count)
+        self.assertEqual(Person.objects.count(), person_total_count)
         access_logs = LogEntry.objects.filter(
             action=LogEntry.Action.ACCESS, actor=admin_user
         )
         self.assertEqual(
             access_logs.count(),
-            PERSON_TOTAL_COUNT,
+            person_total_count,
         )
         access_log_entry = access_logs.first()
         self.assertEqual(access_log_entry.actor, admin_user)
@@ -571,21 +571,21 @@ class PalvelutarjotinEventEnrolmentsTest(TestCase):
     def test_auditlog_access_logging(
         self,
     ):
-        EVENT_BATCH_COUNT = 2
-        ENROLMENT_BATCH_COUNT = 2
-        ENROLMENT_TOTAL_COUNT = EVENT_BATCH_COUNT * ENROLMENT_BATCH_COUNT
+        event_batch_count = 2
+        enrolment_batch_count = 2
+        enrolment_total_count = event_batch_count * enrolment_batch_count
         today = datetime.now(tz=datetime_timezone.utc)
         admin_user = UserFactory(is_staff=True)
         p_event1, p_event2 = PalvelutarjotinEventFactory.create_batch(
-            EVENT_BATCH_COUNT, enrolment_start=today
+            event_batch_count, enrolment_start=today
         )
         EnrolmentFactory.create_batch(
-            ENROLMENT_BATCH_COUNT,
+            enrolment_batch_count,
             occurrence__p_event=p_event1,
             status=Enrolment.STATUS_APPROVED,
         )
         EnrolmentFactory.create_batch(
-            ENROLMENT_BATCH_COUNT,
+            enrolment_batch_count,
             occurrence__p_event=p_event2,
             status=Enrolment.STATUS_APPROVED,
         )
@@ -595,14 +595,14 @@ class PalvelutarjotinEventEnrolmentsTest(TestCase):
             "/reports/palvelutarjotinevent/enrolments/csv/",
             headers={"X-Forwarded-For": REMOTE_ADDR},
         )
-        self.assertEqual(PalvelutarjotinEvent.objects.count(), EVENT_BATCH_COUNT)
-        self.assertEqual(Enrolment.objects.count(), ENROLMENT_TOTAL_COUNT)
+        self.assertEqual(PalvelutarjotinEvent.objects.count(), event_batch_count)
+        self.assertEqual(Enrolment.objects.count(), enrolment_total_count)
         access_logs = LogEntry.objects.filter(
             action=LogEntry.Action.ACCESS, actor=admin_user
         )
         self.assertEqual(
             access_logs.count(),
-            ENROLMENT_TOTAL_COUNT,
+            enrolment_total_count,
         )
         access_log_entry = access_logs.first()
         self.assertEqual(access_log_entry.actor, admin_user)

@@ -11,6 +11,11 @@ from django.utils.translation import gettext_lazy as _
 
 from organisations.models import Person
 
+VERIFICATION_TOKEN_VALID_MINUTES = getattr(
+    settings, "VERIFICATION_TOKEN_VALID_MINUTES", 15
+)
+VERIFICATION_TOKEN_LENGTH = getattr(settings, "VERIFICATION_TOKEN_LENGTH", 32)
+
 
 class VerificationTokenManager(models.Manager):
     def deactivate_token(
@@ -28,7 +33,7 @@ class VerificationTokenManager(models.Manager):
         obj,
         person,
         verification_type,
-        expiry_minutes=getattr(settings, "VERIFICATION_TOKEN_VALID_MINUTES", 15),
+        expiry_minutes=VERIFICATION_TOKEN_VALID_MINUTES,
     ):
         """
         Deactivate old tokens (of a type) and create a new one.
@@ -42,7 +47,7 @@ class VerificationTokenManager(models.Manager):
         person,
         verification_type,
         email=None,
-        expiry_minutes=getattr(settings, "VERIFICATION_TOKEN_VALID_MINUTES", 15),
+        expiry_minutes=VERIFICATION_TOKEN_VALID_MINUTES,
     ):
         key = self.model.generate_key()
 
@@ -136,7 +141,7 @@ class VerificationToken(models.Model):
     @classmethod
     def generate_key(cls):
         """Generates a new key for a verification token."""
-        return token_urlsafe(getattr(settings, "VERIFICATION_TOKEN_LENGTH", 32))
+        return token_urlsafe(VERIFICATION_TOKEN_LENGTH)
 
     def is_valid(self):
         """Validates token state."""

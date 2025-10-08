@@ -33,7 +33,7 @@ SourceData = Mapping[str, Mapping[str, Mapping[str, str]]]
 logger = getLogger(__name__)
 
 
-class NotificationImporterException(Exception):
+class NotificationImporterExceptionError(Exception):
     pass
 
 
@@ -138,7 +138,7 @@ class AbstractNotificationImporter:
                     language_code=language,
                 )
             except NotificationTemplateException as e:
-                raise NotificationImporterException(
+                raise NotificationImporterExceptionError(
                     f'Error rendering notification "{notification}": {e}'
                 ) from e
 
@@ -173,7 +173,7 @@ class NotificationGoogleSheetImporter(AbstractNotificationImporter):
             else None
         )
         if not self.sheet_id:
-            raise NotificationImporterException("Sheet ID not set.")
+            raise NotificationImporterExceptionError("Sheet ID not set.")
 
         self.source_data: SourceData = self._fetch_data()
 
@@ -196,7 +196,7 @@ class NotificationGoogleSheetImporter(AbstractNotificationImporter):
             response = requests.get(self.url, timeout=self.TIMEOUT)
             response.raise_for_status()
         except RequestException as e:
-            raise NotificationImporterException(
+            raise NotificationImporterExceptionError(
                 f"Error fetching data from the spreadsheet: {e}"
             ) from e
         return response.content.decode("utf-8")

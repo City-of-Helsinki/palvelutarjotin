@@ -868,7 +868,7 @@
         'divisions': list([
           dict({
             'municipality': None,
-            'ocdId': None,
+            'ocdId': 'ocd-division/country:fi/kunta:espoo',
           }),
         ]),
         'email': 'sellonkirjasto@espoo.fi',
@@ -937,7 +937,7 @@
             'divisions': list([
               dict({
                 'municipality': None,
-                'ocdId': None,
+                'ocdId': 'ocd-division/country:fi/kunta:espoo',
               }),
             ]),
             'email': 'sellonkirjasto@espoo.fi',
@@ -998,7 +998,7 @@
             'divisions': list([
               dict({
                 'municipality': None,
-                'ocdId': None,
+                'ocdId': 'ocd-division/country:fi/kunta:espoo',
               }),
             ]),
             'email': 'kirjasto.entresse@espoo.fi',
@@ -1710,7 +1710,7 @@
             'divisions': list([
               dict({
                 'municipality': None,
-                'ocdId': None,
+                'ocdId': 'ocd-division/country:fi/kunta:espoo',
               }),
             ]),
             'email': 'sellonkirjasto@espoo.fi',
@@ -1771,7 +1771,7 @@
             'divisions': list([
               dict({
                 'municipality': None,
-                'ocdId': None,
+                'ocdId': 'ocd-division/country:fi/kunta:espoo',
               }),
             ]),
             'email': 'kirjasto.entresse@espoo.fi',

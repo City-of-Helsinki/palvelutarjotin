@@ -41,7 +41,7 @@ from palvelutarjotin.exceptions import (
     DataValidationError,
     EnrolCancelledOccurrenceError,
     EnrolmentClosedError,
-    EnrolmentMaxNeededOccurrenceReached,
+    EnrolmentMaxNeededOccurrenceReachedError,
     EnrolmentNotEnoughCapacityError,
     EnrolmentNotStartedError,
     IncorrectGlobalIdError,
@@ -78,7 +78,7 @@ error_codes_palvelutarjotin = {
     EnrolmentNotStartedError: ENROLMENT_NOT_STARTED_ERROR,
     EnrolmentClosedError: ENROLMENT_CLOSED_ERROR,
     EnrolCancelledOccurrenceError: ENROL_CANCELLED_OCCURRENCE_ERROR,
-    EnrolmentMaxNeededOccurrenceReached: MAX_NEEDED_OCCURRENCES_REACHED_ERROR,
+    EnrolmentMaxNeededOccurrenceReachedError: MAX_NEEDED_OCCURRENCES_REACHED_ERROR,
     InvalidStudyGroupSizeError: INVALID_STUDY_GROUP_SIZE_ERROR,
     InvalidEmailFormatError: INVALID_EMAIL_FORMAT_ERROR,
     CaptchaValidationFailedError: CAPTCHA_VALIDATION_FAILED_ERROR,
@@ -131,11 +131,12 @@ class SentryGraphQLView(FileUploadGraphQLView):
     def format_error(error):
         def get_error_code(exception):
             """Get the most specific error code for the exception via superclass"""
-            for exception in exception.mro():
+            for e in exception.mro():
                 try:
-                    return error_codes[exception]
+                    return error_codes[e]
                 except KeyError:
                     continue
+            return None
 
         try:
             error_code = get_error_code(error.original_error.__class__)

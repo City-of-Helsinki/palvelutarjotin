@@ -34,6 +34,9 @@ from verification_token.models import VerificationToken
 
 User = get_user_model()
 
+# Module-level tzinfo variable for parametrized tests
+tzinfo = timezone.now().tzinfo
+
 
 @pytest.mark.django_db
 def test_palvelutarjotin_event(mock_get_event_data):
@@ -458,22 +461,22 @@ def test_occurrence_seat_approved(mock_get_event_data):
 def test_enrolment_approve(
     api_client, mock_update_event_data, mock_get_event_data, occurrence
 ):
-    TARGET_AMOUNT_OF_TAKEN_SEATS = 20 + 14  # for groups of 20 and 14 people
+    target_amount_of_taken_seats = 20 + 14  # for groups of 20 and 14 people
     study_group_14 = StudyGroupFactory(group_size=14)
     study_group_15 = StudyGroupFactory(group_size=15)
     study_group_20 = StudyGroupFactory(group_size=20)
     # Current date froze on 2020-01-04:
     p_event_1 = PalvelutarjotinEventFactory(
-        enrolment_start=datetime(2020, 1, 3, 0, 0, 0, tzinfo=timezone.now().tzinfo),
+        enrolment_start=datetime(2020, 1, 3, 0, 0, 0, tzinfo=tzinfo),
         enrolment_end_days=2,
         auto_acceptance=True,
     )
     occurrence = OccurrenceFactory(
-        start_time=datetime(2020, 1, 6, 0, 0, 0, tzinfo=timezone.now().tzinfo),
+        start_time=datetime(2020, 1, 6, 0, 0, 0, tzinfo=tzinfo),
         p_event=p_event_1,
         min_group_size=10,
         max_group_size=20,
-        amount_of_seats=TARGET_AMOUNT_OF_TAKEN_SEATS,
+        amount_of_seats=target_amount_of_taken_seats,
     )
 
     # After 20 people there are 14 seats left
@@ -495,7 +498,7 @@ def test_enrolment_approve(
     assert (
         occurrence.seats_taken
         == occurrence.amount_of_seats
-        == TARGET_AMOUNT_OF_TAKEN_SEATS
+        == target_amount_of_taken_seats
     )
 
 
@@ -531,13 +534,13 @@ def test_languages_are_sorted_by_name_and_id(mock_get_event_data):
     [
         # new starting occurrence
         (
-            datetime(2020, 1, 10, 0, 0, 0, tzinfo=timezone.now().tzinfo),
-            datetime(2020, 1, 11, 0, 0, 0, tzinfo=timezone.now().tzinfo),
+            datetime(2020, 1, 10, 0, 0, 0, tzinfo=tzinfo),
+            datetime(2020, 1, 11, 0, 0, 0, tzinfo=tzinfo),
         ),
         # new ending occurrence
         (
-            datetime(2020, 1, 25, 0, 0, 0, tzinfo=timezone.now().tzinfo),
-            datetime(2020, 1, 26, 0, 0, 0, tzinfo=timezone.now().tzinfo),
+            datetime(2020, 1, 25, 0, 0, 0, tzinfo=tzinfo),
+            datetime(2020, 1, 26, 0, 0, 0, tzinfo=tzinfo),
         ),
     ],
 )
@@ -548,7 +551,7 @@ def test_republish_event_to_sync_times_on_save_calls_republish_when_published(
     occurrence_end_time,
     mock_get_event_data,
 ):
-    enrolment_start = datetime(2020, 1, 10, 0, 0, 0, tzinfo=timezone.now().tzinfo)
+    enrolment_start = datetime(2020, 1, 10, 0, 0, 0, tzinfo=tzinfo)
     enrolment_end_days = 1
     p_event = PalvelutarjotinEventFactory(
         enrolment_start=enrolment_start,
@@ -558,15 +561,15 @@ def test_republish_event_to_sync_times_on_save_calls_republish_when_published(
     # First occurrence, starts earliest possible, is a 1 day event
     OccurrenceFactory(
         p_event=p_event,
-        start_time=datetime(2020, 1, 11, 0, 0, 0, tzinfo=timezone.now().tzinfo),
-        end_time=datetime(2020, 1, 12, 0, 0, 0, tzinfo=timezone.now().tzinfo),
+        start_time=datetime(2020, 1, 11, 0, 0, 0, tzinfo=tzinfo),
+        end_time=datetime(2020, 1, 12, 0, 0, 0, tzinfo=tzinfo),
     )
 
     # Last occurrence, starts 10 days after first one, is a 1 day event
     OccurrenceFactory(
         p_event=p_event,
-        start_time=datetime(2020, 1, 21, 0, 0, 0, tzinfo=timezone.now().tzinfo),
-        end_time=datetime(2020, 1, 22, 0, 0, 0, tzinfo=timezone.now().tzinfo),
+        start_time=datetime(2020, 1, 21, 0, 0, 0, tzinfo=tzinfo),
+        end_time=datetime(2020, 1, 22, 0, 0, 0, tzinfo=tzinfo),
     )
 
     # new parametrized occurrence
@@ -585,7 +588,7 @@ def test_republish_event_to_sync_times_on_update_calls_republish_when_published(
     mock_send_event_republish,
     mock_get_event_data,
 ):
-    enrolment_start = datetime(2020, 1, 10, 0, 0, 0, tzinfo=timezone.now().tzinfo)
+    enrolment_start = datetime(2020, 1, 10, 0, 0, 0, tzinfo=tzinfo)
     enrolment_end_days = 1
     p_event = PalvelutarjotinEventFactory(
         enrolment_start=enrolment_start,
@@ -595,15 +598,15 @@ def test_republish_event_to_sync_times_on_update_calls_republish_when_published(
     # First occurrence, starts earliest possible, is a 1 day event
     occurrence1 = OccurrenceFactory(
         p_event=p_event,
-        start_time=datetime(2020, 1, 11, 0, 0, 0, tzinfo=timezone.now().tzinfo),
-        end_time=datetime(2020, 1, 12, 0, 0, 0, tzinfo=timezone.now().tzinfo),
+        start_time=datetime(2020, 1, 11, 0, 0, 0, tzinfo=tzinfo),
+        end_time=datetime(2020, 1, 12, 0, 0, 0, tzinfo=tzinfo),
     )
 
     # Last occurrence, starts 10 days after first one, is a 1 day event
     occurrence2 = OccurrenceFactory(
         p_event=p_event,
-        start_time=datetime(2020, 1, 21, 0, 0, 0, tzinfo=timezone.now().tzinfo),
-        end_time=datetime(2020, 1, 22, 0, 0, 0, tzinfo=timezone.now().tzinfo),
+        start_time=datetime(2020, 1, 21, 0, 0, 0, tzinfo=tzinfo),
+        end_time=datetime(2020, 1, 22, 0, 0, 0, tzinfo=tzinfo),
     )
 
     assert Occurrence.objects.count() == 2

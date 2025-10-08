@@ -282,15 +282,20 @@ def test_delete_profile_data_from_gdpr_api(
         all_count = LogEntry.objects.count()
         assert all_count > 2
         created = LogEntry.objects.filter(action=LogEntry.Action.CREATE)
+        updated = LogEntry.objects.filter(action=LogEntry.Action.UPDATE)
         deleted = LogEntry.objects.filter(action=LogEntry.Action.DELETE)
-        assert created.count() == all_count - deleted.count()
+        assert created.count() == all_count - updated.count() - deleted.count()
+        assert updated.count() == 1
+        assert updated.first().object_id == user.id
         assert deleted.count() == 1
         assert deleted.first().object_id == user.id
     else:
-        assert LogEntry.objects.count() == 2
-        (created_log, deleted_log) = LogEntry.objects.all().order_by("id")
+        assert LogEntry.objects.count() == 3
+        (created_log, updated_log, deleted_log) = LogEntry.objects.all().order_by("id")
         assert created_log.action == LogEntry.Action.CREATE
         assert created_log.object_id == user.id
+        assert updated_log.action == LogEntry.Action.UPDATE
+        assert updated_log.object_id == user.id
         assert deleted_log.action == LogEntry.Action.DELETE
         assert deleted_log.object_id == user.id
 

@@ -2,7 +2,7 @@ from django.core.management import BaseCommand
 
 from notification_importers.notification_importer import (
     NotificationGoogleSheetImporter,
-    NotificationImporterException,
+    NotificationImporterExceptionError,
 )
 
 
@@ -18,7 +18,7 @@ class Command(BaseCommand):
                 num_of_created,
                 num_of_updated,
             ) = importer.create_missing_and_update_existing_notifications()
-        except NotificationImporterException as e:
+        except NotificationImporterExceptionError as e:
             self.stdout.write(self.style.ERROR(e))
             return
 
