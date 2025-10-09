@@ -1,13 +1,13 @@
 services:
     kultus-db:
-        image: postgres:13
+        image: postgres:17-alpine
         restart: on-failure
         env_file:
             - .env  # For POSTGRES_USER, POSTGRES_PASSWORD and POSTGRES_DB
         ports:
             - ${DB_PORT:-5434}:5432
         volumes:
-            - pgdata:/var/lib/postgresql@13/data
+            - pgdata:/var/lib/postgresql/data
         container_name: kultus-db
 
     django:
