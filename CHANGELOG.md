@@ -1,6 +1,27 @@
 <!-- REMINDER: While updating changelog, also remember to update
 the version in palvelutarjotin/__init.py__ -->
 
+## [1.26.0](https://github.com/City-of-Helsinki/palvelutarjotin/compare/palvelutarjotin-v1.25.2...palvelutarjotin-v1.26.0) (2025-10-09)
+
+
+### Features
+
+* Migrate to django-csp 4.0 ([d313c9a](https://github.com/City-of-Helsinki/palvelutarjotin/commit/d313c9ab9a0be0282ef745144fd2c4b643acac9b))
+
+
+### Bug Fixes
+
+* Remove deprecated PickleSerializer ([0ebb1fb](https://github.com/City-of-Helsinki/palvelutarjotin/commit/0ebb1fb2b7edd7183e7199559cb32a092073ed51))
+* Update time-filtering for Django 5 ([d0b3289](https://github.com/City-of-Helsinki/palvelutarjotin/commit/d0b328914444d283fd8dc2359d70b2f904823e36))
+* Update verification token settings ([2484b23](https://github.com/City-of-Helsinki/palvelutarjotin/commit/2484b23003521d0f5729d57a2505b07eacce7094))
+
+
+### Dependencies
+
+* Bump django 5.2 and requirements ([dbc8191](https://github.com/City-of-Helsinki/palvelutarjotin/commit/dbc8191ff7f06ae381a96fcaadd3cabfe1353578))
+* Bump django from 4.2.24 to 4.2.25 ([fee3462](https://github.com/City-of-Helsinki/palvelutarjotin/commit/fee3462ea04d0211cf3bf5404aa1d909032d5371))
+* Bump django-csp to 4.0 ([0ed736a](https://github.com/City-of-Helsinki/palvelutarjotin/commit/0ed736a713c4a845cfbf9a05a096fa31356ded0e))
+
 ## [1.25.2](https://github.com/City-of-Helsinki/palvelutarjotin/compare/palvelutarjotin-v1.25.1...palvelutarjotin-v1.25.2) (2025-09-23)
 
 
