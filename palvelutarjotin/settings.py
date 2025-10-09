@@ -77,6 +77,7 @@ env = environ.Env(
     KULTUS_TEACHER_UI_BASE_URL=(str, "https://kultus.hel.fi/"),
     ENABLE_SUMMARY_REPORT=(bool, False),
     VERIFICATION_TOKEN_VALID_MINUTES=(int, 15),
+    VERIFICATION_TOKEN_LENGTH=(int, 32),
     PERSONAL_DATA_RETENTION_PERIOD_MONTHS=(int, 24),
     UPDATE_LAST_LOGIN_ENABLED=(bool, True),
     UPDATE_LAST_LOGIN_INTERVAL_MINUTES=(int, 60),
@@ -428,6 +429,8 @@ KEYWORD_SET_ID_MAPPING = {
     "TARGET_GROUP": env.str("KEYWORD_SET_TARGET_GROUP_ID"),
 }
 
+VERIFICATION_TOKEN_VALID_MINUTES = env.int("VERIFICATION_TOKEN_VALID_MINUTES")
+VERIFICATION_TOKEN_LENGTH = env.int("VERIFICATION_TOKEN_LENGTH")
 VERIFICATION_TOKEN_URL_MAPPING = {
     "occurrences.enrolment.CANCELLATION": f"{KULTUS_TEACHER_UI_BASE_URL}"
     + "{lang}/enrolments/cancel/{unique_id}",
@@ -437,7 +440,7 @@ VERIFICATION_TOKEN_URL_MAPPING = {
 
 MAX_UPLOAD_SIZE = 2621440  # 2MB
 
-PERSONAL_DATA_RETENTION_PERIOD_MONTHS = env("PERSONAL_DATA_RETENTION_PERIOD_MONTHS")
+PERSONAL_DATA_RETENTION_PERIOD_MONTHS = env.int("PERSONAL_DATA_RETENTION_PERIOD_MONTHS")
 
 # local_settings.py can be used to override environment-specific settings
 # like database and email that differ between development and production.
