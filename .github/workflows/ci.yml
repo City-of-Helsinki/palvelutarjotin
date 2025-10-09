@@ -13,4 +13,4 @@ jobs:
     secrets: inherit
     with:
       python-version: 3.12
-      postgres-major-version: 13
+      postgres-major-version: 17

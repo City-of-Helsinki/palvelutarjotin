@@ -196,7 +196,7 @@ The project is now running at http://localhost:8081
 
 Prerequisites (defined by [Dockerfile](./Dockerfile) and [compose.yaml](./compose.yaml)):
 
-- PostgreSQL 13
+- PostgreSQL 17
 - Python 3.12
 
 Steps:
