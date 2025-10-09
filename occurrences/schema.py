@@ -14,9 +14,9 @@ from graphene_django import DjangoConnectionField, DjangoObjectType
 from graphene_django.filter import DjangoFilterConnectionField
 
 from common.utils import (
+    LanguageEnum,
     get_editable_obj_from_global_id,
     get_node_id_from_global_id,
-    LanguageEnum,
     map_enums_to_values_in_kwargs,
     raise_permission_denied_if_not_event_staff,
     update_object,

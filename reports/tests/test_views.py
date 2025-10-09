@@ -7,7 +7,7 @@ from auditlog.context import disable_auditlog
 from auditlog.models import LogEntry
 from django.contrib.auth.models import Permission
 from django.contrib.contenttypes.models import ContentType
-from django.test import override_settings, TestCase
+from django.test import TestCase, override_settings
 from django.test.client import RequestFactory
 from django.utils.timezone import get_current_timezone
 from django.views.generic import TemplateView

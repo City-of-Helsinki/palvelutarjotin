@@ -9,7 +9,7 @@ from django.http.response import HttpResponse
 from django.utils import timezone
 from django.utils.translation import gettext as _
 from drf_spectacular.types import OpenApiTypes
-from drf_spectacular.utils import extend_schema, OpenApiExample, OpenApiResponse
+from drf_spectacular.utils import OpenApiExample, OpenApiResponse, extend_schema
 from rest_framework import generics
 from rest_framework.authentication import SessionAuthentication
 from rest_framework.permissions import BasePermission

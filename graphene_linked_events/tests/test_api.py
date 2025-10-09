@@ -19,10 +19,10 @@ from common.tests.utils import (
     mocked_json_response,
 )
 from graphene_linked_events.rest_client import LinkedEventsApiClient
+from graphene_linked_events.schema import Query
 from graphene_linked_events.schema import (
     api_client as graphene_linked_events_api_client,
 )
-from graphene_linked_events.schema import Query
 from graphene_linked_events.tests.mock_data import (
     EVENT_DATA,
     EVENTS_DATA,

@@ -12,8 +12,8 @@ from graphene_django.types import DjangoObjectType
 from graphql_jwt.decorators import login_required, superuser_required
 
 from common.utils import (
-    get_node_id_from_global_id,
     LanguageEnum,
+    get_node_id_from_global_id,
     map_enums_to_values_in_kwargs,
     update_object,
 )

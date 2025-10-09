@@ -31,14 +31,6 @@ allow-unsafe = true
 generate-hashes = true
 strip-extras = true
 
-[tool.ruff.lint.isort]
-# isort options for ruff:
-# https://docs.astral.sh/ruff/settings/#lintisort
-order-by-type = false # Don't use type (i.e. case) to sort imports
-
-[tool.ruff.format]
-docstring-code-format = true # Format code in docstrings
-
 [tool.coverage.run]
 # Coverage run options:
 # https://coverage.readthedocs.io/en/latest/config.html#run
