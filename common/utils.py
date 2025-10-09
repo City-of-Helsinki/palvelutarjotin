@@ -100,9 +100,9 @@ def convert_to_localtime_tz(value):
     dt = datetime.combine(datetime.now().date(), value)
     if timezone.is_naive(value):
         # Auto add local timezone to naive time
-        return timezone.make_aware(dt).timetz()
+        return timezone.make_aware(dt)
     else:
-        return timezone.localtime(dt).timetz()
+        return timezone.localtime(dt)
 
 
 def to_local_datetime_if_naive(value) -> datetime:
