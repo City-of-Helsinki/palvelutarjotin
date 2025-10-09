@@ -6,7 +6,7 @@ from unittest import mock
 import jwt
 import pytest
 from authlib.jose.rfc7519.claims import JWTClaims
-from django.test import override_settings, TestCase
+from django.test import TestCase, override_settings
 from django.test.client import RequestFactory
 from django.utils import timezone
 from freezegun import freeze_time

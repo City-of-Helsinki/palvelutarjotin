@@ -1,7 +1,7 @@
 import json
 import logging
 from datetime import timedelta
-from typing import List, Optional, TYPE_CHECKING
+from typing import TYPE_CHECKING, List, Optional
 
 from django.utils import timezone
 

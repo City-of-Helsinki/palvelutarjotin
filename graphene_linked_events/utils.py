@@ -5,8 +5,8 @@ from collections import namedtuple
 from typing import List
 
 from django.conf import settings
-from geopy import distance as geopy_distance
 from geopy import Point
+from geopy import distance as geopy_distance
 
 from graphene_linked_events.rest_client import LinkedEventsApiClient
 from palvelutarjotin.exceptions import ApiBadRequestError, ObjectDoesNotExistError
