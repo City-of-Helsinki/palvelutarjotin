@@ -4,14 +4,17 @@ from django.db import migrations
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
-        ('occurrences', '0043_add_is_queueing_allowed_and_preferred_times'),
+        ("occurrences", "0043_add_is_queueing_allowed_and_preferred_times"),
     ]
 
     operations = [
         migrations.AlterModelOptions(
-            name='studygroup',
-            options={'ordering': ['created_at', 'group_name'], 'verbose_name': 'study group', 'verbose_name_plural': 'study groups'},
+            name="studygroup",
+            options={
+                "ordering": ["created_at", "group_name"],
+                "verbose_name": "study group",
+                "verbose_name_plural": "study groups",
+            },
         ),
     ]
