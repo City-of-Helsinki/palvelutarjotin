@@ -4,24 +4,29 @@ from django.db import migrations, models
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
-        ('organisations', '0014_data_populate_kultus_admin_access'),
+        ("organisations", "0014_data_populate_kultus_admin_access"),
     ]
 
     operations = [
         migrations.AlterModelOptions(
-            name='organisation',
-            options={'ordering': ['name', 'publisher_id', 'id'], 'verbose_name': 'organisation', 'verbose_name_plural': 'organisations'},
+            name="organisation",
+            options={
+                "ordering": ["name", "publisher_id", "id"],
+                "verbose_name": "organisation",
+                "verbose_name_plural": "organisations",
+            },
         ),
         migrations.AlterField(
-            model_name='organisation',
-            name='name',
-            field=models.CharField(db_index=True, max_length=255, verbose_name='name'),
+            model_name="organisation",
+            name="name",
+            field=models.CharField(db_index=True, max_length=255, verbose_name="name"),
         ),
         migrations.AlterField(
-            model_name='organisation',
-            name='publisher_id',
-            field=models.CharField(db_index=True, max_length=255, verbose_name='publisher id'),
+            model_name="organisation",
+            name="publisher_id",
+            field=models.CharField(
+                db_index=True, max_length=255, verbose_name="publisher id"
+            ),
         ),
     ]

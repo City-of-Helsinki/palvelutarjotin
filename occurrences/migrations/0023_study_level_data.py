@@ -18,10 +18,10 @@ def init_study_levels(apps, schema_editor):
 
     translation.activate("en")
     for level in range(len(StudyGroupStudyLevels.STUDY_LEVELS)):
-        id, en_label = StudyGroupStudyLevels.STUDY_LEVELS[level]
+        _id, en_label = StudyGroupStudyLevels.STUDY_LEVELS[level]
         # Multiply by 10, so it's easier to add new levels between existing ones.
         study_level = NewStudyLevel(
-            id=id,
+            id=_id,
             level=level * 10,
         )
         study_level.label = en_label
@@ -33,8 +33,8 @@ def clear_study_levels(apps, schema_editor):
     Reverse for init_study_levels: Clears the StudyLevel table.
     """
 
-    StudyLevel = apps.get_model("occurrences", "StudyLevel")
-    StudyLevel.objects.all().delete()
+    study_level_model = apps.get_model("occurrences", "StudyLevel")
+    study_level_model.objects.all().delete()
 
 
 def link_study_levels(apps, schema_editor):
@@ -48,19 +48,19 @@ def link_study_levels(apps, schema_editor):
 
     # The StudyGroup model cannot be imported directly as it has been changed.
     # The historical version must be used instead.
-    StudyGroup = apps.get_model("occurrences", "StudyGroup")
-    ThroughModel = NewStudyGroup.study_levels.through
+    study_group_model = apps.get_model("occurrences", "StudyGroup")
+    through_model = NewStudyGroup.study_levels.through
 
     new_objects = [
-        ThroughModel(studygroup_id=studygroup_id, studylevel_id=studylevel_id)
-        for studygroup_id, studylevel_id in StudyGroup.objects.exclude(
+        through_model(studygroup_id=studygroup_id, studylevel_id=studylevel_id)
+        for studygroup_id, studylevel_id in study_group_model.objects.exclude(
             study_level__isnull=True
         )
         .exclude(study_level__exact="")
         .values_list("id", "study_level")
     ]
 
-    ThroughModel.objects.bulk_create(new_objects)
+    through_model.objects.bulk_create(new_objects)
 
 
 def reverse_link_study_levels(apps, schema_editor):
@@ -69,8 +69,8 @@ def reverse_link_study_levels(apps, schema_editor):
     StudyGroups and StudyLevels and populates a study_level field.
     """
 
-    StudyLevel = apps.get_model("occurrences", "StudyLevel")
-    for study_level in StudyLevel.objects.all():
+    study_level_model = apps.get_model("occurrences", "StudyLevel")
+    for study_level in study_level_model.objects.all():
         study_level.study_groups.all().update(study_level=study_level.id)
 
 
