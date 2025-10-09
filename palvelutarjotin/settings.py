@@ -302,7 +302,6 @@ AUTHENTICATION_BACKENDS = [
 LOGIN_REDIRECT_URL = env.str("LOGIN_REDIRECT_URL")
 LOGOUT_REDIRECT_URL = env.str("LOGOUT_REDIRECT_URL")
 
-SESSION_SERIALIZER = "django.contrib.sessions.serializers.PickleSerializer"
 AUTH_USER_MODEL = "organisations.User"
 
 # Keycloak parameters. Reference to Tunnistamo is necessary, although
