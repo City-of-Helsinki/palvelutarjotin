@@ -1,6 +1,13 @@
 <!-- REMINDER: While updating changelog, also remember to update
 the version in palvelutarjotin/__init.py__ -->
 
+## [1.26.1](https://github.com/City-of-Helsinki/palvelutarjotin/compare/palvelutarjotin-v1.26.0...palvelutarjotin-v1.26.1) (2025-10-13)
+
+
+### Dependencies
+
+* Bump social-auth-app-django from 5.5.1 to 5.6.0 ([04ddc74](https://github.com/City-of-Helsinki/palvelutarjotin/commit/04ddc74c82ca724db593427c1f4e36f620f5a781))
+
 ## [1.26.0](https://github.com/City-of-Helsinki/palvelutarjotin/compare/palvelutarjotin-v1.25.2...palvelutarjotin-v1.26.0) (2025-10-09)
 
 
