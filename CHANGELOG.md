@@ -1,6 +1,14 @@
 <!-- REMINDER: While updating changelog, also remember to update
 the version in palvelutarjotin/__init.py__ -->
 
+## [1.26.2](https://github.com/City-of-Helsinki/palvelutarjotin/compare/palvelutarjotin-v1.26.1...palvelutarjotin-v1.26.2) (2025-11-10)
+
+
+### Dependencies
+
+* Bump django from 5.2.7 to 5.2.8 ([dc8ecae](https://github.com/City-of-Helsinki/palvelutarjotin/commit/dc8ecae7a92e1b96532f6e59d602d80cf4e442a2))
+* Bump pip from 25.2 to 25.3 ([abd6d32](https://github.com/City-of-Helsinki/palvelutarjotin/commit/abd6d322265c2e5bd4b7c863300e2c7a516a3bbc))
+
 ## [1.26.1](https://github.com/City-of-Helsinki/palvelutarjotin/compare/palvelutarjotin-v1.26.0...palvelutarjotin-v1.26.1) (2025-10-13)
 
 
