@@ -1,6 +1,13 @@
 <!-- REMINDER: While updating changelog, also remember to update
 the version in palvelutarjotin/__init.py__ -->
 
+## [1.27.0](https://github.com/City-of-Helsinki/palvelutarjotin/compare/palvelutarjotin-v1.26.2...palvelutarjotin-v1.27.0) (2025-11-14)
+
+
+### Features
+
+* **sentry:** Update sentry configuration ([acdf4fb](https://github.com/City-of-Helsinki/palvelutarjotin/commit/acdf4fb0cdd946548e74462d2e5df16404b63aec))
+
 ## [1.26.2](https://github.com/City-of-Helsinki/palvelutarjotin/compare/palvelutarjotin-v1.26.1...palvelutarjotin-v1.26.2) (2025-11-10)
 
 
