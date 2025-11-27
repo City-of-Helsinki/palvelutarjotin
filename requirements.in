@@ -12,6 +12,7 @@ django-graphql-jwt
 django-health-check
 django-helusers
 django-ilmoitin
+django-logger-extra
 django-parler
 django-utils-six
 drf-spectacular

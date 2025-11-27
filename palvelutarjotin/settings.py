@@ -251,12 +251,14 @@ INSTALLED_APPS = [
     "reports",
     "notification_importers",
     "palvelutarjotin",
+    "logger_extra",
 ]
 
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
     "corsheaders.middleware.CorsMiddleware",
+    "logger_extra.middleware.XRequestIdMiddleware",
     "csp.middleware.CSPMiddleware",
     "django.middleware.locale.LocaleMiddleware",
     "django.middleware.common.CommonMiddleware",
@@ -440,16 +442,49 @@ AXES_COOLOFF_TIME = 1  # hour after locked out, user will be able to attempt log
 LOGGING = {
     "version": 1,
     "disable_existing_loggers": False,
-    "handlers": {"console": {"class": "logging.StreamHandler"}},
-    "loggers": {"django": {"handlers": ["console"], "level": "ERROR"}},
+    "filters": {
+        "context": {
+            "()": "logger_extra.filter.LoggerContextFilter",
+        }
+    },
+    "formatters": {
+        "json": {
+            "()": "logger_extra.formatter.JSONFormatter",
+        }
+    },
+    "handlers": {
+        "console": {
+            "class": "logging.StreamHandler",
+            "formatter": "json",
+            "filters": ["context"],
+        },
+    },
+    "loggers": {
+        "django": {
+            "handlers": ["console"],
+            "level": "ERROR",
+        },
+    },
 }
 
 if DEBUG is True:
     LOGGING["loggers"] = {
-        "django": {"handlers": ["console"], "level": "WARNING"},
-        "occurrences": {"handlers": ["console"], "level": "DEBUG"},
-        "organisations": {"handlers": ["console"], "level": "DEBUG"},
-        "palvelutarjotin": {"handlers": ["console"], "level": "DEBUG"},
+        "django": {
+            "handlers": ["console"],
+            "level": "WARNING",
+        },
+        "occurrences": {
+            "handlers": ["console"],
+            "level": "DEBUG",
+        },
+        "organisations": {
+            "handlers": ["console"],
+            "level": "DEBUG",
+        },
+        "palvelutarjotin": {
+            "handlers": ["console"],
+            "level": "DEBUG",
+        },
     }
 
 CAPTCHA_ENABLED = env.bool("CAPTCHA_ENABLED")
