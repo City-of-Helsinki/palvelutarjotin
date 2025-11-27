@@ -1,7 +1,9 @@
+Django~=5.2
 certifi
 django-admin-list-filter-dropdown
-django-axes
 django-auditlog
+django-auditlog-extra@https://github.com/City-of-Helsinki/django-auditlog-extra/archive/bff5fa3921d6821bebdd6be6c9fd20db39d32d54.zip
+django-axes
 django-cors-headers
 django-csp
 django-environ
@@ -12,7 +14,6 @@ django-helusers
 django-ilmoitin
 django-parler
 django-utils-six
-Django~=5.2
 drf-spectacular
 factory-boy
 geopy
@@ -26,6 +27,5 @@ requests
 sentry-sdk
 social-auth-app-django
 urllib3
-django-auditlog-extra@https://github.com/City-of-Helsinki/django-auditlog-extra/archive/bff5fa3921d6821bebdd6be6c9fd20db39d32d54.zip
 uwsgi
 uwsgitop
