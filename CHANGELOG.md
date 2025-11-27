@@ -1,6 +1,20 @@
 <!-- REMINDER: While updating changelog, also remember to update
 the version in palvelutarjotin/__init.py__ -->
 
+## [1.27.0](https://github.com/City-of-Helsinki/palvelutarjotin/compare/palvelutarjotin-v1.26.2...palvelutarjotin-v1.27.0) (2025-11-27)
+
+
+### Features
+
+* Allow Sentry uWSGI-plugin to be optional ([2f5a011](https://github.com/City-of-Helsinki/palvelutarjotin/commit/2f5a0118d94a00a8c536864786e96bb34c0c32c8))
+* Change log format to json ([0310667](https://github.com/City-of-Helsinki/palvelutarjotin/commit/0310667bcc7130e1bea3944f4f549632d6374476))
+* **sentry:** Update sentry configuration ([acdf4fb](https://github.com/City-of-Helsinki/palvelutarjotin/commit/acdf4fb0cdd946548e74462d2e5df16404b63aec))
+
+
+### Dependencies
+
+* **dev:** Bump pip-tools from 7.5.1 to 7.5.2 ([4d49f66](https://github.com/City-of-Helsinki/palvelutarjotin/commit/4d49f66c09ad097dcb1e09e1e2e5aa419b52f7b7))
+
 ## [1.26.2](https://github.com/City-of-Helsinki/palvelutarjotin/compare/palvelutarjotin-v1.26.1...palvelutarjotin-v1.26.2) (2025-11-10)
 
 
