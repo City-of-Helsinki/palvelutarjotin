@@ -1,6 +1,6 @@
 [project]
 name = "palvelutarjotin"
-version = "1.27.0"
+version = "1.27.1"
 requires-python = ">= 3.12"
 
 [tool.ruff]
