@@ -1,6 +1,13 @@
 <!-- REMINDER: While updating changelog, also remember to update
 the version in palvelutarjotin/__init.py__ -->
 
+## [1.27.2](https://github.com/City-of-Helsinki/palvelutarjotin/compare/palvelutarjotin-v1.27.1...palvelutarjotin-v1.27.2) (2025-12-29)
+
+
+### Dependencies
+
+* Bump urllib3 from 2.5.0 to 2.6.0 ([afed584](https://github.com/City-of-Helsinki/palvelutarjotin/commit/afed584938d76363155e4812be70e4cb482f3adf))
+
 ## [1.27.1](https://github.com/City-of-Helsinki/palvelutarjotin/compare/palvelutarjotin-v1.27.0...palvelutarjotin-v1.27.1) (2025-12-04)
 
 
