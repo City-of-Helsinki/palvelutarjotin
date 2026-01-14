@@ -869,13 +869,21 @@ def test_person_study_groups(
     person = event_staff_api_client.user.person
     person.organisations.add(organisation)
     p_event = PalvelutarjotinEventFactory(organisation=organisation)
-    EnrolmentFactory.create_batch(
-        5, study_group__person=person, person=person, occurrence__p_event=p_event
-    )
+    for i in range(5):
+        EnrolmentFactory.create(
+            study_group__person=person,
+            study_group__group_name=f"Group {i:02d}",
+            person=person,
+            occurrence__p_event=p_event,
+        )
     assert person.studygroup_set.count() == 5
     executed = event_staff_api_client.execute(
         PERSON_STUDY_GROUPS_QUERY,
         variables={"id": to_global_id("PersonNode", person.id)},
+    )
+    edges = executed["data"]["person"]["studygroupSet"]["edges"]
+    executed["data"]["person"]["studygroupSet"]["edges"] = sorted(
+        edges, key=lambda x: x["node"]["groupName"]
     )
     assert len(executed["data"]["person"]["studygroupSet"]["edges"]) == 5
     snapshot.assert_match(executed)
