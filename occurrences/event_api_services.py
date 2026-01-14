@@ -34,6 +34,11 @@ def fetch_place_as_json(place_id: str, **filter_params):
     if result.status_code == 404:
         raise ObjectDoesNotExistError("Could not find the place from the API.")
 
+    if result.status_code == 410:
+        raise ObjectDoesNotExistError(
+            "The place is no longer available in the API (gone)."
+        )
+
     result.raise_for_status()
 
     place_obj = json.loads(result.text)
@@ -53,6 +58,11 @@ def fetch_event_as_json(linked_event_id: str, **filter_params):
 
     if result.status_code == 404:
         raise ObjectDoesNotExistError("Could not find the event from the API.")
+
+    if result.status_code == 410:
+        raise ObjectDoesNotExistError(
+            "The event is no longer available in the API (gone)."
+        )
 
     result.raise_for_status()
 
@@ -74,6 +84,11 @@ def update_event_to_linkedevents_api(linked_event_id: str, event_obj) -> None:
 
     if result.status_code == 404:
         raise ObjectDoesNotExistError("Could not find the event from the API.")
+
+    if result.status_code == 410:
+        raise ObjectDoesNotExistError(
+            "The event is no longer available in the API (gone)."
+        )
 
     result.raise_for_status()
 
@@ -192,6 +207,11 @@ def resolve_unit_name_with_unit_id(study_group: "StudyGroup"):
 
     if result.status_code == 404:
         raise ObjectDoesNotExistError("Could not find the place from the API.")
+
+    if result.status_code == 410:
+        raise ObjectDoesNotExistError(
+            "The place is no longer available in the API (gone)."
+        )
 
     result.raise_for_status()
 
