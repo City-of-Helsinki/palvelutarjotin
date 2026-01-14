@@ -421,30 +421,27 @@
           'edges': list([
             dict({
               'node': dict({
-                'groupName': 'Hand human value base pattern democratic focus. Kind various laugh smile behavior.',
+                'groupName': 'Group 00',
               }),
             }),
             dict({
               'node': dict({
-                'groupName': 'Close term where up notice environment father stay. Hold project month similar support line.',
+                'groupName': 'Group 01',
               }),
             }),
             dict({
               'node': dict({
-                'groupName': 'Eat design give per kind history ahead. Herself consider fight us claim. Age feeling speech eye.',
+                'groupName': 'Group 02',
               }),
             }),
             dict({
               'node': dict({
-                'groupName': '''
-                  Apply somebody especially far. Color price environmental.
-                  Market him beyond.
-                ''',
+                'groupName': 'Group 03',
               }),
             }),
             dict({
               'node': dict({
-                'groupName': 'Civil find learn follow. Tend practice other poor.',
+                'groupName': 'Group 04',
               }),
             }),
           ]),
