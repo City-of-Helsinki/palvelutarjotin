@@ -116,8 +116,10 @@ def validate_enrolment(  # noqa: C901
         timezone.now() < occurrence.p_event.enrolment_start
     ):
         raise EnrolmentNotStartedError("Enrolment is not opened")
-    if timezone.now() > occurrence.start_time - timedelta(
-        days=occurrence.p_event.enrolment_end_days
+    if (
+        occurrence.p_event.enrolment_end_days
+        and timezone.now()
+        > occurrence.start_time - timedelta(days=occurrence.p_event.enrolment_end_days)
     ):
         raise EnrolmentClosedError("Enrolment has been closed")
     # Skip these validations when updating enrolment
