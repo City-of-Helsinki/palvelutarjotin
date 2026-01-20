@@ -3,6 +3,7 @@ import logging
 import math
 from types import SimpleNamespace
 
+import requests
 from django.conf import settings
 from django.core.exceptions import PermissionDenied
 from django.db import transaction
@@ -661,14 +662,29 @@ class Query:
         ]
         keywords = {}
 
+        # Graceful degradation: Continue processing remaining keyword sets
+        # even if one API request fails due to timeout or other errors.
+        # This prevents the entire query from failing when the LinkedEvents API
+        # is slow or experiencing issues.
         for set_id in set_ids:
-            response = api_client.retrieve(
-                "keyword_set", set_id, params={"include": "keywords"}
-            )
-            response = json2obj(format_response(response))
-            for keyword in response.keywords:
-                if show_all_keywords or keyword.n_events > 0:
-                    keywords[keyword.id] = keyword
+            try:
+                response = api_client.retrieve(
+                    "keyword_set", set_id, params={"include": "keywords"}
+                )
+                response = json2obj(format_response(response))
+                for keyword in response.keywords:
+                    if show_all_keywords or keyword.n_events > 0:
+                        keywords[keyword.id] = keyword
+            except (
+                requests.exceptions.ConnectTimeout,
+                requests.exceptions.Timeout,
+                requests.exceptions.RequestException,
+            ) as e:
+                # Log the error but continue processing other keyword sets
+                logger.warning(
+                    f"Failed to fetch keyword set '{set_id}' from LinkedEvents API: {e}"
+                )
+                continue
 
         unique_keywords = sorted(
             keywords.values(), key=lambda x: x.n_events, reverse=True

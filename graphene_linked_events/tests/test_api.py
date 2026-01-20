@@ -2130,6 +2130,114 @@ def test_get_popular_kultus_keywords(
     snapshot.assert_match(executed)
 
 
+def test_get_popular_kultus_keywords_with_timeout(api_client, monkeypatch, settings):
+    """Test that popularKultusKeywords handles ConnectTimeout gracefully."""
+    from requests.exceptions import ConnectTimeout
+
+    def mock_retrieve_with_timeout(self, resource, id, params=None, is_event_staff=False):
+        # Simulate timeout for the first keyword set
+        if id == settings.KEYWORD_SET_ID_MAPPING["CATEGORY"]:
+            raise ConnectTimeout("Connection to api.hel.fi timed out")
+        # Return valid data for other keyword sets
+        return MockResponse(status_code=200, json_data=POPULAR_KEYWORD_SET_DATA)
+
+    monkeypatch.setattr(
+        LinkedEventsApiClient,
+        "retrieve",
+        mock_retrieve_with_timeout,
+    )
+
+    executed = api_client.execute(
+        POPULAR_KULTUS_KEYWORDS_QUERY,
+        variables={"amount": None, "showAllKeywords": True},
+    )
+
+    # Should not error out, should return partial results
+    assert "errors" not in executed
+    assert executed["data"]["popularKultusKeywords"] is not None
+    # Should still have keywords from the other two sets
+    assert executed["data"]["popularKultusKeywords"]["meta"]["count"] >= 0
+
+
+def test_get_popular_kultus_keywords_continues_after_timeout(
+    api_client, monkeypatch, settings
+):
+    """Test that resolver continues processing after one keyword set times out."""
+    from requests.exceptions import ConnectTimeout
+
+    call_count = {"count": 0}
+    set_ids_called = []
+
+    def mock_retrieve_with_partial_timeout(
+        self, resource, id, params=None, is_event_staff=False
+    ):
+        call_count["count"] += 1
+        set_ids_called.append(id)
+        # Timeout on ADDITIONAL_CRITERIA (middle set)
+        if id == settings.KEYWORD_SET_ID_MAPPING["ADDITIONAL_CRITERIA"]:
+            raise ConnectTimeout("Connection timeout")
+        return MockResponse(status_code=200, json_data=POPULAR_KEYWORD_SET_DATA)
+
+    monkeypatch.setattr(
+        LinkedEventsApiClient,
+        "retrieve",
+        mock_retrieve_with_partial_timeout,
+    )
+
+    executed = api_client.execute(
+        POPULAR_KULTUS_KEYWORDS_QUERY,
+        variables={"amount": None, "showAllKeywords": True},
+    )
+
+    # All 3 keyword sets should have been attempted
+    assert call_count["count"] == 3
+    assert len(set_ids_called) == 3
+    # Should not error
+    assert "errors" not in executed
+    # Should return results from the 2 successful requests
+    assert executed["data"]["popularKultusKeywords"]["meta"]["count"] > 0
+
+
+def test_get_popular_kultus_keywords_partial_results(api_client, monkeypatch, settings):
+    """Test partial results when some API requests fail."""
+    from requests.exceptions import Timeout
+
+    def mock_retrieve_with_mixed_results(
+        self, resource, id, params=None, is_event_staff=False
+    ):
+        # Fail TARGET_GROUP request
+        if id == settings.KEYWORD_SET_ID_MAPPING["TARGET_GROUP"]:
+            raise Timeout("Request timeout")
+        # Return data with different keywords for other sets
+        keyword_data = {
+            **POPULAR_KEYWORD_SET_DATA,
+            "keywords": [
+                {
+                    **POPULAR_KEYWORD_SET_DATA["keywords"][0],
+                    "id": f"keyword:{id}",
+                }
+            ],
+        }
+        return MockResponse(status_code=200, json_data=keyword_data)
+
+    monkeypatch.setattr(
+        LinkedEventsApiClient,
+        "retrieve",
+        mock_retrieve_with_mixed_results,
+    )
+
+    executed = api_client.execute(
+        POPULAR_KULTUS_KEYWORDS_QUERY,
+        variables={"amount": None, "showAllKeywords": True},
+    )
+
+    # Should return partial results from successful requests
+    assert "errors" not in executed
+    assert executed["data"]["popularKultusKeywords"] is not None
+    # Should have keywords from 2 out of 3 sets
+    assert executed["data"]["popularKultusKeywords"]["meta"]["count"] == 2
+
+
 @pytest.mark.parametrize(
     "status_code,error_cls",
     [(400, ApiBadRequestError), (404, ObjectDoesNotExistError)],
