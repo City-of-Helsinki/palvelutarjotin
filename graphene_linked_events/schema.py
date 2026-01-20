@@ -3,6 +3,7 @@ import logging
 import math
 from types import SimpleNamespace
 
+import requests
 from django.conf import settings
 from django.core.exceptions import PermissionDenied
 from django.db import transaction
@@ -661,14 +662,29 @@ class Query:
         ]
         keywords = {}
 
+        # Gracefully handle API timeouts and errors: continue processing remaining
+        # keyword sets even if one fails, ensuring partial results are returned
         for set_id in set_ids:
-            response = api_client.retrieve(
-                "keyword_set", set_id, params={"include": "keywords"}
-            )
-            response = json2obj(format_response(response))
-            for keyword in response.keywords:
-                if show_all_keywords or keyword.n_events > 0:
-                    keywords[keyword.id] = keyword
+            try:
+                response = api_client.retrieve(
+                    "keyword_set", set_id, params={"include": "keywords"}
+                )
+                response = json2obj(format_response(response))
+                for keyword in response.keywords:
+                    if show_all_keywords or keyword.n_events > 0:
+                        keywords[keyword.id] = keyword
+            except (
+                requests.exceptions.ConnectTimeout,
+                requests.exceptions.Timeout,
+                requests.exceptions.RequestException,
+            ) as e:
+                # Log the error but continue processing other keyword sets
+                logger.warning(
+                    "Failed to fetch keyword set '%s' for popularKultusKeywords: %s",
+                    set_id,
+                    str(e),
+                )
+                continue
 
         unique_keywords = sorted(
             keywords.values(), key=lambda x: x.n_events, reverse=True

@@ -2130,6 +2130,78 @@ def test_get_popular_kultus_keywords(
     snapshot.assert_match(executed)
 
 
+def test_popular_kultus_keywords_with_connect_timeout(api_client, settings):
+    """Test that popularKultusKeywords handles ConnectTimeout gracefully."""
+    from unittest.mock import MagicMock
+
+    def side_effect_timeout(resource, id, params=None):
+        if id == settings.KEYWORD_SET_ID_MAPPING["CATEGORY"]:
+            raise requests.exceptions.ConnectTimeout(
+                "Connection to api.hel.fi timed out"
+            )
+        return MockResponse(status_code=200, json_data=POPULAR_KEYWORD_SET_DATA)
+
+    with patch.object(
+        LinkedEventsApiClient,
+        "retrieve",
+        side_effect=side_effect_timeout,
+    ):
+        executed = api_client.execute(POPULAR_KULTUS_KEYWORDS_QUERY)
+        # Should return partial results from successful requests
+        assert "errors" not in executed
+        assert "data" in executed
+        assert "popularKultusKeywords" in executed["data"]
+
+
+def test_popular_kultus_keywords_continues_after_timeout(api_client, settings):
+    """Test that popularKultusKeywords continues processing after timeout."""
+    call_count = {"count": 0}
+
+    def side_effect_partial_timeout(resource, id, params=None):
+        call_count["count"] += 1
+        # First request times out
+        if call_count["count"] == 1:
+            raise requests.exceptions.Timeout("Request timed out")
+        # Subsequent requests succeed
+        return MockResponse(status_code=200, json_data=POPULAR_KEYWORD_SET_DATA)
+
+    with patch.object(
+        LinkedEventsApiClient,
+        "retrieve",
+        side_effect=side_effect_partial_timeout,
+    ):
+        executed = api_client.execute(
+            POPULAR_KULTUS_KEYWORDS_QUERY, variables={"showAllKeywords": True}
+        )
+        # Should return results from the two successful requests
+        assert "errors" not in executed
+        assert executed["data"]["popularKultusKeywords"]["meta"]["count"] >= 1
+        # Verify that all 3 requests were attempted
+        assert call_count["count"] == 3
+
+
+def test_popular_kultus_keywords_partial_results_on_failures(api_client, settings):
+    """Test partial results are returned when some API requests fail."""
+    def side_effect_mixed_responses(resource, id, params=None):
+        if id == settings.KEYWORD_SET_ID_MAPPING.get("ADDITIONAL_CRITERIA"):
+            raise requests.exceptions.RequestException("Network error")
+        return MockResponse(status_code=200, json_data=POPULAR_KEYWORD_SET_DATA)
+
+    with patch.object(
+        LinkedEventsApiClient,
+        "retrieve",
+        side_effect=side_effect_mixed_responses,
+    ):
+        executed = api_client.execute(
+            POPULAR_KULTUS_KEYWORDS_QUERY, variables={"showAllKeywords": True}
+        )
+        # Should still return successful results
+        assert "errors" not in executed
+        assert "data" in executed
+        # Should have keywords from the 2 successful requests
+        assert executed["data"]["popularKultusKeywords"]["meta"]["count"] >= 1
+
+
 @pytest.mark.parametrize(
     "status_code,error_cls",
     [(400, ApiBadRequestError), (404, ObjectDoesNotExistError)],
