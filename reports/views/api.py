@@ -6,7 +6,6 @@ from drf_spectacular.utils import OpenApiParameter, OpenApiResponse, extend_sche
 from rest_framework import generics
 from rest_framework.permissions import DjangoModelPermissions
 
-from common.mixins import LogListAccessMixin
 from common.utils import (
     to_local_datetime_if_naive,
 )
@@ -16,7 +15,7 @@ from reports.serializers import EnrolmentReportSerializer
 logger = logging.getLogger(__name__)
 
 
-class EnrolmentReportListView(LogListAccessMixin, generics.ListAPIView):
+class EnrolmentReportListView(generics.ListAPIView):
     """
     API endpoint that returns a list of enrolment reports in JSON format.
 

@@ -3,7 +3,6 @@ from datetime import timezone as datetime_timezone
 from unittest import mock
 
 import pytest
-from auditlog.context import disable_auditlog
 from auditlog.models import LogEntry
 from django.contrib.auth.models import Permission
 from django.contrib.contenttypes.models import ContentType
@@ -785,36 +784,3 @@ class EnrolmentReportListViewTest(TestCase):
             "?created_at__gte=2020-01-02&created_at__lte=2020-01-03"
         )
         assert len(response.json()) == 2
-
-    @parameterized.expand(
-        [(5, 5), (20, 20)]
-    )  # currently there is no paginator, so everything should be included.
-    def test_accesslog_written_from_every_result(self, batch_size, page_size):
-        """
-        Test that an access log entry is written for each object in the list view
-        result.
-
-        This test verifies that when a list view is accessed, a corresponding
-        LogEntry with action ACCESS is created for each object in the returned
-        list. It utilizes parameterized testing to cover different batch sizes,
-        ensuring that the access log is correctly generated regardless of the
-        number of objects.
-
-        Args:
-            batch_size (int): The number of EnrolmentReport objects to create.
-            page_size (int): The expected number of objects returned by the list view,
-                and therefore the expected number of created access log entries.
-        """
-        with disable_auditlog():
-            EnrolmentReportFactory.create_batch(batch_size)
-        self._authenticate()
-        response = self._goto_reports("?page_size=%s" % page_size)
-        assert EnrolmentReportListView.pagination_class is None
-        assert EnrolmentReport.objects.count() == batch_size
-        assert len(response.json()) == page_size
-        assert (
-            LogEntry.objects.filter(
-                actor=self.user, action=LogEntry.Action.ACCESS
-            ).count()
-            == page_size
-        )
