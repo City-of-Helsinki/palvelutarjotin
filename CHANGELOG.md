@@ -1,6 +1,27 @@
 <!-- REMINDER: While updating changelog, also remember to update
 the version in palvelutarjotin/__init.py__ -->
 
+## [1.28.0](https://github.com/City-of-Helsinki/palvelutarjotin/compare/palvelutarjotin-v1.27.1...palvelutarjotin-v1.28.0) (2026-01-21)
+
+
+### Features
+
+* Remove audit logging from enrolment report view ([eb07236](https://github.com/City-of-Helsinki/palvelutarjotin/commit/eb0723679b68439572e715fca54d2f4341ac1f98))
+
+
+### Bug Fixes
+
+* Handle 410 Gone statuses in API calls ([76401fa](https://github.com/City-of-Helsinki/palvelutarjotin/commit/76401faa49ab367f5c7742c9efba76847fe4ceca))
+* Prevent TypeError with null enrolment_end_days ([26b1994](https://github.com/City-of-Helsinki/palvelutarjotin/commit/26b19942f17fad2059b03f1b0f55a2b0f62ec085))
+
+
+### Dependencies
+
+* Bump authlib from 1.6.5 to 1.6.6 ([847d45c](https://github.com/City-of-Helsinki/palvelutarjotin/commit/847d45c1b09712a394d8430fcbe9a172842a9423))
+* Bump pyasn1 from 0.6.1 to 0.6.2 ([43ea93f](https://github.com/City-of-Helsinki/palvelutarjotin/commit/43ea93f5dfe6bcb07769df9bc8b250ee3b591118))
+* Bump urllib3 from 2.5.0 to 2.6.0 ([afed584](https://github.com/City-of-Helsinki/palvelutarjotin/commit/afed584938d76363155e4812be70e4cb482f3adf))
+* Bump urllib3 from 2.6.0 to 2.6.3 ([#449](https://github.com/City-of-Helsinki/palvelutarjotin/issues/449)) ([0f95549](https://github.com/City-of-Helsinki/palvelutarjotin/commit/0f95549876fa128f7452a6734ff8641d08a17b19))
+
 ## [1.27.1](https://github.com/City-of-Helsinki/palvelutarjotin/compare/palvelutarjotin-v1.27.0...palvelutarjotin-v1.27.1) (2025-12-04)
 
 
