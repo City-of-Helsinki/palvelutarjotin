@@ -68,6 +68,7 @@ env = environ.Env(
     ENABLE_GRAPHIQL=(bool, False),
     LINKED_EVENTS_API_ROOT=(str, "https://api.hel.fi/linkedevents/v1/"),
     LINKED_EVENTS_API_KEY=(str, ""),
+    LINKED_EVENTS_API_TIMEOUT=(int, 60),
     LINKED_EVENTS_DATA_SOURCE=(str, "palvelutarjotin"),
     SERVICEMAP_API_ROOT=(str, "https://www.hel.fi/palvelukarttaws/rest/v4/unit/"),
     NOTIFICATION_SERVICE_SMS_ENABLED=(bool, True),
@@ -432,6 +433,7 @@ LINKED_EVENTS_API_CONFIG = {
     "ROOT": env.str("LINKED_EVENTS_API_ROOT"),
     "API_KEY": env.str("LINKED_EVENTS_API_KEY"),
     "DATA_SOURCE": env.str("LINKED_EVENTS_DATA_SOURCE"),
+    "TIMEOUT": env.int("LINKED_EVENTS_API_TIMEOUT"),
 }
 
 SERVICEMAP_API_CONFIG = {"ROOT": env.str("SERVICEMAP_API_ROOT")}
