@@ -15,16 +15,12 @@ repos:
       - id: check-added-large-files
         exclude: ^.*\.ambr$
   - repo: https://github.com/astral-sh/ruff-pre-commit
-    # NOTE: Don't move the trailing "ruff-pre-commit version" comment from
-    # the ruff's version line, it is used by test_pre_commit_ruff_version.py
-    # test case in order not to have to add a YAML library dependency just
-    # to test this version:
-    rev: v0.13.3 # ruff-pre-commit version
+    rev: v0.13.3
     hooks:
-      # Run the linter
-      - id: ruff
-        args: [ --fix ]
-      # Run the formatter
+      # Run the linter.
+      - id: ruff-check
+        args: [ "--fix" ]
+      # Run the formatter.
       - id: ruff-format
   - repo: https://github.com/alessandrojcm/commitlint-pre-commit-hook
     rev: v9.22.0
