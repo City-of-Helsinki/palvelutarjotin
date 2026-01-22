@@ -34,6 +34,7 @@ AUDITLOG_EXCLUDE_TRACKING_MODELS = (
     "django_ilmoitin.notificationtemplatetranslation",  # system model
     "occurrences.language",  # unimportant and causes lots of issues with factory
     "verification_token.verificationtoken",  # system model
+    "resilient_logger.resilientlogentry",  # resilient log entries
 )
 
 # Configure models registration and other behaviours.

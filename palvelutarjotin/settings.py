@@ -104,6 +104,12 @@ env = environ.Env(
     LOGIN_REDIRECT_URL=(str, "/admin/"),
     LOGOUT_REDIRECT_URL=(str, "/admin/"),
     OPENSHIFT_BUILD_COMMIT=(str, ""),
+    # Resilient logger config
+    AUDIT_LOG_ENV=(str, ""),
+    AUDIT_LOG_ES_URL=(str, ""),
+    AUDIT_LOG_ES_INDEX=(str, ""),
+    AUDIT_LOG_ES_USERNAME=(str, ""),
+    AUDIT_LOG_ES_PASSWORD=(str, ""),
 )
 
 if os.path.exists(env_file):
@@ -242,6 +248,7 @@ INSTALLED_APPS = [
     "django_admin_listfilter_dropdown",
     "auditlog",
     "auditlog_extra",
+    "resilient_logger",
     "health_check",
     # local apps under this line
     "custom_health_checks",
@@ -571,3 +578,27 @@ HELUSERS_PASSWORD_LOGIN_DISABLED = env.bool("HELUSERS_PASSWORD_LOGIN_DISABLED")
 
 # Load auditlog settings
 from palvelutarjotin.auditlog_settings import *  # noqa: E402, F403
+
+RESILIENT_LOGGER = {
+    "origin": "kultus-api",
+    "environment": env("AUDIT_LOG_ENV"),
+    "sources": [
+        {
+            "class": "resilient_logger.sources.DjangoAuditLogSource",
+        }
+    ],
+    "targets": [
+        {
+            "class": "resilient_logger.targets.ElasticsearchLogTarget",
+            "es_url": env("AUDIT_LOG_ES_URL"),
+            "es_username": env("AUDIT_LOG_ES_USERNAME"),
+            "es_password": env("AUDIT_LOG_ES_PASSWORD"),
+            "es_index": env("AUDIT_LOG_ES_INDEX"),
+            "required": True,
+        }
+    ],
+    "batch_limit": 5000,
+    "chunk_size": 500,
+    "submit_unsent_entries": True,
+    "clear_sent_entries": True,
+}
