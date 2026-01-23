@@ -1,6 +1,25 @@
 <!-- REMINDER: While updating changelog, also remember to update
 the version in palvelutarjotin/__init.py__ -->
 
+## [1.29.0](https://github.com/City-of-Helsinki/palvelutarjotin/compare/palvelutarjotin-v1.28.0...palvelutarjotin-v1.29.0) (2026-01-23)
+
+
+### Features
+
+* Handle LinkedEvents API timeouts for popular keywords ([54dcdf7](https://github.com/City-of-Helsinki/palvelutarjotin/commit/54dcdf7eccb173e97ee081b634b3673cee624779))
+* Use django-resilient-logger for audit logging ([957bda3](https://github.com/City-of-Helsinki/palvelutarjotin/commit/957bda3a755663baa75fe15d4aab0e499ac2637a))
+
+
+### Bug Fixes
+
+* Make LinkedEvents API timeout configurable ([25f4096](https://github.com/City-of-Helsinki/palvelutarjotin/commit/25f4096663f8eba88fd8f8dac3dc87d42ddee8ac))
+* Treat LinkedEvents 404/410 as ObjectDoesNotExistError ([9724b21](https://github.com/City-of-Helsinki/palvelutarjotin/commit/9724b213f09f895e4f8cfb92c6ff3ecdffa26704))
+
+
+### Dependencies
+
+* Bump wheel from 0.45.1 to 0.46.2 ([c9060e5](https://github.com/City-of-Helsinki/palvelutarjotin/commit/c9060e5b7e49a6f83e7c365a654b81c65c39b07d))
+
 ## [1.28.0](https://github.com/City-of-Helsinki/palvelutarjotin/compare/palvelutarjotin-v1.27.1...palvelutarjotin-v1.28.0) (2026-01-21)
 
 
