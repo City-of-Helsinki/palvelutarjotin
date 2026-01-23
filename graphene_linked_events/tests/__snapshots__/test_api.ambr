@@ -394,6 +394,30 @@
     }),
   })
 # ---
+# name: test_get_event_gone
+  dict({
+    'data': dict({
+      'event': None,
+    }),
+    'errors': list([
+      dict({
+        'extensions': dict({
+          'code': 'OBJECT_DOES_NOT_EXIST_ERROR',
+        }),
+        'locations': list([
+          dict({
+            'column': 3,
+            'line': 3,
+          }),
+        ]),
+        'message': 'The resource is no longer available in the API (gone).',
+        'path': list([
+          'event',
+        ]),
+      }),
+    ]),
+  })
+# ---
 # name: test_get_event_not_found
   dict({
     'data': dict({
@@ -402,7 +426,7 @@
     'errors': list([
       dict({
         'extensions': dict({
-          'code': 'GENERAL_ERROR',
+          'code': 'OBJECT_DOES_NOT_EXIST_ERROR',
         }),
         'locations': list([
           dict({
@@ -410,7 +434,7 @@
             'line': 3,
           }),
         ]),
-        'message': 'A mocked generic HTTP error',
+        'message': 'Could not find the event from the API.',
         'path': list([
           'event',
         ]),
@@ -913,6 +937,30 @@
         }),
       }),
     }),
+  })
+# ---
+# name: test_get_place_gone
+  dict({
+    'data': dict({
+      'place': None,
+    }),
+    'errors': list([
+      dict({
+        'extensions': dict({
+          'code': 'OBJECT_DOES_NOT_EXIST_ERROR',
+        }),
+        'locations': list([
+          dict({
+            'column': 3,
+            'line': 3,
+          }),
+        ]),
+        'message': 'The resource is no longer available in the API (gone).',
+        'path': list([
+          'place',
+        ]),
+      }),
+    ]),
   })
 # ---
 # name: test_get_places

@@ -740,12 +740,48 @@ def test_get_event_not_found(api_client, snapshot, monkeypatch):
     snapshot.assert_match(executed)
 
 
+def test_get_event_gone(api_client, snapshot, monkeypatch):
+    """Test that 410 (Gone) status code is handled as ObjectDoesNotExistError."""
+
+    def _get_mock_function(event_data, keyword_data, status_code=410):
+        def mock_data(*args, **kwargs):
+            return MockResponse(status_code=status_code, json_data={})
+
+        return mock_data
+
+    monkeypatch.setattr(
+        graphene_linked_events.rest_client.LinkedEventsApiClient,
+        "retrieve",
+        _get_mock_function(EVENT_DATA, KEYWORD_SET_DATA),
+    )
+    executed = api_client.execute(GET_EVENT_QUERY)
+    snapshot.assert_match(executed)
+
+
 def test_get_places(api_client, snapshot, mock_get_places_data):
     executed = api_client.execute(GET_PLACES_QUERY)
     snapshot.assert_match(executed)
 
 
 def test_get_place(api_client, snapshot, mock_get_place_data):
+    executed = api_client.execute(GET_PLACE_QUERY)
+    snapshot.assert_match(executed)
+
+
+def test_get_place_gone(api_client, snapshot, monkeypatch):
+    """Test that 410 (Gone) status code is handled as ObjectDoesNotExistError for places."""
+
+    def _get_mock_function(place_data, status_code=410):
+        def mock_data(*args, **kwargs):
+            return MockResponse(status_code=status_code, json_data={})
+
+        return mock_data
+
+    monkeypatch.setattr(
+        graphene_linked_events.rest_client.LinkedEventsApiClient,
+        "retrieve",
+        _get_mock_function({}),
+    )
     executed = api_client.execute(GET_PLACE_QUERY)
     snapshot.assert_match(executed)
 
@@ -2243,7 +2279,11 @@ def test_get_popular_kultus_keywords_partial_results(api_client, monkeypatch, se
 
 @pytest.mark.parametrize(
     "status_code,error_cls",
-    [(400, ApiBadRequestError), (404, ObjectDoesNotExistError)],
+    [
+        (400, ApiBadRequestError),
+        (404, ObjectDoesNotExistError),
+        (410, ObjectDoesNotExistError),
+    ],
 )
 def test_linkedevents_api_retrieve_errors(status_code, error_cls):
     with patch.object(

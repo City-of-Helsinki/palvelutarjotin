@@ -39,6 +39,7 @@ from graphene_linked_events.utils import (
     get_keyword_set_by_id,
     json2obj,
     json_object_hook,
+    retrieve_linked_events_data,
 )
 from occurrences.event_api_services import prepare_published_event_data
 from occurrences.models import PalvelutarjotinEvent, VenueCustomData
@@ -491,15 +492,11 @@ class Query:
 
     @staticmethod
     def resolve_event(parent, info, **kwargs):
-        response = api_client.retrieve(
-            "event",
-            kwargs.pop("id"),
-            params=kwargs,
-            is_event_staff=getattr(info.context.user, "is_event_staff", False),
+        event_id = kwargs.pop("id")
+        is_event_staff = getattr(info.context.user, "is_event_staff", False)
+        return retrieve_linked_events_data(
+            "event", event_id, params=kwargs, is_event_staff=is_event_staff
         )
-        response.raise_for_status()
-        obj = json2obj(format_response(response))
-        return obj
 
     @staticmethod
     def resolve_events(parent, info, **kwargs):  # noqa: C901
@@ -620,9 +617,7 @@ class Query:
         place_id = kwargs["id"]
         if not place_id:
             return None
-        response = api_client.retrieve("place", place_id)
-        response.raise_for_status()
-        return json2obj(format_response(response))
+        return retrieve_linked_events_data("place", place_id)
 
     @staticmethod
     def resolve_places(parent, info, **kwargs):

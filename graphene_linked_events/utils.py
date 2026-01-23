@@ -57,6 +57,11 @@ def retrieve_linked_events_data(
     if response.status_code == 404:
         raise ObjectDoesNotExistError("Could not find the event from the API.")
 
+    if response.status_code == 410:
+        raise ObjectDoesNotExistError(
+            "The resource is no longer available in the API (gone)."
+        )
+
     # Raise any other errors
     response.raise_for_status()
 
