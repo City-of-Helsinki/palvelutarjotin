@@ -599,6 +599,6 @@ RESILIENT_LOGGER = {
     ],
     "batch_limit": 5000,
     "chunk_size": 500,
-    "submit_unsent_entries": True,
-    "clear_sent_entries": True,
+    "submit_unsent_entries": False,
+    "clear_sent_entries": False,
 }
