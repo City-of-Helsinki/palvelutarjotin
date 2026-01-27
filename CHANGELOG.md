@@ -1,6 +1,13 @@
 <!-- REMINDER: While updating changelog, also remember to update
 the version in palvelutarjotin/__init.py__ -->
 
+## [1.30.0](https://github.com/City-of-Helsinki/palvelutarjotin/compare/palvelutarjotin-v1.29.0...palvelutarjotin-v1.30.0) (2026-01-27)
+
+
+### Features
+
+* Disable new audit logging cron tasks ([db89bbc](https://github.com/City-of-Helsinki/palvelutarjotin/commit/db89bbc32ced05213fab86ae053a117ce6223619))
+
 ## [1.29.0](https://github.com/City-of-Helsinki/palvelutarjotin/compare/palvelutarjotin-v1.28.0...palvelutarjotin-v1.29.0) (2026-01-23)
 
 
