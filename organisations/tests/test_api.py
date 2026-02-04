@@ -740,12 +740,22 @@ def test_person_queued_enrolments(
     person = event_staff_api_client.user.person
     person.organisations.add(organisation)
     p_event = PalvelutarjotinEventFactory(organisation=organisation)
-    EventQueueEnrolmentFactory.create_batch(5, person=person, p_event=p_event)
+    for i in range(5):
+        EventQueueEnrolmentFactory.create(
+            person=person,
+            study_group__person=person,
+            study_group__group_name=f"Group {i:02d}",
+            p_event=p_event,
+        )
     assert person.eventqueueenrolment_set.all().count() == 5
     event_staff_api_client.user.person.organisations.add(organisation)
     executed = event_staff_api_client.execute(
         PERSON_QUEUED_ENROLMENTS_QUERY,
         variables={"id": to_global_id("PersonNode", person.id)},
+    )
+    edges = executed["data"]["person"]["eventqueueenrolmentSet"]["edges"]
+    executed["data"]["person"]["eventqueueenrolmentSet"]["edges"] = sorted(
+        edges, key=lambda x: x["node"]["studyGroup"]["groupName"]
     )
     assert len(executed["data"]["person"]["eventqueueenrolmentSet"]["edges"]) == 5
     snapshot.assert_match(executed)
