@@ -1,6 +1,13 @@
 <!-- REMINDER: While updating changelog, also remember to update
 the version in palvelutarjotin/__init.py__ -->
 
+## [1.31.0](https://github.com/City-of-Helsinki/palvelutarjotin/compare/palvelutarjotin-v1.30.1...palvelutarjotin-v1.31.0) (2026-02-11)
+
+
+### Features
+
+* Enable resilient logger ([37a8ab8](https://github.com/City-of-Helsinki/palvelutarjotin/commit/37a8ab89c0639a13d6f436d4ccacc220a923152b))
+
 ## [1.30.1](https://github.com/City-of-Helsinki/palvelutarjotin/compare/palvelutarjotin-v1.30.0...palvelutarjotin-v1.30.1) (2026-02-04)
 
 
