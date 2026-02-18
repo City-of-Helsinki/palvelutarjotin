@@ -1,6 +1,18 @@
 <!-- REMINDER: While updating changelog, also remember to update
 the version in palvelutarjotin/__init.py__ -->
 
+## [1.31.0](https://github.com/City-of-Helsinki/palvelutarjotin/compare/palvelutarjotin-v1.30.1...palvelutarjotin-v1.31.0) (2026-02-18)
+
+
+### Features
+
+* Enable resilient logger ([37a8ab8](https://github.com/City-of-Helsinki/palvelutarjotin/commit/37a8ab89c0639a13d6f436d4ccacc220a923152b))
+
+
+### Dependencies
+
+* Bump sqlparse from 0.5.3 to 0.5.4 ([0215bc0](https://github.com/City-of-Helsinki/palvelutarjotin/commit/0215bc09a4af130cf9265907ed9e19c877cda328))
+
 ## [1.30.1](https://github.com/City-of-Helsinki/palvelutarjotin/compare/palvelutarjotin-v1.30.0...palvelutarjotin-v1.30.1) (2026-02-04)
 
 
