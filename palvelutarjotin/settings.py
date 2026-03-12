@@ -338,7 +338,7 @@ CONTENT_SECURITY_POLICY = {
 AUTHENTICATION_BACKENDS = [
     "axes.backends.AxesBackend",
     "helusers.tunnistamo_oidc.TunnistamoOIDCAuth",  # For django-admin Keycloak login
-    "django.contrib.auth.backends.ModelBackend",
+    "helusers.auth.HelusersModelBackend",
     "palvelutarjotin.oidc.BrowserTestAwareJWTAuthentication",
     "palvelutarjotin.oidc.GraphQLApiTokenAuthentication",
 ]
