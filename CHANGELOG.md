@@ -1,6 +1,13 @@
 <!-- REMINDER: While updating changelog, also remember to update
 the version in palvelutarjotin/__init.py__ -->
 
+## [1.32.0](https://github.com/City-of-Helsinki/palvelutarjotin/compare/palvelutarjotin-v1.31.1...palvelutarjotin-v1.32.0) (2026-03-13)
+
+
+### Features
+
+* Disable django admin password login ([a6563cd](https://github.com/City-of-Helsinki/palvelutarjotin/commit/a6563cd19375b338763c66991bcb739465f0afb4))
+
 ## [1.31.1](https://github.com/City-of-Helsinki/palvelutarjotin/compare/palvelutarjotin-v1.31.0...palvelutarjotin-v1.31.1) (2026-03-09)
 
 
