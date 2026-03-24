@@ -1,6 +1,13 @@
 <!-- REMINDER: While updating changelog, also remember to update
 the version in palvelutarjotin/__init.py__ -->
 
+## [1.33.0](https://github.com/City-of-Helsinki/palvelutarjotin/compare/palvelutarjotin-v1.32.1...palvelutarjotin-v1.33.0) (2026-03-24)
+
+
+### Features
+
+* Django-axes prefers forwarded ip address ([0a6bd10](https://github.com/City-of-Helsinki/palvelutarjotin/commit/0a6bd10873a61179655b4e4df901f5ce5154048f))
+
 ## [1.32.1](https://github.com/City-of-Helsinki/palvelutarjotin/compare/palvelutarjotin-v1.32.0...palvelutarjotin-v1.32.1) (2026-03-18)
 
 
