@@ -447,6 +447,8 @@ SERVICEMAP_API_CONFIG = {"ROOT": env.str("SERVICEMAP_API_ROOT")}
 
 AXES_FAILURE_LIMIT = 5
 AXES_COOLOFF_TIME = 1  # hour after locked out, user will be able to attempt login
+AXES_IPWARE_META_PRECEDENCE_ORDER = ["HTTP_X_FORWARDED_FOR", "REMOTE_ADDR"]
+AXES_IPWARE_PROXY_COUNT = 1
 
 LOGGING = {
     "version": 1,
