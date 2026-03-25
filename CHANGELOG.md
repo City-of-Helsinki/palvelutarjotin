@@ -1,6 +1,13 @@
 <!-- REMINDER: While updating changelog, also remember to update
 the version in palvelutarjotin/__init.py__ -->
 
+## [1.33.1](https://github.com/City-of-Helsinki/palvelutarjotin/compare/palvelutarjotin-v1.33.0...palvelutarjotin-v1.33.1) (2026-03-25)
+
+
+### Dependencies
+
+* Add django-ipware ([191379b](https://github.com/City-of-Helsinki/palvelutarjotin/commit/191379bd9b6fe352274acdde1b14c07673e24687))
+
 ## [1.33.0](https://github.com/City-of-Helsinki/palvelutarjotin/compare/palvelutarjotin-v1.32.1...palvelutarjotin-v1.33.0) (2026-03-24)
 
 
