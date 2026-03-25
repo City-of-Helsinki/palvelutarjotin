@@ -358,6 +358,10 @@ django-ilmoitin==0.7.1 \
     --hash=sha256:02931abd50d857ac30195e8ece533b19a0c9e5d6912d86f04044030917f5fa54 \
     --hash=sha256:8c0ced97271a1233027da6267cab67490ade4ef78026d24e6365dbf5c3f413ef
     # via -r requirements.in
+django-ipware==7.0.1 \
+    --hash=sha256:d9ec43d2bf7cdf216fed8d494a084deb5761a54860a53b2e74346a4f384cff47 \
+    --hash=sha256:db16bbee920f661ae7f678e4270460c85850f03c6761a4eaeb489bdc91f64709
+    # via -r requirements.in
 django-logger-extra==1.1.0 \
     --hash=sha256:bc9450ead1e87aad1866210657d1a9f8efe9e21bfea9b53618d9fd0c829f1179 \
     --hash=sha256:f44ab408c812474163a21b13a7acba48407ba52b128260370e8f4ccb2ecab89b
@@ -666,6 +670,10 @@ python-dateutil==2.9.0.post0 \
     #   django-auditlog
     #   elasticsearch8
     #   graphene
+python-ipware==3.0.0 \
+    --hash=sha256:9117b1c4dddcb5d5ca49e6a9617de2fc66aec2ef35394563ac4eecabdf58c062 \
+    --hash=sha256:fc936e6e7ec9fcc107f9315df40658f468ac72f739482a707181742882e36b60
+    # via django-ipware
 python-jose==3.5.0 \
     --hash=sha256:abd1202f23d34dfad2c3d28cb8617b90acf34132c7afd60abd0b0b7d3cb55771 \
     --hash=sha256:fb4eaa44dbeb1c26dcc69e4bd7ec54a1cb8dd64d3b4d81ef08d90ff453f2b01b
