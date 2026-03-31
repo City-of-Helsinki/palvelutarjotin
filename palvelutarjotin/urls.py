@@ -2,11 +2,9 @@ from csp.constants import UNSAFE_INLINE as CSP_UNSAFE_INLINE
 from csp.decorators import csp_update
 from django.conf import settings
 from django.conf.urls.static import static
-from django.http import JsonResponse
 from django.urls import include, path, re_path
 from django.utils.translation import gettext
 from django.views.decorators.csrf import csrf_exempt
-from django.views.decorators.http import require_http_methods
 from drf_spectacular.views import (
     SpectacularAPIView,
     SpectacularRedocView,
@@ -14,8 +12,6 @@ from drf_spectacular.views import (
 from helusers.admin_site import admin
 
 from common.utils import get_api_version
-from custom_health_checks.views import HealthCheckJSONView
-from palvelutarjotin import __version__
 from palvelutarjotin.views import SentryGraphQLView
 
 admin.site.index_title = " ".join([gettext("Kultus API"), get_api_version()])
@@ -57,25 +53,8 @@ urlpatterns += [
 ]
 
 
-#
 # Kubernetes liveness & readiness probes
-#
-@require_http_methods(["GET", "HEAD"])
-def readiness(*args, **kwargs):
-    response_json = {
-        "status": "ok",
-        "release": settings.APP_RELEASE,
-        "packageVersion": __version__,
-        "commitHash": settings.COMMIT_HASH,
-        "buildTime": settings.APP_BUILD_TIME.strftime("%Y-%m-%dT%H:%M:%S.000Z"),
-    }
-    return JsonResponse(response_json, status=200)
-
-
-urlpatterns += [
-    path(r"healthz", HealthCheckJSONView.as_view(), name="healthz"),
-    path("readiness", readiness),
-]
+urlpatterns += [path("", include("helsinki_health_endpoints.urls"))]
 
 
 if settings.DEBUG:

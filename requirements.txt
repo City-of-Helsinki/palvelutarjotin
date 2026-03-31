@@ -290,7 +290,7 @@ django==5.2.12 \
     #   django-csp
     #   django-filter
     #   django-graphql-jwt
-    #   django-health-check
+    #   django-helsinki-health-endpoints
     #   django-helusers
     #   django-ilmoitin
     #   django-logger-extra
@@ -344,9 +344,9 @@ django-graphql-jwt==0.4.0 \
     --hash=sha256:537972519f0deeec7a0e4a306ddfed1fe385266ef61c9f78c54cd04ac01a171e \
     --hash=sha256:5823aa8ac9bf0b7a6e3b2febd029598b332c41fe9043d89900c116fcecd23f5e
     # via -r requirements.in
-django-health-check==3.20.0 \
-    --hash=sha256:bcb2b8f36f463cead0564a028345c5b17e2a2d18e9cc88ecd611b13a26521926 \
-    --hash=sha256:cd69ac5facf73fe7241d9492d939b57bd20e24f46c4edea91e6a900bf22c2d8e
+django-helsinki-health-endpoints==1.0.0 \
+    --hash=sha256:75670113e99bfd1fc23e317a3a22cff563140f495655c2a5f6ab219389dafd52 \
+    --hash=sha256:eebf1baa6917d7b0e11123aec191df773883102ec1653025a86d7037dba389e2
     # via -r requirements.in
 django-helusers==1.0.0 \
     --hash=sha256:0e33e238347a4088927675574a7dad179ee1f9d9e958daecfa4862ad6f63f79c \
