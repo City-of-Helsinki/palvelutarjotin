@@ -9,8 +9,8 @@ django-csp
 django-environ
 django-filter
 django-graphql-jwt
-django-health-check
 django-helusers
+django-helsinki-health-endpoints
 django-ilmoitin
 django-ipware
 django-logger-extra
