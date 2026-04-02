@@ -1,6 +1,22 @@
 <!-- REMINDER: While updating changelog, also remember to update
 the version in palvelutarjotin/__init.py__ -->
 
+## [1.34.0](https://github.com/City-of-Helsinki/palvelutarjotin/compare/palvelutarjotin-v1.33.1...palvelutarjotin-v1.34.0) (2026-04-02)
+
+
+### Features
+
+* Remove django-axes ([03bdcbb](https://github.com/City-of-Helsinki/palvelutarjotin/commit/03bdcbb2ed781cc13e18945d54037d4a61a14760))
+* Use django-helsinki-health-endpoints for readiness and healthz ([e26ff93](https://github.com/City-of-Helsinki/palvelutarjotin/commit/e26ff93b59c5387cc1fc921dd058905ac880ca36))
+
+
+### Dependencies
+
+* Bump ecdsa from 0.19.1 to 0.19.2 ([15d8db3](https://github.com/City-of-Helsinki/palvelutarjotin/commit/15d8db382a7f48dfe4280ecba0d2def63e417319))
+* Bump requests from 2.32.5 to 2.33.0 ([9abefe2](https://github.com/City-of-Helsinki/palvelutarjotin/commit/9abefe2156cda74d4fdfef0735df21f320e26060))
+* Bump requirements ([6762d72](https://github.com/City-of-Helsinki/palvelutarjotin/commit/6762d7269126db309cecadb64f5b50cc3be346ed))
+* Remove redundant django-ipware ([56d169b](https://github.com/City-of-Helsinki/palvelutarjotin/commit/56d169b297f028abf412e0bef5ae345d55b9965b))
+
 ## [1.33.1](https://github.com/City-of-Helsinki/palvelutarjotin/compare/palvelutarjotin-v1.33.0...palvelutarjotin-v1.33.1) (2026-03-25)
 
 
