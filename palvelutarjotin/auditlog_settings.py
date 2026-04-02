@@ -27,9 +27,6 @@ AUDITLOG_EXCLUDE_TRACKING_MODELS = (
     "social_django.nonce",  # auth model
     "social_django.partial",  # auth model
     "social_django.usersocialauth",  # auth model
-    "axes.accesslog",  # system model
-    "axes.accessattempt",  # system model
-    "axes.accessfailurelog",  # system model
     "django_ilmoitin.notificationtemplate_admins_to_notify",  # system model
     "django_ilmoitin.notificationtemplatetranslation",  # system model
     "occurrences.language",  # unimportant and causes lots of issues with factory

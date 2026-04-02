@@ -9,7 +9,6 @@ asgiref==3.10.0 \
     --hash=sha256:d89f2d8cd8b56dada7d52fa7dc8075baa08fb836560710d38c292a7a3f78c04e
     # via
     #   django
-    #   django-axes
     #   django-cors-headers
 asttokens==3.0.0 \
     --hash=sha256:0dcd8baa8d62b0c1d118b399b2ddba3c4aff271d0d7a9e0d4c1681c79035bbc7 \
@@ -285,7 +284,6 @@ django==5.2.12 \
     #   django-anymail
     #   django-auditlog
     #   django-auditlog-extra
-    #   django-axes
     #   django-cors-headers
     #   django-csp
     #   django-filter
@@ -319,10 +317,6 @@ django-auditlog==3.3.0 \
     #   django-auditlog-extra
 django-auditlog-extra @ https://github.com/City-of-Helsinki/django-auditlog-extra/archive/bff5fa3921d6821bebdd6be6c9fd20db39d32d54.zip \
     --hash=sha256:34bfceb4392595daa3bbe52601d990e92c8320822d3a894e524660c24d71552d
-    # via -r requirements.in
-django-axes==8.0.0 \
-    --hash=sha256:7ddc55f21b704b7e9b3e793a75deac01ff16cb67f561649b04336e1e96980035 \
-    --hash=sha256:f95b6ae67fd77d44cc688818cef174914c4ad98c48daf65020b6f03f37220e45
     # via -r requirements.in
 django-cors-headers==4.9.0 \
     --hash=sha256:15c7f20727f90044dcee2216a9fd7303741a864865f0c3657e28b7056f61b449 \
