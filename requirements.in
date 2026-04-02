@@ -11,7 +11,6 @@ django-graphql-jwt
 django-helusers
 django-helsinki-health-endpoints
 django-ilmoitin
-django-ipware
 django-logger-extra
 django-parler
 django-resilient-logger
