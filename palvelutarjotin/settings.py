@@ -247,7 +247,6 @@ INSTALLED_APPS = [
     "parler",
     "django_ilmoitin",
     "django_filters",
-    "axes",
     "django_admin_listfilter_dropdown",
     "auditlog",
     "auditlog_extra",
@@ -276,7 +275,6 @@ MIDDLEWARE = [
     "django.contrib.auth.middleware.AuthenticationMiddleware",
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
-    "axes.middleware.AxesMiddleware",
     "auditlog_extra.middleware.AuditlogMiddleware",
 ]
 
@@ -338,7 +336,6 @@ CONTENT_SECURITY_POLICY = {
 }
 
 AUTHENTICATION_BACKENDS = [
-    "axes.backends.AxesBackend",
     "helusers.tunnistamo_oidc.TunnistamoOIDCAuth",  # For django-admin Keycloak login
     "helusers.auth.HelusersModelBackend",
     "palvelutarjotin.oidc.BrowserTestAwareJWTAuthentication",
@@ -446,11 +443,6 @@ LINKED_EVENTS_API_CONFIG = {
 }
 
 SERVICEMAP_API_CONFIG = {"ROOT": env.str("SERVICEMAP_API_ROOT")}
-
-AXES_FAILURE_LIMIT = 5
-AXES_COOLOFF_TIME = 1  # hour after locked out, user will be able to attempt login
-AXES_IPWARE_META_PRECEDENCE_ORDER = ["HTTP_X_FORWARDED_FOR", "REMOTE_ADDR"]
-AXES_IPWARE_PROXY_COUNT = 1
 
 LOGGING = {
     "version": 1,
