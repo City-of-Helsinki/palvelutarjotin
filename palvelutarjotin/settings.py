@@ -95,6 +95,7 @@ env = environ.Env(
     HELUSERS_BACK_CHANNEL_LOGOUT_ENABLED=(bool, False),
     HELUSERS_USER_MIGRATE_ENABLED=(bool, False),
     HELUSERS_PASSWORD_LOGIN_DISABLED=(bool, True),
+    HELUSERS_PASSWORD_LOGIN_ALLOWLIST=(list, []),
     TOKEN_AUTH_BROWSER_TEST_JWT_256BIT_SIGN_SECRET=(str, ""),
     TOKEN_AUTH_BROWSER_TEST_JWT_ISSUER=(list, []),
     TOKEN_AUTH_BROWSER_TEST_ENABLED=(bool, False),
@@ -571,6 +572,7 @@ HELUSERS_BACK_CHANNEL_LOGOUT_ENABLED = env.bool(
 )
 # A boolean that disables/enables Django admin password login
 HELUSERS_PASSWORD_LOGIN_DISABLED = env.bool("HELUSERS_PASSWORD_LOGIN_DISABLED")
+HELUSERS_PASSWORD_LOGIN_ALLOWLIST = env("HELUSERS_PASSWORD_LOGIN_ALLOWLIST")
 
 # Load auditlog settings
 from palvelutarjotin.auditlog_settings import *  # noqa: E402, F403
