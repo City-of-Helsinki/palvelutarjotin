@@ -1,6 +1,13 @@
 <!-- REMINDER: While updating changelog, also remember to update
 the version in palvelutarjotin/__init.py__ -->
 
+## [1.35.0](https://github.com/City-of-Helsinki/palvelutarjotin/compare/palvelutarjotin-v1.34.1...palvelutarjotin-v1.35.0) (2026-04-14)
+
+
+### Features
+
+* Add password login allowlist ([c15e3be](https://github.com/City-of-Helsinki/palvelutarjotin/commit/c15e3be4c6be26591fd153deeee61a4dfb401737))
+
 ## [1.34.1](https://github.com/City-of-Helsinki/palvelutarjotin/compare/palvelutarjotin-v1.34.0...palvelutarjotin-v1.34.1) (2026-04-14)
 
 
