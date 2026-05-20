@@ -304,17 +304,25 @@ class PalvelutarjotinEvent(
         if not self.has_enrolments_system() or self.has_external_enrolments_system():
             return None
 
-        has_upcoming_space = any(
-            occurrence.has_space_left()
-            for occurrence in self.occurrences.filter_upcoming()
-        )
+        now = timezone.now()
+        # Use prefetched occurrences (.all()) to avoid extra DB queries per event.
+        all_occurrences = list(self.occurrences.all())
+
+        upcoming = [
+            o
+            for o in all_occurrences
+            if not o.cancelled and o.start_time >= now
+        ]
+        has_upcoming_space = any(o.has_space_left() for o in upcoming)
 
         if self.enrolment_end_days is None:
             # No limit to when enrolments can be made before the occurrence start.
-            return has_upcoming_space or any(
-                occurrence.has_space_left()
-                for occurrence in self.occurrences.filter_ongoing()
-            )
+            ongoing = [
+                o
+                for o in all_occurrences
+                if not o.cancelled and o.start_time <= now and o.end_time >= now
+            ]
+            return has_upcoming_space or any(o.has_space_left() for o in ongoing)
 
         return has_upcoming_space
 
