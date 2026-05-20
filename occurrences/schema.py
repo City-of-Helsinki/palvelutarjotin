@@ -161,7 +161,13 @@ class OccurrenceNode(DjangoObjectType):
 
     @classmethod
     def get_queryset(cls, queryset, info):
-        return super().get_queryset(queryset, info).order_by("start_time")
+        return (
+            super()
+            .get_queryset(queryset, info)
+            .select_related("p_event")
+            .prefetch_related("languages")
+            .order_by("start_time")
+        )
 
     def resolve_remaining_seats(self, info, **kwargs):
         return self.amount_of_seats - self.seats_taken
