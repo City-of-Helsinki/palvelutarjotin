@@ -258,17 +258,17 @@
       no-reply@hel.ninja|['brett47@example.com']|Occurrence enrolment EN|
           Event EN: Raija Malka & Kaija Saariaho: Blick
           Extra event info: ytHjL
-          Study group: Close term where up notice environment father stay. Hold project month similar support line.
+          Study group: Stop available listen specific.
           Occurrence: 18.04.2002 09.53
-          Person: sandra56@example.net
+          Person: srobinson@example.net
     ''',
     '''
       no-reply@hel.ninja|['brett47@example.com']|Occurrence unenrolment EN|
           Event EN: Raija Malka & Kaija Saariaho: Blick
           Extra event info: ytHjL
-          Study group: Close term where up notice environment father stay. Hold project month similar support line.
+          Study group: Stop available listen specific.
           Occurrence: 18.04.2002 09.53
-          Person: sandra56@example.net
+          Person: srobinson@example.net
     ''',
   ])
 # ---

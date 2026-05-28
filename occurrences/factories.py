@@ -119,6 +119,7 @@ class StudyGroupFactory(
 
 
 class EventQueueEnrolmentFactory(factory.django.DjangoModelFactory):
+    is_part_of_cultural_route = factory.Faker("boolean")
     study_group = factory.SubFactory(StudyGroupFactory)
     p_event = factory.SubFactory(PalvelutarjotinEventFactory)
     person = factory.SubFactory(PersonFactory)
@@ -129,6 +130,7 @@ class EventQueueEnrolmentFactory(factory.django.DjangoModelFactory):
 
 
 class EnrolmentFactory(factory.django.DjangoModelFactory):
+    is_part_of_cultural_route = factory.Faker("boolean")
     study_group = factory.SubFactory(StudyGroupFactory)
     occurrence = factory.SubFactory(OccurrenceFactory)
     person = factory.SubFactory(PersonFactory)

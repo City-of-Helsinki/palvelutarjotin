@@ -28,6 +28,16 @@ def test_enrolment_report_enrolment_hydration(mock_get_event_data, enrolment):
     assert report.linked_event_id != ""
 
 
+@pytest.mark.parametrize("is_part_of_cultural_route", [False, True])
+@pytest.mark.django_db
+def test_enrolment_report_enrolment_hydration_hydrates_is_part_of_cultural_route(
+    mock_get_event_data, enrolment, is_part_of_cultural_route: bool
+):
+    enrolment.is_part_of_cultural_route = is_part_of_cultural_route
+    report = EnrolmentReport(enrolment=enrolment)
+    assert report.is_part_of_cultural_route is is_part_of_cultural_route
+
+
 @pytest.mark.django_db
 def test_enrolment_report_occurrence_hydration(
     mock_get_event_data_with_locations_and_keywords, occurrence

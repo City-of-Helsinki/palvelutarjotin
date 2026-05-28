@@ -710,6 +710,13 @@ class StudyGroupInput(graphene.InputObjectType):
 
 class EnrolInputBase:
     study_group = StudyGroupInput(description="Study group data", required=True)
+    is_part_of_cultural_route = graphene.Boolean(
+        description=(
+            "Is the enrolment part of a cultural route? "
+            "False = No / I don't know, True = Yes."
+        ),
+        required=True,
+    )
     notification_type = NotificationTypeEnum()
     person = PersonNodeInput(
         description="Leave blank if the contact person is "
@@ -747,6 +754,7 @@ class EnrolEventQueueMutation(graphene.relay.ClientIDMutation):
         p_event = PalvelutarjotinEvent.objects.get(id=p_event_id)
         study_group = create_study_group(kwargs.pop("study_group"))
         contact_person_data = kwargs.pop("person", None)
+        is_part_of_cultural_route = kwargs.pop("is_part_of_cultural_route")
         notification_type = kwargs.pop(
             "notification_type",
             EventQueueEnrolment._meta.get_field("notification_type").get_default(),
@@ -760,6 +768,7 @@ class EnrolEventQueueMutation(graphene.relay.ClientIDMutation):
             study_group=study_group,
             p_event=p_event,
             person=person,
+            is_part_of_cultural_route=is_part_of_cultural_route,
             notification_type=notification_type,
         )
         return EnrolEventQueueMutation(event_queue_enrolment=event_queue_enrolment)
@@ -860,6 +869,7 @@ class EnrolOccurrenceMutation(graphene.relay.ClientIDMutation):
             kwargs.pop("captcha_key", None)
         study_group = create_study_group(kwargs.pop("study_group"))
         contact_person_data = kwargs.pop("person", None)
+        is_part_of_cultural_route = kwargs.pop("is_part_of_cultural_route")
         notification_type = kwargs.pop(
             "notification_type",
             Enrolment._meta.get_field("notification_type").get_default(),
@@ -880,6 +890,7 @@ class EnrolOccurrenceMutation(graphene.relay.ClientIDMutation):
             study_group=study_group,
             occurrences=occurrences,
             person=person,
+            is_part_of_cultural_route=is_part_of_cultural_route,
             notification_type=notification_type,
             send_notifications_on_auto_acceptance=send_notifications,
         )
@@ -921,6 +932,7 @@ class UnenrolOccurrenceMutation(graphene.relay.ClientIDMutation):
 class UpdateEnrolmentMutation(graphene.relay.ClientIDMutation):
     class Input:
         enrolment_id = graphene.GlobalID()
+        is_part_of_cultural_route = graphene.Boolean(required=False)
         notification_type = NotificationTypeEnum()
         study_group = StudyGroupInput(description="Study group input")
         person = PersonNodeInput(
@@ -935,9 +947,12 @@ class UpdateEnrolmentMutation(graphene.relay.ClientIDMutation):
     @transaction.atomic
     @map_enums_to_values_in_kwargs
     def mutate_and_get_payload(cls, root, info, **kwargs):
-        enrolment = get_editable_obj_from_global_id(
+        enrolment: Enrolment = get_editable_obj_from_global_id(
             info, kwargs.pop("enrolment_id"), Enrolment
         )
+        # Use enrolment's existing value if not given or given None:
+        if kwargs.get("is_part_of_cultural_route") is None:
+            kwargs["is_part_of_cultural_route"] = enrolment.is_part_of_cultural_route
         study_group = enrolment.study_group
         study_group_data = kwargs.pop("study_group", None)
         if study_group_data:

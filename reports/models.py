@@ -149,6 +149,14 @@ class EnrolmentReport(TimestampedModel):
         null=True,
         db_column="enrolment_id",
     )
+    is_part_of_cultural_route = models.BooleanField(
+        default=False,
+        verbose_name=_("is part of cultural route"),
+        help_text=_(
+            "Is enrolment part of a cultural route? "
+            "True means yes, False means no or unknown."
+        ),
+    )
     enrolment_time = models.DateTimeField(verbose_name=_("enrolment time"))
     enrolment_status = models.CharField(
         max_length=255, verbose_name=_("enrolment status")
@@ -337,6 +345,7 @@ class EnrolmentReport(TimestampedModel):
         obj: occurrences_models.Enrolment,
     ):
         self._enrolment = obj
+        self.is_part_of_cultural_route = obj.is_part_of_cultural_route
         self.enrolment_time = obj.enrolment_time
         self.enrolment_status = obj.status
 
