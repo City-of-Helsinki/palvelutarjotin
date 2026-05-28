@@ -843,6 +843,13 @@ class EnrolmentQuerySet(models.QuerySet):
 
 
 class EnrolmentBase(WithDeletablePersonModel):
+    is_part_of_cultural_route = models.BooleanField(
+        verbose_name=_("is part of cultural route"),
+        help_text=_(
+            "Is enrolment part of a cultural route? "
+            "True means yes, False means no, I don't know or unanswered."
+        ),
+    )
     notification_type = models.CharField(
         max_length=250,
         choices=NOTIFICATION_TYPES,
@@ -976,6 +983,7 @@ class EventQueueEnrolment(GDPRModel, SerializableMixin, EnrolmentBase):
         enrolment = Enrolment(
             occurrence=occurrence,
             study_group=self.study_group,
+            is_part_of_cultural_route=self.is_part_of_cultural_route,
             notification_type=self.notification_type,
             person=self.person,
         )

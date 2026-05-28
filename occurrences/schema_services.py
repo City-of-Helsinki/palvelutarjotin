@@ -260,6 +260,7 @@ def enrol_to_occurrence(
     study_group: StudyGroup,
     occurrences: List[Occurrence],
     person: Person,
+    is_part_of_cultural_route: bool,
     notification_type,
     send_notifications_on_auto_acceptance=True,
 ):
@@ -272,6 +273,7 @@ def enrol_to_occurrence(
             study_group=study_group,
             occurrence=occurrence,
             person=person,
+            is_part_of_cultural_route=is_part_of_cultural_route,
             notification_type=notification_type,
         )
 
@@ -300,6 +302,7 @@ def enrol_to_event_queue(
     study_group: StudyGroup,
     p_event: PalvelutarjotinEvent,
     person: Person,
+    is_part_of_cultural_route: bool,
     notification_type: str,
 ):
     if not p_event.is_queueing_allowed:
@@ -315,6 +318,7 @@ def enrol_to_event_queue(
             p_event=p_event,
             study_group=study_group,
             person=person,
+            is_part_of_cultural_route=is_part_of_cultural_route,
             notification_type=notification_type,
             enrolment_time=timezone.now(),
         )

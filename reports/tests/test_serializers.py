@@ -1,3 +1,5 @@
+import pytest
+
 from reports.models import EnrolmentReport
 from reports.serializers import EnrolmentReportSerializer
 
@@ -65,7 +67,16 @@ def test_enrolment_report_to_representation():
     }
 
 
-def test_enrolment_report_to_internal():
+@pytest.mark.parametrize(
+    "is_part_of_cultural_route_label, expected_is_part_of_cultural_route_value",
+    [
+        ("Kyllä", True),
+        ("Ei / Tuntematon", False),
+    ],
+)
+def test_enrolment_report_to_internal(
+    is_part_of_cultural_route_label, expected_is_part_of_cultural_route_value
+):
     report_json = {
         "study_group_study_levels": [{"id": "age_0_2", "label": "age 0-2"}],
         "occurrence_languages": [{"id": "fi", "name": "Finnish"}],
@@ -105,10 +116,12 @@ def test_enrolment_report_to_internal():
         "occurrence_end_time": "2021-11-14T01:00:00+02:00",
         "linked_event_id": "local-kultus:af6p5lyfxu",
         "enrolment_start_time": "2021-11-08T10:45:38.439000+02:00",
+        "is_part_of_cultural_route": is_part_of_cultural_route_label,
     }
     report = EnrolmentReportSerializer(data=report_json)
-    report.is_valid()
+    assert report.is_valid(), report.errors
     data = report.validated_data
+    assert data["is_part_of_cultural_route"] is expected_is_part_of_cultural_route_value
     assert data["occurrence_languages"][0] == ["fi", "Finnish"]
     assert data["study_group_study_levels"][0] == ["age_0_2", "age 0-2"]
     assert data["keywords"][0] == ["kultus:5", "Musiikki"]

@@ -1,5 +1,8 @@
 from typing import List, Optional
 
+from django.conf import settings
+from django.utils import translation
+from django.utils.translation import gettext as _
 from rest_framework import serializers
 
 from reports.models import EnrolmentReport
@@ -164,6 +167,46 @@ class OCDIDField(serializers.Field):
         ]
 
 
+class BaseMappedBooleanField(serializers.Field):
+    """
+    Bidirectional serializer for a BooleanField with translatable labels for
+    False and True values.
+    """
+
+    @property
+    def false_label(self) -> str:
+        raise NotImplementedError("Subclasses must define a false_label property.")
+
+    @property
+    def true_label(self) -> str:
+        raise NotImplementedError("Subclasses must define a true_label property.")
+
+    def to_representation(self, value) -> str:
+        return self.true_label if value else self.false_label
+
+    def to_internal_value(self, data) -> bool:
+        # This is likely worst case 6 ifs (fi/sv/en languages and two labels):
+        for lang_code, _lang_name in settings.LANGUAGES:
+            with translation.override(lang_code):
+                if data == self.false_label:
+                    return False
+                if data == self.true_label:
+                    return True
+        raise serializers.ValidationError(f"Unable to parse {data} as a boolean.")
+
+
+class IsPartOfCulturalRouteField(BaseMappedBooleanField):
+    @property
+    def false_label(self) -> str:
+        # Django has fi/sv/en translations for "No" and "Unknown" out of the box:
+        return f"{_('No')} / {_('Unknown')}"
+
+    @property
+    def true_label(self) -> str:
+        # Django has fi/sv/en translations for "Yes" out of the box:
+        return _("Yes")
+
+
 class EnrolmentReportSerializer(serializers.ModelSerializer):
     occurrence_place_position = PositionField()
     study_group_unit_position = PositionField()
@@ -176,6 +219,7 @@ class EnrolmentReportSerializer(serializers.ModelSerializer):
         first_value_name="id", second_value_name="name"
     )
     keywords = NamedPairField(first_value_name="id", second_value_name="name")
+    is_part_of_cultural_route = IsPartOfCulturalRouteField()
 
     class Meta:
         model = EnrolmentReport

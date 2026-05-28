@@ -116,6 +116,17 @@ class IsOutOfSyncListFilter(BooleanListFilterBase):
             return queryset.filter(_enrolment__status=F("enrolment_status"))
 
 
+class IsPartOfCulturalRouteFilter(BooleanListFilterBase):
+    title = _("is part of cultural route")
+    parameter_name = "is-part-of-cultural-route"
+
+    def queryset(self, request, queryset):
+        if self.value() == "True":
+            return queryset.filter(is_part_of_cultural_route=True)
+        if self.value() == "False":
+            return queryset.filter(is_part_of_cultural_route=False)
+
+
 class EnrolmentReportAdminForm(forms.ModelForm):
     class Meta:
         model = EnrolmentReport
@@ -150,6 +161,7 @@ class EnrolmentReportAdmin(AuditlogAdminViewAccessLogMixin, admin.ModelAdmin):
         "_study_group_id",
         "_occurrence_id",
         "linked_event_id",
+        "is_part_of_cultural_route",
         "enrolment_time",
         "enrolment_status",
         "enrolment_start_time",
@@ -184,6 +196,7 @@ class EnrolmentReportAdmin(AuditlogAdminViewAccessLogMixin, admin.ModelAdmin):
         HasOccurrenceListFilter,
         HasStudyGroupListFilter,
         HasPublisherListFilter,
+        IsPartOfCulturalRouteFilter,
     ]
     search_fields = [
         "linked_event_id",

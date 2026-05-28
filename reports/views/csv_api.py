@@ -21,7 +21,7 @@ from occurrences.models import PalvelutarjotinEvent
 from organisations.models import Organisation, Person
 from palvelutarjotin.oidc import KultusApiTokenAuthentication
 from reports.models import EnrolmentReport
-from reports.serializers import EnrolmentReportSerializer
+from reports.serializers import EnrolmentReportSerializer, IsPartOfCulturalRouteField
 from reports.services import get_place_json_from_linkedevents
 from reports.views.mixins import (
     ExportReportViewMixin,
@@ -100,6 +100,9 @@ class ExportReportCsvView(ExportReportViewMixin, generics.GenericAPIView):
 
         return writer, response
 
+    def get_field_value(self, obj, field_name):
+        return getattr(obj, field_name)
+
     def get(self, request, *args, **kwargs):
         queryset = self.get_queryset()
         meta = self.model._meta
@@ -109,7 +112,9 @@ class ExportReportCsvView(ExportReportViewMixin, generics.GenericAPIView):
         with set_actor(actor=request.user, remote_addr=get_client_ip(request)):
             for obj in queryset:
                 accessed.send(sender=obj.__class__, instance=obj)
-                writer.writerow([getattr(obj, field) for field in field_names])
+                writer.writerow(
+                    [self.get_field_value(obj, field) for field in field_names]
+                )
 
         return response
 
@@ -267,10 +272,12 @@ class PalvelutarjotinEventEnrolmentsCsvView(
                 _("Extra needs"),
                 _("Contact mail"),
                 _("Contact phone"),
+                _("Is part of cultural route"),
             ]
         )
 
     def _write_csv_data_row(self, writer, enrolment):
+        is_part_of_cultural_route_field = IsPartOfCulturalRouteField()
         start_datetime = timezone.localtime(enrolment.occurrence.start_time)
         end_datetime = timezone.localtime(enrolment.occurrence.end_time)
         enrolment_datetime = timezone.localtime(enrolment.enrolment_time)
@@ -326,6 +333,9 @@ class PalvelutarjotinEventEnrolmentsCsvView(
                 enrolment.study_group.extra_needs,
                 person_email_address,
                 person_phone_number,
+                is_part_of_cultural_route_field.to_representation(
+                    enrolment.is_part_of_cultural_route
+                ),
             ]
         )
 
@@ -391,6 +401,16 @@ class EnrolmentReportCsvView(ExportReportCsvView):
 
     model = EnrolmentReport
     serializer_class = EnrolmentReportSerializer
+    _is_part_of_cultural_route_field = IsPartOfCulturalRouteField()
+
+    def get_field_value(self, obj, field_name):
+        """
+        Overridden to serialize is_part_of_cultural_route field properly
+        """
+        field_value = super().get_field_value(obj, field_name)
+        if field_name == "is_part_of_cultural_route":
+            return self._is_part_of_cultural_route_field.to_representation(field_value)
+        return field_value
 
     @extend_schema(
         operation_id="exportEnrolmentReportsCsv",

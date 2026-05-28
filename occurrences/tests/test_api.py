@@ -151,6 +151,7 @@ def _enrol_event_queue_mutation_variables(
 ):
     return {
         "input": {
+            "isPartOfCulturalRoute": True,
             "pEventId": to_global_id("PalvelutarjotinEventNode", p_event.id),
             "notificationType": "EMAIL_SMS",
             "studyGroup": {
@@ -815,6 +816,7 @@ def test_enrol_not_started_occurrence(
 
     variables = {
         "input": {
+            "isPartOfCulturalRoute": True,
             "occurrenceIds": [
                 to_global_id("OccurrenceNode", not_started_occurrence.id),
             ],
@@ -855,6 +857,7 @@ def test_enrol_past_occurrence(
 
     variables = {
         "input": {
+            "isPartOfCulturalRoute": False,
             "occurrenceIds": [to_global_id("OccurrenceNode", past_occurrence.id)],
             "studyGroup": {
                 "person": {
@@ -893,6 +896,7 @@ def test_enrol_invalid_group_size(
 
     variables = {
         "input": {
+            "isPartOfCulturalRoute": True,
             "occurrenceIds": [to_global_id("OccurrenceNode", occurrence.id)],
             "studyGroup": {
                 "person": {
@@ -913,6 +917,7 @@ def test_enrol_invalid_group_size(
 
     variables = {
         "input": {
+            "isPartOfCulturalRoute": True,
             "occurrenceIds": [to_global_id("OccurrenceNode", occurrence.id)],
             "studyGroup": {
                 "person": {
@@ -948,6 +953,7 @@ def test_enrol_without_participants(
 
     variables = {
         "input": {
+            "isPartOfCulturalRoute": False,
             "occurrenceIds": [to_global_id("OccurrenceNode", occurrence.id)],
             "studyGroup": {
                 "person": {
@@ -1029,6 +1035,7 @@ def test_enrol_full_people_count_seat_type_occurrence(
     # A group of 15 woul make the event over booked by 1!
     variables = {
         "input": {
+            "isPartOfCulturalRoute": True,
             "occurrenceIds": occurrence_ids,
             "studyGroup": {
                 "person": {
@@ -1081,6 +1088,7 @@ def test_enrol_full_enrolment_count_seat_type_occurrence(
     # 3rd enrolment will make the occurrence over booked
     variables = {
         "input": {
+            "isPartOfCulturalRoute": False,
             "occurrenceIds": [to_global_id("OccurrenceNode", occurrence.id)],
             "studyGroup": {
                 "person": {
@@ -1109,6 +1117,7 @@ def test_enrol_cancelled_occurrence(
 
     variables = {
         "input": {
+            "isPartOfCulturalRoute": True,
             "occurrenceIds": [to_global_id("OccurrenceNode", occurrence.id)],
             "studyGroup": {
                 "person": {
@@ -1140,6 +1149,7 @@ def test_enrol_occurrence_without_required_information(
 
     variables = {
         "input": {
+            "isPartOfCulturalRoute": False,
             "occurrenceIds": [to_global_id("OccurrenceNode", occurrence.id)],
             "studyGroup": {
                 "person": {
@@ -1185,6 +1195,7 @@ def test_enrol_occurrence(snapshot, api_client, mock_get_event_data):
 
     variables = {
         "input": {
+            "isPartOfCulturalRoute": True,
             "occurrenceIds": [
                 to_global_id("OccurrenceNode", occurrence.id),
                 to_global_id("OccurrenceNode", occurrence_2.id),
@@ -1235,6 +1246,7 @@ def test_enrol_occurrence_without_unit_info_should_raise_error(
 
     variables = {
         "input": {
+            "isPartOfCulturalRoute": False,
             "occurrenceIds": [
                 to_global_id("OccurrenceNode", occurrence.id),
                 to_global_id("OccurrenceNode", occurrence_2.id),
@@ -1254,6 +1266,97 @@ def test_enrol_occurrence_without_unit_info_should_raise_error(
     }
     executed = api_client.execute(ENROL_OCCURRENCE_MUTATION, variables=variables)
     assert_match_error_code(executed, INVALID_STUDY_GROUP_UNIT_INFO_ERROR)
+
+
+@pytest.mark.parametrize("is_part_of_cultural_route", [True, False])
+def test_enrol_occurrence_saves_is_part_of_cultural_route(
+    api_client, mock_get_event_data, is_part_of_cultural_route
+):
+    """
+    Test that the enrolling to an occurrence saves the input is_part_of_cultural_route
+    value correctly to the enrolment.
+    """
+    study_group = StudyGroupFactory(group_size=15)
+    p_event = PalvelutarjotinEventFactory(
+        enrolment_start=datetime(2020, 1, 3, 0, 0, 0, tzinfo=tzinfo),
+        enrolment_end_days=2,
+    )
+    occurrence = OccurrenceFactory(
+        start_time=datetime(2020, 1, 6, 0, 0, 0, tzinfo=tzinfo),
+        p_event=p_event,
+        min_group_size=10,
+        max_group_size=20,
+        amount_of_seats=50,
+    )
+    variables = {
+        "input": {
+            "isPartOfCulturalRoute": is_part_of_cultural_route,
+            "occurrenceIds": [to_global_id("OccurrenceNode", occurrence.id)],
+            "studyGroup": {
+                "person": {
+                    "id": to_global_id("PersonNode", study_group.person.id),
+                    "name": study_group.person.name,
+                    "emailAddress": study_group.person.email_address,
+                },
+                "unitName": "To be created group",
+                "groupSize": study_group.group_size,
+                "groupName": study_group.group_name,
+                "studyLevels": [sl.upper() for sl in study_group.study_levels.all()],
+                "amountOfAdult": study_group.amount_of_adult,
+            },
+        }
+    }
+    executed = api_client.execute(ENROL_OCCURRENCE_MUTATION, variables=variables)
+    assert "errors" not in executed
+    assert Enrolment.objects.count() == 1
+    assert (
+        Enrolment.objects.first().is_part_of_cultural_route is is_part_of_cultural_route
+    )
+
+
+def test_enrol_occurrence_without_is_part_of_cultural_route_fails(
+    api_client, mock_get_event_data
+):
+    """
+    Test that omitting the required isPartOfCulturalRoute field when enrolling to an
+    occurrence results in a GraphQL error.
+    """
+    study_group = StudyGroupFactory(group_size=15)
+    p_event = PalvelutarjotinEventFactory(
+        enrolment_start=datetime(2020, 1, 3, 0, 0, 0, tzinfo=tzinfo),
+        enrolment_end_days=2,
+    )
+    occurrence = OccurrenceFactory(
+        start_time=datetime(2020, 1, 6, 0, 0, 0, tzinfo=tzinfo),
+        p_event=p_event,
+        min_group_size=10,
+        max_group_size=20,
+        amount_of_seats=50,
+    )
+    variables = {
+        "input": {
+            # isPartOfCulturalRoute intentionally omitted
+            "occurrenceIds": [to_global_id("OccurrenceNode", occurrence.id)],
+            "studyGroup": {
+                "person": {
+                    "id": to_global_id("PersonNode", study_group.person.id),
+                    "name": study_group.person.name,
+                    "emailAddress": study_group.person.email_address,
+                },
+                "unitName": "To be created group",
+                "groupSize": study_group.group_size,
+                "groupName": study_group.group_name,
+                "studyLevels": [sl.upper() for sl in study_group.study_levels.all()],
+                "amountOfAdult": study_group.amount_of_adult,
+            },
+        }
+    }
+    executed = api_client.execute(ENROL_OCCURRENCE_MUTATION, variables=variables)
+    assert (
+        "Field 'isPartOfCulturalRoute' of required type 'Boolean!' was not provided"
+        in executed["errors"][0]["message"]
+    )
+    assert not Enrolment.objects.exists()
 
 
 def test_enrol_occurrence_with_captcha(
@@ -1276,6 +1379,7 @@ def test_enrol_occurrence_with_captcha(
 
     variables = {
         "input": {
+            "isPartOfCulturalRoute": True,
             "occurrenceIds": [to_global_id("OccurrenceNode", occurrence.id)],
             "studyGroup": {
                 "person": {
@@ -1328,6 +1432,7 @@ def test_enrol_auto_acceptance_occurrence(snapshot, api_client, mock_get_event_d
 
     variables = {
         "input": {
+            "isPartOfCulturalRoute": False,
             "occurrenceIds": [to_global_id("OccurrenceNode", occurrence.id)],
             "studyGroup": {
                 "person": {
@@ -1348,6 +1453,7 @@ def test_enrol_auto_acceptance_occurrence(snapshot, api_client, mock_get_event_d
 
     variables = {
         "input": {
+            "isPartOfCulturalRoute": False,
             "occurrenceIds": [
                 to_global_id("OccurrenceNode", auto_accept_occurrence.id),
             ],
@@ -1391,6 +1497,7 @@ def test_enrol_max_needed_occurrences(snapshot, api_client, mock_get_event_data)
 
     variables = {
         "input": {
+            "isPartOfCulturalRoute": True,
             "occurrenceIds": occurrence_ids,
             "studyGroup": {
                 "person": {
@@ -1438,6 +1545,7 @@ def test_auto_accept_message_is_used_as_custom_message_in_auto_approved_enrolmen
     )
     variables = {
         "input": {
+            "isPartOfCulturalRoute": False,
             "sendNotifications": send_notifications,
             "occurrenceIds": [
                 to_global_id("OccurrenceNode", auto_accept_occurrence.id),
@@ -1926,6 +2034,115 @@ def test_update_enrolment(
         assert e.notification_type == NOTIFICATION_TYPE_EMAIL
 
 
+def _create_enrolment_for_update(
+    event_staff_api_client, *, is_part_of_cultural_route: bool
+):
+    # Current date froze on 2020-01-04:
+    p_event = PalvelutarjotinEventFactory(
+        enrolment_start=datetime(2020, 1, 3, 0, 0, 0, tzinfo=tzinfo),
+        enrolment_end_days=2,
+        needed_occurrences=1,
+    )
+    occurrence = OccurrenceFactory(
+        start_time=datetime(2020, 1, 6, 0, 0, 0, tzinfo=tzinfo),
+        p_event=p_event,
+        min_group_size=10,
+        max_group_size=20,
+        amount_of_seats=50,
+    )
+    enrolment = EnrolmentFactory(
+        occurrence=occurrence,
+        study_group=StudyGroupFactory(group_size=15),
+        is_part_of_cultural_route=is_part_of_cultural_route,
+    )
+    event_staff_api_client.user.person.organisations.add(p_event.organisation)
+    return enrolment
+
+
+@pytest.mark.parametrize("is_part_of_cultural_route", [True, False])
+def test_update_enrolment_saves_is_part_of_cultural_route(
+    event_staff_api_client, mock_get_event_data, is_part_of_cultural_route
+):
+    """
+    Test that a valid isPartOfCulturalRoute input value in an enrolment update
+    overwrites its existing value in the enrolment.
+    """
+    enrolment = _create_enrolment_for_update(
+        event_staff_api_client, is_part_of_cultural_route=not is_part_of_cultural_route
+    )
+    variables = {
+        "input": {
+            "enrolmentId": to_global_id("EnrolmentNode", enrolment.id),
+            "isPartOfCulturalRoute": is_part_of_cultural_route,
+        }
+    }
+    executed = event_staff_api_client.execute(
+        UPDATE_ENROLMENT_MUTATION, variables=variables
+    )
+    assert "errors" not in executed
+    enrolment.refresh_from_db()
+    assert enrolment.is_part_of_cultural_route is is_part_of_cultural_route
+
+
+@pytest.mark.parametrize("existing_is_part_of_cultural_route_value", [True, False])
+def test_update_enrolment_is_part_of_cultural_route_not_provided_preserves_value(
+    event_staff_api_client,
+    mock_get_event_data,
+    existing_is_part_of_cultural_route_value,
+):
+    """
+    Test that omitting isPartOfCulturalRoute input value from an enrolment update
+    preserves its existing value.
+    """
+    enrolment = _create_enrolment_for_update(
+        event_staff_api_client,
+        is_part_of_cultural_route=existing_is_part_of_cultural_route_value,
+    )
+    # isPartOfCulturalRoute intentionally omitted from input
+    variables = {
+        "input": {
+            "enrolmentId": to_global_id("EnrolmentNode", enrolment.id),
+        }
+    }
+    executed = event_staff_api_client.execute(
+        UPDATE_ENROLMENT_MUTATION, variables=variables
+    )
+    assert "errors" not in executed
+    enrolment.refresh_from_db()
+    assert (
+        enrolment.is_part_of_cultural_route is existing_is_part_of_cultural_route_value
+    )
+
+
+@pytest.mark.parametrize("existing_is_part_of_cultural_route_value", [True, False])
+def test_update_enrolment_is_part_of_cultural_route_null_preserves_value(
+    event_staff_api_client,
+    mock_get_event_data,
+    existing_is_part_of_cultural_route_value,
+):
+    """
+    Test that explicitly passing None for isPartOfCulturalRoute preserves its existing value.
+    """
+    enrolment = _create_enrolment_for_update(
+        event_staff_api_client,
+        is_part_of_cultural_route=existing_is_part_of_cultural_route_value,
+    )
+    variables = {
+        "input": {
+            "enrolmentId": to_global_id("EnrolmentNode", enrolment.id),
+            "isPartOfCulturalRoute": None,
+        }
+    }
+    executed = event_staff_api_client.execute(
+        UPDATE_ENROLMENT_MUTATION, variables=variables
+    )
+    assert "errors" not in executed
+    enrolment.refresh_from_db()
+    assert (
+        enrolment.is_part_of_cultural_route is existing_is_part_of_cultural_route_value
+    )
+
+
 def test_occurrences_filter_by_date(
     api_client, snapshot, mock_get_event_data, mock_update_event_data
 ):
@@ -2409,7 +2626,8 @@ def test_occurrence_study_groups_unauthorized(
         }
         """
     study_groups = StudyGroupFactory.create_batch(5)
-    occurrence.study_groups.set(study_groups)
+    for study_group in study_groups:
+        EnrolmentFactory(occurrence=occurrence, study_group=study_group)
 
     # Invalid case: Not using the API client as a staff member
     executed = api_client.execute(
@@ -2908,6 +3126,52 @@ def test_enrol_event_queue_mutation_queueing_not_allowed(
     assert executed["data"] == {"enrolEventQueue": None}
 
 
+@pytest.mark.parametrize("is_part_of_cultural_route", [True, False])
+def test_enrol_event_queue_saves_is_part_of_cultural_route(
+    api_client, organisation, mock_get_event_data, is_part_of_cultural_route
+):
+    """
+    Test that the isPartOfCulturalRoute value from the input is saved correctly to the
+    queue enrolment.
+    """
+    study_group = StudyGroupFactory(group_size=15)
+    p_event = PalvelutarjotinEventFactory(organisation=organisation)
+    variables = {
+        "input": {
+            **_enrol_event_queue_mutation_variables(study_group, p_event)["input"],
+            "isPartOfCulturalRoute": is_part_of_cultural_route,
+        }
+    }
+    assert not EventQueueEnrolment.objects.exists()
+    executed = api_client.execute(ENROL_EVENT_QUEUE_MUTATION, variables=variables)
+    assert "errors" not in executed
+    assert EventQueueEnrolment.objects.count() == 1
+    assert (
+        EventQueueEnrolment.objects.first().is_part_of_cultural_route
+        is is_part_of_cultural_route
+    )
+
+
+def test_enrol_event_queue_without_is_part_of_cultural_route_fails(
+    api_client, organisation, mock_get_event_data
+):
+    """
+    Test that omitting the required isPartOfCulturalRoute field when enrolling
+    to an event queue results in a GraphQL error.
+    """
+    study_group = StudyGroupFactory(group_size=15)
+    p_event = PalvelutarjotinEventFactory(organisation=organisation)
+    base_input = _enrol_event_queue_mutation_variables(study_group, p_event)["input"]
+    base_input.pop("isPartOfCulturalRoute")
+    variables = {"input": base_input}
+    executed = api_client.execute(ENROL_EVENT_QUEUE_MUTATION, variables=variables)
+    assert (
+        "Field 'isPartOfCulturalRoute' of required type 'Boolean!' was not provided"
+        in executed["errors"][0]["message"]
+    )
+    assert not EventQueueEnrolment.objects.exists()
+
+
 @pytest.mark.parametrize("is_queueing_allowed", [False, True])
 def test_unenrol_event_queue_mutation(
     snapshot,
@@ -2975,6 +3239,36 @@ def test_pick_enrolment_from_queue(
     )
     assert Enrolment.objects.count() == 1
     snapshot.assert_match(executed)
+
+
+@pytest.mark.parametrize("is_part_of_cultural_route", [True, False])
+def test_pick_enrolment_from_queue_copies_is_part_of_cultural_route(
+    event_staff_api_client, organisation, mock_get_event_data, is_part_of_cultural_route
+):
+    """
+    Test that picking from queue copies is_part_of_cultural_route as is to the new enrolment.
+    """
+    p_event = PalvelutarjotinEventFactory(organisation=organisation)
+    occurrence = OccurrenceFactory(p_event=p_event)
+    queue = EventQueueEnrolmentFactory(
+        p_event=p_event, is_part_of_cultural_route=is_part_of_cultural_route
+    )
+    variables = {
+        "input": {
+            "occurrenceId": to_global_id("OccurrenceNode", occurrence.id),
+            "eventQueueEnrolmentId": to_global_id("EventQueueEnrolmentNode", queue.id),
+        }
+    }
+    event_staff_api_client.user.person.organisations.add(organisation)
+    assert not Enrolment.objects.exists()
+    executed = event_staff_api_client.execute(
+        PICK_ENROLMENT_FROM_QUEUE_MUTATION, variables=variables
+    )
+    assert "errors" not in executed
+    assert Enrolment.objects.count() == 1
+    assert (
+        Enrolment.objects.first().is_part_of_cultural_route is is_part_of_cultural_route
+    )
 
 
 def test_pick_enrolment_from_queue_unauthorized(
