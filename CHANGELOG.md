@@ -1,6 +1,19 @@
 <!-- REMINDER: While updating changelog, also remember to update
 the version in palvelutarjotin/__init.py__ -->
 
+## [1.36.0](https://github.com/City-of-Helsinki/palvelutarjotin/compare/palvelutarjotin-v1.35.3...palvelutarjotin-v1.36.0) (2026-06-05)
+
+
+### Features
+
+* **enrolment:** Add is_part_of_cultural_route boolean field support ([589d3c1](https://github.com/City-of-Helsinki/palvelutarjotin/commit/589d3c143a0e7ecb1630fe726ace69fdb1904767))
+
+
+### Dependencies
+
+* Bump cryptography from 46.0.6 to 46.0.7 ([d2a25b5](https://github.com/City-of-Helsinki/palvelutarjotin/commit/d2a25b5bef76e1bdadb8a8eed5317bf3100c08fc))
+* Bump idna from 3.10 to 3.15 ([1b37e26](https://github.com/City-of-Helsinki/palvelutarjotin/commit/1b37e26de3d7d34ddd651c36e4f14a24c0f6384e))
+
 ## [1.35.3](https://github.com/City-of-Helsinki/palvelutarjotin/compare/palvelutarjotin-v1.35.2...palvelutarjotin-v1.35.3) (2026-05-19)
 
 
