@@ -65,7 +65,7 @@ class EnrolmentReportManager(models.Manager):
         for report in reports:
             report._rehydrate(hydrate_linkedevents_event=hydrate_linkedevents_event)
 
-        return self.bulk_create(reports)
+        return self.bulk_create(reports, ignore_conflicts=True)
 
     def update_unsynced(
         self, hydrate_linkedevents_event=False, sync_from: datetime = None
