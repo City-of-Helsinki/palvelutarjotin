@@ -69,8 +69,8 @@ class OrganisationProposalAdminForm(forms.ModelForm):
         self.fields["applicant"].queryset = Person.objects.all().order_by(
             "name", "-created_at"
         )
-        self.fields["applicant"].label_from_instance = (
-            lambda instance: f"{instance.__str__()} (id: {instance.id})"
+        self.fields["applicant"].label_from_instance = lambda instance: (
+            f"{instance.__str__()} (id: {instance.id})"
         )
 
 
