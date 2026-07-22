@@ -2,6 +2,8 @@
 FROM registry.access.redhat.com/ubi9/python-312 AS appbase
 # ==============================
 
+COPY --from=ghcr.io/astral-sh/uv:0.11.31@sha256:ecd4de2f060c64bea0ff8ecb182ddf46ba3fcccdc8a60cfdbaf20d1a047d7437 /uv /uvx /usr/local/bin/
+
 # Branch or tag used to pull python-uwsgi-common.
 ARG UWSGI_COMMON_REF=main
 
@@ -9,6 +11,12 @@ USER root
 WORKDIR /app
 
 RUN mkdir /entrypoint
+
+ENV UV_PROJECT_ENVIRONMENT=/opt/app-root \
+    UV_COMPILE_BYTECODE=1 \
+    UV_LINK_MODE=copy \
+    UV_NO_CACHE=1 \
+    UV_PYTHON_DOWNLOADS=never
 
 # chmod=755 = rwxr-xr-x i.e. owner can read, write and execute, group and others can read and execute.
 #
@@ -20,8 +28,7 @@ COPY --chown=root:root --chmod=755 . /app/
 
 RUN dnf update -y  \
     && dnf install -y nmap-ncat  \
-    && pip install --upgrade pip setuptools wheel \
-    && pip install --no-cache-dir -r /app/requirements.txt \
+    && uv sync --locked --no-dev --group prod \
     && uwsgi --build-plugin https://github.com/City-of-Helsinki/uwsgi-sentry \
     && dnf clean all
 
@@ -41,7 +48,7 @@ ENTRYPOINT ["/entrypoint/docker-entrypoint.sh"]
 FROM appbase AS development
 # ==============================
 
-RUN pip install --no-cache-dir -r /app/requirements-dev.txt
+RUN uv sync --locked --group prod
 
 ENV DEV_SERVER=1
 

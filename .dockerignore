@@ -39,6 +39,7 @@
 
 # Miscellaneous
 **/*.lock
+!uv.lock
 **/*.log
 **/*.temp
 **/*.tmp
