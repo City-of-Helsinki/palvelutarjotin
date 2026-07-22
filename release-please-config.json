@@ -5,7 +5,13 @@
     ".": {
       "release-type": "python",
       "package-name": "palvelutarjotin",
-      "extra-files": ["pyproject.toml"]
+      "extra-files": [
+        {
+          "path": "uv.lock",
+          "type": "toml",
+          "jsonpath": "$.package[?(@.name.value=='palvelutarjotin')].version"
+        }
+      ]
     }
   },
   "plugins": ["sentence-case"]
