@@ -27,7 +27,6 @@ dependencies = [
     "graphene-file-upload",
     "helsinki-profile-gdpr-api",
     "importlib_metadata",
-    "ipython",
     "psycopg[c]",
     "requests",
     "sentry-sdk",
@@ -43,6 +42,7 @@ prod = [
 dev = [
     "cryptography",
     "freezegun",
+    "ipython",
     "parameterized",
     "pytest",
     "pytest-cov",
