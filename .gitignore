@@ -83,6 +83,7 @@ sftp-config.json
 target/
 var/
 venv/
+.venv/
 .pytest_cache/
 docker-compose.env
 docker-compose.env.yaml

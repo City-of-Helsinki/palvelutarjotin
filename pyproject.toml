@@ -2,6 +2,59 @@
 name = "palvelutarjotin"
 requires-python = ">= 3.12, <3.13"
 version = "1.36.0"
+dependencies = [
+    "Django~=5.2",
+    "certifi",
+    "django-admin-list-filter-dropdown",
+    "django-auditlog",
+    "django-auditlog-extra @ https://github.com/City-of-Helsinki/django-auditlog-extra/archive/bff5fa3921d6821bebdd6be6c9fd20db39d32d54.zip",
+    "django-cors-headers",
+    "django-csp",
+    "django-environ",
+    "django-filter",
+    "django-graphql-jwt",
+    "django-helusers",
+    "django-helsinki-health-endpoints",
+    "django-ilmoitin",
+    "django-logger-extra",
+    "django-parler<2.4",
+    "django-resilient-logger",
+    "django-utils-six",
+    "drf-spectacular",
+    "factory-boy",
+    "geopy",
+    "graphene-django",
+    "graphene-file-upload",
+    "helsinki-profile-gdpr-api",
+    "importlib_metadata",
+    "ipython",
+    "psycopg[c]",
+    "requests",
+    "sentry-sdk",
+    "social-auth-app-django",
+    "urllib3",
+]
+
+[dependency-groups]
+prod = [
+    "uwsgi",
+    "uwsgitop",
+]
+dev = [
+    "cryptography",
+    "freezegun",
+    "parameterized",
+    "pytest",
+    "pytest-cov",
+    "pytest-django",
+    "requests-mock",
+    "responses",
+    "syrupy",
+]
+
+[tool.uv]
+package = false
+exclude-newer = "P3D"
 
 [tool.ruff]
 target-version = "py312"
@@ -25,11 +78,6 @@ select = [
     "T20",
 ]
 extend-per-file-ignores = { "*/migrations/*" = ["E501"], "*/tests/*" = ["E501"] }
-
-[tool.pip-tools.compile]
-allow-unsafe = true
-generate-hashes = true
-strip-extras = true
 
 [tool.coverage.run]
 # Coverage run options:
