@@ -209,8 +209,9 @@ Steps:
 
 ### Installing Python requirements
 
-- Run `pip install -r requirements.txt`
-- Run `pip install -r requirements-dev.txt` (development requirements)
+- Install [uv](https://docs.astral.sh/uv/getting-started/installation/)
+- Run `uv sync` to install all development dependencies
+- Run `uv sync --group prod` to also include production-only dependencies (uwsgi, uwsgitop)
 
 ### Database
 
@@ -229,8 +230,8 @@ Allow user to create test database
 
 - Create `.env` file: `touch .env` or make a copy of `.env.example`
 - Set the `DEBUG` environment variable to `1`.
-- Run `python manage.py migrate`
-- Run `python manage.py runserver localhost:8081`
+- Run `uv run manage.py migrate`
+- Run `uv run manage.py runserver localhost:8081`
 - The project is now running at http://localhost:8081
 
 ## Configuration
@@ -431,24 +432,22 @@ The GraphQL query/mutation and admin site views can be logged by using the mixin
 
 ## Keeping Python requirements up to date
 
-1. Install `pip-tools`:
+1. Add new packages to `pyproject.toml`:
 
-   - `pip install pip-tools`
+   - Production dependencies → `[project.dependencies]`
+   - Development tools → `[dependency-groups].dev`
+   - Production-only extras (uwsgi) → `[dependency-groups].prod`
 
-2. Add new packages to `requirements.in` or `requirements-dev.in`
+2. Run `uv lock` to update the lock file
 
-3. Update `.txt` file for the changed requirements file:
+3. To upgrade all dependencies to their newest versions:
 
-   - `pip-compile requirements.in`
-   - `pip-compile requirements-dev.in`
+   - `uv lock --upgrade`
 
-4. If you want to update dependencies to their newest versions, run:
+4. To install Python requirements run:
 
-   - `pip-compile --upgrade requirements.in`
-
-5. To install Python requirements run:
-
-   - `pip-sync requirements.txt`
+   - `uv sync` (development)
+   - `uv sync --group prod` (include production-specific deps like uwsgi)
 
 ## Code format
 
