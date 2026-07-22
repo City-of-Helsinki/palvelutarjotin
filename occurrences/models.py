@@ -199,9 +199,9 @@ class PalvelutarjotinEvent(
         {"name": "organisation", "accessor": lambda org: org.name},
         {
             "name": "contact_person",
-            "accessor": lambda p: f"{p.name}, {p.phone_number}, {p.email_address}"
-            if p
-            else "",
+            "accessor": lambda p: (
+                f"{p.name}, {p.phone_number}, {p.email_address}" if p else ""
+            ),
         },  # avoid bidirectional serialization, because it wil lend in a forever lopp.
     )
     gdpr_sensitive_data_fields = []
