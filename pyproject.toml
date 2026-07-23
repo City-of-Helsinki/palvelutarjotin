@@ -83,7 +83,8 @@ extend-per-file-ignores = { "*/migrations/*" = ["E501"], "*/tests/*" = ["E501"] 
 # Coverage run options:
 # https://coverage.readthedocs.io/en/latest/config.html#run
 branch = true
-omit = ["*migrations*", "*site-packages*", "*venv*"]
+relative_files = true
+omit = ["*migrations*", "*site-packages*"]
 
 [tool.pytest.ini_options]
 # pytest-django options:
@@ -92,7 +93,7 @@ DJANGO_SETTINGS_MODULE = "palvelutarjotin.settings"
 
 # pytest options:
 # https://docs.pytest.org/en/stable/reference/reference.html#configuration-options
-norecursedirs = ["node_modules", ".git", "venv*"]
+norecursedirs = ["node_modules", ".git", ".venv", "venv*"]
 doctest_optionflags = [
     "NORMALIZE_WHITESPACE",
     "IGNORE_EXCEPTION_DETAIL",
