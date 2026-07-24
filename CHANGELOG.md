@@ -1,6 +1,23 @@
 <!-- REMINDER: While updating changelog, also remember to update
 the version in palvelutarjotin/__init.py__ -->
 
+## [1.36.1](https://github.com/City-of-Helsinki/palvelutarjotin/compare/palvelutarjotin-v1.36.0...palvelutarjotin-v1.36.1) (2026-07-24)
+
+
+### Bug Fixes
+
+* Prevent duplicate enrolment report creation during sync ([7dfa0db](https://github.com/City-of-Helsinki/palvelutarjotin/commit/7dfa0db76c39822640302664e2409d78d76c1a9b))
+
+
+### Dependencies
+
+* Bump cryptography from 46.0.7 to 48.0.1 ([cd3d76b](https://github.com/City-of-Helsinki/palvelutarjotin/commit/cd3d76bc5f677965f459e2db4522451cf5025bc5))
+* Bump django from 5.2.14 to 5.2.15 ([c82c39b](https://github.com/City-of-Helsinki/palvelutarjotin/commit/c82c39b76f8bf0aecff3326cab25672d19520673))
+* Bump pip from 26.1 to 26.1.2 ([3082394](https://github.com/City-of-Helsinki/palvelutarjotin/commit/3082394ec23f9f3773023c0d3e760034b1760f7a))
+* Bump pyjwt from 2.12.1 to 2.13.0 ([99c9a87](https://github.com/City-of-Helsinki/palvelutarjotin/commit/99c9a8761fd7b3c0b694c7c796f079830fa4759e))
+* Move ipython to dev-dependencies ([6b1867d](https://github.com/City-of-Helsinki/palvelutarjotin/commit/6b1867d4b69cda010ef4e972f8a7228c6f73a37b))
+* Update pre-commit tool versions ([125b7b2](https://github.com/City-of-Helsinki/palvelutarjotin/commit/125b7b2fc2ca98bc3aa8a1d4a83c7765f6ac313e))
+
 ## [1.36.0](https://github.com/City-of-Helsinki/palvelutarjotin/compare/palvelutarjotin-v1.35.3...palvelutarjotin-v1.36.0) (2026-06-05)
 
 
