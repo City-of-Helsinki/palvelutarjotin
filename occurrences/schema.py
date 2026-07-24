@@ -298,7 +298,7 @@ class StudyLevelNode(DjangoObjectType):
     @classmethod
     def get_queryset(cls, queryset, info):
         lang = get_language()
-        return queryset.language(lang)
+        return queryset.language(lang).prefetch_related("translations")
 
 
 class ExternalPlace(graphene.ObjectType):
