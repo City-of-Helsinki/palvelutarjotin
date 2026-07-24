@@ -466,8 +466,10 @@ class Query:
         events = json.loads(events_json, object_hook=lambda d: SimpleNamespace(**d))
 
         # Get related palvelutarjotin events
-        p_events = PalvelutarjotinEvent.objects.prefetch_related("occurrences").filter(
-            linked_event_id__in=[e.id for e in events.data]
+        p_events = (
+            PalvelutarjotinEvent.objects.select_related("organisation")
+            .prefetch_related("occurrences")
+            .filter(linked_event_id__in=[e.id for e in events.data])
         )
 
         # Prune a list of events which have a link to a palvelutarjotin event

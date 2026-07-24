@@ -161,7 +161,13 @@ class OccurrenceNode(DjangoObjectType):
 
     @classmethod
     def get_queryset(cls, queryset, info):
-        return super().get_queryset(queryset, info).order_by("start_time")
+        return (
+            super()
+            .get_queryset(queryset, info)
+            .select_related("p_event")
+            .prefetch_related("languages")
+            .order_by("start_time")
+        )
 
     def resolve_remaining_seats(self, info, **kwargs):
         return self.amount_of_seats - self.seats_taken
@@ -200,22 +206,23 @@ class PalvelutarjotinEventNode(DjangoObjectType):
         interfaces = (graphene.relay.Node,)
 
     def resolve_next_occurrence_datetime(self, info, **kwargs):
-        try:
-            return (
-                self.occurrences.filter(start_time__gte=timezone.now(), cancelled=False)
-                .earliest("start_time")
-                .start_time
-            )
-        except Occurrence.DoesNotExist:
+        # Filter the prefetched occurrences in Python to avoid extra DB queries.
+        now = timezone.now()
+        upcoming = [
+            o
+            for o in self.occurrences.all()
+            if not o.cancelled and o.start_time >= now
+        ]
+        if not upcoming:
             return None
+        return min(upcoming, key=lambda o: o.start_time).start_time
 
     def resolve_last_occurrence_datetime(self, info, **kwargs):
-        try:
-            return (
-                self.occurrences.filter(cancelled=False).latest("start_time").start_time
-            )
-        except Occurrence.DoesNotExist:
+        # Filter the prefetched occurrences in Python to avoid extra DB queries.
+        non_cancelled = [o for o in self.occurrences.all() if not o.cancelled]
+        if not non_cancelled:
             return None
+        return max(non_cancelled, key=lambda o: o.start_time).start_time
 
     def resolve_has_space_for_enrolments(self, info, **kwargs):
         """
@@ -298,7 +305,7 @@ class StudyLevelNode(DjangoObjectType):
     @classmethod
     def get_queryset(cls, queryset, info):
         lang = get_language()
-        return queryset.language(lang)
+        return queryset.language(lang).prefetch_related("translations")
 
 
 class ExternalPlace(graphene.ObjectType):
