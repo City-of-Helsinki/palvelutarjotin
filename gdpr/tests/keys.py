@@ -1,7 +1,6 @@
 from cryptography.hazmat.primitives import serialization
 from cryptography.hazmat.primitives.asymmetric import rsa
-from jose import jwk
-from jose.constants import ALGORITHMS
+from jwt.algorithms import RSAAlgorithm
 
 
 def _build_key(private_pem, public_pem):
@@ -9,16 +8,12 @@ def _build_key(private_pem, public_pem):
         pass
 
     key = _Key()
-    key.jose_algorithm = ALGORITHMS.RS256
+    key.algorithm = "RS256"
     key.private_key_pem = private_pem
     key.public_key_pem = public_pem
-    key.public_key_jwk = jwk.construct(public_pem, key.jose_algorithm).to_dict()
 
-    # Ensure values are strings and not bytes
-    for name in ["n", "e"]:
-        value = key.public_key_jwk[name]
-        if isinstance(value, bytes):
-            key.public_key_jwk[name] = value.decode("utf-8")
+    public_key = serialization.load_pem_public_key(public_pem.encode("utf-8"))
+    key.public_key_jwk = RSAAlgorithm.to_jwk(public_key, as_dict=True)
 
     return key
 
