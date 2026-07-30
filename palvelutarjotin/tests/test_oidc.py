@@ -5,7 +5,6 @@ from unittest import mock
 
 import jwt
 import pytest
-from authlib.jose.rfc7519.claims import JWTClaims
 from django.test import TestCase, override_settings
 from django.test.client import RequestFactory
 from django.utils import timezone
@@ -45,15 +44,12 @@ def freeze_oidc_test_time():
 def mocked_jwt_request(encoded_jwt):
     with mock.patch(
         "helusers.oidc.ApiTokenAuthentication.decode_jwt",
-        return_value=JWTClaims(
-            jwt.decode(
-                encoded_jwt,
-                key="secret",
-                options={"verify_signature": True},
-                algorithms=["HS256"],
-                audience=_TOKEN_AUTH_SETTINGS["TOKEN_AUTH_ACCEPTED_AUDIENCE"],
-            ),
-            None,
+        return_value=jwt.decode(
+            encoded_jwt,
+            key="secret",
+            options={"verify_signature": True},
+            algorithms=["HS256"],
+            audience=_TOKEN_AUTH_SETTINGS["TOKEN_AUTH_ACCEPTED_AUDIENCE"],
         ),
     ):
         yield RequestFactory().get(

@@ -12,7 +12,8 @@ from freezegun import freeze_time
 from helusers.authz import UserAuthorization
 from helusers.jwt import JWT
 from helusers.oidc import AuthenticationError
-from jose import ExpiredSignatureError, JWTError
+from jwt import ExpiredSignatureError
+from jwt.exceptions import InvalidTokenError
 
 from common.tests.utils import assert_match_error_code, assert_permission_denied
 from organisations.factories import PersonFactory, UserFactory
@@ -230,7 +231,7 @@ def test_get_auth_header_jwt_invalid_scheme(request_factory):
 def test_get_auth_header_jwt_invalid_bearer(request_factory):
     request = request_factory("bearer invalid.jwt.structure")
     auth = BrowserTestAwareJWTAuthentication()
-    with pytest.raises(JWTError):
+    with pytest.raises(InvalidTokenError):
         auth._get_auth_header_jwt(request)
 
 

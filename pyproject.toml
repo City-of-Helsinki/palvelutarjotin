@@ -28,6 +28,7 @@ dependencies = [
     "helsinki-profile-gdpr-api",
     "importlib_metadata",
     "psycopg[c]",
+    "pyjwt[crypto]",
     "requests",
     "sentry-sdk",
     # Pin below 6.0.0: 6.x makes social login views POST-only, breaking the

@@ -16,8 +16,8 @@ from helusers.oidc import (
 )
 from helusers.settings import api_token_auth_settings
 from helusers.user_utils import get_or_create_user as helusers_get_or_create_user
-from jose import ExpiredSignatureError
-from jose import jwt as jose_jwt
+from jwt import ExpiredSignatureError
+from jwt import decode as jwt_decode
 
 from organisations.models import Organisation, Person
 from palvelutarjotin.exceptions import AuthenticationExpiredError
@@ -115,8 +115,8 @@ class BrowserTestAwareJWTAuthentication(RequestJWTAuthentication):
         except ValidationError as e:
             raise AuthenticationError(str(e)) from e
         try:
-            jose_jwt.decode(
-                token=jwt._encoded_jwt,
+            jwt_decode(
+                jwt=jwt._encoded_jwt,
                 key=self._api_token_auth_settings.JWT_SIGN_SECRET,
                 audience=jwt.claims.get("aud"),
                 issuer=jwt.claims.get("iss"),

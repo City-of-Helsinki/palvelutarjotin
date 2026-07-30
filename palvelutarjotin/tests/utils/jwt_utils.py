@@ -2,9 +2,9 @@ import time
 import uuid
 from typing import Optional
 
+import jwt
 from django.conf import settings
 from django.contrib.auth import get_user_model
-from jose import jwt
 
 User = get_user_model()
 
@@ -53,9 +53,10 @@ def generate_symmetric_test_jwt(
         "loa": "low",
     }
     token = jwt.encode(
-        claims=payload,
+        payload=payload,
         key=shared_secret_for_signature
         or settings.OIDC_BROWSER_TEST_API_TOKEN_AUTH["JWT_SIGN_SECRET"],
+        algorithm=headers["alg"],
         headers=headers,
     )
     return f"{prefix} {token}"
