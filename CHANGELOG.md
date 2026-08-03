@@ -1,6 +1,13 @@
 <!-- REMINDER: While updating changelog, also remember to update
 the version in palvelutarjotin/__init.py__ -->
 
+## [1.36.2](https://github.com/City-of-Helsinki/palvelutarjotin/compare/palvelutarjotin-v1.36.1...palvelutarjotin-v1.36.2) (2026-08-03)
+
+
+### Bug Fixes
+
+* **deps:** Pin social-auth-app-django below 6.0.0 ([c6eed2e](https://github.com/City-of-Helsinki/palvelutarjotin/commit/c6eed2e2e27f4fc52e7703b265eac319ab563d31))
+
 ## [1.36.1](https://github.com/City-of-Helsinki/palvelutarjotin/compare/palvelutarjotin-v1.36.0...palvelutarjotin-v1.36.1) (2026-07-29)
 
 
