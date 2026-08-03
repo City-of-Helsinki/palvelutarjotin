@@ -30,7 +30,9 @@ dependencies = [
     "psycopg[c]",
     "requests",
     "sentry-sdk",
-    "social-auth-app-django",
+    # Pin below 6.0.0: 6.x makes social login views POST-only, breaking the
+    # admin Keycloak login GET link (405). See CHANGELOG for social-app-django 6.0.0.
+    "social-auth-app-django>=5.9,<6",
     "urllib3",
 ]
 
