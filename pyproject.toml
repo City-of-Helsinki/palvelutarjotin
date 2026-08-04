@@ -13,7 +13,7 @@ dependencies = [
     "django-environ",
     "django-filter",
     "django-graphql-jwt",
-    "django-helusers",
+    "django-helusers>=1.2.0",
     "django-helsinki-health-endpoints",
     "django-ilmoitin",
     "django-logger-extra",
@@ -58,6 +58,7 @@ dev = [
 [tool.uv]
 package = false
 exclude-newer = "P3D"
+exclude-newer-package = { django-helusers = "2026-08-04T00:00:00Z" }
 
 [tool.ruff]
 target-version = "py312"
