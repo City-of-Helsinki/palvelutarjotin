@@ -29,8 +29,8 @@ def get_browser_test_bearer_token_for_user(oidc_browser_test_api_token_auth_sett
     The generator function returns a signed bearer token to authenticate through
     the authentcation made for browser testing."""
 
-    def generate_test_jwt_token(user: User | None = None):
+    def generate_test_jwt_token(user: User | None = None, **kwargs):
         user = user or UserFactory.build()
-        return generate_symmetric_test_jwt(user)
+        return generate_symmetric_test_jwt(user, **kwargs)
 
     return generate_test_jwt_token

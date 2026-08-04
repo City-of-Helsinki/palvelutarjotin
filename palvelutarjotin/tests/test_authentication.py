@@ -287,3 +287,18 @@ def test_browser_test_auth_with_valid_token(request_factory):
     request = request_factory()
     auth = BrowserTestAwareJWTAuthentication()
     assert auth.authenticate(request) is not None
+
+
+@pytest.mark.django_db()
+def test_browser_test_auth_with_wrong_audience_rejected(
+    request_factory, get_browser_test_bearer_token_for_user
+):
+    """A correctly signed token with an audience that is not in the
+    configured AUDIENCE list should be rejected.
+    """
+    request = request_factory(
+        get_browser_test_bearer_token_for_user(audience="unexpected-audience")
+    )
+    with pytest.raises(AuthenticationError):
+        auth = BrowserTestAwareJWTAuthentication()
+        auth.authenticate(request)
