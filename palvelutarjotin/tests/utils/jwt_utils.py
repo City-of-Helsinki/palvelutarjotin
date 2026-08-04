@@ -25,6 +25,7 @@ def generate_symmetric_test_jwt(
     user: User,
     shared_secret_for_signature: Optional[str] = None,
     issuer="https://kultus-admin-ui.test.hel.ninja",
+    audience="kultus-api-dev",
     prefix="bearer",
 ):
     headers = {
@@ -38,7 +39,7 @@ def generate_symmetric_test_jwt(
         "exp": exp_epoch,
         "jti": str(uuid.uuid4()),
         "iss": issuer,
-        "aud": "kultus-api-test",
+        "aud": audience,
         "sub": str(user.uuid),
         "typ": "Bearer",
         "authorization": {"permissions": [{"scopes": ["access"]}]},

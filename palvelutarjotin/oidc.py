@@ -118,7 +118,7 @@ class BrowserTestAwareJWTAuthentication(RequestJWTAuthentication):
             jwt_decode(
                 jwt=jwt._encoded_jwt,
                 key=self._api_token_auth_settings.JWT_SIGN_SECRET,
-                audience=jwt.claims.get("aud"),
+                audience=self._api_token_auth_settings.AUDIENCE,
                 issuer=jwt.claims.get("iss"),
                 subject=jwt.claims.get("sub"),
                 algorithms=self.algorithms,
