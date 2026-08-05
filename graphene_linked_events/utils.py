@@ -1,17 +1,25 @@
 # https://stackoverflow.com/questions/6578986/how-to-convert-json-data
 # -into-a-python-object/15882054#15882054
 import json
+import logging
 from collections import namedtuple
 from typing import List
 
+import requests
 from django.conf import settings
 from geopy import Point
 from geopy import distance as geopy_distance
 
 from graphene_linked_events.rest_client import LinkedEventsApiClient
-from palvelutarjotin.exceptions import ApiBadRequestError, ObjectDoesNotExistError
+from palvelutarjotin.exceptions import (
+    ApiBadRequestError,
+    LinkedEventsApiError,
+    ObjectDoesNotExistError,
+)
 
 api_client = LinkedEventsApiClient(config=settings.LINKED_EVENTS_API_CONFIG)
+
+logger = logging.getLogger(__name__)
 
 
 def format_response(response):
@@ -44,28 +52,71 @@ def format_request(request):
     return json.dumps(request).replace("internal_", "@")
 
 
+def _fetch_linked_events_data(
+    request, resource, resource_id=None, preserve_status_errors=False
+):
+    resource_path = f"{resource}/{resource_id}" if resource_id is not None else resource
+
+    try:
+        response = request()
+
+        if response.status_code == 400:
+            raise ApiBadRequestError("Could not establish a connection to the API.")
+
+        if preserve_status_errors:
+            if response.status_code == 404:
+                raise ObjectDoesNotExistError("Could not find the event from the API.")
+
+            if response.status_code == 410:
+                raise ObjectDoesNotExistError(
+                    "The resource is no longer available in the API (gone)."
+                )
+
+        response.raise_for_status()
+        return json2obj(format_response(response))
+
+    except requests.exceptions.RequestException as e:
+        logger.warning(
+            "Request error fetching '%s' from LinkedEvents API: %s",
+            resource_path,
+            e,
+        )
+        raise LinkedEventsApiError(
+            "Failed to fetch data from LinkedEvents API. "
+            "The service may be temporarily unavailable."
+        ) from e
+    except json.JSONDecodeError as e:
+        logger.warning(
+            "Invalid JSON response for '%s' from LinkedEvents API: %s",
+            resource_path,
+            e,
+        )
+        raise LinkedEventsApiError(
+            "Received an invalid response from LinkedEvents API. "
+            "The service may be experiencing issues."
+        ) from e
+
+
 def retrieve_linked_events_data(
     resource, resource_id, params=None, is_event_staff=False
 ):
-    response = api_client.retrieve(
-        resource, resource_id, params=params, is_event_staff=is_event_staff
+    return _fetch_linked_events_data(
+        lambda: api_client.retrieve(
+            resource, resource_id, params=params, is_event_staff=is_event_staff
+        ),
+        resource,
+        resource_id=resource_id,
+        preserve_status_errors=True,
     )
 
-    if response.status_code == 400:
-        raise ApiBadRequestError("Could not establish a connection to the API.")
 
-    if response.status_code == 404:
-        raise ObjectDoesNotExistError("Could not find the event from the API.")
-
-    if response.status_code == 410:
-        raise ObjectDoesNotExistError(
-            "The resource is no longer available in the API (gone)."
-        )
-
-    # Raise any other errors
-    response.raise_for_status()
-
-    return json2obj(format_response(response))
+def list_linked_events_data(resource, params=None, is_event_staff=False):
+    return _fetch_linked_events_data(
+        lambda: api_client.list(
+            resource, filter_list=params, is_event_staff=is_event_staff
+        ),
+        resource,
+    )
 
 
 def get_keyword_set_by_id(keyword_set_id):

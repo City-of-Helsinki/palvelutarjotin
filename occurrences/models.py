@@ -43,6 +43,7 @@ from organisations.models import Person, User
 from palvelutarjotin.exceptions import (
     ApiUsageError,
     EnrolmentNotEnoughCapacityError,
+    LinkedEventsApiError,
     ObjectDoesNotExistError,
 )
 from verification_token.models import VerificationToken
@@ -238,7 +239,7 @@ class PalvelutarjotinEvent(
             )
         except ObjectDoesNotExistError:
             return None
-        except HTTPError as e:
+        except (HTTPError, LinkedEventsApiError) as e:
             logger.warning(
                 "Could not retrieve the linked events data "
                 f"with linked_event_id {self.linked_event_id}. Error: {e}"

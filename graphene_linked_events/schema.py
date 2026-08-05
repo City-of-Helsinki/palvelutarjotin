@@ -39,6 +39,7 @@ from graphene_linked_events.utils import (
     get_keyword_set_by_id,
     json2obj,
     json_object_hook,
+    list_linked_events_data,
     retrieve_linked_events_data,
 )
 from occurrences.event_api_services import prepare_published_event_data
@@ -621,24 +622,18 @@ class Query:
 
     @staticmethod
     def resolve_places(parent, info, **kwargs):
-        response = api_client.list("place", filter_list=kwargs)
-        response.raise_for_status()
-        return json2obj(format_response(response))
+        return list_linked_events_data("place", params=kwargs)
 
     @staticmethod
     def resolve_keyword(parent, info, **kwargs):
         keyword_id = kwargs["id"]
         if not keyword_id:
             return None
-        response = api_client.retrieve("keyword", keyword_id)
-        response.raise_for_status()
-        return json2obj(format_response(response))
+        return retrieve_linked_events_data("keyword", keyword_id)
 
     @staticmethod
     def resolve_keywords(parent, info, **kwargs):
-        response = api_client.list("keyword", filter_list=kwargs)
-        response.raise_for_status()
-        return json2obj(format_response(response))
+        return list_linked_events_data("keyword", params=kwargs)
 
     @staticmethod
     def resolve_popular_kultus_keywords(parent, info, **kwargs):
