@@ -10,7 +10,7 @@ import responses
 from django.utils import timezone
 from graphene.utils.str_converters import to_snake_case
 from graphql_relay import to_global_id
-from requests.models import HTTPError
+from requests.exceptions import HTTPError, Timeout
 
 import graphene_linked_events
 from common.tests.utils import (
@@ -31,7 +31,10 @@ from graphene_linked_events.tests.mock_data import (
     UPDATE_EVENT_DATA,
 )
 from graphene_linked_events.tests.utils import MockResponse
-from graphene_linked_events.utils import retrieve_linked_events_data
+from graphene_linked_events.utils import (
+    list_linked_events_data,
+    retrieve_linked_events_data,
+)
 from occurrences.event_api_services import update_event_to_linkedevents_api
 from occurrences.factories import (
     EnrolmentFactory,
@@ -39,8 +42,12 @@ from occurrences.factories import (
     PalvelutarjotinEventFactory,
 )
 from occurrences.models import Occurrence, PalvelutarjotinEvent
-from palvelutarjotin.consts import API_USAGE_ERROR, DATA_VALIDATION_ERROR
-from palvelutarjotin.exceptions import ApiBadRequestError, ObjectDoesNotExistError
+from palvelutarjotin.consts import API_USAGE_ERROR, DATA_VALIDATION_ERROR, GENERAL_ERROR
+from palvelutarjotin.exceptions import (
+    ApiBadRequestError,
+    LinkedEventsApiError,
+    ObjectDoesNotExistError,
+)
 
 
 def __eq_dt_with_tz(dt1: Optional[datetime], dt2: Optional[datetime]) -> bool:
@@ -2283,6 +2290,7 @@ def test_get_popular_kultus_keywords_partial_results(api_client, monkeypatch, se
         (400, ApiBadRequestError),
         (404, ObjectDoesNotExistError),
         (410, ObjectDoesNotExistError),
+        (500, LinkedEventsApiError),
     ],
 )
 def test_linkedevents_api_retrieve_errors(status_code, error_cls):
@@ -2293,6 +2301,58 @@ def test_linkedevents_api_retrieve_errors(status_code, error_cls):
     ):
         with pytest.raises(error_cls):
             retrieve_linked_events_data("event", 1)
+
+
+def test_linkedevents_api_list_http_error():
+    with patch.object(
+        LinkedEventsApiClient,
+        "list",
+        return_value=mocked_json_response(data=None, status_code=504),
+    ):
+        with pytest.raises(LinkedEventsApiError):
+            list_linked_events_data("place")
+
+
+def test_linkedevents_api_request_error():
+    with patch.object(
+        LinkedEventsApiClient,
+        "retrieve",
+        side_effect=Timeout("Connection to api.hel.fi timed out"),
+    ):
+        with pytest.raises(LinkedEventsApiError):
+            retrieve_linked_events_data("event", 1)
+
+
+def test_linkedevents_api_invalid_json():
+    response = MockResponse(json_data={}, status_code=200)
+    response.text = "<html>Gateway Timeout</html>"
+
+    with patch.object(LinkedEventsApiClient, "list", return_value=response):
+        with pytest.raises(LinkedEventsApiError):
+            list_linked_events_data("place")
+
+
+@pytest.mark.parametrize(
+    ("query", "field", "api_method"),
+    [
+        (GET_PLACES_QUERY, "places", "list"),
+        (GET_KEYWORDS_QUERY, "keywords", "list"),
+        (GET_KEYWORD_QUERY, "keyword", "retrieve"),
+    ],
+)
+def test_linkedevents_resolver_returns_controlled_error(
+    api_client, monkeypatch, query, field, api_method
+):
+    def raise_timeout(*args, **kwargs):
+        raise Timeout("Connection to api.hel.fi timed out")
+
+    monkeypatch.setattr(LinkedEventsApiClient, api_method, raise_timeout)
+
+    executed = api_client.execute(query)
+
+    assert executed["data"][field] is None
+    assert executed["errors"][0]["extensions"]["code"] == GENERAL_ERROR
+    assert "NameError" not in executed["errors"][0]["message"]
 
 
 @pytest.mark.parametrize(

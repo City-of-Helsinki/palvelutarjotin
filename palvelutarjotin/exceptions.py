@@ -22,7 +22,11 @@ class ObjectDoesNotExistError(PalvelutarjotinGraphQLError):
 
 
 class ApiBadRequestError(PalvelutarjotinGraphQLError):
-    """Bad request, e.g. JsonDecodeError"""
+    """Bad request from an API."""
+
+
+class LinkedEventsApiError(PalvelutarjotinGraphQLError):
+    """LinkedEvents API is unavailable or returned invalid data."""
 
 
 class QueryTooDeepError(PalvelutarjotinGraphQLError):
