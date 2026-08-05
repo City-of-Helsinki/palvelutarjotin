@@ -1,9 +1,11 @@
 # https://stackoverflow.com/questions/6578986/how-to-convert-json-data
 # -into-a-python-object/15882054#15882054
 import json
+import logging
 from collections import namedtuple
 from typing import List
 
+import requests
 from django.conf import settings
 from geopy import Point
 from geopy import distance as geopy_distance
@@ -12,6 +14,8 @@ from graphene_linked_events.rest_client import LinkedEventsApiClient
 from palvelutarjotin.exceptions import ApiBadRequestError, ObjectDoesNotExistError
 
 api_client = LinkedEventsApiClient(config=settings.LINKED_EVENTS_API_CONFIG)
+
+logger = logging.getLogger(__name__)
 
 
 def format_response(response):
@@ -47,9 +51,18 @@ def format_request(request):
 def retrieve_linked_events_data(
     resource, resource_id, params=None, is_event_staff=False
 ):
-    response = api_client.retrieve(
-        resource, resource_id, params=params, is_event_staff=is_event_staff
-    )
+    try:
+        response = api_client.retrieve(
+            resource, resource_id, params=params, is_event_staff=is_event_staff
+        )
+    except requests.exceptions.RequestException as e:
+        logger.warning(
+            f"Network error fetching '{resource}/{resource_id}' from LinkedEvents API: {e}"
+        )
+        raise ApiBadRequestError(
+            "Failed to fetch data from LinkedEvents API. "
+            "The service may be temporarily unavailable."
+        )
 
     if response.status_code == 400:
         raise ApiBadRequestError("Could not establish a connection to the API.")
@@ -65,7 +78,16 @@ def retrieve_linked_events_data(
     # Raise any other errors
     response.raise_for_status()
 
-    return json2obj(format_response(response))
+    try:
+        return json2obj(format_response(response))
+    except json.JSONDecodeError as e:
+        logger.warning(
+            f"Invalid JSON response for '{resource}/{resource_id}' from LinkedEvents API: {e}"
+        )
+        raise ApiBadRequestError(
+            "Received an invalid response from LinkedEvents API. "
+            "The service may be experiencing issues."
+        )
 
 
 def get_keyword_set_by_id(keyword_set_id):

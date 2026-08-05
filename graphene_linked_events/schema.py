@@ -621,24 +621,74 @@ class Query:
 
     @staticmethod
     def resolve_places(parent, info, **kwargs):
-        response = api_client.list("place", filter_list=kwargs)
+        try:
+            response = api_client.list("place", filter_list=kwargs)
+        except requests.exceptions.RequestException as e:
+            logger.warning(f"Network error fetching places from LinkedEvents API: {e}")
+            raise ApiBadRequestError(
+                "Failed to fetch places from LinkedEvents API. "
+                "The service may be temporarily unavailable."
+            )
         response.raise_for_status()
-        return json2obj(format_response(response))
+        try:
+            return json2obj(format_response(response))
+        except json.JSONDecodeError as e:
+            logger.warning(
+                f"Invalid JSON response for places from LinkedEvents API: {e}"
+            )
+            raise ApiBadRequestError(
+                "Received an invalid response from LinkedEvents API. "
+                "The service may be experiencing issues."
+            )
 
     @staticmethod
     def resolve_keyword(parent, info, **kwargs):
         keyword_id = kwargs["id"]
         if not keyword_id:
             return None
-        response = api_client.retrieve("keyword", keyword_id)
+        try:
+            response = api_client.retrieve("keyword", keyword_id)
+        except requests.exceptions.RequestException as e:
+            logger.warning(
+                f"Network error fetching keyword '{keyword_id}' from LinkedEvents API: {e}"
+            )
+            raise ApiBadRequestError(
+                "Failed to fetch keyword from LinkedEvents API. "
+                "The service may be temporarily unavailable."
+            )
         response.raise_for_status()
-        return json2obj(format_response(response))
+        try:
+            return json2obj(format_response(response))
+        except json.JSONDecodeError as e:
+            logger.warning(
+                f"Invalid JSON response for keyword '{keyword_id}' from LinkedEvents API: {e}"
+            )
+            raise ApiBadRequestError(
+                "Received an invalid response from LinkedEvents API. "
+                "The service may be experiencing issues."
+            )
 
     @staticmethod
     def resolve_keywords(parent, info, **kwargs):
-        response = api_client.list("keyword", filter_list=kwargs)
+        try:
+            response = api_client.list("keyword", filter_list=kwargs)
+        except requests.exceptions.RequestException as e:
+            logger.warning(f"Network error fetching keywords from LinkedEvents API: {e}")
+            raise ApiBadRequestError(
+                "Failed to fetch keywords from LinkedEvents API. "
+                "The service may be temporarily unavailable."
+            )
         response.raise_for_status()
-        return json2obj(format_response(response))
+        try:
+            return json2obj(format_response(response))
+        except json.JSONDecodeError as e:
+            logger.warning(
+                f"Invalid JSON response for keywords from LinkedEvents API: {e}"
+            )
+            raise ApiBadRequestError(
+                "Received an invalid response from LinkedEvents API. "
+                "The service may be experiencing issues."
+            )
 
     @staticmethod
     def resolve_popular_kultus_keywords(parent, info, **kwargs):
