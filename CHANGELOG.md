@@ -1,6 +1,21 @@
 <!-- REMINDER: While updating changelog, also remember to update
 the version in palvelutarjotin/__init.py__ -->
 
+## [1.36.3](https://github.com/City-of-Helsinki/palvelutarjotin/compare/palvelutarjotin-v1.36.2...palvelutarjotin-v1.36.3) (2026-08-06)
+
+
+### Bug Fixes
+
+* Replace python-jose with pyjwt ([e3d2dac](https://github.com/City-of-Helsinki/palvelutarjotin/commit/e3d2dac2436bc96aa223859d59e4f55e12924e2d))
+* Validate JWT audience against config, not token claim ([abcf322](https://github.com/City-of-Helsinki/palvelutarjotin/commit/abcf322e1574df48f9d6b20e4ea8ce719fb7faa2))
+
+
+### Dependencies
+
+* Bump cryptography from 49.0.0 to 50.0.0 ([6d2fca9](https://github.com/City-of-Helsinki/palvelutarjotin/commit/6d2fca91e607eb8e2632637cbff893fea1ce8571))
+* Bump django-helusers to 1.2.0 ([3ad76b3](https://github.com/City-of-Helsinki/palvelutarjotin/commit/3ad76b3b1494cb94beaafbfbaa32b777e2e7688d))
+* Bump packages ([f0d11c2](https://github.com/City-of-Helsinki/palvelutarjotin/commit/f0d11c27e2ce37e348603aa031402ab7a73e8732))
+
 ## [1.36.2](https://github.com/City-of-Helsinki/palvelutarjotin/compare/palvelutarjotin-v1.36.1...palvelutarjotin-v1.36.2) (2026-08-03)
 
 
