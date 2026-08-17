@@ -55,6 +55,21 @@ from reports.services import get_place_location_data
 
 logger = logging.getLogger(__name__)
 
+_KEYWORD_FIELD_DESCRIPTION = (
+    "Only use this field in single event query for best performance. "
+    "This field only works if `keywords` is included in the query argument"
+)
+
+_KEYWORD_OR_SET_DESCRIPTION = (
+    "Search for a combination of keywords as in "
+    "(yso:p1235 OR yso:p1947) AND (yso:p14004 OR yso:p11185) "
+    "use keyword_OR_setX parameter, where X is a number. "
+    "Can be used for example with "
+    "target group, category, activity or additional criteria keywords."
+)
+
+_P_EVENT_INPUT_TYPE = "occurrences.schema.PalvelutarjotinEventInput"
+
 PublicationStatusEnum = Enum(
     "PublicationStatus",
     [(s[0].upper(), s[0]) for s in PalvelutarjotinEvent.PUBLICATION_STATUSES],
@@ -219,22 +234,16 @@ class Event(IdObject):
     publication_status = String()
     categories = NonNull(
         List(NonNull(Keyword)),
-        description="Only use this field in single event query for "
-        "best performance. This field only work if "
-        "`keywords` is included in the query argument",
+        description=_KEYWORD_FIELD_DESCRIPTION,
     )
     additional_criteria = NonNull(
         List(NonNull(Keyword)),
-        description="Only use this field in single event query for "
-        "best performance. This field only work if "
-        "`keywords` is included in the query argument",
+        description=_KEYWORD_FIELD_DESCRIPTION,
     )
 
     activities = NonNull(
         List(NonNull(Keyword)),
-        description="Only use this field in single event query for "
-        "best performance. This field only work if "
-        "`keywords` is included in the query argument",
+        description=_KEYWORD_FIELD_DESCRIPTION,
     )
 
     def resolve_p_event(self, info, **kwargs):
@@ -348,30 +357,9 @@ class Query:
         keyword=List(String),
         keyword_and=List(String),
         keyword_not=List(String),
-        keyword_or_set1=List(
-            String,
-            description="Search for a combination of keywords as in "
-            "(yso:p1235 OR yso:p1947) AND (yso:p14004 OR yso:p11185) "
-            "use keyword_OR_setX parameter, where X is a number. "
-            "Can be used for example with "
-            "target group, category, activity or additional criteria keywords.",
-        ),
-        keyword_or_set2=List(
-            String,
-            description="Search for a combination of keywords as in "
-            "(yso:p1235 OR yso:p1947) AND (yso:p14004 OR yso:p11185) "
-            "use keyword_OR_setX parameter, where X is a number. "
-            "Can be used for example with "
-            "target group, category, activity or additional criteria keywords.",
-        ),
-        keyword_or_set3=List(
-            String,
-            description="Search for a combination of keywords as in "
-            "(yso:p1235 OR yso:p1947) AND (yso:p14004 OR yso:p11185) "
-            "use keyword_OR_setX parameter, where X is a number. "
-            "Can be used for example with "
-            "target group, category, activity or additional criteria keywords.",
-        ),
+        keyword_or_set1=List(String, description=_KEYWORD_OR_SET_DESCRIPTION),
+        keyword_or_set2=List(String, description=_KEYWORD_OR_SET_DESCRIPTION),
+        keyword_or_set3=List(String, description=_KEYWORD_OR_SET_DESCRIPTION),
         all_ongoing_and=List(String),
         all_ongoing_or=List(String),
         language=String(),
@@ -784,7 +772,7 @@ class AddEventMutationInput(EventMutationInput):
     )
     start_time = String(required=True)
     p_event = InputField(
-        "occurrences.schema.PalvelutarjotinEventInput",
+        _P_EVENT_INPUT_TYPE,
         required=True,
         description="Palvelutarjotin event data",
     )
@@ -794,7 +782,7 @@ class UpdateEventMutationInput(EventMutationInput):
     id = String(required=True)
     start_time = String(required=True)
     p_event = InputField(
-        "occurrences.schema.PalvelutarjotinEventInput",
+        _P_EVENT_INPUT_TYPE,
         description="Palvelutarjotin event data",
     )
     draft = Boolean(
@@ -807,7 +795,7 @@ class UpdateEventMutationInput(EventMutationInput):
 class PublishEventMutationInput(EventMutationInput):
     id = String(required=True)
     p_event = InputField(
-        "occurrences.schema.PalvelutarjotinEventInput",
+        _P_EVENT_INPUT_TYPE,
         description="Palvelutarjotin event data",
     )
 
