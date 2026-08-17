@@ -59,6 +59,14 @@ from palvelutarjotin.exceptions import (
     ObjectDoesNotExistError,
 )
 
+_TRANSLATED_FIELD_DESCRIPTION = (
+    "Translated field in the language defined in request ACCEPT-LANGUAGE header"
+)
+
+_PLACE_ID_DESCRIPTION = "Place id from linked event"
+
+_APPROVE_CANCELLED_OCCURRENCE_ERROR = "Cannot approve enrolment to cancelled occurrence"
+
 
 # TODO: Get rid of this when the graphene and django_filters gives the support.
 class OrderedDjangoFilterConnectionField(DjangoFilterConnectionField):
@@ -188,10 +196,7 @@ class PalvelutarjotinEventNode(DjangoObjectType):
     occurrences = OrderedDjangoFilterConnectionField(
         OccurrenceNode, orderBy=graphene.List(of_type=graphene.String), max_limit=400
     )
-    auto_acceptance_message = graphene.String(
-        description="Translated field in the language defined in request "
-        "ACCEPT-LANGUAGE header "
-    )
+    auto_acceptance_message = graphene.String(description=_TRANSLATED_FIELD_DESCRIPTION)
     translations = graphene.List(PalvelutarjotinEventTranslationType)
 
     class Meta:
@@ -285,10 +290,7 @@ class StudyLevelTranslationType(DjangoObjectType):
 
 class StudyLevelNode(DjangoObjectType):
     id = graphene.ID(source="pk", required=True)
-    label = graphene.String(
-        description="Translated field in the language defined in request "
-        "ACCEPT-LANGUAGE header "
-    )
+    label = graphene.String(description=_TRANSLATED_FIELD_DESCRIPTION)
 
     class Meta:
         model = StudyLevel
@@ -382,10 +384,7 @@ class VenueTranslationsInput(graphene.InputObjectType):
 
 
 class VenueNode(DjangoObjectType):
-    description = graphene.String(
-        description="Translated field in the language defined in request "
-        "ACCEPT-LANGUAGE header "
-    )
+    description = graphene.String(description=_TRANSLATED_FIELD_DESCRIPTION)
     id = graphene.ID(
         source="place_id", description="place_id from linkedEvent", required=True
     )
@@ -561,7 +560,7 @@ class CancelOccurrenceMutation(graphene.ClientIDMutation):
 
 class AddVenueMutation(graphene.relay.ClientIDMutation):
     class Input:
-        id = graphene.ID(description="Place id from linked event", required=True)
+        id = graphene.ID(description=_PLACE_ID_DESCRIPTION, required=True)
         translations = graphene.List(VenueTranslationsInput)
         has_clothing_storage = graphene.Boolean(required=True)
         has_snack_eating_place = graphene.Boolean(required=True)
@@ -588,7 +587,7 @@ class AddVenueMutation(graphene.relay.ClientIDMutation):
 
 class UpdateVenueMutation(graphene.relay.ClientIDMutation):
     class Input:
-        id = graphene.ID(description="Place id from linked event", required=True)
+        id = graphene.ID(description=_PLACE_ID_DESCRIPTION, required=True)
         translations = graphene.List(VenueTranslationsInput)
         has_clothing_storage = graphene.Boolean()
         has_snack_eating_place = graphene.Boolean()
@@ -616,7 +615,7 @@ class UpdateVenueMutation(graphene.relay.ClientIDMutation):
 
 class DeleteVenueMutation(graphene.relay.ClientIDMutation):
     class Input:
-        id = graphene.ID(description="Place id from linked event", required=True)
+        id = graphene.ID(description=_PLACE_ID_DESCRIPTION, required=True)
 
     @classmethod
     @event_staff_member_required
@@ -829,9 +828,7 @@ class PickEnrolmentFromQueueMutation(graphene.relay.ClientIDMutation):
             )
 
         if occurrence.cancelled:
-            raise EnrolCancelledOccurrenceError(
-                "Cannot approve enrolment to cancelled occurrence"
-            )
+            raise EnrolCancelledOccurrenceError(_APPROVE_CANCELLED_OCCURRENCE_ERROR)
 
         try:
             enrolment = queue_enrolment.create_enrolment(occurrence)
@@ -999,9 +996,7 @@ class ApproveEnrolmentMutation(graphene.relay.ClientIDMutation):
                 "Cannot approve enrolment that requires more than 1 occurrence"
             )
         if e.occurrence.cancelled:
-            raise EnrolCancelledOccurrenceError(
-                "Cannot approve enrolment to cancelled occurrence"
-            )
+            raise EnrolCancelledOccurrenceError(_APPROVE_CANCELLED_OCCURRENCE_ERROR)
         e.approve(custom_message=custom_message)
         e.refresh_from_db()
         return ApproveEnrolmentMutation(enrolment=e)
@@ -1030,9 +1025,7 @@ class MassApproveEnrolmentsMutation(graphene.relay.ClientIDMutation):
                     "Cannot mass approve enrolment that requires more than 1 occurrence"
                 )
             if e.occurrence.cancelled:
-                raise EnrolCancelledOccurrenceError(
-                    "Cannot approve enrolment to cancelled occurrence"
-                )
+                raise EnrolCancelledOccurrenceError(_APPROVE_CANCELLED_OCCURRENCE_ERROR)
             e.approve(custom_message=custom_message)
             e.refresh_from_db()
             enrolments.append(e)

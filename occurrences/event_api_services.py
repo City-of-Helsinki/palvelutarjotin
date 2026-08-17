@@ -19,6 +19,8 @@ if TYPE_CHECKING:
 
 logger = logging.getLogger(__name__)
 
+_BAD_REQUEST_ERROR_MSG = "Bad request to LinkedEvents API."
+
 
 def fetch_place_as_json(place_id: str, **filter_params):
     if not place_id:
@@ -29,7 +31,7 @@ def fetch_place_as_json(place_id: str, **filter_params):
     )
 
     if result.status_code == 400:
-        raise ApiBadRequestError("Bad request to LinkedEvents API.")
+        raise ApiBadRequestError(_BAD_REQUEST_ERROR_MSG)
 
     if result.status_code == 404:
         raise ObjectDoesNotExistError("Could not find the place from the API.")
@@ -54,7 +56,7 @@ def fetch_event_as_json(linked_event_id: str, **filter_params):
     )
 
     if result.status_code == 400:
-        raise ApiBadRequestError("Bad request to LinkedEvents API.")
+        raise ApiBadRequestError(_BAD_REQUEST_ERROR_MSG)
 
     if result.status_code == 404:
         raise ObjectDoesNotExistError("Could not find the event from the API.")
@@ -80,7 +82,7 @@ def update_event_to_linkedevents_api(linked_event_id: str, event_obj) -> None:
     result = api_client.update("event", linked_event_id, json.dumps(event_obj))
 
     if result.status_code == 400:
-        raise ApiBadRequestError("Bad request to LinkedEvents API.")
+        raise ApiBadRequestError(_BAD_REQUEST_ERROR_MSG)
 
     if result.status_code == 404:
         raise ObjectDoesNotExistError("Could not find the event from the API.")
@@ -203,7 +205,7 @@ def resolve_unit_name_with_unit_id(study_group: "StudyGroup"):
     result = api_client.retrieve("place", study_group.unit_id)
 
     if result.status_code == 400:
-        raise ApiBadRequestError("Bad request to LinkedEvents API.")
+        raise ApiBadRequestError(_BAD_REQUEST_ERROR_MSG)
 
     if result.status_code == 404:
         raise ObjectDoesNotExistError("Could not find the place from the API.")

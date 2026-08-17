@@ -15,6 +15,8 @@ from occurrences.models import (
 )
 from organisations.factories import OrganisationFactory, PersonFactory
 
+_HELSINKI_TZ = ZoneInfo("Europe/Helsinki")
+
 
 class LanguageFactory(factory.django.DjangoModelFactory):
     id = factory.Faker("pystr", max_chars=10)
@@ -29,7 +31,7 @@ class PalvelutarjotinEventFactory(factory.django.DjangoModelFactory):
     linked_event_id = factory.Faker("pystr", max_chars=5)
     enrolment_start = factory.Faker(
         "date_time",
-        tzinfo=ZoneInfo("Europe/Helsinki"),
+        tzinfo=_HELSINKI_TZ,
     )
     enrolment_end_days = factory.Faker("random_int", max=2)
     needed_occurrences = factory.Faker("random_int", max=10)
@@ -50,8 +52,8 @@ class OccurrenceFactory(
     place_id = factory.Faker("text", max_nb_chars=64)
     min_group_size = factory.Faker("random_int", max=1000)
     max_group_size = factory.Faker("random_int", max=1000)
-    start_time = factory.Faker("date_time", tzinfo=ZoneInfo("Europe/Helsinki"))
-    end_time = factory.Faker("date_time", tzinfo=ZoneInfo("Europe/Helsinki"))
+    start_time = factory.Faker("date_time", tzinfo=_HELSINKI_TZ)
+    end_time = factory.Faker("date_time", tzinfo=_HELSINKI_TZ)
     p_event = factory.SubFactory(PalvelutarjotinEventFactory)
     amount_of_seats = factory.Faker("random_int", max=50)
     seat_type = Occurrence.OCCURRENCE_SEAT_TYPE_CHILDREN_COUNT
