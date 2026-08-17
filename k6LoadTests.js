@@ -1,4 +1,4 @@
-/* eslint-disable */
+/* eslint-disable no-undef */
 import { sleep } from 'k6';
 import http from 'k6/http';
 
@@ -14,7 +14,7 @@ export const options = {
 
 export default () => {
   let url = 'https://kultus.api.stage.hel.ninja/graphql';
-  if (`${__ENV.K6_LOADTEST_ENV_URL}` != 'undefined') {
+  if (`${__ENV.K6_LOADTEST_ENV_URL}` !== 'undefined') {
     url = `${__ENV.K6_LOADTEST_ENV_URL}`;
   }
 
