@@ -26,7 +26,7 @@ IS_GRAPHIQL_ENABLED = settings.ENABLE_GRAPHIQL or settings.DEBUG
         + ([CSP_UNSAFE_INLINE] if IS_GRAPHIQL_ENABLED else []),
     }
 )
-@csrf_exempt
+@csrf_exempt  # nosonar: python:S4502 - GraphQL endpoint uses token-based auth; CSRF not applicable for JSON API
 def graphql_view(request, *args, **kwargs):
     return SentryGraphQLView.as_view(graphiql=IS_GRAPHIQL_ENABLED)(
         request, *args, **kwargs
