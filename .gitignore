@@ -88,4 +88,5 @@ venv/
 docker-compose.env
 docker-compose.env.yaml
 .vscode/
+.github/skills
 Pipfile*
