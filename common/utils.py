@@ -157,6 +157,21 @@ def raise_permission_denied_if_not_event_staff(user):
         )
 
 
+def _strip_port_from_ip(ip: str) -> str:
+    """Strip a trailing port from an IP address string."""
+    if "[" in ip and "]" in ip:
+        # IPv6 with brackets: [address]:port
+        return ip.split("]")[0][1:]
+    if "." in ip:
+        # IPv4: address:port
+        return ip.split(":")[0]
+    # Bare IPv6: strip trailing :port if the last segment is numeric
+    parts = ip.split(":")
+    if len(parts) > 1 and parts[-1].isdigit():
+        return ":".join(parts[:-1])
+    return ip
+
+
 def get_client_ip(request: Optional[HttpRequest]) -> Optional[str]:
     """
     Retrieves the client's IP address from the request, removing any port.
@@ -177,19 +192,7 @@ def get_client_ip(request: Optional[HttpRequest]) -> Optional[str]:
     ip_address = request.META.get("REMOTE_ADDR")
     if ip_address:
         if ":" in ip_address:
-            if "[" in ip_address and "]" in ip_address:
-                # IPv6 with brackets: [address]:port
-                return ip_address.split("]")[0][1:]
-            elif "." in ip_address:
-                # IPv4: address:port
-                return ip_address.split(":")[0]
-            else:
-                # Likely IPv6 without brackets: address:port
-                parts = ip_address.split(":")
-                if len(parts) > 1 and parts[-1].isdigit():
-                    return ":".join(parts[:-1])
-                else:
-                    return ip_address
+            return _strip_port_from_ip(ip_address)
         return ip_address
 
     return None
