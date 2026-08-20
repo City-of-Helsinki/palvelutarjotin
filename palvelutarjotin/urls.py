@@ -4,7 +4,7 @@ from django.conf import settings
 from django.conf.urls.static import static
 from django.urls import include, path, re_path
 from django.utils.translation import gettext
-from django.views.decorators.csrf import csrf_exempt
+from django.views.decorators.csrf import csrf_exempt, csrf_protect
 from drf_spectacular.views import (
     SpectacularAPIView,
     SpectacularRedocView,
@@ -26,11 +26,16 @@ IS_GRAPHIQL_ENABLED = settings.ENABLE_GRAPHIQL or settings.DEBUG
         + ([CSP_UNSAFE_INLINE] if IS_GRAPHIQL_ENABLED else []),
     }
 )
-@csrf_exempt  # nosonar: python:S4502 - GraphQL endpoint uses token-based auth; CSRF not applicable for JSON API
+@csrf_exempt
 def graphql_view(request, *args, **kwargs):
-    return SentryGraphQLView.as_view(graphiql=IS_GRAPHIQL_ENABLED)(
-        request, *args, **kwargs
-    )
+    view = SentryGraphQLView.as_view(graphiql=IS_GRAPHIQL_ENABLED)
+    # AuthenticationMiddleware sets request.user from the session only, so
+    # is_authenticated here means the request carries a session cookie.
+    # Session cookies are sent automatically by browsers, making CSRF attacks
+    # possible; bearer tokens are not, so they don't need CSRF protection.
+    if request.user.is_authenticated:
+        view = csrf_protect(view)
+    return view(request, *args, **kwargs)
 
 
 urlpatterns = [
