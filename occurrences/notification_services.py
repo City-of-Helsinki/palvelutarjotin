@@ -232,7 +232,7 @@ def send_sms_notification(
         )
         return False
     except NotificationTemplateException as e:
-        logger.error(e, exc_info=True)
+        logger.exception(e)
         return False
 
     if language in getattr(settings, "TRANSLATED_SMS_SENDER", {}):
