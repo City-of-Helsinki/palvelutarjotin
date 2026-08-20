@@ -1,5 +1,5 @@
 import logging
-from typing import List, Optional, Union
+from typing import Optional
 
 from django.conf import settings
 from django.db import models
@@ -39,10 +39,8 @@ def send_enrolment_summary_report_to_providers_from_days(days=1):
 
 
 def send_enrolment_summary_report_to_providers(
-    enrolments: Union[models.QuerySet, List["occurrences_models.Enrolment"]],
-    queued_enrolments: Union[
-        models.QuerySet, List["occurrences_models.EventQueueEnrolment"]
-    ],
+    enrolments: models.QuerySet | list["occurrences_models.Enrolment"],
+    queued_enrolments: models.QuerySet | list["occurrences_models.EventQueueEnrolment"],
 ):
     logger.info("Creating enrolment report summaries...")
     reports = {}
