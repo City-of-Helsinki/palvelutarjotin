@@ -62,7 +62,7 @@ class OrganisationInline(admin.TabularInline):
 class OrganisationProposalAdminForm(forms.ModelForm):
     class Meta:
         model = OrganisationProposal
-        fields = "__all__"
+        fields = ["name", "description", "phone_number", "applicant"]
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
@@ -138,7 +138,14 @@ class PersonAdminForm(forms.ModelForm):
 
     class Meta:
         model = Person
-        fields = "__all__"
+        fields = [
+            "user",
+            "name",
+            "phone_number",
+            "email_address",
+            "language",
+            "place_ids",
+        ]
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)

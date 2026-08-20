@@ -130,21 +130,25 @@ class IsPartOfCulturalRouteFilter(BooleanListFilterBase):
 class EnrolmentReportAdminForm(forms.ModelForm):
     class Meta:
         model = EnrolmentReport
-        fields = "__all__"
-        # Exclude foreign keys that has an advanced and aggressive setter
-        # Exclude all the array fields that contains array field,
-        # because they don't have a working widget!
-        exclude = [
-            "_enrolment",
-            "_occurrence",
-            "_study_group",
-            "study_group_study_levels",
-            "study_group_unit_position",
-            "study_group_unit_divisions",
-            "occurrence_place_position",
-            "occurrence_place_divisions",
-            "occurrence_languages",
-            "keywords",
+        # Omit FK fields (advanced setters) and ArrayFields (no working widget)
+        fields = [
+            "study_group_unit_id",
+            "study_group_amount_of_children",
+            "study_group_amount_of_adult",
+            "is_part_of_cultural_route",
+            "enrolment_time",
+            "enrolment_status",
+            "occurrence_place_id",
+            "occurrence_cancelled",
+            "occurrence_amount_of_seats",
+            "occurrence_start_time",
+            "occurrence_end_time",
+            "linked_event_id",
+            "enrolment_start_time",
+            "enrolment_externally",
+            "provider",
+            "publisher",
+            "distance_from_unit_to_event_place",
         ]
 
 
