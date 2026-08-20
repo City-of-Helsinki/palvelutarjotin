@@ -1,5 +1,5 @@
 from datetime import timedelta
-from typing import List, Optional, Tuple, Union
+from typing import Iterable, List, Optional, Tuple, Union
 
 import requests
 from django.conf import settings
@@ -245,7 +245,7 @@ def get_or_create_contact_person(contact_person_data):
     return person
 
 
-def get_instance_list(model_class, instance_pks: List[str]):
+def get_instance_list(model_class, instance_pks: Iterable[str]):
     result = []
     for instance_pk in instance_pks:
         try:
