@@ -83,6 +83,27 @@ def validate_study_group(study_group: Union[StudyGroup, dict]):
         )
 
 
+def validate_new_enrolment(study_group: StudyGroup, occurrence: Occurrence):
+    if (
+        study_group.occurrences.filter(
+            p_event=occurrence.p_event, cancelled=False
+        ).count()
+        >= occurrence.p_event.needed_occurrences
+    ):
+        raise EnrolmentMaxNeededOccurrenceReachedError(
+            "Number of enrolled occurrences is greater than the needed occurrences"
+        )
+    if (
+        occurrence.seats_taken
+        + (
+            study_group.group_size_with_adults()
+            if occurrence.seat_type == Occurrence.OCCURRENCE_SEAT_TYPE_CHILDREN_COUNT
+            else 1
+        )
+    ) > occurrence.amount_of_seats:
+        raise EnrolmentNotEnoughCapacityError("Not enough space for this study group")
+
+
 def validate_enrolment(  # noqa: C901
     study_group: StudyGroup, occurrence: Occurrence, new_enrolment=True
 ):
@@ -124,32 +145,9 @@ def validate_enrolment(  # noqa: C901
         raise EnrolmentClosedError("Enrolment has been closed")
     # Skip these validations when updating enrolment
     if new_enrolment:
-        if (
-            study_group.occurrences.filter(
-                p_event=occurrence.p_event, cancelled=False
-            ).count()
-            >= occurrence.p_event.needed_occurrences
-        ):
-            raise EnrolmentMaxNeededOccurrenceReachedError(
-                "Number of enrolled occurrences is greater than the needed occurrences"
-            )
-        if (
-            occurrence.seats_taken
-            + (
-                study_group.group_size_with_adults()
-                if occurrence.seat_type
-                == Occurrence.OCCURRENCE_SEAT_TYPE_CHILDREN_COUNT
-                else 1
-            )
-        ) > occurrence.amount_of_seats:
-            raise EnrolmentNotEnoughCapacityError(
-                "Not enough space for this study group"
-            )
-    else:
-        if occurrence.seats_taken > occurrence.amount_of_seats:
-            raise EnrolmentNotEnoughCapacityError(
-                "Not enough space for this study group"
-            )
+        validate_new_enrolment(study_group, occurrence)
+    elif occurrence.seats_taken > occurrence.amount_of_seats:
+        raise EnrolmentNotEnoughCapacityError("Not enough space for this study group")
 
 
 def verify_captcha(key):
