@@ -89,13 +89,15 @@ class BrowserTestAwareJWTAuthentication(RequestJWTAuthentication):
 
         try:
             auth_scheme, jwt_value = auth_header.split()
-            if auth_scheme.lower() == "bearer":
-                return JWT(jwt_value, self._api_token_auth_settings)
+            jwt = (
+                JWT(jwt_value, self._api_token_auth_settings)
+                if auth_scheme.lower() == "bearer"
+                else None
+            )
         except ValueError:
-            # Handle potential errors from splitting the header
-            return None
+            jwt = None
 
-        return None
+        return jwt
 
     def _validate_symmetrically_signed_jwt(self, jwt: JWT):
         """
