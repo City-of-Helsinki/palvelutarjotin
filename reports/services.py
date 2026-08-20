@@ -1,5 +1,5 @@
 from datetime import datetime
-from typing import List, Optional, Union
+from typing import Optional
 
 from django.db import models
 
@@ -35,7 +35,7 @@ def sync_enrolment_reports(
 
 def get_unsynced_enrollments(
     sync_from: Optional[datetime] = None,
-) -> Union[models.QuerySet, List[occurrences_models.Enrolment]]:
+) -> models.QuerySet | list[occurrences_models.Enrolment]:
     """Get a list of enrolments which are updated after latest report updates."""
     sync_from = sync_from or report_models.EnrolmentReport.objects.latest_sync()
     if sync_from:
@@ -45,7 +45,7 @@ def get_unsynced_enrollments(
 
 def get_missing_enrollments(
     sync_from: Optional[datetime] = None,
-) -> Union[models.QuerySet, List[occurrences_models.Enrolment]]:
+) -> models.QuerySet | list[occurrences_models.Enrolment]:
     """Get a list of enrolments which are missing from EnrolmentReport db-table."""
     enrolments = get_unsynced_enrollments(sync_from=sync_from)
     reports_enrolment_ids = report_models.EnrolmentReport.objects.filter(

@@ -1,5 +1,5 @@
 from datetime import timedelta
-from typing import Iterable, List, Optional, Tuple, Union
+from typing import Iterable, List, Optional, Tuple
 
 import requests
 from django.conf import settings
@@ -72,7 +72,7 @@ def add_contact_persons_to_object(info, contact_persons, obj):
         obj.contact_persons.add(person)
 
 
-def validate_study_group(study_group: Union[StudyGroup, dict]):
+def validate_study_group(study_group: StudyGroup | dict):
     if not isinstance(study_group, dict):
         study_group_data = study_group.__dict__
     else:
