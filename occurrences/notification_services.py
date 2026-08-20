@@ -193,6 +193,24 @@ def send_event_notifications_to_person(
         )
 
 
+def _get_sms_body(
+    template, context, language, notification_template_id
+) -> Optional[str]:
+    try:
+        _, _, body_text = render_notification_template(template, context, language)
+    except NotificationTemplate.DoesNotExist:
+        logger.debug(
+            'NotificationTemplate "{}" does not exist, not sending anything.'.format(
+                notification_template_id
+            )
+        )
+        body_text = None
+    except NotificationTemplateException as e:
+        logger.exception(e)
+        body_text = None
+    return body_text
+
+
 def send_sms_notification(
     destinations, notification_template_id, context=None, language=None
 ) -> bool:
@@ -220,24 +238,13 @@ def send_sms_notification(
         )
         return False
 
-    try:
-        _, _, body_text = render_notification_template(template, context, language)
-    except NotificationTemplate.DoesNotExist:
-        logger.debug(
-            'NotificationTemplate "{}" does not exist, not sending anything.'.format(
-                notification_template_id
-            )
-        )
-        return False
-    except NotificationTemplateException as e:
-        logger.exception(e)
+    body_text = _get_sms_body(template, context, language, notification_template_id)
+    if body_text is None:
         return False
 
-    if language in getattr(settings, "TRANSLATED_SMS_SENDER", {}):
-        sender = settings.TRANSLATED_SMS_SENDER[language]
-    else:
-        sender = settings.DEFAULT_SMS_SENDER
-
+    sender = getattr(settings, "TRANSLATED_SMS_SENDER", {}).get(
+        language, settings.DEFAULT_SMS_SENDER
+    )
     resp = notification_service.send_sms(
         sender=sender, destinations=destinations, text=body_text
     )

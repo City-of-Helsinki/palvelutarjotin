@@ -40,13 +40,16 @@ def deepfix_enum_values(data):
     Fix enum values recursively in/out of dictionaries, lists, sets, and tuples.
     """
     if isinstance(data, dict):
-        return {deepfix_enum_values(k): deepfix_enum_values(v) for k, v in data.items()}
+        result = {
+            deepfix_enum_values(k): deepfix_enum_values(v) for k, v in data.items()
+        }
     elif isinstance(data, (list, set, tuple)):
-        return type(data)(deepfix_enum_values(v) for v in data)
+        result = type(data)(deepfix_enum_values(v) for v in data)
     elif is_enum_value(data):
-        return data.value
+        result = data.value
     else:
-        return data
+        result = data
+    return result
 
 
 def map_enums_to_values_in_kwargs(method):
@@ -161,15 +164,15 @@ def _strip_port_from_ip(ip: str) -> str:
     """Strip a trailing port from an IP address string."""
     if "[" in ip and "]" in ip:
         # IPv6 with brackets: [address]:port
-        return ip.split("]")[0][1:]
-    if "." in ip:
+        result = ip.split("]")[0][1:]
+    elif "." in ip:
         # IPv4: address:port
-        return ip.split(":")[0]
-    # Bare IPv6: strip trailing :port if the last segment is numeric
-    parts = ip.split(":")
-    if len(parts) > 1 and parts[-1].isdigit():
-        return ":".join(parts[:-1])
-    return ip
+        result = ip.split(":")[0]
+    else:
+        # Bare IPv6: strip trailing :port if the last segment is numeric
+        parts = ip.split(":")
+        result = ":".join(parts[:-1]) if len(parts) > 1 and parts[-1].isdigit() else ip
+    return result
 
 
 def get_client_ip(request: Optional[HttpRequest]) -> Optional[str]:
@@ -182,17 +185,10 @@ def get_client_ip(request: Optional[HttpRequest]) -> Optional[str]:
     if not request:
         return None
 
-    ip_address = request.headers.get("X-Forwarded-For")
-    if ip_address:
-        client_ip = ip_address.split(",")[0].strip()
-        if ":" in client_ip:
-            return client_ip.split(":")[0]
-        return client_ip
+    forwarded_for = request.headers.get("X-Forwarded-For")
+    if forwarded_for:
+        client_ip = forwarded_for.split(",")[0].strip()
+        return client_ip.split(":")[0] if ":" in client_ip else client_ip
 
-    ip_address = request.META.get("REMOTE_ADDR")
-    if ip_address:
-        if ":" in ip_address:
-            return _strip_port_from_ip(ip_address)
-        return ip_address
-
-    return None
+    ip = request.META.get("REMOTE_ADDR") or None
+    return _strip_port_from_ip(ip) if ip else ip
