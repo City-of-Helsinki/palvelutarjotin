@@ -93,10 +93,10 @@ def get_api_version():
 
 
 def get_node_id_from_global_id(global_id, node_name):
-    name, id = from_global_id(global_id)
+    name, node_id = from_global_id(global_id)
     if name != node_name:
         raise IncorrectGlobalIdError("Node type does not match")
-    return id
+    return node_id
 
 
 def convert_to_localtime_tz(value):
