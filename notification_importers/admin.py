@@ -1,5 +1,6 @@
 import importlib
 import logging
+from typing import Optional
 
 from csp.constants import UNSAFE_INLINE as CSP_UNSAFE_INLINE
 from csp.decorators import csp_update
@@ -25,7 +26,7 @@ class NotificationTemplateAdminWithImporter(NotificationTemplateAdmin):
     actions = ("update_selected",)
     ordering = ("type",)
     change_list_template = "notification_change_list.html"
-    importer: AbstractNotificationImporter = None
+    importer: Optional[AbstractNotificationImporter] = None
 
     def changelist_view(self, request, *args, **kwargs):
         try:
