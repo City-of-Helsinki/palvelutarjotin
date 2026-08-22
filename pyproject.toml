@@ -1,7 +1,7 @@
 [project]
 name = "palvelutarjotin"
 requires-python = ">= 3.12, <3.13"
-version = "1.36.4"
+version = "1.36.5"
 dependencies = [
     "Django~=5.2",
     "certifi",

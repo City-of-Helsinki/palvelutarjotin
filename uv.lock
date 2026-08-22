@@ -852,7 +852,7 @@ wheels = [
 
 [[package]]
 name = "palvelutarjotin"
-version = "1.36.4"
+version = "1.36.5"
 source = { virtual = "." }
 dependencies = [
     { name = "certifi" },

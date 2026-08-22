@@ -1,6 +1,33 @@
 <!-- REMINDER: While updating changelog, also remember to update
 the version in palvelutarjotin/__init.py__ -->
 
+## [1.36.5](https://github.com/City-of-Helsinki/palvelutarjotin/compare/palvelutarjotin-v1.36.4...palvelutarjotin-v1.36.5) (2026-08-22)
+
+
+### Bug Fixes
+
+* Accept iterables in get_instance_list typing ([03b7739](https://github.com/City-of-Helsinki/palvelutarjotin/commit/03b77392e49b9c9efba5ba253747bda2715cba2e))
+* Allow optional importer type in notification admin ([aa0d113](https://github.com/City-of-Helsinki/palvelutarjotin/commit/aa0d113fc0403eaf739f6c8c6b460ee13acb6a08))
+* Enforce CSRF protection for session-authenticated GraphQL requests ([929bc27](https://github.com/City-of-Helsinki/palvelutarjotin/commit/929bc273dd25c81832a4fabfa0d5d13d9f71081e))
+* Exclude email templates from Sonar duplication detection ([0460874](https://github.com/City-of-Helsinki/palvelutarjotin/commit/046087482711ab7aa35a5b27816c36bcfa85b717))
+* Extract repeated string literals into module-level constants ([81f93e3](https://github.com/City-of-Helsinki/palvelutarjotin/commit/81f93e3d0d93a26b7ceb46acc0cf6ba9cf9767b8))
+* Quote variable-expanded tarball paths in Dockerfile ([bfc1b28](https://github.com/City-of-Helsinki/palvelutarjotin/commit/bfc1b28ec48b94e3e44c0943f42912a13cfc620d))
+* Reduce enrolment validation complexity ([e29048a](https://github.com/City-of-Helsinki/palvelutarjotin/commit/e29048a8136bf674aa8245bdfd74c00e2e9bf544))
+* Reduce return counts to fix S1142 maintainability issues ([dd5931b](https://github.com/City-of-Helsinki/palvelutarjotin/commit/dd5931b4e50c9e3255c9ab34cb6e5d8a70970745))
+* Rename shadowing id variable in common utils ([f927243](https://github.com/City-of-Helsinki/palvelutarjotin/commit/f92724372d22c7431412efdb92da61ab9a1e0f67))
+* Replace __all__ form fields with explicit field lists ([d943148](https://github.com/City-of-Helsinki/palvelutarjotin/commit/d943148f0a7427f36ee9cc35fe45a706e3001e53))
+* Resolve Sonar code smells in load test script ([f17aab1](https://github.com/City-of-Helsinki/palvelutarjotin/commit/f17aab1c4c2cc09f5eb5d3f672613b4a994a8e1f))
+* Scope eslint-disable and fix strict equality in k6LoadTests.js ([511bcaa](https://github.com/City-of-Helsinki/palvelutarjotin/commit/511bcaa884500ceb5d859e6a2164b495cf2dc747))
+* Suppress CSRF false-positive on GraphQL endpoint ([f28e457](https://github.com/City-of-Helsinki/palvelutarjotin/commit/f28e45772d073c62fd2f54d22cfe89b303d4c0c4))
+* Use bash [[ ]] for SKIP_DATABASE_CHECK condition ([7e9d2af](https://github.com/City-of-Helsinki/palvelutarjotin/commit/7e9d2af13504e2c65f5f3f2541fcdfa4647df3ce))
+* Use logger.exception in SMS template exception handler ([1a85830](https://github.com/City-of-Helsinki/palvelutarjotin/commit/1a85830c7d6211acf783eef41c0c4aa1091f5fe2))
+* Use union type syntax for type hints ([6b5506c](https://github.com/City-of-Helsinki/palvelutarjotin/commit/6b5506c943c8cde42c4e35e35a48ef327e9247f1))
+
+
+### Dependencies
+
+* Bump sqlparse from 0.5.5 to 0.6.0 ([b4ac5c0](https://github.com/City-of-Helsinki/palvelutarjotin/commit/b4ac5c01316c5474702a042cf6294725f9dc674e))
+
 ## [1.36.4](https://github.com/City-of-Helsinki/palvelutarjotin/compare/palvelutarjotin-v1.36.3...palvelutarjotin-v1.36.4) (2026-08-14)
 
 
