@@ -44,7 +44,8 @@ class ExportReportViewMixin:
         )
     """
 
-    def _convert_id_value(self, value):
+    @staticmethod
+    def _convert_id_value(value):
         try:
             return int(value)
         except ValueError:

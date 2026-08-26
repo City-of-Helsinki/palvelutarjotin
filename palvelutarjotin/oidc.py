@@ -236,7 +236,8 @@ class BrowserTestAwareJWTAuthentication(RequestJWTAuthentication):
 
 
 class FixTunnistamoMixin:
-    def __convert_amr_to_list(self, id_token):
+    @staticmethod
+    def __convert_amr_to_list(id_token):
         """
         OIDC's amr validation fails, since Tunnistamo sends the amr as a string
         instead of a list:
@@ -254,7 +255,8 @@ class FixTunnistamoMixin:
 
 
 class FixLastLoginMixin:
-    def update_last_login_after_interval(self, user):
+    @staticmethod
+    def update_last_login_after_interval(user):
         """
         Update the user object last_login field if enough time has passed.
         The setting UPDATE_LAST_LOGIN["UPDATE_INTERVAL_MINUTES"] determines
