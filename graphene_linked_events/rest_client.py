@@ -26,7 +26,7 @@ class LinkedEventsApiClient(object):
         formatted_params = self.convert_to_string_param(params)
         if is_event_staff:
             headers = {"apikey": self.api_key, "Cache-Control": "no-cache"}
-            cookies = dict(nocache="meow")
+            cookies = {"nocache": "meow"}
             return requests.request(
                 actions["retrieve"]["method"],
                 actions["retrieve"]["url"].format(id),
@@ -53,7 +53,7 @@ class LinkedEventsApiClient(object):
 
         if is_event_staff:
             headers = {"apikey": self.api_key, "Cache-Control": "no-cache"}
-            cookies = dict(nocache="meow")
+            cookies = {"nocache": "meow"}
             return requests.request(
                 actions["list"]["method"],
                 actions["list"]["url"],
