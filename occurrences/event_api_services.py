@@ -192,7 +192,7 @@ def get_enrollable_event_time_range_from_occurrences(
     # TODO: Remove p_event.enrolment_start and
     # start using the one from LinkedEvents Event API,
     # so there would be one field less to sync between the APIs
-    return (p_event.enrolment_start, end_time)
+    return p_event.enrolment_start, end_time
 
 
 def resolve_unit_name_with_unit_id(study_group: "StudyGroup"):
