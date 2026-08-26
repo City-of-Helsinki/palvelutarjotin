@@ -293,7 +293,7 @@ class GraphQLApiTokenAuthentication(
         user_auth_tuple = super().authenticate(request)
         if not user_auth_tuple:
             return None
-        user, auth = user_auth_tuple
+        user, _ = user_auth_tuple
 
         if settings.UPDATE_LAST_LOGIN and settings.UPDATE_LAST_LOGIN["ENABLED"]:
             self.update_last_login_after_interval(user)
