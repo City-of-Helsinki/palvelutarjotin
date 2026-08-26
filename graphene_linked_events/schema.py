@@ -191,11 +191,7 @@ class InLanguage(IdObject):
 
 def _get_event_keyword_sets(event, keyword_set_id):
     kw_set = get_keyword_set_by_id(keyword_set_id)
-    return [
-        kw
-        for kw in kw_set.keywords
-        if kw.id in list(map(lambda x: x.id, event.keywords))
-    ]
+    return [kw for kw in kw_set.keywords if kw.id in [x.id for x in event.keywords]]
 
 
 class Event(IdObject):

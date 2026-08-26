@@ -187,7 +187,7 @@ def create_study_group(study_group_data):
     validate_study_group(study_group_data)
     study_group = StudyGroup.objects.create(**study_group_data)
     study_group.study_levels.set(
-        get_instance_list(StudyLevel, map(lambda x: x.lower(), study_levels_data))
+        get_instance_list(StudyLevel, [x.lower() for x in study_levels_data])
     )
 
     return study_group
@@ -214,7 +214,7 @@ def update_study_group(study_group_data, study_group_obj=None):
     study_levels_data = study_group_data.pop("study_levels", None)
     if study_levels_data:
         study_group_obj.study_levels.set(
-            get_instance_list(StudyLevel, map(lambda x: x.lower(), study_levels_data))
+            get_instance_list(StudyLevel, [x.lower() for x in study_levels_data])
         )
 
     validate_study_group(study_group_data)
