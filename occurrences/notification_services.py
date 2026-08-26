@@ -96,7 +96,7 @@ def send_enrolment_summary_report_to_providers(
         }
         context_for_address[address] = context
 
-    emails = ",".join([address for address in context_for_address.keys()])
+    emails = ",".join(context_for_address.keys())
     logger.debug(f"Reports will be sent to these addresses: {emails}")
 
     # NOTE: Instead of sending the notification in the previous loop,
