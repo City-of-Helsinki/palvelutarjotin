@@ -434,7 +434,7 @@ class UserAdmin(AuditlogAdminViewAccessLogMixin, DjangoUserAdmin):
     def _has_organisations_changed(self, person, form):
         return (
             bool(
-                sorted(list(person.organisations.all().values_list("id", flat=True)))
+                sorted(person.organisations.all().values_list("id", flat=True))
                 != sorted([org.id for org in form.cleaned_data["organisations"]])
             )
             if person
