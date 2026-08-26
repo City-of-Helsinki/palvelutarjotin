@@ -65,7 +65,7 @@ def get_place_location_data(place_id: str) -> tuple:
     place_json = get_place_json_from_linkedevents(place_id)
     coordinates = resolve_place_coordinates(place_json)
     divisions = resolve_place_divisions(place_json)
-    return (coordinates, divisions)
+    return coordinates, divisions
 
 
 def get_place_json_from_linkedevents(place_id: str):
