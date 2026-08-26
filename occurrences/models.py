@@ -445,7 +445,7 @@ class Occurrence(GDPRModel, SerializableMixin, TimestampedModel):
             self.p_event
         )
 
-        if not (pre_start_time, pre_end_time) == (post_start_time, post_end_time):
+        if (pre_start_time, pre_end_time) != (post_start_time, post_end_time):
             self.__post_save_republish_event()
 
     def delete(self, *args, **kwargs):
