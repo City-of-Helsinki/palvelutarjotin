@@ -29,7 +29,10 @@ from occurrences.models import (
 )
 from organisations.factories import PersonFactory, UserFactory
 from organisations.models import Organisation, Person
-from palvelutarjotin.exceptions import EnrolmentNotEnoughCapacityError
+from palvelutarjotin.exceptions import (
+    EnrolmentNotEnoughCapacityError,
+    LinkedEventsApiError,
+)
 from verification_token.models import VerificationToken
 
 User = get_user_model()
@@ -46,6 +49,18 @@ def test_palvelutarjotin_event(mock_get_event_data):
     assert PalvelutarjotinEvent.objects.count() == 1
     assert Organisation.objects.count() == 1
     assert Person.objects.count() == 1
+
+
+@pytest.mark.django_db
+def test_palvelutarjotin_event_handles_linkedevents_error(mock_get_event_data):
+    p_event = PalvelutarjotinEventFactory()
+
+    with patch(
+        "occurrences.models.retrieve_linked_events_data",
+        side_effect=LinkedEventsApiError("LinkedEvents API unavailable"),
+    ):
+        assert p_event.get_event_data() is None
+        assert p_event.is_published() is False
 
 
 @pytest.mark.django_db
