@@ -1,6 +1,20 @@
 <!-- REMINDER: While updating changelog, also remember to update
 the version in palvelutarjotin/__init.py__ -->
 
+## [1.36.6](https://github.com/City-of-Helsinki/palvelutarjotin/compare/palvelutarjotin-v1.36.5...palvelutarjotin-v1.36.6) (2026-10-03)
+
+
+### Bug Fixes
+
+* Normalize linkedevents API errors ([4c72d0b](https://github.com/City-of-Helsinki/palvelutarjotin/commit/4c72d0b16461a74ea20cec4bd71f297c56bad285))
+
+
+### Dependencies
+
+* Bump oauthlib from 3.3.1 to 4.0.0 ([da1ea66](https://github.com/City-of-Helsinki/palvelutarjotin/commit/da1ea66824eec1088a4a1fa58fabcb22e1aa9c17))
+* Bump pyjwt from 2.13.0 to 2.15.0 ([0a7eb51](https://github.com/City-of-Helsinki/palvelutarjotin/commit/0a7eb51602f4b3dcf347510c86202be7c54baaa4))
+* Bump urllib3 from 2.7.0 to 2.8.0 ([e5386f2](https://github.com/City-of-Helsinki/palvelutarjotin/commit/e5386f2bcf8aa0a7995ab2e32fc98c42a6f9e0ce))
+
 ## [1.36.5](https://github.com/City-of-Helsinki/palvelutarjotin/compare/palvelutarjotin-v1.36.4...palvelutarjotin-v1.36.5) (2026-09-04)
 
 
