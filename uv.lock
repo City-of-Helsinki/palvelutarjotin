@@ -932,7 +932,7 @@ requires-dist = [
     { name = "pyjwt", extras = ["crypto"] },
     { name = "requests" },
     { name = "sentry-sdk" },
-    { name = "social-auth-app-django", specifier = ">=5.9,<6" },
+    { name = "social-auth-app-django" },
     { name = "urllib3" },
 ]
 
