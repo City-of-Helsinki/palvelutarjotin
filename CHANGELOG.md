@@ -1,6 +1,23 @@
 <!-- REMINDER: While updating changelog, also remember to update
 the version in palvelutarjotin/__init.py__ -->
 
+## [1.36.6](https://github.com/City-of-Helsinki/palvelutarjotin/compare/palvelutarjotin-v1.36.5...palvelutarjotin-v1.36.6) (2026-10-11)
+
+
+### Bug Fixes
+
+* Normalize linkedevents API errors ([4c72d0b](https://github.com/City-of-Helsinki/palvelutarjotin/commit/4c72d0b16461a74ea20cec4bd71f297c56bad285))
+
+
+### Dependencies
+
+* Bump django-helusers ([403d5c1](https://github.com/City-of-Helsinki/palvelutarjotin/commit/403d5c19001ba73a30aef20b6bef46fd0ad2aa86))
+* Bump oauthlib from 3.3.1 to 4.0.0 ([da1ea66](https://github.com/City-of-Helsinki/palvelutarjotin/commit/da1ea66824eec1088a4a1fa58fabcb22e1aa9c17))
+* Bump pyjwt from 2.13.0 to 2.15.0 ([0a7eb51](https://github.com/City-of-Helsinki/palvelutarjotin/commit/0a7eb51602f4b3dcf347510c86202be7c54baaa4))
+* Bump social-auth-core from 4.9.1 to 5.0.0 ([03e3f4e](https://github.com/City-of-Helsinki/palvelutarjotin/commit/03e3f4e9053c598a9ef7e011bac8f0b84b8bdf88))
+* Bump urllib3 from 2.7.0 to 2.8.0 ([e5386f2](https://github.com/City-of-Helsinki/palvelutarjotin/commit/e5386f2bcf8aa0a7995ab2e32fc98c42a6f9e0ce))
+* Upgrade django-resilient-logger to version 3.1.0 ([0e3eccb](https://github.com/City-of-Helsinki/palvelutarjotin/commit/0e3eccb850d2ef898f78ece7acaa098fdd366c73))
+
 ## [1.36.5](https://github.com/City-of-Helsinki/palvelutarjotin/compare/palvelutarjotin-v1.36.4...palvelutarjotin-v1.36.5) (2026-09-04)
 
 
