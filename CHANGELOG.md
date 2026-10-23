@@ -1,6 +1,19 @@
 <!-- REMINDER: While updating changelog, also remember to update
 the version in palvelutarjotin/__init.py__ -->
 
+## [1.36.7](https://github.com/City-of-Helsinki/palvelutarjotin/compare/palvelutarjotin-v1.36.6...palvelutarjotin-v1.36.7) (2026-10-23)
+
+
+### Bug Fixes
+
+* Bump uv version to 0.13.5 ([cdd3e29](https://github.com/City-of-Helsinki/palvelutarjotin/commit/cdd3e291bf5f66d42b7a7f28a61fc5b24e0db98c))
+
+
+### Dependencies
+
+* Bump certifi to 2026.10.19 ([f584ce1](https://github.com/City-of-Helsinki/palvelutarjotin/commit/f584ce1601140aa45ee9e1506e2f2ca7a26084ad))
+* Bump social-auth-core from 5.0.0 to 5.0.2 ([5ad1c90](https://github.com/City-of-Helsinki/palvelutarjotin/commit/5ad1c904c8a9b6541e586651af1933fc929a51b1))
+
 ## [1.36.6](https://github.com/City-of-Helsinki/palvelutarjotin/compare/palvelutarjotin-v1.36.5...palvelutarjotin-v1.36.6) (2026-10-13)
 
 
