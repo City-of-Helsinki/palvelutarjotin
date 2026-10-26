@@ -1,6 +1,14 @@
 <!-- REMINDER: While updating changelog, also remember to update
 the version in palvelutarjotin/__init.py__ -->
 
+## [1.36.8](https://github.com/City-of-Helsinki/palvelutarjotin/compare/palvelutarjotin-v1.36.7...palvelutarjotin-v1.36.8) (2026-10-26)
+
+
+### Dependencies
+
+* Bump djangorestframework from 3.17.2 to 3.18.2 ([1bdde1e](https://github.com/City-of-Helsinki/palvelutarjotin/commit/1bdde1ea1c38d1dc5a1b9cf99ad09d4d2687e476))
+* Bump graphql-core from 3.2.11 to 3.2.12 ([972edc4](https://github.com/City-of-Helsinki/palvelutarjotin/commit/972edc45519816b3c2623ec369f56320f0784fdc))
+
 ## [1.36.7](https://github.com/City-of-Helsinki/palvelutarjotin/compare/palvelutarjotin-v1.36.6...palvelutarjotin-v1.36.7) (2026-10-23)
 
 
