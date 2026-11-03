@@ -1048,6 +1048,18 @@ class Enrolment(GDPRModel, SerializableMixin, EnrolmentBase):
     def __str__(self):
         return f"{self.id} {self.occurrence.start_time} {self.study_group.unit_name}"
 
+    @property
+    def seats_taken(self):
+        if (
+            self.occurrence.seat_type
+            == self.occurrence.OCCURRENCE_SEAT_TYPE_CHILDREN_COUNT
+        ):
+            return self.study_group.group_size + self.study_group.amount_of_adult
+        else:
+            # For other types of enrolments, seats taken will be the number of
+            # enrolments.
+            return 1
+
     def is_editable_by_user(self, user):
         return user.person.organisations.filter(
             id=self.occurrence.p_event.organisation.id
@@ -1092,6 +1104,8 @@ class Enrolment(GDPRModel, SerializableMixin, EnrolmentBase):
         In some cases e.g. in multi enrolment situations,
         the approvance notification sending should be called separately.
 
+        Pending enrolments can overbook, but it cannot be approved.
+
         Args:
             send_notification (bool, optional): should a notification be sent
             after approvance. Defaults to True.
@@ -1101,7 +1115,11 @@ class Enrolment(GDPRModel, SerializableMixin, EnrolmentBase):
         Raises:
             EnrolmentNotEnoughCapacityError: Not enough space for the group
         """
-        if self.occurrence.seats_taken > self.occurrence.amount_of_seats:
+        if (
+            self.status != self.STATUS_APPROVED
+            and self.occurrence.seats_approved + self.seats_taken
+            > self.occurrence.amount_of_seats
+        ):
             # More seats are taken, than there actually are seats
             raise EnrolmentNotEnoughCapacityError(
                 "Not enough space for this study group"

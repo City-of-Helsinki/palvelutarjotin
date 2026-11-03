@@ -1026,9 +1026,12 @@ class MassApproveEnrolmentsMutation(graphene.relay.ClientIDMutation):
                 )
             if e.occurrence.cancelled:
                 raise EnrolCancelledOccurrenceError(_APPROVE_CANCELLED_OCCURRENCE_ERROR)
-            e.approve(custom_message=custom_message)
+            e.approve(send_notification=False)
             e.refresh_from_db()
             enrolments.append(e)
+        for e in enrolments:
+            # Only send notifications if none of the approvals failed.
+            e.send_approve_notification(custom_message)
         return MassApproveEnrolmentsMutation(enrolments=enrolments)
 
 

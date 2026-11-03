@@ -30,6 +30,7 @@ from occurrences.models import (
 from organisations.factories import PersonFactory, UserFactory
 from organisations.models import Organisation, Person
 from palvelutarjotin.exceptions import (
+    ApiUsageError,
     EnrolmentNotEnoughCapacityError,
     LinkedEventsApiError,
 )
@@ -472,12 +473,51 @@ def test_occurrence_seat_approved(mock_get_event_data):
     )
 
 
+@pytest.mark.parametrize(
+    "group_size,amount_of_adult",
+    [
+        (15, 0),
+        (10, 5),
+        (0, 15),
+    ],
+)
+@pytest.mark.parametrize(
+    "seat_type,expected",
+    [
+        # Seats taken should be the size of the group.
+        (Occurrence.OCCURRENCE_SEAT_TYPE_CHILDREN_COUNT, 15),
+        # Seats taken should be the number of enrolments.
+        (Occurrence.OCCURRENCE_SEAT_TYPE_ENROLMENT_COUNT, 1),
+    ],
+)
 @pytest.mark.django_db
-def test_enrolment_approve(
-    api_client, mock_update_event_data, mock_get_event_data, occurrence
-):
+def test_enrolment_seats_taken(seat_type, group_size, amount_of_adult, expected):
+    study_group = StudyGroupFactory(
+        group_size=group_size, amount_of_adult=amount_of_adult
+    )
+    # Current date froze on 2020-01-04:
+    p_event_1 = PalvelutarjotinEventFactory(
+        enrolment_start=datetime(2020, 1, 3, 0, 0, 0, tzinfo=tzinfo),
+        enrolment_end_days=2,
+        auto_acceptance=True,
+    )
+    occurrence = OccurrenceFactory(
+        start_time=datetime(2020, 1, 6, 0, 0, 0, tzinfo=tzinfo),
+        p_event=p_event_1,
+        min_group_size=10,
+        max_group_size=20,
+        amount_of_seats=15,
+        seat_type=seat_type,
+    )
+    enrolment = EnrolmentFactory(occurrence=occurrence, study_group=study_group)
+
+    assert enrolment.seats_taken == expected
+
+
+@pytest.mark.django_db
+def test_enrolment_approve():
     target_amount_of_taken_seats = 20 + 14  # for groups of 20 and 14 people
-    study_group_14 = StudyGroupFactory(group_size=14)
+    study_group_14 = StudyGroupFactory(group_size=13, amount_of_adult=1)
     study_group_15 = StudyGroupFactory(group_size=15)
     study_group_20 = StudyGroupFactory(group_size=20)
     # Current date froze on 2020-01-04:
@@ -494,24 +534,36 @@ def test_enrolment_approve(
         amount_of_seats=target_amount_of_taken_seats,
     )
 
-    # After 20 people there are 14 seats left
+    # Create enrolments so that there's a queue of enrolments to approve
     enrolment1 = EnrolmentFactory(occurrence=occurrence, study_group=study_group_20)
-    enrolment1.approve()
-    assert occurrence.amount_of_seats - occurrence.seats_taken == 14
-
-    # pending occurrence can "overbook", but it cannot be approved
-    # study group of 15 overbooks the occurrence by 1 after group of 20
     enrolment2 = EnrolmentFactory(occurrence=occurrence, study_group=study_group_15)
+    enrolment3 = EnrolmentFactory(occurrence=occurrence, study_group=study_group_14)
+
+    # Seats taken is the amount of seats taken by the pending enrolments
+    assert (
+        occurrence.seats_taken
+        == enrolment1.seats_taken + enrolment2.seats_taken + enrolment3.seats_taken
+    )
+    assert occurrence.seats_taken > occurrence.amount_of_seats
+
+    # After 20 people there are 14 seats left
+    enrolment1.approve()
+    assert occurrence.amount_of_seats - occurrence.seats_approved == 14
+
+    # Re-approving the same enrolment should raise an ApiUsageError
+    with pytest.raises(ApiUsageError):
+        enrolment1.approve()
+
+    # pending enrolments can "overbook", but it cannot be approved
+    # study group of 15 overbooks the occurrence by 1 after group of 20
     with pytest.raises(EnrolmentNotEnoughCapacityError):
         enrolment2.approve()
-    enrolment2.decline()
 
     # Try with a group that fills all the empty seats
-    enrolment3 = EnrolmentFactory(occurrence=occurrence, study_group=study_group_14)
     enrolment3.approve()
     occurrence.refresh_from_db()
     assert (
-        occurrence.seats_taken
+        occurrence.seats_approved
         == occurrence.amount_of_seats
         == target_amount_of_taken_seats
     )
