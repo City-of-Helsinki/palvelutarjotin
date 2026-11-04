@@ -51,6 +51,7 @@ dev = [
     "requests-mock",
     "responses",
     "syrupy",
+    "tzdata",
 ]
 
 [tool.uv]
