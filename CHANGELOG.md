@@ -1,6 +1,13 @@
 <!-- REMINDER: While updating changelog, also remember to update
 the version in palvelutarjotin/__init.py__ -->
 
+## [1.36.9](https://github.com/City-of-Helsinki/palvelutarjotin/compare/palvelutarjotin-v1.36.8...palvelutarjotin-v1.36.9) (2026-11-04)
+
+
+### Bug Fixes
+
+* Correctly check seats taken when approving enrollments ([793daa4](https://github.com/City-of-Helsinki/palvelutarjotin/commit/793daa422d08b0475bfc42b953ba1f49cc0cf85d))
+
 ## [1.36.8](https://github.com/City-of-Helsinki/palvelutarjotin/compare/palvelutarjotin-v1.36.7...palvelutarjotin-v1.36.8) (2026-10-26)
 
 
