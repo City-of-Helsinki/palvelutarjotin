@@ -1,6 +1,17 @@
 <!-- REMINDER: While updating changelog, also remember to update
 the version in palvelutarjotin/__init.py__ -->
 
+## [1.36.10](https://github.com/City-of-Helsinki/palvelutarjotin/compare/palvelutarjotin-v1.36.9...palvelutarjotin-v1.36.10) (2026-11-11)
+
+
+### Dependencies
+
+* Bump authlib from 1.7.2 to 1.9.1 ([9bb03c8](https://github.com/City-of-Helsinki/palvelutarjotin/commit/9bb03c8e807c4f2ec0c662db0685918afa866faa))
+* Bump django-helusers from 1.3.0 to 1.3.2 ([b783539](https://github.com/City-of-Helsinki/palvelutarjotin/commit/b7835397213eac39acb1f59fc44a57c2097f488d))
+* Bump joserfc from 1.7.4 to 1.7.6 ([0cabec6](https://github.com/City-of-Helsinki/palvelutarjotin/commit/0cabec6b9a367e7550023002b1293ed0e5851cb7))
+* Bump oauthlib from 4.0.0 to 4.0.1 ([7fc57a0](https://github.com/City-of-Helsinki/palvelutarjotin/commit/7fc57a0ab618c0f1684245c498aadbb9af9f4313))
+* Bump social-auth-core from 5.0.2 to 6.2.0 ([a4da809](https://github.com/City-of-Helsinki/palvelutarjotin/commit/a4da809fa1184d2f8b7e224e06f821e6796fb814))
+
 ## [1.36.9](https://github.com/City-of-Helsinki/palvelutarjotin/compare/palvelutarjotin-v1.36.8...palvelutarjotin-v1.36.9) (2026-11-04)
 
 
