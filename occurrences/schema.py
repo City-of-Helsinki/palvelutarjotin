@@ -205,22 +205,35 @@ class PalvelutarjotinEventNode(DjangoObjectType):
         interfaces = (graphene.relay.Node,)
 
     def resolve_next_occurrence_datetime(self, info, **kwargs):
-        try:
+        now = timezone.now()
+        if "occurrences" not in getattr(self, "_prefetched_objects_cache", {}):
             return (
-                self.occurrences.filter(start_time__gte=timezone.now(), cancelled=False)
-                .earliest("start_time")
-                .start_time
+                self.occurrences.filter(start_time__gte=now, cancelled=False)
+                .order_by("start_time")
+                .values_list("start_time", flat=True)
+                .first()
             )
-        except Occurrence.DoesNotExist:
+
+        upcoming = [
+            o for o in self.occurrences.all() if not o.cancelled and o.start_time >= now
+        ]
+        if not upcoming:
             return None
+        return min(upcoming, key=lambda o: o.start_time).start_time
 
     def resolve_last_occurrence_datetime(self, info, **kwargs):
-        try:
+        if "occurrences" not in getattr(self, "_prefetched_objects_cache", {}):
             return (
-                self.occurrences.filter(cancelled=False).latest("start_time").start_time
+                self.occurrences.filter(cancelled=False)
+                .order_by("-start_time")
+                .values_list("start_time", flat=True)
+                .first()
             )
-        except Occurrence.DoesNotExist:
+
+        non_cancelled = [o for o in self.occurrences.all() if not o.cancelled]
+        if not non_cancelled:
             return None
+        return max(non_cancelled, key=lambda o: o.start_time).start_time
 
     def resolve_has_space_for_enrolments(self, info, **kwargs):
         """

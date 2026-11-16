@@ -1901,6 +1901,70 @@ def test_get_events_with_occurrences(
     snapshot.assert_match(executed)
 
 
+@pytest.mark.parametrize("event_count", [1, 5])
+def test_events_dates_and_organisation_query_count(
+    api_client, mock_get_event_data, django_assert_num_queries, event_count
+):
+    now = timezone.now()
+    event_data = []
+    expected_events = []
+    for event_index in range(event_count):
+        linked_event_id = f"test:prefetched-{event_index}"
+        p_event = PalvelutarjotinEventFactory(linked_event_id=linked_event_id)
+        OccurrenceFactory(
+            p_event=p_event,
+            start_time=now + timedelta(days=1),
+            end_time=now + timedelta(days=1, hours=1),
+        )
+        OccurrenceFactory(
+            p_event=p_event,
+            start_time=now + timedelta(days=2),
+            end_time=now + timedelta(days=2, hours=1),
+        )
+        event_data.append({"id": linked_event_id})
+        expected_events.append(
+            {
+                "id": linked_event_id,
+                "pEvent": {
+                    "nextOccurrenceDatetime": (now + timedelta(days=1)).isoformat(),
+                    "lastOccurrenceDatetime": (now + timedelta(days=2)).isoformat(),
+                    "organisation": {
+                        "id": to_global_id("OrganisationNode", p_event.organisation_id)
+                    },
+                },
+            }
+        )
+
+    response = MockResponse(
+        {
+            "meta": {"count": event_count, "next": None, "previous": None},
+            "data": event_data,
+        },
+        200,
+    )
+    with patch.object(graphene_linked_events_api_client, "list", return_value=response):
+        with django_assert_num_queries(2):
+            executed = api_client.execute(
+                """
+        query Events {
+          events {
+          data {
+            id
+            pEvent {
+            nextOccurrenceDatetime
+            lastOccurrenceDatetime
+            organisation { id }
+            }
+          }
+          }
+        }
+        """
+            )
+
+    assert "errors" not in executed
+    assert executed["data"]["events"]["data"] == expected_events
+
+
 @pytest.mark.parametrize("occurrences_count", [5, 400, 500])
 def test_get_event_with_occurrences_limit(
     occurrences_count, api_client, mock_get_event_data, organisation

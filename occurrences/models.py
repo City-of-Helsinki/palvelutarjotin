@@ -305,19 +305,34 @@ class PalvelutarjotinEvent(
         if not self.has_enrolments_system() or self.has_external_enrolments_system():
             return None
 
-        has_upcoming_space = any(
-            occurrence.has_space_left()
-            for occurrence in self.occurrences.filter_upcoming()
+        now = timezone.now()
+        prefetched_occurrences = getattr(self, "_prefetched_objects_cache", {}).get(
+            "occurrences"
         )
-
-        if self.enrolment_end_days is None:
-            # No limit to when enrolments can be made before the occurrence start.
-            return has_upcoming_space or any(
-                occurrence.has_space_left()
-                for occurrence in self.occurrences.filter_ongoing()
+        if prefetched_occurrences is None:
+            upcoming = self.occurrences.filter_upcoming()
+        else:
+            upcoming = (
+                occurrence
+                for occurrence in prefetched_occurrences
+                if not occurrence.cancelled and occurrence.start_time >= now
             )
+        has_upcoming_space = any(occurrence.has_space_left() for occurrence in upcoming)
 
-        return has_upcoming_space
+        if has_upcoming_space or self.enrolment_end_days is not None:
+            return has_upcoming_space
+
+        if prefetched_occurrences is None:
+            ongoing = self.occurrences.filter_ongoing()
+        else:
+            ongoing = (
+                occurrence
+                for occurrence in prefetched_occurrences
+                if not occurrence.cancelled
+                and occurrence.start_time <= now
+                and occurrence.end_time >= now
+            )
+        return any(occurrence.has_space_left() for occurrence in ongoing)
 
 
 class OccurrenceQueryset(models.QuerySet):
