@@ -31,6 +31,7 @@ from occurrences.models import (
     StudyLevel,
     VenueCustomData,
 )
+from occurrences.schema import PalvelutarjotinEventNode
 from occurrences.tests.mutations import (
     ADD_OCCURRENCE_MUTATION,
     ADD_STUDY_GROUP_MUTATION,
@@ -2468,6 +2469,62 @@ def test_occurrences_next_and_last_occurrence(
             edge["node"]["pEvent"]["lastOccurrenceDatetime"]
             == "2020-01-07T00:00:00+00:00"
         )
+
+
+@pytest.mark.parametrize("prefetch", [False, True])
+@pytest.mark.parametrize(
+    "occurrence_data,expected_next,expected_last",
+    [
+        ([], None, None),
+        ([(1, True), (2, True)], None, None),
+        ([(-2, False), (-1, False)], None, -1),
+        ([(0, False)], 0, 0),
+        ([(0, True), (1, False)], 1, 1),
+        ([(3, False), (1, False), (-1, False), (2, False)], 1, 3),
+        ([(4, True), (1, True), (2, False), (-1, False)], 2, 2),
+    ],
+)
+def test_occurrence_date_resolvers_with_and_without_prefetch(
+    mock_get_event_data,
+    django_assert_num_queries,
+    prefetch,
+    occurrence_data,
+    expected_next,
+    expected_last,
+):
+    now = timezone.now()
+    p_event = PalvelutarjotinEventFactory()
+    for day_offset, cancelled in occurrence_data:
+        start_time = now + timedelta(days=day_offset)
+        OccurrenceFactory(
+            p_event=p_event,
+            start_time=start_time,
+            end_time=start_time + timedelta(hours=1),
+            cancelled=cancelled,
+        )
+
+    queryset = PalvelutarjotinEvent.objects.all()
+    if prefetch:
+        queryset = queryset.prefetch_related("occurrences")
+    p_event = queryset.get(pk=p_event.pk)
+
+    with django_assert_num_queries(0 if prefetch else 2) as queries:
+        next_time = PalvelutarjotinEventNode.resolve_next_occurrence_datetime(
+            p_event, None
+        )
+        last_time = PalvelutarjotinEventNode.resolve_last_occurrence_datetime(
+            p_event, None
+        )
+
+    if not prefetch:
+        assert all("LIMIT 1" in query["sql"] for query in queries.captured_queries)
+
+    assert next_time == (
+        now + timedelta(days=expected_next) if expected_next is not None else None
+    )
+    assert last_time == (
+        now + timedelta(days=expected_last) if expected_last is not None else None
+    )
 
 
 def test_notification_template_query_error(

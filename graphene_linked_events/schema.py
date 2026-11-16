@@ -7,6 +7,7 @@ import requests
 from django.conf import settings
 from django.core.exceptions import PermissionDenied
 from django.db import transaction
+from django.db.models import Prefetch
 from django.utils.translation import gettext_lazy as _
 from graphene import (
     ID,
@@ -43,7 +44,7 @@ from graphene_linked_events.utils import (
     retrieve_linked_events_data,
 )
 from occurrences.event_api_services import prepare_published_event_data
-from occurrences.models import PalvelutarjotinEvent, VenueCustomData
+from occurrences.models import Occurrence, PalvelutarjotinEvent, VenueCustomData
 from organisations.decorators import event_staff_member_required
 from organisations.models import Organisation, Person
 from palvelutarjotin.exceptions import (
@@ -249,9 +250,9 @@ class Event(IdObject):
             return self.p_event
 
         try:
-            return PalvelutarjotinEvent.objects.prefetch_related("occurrences").get(
-                linked_event_id=self.id
-            )
+            return PalvelutarjotinEvent.objects.prefetch_related(
+                Prefetch("occurrences", queryset=Occurrence.objects.with_seats_taken())
+            ).get(linked_event_id=self.id)
         except PalvelutarjotinEvent.DoesNotExist:
             return None
 
@@ -451,8 +452,12 @@ class Query:
         events = json.loads(events_json, object_hook=lambda d: SimpleNamespace(**d))
 
         # Get related palvelutarjotin events
-        p_events = PalvelutarjotinEvent.objects.prefetch_related("occurrences").filter(
-            linked_event_id__in=[e.id for e in events.data]
+        p_events = (
+            PalvelutarjotinEvent.objects.select_related("organisation")
+            .prefetch_related(
+                Prefetch("occurrences", queryset=Occurrence.objects.with_seats_taken())
+            )
+            .filter(linked_event_id__in=[e.id for e in events.data])
         )
 
         # Prune a list of events which have a link to a palvelutarjotin event
@@ -560,7 +565,9 @@ class Query:
             PalvelutarjotinEvent.objects.with_next_occurrence_start_time()
             .filter(next_occurrence_start_time__isnull=False)
             .order_by("next_occurrence_start_time")
-            .prefetch_related("occurrences")
+            .prefetch_related(
+                Prefetch("occurrences", queryset=Occurrence.objects.with_seats_taken())
+            )
         )
         count = p_events.count()
         linked_event_ids = [p_event.linked_event_id for p_event in p_events[start:end]]

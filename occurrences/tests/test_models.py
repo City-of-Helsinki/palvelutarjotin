@@ -462,6 +462,63 @@ def test_occurrence_seat_taken(mock_get_event_data):
 
 
 @pytest.mark.django_db
+@pytest.mark.parametrize(
+    "seat_type",
+    [
+        Occurrence.OCCURRENCE_SEAT_TYPE_CHILDREN_COUNT,
+        Occurrence.OCCURRENCE_SEAT_TYPE_ENROLMENT_COUNT,
+    ],
+)
+@pytest.mark.parametrize(
+    "statuses,active_enrolments",
+    [
+        pytest.param([], 0, id="empty"),
+        pytest.param(
+            [Enrolment.STATUS_CANCELLED, Enrolment.STATUS_DECLINED],
+            0,
+            id="inactive-only",
+        ),
+        pytest.param(
+            [
+                Enrolment.STATUS_APPROVED,
+                Enrolment.STATUS_PENDING,
+                Enrolment.STATUS_CANCELLED,
+                Enrolment.STATUS_DECLINED,
+            ],
+            2,
+            id="mixed-statuses",
+        ),
+    ],
+)
+def test_occurrence_annotated_seats_taken(
+    mock_get_event_data,
+    django_assert_num_queries,
+    seat_type,
+    statuses,
+    active_enrolments,
+):
+    occurrence = OccurrenceFactory(seat_type=seat_type, amount_of_seats=10)
+    for status in statuses:
+        EnrolmentFactory(
+            occurrence=occurrence,
+            status=status,
+            study_group__group_size=3,
+            study_group__amount_of_adult=1,
+        )
+    expected = active_enrolments
+    if seat_type == Occurrence.OCCURRENCE_SEAT_TYPE_CHILDREN_COUNT:
+        expected *= 4
+    assert occurrence.seats_taken == expected
+
+    with django_assert_num_queries(1):
+        annotated = Occurrence.objects.with_seats_taken().get(pk=occurrence.pk)
+
+    with django_assert_num_queries(0):
+        assert annotated.seats_taken == expected
+        assert annotated.has_space_left() is True
+
+
+@pytest.mark.django_db
 def test_occurrence_seat_approved(mock_get_event_data):
     enrolment = EnrolmentFactory(status=Enrolment.STATUS_APPROVED)
     occurrence = enrolment.occurrence
@@ -1043,6 +1100,102 @@ def test_palvelutarjotin_event_has_space_for_enrolments_returning_none(
                 assert p_event.occurrences.count() == 3
                 assert p_event.has_space_for_enrolments() is None
                 mock_has_space_left.assert_not_called()
+
+
+@pytest.mark.django_db
+@pytest.mark.parametrize(
+    "start_days,end_days,enrolment_end_days,cancelled,has_space,eligible",
+    [
+        pytest.param(1, 2, 1, False, False, True, id="upcoming-full"),
+        pytest.param(1, 2, 1, False, True, True, id="upcoming-available"),
+        pytest.param(-1, 1, None, False, False, True, id="ongoing-full"),
+        pytest.param(-1, 1, None, False, True, True, id="ongoing-available"),
+        pytest.param(-1, 1, 1, False, True, False, id="ongoing-with-deadline"),
+        pytest.param(1, 2, None, True, True, False, id="cancelled"),
+        pytest.param(-2, -1, None, False, True, False, id="past"),
+        pytest.param(0, 1, 1, False, False, True, id="starts-now-full"),
+        pytest.param(0, 1, 1, False, True, True, id="starts-now-available"),
+        pytest.param(-1, 0, None, False, False, True, id="ends-now-full"),
+        pytest.param(-1, 0, None, False, True, True, id="ends-now-available"),
+    ],
+)
+def test_palvelutarjotin_event_has_space_reuses_prefetched_occurrences(
+    mock_get_event_data,
+    django_assert_num_queries,
+    has_space,
+    start_days,
+    end_days,
+    enrolment_end_days,
+    cancelled,
+    eligible,
+):
+    now = timezone.now()
+    p_event = PalvelutarjotinEventFactory(
+        enrolment_start=now - timedelta(days=3),
+        enrolment_end_days=enrolment_end_days,
+        external_enrolment_url=None,
+    )
+    OccurrenceFactory(
+        p_event=p_event,
+        start_time=now + timedelta(days=start_days),
+        end_time=now + timedelta(days=end_days),
+        cancelled=cancelled,
+    )
+    p_event = PalvelutarjotinEvent.objects.prefetch_related("occurrences").get(
+        pk=p_event.pk
+    )
+
+    with patch.object(
+        Occurrence, "has_space_left", return_value=has_space
+    ) as check_space:
+        with django_assert_num_queries(0):
+            assert p_event.has_space_for_enrolments() is (eligible and has_space)
+
+    assert check_space.call_count == int(eligible)
+
+
+@pytest.mark.django_db
+@pytest.mark.parametrize(
+    "enrolment_end_days,expected_queries",
+    [
+        pytest.param(1, 1, id="upcoming-only"),
+        pytest.param(None, 2, id="upcoming-and-ongoing"),
+    ],
+)
+def test_palvelutarjotin_event_has_space_filters_unprefetched_occurrences(
+    mock_get_event_data, django_assert_num_queries, enrolment_end_days, expected_queries
+):
+    now = timezone.now()
+    p_event = PalvelutarjotinEventFactory(
+        enrolment_start=now - timedelta(days=3),
+        enrolment_end_days=enrolment_end_days,
+        external_enrolment_url=None,
+    )
+    for start_days, end_days, cancelled in [
+        (1, 2, False),
+        (-1, 1, False),
+        (-2, -1, False),
+        (1, 2, True),
+    ]:
+        OccurrenceFactory(
+            p_event=p_event,
+            start_time=now + timedelta(days=start_days),
+            end_time=now + timedelta(days=end_days),
+            cancelled=cancelled,
+        )
+    p_event = PalvelutarjotinEvent.objects.get(pk=p_event.pk)
+
+    with patch.object(
+        Occurrence, "from_db", wraps=Occurrence.from_db
+    ) as load_occurrence:
+        with patch.object(
+            Occurrence, "has_space_left", return_value=False
+        ) as check_space:
+            with django_assert_num_queries(expected_queries):
+                assert p_event.has_space_for_enrolments() is False
+
+    assert load_occurrence.call_count == expected_queries
+    assert check_space.call_count == expected_queries
 
 
 @pytest.mark.django_db
