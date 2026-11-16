@@ -41,7 +41,7 @@ from occurrences.factories import (
     OccurrenceFactory,
     PalvelutarjotinEventFactory,
 )
-from occurrences.models import Occurrence, PalvelutarjotinEvent
+from occurrences.models import Enrolment, Occurrence, PalvelutarjotinEvent
 from palvelutarjotin.consts import API_USAGE_ERROR, DATA_VALIDATION_ERROR, GENERAL_ERROR
 from palvelutarjotin.exceptions import (
     ApiBadRequestError,
@@ -1902,32 +1902,65 @@ def test_get_events_with_occurrences(
 
 
 @pytest.mark.parametrize("event_count", [1, 5])
+@pytest.mark.parametrize("start_days", [1, -1], ids=["upcoming", "ongoing"])
+@pytest.mark.parametrize("has_space", [False, True], ids=["full", "available"])
+@pytest.mark.parametrize(
+    "seat_type,occupied_seats",
+    [
+        (Occurrence.OCCURRENCE_SEAT_TYPE_CHILDREN_COUNT, 8),
+        (Occurrence.OCCURRENCE_SEAT_TYPE_ENROLMENT_COUNT, 2),
+    ],
+)
 def test_events_dates_and_organisation_query_count(
-    api_client, mock_get_event_data, django_assert_num_queries, event_count
+    api_client,
+    mock_get_event_data,
+    django_assert_num_queries,
+    event_count,
+    start_days,
+    has_space,
+    seat_type,
+    occupied_seats,
 ):
     now = timezone.now()
+    start_time = now + timedelta(days=start_days)
     event_data = []
     expected_events = []
     for event_index in range(event_count):
         linked_event_id = f"test:prefetched-{event_index}"
-        p_event = PalvelutarjotinEventFactory(linked_event_id=linked_event_id)
-        OccurrenceFactory(
-            p_event=p_event,
-            start_time=now + timedelta(days=1),
-            end_time=now + timedelta(days=1, hours=1),
+        p_event = PalvelutarjotinEventFactory(
+            linked_event_id=linked_event_id,
+            enrolment_start=now - timedelta(days=3),
+            enrolment_end_days=None,
+            external_enrolment_url=None,
         )
-        OccurrenceFactory(
+        occurrence = OccurrenceFactory(
             p_event=p_event,
-            start_time=now + timedelta(days=2),
+            start_time=start_time,
             end_time=now + timedelta(days=2, hours=1),
+            seat_type=seat_type,
+            amount_of_seats=occupied_seats + int(has_space),
         )
+        for status in [
+            Enrolment.STATUS_APPROVED,
+            Enrolment.STATUS_PENDING,
+            Enrolment.STATUS_CANCELLED,
+        ]:
+            EnrolmentFactory(
+                occurrence=occurrence,
+                status=status,
+                study_group__group_size=3,
+                study_group__amount_of_adult=1,
+            )
         event_data.append({"id": linked_event_id})
         expected_events.append(
             {
                 "id": linked_event_id,
                 "pEvent": {
-                    "nextOccurrenceDatetime": (now + timedelta(days=1)).isoformat(),
-                    "lastOccurrenceDatetime": (now + timedelta(days=2)).isoformat(),
+                    "nextOccurrenceDatetime": (
+                        start_time.isoformat() if start_days >= 0 else None
+                    ),
+                    "lastOccurrenceDatetime": start_time.isoformat(),
+                    "hasSpaceForEnrolments": has_space,
                     "organisation": {
                         "id": to_global_id("OrganisationNode", p_event.organisation_id)
                     },
@@ -1953,6 +1986,7 @@ def test_events_dates_and_organisation_query_count(
             pEvent {
             nextOccurrenceDatetime
             lastOccurrenceDatetime
+            hasSpaceForEnrolments
             organisation { id }
             }
           }

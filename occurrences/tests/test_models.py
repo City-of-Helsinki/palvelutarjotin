@@ -462,6 +462,63 @@ def test_occurrence_seat_taken(mock_get_event_data):
 
 
 @pytest.mark.django_db
+@pytest.mark.parametrize(
+    "seat_type",
+    [
+        Occurrence.OCCURRENCE_SEAT_TYPE_CHILDREN_COUNT,
+        Occurrence.OCCURRENCE_SEAT_TYPE_ENROLMENT_COUNT,
+    ],
+)
+@pytest.mark.parametrize(
+    "statuses,active_enrolments",
+    [
+        pytest.param([], 0, id="empty"),
+        pytest.param(
+            [Enrolment.STATUS_CANCELLED, Enrolment.STATUS_DECLINED],
+            0,
+            id="inactive-only",
+        ),
+        pytest.param(
+            [
+                Enrolment.STATUS_APPROVED,
+                Enrolment.STATUS_PENDING,
+                Enrolment.STATUS_CANCELLED,
+                Enrolment.STATUS_DECLINED,
+            ],
+            2,
+            id="mixed-statuses",
+        ),
+    ],
+)
+def test_occurrence_annotated_seats_taken(
+    mock_get_event_data,
+    django_assert_num_queries,
+    seat_type,
+    statuses,
+    active_enrolments,
+):
+    occurrence = OccurrenceFactory(seat_type=seat_type, amount_of_seats=10)
+    for status in statuses:
+        EnrolmentFactory(
+            occurrence=occurrence,
+            status=status,
+            study_group__group_size=3,
+            study_group__amount_of_adult=1,
+        )
+    expected = active_enrolments
+    if seat_type == Occurrence.OCCURRENCE_SEAT_TYPE_CHILDREN_COUNT:
+        expected *= 4
+    assert occurrence.seats_taken == expected
+
+    with django_assert_num_queries(1):
+        annotated = Occurrence.objects.with_seats_taken().get(pk=occurrence.pk)
+
+    with django_assert_num_queries(0):
+        assert annotated.seats_taken == expected
+        assert annotated.has_space_left() is True
+
+
+@pytest.mark.django_db
 def test_occurrence_seat_approved(mock_get_event_data):
     enrolment = EnrolmentFactory(status=Enrolment.STATUS_APPROVED)
     occurrence = enrolment.occurrence

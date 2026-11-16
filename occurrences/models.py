@@ -8,7 +8,7 @@ from django.conf import settings
 from django.contrib.contenttypes.fields import GenericRelation
 from django.contrib.postgres.aggregates import ArrayAgg
 from django.db import models, transaction
-from django.db.models import Count, F, Max, OuterRef, Q, Subquery, Sum
+from django.db.models import Case, Count, F, Max, OuterRef, Q, Subquery, Sum, When
 from django.utils import timezone
 from django.utils.timezone import localtime
 from django.utils.translation import gettext_lazy as _
@@ -310,7 +310,7 @@ class PalvelutarjotinEvent(
             "occurrences"
         )
         if prefetched_occurrences is None:
-            upcoming = self.occurrences.filter_upcoming()
+            upcoming = self.occurrences.filter_upcoming().with_seats_taken()
         else:
             upcoming = (
                 occurrence
@@ -323,7 +323,7 @@ class PalvelutarjotinEvent(
             return has_upcoming_space
 
         if prefetched_occurrences is None:
-            ongoing = self.occurrences.filter_ongoing()
+            ongoing = self.occurrences.filter_ongoing().with_seats_taken()
         else:
             ongoing = (
                 occurrence
@@ -336,6 +336,26 @@ class PalvelutarjotinEvent(
 
 
 class OccurrenceQueryset(models.QuerySet):
+    def with_seats_taken(self):
+        active_enrolments = Q(
+            enrolments__status__in=[Enrolment.STATUS_APPROVED, Enrolment.STATUS_PENDING]
+        )
+        return self.annotate(
+            _occupied_seats=Case(
+                When(
+                    seat_type=Occurrence.OCCURRENCE_SEAT_TYPE_CHILDREN_COUNT,
+                    then=Sum(
+                        F("enrolments__study_group__group_size")
+                        + F("enrolments__study_group__amount_of_adult"),
+                        filter=active_enrolments,
+                        default=0,
+                    ),
+                ),
+                default=Count("enrolments", filter=active_enrolments),
+                output_field=models.IntegerField(),
+            )
+        )
+
     def delete(self, *args, **kwargs):
         for obj in self:
             obj.delete()
@@ -490,6 +510,8 @@ class Occurrence(GDPRModel, SerializableMixin, TimestampedModel):
 
     @property
     def seats_taken(self):
+        if hasattr(self, "_occupied_seats"):
+            return self._occupied_seats
         qs = self.enrolments.filter(
             Q(status=Enrolment.STATUS_APPROVED) | Q(status=Enrolment.STATUS_PENDING)
         )
